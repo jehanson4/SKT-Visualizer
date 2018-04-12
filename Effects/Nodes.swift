@@ -1,5 +1,5 @@
 //
-//  SKNet.swift
+//  Nodes.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 4/7/18.
@@ -128,6 +128,9 @@ class Nodes : GLKBaseEffect, Effect {
 
         if (geometry.N != self.N || geometry.k != self.k) {
             message("rebuilding...")
+            self.N = geometry.N
+            self.k = geometry.k
+            self.T = physics.T
             deleteBuffers()
             buildVertexAndColorData()
             createBuffers()

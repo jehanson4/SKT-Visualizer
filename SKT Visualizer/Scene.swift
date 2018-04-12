@@ -81,9 +81,9 @@ class Scene : EffectsController {
         self.geometry = geometry
         self.physics = physics
         
-        // EMPIRICAL if last 2 args are -d, d then it doesn't show net from underside.
+        // EMPIRICAL if last 2 args are -d, d then it doesn't show net from underside. 10 is OK tho
         let d = GLfloat(2.0 * geometry.r0)
-        projectionMatrix = GLKMatrix4MakeOrtho(-d, d, -d/aspectRatio, d/aspectRatio, -10.0, 10.0)
+        projectionMatrix = GLKMatrix4MakeOrtho(-d, d, -d/aspectRatio, d/aspectRatio, -2*d, 2*d)
 
         
         // Some GL setup
@@ -144,6 +144,10 @@ class Scene : EffectsController {
         nodes.enabled = false
         effects[nodes.name] = nodes
 
+        let surface = Surface(geometry, physics)
+        surface.enabled = false
+        effects[surface.name] = surface
+        
         let icosahedron = Icosahedron()
         icosahedron.enabled = false
         effects[icosahedron.name] = icosahedron

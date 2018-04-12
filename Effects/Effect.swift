@@ -14,13 +14,23 @@ import OpenGLES
 import OpenGL
 #endif
 
+/// struct with position & normal coords
 struct PNVertex {
-    var px: GLfloat = 0
-    var py: GLfloat = 0
-    var pz: GLfloat = 0
-    var nx: GLfloat = 0
-    var ny: GLfloat = 0
-    var nz: GLfloat = 0
+    var px: GLfloat
+    var py: GLfloat
+    var pz: GLfloat
+    var nx: GLfloat
+    var ny: GLfloat
+    var nz: GLfloat
+    
+    init(_ px: GLfloat, _ py: GLfloat, _ pz: GLfloat, _ nx: GLfloat, _ ny: GLfloat, _ nz: GLfloat) {
+        self.px = px
+        self.py = py
+        self.pz = pz
+        self.nx = nx
+        self.ny = ny
+        self.nz = nz
+    }
 }
 
 func BUFFER_OFFSET(_ n: Int) -> UnsafeRawPointer? {
@@ -56,12 +66,6 @@ func buildVertexCoordinateArray(_ geometry: SKGeometry) -> [GLfloat] {
     return vertexCoords
 }
 
-/// returns array of PNVertex values of nodes
-func buildPNVertexArray(_ geometry: SKGeometry) -> [PNVertex] {
-    // TODO
-    return []
-}
-
 func buildVertexArray4(_ geometry: SKGeometry) -> [GLKVector4] {
     let mMax = geometry.m_max
     let nMax = geometry.n_max
@@ -70,6 +74,19 @@ func buildVertexArray4(_ geometry: SKGeometry) -> [GLKVector4] {
         for n in 0...nMax {
             let v = geometry.skToCartesian(m, n)
             vertices.append(GLKVector4Make(Float(v.x), Float(v.y), Float(v.z), 0))
+        }
+    }
+    return vertices
+}
+
+func buildPNVertexArray(_ geometry: SKGeometry) -> [PNVertex] {
+    let mMax = geometry.m_max
+    let nMax = geometry.n_max
+    var vertices: [PNVertex] = []
+    for m in 0...mMax {
+        for n in 0...nMax {
+            let v = geometry.skToCartesian(m, n)
+            vertices.append(PNVertex(GLfloat(v.x), GLfloat(v.y), GLfloat(v.z), GLfloat(v.x), GLfloat(v.y), GLfloat(v.z)))
         }
     }
     return vertices

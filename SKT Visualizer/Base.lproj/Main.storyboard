@@ -19,14 +19,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DYT-hy-G98">
-                                <rect key="frame" x="149" y="516" width="76" height="30"/>
+                                <rect key="frame" x="149" y="588" width="76" height="30"/>
                                 <state key="normal" title="Reset View"/>
                                 <connections>
                                     <action selector="resetViewParams:" destination="3aD-bn-OtG" eventType="touchUpInside" id="lF9-dG-NIW"/>
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="2d6-ys-rYw" userLabel="Effects View">
-                                <rect key="frame" x="87.5" y="294" width="200" height="107"/>
+                                <rect key="frame" x="87.5" y="294" width="200" height="179"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kl1-6W-jht">
                                         <rect key="frame" x="0.0" y="0.0" width="200" height="35"/>
@@ -90,7 +90,7 @@
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DFM-JW-loh">
                                                 <rect key="frame" x="149" y="2" width="51" height="31"/>
                                                 <connections>
-                                                    <action selector="skGrid_action:" destination="3aD-bn-OtG" eventType="valueChanged" id="C2X-j8-2zh"/>
+                                                    <action selector="net_action:" destination="3aD-bn-OtG" eventType="valueChanged" id="C2X-j8-2zh"/>
                                                 </connections>
                                             </switch>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Net" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Lb-jS-qGz">
@@ -112,17 +112,45 @@
                                             <constraint firstAttribute="trailing" secondItem="DFM-JW-loh" secondAttribute="trailing" constant="2" id="jM9-Lk-N2G"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a81-Bo-Iej">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QZu-3O-304">
                                         <rect key="frame" x="0.0" y="108" width="200" height="35"/>
+                                        <subviews>
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vzq-EB-oRQ">
+                                                <rect key="frame" x="149" y="2" width="51" height="31"/>
+                                                <connections>
+                                                    <action selector="nodes_action:" destination="3aD-bn-OtG" eventType="valueChanged" id="uKx-dn-aAm"/>
+                                                </connections>
+                                            </switch>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nodes" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="grE-16-XJV">
+                                                <rect key="frame" x="2" y="2" width="50" height="31"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="vzq-EB-oRQ" secondAttribute="bottom" constant="2" id="7t5-mf-Z60"/>
+                                            <constraint firstItem="vzq-EB-oRQ" firstAttribute="top" secondItem="QZu-3O-304" secondAttribute="top" constant="2" id="G3H-Qf-2iM"/>
+                                            <constraint firstItem="grE-16-XJV" firstAttribute="leading" secondItem="QZu-3O-304" secondAttribute="leading" constant="2" id="PeC-Ye-8YW"/>
+                                            <constraint firstAttribute="trailing" secondItem="vzq-EB-oRQ" secondAttribute="trailing" constant="2" id="Pec-fg-v9U"/>
+                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="grE-16-XJV" secondAttribute="trailing" constant="20" symbolic="YES" id="Vf4-Ng-J0l"/>
+                                            <constraint firstAttribute="bottom" secondItem="grE-16-XJV" secondAttribute="bottom" constant="2" id="ale-4G-mDm"/>
+                                            <constraint firstItem="grE-16-XJV" firstAttribute="top" secondItem="QZu-3O-304" secondAttribute="top" constant="2" id="fhe-FC-fjc"/>
+                                            <constraint firstItem="vzq-EB-oRQ" firstAttribute="height" secondItem="grE-16-XJV" secondAttribute="height" id="jXf-ED-MtO"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a81-Bo-Iej">
+                                        <rect key="frame" x="0.0" y="144" width="200" height="35"/>
                                         <subviews>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ahh-Fw-kdK">
                                                 <rect key="frame" x="149" y="2" width="51" height="31"/>
                                                 <connections>
-                                                    <action selector="nodes_action:" destination="3aD-bn-OtG" eventType="valueChanged" id="uXD-hF-xHn"/>
+                                                    <action selector="surface_action:" destination="3aD-bn-OtG" eventType="valueChanged" id="OwW-U6-IeH"/>
                                                 </connections>
                                             </switch>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nodes" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wW6-R7-iOl">
-                                                <rect key="frame" x="2" y="2" width="50" height="31"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Surface" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wW6-R7-iOl">
+                                                <rect key="frame" x="2" y="2" width="60" height="31"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -141,14 +169,9 @@
                                         </constraints>
                                     </view>
                                 </subviews>
-                                <variation key="default">
-                                    <mask key="subviews">
-                                        <exclude reference="a81-Bo-Iej"/>
-                                    </mask>
-                                </variation>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="kbq-dQ-nm0" userLabel="Extras View">
-                                <rect key="frame" x="87" y="441" width="200" height="35"/>
+                                <rect key="frame" x="87" y="513" width="200" height="35"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="l8O-e8-85O">
                                         <rect key="frame" x="0.0" y="0.0" width="200" height="35"/>
@@ -442,8 +465,9 @@
                         <outlet property="k_stepper" destination="9Rd-Kx-XBb" id="HgW-kj-dQL"/>
                         <outlet property="k_text" destination="dGE-Z4-yxV" id="eAV-y2-ZMb"/>
                         <outlet property="meridians_switch" destination="l4F-3a-bVe" id="AzO-Q2-y6E"/>
-                        <outlet property="nodes_switch" destination="ahh-Fw-kdK" id="VkV-3s-BT8"/>
-                        <outlet property="skGrid_switch" destination="DFM-JW-loh" id="aiW-g0-dWd"/>
+                        <outlet property="net_switch" destination="DFM-JW-loh" id="aiW-g0-dWd"/>
+                        <outlet property="nodes_switch" destination="vzq-EB-oRQ" id="OUh-Oa-4Ec"/>
+                        <outlet property="surface_switch" destination="ahh-Fw-kdK" id="Gjt-bO-kJU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DKD-mF-e2d" userLabel="First Responder" sceneMemberID="firstResponder"/>

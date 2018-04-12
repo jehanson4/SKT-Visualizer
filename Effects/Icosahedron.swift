@@ -109,8 +109,8 @@ class Icosahedron : GLKBaseEffect, Effect {
 
         super.light0.enabled = GLboolean(GL_TRUE)
         // super.light0.ambientColor = GLKVector4Make(0.0, 0.0, 0.0, 0.0)
-        super.light0.diffuseColor = GLKVector4Make(0.0, 0.0, 1.0, 1.0)
-        super.light0.specularColor = GLKVector4Make(0.0, 0.0, 1.0, 1.0)
+        super.light0.diffuseColor = GLKVector4Make(0.0, 1.0, 0.0, 0.5)
+        super.light0.specularColor = GLKVector4Make(0.0, 1.0, 0.0, 0.5)
         super.light0.position = GLKVector4Make(0.0, -1.0, 0.0, 0.0)
 
         super.light1.enabled = GLboolean(GL_TRUE)
@@ -178,7 +178,7 @@ class Icosahedron : GLKBaseEffect, Effect {
 
         let err = glGetError()
         if (err != 0) {
-            print(name, "drawIfEnabled glError:", String(format:"0x%x", err))
+            print(name, "draw glError:", String(format:"0x%x", err))
         }
     }
 

@@ -315,19 +315,6 @@ class MasterViewController: UIViewController, UITextFieldDelegate, ModelSettings
         updateEffectControls()
     }
     
-    @IBOutlet weak var icosahedron_switch: UISwitch!
-
-    @IBAction func icosahedron_action(_ sender: UISwitch) {
-        // print("icosahedron_action: sender.isOn=", sender.isOn)
-        if (effects != nil) {
-            var effect = effects!.getEffect("Icosahedron")
-            if (effect != nil) {
-                effect!.enabled = sender.isOn
-            }
-        }
-        updateEffectControls()
-    }
-    
     @IBOutlet weak var meridians_switch: UISwitch!
 
     @IBAction func meridians_action(_ sender: UISwitch) {
@@ -340,9 +327,9 @@ class MasterViewController: UIViewController, UITextFieldDelegate, ModelSettings
         updateEffectControls()
     }
     
-    @IBOutlet weak var skGrid_switch: UISwitch!
+    @IBOutlet weak var net_switch: UISwitch!
 
-    @IBAction func skGrid_action(_ sender: UISwitch) {
+    @IBAction func net_action(_ sender: UISwitch) {
         // print("skGrid_action: sender.isOn=", sender.isOn)
         if (effects != nil) {
             var effect = effects!.getEffect("Net")
@@ -365,6 +352,31 @@ class MasterViewController: UIViewController, UITextFieldDelegate, ModelSettings
         updateEffectControls()
     }
     
+    @IBOutlet weak var surface_switch: UISwitch!
+    
+    @IBAction func surface_action(_ sender: UISwitch) {
+        if (effects != nil) {
+            var effect = effects!.getEffect("Surface")
+            if (effect != nil) {
+                effect!.enabled = sender.isOn
+            }
+        }
+        updateEffectControls()
+    }
+    
+    @IBOutlet weak var icosahedron_switch: UISwitch!
+    
+    @IBAction func icosahedron_action(_ sender: UISwitch) {
+        // print("icosahedron_action: sender.isOn=", sender.isOn)
+        if (effects != nil) {
+            var effect = effects!.getEffect("Icosahedron")
+            if (effect != nil) {
+                effect!.enabled = sender.isOn
+            }
+        }
+        updateEffectControls()
+    }
+    
     func updateEffectControls() {
         // print("MasterViewController.updateEffectControls start")
         loadViewIfNeeded()
@@ -372,17 +384,20 @@ class MasterViewController: UIViewController, UITextFieldDelegate, ModelSettings
             axes_switch.isOn = false
             axes_switch.isEnabled = false
             
-            icosahedron_switch.isOn = false
-            icosahedron_switch.isEnabled = false
-            
             meridians_switch.isOn = false
             meridians_switch.isEnabled = false
             
-            skGrid_switch.isOn = false
-            skGrid_switch.isEnabled = false
+            net_switch.isOn = false
+            net_switch.isEnabled = false
             
             nodes_switch.isOn = false
             nodes_switch.isEnabled = false
+
+            surface_switch.isOn = false
+            surface_switch.isEnabled = false
+            
+            icosahedron_switch.isOn = false
+            icosahedron_switch.isEnabled = false
         }
         else {
             let ee = effects!
@@ -391,21 +406,25 @@ class MasterViewController: UIViewController, UITextFieldDelegate, ModelSettings
             axes_switch.isEnabled = (axes != nil)
             axes_switch.isOn = (axes != nil && axes!.enabled)
             
-            var icosahedron = ee.getEffect("Icosahedron")
-            icosahedron_switch.isEnabled = (icosahedron != nil)
-            icosahedron_switch.isOn = (icosahedron != nil && icosahedron!.enabled)
-            
             var meridians = ee.getEffect("Meridians")
             meridians_switch.isEnabled = (meridians != nil)
             meridians_switch.isOn = (meridians != nil && meridians!.enabled)
 
             var net = ee.getEffect("Net")
-            skGrid_switch.isEnabled = (net != nil)
-            skGrid_switch.isOn = (net != nil && net!.enabled)
+            net_switch.isEnabled = (net != nil)
+            net_switch.isOn = (net != nil && net!.enabled)
 
             var nodes = ee.getEffect("Nodes")
             nodes_switch.isEnabled = (nodes != nil)
             nodes_switch.isOn = (nodes != nil && nodes!.enabled)
+            
+            var surface = ee.getEffect("Surface")
+            surface_switch.isEnabled = (surface != nil)
+            surface_switch.isOn = (surface != nil && surface!.enabled)
+            
+            var icosahedron = ee.getEffect("Icosahedron")
+            icosahedron_switch.isEnabled = (icosahedron != nil)
+            icosahedron_switch.isOn = (icosahedron != nil && icosahedron!.enabled)
         }
     }
     
