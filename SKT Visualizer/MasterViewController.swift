@@ -52,7 +52,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, ModelSettings
         }
     }
     
-    var T_step: Double = 1000 {
+    var T_step: Double = 100 {
         willSet(newValue) {
             T_stepper.stepValue = newValue
         }

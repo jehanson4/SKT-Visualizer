@@ -122,7 +122,7 @@ class SKPhysics {
     
     static let T_max: Double = Double.greatestFiniteMagnitude
     static let T_min: Double = Double.leastNonzeroMagnitude
-    static let T_default: Double = 1000
+    static let T_default: Double = 1001
     
     var alpha1: Double {
         didSet(newValue) {
