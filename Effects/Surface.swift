@@ -216,32 +216,34 @@ class Surface : GLKBaseEffect, Effect {
         
         glBindVertexArrayOES(vertexArray)
         
-        // NO EFFECT:
-//        // bind vertex buffer & set attrib array again
-//        
-//        let vaIndex = GLenum(GLKVertexAttrib.position.rawValue)
-//        let vaSize = GLint(3)
-//        let vaStride = GLsizei(MemoryLayout<PNVertex>.stride)
-//        glBindBuffer(GLenum(GL_ARRAY_BUFFER), vertexBuffer)
-//        glVertexAttribPointer(vaIndex, vaSize, GLenum(GL_FLOAT), GLboolean(GL_FALSE), vaStride, BUFFER_OFFSET(0))
-//        glEnableVertexAttribArray(vaIndex)
-//
-//        // bind normal buffer & set attrib array again
-//        
-//        let naIndex = GLenum(GLKVertexAttrib.normal.rawValue)
-//        let naOffset = 3 * MemoryLayout<GLfloat>.stride
-//        glBindBuffer(GLenum(GL_ARRAY_BUFFER), normalBuffer)
-//        glVertexAttribPointer(naIndex, vaSize, GLenum(GL_FLOAT), GLboolean(GL_FALSE), vaStride, BUFFER_OFFSET(naOffset))
-//        glEnableVertexAttribArray(naIndex)
-//        
-//        // bind color buffer & set vertex atrrib array agian
-//        
-//        let caIndex = GLenum(GLKVertexAttrib.color.rawValue)
-//        let caSize = GLint(3)
-//        let caStride = GLsizei(MemoryLayout<GLKVector4>.stride)
-//        glBindBuffer(GLenum(GL_ARRAY_BUFFER), colorBuffer)
-//        glVertexAttribPointer(caIndex, caSize, GLenum(GL_FLOAT), GLboolean(GL_FALSE), caStride, BUFFER_OFFSET(0))
-//        glEnableVertexAttribArray(caIndex)
+        // Q: Maybe re-bind things? Im doubtful, but let's try.
+        // A: NO EFFECT
+        //
+        //        // bind vertex buffer & set attrib array again
+        //
+        //        let vaIndex = GLenum(GLKVertexAttrib.position.rawValue)
+        //        let vaSize = GLint(3)
+        //        let vaStride = GLsizei(MemoryLayout<PNVertex>.stride)
+        //        glBindBuffer(GLenum(GL_ARRAY_BUFFER), vertexBuffer)
+        //        glVertexAttribPointer(vaIndex, vaSize, GLenum(GL_FLOAT), GLboolean(GL_FALSE), vaStride, BUFFER_OFFSET(0))
+        //        glEnableVertexAttribArray(vaIndex)
+        //
+        //        // bind normal buffer & set attrib array again
+        //
+        //        let naIndex = GLenum(GLKVertexAttrib.normal.rawValue)
+        //        let naOffset = 3 * MemoryLayout<GLfloat>.stride
+        //        glBindBuffer(GLenum(GL_ARRAY_BUFFER), normalBuffer)
+        //        glVertexAttribPointer(naIndex, vaSize, GLenum(GL_FLOAT), GLboolean(GL_FALSE), vaStride, BUFFER_OFFSET(naOffset))
+        //        glEnableVertexAttribArray(naIndex)
+        //
+        //        // bind color buffer & set vertex attrib array agian
+        //
+        //        let caIndex = GLenum(GLKVertexAttrib.color.rawValue)
+        //        let caSize = GLint(3)
+        //        let caStride = GLsizei(MemoryLayout<GLKVector4>.stride)
+        //        glBindBuffer(GLenum(GL_ARRAY_BUFFER), colorBuffer)
+        //        glVertexAttribPointer(caIndex, caSize, GLenum(GL_FLOAT), GLboolean(GL_FALSE), caStride, BUFFER_OFFSET(0))
+        //        glEnableVertexAttribArray(caIndex)
         
 
         prepareToDraw()

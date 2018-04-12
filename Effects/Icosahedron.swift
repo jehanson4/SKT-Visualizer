@@ -136,6 +136,7 @@ class Icosahedron : GLKBaseEffect, Effect {
         glEnableVertexAttribArray(vaIndex)
 
         // normal buffer
+        
         let nbSize = MemoryLayout<GLfloat>.stride
         glGenBuffers(1, &normalBuffer)
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), normalBuffer)
