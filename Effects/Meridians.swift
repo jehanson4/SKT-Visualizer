@@ -23,8 +23,7 @@ class Meridians : GLKBaseEffect, Effect {
     var name: String = "Meridians"
     var enabled: Bool = false
     var geometry: SKGeometry
-    var N: Int
-    var k: Int
+    var geometryChangeNumber: Int
 
     private var vertices: [GLKVector4] = []
     private var lineStarts: [GLint] = []
@@ -34,8 +33,7 @@ class Meridians : GLKBaseEffect, Effect {
 
     init(_ geometry: SKGeometry) {
         self.geometry = geometry
-        self.N = geometry.N
-        self.k = geometry.k
+        self.geometryChangeNumber = geometry.changeNumber
         super.init()
 
         super.useConstantColor = 1
@@ -127,10 +125,11 @@ class Meridians : GLKBaseEffect, Effect {
         if (!enabled) {
             return
         }
-        if (geometry.N != self.N || geometry.k != self.k) {
+        
+        let newCount = geometry.changeNumber
+        if (newCount != self.geometryChangeNumber) {
             message("rebuilding...")
-            self.N = geometry.N
-            self.k = geometry.k
+            geometryChangeNumber = newCount
             deleteBuffers()
             buildVertexData()
             createBuffers()

@@ -54,7 +54,7 @@ struct SKPoint {
     
 }
 
-class SKGeometry {
+class SKGeometry : ChangeCounted {
     
     static let N_min: Int = 3
     static let N_max: Int = 1000000
@@ -89,7 +89,12 @@ class SKGeometry {
         get { return N/2 }
     }
     
+    var changeNumber: Int {
+        get { return pChangeCounter }
+    }
+    
     var N: Int {
+        
         didSet(newValue) {
             if (!(newValue >= SKGeometry.N_min)) {
                 N = SKGeometry.N_min
@@ -100,11 +105,14 @@ class SKGeometry {
             if (!(k <= k_max)) {
                 k = k_max
             }
-            self.updateDerivedVars()
+            if (N != N_prev) {
+                self.registerChange()
+            }
         }
     }
     
     var k: Int {
+        
         didSet(newValue) {
             if (!(newValue >= SKGeometry.k_min)) {
                 k = SKGeometry.k_min
@@ -112,7 +120,9 @@ class SKGeometry {
             if (!(newValue <= k_max)) {
                 k = k_max
             }
-            self.updateDerivedVars()
+            if (k != k_prev) {
+                self.registerChange()
+            }
         }
     }
     
@@ -122,6 +132,9 @@ class SKGeometry {
     private var sin_s0: Double = 0
     private var cot_s0: Double = 0
     private var s12_max: Double = 0
+    private var N_prev: Int = 0
+    private var k_prev: Int = 0
+    private var pChangeCounter: Int = 0
     
     // DEBUG
     private var path: String = ""
@@ -130,16 +143,19 @@ class SKGeometry {
     init() {
         N = SKGeometry.N_default
         k = SKGeometry.k_default
-        updateDerivedVars()
+        registerChange()
     }
     
-    private func updateDerivedVars() {
+    private func registerChange() {
         nodeIndexModulus = N - k + 1
         skNorm = Constants.pi / Double(N)
         s0 = Constants.pi * Double(k) / Double(N)
         sin_s0 = sin(s0)
         cot_s0 = 1.0/tan(s0)
         s12_max = Constants.twoPi - s0
+        N_prev = N
+        k_prev = k
+        pChangeCounter += 1
     }
         
     func sphericalToCartesian(_ r: Double, _ phi:Double, _ theta_e: Double) -> (x: Double, y: Double, z: Double) {
@@ -180,7 +196,9 @@ class SKGeometry {
         
         if (s1 + s2 < s0) {
             // DEBUG
-            problems.append("bad s1,s2: " + String(s1) + " " + String(s2) +  " sum too small by " + String(s0-(s1+s2)))
+            if (unequal(s1+s2, 0)) {
+                problems.append("bad s1,s2: " + String(s1) + " " + String(s2) +  " sum too small by " + String(s0-(s1+s2)))
+            }
             
             let diff = 0.5 * (s0 - (s1+s2))
             s1a += diff
@@ -189,7 +207,9 @@ class SKGeometry {
 
         if (s1 + s2 > s12_max) {
             // DEBUG
-            problems.append("bad s1,s2: " + String(s1) + " " + String(s2) +  " sum too large by " + String((s1+s2) - s12_max))
+            if (unequal(s1+s2, s12_max)) {
+                problems.append("bad s1,s2: " + String(s1) + " " + String(s2) +  " sum too large by " + String((s1+s2) - s12_max))
+            }
             
             let diff = 0.5 * ((s1+s2) - s12_max)
             s1a -= diff

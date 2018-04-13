@@ -61,3 +61,12 @@ func logBinomial(_ a:Int, _ b:Int) -> Double {
     return aa * log(aa) - bb * log(bb) - cc * log(cc)
             + 0.5 * (log(aa) - log(bb) - log(cc) - log(Constants.twoPi))
 }
+
+protocol ChangeCounted {
+    var changeNumber: Int { get }
+}
+
+func loadCSV(_ filename: String, _ hasHeader: Bool) -> (columnNames: [String], rows: [[String]]) {
+    // TODO
+    return ([], [[]])
+}

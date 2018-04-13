@@ -17,6 +17,7 @@ import OpenGL
 class Net : GLKBaseEffect, Effect {
     
     var geometry: SKGeometry
+    var geometryChangeNumber: Int
     
     var name: String = "Net"
     var enabled: Bool = false
@@ -29,8 +30,6 @@ class Net : GLKBaseEffect, Effect {
     var indexBuffer: GLuint = 0
 
     // vertex data
-    var N: Int = 0
-    var k: Int = 0
     var vertices: [GLfloat] = []
     var indices: [GLuint] = []
     var lineArrayLengths: [GLsizei] = []
@@ -38,8 +37,7 @@ class Net : GLKBaseEffect, Effect {
 
     init(_ geometry: SKGeometry) {
         self.geometry = geometry
-        self.N = geometry.N
-        self.k = geometry.k
+        self.geometryChangeNumber = geometry.changeNumber
 
         super.init()
         super.useConstantColor = 1
@@ -169,10 +167,11 @@ class Net : GLKBaseEffect, Effect {
         if (!enabled) {
             return
         }
-        if (geometry.N != self.N || geometry.k != self.k) {
+        
+        let newCount = geometry.changeNumber
+        if (newCount != geometryChangeNumber) {
             message("rebuilding...")
-            self.N = geometry.N
-            self.k = geometry.k
+            geometryChangeNumber = newCount
             deleteBuffers()
             buildVertexData()
             createBuffers()
@@ -210,99 +209,99 @@ class Net : GLKBaseEffect, Effect {
         print(name, msg)
     }
 
-    // ===========================================================================================================
-    // MARK: DEBUGGUNG
-    // ===========================================================================================================
-
-    
-    private func debugVertexData() {
-        print(name, "debugVertexData start")
-        self.N = geometry.N
-        self.k = geometry.k
-        
-        vertices = [
-            0, 0, 0,
-            
-            // x
-            1, 0, 0,
-            
-            // y
-            0,    1,    0,
-            0.05, 1,    0.05,
-            -0.05, 1,   -0.05,
-            
-            // z
-            0,     0,    1,
-            0.05,  0.05, 1,
-            -0.05, -0.05, 1,
-            0.05, -0.05, 1,
-            -0.05,  0.05, 1
-        ]
-        
-        // indices[i]: i = vertex number, i.e., (index of elem in vertices array)/3
-        indices = [
-            0,1,
-            0,2,3,4,
-            0,5,6,7,5,8,9]
-        
-        // lineLenghts[i]: i = line number, value = #elems of indices array to use
-        lineArrayLengths = [2,4,7]
-        
-        // lineStarts[i]: i = line number, value = index of elem in indices array
-        let lineStarts = [0,2,6]
-        
-        lineArrayOffsets = makeIndexBufferOffsets(lineStarts)
-        print(name, "debugVertexData done")
-    }
-    
-    func debugDraw1() {
-        glDrawElements(GLenum(GL_LINES), GLsizei(indices.count), GLenum(GL_UNSIGNED_INT), BUFFER_OFFSET(0))
-        let err = glGetError()
-        if (err != 0) {
-            print(name, "drawIfEnabled", "glError:", String(format:"0x%x", err))
-        }
-    }
-    
-    var debug2_frame = 0
-    var debug2_framesPerLine = 10
-    var debug2_line: Int = 0
-    
-    func debugDraw2() {
-        print(name, "debug2", "frame:", debug2_frame, "line:", debug2_line)
-        glDrawElements(GLenum(GL_LINE_STRIP),
-            lineArrayLengths[debug2_line],
-            GLenum(GL_UNSIGNED_INT),
-            lineArrayOffsets[debug2_line])
-        
-        debug2_frame += 1
-        if (debug2_frame % debug2_framesPerLine == 0) {
-            debug2_line += 1
-            if (debug2_line >= lineArrayLengths.count) {
-                debug2_line -= lineArrayLengths.count
-            }
-        }
-    }
-    
-    func debugDraw3() {
-        let mMax = self.k
-        let nMax = self.N-self.k
-        let pointNumberChunkSize = nMax+1
-        var vertex = 0
-        var index = 0
-        var phi: Double
-        var theta_e: Double
-        print(name, "=========================================================")
-        for m in 0...mMax {
-            for n in 0...nMax {
-                index = m * pointNumberChunkSize + n
-                let p = geometry.skToSpherical(m, n)
-                phi = floor(1000 * p.phi/Constants.twoPi) / 1000
-                theta_e = floor(1000 * p.theta_e/Constants.piOver2) / 1000
-                print(name, "m,n:", m, n, "|", "v,i:", vertex, index, "|", "p,t:", phi, theta_e)
-                vertex += 1
-            }
-        }
-        print("")
-    }
+//    // ===========================================================================================================
+//    // MARK: DEBUGGUNG
+//    // ===========================================================================================================
+//
+//    
+//    private func debugVertexData() {
+//        print(name, "debugVertexData start")
+//        let N = geometry.N
+//        let k = geometry.k
+//        
+//        vertices = [
+//            0, 0, 0,
+//            
+//            // x
+//            1, 0, 0,
+//            
+//            // y
+//            0,    1,    0,
+//            0.05, 1,    0.05,
+//            -0.05, 1,   -0.05,
+//            
+//            // z
+//            0,     0,    1,
+//            0.05,  0.05, 1,
+//            -0.05, -0.05, 1,
+//            0.05, -0.05, 1,
+//            -0.05,  0.05, 1
+//        ]
+//        
+//        // indices[i]: i = vertex number, i.e., (index of elem in vertices array)/3
+//        indices = [
+//            0,1,
+//            0,2,3,4,
+//            0,5,6,7,5,8,9]
+//        
+//        // lineLenghts[i]: i = line number, value = #elems of indices array to use
+//        lineArrayLengths = [2,4,7]
+//        
+//        // lineStarts[i]: i = line number, value = index of elem in indices array
+//        let lineStarts = [0,2,6]
+//        
+//        lineArrayOffsets = makeIndexBufferOffsets(lineStarts)
+//        print(name, "debugVertexData done")
+//    }
+//    
+//    func debugDraw1() {
+//        glDrawElements(GLenum(GL_LINES), GLsizei(indices.count), GLenum(GL_UNSIGNED_INT), BUFFER_OFFSET(0))
+//        let err = glGetError()
+//        if (err != 0) {
+//            print(name, "drawIfEnabled", "glError:", String(format:"0x%x", err))
+//        }
+//    }
+//    
+//    var debug2_frame = 0
+//    var debug2_framesPerLine = 10
+//    var debug2_line: Int = 0
+//    
+//    func debugDraw2() {
+//        print(name, "debug2", "frame:", debug2_frame, "line:", debug2_line)
+//        glDrawElements(GLenum(GL_LINE_STRIP),
+//            lineArrayLengths[debug2_line],
+//            GLenum(GL_UNSIGNED_INT),
+//            lineArrayOffsets[debug2_line])
+//        
+//        debug2_frame += 1
+//        if (debug2_frame % debug2_framesPerLine == 0) {
+//            debug2_line += 1
+//            if (debug2_line >= lineArrayLengths.count) {
+//                debug2_line -= lineArrayLengths.count
+//            }
+//        }
+//    }
+//    
+//    func debugDraw3() {
+//        let mMax = self.k
+//        let nMax = self.N-self.k
+//        let pointNumberChunkSize = nMax+1
+//        var vertex = 0
+//        var index = 0
+//        var phi: Double
+//        var theta_e: Double
+//        print(name, "=========================================================")
+//        for m in 0...mMax {
+//            for n in 0...nMax {
+//                index = m * pointNumberChunkSize + n
+//                let p = geometry.skToSpherical(m, n)
+//                phi = floor(1000 * p.phi/Constants.twoPi) / 1000
+//                theta_e = floor(1000 * p.theta_e/Constants.piOver2) / 1000
+//                print(name, "m,n:", m, n, "|", "v,i:", vertex, index, "|", "p,t:", phi, theta_e)
+//                vertex += 1
+//            }
+//        }
+//        print("")
+//    }
     
 }

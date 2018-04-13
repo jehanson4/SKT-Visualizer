@@ -26,10 +26,9 @@ class Nodes : GLKBaseEffect, Effect {
     }
     
     var geometry: SKGeometry
+    var geometryChangeNumber: Int
     var physics: SKPhysics
-    var N: Int
-    var k: Int
-    var T: Double
+    var physicsChangeNumber: Int
     
     var vertices: [GLKVector4] = []
     // var colors: [GLKVector4] = []
@@ -40,10 +39,9 @@ class Nodes : GLKBaseEffect, Effect {
     
     init(_ geometry: SKGeometry, _ physics: SKPhysics) {
         self.geometry = geometry
+        self.geometryChangeNumber = geometry.changeNumber
         self.physics = physics
-        self.N = geometry.N
-        self.k = geometry.k
-        self.T = physics.T
+        self.physicsChangeNumber = physics.changeNumber
         super.init()
         
         // material
@@ -126,17 +124,19 @@ class Nodes : GLKBaseEffect, Effect {
             message(String(format:"draw: entering: glError 0x%x", err0))
         }
 
-        if (geometry.N != self.N || geometry.k != self.k) {
+        let geometryChange = geometry.changeNumber
+        let physicsChange = physics.changeNumber
+        if (geometryChange != geometryChangeNumber) {
             message("rebuilding...")
-            self.N = geometry.N
-            self.k = geometry.k
-            self.T = physics.T
+            self.geometryChangeNumber = geometryChange
+            self.physicsChangeNumber = physicsChange
             deleteBuffers()
             buildVertexAndColorData()
             createBuffers()
             message("done rebuilding")
         }
-        else if (physics.T != self.T) {
+        else if (physicsChange != physicsChangeNumber) {
+            self.physicsChangeNumber = physicsChange
             message("recomputing colors...")
             computeColors()
             message("done recomputing colors")

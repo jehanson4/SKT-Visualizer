@@ -14,15 +14,22 @@ import OpenGLES
 import OpenGL
 #endif
 
+/**
+ Base class for effects that draw a solid surface colored using vertex data.
+ This impl does the bookkeeping and the rendering, but sets the color to solid black.
+ Subclasses needo only override computeColors()
+*/
 class Surface : GLKBaseEffect, Effect {
     
     var name: String = "Surface"
     var enabled: Bool = false
+    
     var geometry: SKGeometry
+    var geometryChangeNumber: Int
     var physics: SKPhysics
-    var N: Int
-    var k: Int
-    var T: Double
+    var physicsChangeNumber: Int
+    var colorMaps: [String:ColorMap]
+    
     var vertices: [PNVertex] = []
     var indices: [GLuint] = []
     var colors: [GLKVector4] = []
@@ -33,23 +40,24 @@ class Surface : GLKBaseEffect, Effect {
     var colorBuffer: GLuint = 0
     var indexBuffer: GLuint = 0
     
-    init(_ geometry: SKGeometry, _ physics: SKPhysics) {
+    init(_ geometry: SKGeometry, _ physics: SKPhysics, _ colorMaps: [String:ColorMap]) {
         self.geometry = geometry
+        self.geometryChangeNumber = geometry.changeNumber
         self.physics = physics
-        self.N = geometry.N
-        self.k = geometry.k
-        self.T = physics.T
+        self.physicsChangeNumber = physics.changeNumber
+        self.colorMaps = colorMaps
+        
         super.init()
         
         // material
         // but isn't it in the color buffer? comment it out & let's see
         
-//       super.colorMaterialEnabled = GLboolean(GL_TRUE)
-//        // super.material.emissiveColor = GLKVector4Make(0.0, 0.0, 0.0, 0.0)
-//        // super.material.ambientColor = GLKVector4Make(0.0, 0.0, 0.0, 0.0)
-//        super.material.diffuseColor = GLKVector4Make(1.0, 1.0, 1.0, 1.0)
-//        super.material.specularColor = GLKVector4Make(1.0, 1.0, 1.0, 1.0)
-//        super.material.shininess = 128
+        super.colorMaterialEnabled = GLboolean(GL_TRUE)
+        // NO super.material.emissiveColor = GLKVector4Make(0.0, 0.0, 0.0, 1.0)
+        // NO super.material.ambientColor = GLKVector4Make(0.0, 0.0, 0.0, 0.0)
+        // super.material.diffuseColor = GLKVector4Make(1.0, 1.0, 1.0, 1.0)
+        // super.material.specularColor = GLKVector4Make(1.0, 1.0, 1.0, 1.0)
+        // super.material.shininess = 128
         
         // lighting
         
@@ -57,7 +65,7 @@ class Surface : GLKBaseEffect, Effect {
         super.light0.ambientColor = GLKVector4Make(1.0, 1.0, 1.0, 1.0)
         super.light0.diffuseColor = GLKVector4Make(1.0, 1.0, 1.0, 1.0)
         super.light0.specularColor = GLKVector4Make(1.0, 1.0, 1.0, 1.0)
-        super.light0.position = GLKVector4Make(0.0, -1.0, 0.0, 0.0)
+        super.light0.position = GLKVector4Make(0.0, 0.0, 1.0, 0.0)
         
         glGenVertexArraysOES(1, &vertexArray)
         buildVertexData()
@@ -70,10 +78,6 @@ class Surface : GLKBaseEffect, Effect {
     }
     
     private func buildVertexData() {
-        
-        self.N = geometry.N
-        self.k = geometry.k
-        
         // vertices
         self.vertices = buildPNVertexArray(geometry)
         
@@ -107,16 +111,23 @@ class Surface : GLKBaseEffect, Effect {
         self.colors = Array(repeating: black, count: vertices.count)
     }
     
-    /// TODO PLACEHOLDER
     private func computeColors() {
-        self.T = physics.T
-        
+        /// TODO PLACEHOLDER
+        let colorMap = colorMaps["Log"]!
         for i in 0..<colors.count {
             let mn = geometry.nodeIndexToSK(i)
-            colors[i] = GLKVector4Make(Float(physics.energy(mn.m, mn.n)), 0, 0, 1)
+            let v = physics.normalizedLogOccupation(mn.m, mn.n)
+            colors[i] = colorMap.getColor(v)
         }
     }
-    
+
+    private func blackColors() {
+        let black = GLKVector4Make(0, 0, 0, 0)
+        for i in 0..<colors.count {
+            colors[i] = black
+        }
+    }
+
     private func createBuffers() {
         
         glBindVertexArrayOES(vertexArray)
@@ -193,21 +204,25 @@ class Surface : GLKBaseEffect, Effect {
             message(String(format:"draw: entering: glError 0x%x", err0))
         }
 
-        if (geometry.N != self.N || geometry.k != self.k) {
+        let geometryChange = geometry.changeNumber
+        let physicsChange = physics.changeNumber
+        if (geometryChange != geometryChangeNumber) {
             message("rebuilding...")
+            self.geometryChangeNumber = geometryChange
+            self.physicsChangeNumber = physicsChange
             deleteBuffers()
             buildVertexData()
             computeColors()
             createBuffers()
             message("done rebuilding")
         }
-        else if (physics.T != self.T) {
+        else if (physicsChange != physicsChangeNumber) {
+            self.physicsChangeNumber = physicsChange
             message("recomputing colors...")
             computeColors()
             message("done recomputing colors")
-       }
-        
-        
+        }
+
         // DEBUG
         let err1 = glGetError()
         if (err1 != 0) {
@@ -216,35 +231,12 @@ class Surface : GLKBaseEffect, Effect {
         
         glBindVertexArrayOES(vertexArray)
         
-        // Q: Maybe re-bind things? Im doubtful, but let's try.
-        // A: NO EFFECT
-        //
-        //        // bind vertex buffer & set attrib array again
-        //
-        //        let vaIndex = GLenum(GLKVertexAttrib.position.rawValue)
-        //        let vaSize = GLint(3)
-        //        let vaStride = GLsizei(MemoryLayout<PNVertex>.stride)
-        //        glBindBuffer(GLenum(GL_ARRAY_BUFFER), vertexBuffer)
-        //        glVertexAttribPointer(vaIndex, vaSize, GLenum(GL_FLOAT), GLboolean(GL_FALSE), vaStride, BUFFER_OFFSET(0))
-        //        glEnableVertexAttribArray(vaIndex)
-        //
-        //        // bind normal buffer & set attrib array again
-        //
-        //        let naIndex = GLenum(GLKVertexAttrib.normal.rawValue)
-        //        let naOffset = 3 * MemoryLayout<GLfloat>.stride
-        //        glBindBuffer(GLenum(GL_ARRAY_BUFFER), normalBuffer)
-        //        glVertexAttribPointer(naIndex, vaSize, GLenum(GL_FLOAT), GLboolean(GL_FALSE), vaStride, BUFFER_OFFSET(naOffset))
-        //        glEnableVertexAttribArray(naIndex)
-        //
-        //        // bind color buffer & set vertex attrib array agian
-        //
-        //        let caIndex = GLenum(GLKVertexAttrib.color.rawValue)
-        //        let caSize = GLint(3)
-        //        let caStride = GLsizei(MemoryLayout<GLKVector4>.stride)
-        //        glBindBuffer(GLenum(GL_ARRAY_BUFFER), colorBuffer)
-        //        glVertexAttribPointer(caIndex, caSize, GLenum(GL_FLOAT), GLboolean(GL_FALSE), caStride, BUFFER_OFFSET(0))
-        //        glEnableVertexAttribArray(caIndex)
+        // Q: Just re-bind color & copy new values using glBufferSubData
+        // A: seems to do the trick
         
+        let cbSize = MemoryLayout<GLKVector4>.stride
+        glBindBuffer(GLenum(GL_ARRAY_BUFFER), colorBuffer)
+        glBufferSubData(GLenum(GL_ARRAY_BUFFER), 0, cbSize * colors.count, colors)
 
         prepareToDraw()
 

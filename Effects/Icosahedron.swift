@@ -111,12 +111,7 @@ class Icosahedron : GLKBaseEffect, Effect {
         // super.light0.ambientColor = GLKVector4Make(0.0, 0.0, 0.0, 0.0)
         super.light0.diffuseColor = GLKVector4Make(0.0, 1.0, 0.0, 0.5)
         super.light0.specularColor = GLKVector4Make(0.0, 1.0, 0.0, 0.5)
-        super.light0.position = GLKVector4Make(0.0, -1.0, 0.0, 0.0)
-
-        super.light1.enabled = GLboolean(GL_TRUE)
-        super.light1.diffuseColor = GLKVector4Make(0.1, 0.0, 0.0, 0.0)
-        super.light1.specularColor = GLKVector4Make(0.1, 0.0, 0.0, 0.0)
-        super.light1.position = GLKVector4Make(-1.0, -1.0, -1.0, 0.0)
+        super.light0.position = GLKVector4Make(0.0, 0.0, 1.0, 0.0)
 
         // vertex array
         
