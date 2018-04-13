@@ -28,11 +28,13 @@ class Surface : GLKBaseEffect, Effect {
     var geometryChangeNumber: Int
     var physics: SKPhysics
     var physicsChangeNumber: Int
-    var colorMaps: [String:ColorMap]
-    
+    var linearColorMap: ColorMap? = nil
+    var logColorMap: ColorMap? = nil
+
     var vertices: [PNVertex] = []
     var indices: [GLuint] = []
     var colors: [GLKVector4] = []
+    var colorFuncs: [() -> ()] = []
     
     var vertexArray: GLuint = 0
     var vertexBuffer: GLuint = 0
@@ -40,14 +42,22 @@ class Surface : GLKBaseEffect, Effect {
     var colorBuffer: GLuint = 0
     var indexBuffer: GLuint = 0
     
-    init(_ geometry: SKGeometry, _ physics: SKPhysics, _ colorMaps: [String:ColorMap]) {
+    init(_ geometry: SKGeometry, _ physics: SKPhysics) {
         self.geometry = geometry
         self.geometryChangeNumber = geometry.changeNumber
         self.physics = physics
         self.physicsChangeNumber = physics.changeNumber
-        self.colorMaps = colorMaps
         
         super.init()
+        
+        self.colorFuncs = [
+            blackColors,
+            nodeIndexColors,
+            energyColors,
+            entropyColors,
+            logOccupationColors,
+            occupationColors,
+        ]
         
         // material
         // but isn't it in the color buffer? comment it out & let's see
@@ -112,15 +122,77 @@ class Surface : GLKBaseEffect, Effect {
     }
     
     private func computeColors() {
-        /// TODO PLACEHOLDER
-        let colorMap = colorMaps["Log"]!
+        colorFuncs[2]()
+    }
+    
+    private func energyColors() {
+        if (linearColorMap == nil) {
+            linearColorMap = LinearColorMap()
+        }
+        let colorMap = linearColorMap!
+        
+        for i in 0..<colors.count {
+            let mn = geometry.nodeIndexToSK(i)
+            let v = physics.normalizedEnergy(mn.m, mn.n)
+            colors[i] = colorMap.getColor(v)
+            
+            // message("energy color " + String(i) + " = " + String(v))
+        }
+    }
+
+    private func entropyColors() {
+        if (linearColorMap == nil) {
+            linearColorMap = LinearColorMap()
+        }
+        let colorMap = linearColorMap!
+        
+
+        for i in 0..<colors.count {
+            let mn = geometry.nodeIndexToSK(i)
+            let v = physics.normalizedEntropy(mn.m, mn.n)
+            colors[i] = colorMap.getColor(v)
+        }
+    }
+    
+    private func logOccupationColors() {
+        if (linearColorMap == nil) {
+            linearColorMap = LinearColorMap()
+        }
+        let colorMap = linearColorMap!
+        
         for i in 0..<colors.count {
             let mn = geometry.nodeIndexToSK(i)
             let v = physics.normalizedLogOccupation(mn.m, mn.n)
             colors[i] = colorMap.getColor(v)
+            
+            message("logOccupation " + String(i) + ": " + String(v))
         }
     }
-
+    
+    private func occupationColors() {
+        if (logColorMap == nil) {
+            logColorMap = LogColorMap()
+        }
+        let colorMap = logColorMap!
+        
+        for i in 0..<colors.count {
+            let mn = geometry.nodeIndexToSK(i)
+            let v = physics.normalizedLogOccupation(mn.m, mn.n)
+            colors[i] = colorMap.getColor(v)
+            
+            // message("occupation color " + String(i) + " = " + String(v))
+        }
+    }
+    
+    private func nodeIndexColors() {
+        let g = GLfloat(0)
+        let b = GLfloat(0)
+        for i in 0..<colors.count {
+            let r = GLfloat(i)/GLfloat(colors.count)
+            colors[i] = GLKVector4Make(r, g, b, 1)
+        }
+    }
+    
     private func blackColors() {
         let black = GLKVector4Make(0, 0, 0, 0)
         for i in 0..<colors.count {

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8A0269DD2080B1240054107D /* Generators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0269DC2080B1240054107D /* Generators.swift */; };
 		8A0C09A620716B670017AC4C /* SKGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0C09A520716B670017AC4C /* SKGeometry.swift */; };
 		8A0C09AC20718FA00017AC4C /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0C09AB20718FA00017AC4C /* Scene.swift */; };
 		8A131C91207160100088F2FC /* _Notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8A131C90207160100088F2FC /* _Notes.txt */; };
@@ -80,6 +81,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8A0269DC2080B1240054107D /* Generators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Generators.swift; sourceTree = "<group>"; };
 		8A0C09A520716B670017AC4C /* SKGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKGeometry.swift; sourceTree = "<group>"; };
 		8A0C09AB20718FA00017AC4C /* Scene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
 		8A131C90207160100088F2FC /* _Notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _Notes.txt; sourceTree = "<group>"; };
@@ -170,9 +172,11 @@
 		8A0C09A220716B050017AC4C /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				8A575FED20804759002B9951 /* ColorMaps.swift */,
+				8A0269DC2080B1240054107D /* Generators.swift */,
 				8A0C09A520716B670017AC4C /* SKGeometry.swift */,
-				8ACE789D2073F7A400C29875 /* Utils.swift */,
 				8AA0637C207A89DD00BB68DB /* SKPhysics.swift */,
+				8ACE789D2073F7A400C29875 /* Utils.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -268,15 +272,14 @@
 		8A5E948A2077D285003477D3 /* Effects */ = {
 			isa = PBXGroup;
 			children = (
-				8A575FED20804759002B9951 /* ColorMaps.swift */,
 				8A84313720726F0100F06B9B /* Axes.swift */,
+				8A575FEF20804B02002B9951 /* Debug.swift */,
 				8ACE788E2073C57500C29875 /* Effect.swift */,
 				8ACE788C2072E51800C29875 /* Icosahedron.swift */,
 				8A40BC0D207EEA3D00F2D2EB /* Meridians.swift */,
 				8A5E948D2078EE46003477D3 /* Net.swift */,
 				8A40BC0B207ECC7500F2D2EB /* Nodes.swift */,
 				8ABEEC3A20803A2F008E72F4 /* Surface.swift */,
-				8A575FEF20804B02002B9951 /* Debug.swift */,
 			);
 			path = Effects;
 			sourceTree = "<group>";
@@ -461,6 +464,7 @@
 				8A575FEE20804759002B9951 /* ColorMaps.swift in Sources */,
 				8ACE788D2072E51800C29875 /* Icosahedron.swift in Sources */,
 				8A0C09A620716B670017AC4C /* SKGeometry.swift in Sources */,
+				8A0269DD2080B1240054107D /* Generators.swift in Sources */,
 				8AD817FC207BFA9200426C25 /* InfoViewController.swift in Sources */,
 				8A40BC12207FDB3500F2D2EB /* Lighting.swift in Sources */,
 				8A5E948E2078EE46003477D3 /* Net.swift in Sources */,

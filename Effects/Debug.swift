@@ -44,11 +44,11 @@ class Debug : GLKBaseEffect, Effect {
     }
     
     func testFunctionAsVariable() {
-        
-        var x = self.t1
-        x("hi")
-        x = self.t2
-        x("hi")
+//        
+//        var x = self.t1
+//        x("hi")
+//        x = self.t2
+//        x("hi")
     }
     
 }

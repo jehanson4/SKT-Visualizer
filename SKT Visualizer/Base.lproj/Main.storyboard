@@ -19,14 +19,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DYT-hy-G98">
-                                <rect key="frame" x="149" y="588" width="76" height="30"/>
+                                <rect key="frame" x="149" y="552" width="76" height="30"/>
                                 <state key="normal" title="Reset View"/>
                                 <connections>
                                     <action selector="resetViewParams:" destination="3aD-bn-OtG" eventType="touchUpInside" id="lF9-dG-NIW"/>
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="2d6-ys-rYw" userLabel="Effects View">
-                                <rect key="frame" x="87.5" y="294" width="200" height="179"/>
+                                <rect key="frame" x="87.5" y="294" width="200" height="143"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kl1-6W-jht">
                                         <rect key="frame" x="0.0" y="0.0" width="200" height="35"/>
@@ -169,9 +169,14 @@
                                         </constraints>
                                     </view>
                                 </subviews>
+                                <variation key="default">
+                                    <mask key="subviews">
+                                        <exclude reference="QZu-3O-304"/>
+                                    </mask>
+                                </variation>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="kbq-dQ-nm0" userLabel="Extras View">
-                                <rect key="frame" x="87" y="513" width="200" height="35"/>
+                                <rect key="frame" x="87" y="477" width="200" height="35"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="l8O-e8-85O">
                                         <rect key="frame" x="0.0" y="0.0" width="200" height="35"/>
@@ -855,21 +860,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aKu-iD-bgJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1410" y="-30"/>
-        </scene>
-        <!--Scratch View Controller-->
-        <scene sceneID="vg0-ti-oHM">
-            <objects>
-                <viewController id="TwT-zV-VRx" userLabel="Scratch View Controller" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="QNN-Te-LgO">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="aor-iF-SzE"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="e58-lY-4am" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="625" y="448"/>
         </scene>
         <!--Info Navigation Controller-->
         <scene sceneID="Kfl-LV-wan">

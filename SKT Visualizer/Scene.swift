@@ -75,7 +75,7 @@ class Scene : EffectsController {
     var projectionMatrix: GLKMatrix4!
     var modelviewMatrix: GLKMatrix4!
     // var shader: Shader!
-    var colorMaps = [String: ColorMap]()
+    // var colorMaps = [String: ColorMap]()
     var effects = [String: Effect]()
 
     init(_ geometry: SKGeometry, _ physics: SKPhysics) {
@@ -115,7 +115,6 @@ class Scene : EffectsController {
         // glEnable(GLenum(GL_COLOR_MATERIAL))
         // glColorMaterial(GLenum(GL_FRONT), GLenum(GL_AMBIENT_AND_DIFFUSE))
 
-        addColorMaps()
         addEffects()
         for e in effects {
             e.value.transform.projectionMatrix = projectionMatrix
@@ -124,16 +123,7 @@ class Scene : EffectsController {
 
     }
     
-    func addColorMaps() {
-        let linearMap = LinearColorMap()
-        colorMaps[linearMap.name] = linearMap
-        
-        let logMap = LogColorMap()
-        colorMaps[logMap.name] = logMap
-    }
-    
     func addEffects() {
-        
         
 //        let lighting = Lighting()
 //        lighting.enabled = true
@@ -155,7 +145,8 @@ class Scene : EffectsController {
         nodes.enabled = false
         effects[nodes.name] = nodes
 
-        let surface = Surface(geometry, physics, colorMaps)
+        // let surface = Surface(geometry, physics, colorMaps)
+        let surface = Surface(geometry, physics)
         surface.enabled = false
         effects[surface.name] = surface
         

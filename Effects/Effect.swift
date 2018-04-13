@@ -38,13 +38,6 @@ func BUFFER_OFFSET(_ n: Int) -> UnsafeRawPointer? {
     return UnsafeRawPointer(bitPattern: n)
 }
 
-protocol Effect  {
-    var name: String { get set }
-    var enabled: Bool { get set }
-    var transform: GLKEffectPropertyTransform { get }
-    func draw()
-}
-
 /**
  returns array containing x,y,z values of nodes,
  in node index order defined by the given geometry.
@@ -91,3 +84,13 @@ func buildPNVertexArray(_ geometry: SKGeometry) -> [PNVertex] {
     }
     return vertices
 }
+
+protocol Effect  {
+    var name: String { get set }
+    var enabled: Bool { get set }
+    var transform: GLKEffectPropertyTransform { get }
+    // var generator: Generator { get set }
+    func draw()
+}
+
+
