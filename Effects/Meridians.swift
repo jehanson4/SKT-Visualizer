@@ -20,6 +20,11 @@ class Meridians : GLKBaseEffect, Effect {
     var name = type
     var enabled = false
 
+    var generator: Generator? {
+        get { return nil }
+        set(g) { }
+    }
+    
     let lineWidth: GLfloat = 10.0
     let lineColor: GLKVector4 = GLKVector4Make(0.0, 1.0, 1.0, 1.0)
     let lineOffsetR: Double = 0.001 // so it hovers just over the surface

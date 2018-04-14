@@ -15,11 +15,16 @@ import OpenGL
 #endif
 
 class Axes : GLKBaseEffect, Effect {
-
+    
     static let type = String(describing: Axes.self)
     var name = type
     var enabled = false
 
+    var generator: Generator? {
+        get { return nil }
+        set(g) { }
+    }
+    
     let vertices: [GLfloat] = [
         0.00, 0.00, 0.00,
         0.25, 0.00, 0.00,

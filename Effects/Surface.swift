@@ -24,6 +24,13 @@ class Surface : GLKBaseEffect, Effect {
     static let type = String(describing: Surface.self)
     var name = type
     var enabled = false
+    var generator: Generator? = nil {
+        
+        didSet(g2) {
+            message("generator set; recomputing colors")
+            self.computeColors()
+        }
+    }
     
     var geometry: SKGeometry
     var geometryChangeNumber: Int
@@ -51,14 +58,14 @@ class Surface : GLKBaseEffect, Effect {
         
         super.init()
         
-        self.colorFuncs = [
-            blackColors,
-            nodeIndexColors,
-            energyColors,
-            entropyColors,
-            logOccupationColors,
-            occupationColors,
-        ]
+//        self.colorFuncs = [
+//            blackColors,
+//            nodeIndexColors,
+//            energyColors,
+//            entropyColors,
+//            logOccupationColors,
+//            occupationColors,
+//        ]
         
         // material
         // but isn't it in the color buffer? comment it out & let's see
@@ -123,83 +130,97 @@ class Surface : GLKBaseEffect, Effect {
     }
     
     private func computeColors() {
-        colorFuncs[2]()
-    }
-    
-    private func energyColors() {
-        if (linearColorMap == nil) {
-            linearColorMap = LinearColorMap()
+        if (generator == nil) {
+            message("generator is nil")
+            return
         }
-        let colorMap = linearColorMap!
+        
+        let gg = generator!
+        
+        // FIXME this is wrong.
+        // I DO want to prepare() before using the generator . . . once per change
+        // But the same frame, or diff. effect in same frame, DO NOT PREPARE
+        gg.prepare()
         
         for i in 0..<colors.count {
-            let mn = geometry.nodeIndexToSK(i)
-            let v = physics.normalizedEnergy(mn.m, mn.n)
-            colors[i] = colorMap.getColor(v)
-            
-            // message("energy color " + String(i) + " = " + String(v))
-        }
-    }
-
-    private func entropyColors() {
-        if (linearColorMap == nil) {
-            linearColorMap = LinearColorMap()
-        }
-        let colorMap = linearColorMap!
-        
-
-        for i in 0..<colors.count {
-            let mn = geometry.nodeIndexToSK(i)
-            let v = physics.normalizedEntropy(mn.m, mn.n)
-            colors[i] = colorMap.getColor(v)
+            colors[i] = gg.color(i)
         }
     }
     
-    private func logOccupationColors() {
-        if (linearColorMap == nil) {
-            linearColorMap = LinearColorMap()
-        }
-        let colorMap = linearColorMap!
-        
-        for i in 0..<colors.count {
-            let mn = geometry.nodeIndexToSK(i)
-            let v = physics.normalizedLogOccupation(mn.m, mn.n)
-            colors[i] = colorMap.getColor(v)
-            
-            message("logOccupation " + String(i) + ": " + String(v))
-        }
-    }
-    
-    private func occupationColors() {
-        if (logColorMap == nil) {
-            logColorMap = LogColorMap()
-        }
-        let colorMap = logColorMap!
-        
-        for i in 0..<colors.count {
-            let mn = geometry.nodeIndexToSK(i)
-            let v = physics.normalizedLogOccupation(mn.m, mn.n)
-            colors[i] = colorMap.getColor(v)
-            
-            // message("occupation color " + String(i) + " = " + String(v))
-        }
-    }
-    
-    private func nodeIndexColors() {
-        let g = GLfloat(0)
-        let b = GLfloat(0)
-        for i in 0..<colors.count {
-            let r = GLfloat(i)/GLfloat(colors.count)
-            colors[i] = GLKVector4Make(r, g, b, 1)
-        }
-    }
-    
-    private func blackColors() {
-        let black = GLKVector4Make(0, 0, 0, 0)
-        for i in 0..<colors.count {
-            colors[i] = black
-        }
-    }
+//    private func energyColors() {
+//        if (linearColorMap == nil) {
+//            linearColorMap = LinearColorMap()
+//        }
+//        let colorMap = linearColorMap!
+//
+//        for i in 0..<colors.count {
+//            let mn = geometry.nodeIndexToSK(i)
+//            let v = physics.normalizedEnergy(mn.m, mn.n)
+//            colors[i] = colorMap.getColor(v)
+//
+//            // message("energy color " + String(i) + " = " + String(v))
+//        }
+//    }
+//
+//    private func entropyColors() {
+//        if (linearColorMap == nil) {
+//            linearColorMap = LinearColorMap()
+//        }
+//        let colorMap = linearColorMap!
+//
+//
+//        for i in 0..<colors.count {
+//            let mn = geometry.nodeIndexToSK(i)
+//            let v = physics.normalizedEntropy(mn.m, mn.n)
+//            colors[i] = colorMap.getColor(v)
+//        }
+//    }
+//
+//    private func logOccupationColors() {
+//        if (linearColorMap == nil) {
+//            linearColorMap = LinearColorMap()
+//        }
+//        let colorMap = linearColorMap!
+//
+//        for i in 0..<colors.count {
+//            let mn = geometry.nodeIndexToSK(i)
+//            let v = physics.normalizedLogOccupation(mn.m, mn.n)
+//            colors[i] = colorMap.getColor(v)
+//
+//            message("logOccupation " + String(i) + ": " + String(v))
+//        }
+//    }
+//
+//    private func occupationColors() {
+//        if (logColorMap == nil) {
+//            logColorMap = LogColorMap()
+//        }
+//        let colorMap = logColorMap!
+//
+//        for i in 0..<colors.count {
+//            let mn = geometry.nodeIndexToSK(i)
+//            let v = physics.normalizedLogOccupation(mn.m, mn.n)
+//            colors[i] = colorMap.getColor(v)
+//
+//            // message("occupation color " + String(i) + " = " + String(v))
+//        }
+//    }
+//
+//    private func nodeIndexColors() {
+//        let g = GLfloat(0)
+//        let b = GLfloat(0)
+//        for i in 0..<colors.count {
+//            let r = GLfloat(i)/GLfloat(colors.count)
+//            colors[i] = GLKVector4Make(r, g, b, 1)
+//        }
+//    }
+//
+//    private func blackColors() {
+//        let black = GLKVector4Make(0, 0, 0, 0)
+//        for i in 0..<colors.count {
+//            colors[i] = black
+//        }
+//    }
 
     private func createBuffers() {
         

@@ -20,6 +20,11 @@ class Nodes : GLKBaseEffect, Effect {
     var name = type
     var enabled = false
     
+    var generator: Generator? {
+        get { return nil }
+        set(g) { }
+    }
+    
     var geometry: SKGeometry
     var geometryChangeNumber: Int
     var physics: SKPhysics

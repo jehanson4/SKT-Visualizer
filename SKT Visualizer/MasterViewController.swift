@@ -447,21 +447,6 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         return (effects == nil) ? 0 : effects!.generatorNames.count
     }
     
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if (effects == nil) {
-            message("pickerView didSelectRow: effects is nil");
-            return
-        }
-        let generatorName = effects!.generatorNames[row]
-        let generator = effects!.getGenerator(generatorName)
-        if (generator == nil) {
-            message("pickerView didSelectRow: generator is nil. generatoraName=" + generatorName)
-            return
-        }
-        message("pickerView didSelectRow: row=" + String(row) + " generator=" + generator!.name)
-        
-    }
-    
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
         var pickerLabel = view as? UILabel;
         if (pickerLabel == nil) {
@@ -475,7 +460,31 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         return pickerLabel!;
     }
 
-    // ====================================================================================================
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if (effects == nil) {
+            message("pickerView didSelectRow: effects is nil");
+            return
+        }
+        
+        let ee = effects!
+        let generatorName = ee.generatorNames[row]
+        let generator = ee.getGenerator(generatorName)
+        if (generator == nil) {
+            message("pickerView didSelectRow: generator is nil. generatoraName=" + generatorName)
+            return
+        }
+        
+        let gg = generator!
+        message("pickerView didSelectRow: row=" + String(row) + " generator=" + gg.name)
+        
+        for eName in ee.effectNames {
+            message("pickerView didSelectRow setting generator on effect " + eName)
+            var effect = ee.getEffect(eName)!
+            effect.generator = gg
+        }
+     }
+    
+    // ======================================================================================
     // MARK: view params controls
     
     @IBAction func resetViewParams(_ sender: Any) {
