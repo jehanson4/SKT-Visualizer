@@ -57,8 +57,8 @@ struct SKPoint {
 class SKGeometry : ChangeCounted {
     
     static let N_min: Int = 3
-    static let N_max: Int = 1000000
-    static let N_default: Int = 16
+    static let N_max: Int = 10000
+    static let N_default: Int = 100
 
     static let k_min: Int = 1
     static let k_default: Int = N_default/2

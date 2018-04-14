@@ -102,8 +102,11 @@ class DetailViewController: GLKViewController {
         }
         let delta = sender.translation(in: sender.view)
         scene.setPOVAngularPosition(
+            // minus sign means "drag down" => "move POV up"
+            // which looks like "move hemisphere down".
+            // So the hempsphere tracks the finger
             panPhi_initialValue + Double(delta.x) * panPhi_scaleFactor,
-            panTheta_e_initialValue + Double(delta.y) * panTheta_e_scaleFactor
+            panTheta_e_initialValue - Double(delta.y) * panTheta_e_scaleFactor
         )
     }
     
