@@ -20,7 +20,7 @@ class Nodes : GLKBaseEffect, Effect {
     var name = type
     var enabled = false
     
-    var generator: Generator? {
+    var generator: ColorationGenerator? {
         get { return nil }
         set(g) { }
     }

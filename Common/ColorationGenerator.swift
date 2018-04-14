@@ -14,12 +14,10 @@ import OpenGLES
 import OpenGL
 #endif
 
-/**
- ==============================================================================
- ==============================================================================
- */
+// ==============================================================================
+// ==============================================================================
 
-protocol Generator {
+protocol ColorationGenerator {
     static var type: String { get }
     var name: String { get set }
     
@@ -27,17 +25,15 @@ protocol Generator {
     func color(_ nodeIndex: Int) -> GLKVector4
 }
 
-protocol GeneratorSupport {
+protocol ColorationGeneratorRegistry {
     var generatorNames: [String] { get }
-    func getGenerator(_ name: String) -> Generator?
-    func release()
+    func getGenerator(_ name: String) -> ColorationGenerator?
 }
 
-/**
- ==========================================================================
- ==========================================================================
-*/
-class BlackGenerator : Generator {
+// ==============================================================================
+// ==============================================================================
+
+class BlackGenerator : ColorationGenerator {
     
     static let type = "Black"
     var name = type
@@ -54,11 +50,10 @@ class BlackGenerator : Generator {
     }
 }
 
-/**
- ==========================================================================
- ==========================================================================
- */
-class WhiteGenerator : Generator {
+// ==============================================================================
+// ==============================================================================
+
+class WhiteGenerator : ColorationGenerator {
     
     static let type = "White"
     var name = type
@@ -75,11 +70,10 @@ class WhiteGenerator : Generator {
     }
 }
 
-/**
- ==========================================================================
- ==========================================================================
- */
-class EnergyGenerator : Generator {
+// ==============================================================================
+// ==============================================================================
+
+class EnergyGenerator : ColorationGenerator {
     
     static let type = "Energy"
     var name = type
@@ -102,11 +96,10 @@ class EnergyGenerator : Generator {
     }
 }
 
-/**
- ==========================================================================
- ==========================================================================
- */
-class EntropyGenerator : Generator {
+// ==============================================================================
+// ==============================================================================
+
+class EntropyGenerator : ColorationGenerator {
     
     static let type = "Entropy"
     var name = type
@@ -129,11 +122,10 @@ class EntropyGenerator : Generator {
     }
 }
 
-/**
- ==========================================================================
- ==========================================================================
- */
-class OccupationGenerator : Generator {
+// ==============================================================================
+// ==============================================================================
+
+class OccupationGenerator : ColorationGenerator {
     
     static let type = "Occupation"
     var name = type

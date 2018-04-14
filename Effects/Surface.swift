@@ -24,7 +24,7 @@ class Surface : GLKBaseEffect, Effect {
     static let type = String(describing: Surface.self)
     var name = type
     var enabled = false
-    var generator: Generator? = nil {
+    var generator: ColorationGenerator? = nil {
         
         didSet(g2) {
             message("generator set; recomputing colors")

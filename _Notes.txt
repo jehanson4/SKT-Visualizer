@@ -1,9 +1,13 @@
----
+==================================================================================
+Notes.txt
+==================================================================================
+
+==================================================================================
 Split view controller:
 
 https://www.raywenderlich.com/173753/uisplitviewcontroller-tutorial-getting-started-2
 
----
+==================================================================================
 Custom view controller class
 
 https://developer.apple.com/library/content/referencelibrary/GettingStarted/DevelopiOSAppsSwift/ImplementingACustomControl.html
@@ -24,5 +28,6 @@ Make sure the Language option is set to Swift.
 
 select 'make xib'
 
+==================================================================================
 
 

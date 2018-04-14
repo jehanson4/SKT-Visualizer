@@ -1,5 +1,20 @@
-swift dictionary keyset to array
+==================================================================================
+ToDo.txt
+==================================================================================
 
-BUG you need to change T or something in order to get the surface to show
+? best way to do swift dictionary keyset -> array of values
 
-BUG initial generator is not what the picker shows.
+you need to change T or something in order to get the surface to show
+
+initial coloration is not what the picker shows.
+
+remove net flicker -- cf. 'artifacts' in the book; or could incr net's radius
+
+hints: "tap to enabled disable CYCLER"
+
+cyclers
+
+generator -> coloration
+
+better name to replace "coloration"
+

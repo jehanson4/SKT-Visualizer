@@ -14,7 +14,7 @@ import OpenGLES
 import OpenGL
 #endif
 
-protocol EffectsController : EffectSupport, GeneratorSupport {
+protocol EffectsController : EffectRegistry, ColorationGeneratorRegistry, CyclerRegistry {
     
     var zoom: Double { get set }
     
@@ -50,8 +50,8 @@ class Scene : EffectsController {
     
     var aspectRatio: Float = 1
     var frameNumber: Int = 0
-    var rotationEnabled: Bool = false
-    var rotationSgn: Int = -1
+    var cyclerEnabled: Bool = false
+    var cyclerSgn: Int = -1
     let rotationRate: Double = 0.02
     
     var zoom: Double = 1.0 {
@@ -73,10 +73,10 @@ class Scene : EffectsController {
     
     var projectionMatrix: GLKMatrix4!
     var modelviewMatrix: GLKMatrix4!
-    // var shader: Shader!
-    // var colorMaps = [String: ColorMap]()
-    var generators = [String: Generator]()
+
+    var generators = [String: ColorationGenerator]()
     var effects = [String: Effect]()
+    var cyclers = [String: Cycler]()
     
     init(_ geometry: SKGeometry, _ physics: SKPhysics) {
         self.geometry = geometry
@@ -115,22 +115,13 @@ class Scene : EffectsController {
         // glEnable(GLenum(GL_COLOR_MATERIAL))
         // glColorMaterial(GLenum(GL_FRONT), GLenum(GL_AMBIENT_AND_DIFFUSE))
         
+        computeTransforms()
         addGenerators()
         addEffects()
-        for e in effects {
-            e.value.transform.projectionMatrix = projectionMatrix
-        }
-        computeTransforms()
-        
-    }
-    
-    func release() {
-        releaseEffects()
-        releaseGenerators()
     }
     
     // ==========================================================
-    // Generator
+    // Generators
     // ==========================================================
     
     var generatorNames: [String] {
@@ -141,16 +132,18 @@ class Scene : EffectsController {
         return names
     }
     
-    func getGenerator(_ name: String) -> Generator? {
+    func getGenerator(_ name: String) -> ColorationGenerator? {
         return generators[name]
     }
     
     func addGenerators() {
+        
         let black = BlackGenerator()
+        black.name = "None"
         generators[black.name] = black
         
-        let white = WhiteGenerator()
-        generators[white.name] = white
+//        let white = WhiteGenerator()
+//        generators[white.name] = white
         
         let energy = EnergyGenerator(physics)
         generators[energy.name] = energy
@@ -160,10 +153,6 @@ class Scene : EffectsController {
         
         let occupation = OccupationGenerator(physics)
         generators[occupation.name] = occupation
-    }
-    
-    func releaseGenerators() {
-        // TODO
     }
     
     // ==========================================================
@@ -185,7 +174,7 @@ class Scene : EffectsController {
     func addEffects() {
         let axes = Axes()
         effects[axes.name] = axes
-        
+
         let meridians = Meridians(geometry)
         effects[meridians.name] = meridians
         
@@ -198,14 +187,36 @@ class Scene : EffectsController {
         let nodes = Nodes(geometry, physics)
         effects[nodes.name] = nodes
         
-//        let icosahedron = Icosahedron()
-//        effects[icosahedron.name] = icosahedron
+        // let icosahedron = Icosahedron()
+        // effects[icosahedron.name] = icosahedron
+        
+        for e in effects {
+            e.value.transform.projectionMatrix = projectionMatrix
+        }
     }
     
-    func releaseEffects() {
+    // ==========================================================
+    // Cyclers
+    // ==========================================================
+    
+    var cyclerNames: [String] {
+        get {
+            var names: [String] = []
+            // TODO
+            return names
+        }
+    }
+    
+    func getCycler(_ name: String) -> Effect? {
+        // TODO
+        return nil
+    }
+    
+    func addCyclers() {
         // TODO
     }
     
+
     // ==========================================================
     // ==========================================================
     
@@ -218,15 +229,15 @@ class Scene : EffectsController {
         }
     }
     
-    func toggleRotation() {
-        if (rotationEnabled) {
-            rotationEnabled = false
+    func toggleCycler() {
+        if (cyclerEnabled) {
+            cyclerEnabled = false
         }
         else {
-            rotationEnabled = true
-            rotationSgn = -1 * rotationSgn
+            cyclerEnabled = true
+            cyclerSgn = -cyclerSgn
             // DEBUG
-            message("toggleRotation: rotationSgn=" + String(rotationSgn))
+            // message("toggleCycler: cyclerSgn=" + String(cyclerSgn))
         }
     }
     
@@ -275,7 +286,7 @@ class Scene : EffectsController {
         povPhi = Scene.povPhi_default
         povTheta_e = Scene.povTheta_e_default
         povRotationAngle = 0
-        rotationEnabled = false
+        cyclerEnabled = false
         computeTransforms()
     }
     
@@ -315,8 +326,8 @@ class Scene : EffectsController {
             print("Scene.draw", "frameNumber", frameNumber)
         }
         
-        if (rotationEnabled) {
-            povRotate(Double(rotationSgn) * rotationRate)
+        if (cyclerEnabled) {
+            povRotate(Double(cyclerSgn) * rotationRate)
         }
         
         // update all effects

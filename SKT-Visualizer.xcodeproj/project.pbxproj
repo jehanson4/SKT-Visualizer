@@ -7,10 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8A0269DD2080B1240054107D /* Generators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0269DC2080B1240054107D /* Generators.swift */; };
+		8A0269DD2080B1240054107D /* ColorationGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0269DC2080B1240054107D /* ColorationGenerator.swift */; };
 		8A0C09A620716B670017AC4C /* SKGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0C09A520716B670017AC4C /* SKGeometry.swift */; };
 		8A0C09AC20718FA00017AC4C /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0C09AB20718FA00017AC4C /* Scene.swift */; };
 		8A131C91207160100088F2FC /* _Notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8A131C90207160100088F2FC /* _Notes.txt */; };
+		8A19CD8620821D6800C1EADE /* Designable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A19CD8520821D6800C1EADE /* Designable.swift */; };
+		8A19CD882082384600C1EADE /* Cycler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A19CD872082384600C1EADE /* Cycler.swift */; };
+		8A19CD8B208248B100C1EADE /* GeometryCyclers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A19CD8A208248B100C1EADE /* GeometryCyclers.swift */; };
+		8A19CD8D208249E500C1EADE /* PhysicsCyclers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A19CD8C208249E500C1EADE /* PhysicsCyclers.swift */; };
 		8A1CF016207146510099DD97 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1CF015207146510099DD97 /* AppDelegate.swift */; };
 		8A1CF01B207146520099DD97 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A1CF019207146510099DD97 /* Main.storyboard */; };
 		8A1CF01D207146540099DD97 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A1CF01C207146540099DD97 /* Assets.xcassets */; };
@@ -18,7 +22,7 @@
 		8A3BFFD620814C860022B199 /* GeneratorPickerSupportViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A3BFFD420814C860022B199 /* GeneratorPickerSupportViewController.xib */; };
 		8A40BC0C207ECC7500F2D2EB /* Nodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A40BC0B207ECC7500F2D2EB /* Nodes.swift */; };
 		8A40BC0E207EEA3D00F2D2EB /* Meridians.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A40BC0D207EEA3D00F2D2EB /* Meridians.swift */; };
-		8A575FEE20804759002B9951 /* ColorMaps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A575FED20804759002B9951 /* ColorMaps.swift */; };
+		8A575FEE20804759002B9951 /* ColorMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A575FED20804759002B9951 /* ColorMap.swift */; };
 		8A57600320805790002B9951 /* smooth-cool-warm-table-float-0128.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8A575FF320805790002B9951 /* smooth-cool-warm-table-float-0128.csv */; };
 		8A57600420805790002B9951 /* smooth-cool-warm-table-float-0512.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8A575FF420805790002B9951 /* smooth-cool-warm-table-float-0512.csv */; };
 		8A57600520805790002B9951 /* smooth-cool-warm-table-float-1024.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8A575FF520805790002B9951 /* smooth-cool-warm-table-float-1024.csv */; };
@@ -46,7 +50,7 @@
 		8AAF6DFF208167A800E4C9BF /* _ToDo.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8AAF6DFE208167A800E4C9BF /* _ToDo.txt */; };
 		8ABEEC3B20803A2F008E72F4 /* Surface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ABEEC3A20803A2F008E72F4 /* Surface.swift */; };
 		8ACE788D2072E51800C29875 /* Icosahedron.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACE788C2072E51800C29875 /* Icosahedron.swift */; };
-		8ACE788F2073C57500C29875 /* Effects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACE788E2073C57500C29875 /* Effects.swift */; };
+		8ACE788F2073C57500C29875 /* Effect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACE788E2073C57500C29875 /* Effect.swift */; };
 		8ACE78922073CCDA00C29875 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ACE78912073CCDA00C29875 /* GLKit.framework */; };
 		8ACE78942073CCE500C29875 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ACE78932073CCE400C29875 /* OpenGLES.framework */; };
 		8ACE789E2073F7A400C29875 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACE789D2073F7A400C29875 /* Utils.swift */; };
@@ -81,10 +85,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		8A0269DC2080B1240054107D /* Generators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Generators.swift; sourceTree = "<group>"; };
+		8A0269DC2080B1240054107D /* ColorationGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorationGenerator.swift; sourceTree = "<group>"; };
 		8A0C09A520716B670017AC4C /* SKGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKGeometry.swift; sourceTree = "<group>"; };
 		8A0C09AB20718FA00017AC4C /* Scene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
 		8A131C90207160100088F2FC /* _Notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _Notes.txt; sourceTree = "<group>"; };
+		8A19CD8520821D6800C1EADE /* Designable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Designable.swift; sourceTree = "<group>"; };
+		8A19CD872082384600C1EADE /* Cycler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cycler.swift; sourceTree = "<group>"; };
+		8A19CD8A208248B100C1EADE /* GeometryCyclers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryCyclers.swift; sourceTree = "<group>"; };
+		8A19CD8C208249E500C1EADE /* PhysicsCyclers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicsCyclers.swift; sourceTree = "<group>"; };
 		8A1CF012207146510099DD97 /* SKT Visualizer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SKT Visualizer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A1CF015207146510099DD97 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8A1CF01A207146520099DD97 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -94,7 +102,7 @@
 		8A3BFFD420814C860022B199 /* GeneratorPickerSupportViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GeneratorPickerSupportViewController.xib; sourceTree = "<group>"; };
 		8A40BC0B207ECC7500F2D2EB /* Nodes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Nodes.swift; sourceTree = "<group>"; };
 		8A40BC0D207EEA3D00F2D2EB /* Meridians.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Meridians.swift; sourceTree = "<group>"; };
-		8A575FED20804759002B9951 /* ColorMaps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorMaps.swift; sourceTree = "<group>"; };
+		8A575FED20804759002B9951 /* ColorMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorMap.swift; sourceTree = "<group>"; };
 		8A575FF320805790002B9951 /* smooth-cool-warm-table-float-0128.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "smooth-cool-warm-table-float-0128.csv"; sourceTree = "<group>"; };
 		8A575FF420805790002B9951 /* smooth-cool-warm-table-float-0512.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "smooth-cool-warm-table-float-0512.csv"; sourceTree = "<group>"; };
 		8A575FF520805790002B9951 /* smooth-cool-warm-table-float-1024.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "smooth-cool-warm-table-float-1024.csv"; sourceTree = "<group>"; };
@@ -122,7 +130,7 @@
 		8AAF6DFE208167A800E4C9BF /* _ToDo.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _ToDo.txt; sourceTree = "<group>"; };
 		8ABEEC3A20803A2F008E72F4 /* Surface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Surface.swift; sourceTree = "<group>"; };
 		8ACE788C2072E51800C29875 /* Icosahedron.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Icosahedron.swift; sourceTree = "<group>"; };
-		8ACE788E2073C57500C29875 /* Effects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Effects.swift; sourceTree = "<group>"; };
+		8ACE788E2073C57500C29875 /* Effect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Effect.swift; sourceTree = "<group>"; };
 		8ACE78912073CCDA00C29875 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		8ACE78932073CCE400C29875 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		8ACE789D2073F7A400C29875 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
@@ -172,9 +180,11 @@
 		8A0C09A220716B050017AC4C /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				8A575FED20804759002B9951 /* ColorMaps.swift */,
-				8ACE788E2073C57500C29875 /* Effects.swift */,
-				8A0269DC2080B1240054107D /* Generators.swift */,
+				8A0269DC2080B1240054107D /* ColorationGenerator.swift */,
+				8A575FED20804759002B9951 /* ColorMap.swift */,
+				8A19CD872082384600C1EADE /* Cycler.swift */,
+				8A19CD8520821D6800C1EADE /* Designable.swift */,
+				8ACE788E2073C57500C29875 /* Effect.swift */,
 				8A0C09A520716B670017AC4C /* SKGeometry.swift */,
 				8AA0637C207A89DD00BB68DB /* SKPhysics.swift */,
 				8ACE789D2073F7A400C29875 /* Utils.swift */,
@@ -182,20 +192,30 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
+		8A19CD892082488D00C1EADE /* Cyclers */ = {
+			isa = PBXGroup;
+			children = (
+				8A19CD8A208248B100C1EADE /* GeometryCyclers.swift */,
+				8A19CD8C208249E500C1EADE /* PhysicsCyclers.swift */,
+			);
+			path = Cyclers;
+			sourceTree = "<group>";
+		};
 		8A1CF009207146510099DD97 = {
 			isa = PBXGroup;
 			children = (
 				8AAF6DFE208167A800E4C9BF /* _ToDo.txt */,
 				8A131C90207160100088F2FC /* _Notes.txt */,
+				8A1CF014207146510099DD97 /* SKT Visualizer */,
+				8A19CD892082488D00C1EADE /* Cyclers */,
 				8A0C09A220716B050017AC4C /* Common */,
 				8A5E948A2077D285003477D3 /* Effects */,
-				8ACE78902073CCDA00C29875 /* Frameworks */,
-				8AF98F95207FE7D60007688E /* LICENSE */,
-				8A1CF013207146510099DD97 /* Products */,
-				8AF98FA6207FE9CF0007688E /* README.md */,
 				8AF138B7207B8966001A88C6 /* Resources */,
-				8A1CF014207146510099DD97 /* SKT Visualizer */,
 				8A1E1C85207D7C64008C1AAF /* Unused */,
+				8AF98FA6207FE9CF0007688E /* README.md */,
+				8AF98F95207FE7D60007688E /* LICENSE */,
+				8ACE78902073CCDA00C29875 /* Frameworks */,
+				8A1CF013207146510099DD97 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -463,16 +483,20 @@
 			files = (
 				8A1CF016207146510099DD97 /* AppDelegate.swift in Sources */,
 				8A5E9489207523DA003477D3 /* Shader.swift in Sources */,
-				8A575FEE20804759002B9951 /* ColorMaps.swift in Sources */,
+				8A575FEE20804759002B9951 /* ColorMap.swift in Sources */,
 				8ACE788D2072E51800C29875 /* Icosahedron.swift in Sources */,
 				8A0C09A620716B670017AC4C /* SKGeometry.swift in Sources */,
-				8A0269DD2080B1240054107D /* Generators.swift in Sources */,
+				8A0269DD2080B1240054107D /* ColorationGenerator.swift in Sources */,
 				8AD817FC207BFA9200426C25 /* InfoViewController.swift in Sources */,
+				8A19CD8D208249E500C1EADE /* PhysicsCyclers.swift in Sources */,
 				8A5E948E2078EE46003477D3 /* Net.swift in Sources */,
+				8A19CD8620821D6800C1EADE /* Designable.swift in Sources */,
+				8A19CD8B208248B100C1EADE /* GeometryCyclers.swift in Sources */,
 				8A84313820726F0100F06B9B /* Axes.swift in Sources */,
 				8ABEEC3B20803A2F008E72F4 /* Surface.swift in Sources */,
-				8ACE788F2073C57500C29875 /* Effects.swift in Sources */,
+				8ACE788F2073C57500C29875 /* Effect.swift in Sources */,
 				8AA0637D207A89DD00BB68DB /* SKPhysics.swift in Sources */,
+				8A19CD882082384600C1EADE /* Cycler.swift in Sources */,
 				8AF98FA1207FE8350007688E /* DetailViewController.swift in Sources */,
 				8ACE789E2073F7A400C29875 /* Utils.swift in Sources */,
 				8A40BC0E207EEA3D00F2D2EB /* Meridians.swift in Sources */,

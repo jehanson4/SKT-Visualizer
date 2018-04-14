@@ -95,11 +95,15 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         a1_text.delegate = self
         a2_text.delegate = self
         T_text.delegate = self
-        pickerView.delegate = self
-        pickerView.dataSource = self
+        colorationPicker.delegate = self
+        colorationPicker.dataSource = self
+        colorationPicker.tag = colorationPickerTag
+        cyclerPicker.delegate = self
+        cyclerPicker.dataSource = self
+        cyclerPicker.tag = cyclerPickerTag
         
-        configureSpaceControls()
-        updateSpaceControls()
+        configureModelControls()
+        updateModelControls()
         updateEffectControls()
     }
     
@@ -138,8 +142,8 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     }
 
 
-    // =================================================================================================
-    // MARK geometry & physics controls
+    // =====================================================================
+    // MARK model controls
 
     @IBOutlet weak var N_text: UITextField!
     
@@ -153,7 +157,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
             geometry!.N = nn!
             }
         }
-        updateSpaceControls()
+        updateModelControls()
     }
     
     @IBAction func N_stepperAction(_ sender: UIStepper) {
@@ -163,7 +167,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
                 geometry!.N = nn!
             }
         }
-        updateSpaceControls()
+        updateModelControls()
     }
     
     @IBOutlet weak var k_text: UITextField!
@@ -177,7 +181,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
                 geometry!.k = kk!
             }
         }
-        updateSpaceControls()
+        updateModelControls()
     }
     
     @IBAction func k_stepperAction(_ sender: UIStepper) {
@@ -187,7 +191,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
                 geometry!.k = kk!
             }
         }
-        updateSpaceControls()
+        updateModelControls()
     }
     
     @IBOutlet weak var a1_text: UITextField!
@@ -200,14 +204,14 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
                 physics!.alpha1 = aa!
             }
         }
-        updateSpaceControls()
+        updateModelControls()
     }
     
     @IBAction func a1_stepperAction(_ sender: UIStepper) {
         if (physics != nil) {
             physics!.alpha1 = sender.value
         }
-        updateSpaceControls()
+        updateModelControls()
     }
     
     @IBOutlet weak var a2_text: UITextField!
@@ -220,14 +224,14 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
                 physics!.alpha2 = aa!
             }
         }
-        updateSpaceControls()
+        updateModelControls()
     }
     
     @IBAction func a2_stepperAction(_ sender: UIStepper) {
         if (physics != nil) {
             physics!.alpha2 = sender.value
         }
-        updateSpaceControls()
+        updateModelControls()
     }
     
     @IBOutlet weak var T_text: UITextField!
@@ -240,17 +244,17 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
                 physics!.T = tt!
             }
         }
-        updateSpaceControls()
+        updateModelControls()
     }
     
     @IBAction func T_stepperAction(_ sender: UIStepper) {
         if (physics != nil) {
             physics!.T = sender.value
         }
-        updateSpaceControls()
+        updateModelControls()
     }
     
-    func configureSpaceControls() {
+    func configureModelControls() {
         N_stepper.minimumValue = Double(SKGeometry.N_min)
         N_stepper.maximumValue = Double(SKGeometry.N_max)
         N_stepper.stepValue = Double(N_step)
@@ -272,7 +276,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         T_stepper.stepValue = Double(T_step)
     }
     
-    func updateSpaceControls() {
+    func updateModelControls() {
         loadViewIfNeeded()
         if (geometry == nil) {
             N_text.text = ""
@@ -303,6 +307,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         }
     }
     
+    // ====================================================================
     // MARK: effects controls
     
     @IBOutlet weak var axes_switch: UISwitch!
@@ -430,39 +435,76 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         }
     }
     
-    // =================================================================================================
-    // MARK: generator picker
+    // =======================================================================
+    // MARK: pickers
     
-    @IBOutlet weak var pickerView: UIPickerView!
+    // This font size needs to be kept in sync with Main.storyboard
+    let pickerLabelFontSize: CGFloat = 15.0
+
+    @IBOutlet weak var colorationPicker: UIPickerView!
+    let colorationPickerTag = 0
+
+    @IBOutlet weak var cyclerPicker: UIPickerView!
+    let cyclerPickerTag = 1
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        // same for all pickers
         return 1
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return (effects == nil) ? nil : effects!.generatorNames[row]
+        if pickerView.tag == colorationPickerTag {
+            return (effects == nil) ? nil : effects!.generatorNames[row]
+        }
+        if pickerView.tag == cyclerPickerTag {
+            return String("Cycler #" + String(row+1))
+        }
+        return nil
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return (effects == nil) ? 0 : effects!.generatorNames.count
+        if pickerView.tag == colorationPickerTag {
+            return (effects == nil) ? 0 : effects!.generatorNames.count
+        }
+        if pickerView.tag == cyclerPickerTag {
+            return 2
+        }
+        return 0
     }
     
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
-        var pickerLabel = view as? UILabel;
+        var pickerLabel = view as? UILabel
+        
+        // same style for all pickers
         if (pickerLabel == nil) {
             pickerLabel = UILabel()
-            pickerLabel?.font = UIFont(name: "System", size: 17.0)
+            pickerLabel?.font = UIFont(name: "System", size: pickerLabelFontSize)
             pickerLabel?.textAlignment = NSTextAlignment.center
         }
         
-        pickerLabel?.text = (effects == nil) ? nil : effects!.generatorNames[row]
+        if pickerView.tag == colorationPickerTag {
+            pickerLabel?.text = (effects == nil) ? nil : effects!.generatorNames[row]
+        }
+        else if pickerView.tag == cyclerPickerTag {
+            pickerLabel?.text = String("Cycler #" + String(row+1))
+        }
         
         return pickerLabel!;
     }
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if pickerView.tag == colorationPickerTag {
+            didSelectGenerator(row)
+        }
+        if pickerView.tag == cyclerPickerTag {
+            didSelectCycler(row)
+        }
+    }
+    
+    private func didSelectGenerator(_ row: Int) {
+        
         if (effects == nil) {
-            message("pickerView didSelectRow: effects is nil");
+            message("didSelectGenerator: effects is nil");
             return
         }
         
@@ -470,20 +512,23 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         let generatorName = ee.generatorNames[row]
         let generator = ee.getGenerator(generatorName)
         if (generator == nil) {
-            message("pickerView didSelectRow: generator is nil. generatoraName=" + generatorName)
+            message("didSelectGenerator: generator is nil. generatoraName=" + generatorName)
             return
         }
         
         let gg = generator!
-        message("pickerView didSelectRow: row=" + String(row) + " generator=" + gg.name)
+        message("didSelectGenerator: row=" + String(row) + " generator=" + gg.name)
         
         for eName in ee.effectNames {
-            message("pickerView didSelectRow setting generator on effect " + eName)
+            message("didSelectGenerator: setting generator on effect " + eName)
             var effect = ee.getEffect(eName)!
             effect.generator = gg
         }
      }
     
+    private func didSelectCycler(_ row: Int) {
+        message("didSelectCycler row=" + String(row))
+    }
     // ======================================================================================
     // MARK: view params controls
     

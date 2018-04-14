@@ -14,10 +14,8 @@ import OpenGLES
 import OpenGL
 #endif
 
-/**
- ==============================================================================
- ==============================================================================
- */
+// ==============================================================================
+// ==============================================================================
 
 /// struct with position & normal coords
 struct PNVertex {
@@ -90,25 +88,24 @@ func buildPNVertexArray(_ geometry: SKGeometry) -> [PNVertex] {
     return vertices
 }
 
-/**
- ==================================================================================
- ==================================================================================
-*/
+// ==============================================================================
+// ==============================================================================
 
 protocol Effect  {
     static var type: String { get }
     var name: String { get set }
     var enabled: Bool { get set }
     var transform: GLKEffectPropertyTransform { get }
-    var generator: Generator? { get set }
+    var generator: ColorationGenerator? { get set }
+    
+    func prepareToDraw()
     func draw()
 }
 
-protocol EffectSupport {
+protocol EffectRegistry {
     var effectNames: [String] { get }
     
     func getEffect(_ name: String) -> Effect?
-    func release()
 }
 
 

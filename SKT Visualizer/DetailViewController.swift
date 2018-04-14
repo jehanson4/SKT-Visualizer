@@ -111,7 +111,7 @@ class DetailViewController: GLKViewController {
     }
     
     @IBAction func handleTap(_ sender: UITapGestureRecognizer) {
-        scene.toggleRotation()
+        scene.toggleCycler()
     }
     
     @IBAction func handlePinch(_ sender: UIPinchGestureRecognizer) {
