@@ -16,12 +16,14 @@ import OpenGL
 
 class Meridians : GLKBaseEffect, Effect {
 
+    static let type = String(describing: Meridians.self)
+    var name = type
+    var enabled = false
+
     let lineWidth: GLfloat = 10.0
     let lineColor: GLKVector4 = GLKVector4Make(0.0, 1.0, 1.0, 1.0)
     let lineOffsetR: Double = 0.001 // so it hovers just over the surface
     
-    var name: String = "Meridians"
-    var enabled: Bool = false
     var geometry: SKGeometry
     var geometryChangeNumber: Int
 

@@ -14,14 +14,10 @@ import OpenGLES
 import OpenGL
 #endif
 
-protocol ColorMap {
-    
-    var name: String { get }
-    
-    func calibrate(vMin: Double, vMax: Double)
-    
-    func getColor(_ v: Double) -> GLKVector4
-}
+/**
+ ==============================================================================
+ ==============================================================================
+ */
 
 func defaultColors1() -> [GLKVector4] {
     let c0 = GLfloat(0.8)
@@ -84,9 +80,22 @@ func defaultColors2() -> [GLKVector4] {
  ==============================================================================
  ==============================================================================
  */
-class LinearColorMap : ColorMap {
+
+protocol ColorMap {
+    static var type: String { get }
     
-    var name: String = "Linear"
+    func calibrate(vMin: Double, vMax: Double)
+    func getColor(_ v: Double) -> GLKVector4
+}
+
+/**
+ ==============================================================================
+ ==============================================================================
+ */
+
+class LinearColorMap : ColorMap {
+    static let type = "Linear"
+    
     var colors: [GLKVector4]
     var under: GLKVector4
     var over: GLKVector4
@@ -123,7 +132,8 @@ class LinearColorMap : ColorMap {
  ==============================================================================
 */
 class LogColorMap : ColorMap {
-    var name: String = "Log"
+    static let type = "Log"
+    
     var colors: [GLKVector4]
     var over: GLKVector4
     var thresholds: [Double]

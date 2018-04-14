@@ -14,10 +14,10 @@ import OpenGLES
 import OpenGL
 #endif
 
-protocol EffectsController {
-
+protocol EffectsController : EffectSupport, GeneratorSupport {
+    
     var zoom: Double { get set }
-
+    
     var povR: Double { get }
     var povPhi: Double { get }
     var povTheta_e: Double { get }
@@ -28,27 +28,26 @@ protocol EffectsController {
     var povRotationAngle : Double { get }
     func setRotationAngle(_ angle: Double)
     func resetRotationAngle()
-
+    
     var povRotationX: Double { get set }
     var povRotationY: Double { get set }
     var povRotationZ: Double { get set }
     
-    func getEffect(_ name: String) -> Effect?
 }
 
 class Scene : EffectsController {
-
+    
     static let povR_default: Double = 2
     static let povR_min: Double = 1.1 // EMPIRICAL
     static let povPhi_default: Double = Constants.piOver4
     static let povTheta_e_default: Double = Constants.piOver4
-
+    
     static let zoom_min: Double = 0.001
     static let zoom_max: Double = 1000
     
     var geometry: SKGeometry
     var physics: SKPhysics
-
+    
     var aspectRatio: Float = 1
     var frameNumber: Int = 0
     var rotationEnabled: Bool = false
@@ -76,8 +75,9 @@ class Scene : EffectsController {
     var modelviewMatrix: GLKMatrix4!
     // var shader: Shader!
     // var colorMaps = [String: ColorMap]()
+    var generators = [String: Generator]()
     var effects = [String: Effect]()
-
+    
     init(_ geometry: SKGeometry, _ physics: SKPhysics) {
         self.geometry = geometry
         self.physics = physics
@@ -85,7 +85,7 @@ class Scene : EffectsController {
         // EMPIRICAL if last 2 args are -d, d then it doesn't show net from underside. 10 is OK tho
         let d = GLfloat(2.0 * geometry.r0)
         projectionMatrix = GLKMatrix4MakeOrtho(-d, d, -d/aspectRatio, d/aspectRatio, -2*d, 2*d)
-
+        
         // Some GL setup
         
         // From orbiting teapot:
@@ -103,7 +103,7 @@ class Scene : EffectsController {
         // From http://www.opengl-tutorial.org/intermediate-tutorials/tutorial-10-transparency/
         glEnable(GLenum(GL_BLEND))
         glBlendFunc(GLenum(GL_SRC_ALPHA), GLenum(GL_ONE_MINUS_SRC_ALPHA))
-
+        
         // from v1
         // glEnable(GL_DEPTH_TEST)
         // glEnable(GLenum(GL_LIGHTING))
@@ -114,47 +114,100 @@ class Scene : EffectsController {
         
         // glEnable(GLenum(GL_COLOR_MATERIAL))
         // glColorMaterial(GLenum(GL_FRONT), GLenum(GL_AMBIENT_AND_DIFFUSE))
-
+        
+        addGenerators()
         addEffects()
         for e in effects {
             e.value.transform.projectionMatrix = projectionMatrix
         }
         computeTransforms()
+        
+    }
+    
+    func release() {
+        releaseEffects()
+        releaseGenerators()
+    }
+    
+    // ==========================================================
+    // Generator
+    // ==========================================================
+    
+    var generatorNames: [String] {
+        var names: [String] = []
+        for g in generators {
+            names.append(g.key)
+        }
+        return names
+    }
+    
+    func getGenerator(_ name: String) -> Generator? {
+        return generators[name]
+    }
+    
+    func addGenerators() {
+        let black = BlackGenerator()
+        generators[black.name] = black
+        
+        let white = WhiteGenerator()
+        generators[white.name] = white
+        
+        let energy = EnergyGenerator(physics)
+        generators[energy.name] = energy
+        
+        let entropy = EntropyGenerator(physics)
+        generators[entropy.name] = entropy
+        
+        let occupation = OccupationGenerator(physics)
+        generators[occupation.name] = occupation
+    }
+    
+    func releaseGenerators() {
+        // TODO
+    }
+    
+    // ==========================================================
+    // Effects
+    // ==========================================================
 
+    var effectNames: [String] {
+        var names: [String] = []
+        for e in effects {
+            names.append(e.key)
+        }
+        return names
+    }
+
+    func getEffect(_ name: String) -> Effect? {
+        return effects[name]
     }
     
     func addEffects() {
-        
-//        let lighting = Lighting()
-//        lighting.enabled = true
-//        effects[lighting.name] = lighting
-        
         let axes = Axes()
-        axes.enabled = true
         effects[axes.name] = axes
         
         let meridians = Meridians(geometry)
-        meridians.enabled = false
         effects[meridians.name] = meridians
         
         let net = Net(geometry)
-        net.enabled = false
         effects[net.name] = net
         
-        let nodes = Nodes(geometry, physics)
-        nodes.enabled = false
-        effects[nodes.name] = nodes
-
-        // let surface = Surface(geometry, physics, colorMaps)
         let surface = Surface(geometry, physics)
-        surface.enabled = false
         effects[surface.name] = surface
         
-        let icosahedron = Icosahedron()
-        icosahedron.enabled = false
-        effects[icosahedron.name] = icosahedron
+        let nodes = Nodes(geometry, physics)
+        effects[nodes.name] = nodes
         
+//        let icosahedron = Icosahedron()
+//        effects[icosahedron.name] = icosahedron
     }
+    
+    func releaseEffects() {
+        // TODO
+    }
+    
+    // ==========================================================
+    // ==========================================================
     
     func setAspectRatio(_ aspectRatio: Float) {
         if (aspectRatio != self.aspectRatio) {
@@ -188,7 +241,7 @@ class Scene : EffectsController {
         
         // verified: this is the right multiplication order
         modelviewMatrix = GLKMatrix4Multiply(scaleMatrix, modelviewMatrix)
-
+        
         modelviewMatrix = GLKMatrix4Rotate(modelviewMatrix, GLfloat(povRotationAngle), GLfloat(povRotationX), GLfloat(povRotationY), GLfloat(povRotationZ))
     }
     
@@ -209,13 +262,13 @@ class Scene : EffectsController {
             povTheta_e = Constants.piOver2 - Constants.eps
         }
         computeTransforms()
-
+        
     }
-
+    
     func movePOV(_ dPhi: Double, _ dTheta_e: Double) {
         setPOVAngularPosition(povPhi + dPhi, povTheta_e + dTheta_e)
     }
-
+    
     func resetViewParams() {
         zoom = 1.0
         povR = Scene.povR_default
@@ -249,19 +302,19 @@ class Scene : EffectsController {
         povRotationAngle = 0
         computeTransforms()
     }
-
+    
     func draw() {
-
+        
         // From orbiting teapot
         // I think this needs to be here to clear prev. picture
         glClear(GLbitfield(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
         
         frameNumber += 1
         // DEBUG
-        //        if (frameNumber % 100 == 0) {
-        //            print("Scene.draw", "frameNumber", frameNumber)
-        //        }
-
+        if (frameNumber % 100 == 0) {
+            print("Scene.draw", "frameNumber", frameNumber)
+        }
+        
         if (rotationEnabled) {
             povRotate(Double(rotationSgn) * rotationRate)
         }
@@ -271,16 +324,12 @@ class Scene : EffectsController {
         for e in effects {
             e.value.transform.modelviewMatrix = self.modelviewMatrix
         }
-
+        
         // draw all effects
         
         for e in effects {
             e.value.draw()
         }
-    }
- 
-    func getEffect(_ name: String) -> Effect? {
-        return effects[name]
     }
     
     func message(_ msg: String) {

@@ -21,8 +21,9 @@ import OpenGL
 */
 class Surface : GLKBaseEffect, Effect {
     
-    var name: String = "Surface"
-    var enabled: Bool = false
+    static let type = String(describing: Surface.self)
+    var name = type
+    var enabled = false
     
     var geometry: SKGeometry
     var geometryChangeNumber: Int

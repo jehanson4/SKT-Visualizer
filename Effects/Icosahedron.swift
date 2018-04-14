@@ -16,8 +16,9 @@ import OpenGL
 
 class Icosahedron : GLKBaseEffect, Effect {
     
-    var name: String = "Icosahedron"
-    var enabled: Bool = false
+    static let type = String(describing: Icosahedron.self)
+    var name = type
+    var enabled = false
 
     static let c0 = GLfloat(0.0)
     static let c1 = GLfloat(1.0 / sqrt(1.0 + Constants.goldenRatio * Constants.goldenRatio))
@@ -174,7 +175,7 @@ class Icosahedron : GLKBaseEffect, Effect {
 
         let err = glGetError()
         if (err != 0) {
-            print(name, "draw glError:", String(format:"0x%x", err))
+            message(String(format: "draw glError: 0x%x", err))
         }
     }
 

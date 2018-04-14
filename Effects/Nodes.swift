@@ -16,14 +16,9 @@ import OpenGL
 
 class Nodes : GLKBaseEffect, Effect {
     
-    var name: String = "Nodes"
-    
-    var enabled: Bool = false {
-        didSet(v) {
-            // print(name, "not working yet")
-            // enabled = false
-        }
-    }
+    static let type = String(describing: Nodes.self)
+    var name = type
+    var enabled = false
     
     var geometry: SKGeometry
     var geometryChangeNumber: Int

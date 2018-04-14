@@ -14,10 +14,23 @@ import OpenGLES
 import OpenGL
 #endif
 
+/**
+ ==============================================================================
+ ==============================================================================
+ */
+
 protocol Generator {
+    static var type: String { get }
+    var name: String { get set }
     
     func prepare()
     func color(_ nodeIndex: Int) -> GLKVector4
+}
+
+protocol GeneratorSupport {
+    var generatorNames: [String] { get }
+    func getGenerator(_ name: String) -> Generator?
+    func release()
 }
 
 /**
@@ -25,17 +38,94 @@ protocol Generator {
  ==========================================================================
 */
 class BlackGenerator : Generator {
-
-    let black: GLKVector4
+    
+    static let type = "Black"
+    var name = type
+    let color: GLKVector4
     
     init() {
-        self.black = GLKVector4Make(0,0,0,1)
+        self.color = GLKVector4Make(0,0,0,1)
     }
     
     func prepare() {}
     
     func color(_ nodeIndex: Int) -> GLKVector4 {
-        return black
+        return color
+    }
+}
+
+/**
+ ==========================================================================
+ ==========================================================================
+ */
+class WhiteGenerator : Generator {
+    
+    static let type = "White"
+    var name = type
+    let color: GLKVector4
+    
+    init() {
+        self.color = GLKVector4Make(1,1,1,1)
+    }
+    
+    func prepare() {}
+    
+    func color(_ nodeIndex: Int) -> GLKVector4 {
+        return color
+    }
+}
+
+/**
+ ==========================================================================
+ ==========================================================================
+ */
+class EnergyGenerator : Generator {
+    
+    static let type = "Energy"
+    var name = type
+    var physics: SKPhysics
+    var colorMap: LinearColorMap
+    
+    init(_ physics: SKPhysics) {
+        self.physics = physics
+        self.colorMap = LinearColorMap()
+    }
+    
+    func prepare() {
+        let b: SKPhysicsBounds = physics.bounds
+        self.colorMap.calibrate(vMin: b.energy_min, vMax: b.energy_max)
+    }
+    
+    func color(_ nodeIndex: Int) -> GLKVector4 {
+        let mn = physics.geometry.nodeIndexToSK(nodeIndex)
+        return colorMap.getColor(physics.energy(mn.m, mn.n))
+    }
+}
+
+/**
+ ==========================================================================
+ ==========================================================================
+ */
+class EntropyGenerator : Generator {
+    
+    static let type = "Entropy"
+    var name = type
+    var physics: SKPhysics
+    var colorMap: LinearColorMap
+    
+    init(_ physics: SKPhysics) {
+        self.physics = physics
+        self.colorMap = LinearColorMap()
+    }
+    
+    func prepare() {
+        let b: SKPhysicsBounds = physics.bounds
+        self.colorMap.calibrate(vMin: b.entropy_min, vMax: b.entropy_max)
+    }
+    
+    func color(_ nodeIndex: Int) -> GLKVector4 {
+        let mn = physics.geometry.nodeIndexToSK(nodeIndex)
+        return colorMap.getColor(physics.entropy(mn.m, mn.n))
     }
 }
 
@@ -45,6 +135,8 @@ class BlackGenerator : Generator {
  */
 class OccupationGenerator : Generator {
     
+    static let type = "Occupation"
+    var name = type
     var physics: SKPhysics
     var colorMap: LogColorMap
     
@@ -60,6 +152,6 @@ class OccupationGenerator : Generator {
 
     func color(_ nodeIndex: Int) -> GLKVector4 {
         let mn = physics.geometry.nodeIndexToSK(nodeIndex)
-        return colorMap.getColor(physics.normalizedLogOccupation(mn.m, mn.n))
+        return colorMap.getColor(physics.logOccupation(mn.m, mn.n))
     }
 }

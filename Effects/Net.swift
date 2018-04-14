@@ -16,11 +16,12 @@ import OpenGL
 
 class Net : GLKBaseEffect, Effect {
     
+    static let type = String(describing: Net.self)
+    var name = type
+    var enabled  = false
+    
     var geometry: SKGeometry
     var geometryChangeNumber: Int
-    
-    var name: String = "Net"
-    var enabled: Bool = false
     
     // GL
     let lineWidth: GLfloat = 2.0
@@ -209,9 +210,9 @@ class Net : GLKBaseEffect, Effect {
         print(name, msg)
     }
 
-//    // ===========================================================================================================
+//    // =============================================================================
 //    // MARK: DEBUGGUNG
-//    // ===========================================================================================================
+//    // =============================================================================
 //
 //    
 //    private func debugVertexData() {

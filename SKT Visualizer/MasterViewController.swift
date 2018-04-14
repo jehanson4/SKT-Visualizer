@@ -21,14 +21,15 @@ protocol ModelSettings {
     // ?? var geometry: SKGeometry? { get set }
     // ?? var physics: SKPhysics? { get set }
     // ?? var effects: EffectsController? { get set }
+    // ?? var geerators: GeneratorSupport? { get set }
 }
 
-class MasterViewController: UIViewController, UITextFieldDelegate, ModelSettings {
+class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, ModelSettings {
 
     var geometry: SKGeometry?
     var physics: SKPhysics?
     var effects: EffectsController?
-    
+
     var N_step: Int = 1 {
         
         willSet(v) {
@@ -85,24 +86,18 @@ class MasterViewController: UIViewController, UITextFieldDelegate, ModelSettings
         }
     }
 
-//    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-//        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-//    }
-//
-//    required init?(coder aDecoder: NSCoder) {
-//        super.init(coder: aDecoder)
-//    }
-
     override func viewDidLoad() {
+        message("viewDidLoad")
         super.viewDidLoad()
-        // print("MasterViewController.viewDidLoad")
         
         N_text.delegate = self
         k_text.delegate = self
         a1_text.delegate = self
         a2_text.delegate = self
         T_text.delegate = self
-
+        pickerView.delegate = self
+        pickerView.dataSource = self
+        
         configureSpaceControls()
         updateSpaceControls()
         updateEffectControls()
@@ -127,6 +122,11 @@ class MasterViewController: UIViewController, UITextFieldDelegate, ModelSettings
         return true
     }
     
+    func message(_ msg: String) {
+        print("MasterViewController", msg)
+    }
+    
+    // =================================================================================================
     // MARK: - Navigation
     
     //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -134,12 +134,15 @@ class MasterViewController: UIViewController, UITextFieldDelegate, ModelSettings
     //    }
     
     @IBAction func unwindToMaster(_ sender: UIStoryboardSegue) {
-        print("unwind to master")
+        message("unwind to master")
     }
 
-    // MARK: space controls: geometry & physics
-    
+
+    // =================================================================================================
+    // MARK geometry & physics controls
+
     @IBOutlet weak var N_text: UITextField!
+    
     @IBOutlet weak var N_stepper: UIStepper!
 
     @IBAction func N_textAction(_ sender: UITextField) {
@@ -167,7 +170,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, ModelSettings
     @IBOutlet weak var k_stepper: UIStepper!
 
     @IBAction func k_textAction(_ sender: UITextField) {
-        // print("k_textAction")
+        // message("k_textAction")
         if (geometry != nil || sender.text != nil) {
             let kk: Int? = Int(sender.text!)
             if (kk != nil) {
@@ -305,9 +308,9 @@ class MasterViewController: UIViewController, UITextFieldDelegate, ModelSettings
     @IBOutlet weak var axes_switch: UISwitch!
     
     @IBAction func axes_action(_ sender: UISwitch) {
-        // print("axes_action: sender.isOn=", sender.isOn)
+        // message("axes_action: sender.isOn=", sender.isOn)
         if (effects != nil) {
-            var effect = effects!.getEffect("Axes")
+            var effect = effects!.getEffect(Axes.type)
             if (effect != nil) {
                 effect!.enabled = sender.isOn
             }
@@ -319,7 +322,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, ModelSettings
 
     @IBAction func meridians_action(_ sender: UISwitch) {
         if (effects != nil) {
-            var effect = effects!.getEffect("Meridians")
+            var effect = effects!.getEffect(Meridians.type)
             if (effect != nil) {
                 effect!.enabled = sender.isOn
             }
@@ -330,21 +333,8 @@ class MasterViewController: UIViewController, UITextFieldDelegate, ModelSettings
     @IBOutlet weak var net_switch: UISwitch!
 
     @IBAction func net_action(_ sender: UISwitch) {
-        // print("skGrid_action: sender.isOn=", sender.isOn)
         if (effects != nil) {
-            var effect = effects!.getEffect("Net")
-            if (effect != nil) {
-                effect!.enabled = sender.isOn
-            }
-        }
-        updateEffectControls()
-    }
-    
-    @IBOutlet weak var nodes_switch: UISwitch!
-
-    @IBAction func nodes_action(_ sender: UISwitch) {
-        if (effects != nil) {
-            var effect = effects!.getEffect("Nodes")
+            var effect = effects!.getEffect(Net.type)
             if (effect != nil) {
                 effect!.enabled = sender.isOn
             }
@@ -356,7 +346,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, ModelSettings
     
     @IBAction func surface_action(_ sender: UISwitch) {
         if (effects != nil) {
-            var effect = effects!.getEffect("Surface")
+            var effect = effects!.getEffect(Surface.type)
             if (effect != nil) {
                 effect!.enabled = sender.isOn
             }
@@ -364,21 +354,33 @@ class MasterViewController: UIViewController, UITextFieldDelegate, ModelSettings
         updateEffectControls()
     }
     
-    @IBOutlet weak var icosahedron_switch: UISwitch!
+    @IBOutlet weak var nodes_switch: UISwitch!
     
-    @IBAction func icosahedron_action(_ sender: UISwitch) {
-        // print("icosahedron_action: sender.isOn=", sender.isOn)
+    @IBAction func nodes_action(_ sender: UISwitch) {
         if (effects != nil) {
-            var effect = effects!.getEffect("Icosahedron")
+            var effect = effects!.getEffect(Nodes.type)
             if (effect != nil) {
                 effect!.enabled = sender.isOn
             }
         }
         updateEffectControls()
     }
+    
+//    @IBOutlet weak var icosahedron_switch: UISwitch!
+//
+//    @IBAction func icosahedron_action(_ sender: UISwitch) {
+//        // message("icosahedron_action: sender.isOn=", sender.isOn)
+//        if (effects != nil) {
+//            var effect = effects!.getEffect(Icosahedron.type)
+//            if (effect != nil) {
+//                effect!.enabled = sender.isOn
+//            }
+//        }
+//        updateEffectControls()
+//    }
     
     func updateEffectControls() {
-        // print("MasterViewController.updateEffectControls start")
+        // message("MasterViewController.updateEffectControls start")
         loadViewIfNeeded()
         if (effects == nil) {
             axes_switch.isOn = false
@@ -390,48 +392,94 @@ class MasterViewController: UIViewController, UITextFieldDelegate, ModelSettings
             net_switch.isOn = false
             net_switch.isEnabled = false
             
-            nodes_switch.isOn = false
-            nodes_switch.isEnabled = false
-
             surface_switch.isOn = false
             surface_switch.isEnabled = false
             
-            icosahedron_switch.isOn = false
-            icosahedron_switch.isEnabled = false
+            nodes_switch.isOn = false
+            nodes_switch.isEnabled = false
+            
+//            icosahedron_switch.isOn = false
+//            icosahedron_switch.isEnabled = false
         }
         else {
             let ee = effects!
             
-            var axes = ee.getEffect("Axes")
+            var axes = ee.getEffect(Axes.type)
             axes_switch.isEnabled = (axes != nil)
             axes_switch.isOn = (axes != nil && axes!.enabled)
             
-            var meridians = ee.getEffect("Meridians")
+            var meridians = ee.getEffect(Meridians.type)
             meridians_switch.isEnabled = (meridians != nil)
             meridians_switch.isOn = (meridians != nil && meridians!.enabled)
 
-            var net = ee.getEffect("Net")
+            var net = ee.getEffect(Net.type)
             net_switch.isEnabled = (net != nil)
             net_switch.isOn = (net != nil && net!.enabled)
 
-            var nodes = ee.getEffect("Nodes")
-            nodes_switch.isEnabled = (nodes != nil)
-            nodes_switch.isOn = (nodes != nil && nodes!.enabled)
-            
-            var surface = ee.getEffect("Surface")
+            var surface = ee.getEffect(Surface.type)
             surface_switch.isEnabled = (surface != nil)
             surface_switch.isOn = (surface != nil && surface!.enabled)
             
-            var icosahedron = ee.getEffect("Icosahedron")
-            icosahedron_switch.isEnabled = (icosahedron != nil)
-            icosahedron_switch.isOn = (icosahedron != nil && icosahedron!.enabled)
+            var nodes = ee.getEffect(Nodes.type)
+            nodes_switch.isEnabled = (nodes != nil)
+            nodes_switch.isOn = (nodes != nil && nodes!.enabled)
+            
+//            var icosahedron = ee.getEffect(Icosahedron.type)
+//            icosahedron_switch.isEnabled = (icosahedron != nil)
+//            icosahedron_switch.isOn = (icosahedron != nil && icosahedron!.enabled)
         }
     }
     
+    // =================================================================================================
+    // MARK: generator picker
+    
+    @IBOutlet weak var pickerView: UIPickerView!
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return (effects == nil) ? nil : effects!.generatorNames[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return (effects == nil) ? 0 : effects!.generatorNames.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if (effects == nil) {
+            message("pickerView didSelectRow: effects is nil");
+            return
+        }
+        let generatorName = effects!.generatorNames[row]
+        let generator = effects!.getGenerator(generatorName)
+        if (generator == nil) {
+            message("pickerView didSelectRow: generator is nil. generatoraName=" + generatorName)
+            return
+        }
+        message("pickerView didSelectRow: row=" + String(row) + " generator=" + generator!.name)
+        
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        var pickerLabel = view as? UILabel;
+        if (pickerLabel == nil) {
+            pickerLabel = UILabel()
+            pickerLabel?.font = UIFont(name: "System", size: 17.0)
+            pickerLabel?.textAlignment = NSTextAlignment.center
+        }
+        
+        pickerLabel?.text = (effects == nil) ? nil : effects!.generatorNames[row]
+        
+        return pickerLabel!;
+    }
+
+    // ====================================================================================================
     // MARK: view params controls
     
     @IBAction func resetViewParams(_ sender: Any) {
-        // print("MasterDetailController.resetViewParams")
+        // message("resetViewParams")
         if (effects == nil) { return }
         effects!.resetViewParams()
     }

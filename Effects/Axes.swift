@@ -16,8 +16,9 @@ import OpenGL
 
 class Axes : GLKBaseEffect, Effect {
 
-    var name: String = "Axes"
-    var enabled: Bool = false
+    static let type = String(describing: Axes.self)
+    var name = type
+    var enabled = false
 
     let vertices: [GLfloat] = [
         0.00, 0.00, 0.00,
@@ -90,7 +91,7 @@ class Axes : GLKBaseEffect, Effect {
 
         let err = glGetError()
         if (err != 0) {
-            print(name, "glError:", String(format:"0x%x", err))
+            message(String(format: "draw glError 0x%x", err))
         }
     }
 
