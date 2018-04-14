@@ -20,7 +20,7 @@ protocol ModelSettings {
     
     // ?? var geometry: SKGeometry? { get set }
     // ?? var physics: SKPhysics? { get set }
-    // ?? var effects: EffectsController? { get set }
+    // ?? var scene: sceneController? { get set }
     // ?? var geerators: GeneratorSupport? { get set }
 }
 
@@ -28,7 +28,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
 
     var geometry: SKGeometry?
     var physics: SKPhysics?
-    var effects: EffectsController?
+    var scene: SceneController?
 
     var N_step: Int = 1 {
         
@@ -37,7 +37,6 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
             // but NOT in didSet(...)
             N_stepper.stepValue = Double(v)
         }
-        
     }
     
     var k_step: Int = 1 {
@@ -61,28 +60,28 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     
     var rotX: Double {
         get {
-            return (effects == nil) ? 0 : effects!.povRotationX
+            return (scene == nil) ? 0 : scene!.povRotationX
         }
         set {
-            if (effects != nil) { effects!.povRotationX = newValue }
+            if (scene != nil) { scene!.povRotationX = newValue }
         }
     }
     
     var rotY: Double {
         get {
-            return (effects == nil) ? 0 : effects!.povRotationY
+            return (scene == nil) ? 0 : scene!.povRotationY
         }
         set {
-            if (effects != nil) { effects!.povRotationY = newValue }
+            if (scene != nil) { scene!.povRotationY = newValue }
         }
     }
 
     var rotZ: Double {
         get {
-            return (effects == nil) ? 0 : effects!.povRotationZ
+            return (scene == nil) ? 0 : scene!.povRotationZ
         }
         set {
-            if (effects != nil) { effects!.povRotationZ = newValue }
+            if (scene != nil) { scene!.povRotationZ = newValue }
         }
     }
 
@@ -95,14 +94,17 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         a1_text.delegate = self
         a2_text.delegate = self
         T_text.delegate = self
+        
         colorationPicker.delegate = self
         colorationPicker.dataSource = self
         colorationPicker.tag = colorationPickerTag
+        
         cyclerPicker.delegate = self
         cyclerPicker.dataSource = self
         cyclerPicker.tag = cyclerPickerTag
         
         configureModelControls()
+        configurePickerControls()
         updateModelControls()
         updateEffectControls()
     }
@@ -314,8 +316,8 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     
     @IBAction func axes_action(_ sender: UISwitch) {
         // message("axes_action: sender.isOn=", sender.isOn)
-        if (effects != nil) {
-            var effect = effects!.getEffect(Axes.type)
+        if (scene != nil) {
+            var effect = scene!.getEffect(Axes.type)
             if (effect != nil) {
                 effect!.enabled = sender.isOn
             }
@@ -326,8 +328,8 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     @IBOutlet weak var meridians_switch: UISwitch!
 
     @IBAction func meridians_action(_ sender: UISwitch) {
-        if (effects != nil) {
-            var effect = effects!.getEffect(Meridians.type)
+        if (scene != nil) {
+            var effect = scene!.getEffect(Meridians.type)
             if (effect != nil) {
                 effect!.enabled = sender.isOn
             }
@@ -338,8 +340,8 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     @IBOutlet weak var net_switch: UISwitch!
 
     @IBAction func net_action(_ sender: UISwitch) {
-        if (effects != nil) {
-            var effect = effects!.getEffect(Net.type)
+        if (scene != nil) {
+            var effect = scene!.getEffect(Net.type)
             if (effect != nil) {
                 effect!.enabled = sender.isOn
             }
@@ -350,8 +352,8 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     @IBOutlet weak var surface_switch: UISwitch!
     
     @IBAction func surface_action(_ sender: UISwitch) {
-        if (effects != nil) {
-            var effect = effects!.getEffect(Surface.type)
+        if (scene != nil) {
+            var effect = scene!.getEffect(Surface.type)
             if (effect != nil) {
                 effect!.enabled = sender.isOn
             }
@@ -362,8 +364,8 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     @IBOutlet weak var nodes_switch: UISwitch!
     
     @IBAction func nodes_action(_ sender: UISwitch) {
-        if (effects != nil) {
-            var effect = effects!.getEffect(Nodes.type)
+        if (scene != nil) {
+            var effect = scene!.getEffect(Nodes.type)
             if (effect != nil) {
                 effect!.enabled = sender.isOn
             }
@@ -375,8 +377,8 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
 //
 //    @IBAction func icosahedron_action(_ sender: UISwitch) {
 //        // message("icosahedron_action: sender.isOn=", sender.isOn)
-//        if (effects != nil) {
-//            var effect = effects!.getEffect(Icosahedron.type)
+//        if (scene != nil) {
+//            var effect = scene!.getEffect(Icosahedron.type)
 //            if (effect != nil) {
 //                effect!.enabled = sender.isOn
 //            }
@@ -387,7 +389,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     func updateEffectControls() {
         // message("MasterViewController.updateEffectControls start")
         loadViewIfNeeded()
-        if (effects == nil) {
+        if (scene == nil) {
             axes_switch.isOn = false
             axes_switch.isEnabled = false
             
@@ -407,7 +409,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
 //            icosahedron_switch.isEnabled = false
         }
         else {
-            let ee = effects!
+            let ee = scene!
             
             var axes = ee.getEffect(Axes.type)
             axes_switch.isEnabled = (axes != nil)
@@ -447,6 +449,11 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     @IBOutlet weak var cyclerPicker: UIPickerView!
     let cyclerPickerTag = 1
     
+    func configurePickerControls() {
+        if (scene == nil) { return }
+        
+    }
+    
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         // same for all pickers
         return 1
@@ -454,7 +461,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if pickerView.tag == colorationPickerTag {
-            return (effects == nil) ? nil : effects!.generatorNames[row]
+            return (scene == nil) ? nil : scene!.generatorNames[row]
         }
         if pickerView.tag == cyclerPickerTag {
             return String("Cycler #" + String(row+1))
@@ -464,7 +471,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if pickerView.tag == colorationPickerTag {
-            return (effects == nil) ? 0 : effects!.generatorNames.count
+            return (scene == nil) ? 0 : scene!.generatorNames.count
         }
         if pickerView.tag == cyclerPickerTag {
             return 2
@@ -483,59 +490,67 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         }
         
         if pickerView.tag == colorationPickerTag {
-            pickerLabel?.text = (effects == nil) ? nil : effects!.generatorNames[row]
+            pickerLabel?.text = (scene == nil) ? nil : scene!.generatorNames[row]
         }
         else if pickerView.tag == cyclerPickerTag {
-            pickerLabel?.text = String("Cycler #" + String(row+1))
+            pickerLabel?.text = (scene == nil) ? nil : scene!.cyclerNames[row]
         }
         
-        return pickerLabel!;
+        return pickerLabel!
     }
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if pickerView.tag == colorationPickerTag {
-            didSelectGenerator(row)
+        if (scene == nil) { return }
+        let ss = scene!
+        
+        if (pickerView.tag == colorationPickerTag) {
+            let ok = ss.selectGenerator(ss.generatorNames[row])
+            if (!ok) {
+                updateGeneratorControls()
+            }
         }
-        if pickerView.tag == cyclerPickerTag {
-            didSelectCycler(row)
+        
+        if (pickerView.tag == cyclerPickerTag) {
+            let ok = ss.selectCycler(ss.cyclerNames[row])
+            if (!ok) {
+                updateCyclerControls()
+            }
         }
     }
     
-    private func didSelectGenerator(_ row: Int) {
+    func updateCyclerControls() {
+        if (scene == nil) { return }
+        let ss = scene!
         
-        if (effects == nil) {
-            message("didSelectGenerator: effects is nil");
-            return
-        }
+        let name = ss.selectedCycler?.name
+        if (name == nil) { return }
         
-        let ee = effects!
-        let generatorName = ee.generatorNames[row]
-        let generator = ee.getGenerator(generatorName)
-        if (generator == nil) {
-            message("didSelectGenerator: generator is nil. generatoraName=" + generatorName)
-            return
-        }
+        let r = ss.cyclerNames.index(of: name!)
+        if (r == nil) { return }
         
-        let gg = generator!
-        message("didSelectGenerator: row=" + String(row) + " generator=" + gg.name)
-        
-        for eName in ee.effectNames {
-            message("didSelectGenerator: setting generator on effect " + eName)
-            var effect = ee.getEffect(eName)!
-            effect.generator = gg
-        }
-     }
-    
-    private func didSelectCycler(_ row: Int) {
-        message("didSelectCycler row=" + String(row))
+        cyclerPicker.selectRow(r!, inComponent: 0, animated: false)
     }
+
+    func updateGeneratorControls() {
+        if (scene == nil) { return }
+        let ss = scene!
+        
+        let name = ss.selectedGenerator?.name
+        if (name == nil) { return }
+        
+        let r = ss.generatorNames.index(of: name!)
+        if (r == nil) { return }
+        
+        colorationPicker.selectRow(r!, inComponent: 0, animated: false)
+    }
+    
     // ======================================================================================
     // MARK: view params controls
     
     @IBAction func resetViewParams(_ sender: Any) {
         // message("resetViewParams")
-        if (effects == nil) { return }
-        effects!.resetViewParams()
+        if (scene == nil) { return }
+        scene!.resetViewParams()
     }
     
 }

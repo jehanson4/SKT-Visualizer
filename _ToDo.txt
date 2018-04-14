@@ -2,7 +2,7 @@
 ToDo.txt
 ==================================================================================
 
-? best way to do swift dictionary keyset -> array of values
+Q: best way to do swift dictionary keyset -> array of values
 
 you need to change T or something in order to get the surface to show
 
@@ -14,7 +14,13 @@ hints: "tap to enabled disable CYCLER"
 
 cyclers
 
+reset model
+
 generator -> coloration
 
 better name to replace "coloration"
+in Hollywood they're called "colorists"
+
+pan: if finger starts below center point, reverse pan direction
+.. actually it's more complicated
 

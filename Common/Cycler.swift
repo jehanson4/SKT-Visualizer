@@ -20,13 +20,17 @@ protocol Cycler {
     var maxValue: Double { get set }
     var value: Double { get set }
     var stepSize: Double { get set }
-    
+    var wrap: Bool { get set }
     func step()
 }
 
 protocol CyclerRegistry {
     var cyclerNames: [String] { get }
-    func getCycler(_ name: String) -> Effect?
+    func getCycler(_ name: String) -> Cycler?
+    
+    /// returns true iff the selection changed
+    func selectCycler(_ name: String) -> Bool
+    var selectedCycler: Cycler? { get }
 }
 
 // ==============================================================================
@@ -44,6 +48,7 @@ class DummyCycler : Cycler {
     var maxValue: Double = 0
     var value: Double = 0
     var stepSize: Double = 0
+    var wrap: Bool = false
     
     func step() {}
 }

@@ -70,7 +70,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Need to ensure the detail view has been loaded before we access its scene
         detailViewController.loadViewIfNeeded()
-        masterViewController.effects = detailViewController.scene
+        masterViewController.scene = detailViewController.scene
     }
 
 }

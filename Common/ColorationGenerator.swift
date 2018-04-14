@@ -28,6 +28,11 @@ protocol ColorationGenerator {
 protocol ColorationGeneratorRegistry {
     var generatorNames: [String] { get }
     func getGenerator(_ name: String) -> ColorationGenerator?
+
+    /// returns true iff the selection changed
+    func selectGenerator(_ name: String) -> Bool
+    var selectedGenerator: ColorationGenerator? { get }
+    
 }
 
 // ==============================================================================
