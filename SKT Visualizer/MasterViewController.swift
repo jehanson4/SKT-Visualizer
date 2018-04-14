@@ -483,7 +483,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
             return (scene == nil) ? 0 : scene!.generatorNames.count
         }
         if pickerView.tag == cyclerPickerTag {
-            return 2
+            return (scene == nil) ? 0 : scene!.cyclerNames.count
         }
         return 0
     }
@@ -554,7 +554,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     }
     
     // ======================================================================================
-    // MARK: view params controls
+    // MARK: view controls
     
     @IBAction func resetViewParams(_ sender: Any) {
         // message("resetViewParams")

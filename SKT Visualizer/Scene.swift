@@ -177,15 +177,21 @@ class Scene : SceneController {
     }
     
     private func addCyclers() {
-        let c0 = NForFixedK(geometry)
-        cyclers[c0.name] = c0
+//        let c0 = NForFixedK(geometry)
+//        cyclers[c0.name] = c0
 
         let c1 = KForFixedN(geometry)
         cyclers[c1.name] = c1
         
-        let c2 = KForFixedKOverN(geometry)
+        let c2 = NForFixedKOverN(geometry)
         cyclers[c2.name] = c2
         selectedCycler = c2
+        
+        let c3 = LinearT(physics)
+        cyclers[c3.name] = c3
+        
+        let c4 = LinearAlpha2(physics)
+        cyclers[c4.name] = c4
     }
     
     // ==========================================================
@@ -228,9 +234,7 @@ class Scene : SceneController {
         let black = BlackGenerator()
         black.name = "None"
         generators[black.name] = black
-        
-//        let white = WhiteGenerator()
-//        generators[white.name] = white
+        selectedGenerator = black
         
         let energy = EnergyGenerator(physics)
         generators[energy.name] = energy
@@ -240,7 +244,6 @@ class Scene : SceneController {
         
         let occupation = OccupationGenerator(physics)
         generators[occupation.name] = occupation
-        selectedGenerator = occupation
     }
     
     // ==========================================================

@@ -24,3 +24,15 @@ in Hollywood they're called "colorists"
 pan: if finger starts below center point, reverse pan direction
 .. actually it's more complicated
 
+all the min's and max's are instance vars. simpler and no actual waste
+
+one big model class that contains physics and geometry: so I can put other things in it
+
+all the phyics or geometry constants: default deltas, values, etc go into the class's themselves
+as instance const's
+
+frame RATE on cycler not frame COUNT
+
+
+
+

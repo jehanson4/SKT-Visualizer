@@ -18,7 +18,7 @@ protocol Cycler {
     
     var minValue: Double { get set }
     var maxValue: Double { get set }
-    var value: Double { get set }
+    var value: Double { get }
     var stepSize: Double { get set }
     var wrap: Bool { get set }
     
