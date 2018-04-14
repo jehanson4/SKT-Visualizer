@@ -24,7 +24,7 @@ protocol ModelSettings {
     // ?? var geerators: GeneratorSupport? { get set }
 }
 
-class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, ModelSettings {
+class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, ModelSettings, ModelChangeListener {
 
     var geometry: SKGeometry?
     var physics: SKPhysics?
@@ -107,6 +107,10 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         configurePickerControls()
         updateModelControls()
         updateEffectControls()
+        
+        if (scene != nil) {
+            scene!.addListener(forModel: self)
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -307,6 +311,11 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
             T_text.text = String(ss.T)
             T_stepper.value = Double(ss.T)
         }
+    }
+    
+    func modelHasChanged() {
+        message("modelHasChanged")
+        updateModelControls()
     }
     
     // ====================================================================

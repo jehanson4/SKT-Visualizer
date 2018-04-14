@@ -12,9 +12,9 @@ import Foundation
 // NCycler
 // ==============================================================================
 
-class NCycler : Cycler {
+class NForFixedK : Cycler {
     
-    static let type = "N"
+    static let type = "N for fixed k"
     var name = type
     
     var minValue: Double {
@@ -88,6 +88,8 @@ class NCycler : Cycler {
         self.geometry = geometry
     }
     
+    func reset() {}
+    
     func step() {
         var pValue: Int = geometry.N + pStepSize
         if (pValue < pMinValue) {
@@ -101,12 +103,12 @@ class NCycler : Cycler {
 }
 
 // ==============================================================================
-// KCycler
+// KForFixedN
 // ==============================================================================
 
-class KCycler : Cycler {
+class KForFixedN : Cycler {
     
-    static let type = "k"
+    static let type = "k for fixed N"
     var name = type
     
     var minValue: Double {
@@ -182,6 +184,8 @@ class KCycler : Cycler {
         pMaxValue = geometry.k_max
     }
     
+    func reset() {}
+    
     func step() {
         var pValue: Int = geometry.k + pStepSize
         if (pValue < pMinValue) {
@@ -195,23 +199,24 @@ class KCycler : Cycler {
 }
 
 // ==============================================================================
-// NCycler
+// KForFixedKOverN
 // ==============================================================================
 
-class NKCycler : Cycler {
+class KForFixedKOverN : Cycler {
     
-    static let type = "N (N/k fixed)"
+    static let type = "k for fixed k/N"
     var name = type
     
     var minValue: Double {
         get { return Double(pMinValue) }
         set(newValue) {
+            
             pMinValue = Int(floor(newValue))
-            if (pMinValue < SKGeometry.N_min) {
-                pMinValue = SKGeometry.N_min
+            if (pMinValue < SKGeometry.k_min) {
+                pMinValue = SKGeometry.k_min
             }
-            else if (pMinValue > SKGeometry.N_max) {
-                pMinValue = SKGeometry.N_max
+            else if (pMinValue > SKGeometry.N_max/2) {
+                pMinValue = SKGeometry.N_max/2
             }
             
             if (pMinValue >= pMaxValue) {
@@ -228,8 +233,8 @@ class NKCycler : Cycler {
             if (pMaxValue < SKGeometry.N_min) {
                 pMaxValue = SKGeometry.N_min
             }
-            else if (pMaxValue > SKGeometry.N_max) {
-                pMaxValue = SKGeometry.N_max
+            else if (pMaxValue > SKGeometry.N_max/2) {
+                pMaxValue = SKGeometry.N_max/2
             }
             
             if (pMaxValue <= pMinValue) {
@@ -240,7 +245,7 @@ class NKCycler : Cycler {
     }
     
     var value: Double {
-        get { return Double(geometry.N) }
+        get { return Double(geometry.k) }
         set(newValue) {
             var pValue = Int(floor(newValue))
             if (pValue < pMinValue) {
@@ -249,8 +254,7 @@ class NKCycler : Cycler {
             if (pValue > pMaxValue) {
                 pValue = pMaxValue
             }
-            geometry.N = pValue
-            geometry.k = Int(kOverN * Double(geometry.N))
+            updateGeometry(pValue)
         }
     }
     
@@ -265,28 +269,47 @@ class NKCycler : Cycler {
     }
     
     var wrap: Bool = false
-    var kOverN: Double = 0.5
     
     private var geometry: SKGeometry
-    private var pMinValue: Int = SKGeometry.N_min
-    private var pMaxValue: Int = SKGeometry.N_max
+    private var NOverK: Double
+    private var pMinValue: Int = SKGeometry.k_min
+    private var pMaxValue: Int = SKGeometry.N_max/2
     private var pStepSize: Int = 1
     
     init(_ geometry: SKGeometry) {
         self.geometry = geometry
+        self.NOverK = Double(geometry.N) / Double(geometry.k)
+    }
+    
+    func reset() {
+        debug("reset")
+        self.NOverK = Double(geometry.N) / Double(geometry.k)
     }
     
     func step() {
-        var pValue: Int = geometry.N + pStepSize
+        debug("step")
+        var pValue: Int = geometry.k + pStepSize
         if (pValue < pMinValue) {
             pValue = (wrap) ? pValue + (pMaxValue-pMinValue) : pMinValue
         }
         else if (pValue > pMaxValue) {
             pValue = (wrap) ? pValue - (pMaxValue-pMinValue) : pMaxValue
         }
-        geometry.N = pValue
-        geometry.k = Int(kOverN * Double(geometry.N))
+        updateGeometry(pValue)
+    }
+    
+    private func updateGeometry(_ newK: Int) {
+        geometry.N = Int(round(NOverK * Double(newK)))
+        if (newK > geometry.k_max) {
+            geometry.N += 1
+        }
+        geometry.k = newK
+    }
+    
+    private func debug(_ msg: String) {
+        print(String(describing: KForFixedKOverN.self), msg)
     }
 }
+
 
 

@@ -196,7 +196,7 @@ class SKGeometry : ChangeCounted {
         
         if (s1 + s2 < s0) {
             // DEBUG
-            if (unequal(s1+s2, 0)) {
+            if (unequal(s1+s2, s0)) {
                 problems.append("bad s1,s2: " + String(s1) + " " + String(s2) +  " sum too small by " + String(s0-(s1+s2)))
             }
             

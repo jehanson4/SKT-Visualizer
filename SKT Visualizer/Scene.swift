@@ -14,15 +14,18 @@ import OpenGLES
 import OpenGL
 #endif
 
+protocol ModelChangeListener {
+        func modelHasChanged()
+}
+
 protocol SceneController : EffectRegistry, ColorationGeneratorRegistry, CyclerRegistry {
     
     var zoom: Double { get set }
     var povR: Double { get }
     var povPhi: Double { get }
     var povTheta_e: Double { get }
-    func setPOVAngularPosition(_ phi: Double, _ theta_e: Double)
     
-    func resetViewParams()
+    func setPOVAngularPosition(_ phi: Double, _ theta_e: Double)
     
     var povRotationX: Double { get set }
     var povRotationY: Double { get set }
@@ -31,6 +34,9 @@ protocol SceneController : EffectRegistry, ColorationGeneratorRegistry, CyclerRe
     func setRotationAngle(_ angle: Double)
     func resetRotationAngle()
     
+    func addListener(forModel listener: ModelChangeListener)
+    
+    func resetViewParams()
     func resetModelParams()
 }
 
@@ -74,6 +80,8 @@ class Scene : SceneController {
     var projectionMatrix: GLKMatrix4!
     var modelviewMatrix: GLKMatrix4!
 
+    var modelChangeListeners: [ModelChangeListener] = []
+    
     var effects = [String: Effect]()
 
     init(_ geometry: SKGeometry, _ physics: SKPhysics) {
@@ -119,9 +127,19 @@ class Scene : SceneController {
         addEffects()
     }
     
+    func addListener(forModel listener: ModelChangeListener) {
+        modelChangeListeners.append(listener)
+    }
+    
     func resetModelParams() {
         // TODO
-        // physics and geometry and all the cyclers too
+        // physics and geometry
+        // cyclers?
+        // effects?
+        
+        for listener in modelChangeListeners {
+            listener.modelHasChanged()
+        }
     }
     
     // ==========================================================
@@ -159,13 +177,13 @@ class Scene : SceneController {
     }
     
     private func addCyclers() {
-        let c0 = NCycler(geometry)
+        let c0 = NForFixedK(geometry)
         cyclers[c0.name] = c0
 
-        let c1 = KCycler(geometry)
+        let c1 = KForFixedN(geometry)
         cyclers[c1.name] = c1
         
-        let c2 = NKCycler(geometry)
+        let c2 = KForFixedKOverN(geometry)
         cyclers[c2.name] = c2
         selectedCycler = c2
     }
@@ -285,6 +303,7 @@ class Scene : SceneController {
 
         cyclerEnabled = !cyclerEnabled
         if (cyclerEnabled) {
+            selectedCycler!.reset()
             selectedCycler!.stepSize *= -1
         }
     }
@@ -373,8 +392,13 @@ class Scene : SceneController {
         if (cyclerEnabled && selectedCycler != nil && (frameNumber % cyclerFramesPerStep) == 1) {
             // DEBUG
             selectedCycler!.step()
-            message("draw: new cycler " + selectedCycler!.name + " = " + String (selectedCycler!.value))
+            message("draw: new cycler value " + String (selectedCycler!.value))
+            for listener in modelChangeListeners {
+                listener.modelHasChanged()
+            }
+
             // povRotate(Double(cyclerSgn) * rotationRate)
+            
         }
         
         // From orbiting teapot

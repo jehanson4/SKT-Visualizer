@@ -21,6 +21,8 @@ protocol Cycler {
     var value: Double { get set }
     var stepSize: Double { get set }
     var wrap: Bool { get set }
+    
+    func reset()
     func step()
 }
 
@@ -50,6 +52,7 @@ class DummyCycler : Cycler {
     var stepSize: Double = 0
     var wrap: Bool = false
     
+    func reset() {}
     func step() {}
 }
 
