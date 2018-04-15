@@ -102,12 +102,6 @@ class DetailViewController: GLKViewController {
         }
         let delta = sender.translation(in: sender.view)
         scene.setPOVAngularPosition(
-
-            // ===========================================
-            // TODO choose sign of horiz change based on
-            // whether finger started above or below the origin
-            // ===========================================
-
             panPhi_initialValue - Double(delta.x) * panPhi_scaleFactor,
             panTheta_e_initialValue - Double(delta.y) * panTheta_e_scaleFactor
         )

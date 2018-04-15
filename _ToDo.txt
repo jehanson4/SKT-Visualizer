@@ -2,6 +2,8 @@
 ToDo.txt
 ==================================================================================
 
+sequencer direction doesn't reverse
+
 Q: best way to do swift dictionary keyset -> array of values
 
 you need to change T or something in order to get the surface to show
@@ -14,9 +16,6 @@ picker order
 remove net flicker -- cf. 'artifacts' in the book; or could incr net's radius
 
 hints: "tap to enabled disable CYCLER"
-
-pan: if finger starts below center point, reverse pan direction
-.. actually it's more complicated
 
 ? one big model class that contains physics and geometry: so I can put other things in it
 
