@@ -326,7 +326,7 @@ class SKGeometry : ChangeCounted {
         var s2a = s2
         
         if (s1 + s2 < s0) {
-            if (debug && !unequal(s1+s2, s0)) {
+            if (debug && unequal(s1+s2, s0)) {
                 problems.append("bad s1,s2: " + String(s1) + " " + String(s2) +  " sum too small by " + String(s0-(s1+s2)))
             }
             let diff = 0.5 * (s0 - (s1+s2))

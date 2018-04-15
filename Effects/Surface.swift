@@ -63,19 +63,17 @@ class Surface : GLKBaseEffect, Effect {
         // . . . but isn't it in the color buffer? comment it out & let's see
         
         super.colorMaterialEnabled = GLboolean(GL_TRUE)
-        // NO super.material.emissiveColor = GLKVector4Make(0.0, 0.0, 0.0, 1.0)
-        // NO super.material.ambientColor = GLKVector4Make(0.0, 0.0, 0.0, 0.0)
+        // super.material.emissiveColor = GLKVector4Make(0.0, 0.0, 0.0, 1.0)
+        // super.material.ambientColor = GLKVector4Make(1.0, 1.0, 1.0, 1.0)
         // super.material.diffuseColor = GLKVector4Make(1.0, 1.0, 1.0, 1.0)
-        // super.material.specularColor = GLKVector4Make(1.0, 1.0, 1.0, 1.0)
-        // super.material.shininess = 128
+        super.material.shininess = 0
         
         // lighting
         // THIS is necessary
         
         super.light0.enabled = GLboolean(GL_TRUE)
-        super.light0.ambientColor = GLKVector4Make(1.0, 1.0, 1.0, 1.0)
+        super.light0.ambientColor = GLKVector4Make(0.1, 0.1, 0.1, 1.0)
         super.light0.diffuseColor = GLKVector4Make(1.0, 1.0, 1.0, 1.0)
-        super.light0.specularColor = GLKVector4Make(1.0, 1.0, 1.0, 1.0)
         super.light0.position = GLKVector4Make(0.0, 0.0, 1.0, 0.0)
         
         glGenVertexArraysOES(1, &vertexArray)
