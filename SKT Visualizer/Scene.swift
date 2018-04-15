@@ -230,20 +230,15 @@ class Scene : SceneController {
     }
 
     func addGenerators() {
-        
         let black = BlackGenerator()
         black.name = "None"
         generators[black.name] = black
         selectedGenerator = black
         
-        let energy = EnergyGenerator(physics)
-        generators[energy.name] = energy
-        
-        let entropy = EntropyGenerator(physics)
-        generators[entropy.name] = entropy
-        
-        let occupation = OccupationGenerator(physics)
-        generators[occupation.name] = occupation
+        let skGenerators = makeSKGenerators(physics)
+        for gen in skGenerators {
+            generators[gen.name] = gen
+        }
     }
     
     // ==========================================================

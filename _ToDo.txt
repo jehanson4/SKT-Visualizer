@@ -33,6 +33,7 @@ as instance const's
 
 frame RATE on cycler not frame COUNT
 
+distinguish step from stepSize -- the latter is always positive
 
 
 

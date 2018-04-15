@@ -812,99 +812,11 @@
                                     <constraint firstItem="eG9-JV-bpT" firstAttribute="width" secondItem="b30-jo-qKo" secondAttribute="width" id="pRh-9o-2ko"/>
                                 </constraints>
                             </stackView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ese-oO-rnW" userLabel="Rotation View">
-                                <rect key="frame" x="87.5" y="259" width="200" height="110.5"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rotation Axis Vector" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZsM-mg-VbH">
-                                        <rect key="frame" x="0.0" y="0.0" width="200" height="20.5"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="x:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X9m-I4-iae">
-                                        <rect key="frame" x="20" y="20.5" width="13.5" height="30"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UEQ-sx-raQ" userLabel="rotX">
-                                        <rect key="frame" x="37.5" y="20.5" width="162.5" height="30"/>
-                                        <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                        <connections>
-                                            <action selector="rotX_textAction:" destination="vTj-VE-2hE" eventType="editingDidEnd" id="OdM-cs-CxX"/>
-                                        </connections>
-                                    </textField>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="y:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dKu-oU-6nq">
-                                        <rect key="frame" x="20" y="50.5" width="13.5" height="30"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rFL-S2-pCt" userLabel="rotY">
-                                        <rect key="frame" x="37.5" y="50.5" width="162.5" height="30"/>
-                                        <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                        <connections>
-                                            <action selector="rotY_textAction:" destination="vTj-VE-2hE" eventType="editingDidEnd" id="1eo-zW-2et"/>
-                                        </connections>
-                                    </textField>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="z:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Upt-Wv-bAd">
-                                        <rect key="frame" x="20" y="80.5" width="13.5" height="30"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Dit-Sm-uxX" userLabel="rotZ">
-                                        <rect key="frame" x="37.5" y="80.5" width="162.5" height="30"/>
-                                        <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                        <connections>
-                                            <action selector="rotZ_textAction:" destination="vTj-VE-2hE" eventType="editingDidEnd" id="00d-Vz-rnv"/>
-                                        </connections>
-                                    </textField>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstItem="X9m-I4-iae" firstAttribute="top" secondItem="ZsM-mg-VbH" secondAttribute="bottom" id="0JU-Ns-uUb"/>
-                                    <constraint firstItem="X9m-I4-iae" firstAttribute="leading" secondItem="Ese-oO-rnW" secondAttribute="leading" constant="20" id="6P9-IR-bZB"/>
-                                    <constraint firstItem="UEQ-sx-raQ" firstAttribute="trailing" secondItem="Ese-oO-rnW" secondAttribute="trailing" id="8I5-Wf-cQw"/>
-                                    <constraint firstAttribute="bottom" secondItem="Upt-Wv-bAd" secondAttribute="bottom" id="8kf-3C-xe9"/>
-                                    <constraint firstItem="dKu-oU-6nq" firstAttribute="leading" secondItem="Ese-oO-rnW" secondAttribute="leading" constant="20" id="9o5-zL-nuh"/>
-                                    <constraint firstItem="UEQ-sx-raQ" firstAttribute="leading" secondItem="X9m-I4-iae" secondAttribute="trailing" constant="4" id="Bgm-gA-yuz"/>
-                                    <constraint firstItem="ZsM-mg-VbH" firstAttribute="top" secondItem="Ese-oO-rnW" secondAttribute="top" id="Euw-b4-VNz"/>
-                                    <constraint firstItem="dKu-oU-6nq" firstAttribute="top" secondItem="X9m-I4-iae" secondAttribute="bottom" id="FmB-rM-8hz"/>
-                                    <constraint firstItem="Dit-Sm-uxX" firstAttribute="height" secondItem="Upt-Wv-bAd" secondAttribute="height" id="JSd-ET-4ov"/>
-                                    <constraint firstItem="rFL-S2-pCt" firstAttribute="height" secondItem="dKu-oU-6nq" secondAttribute="height" id="MAa-wx-yk4"/>
-                                    <constraint firstItem="Upt-Wv-bAd" firstAttribute="width" secondItem="X9m-I4-iae" secondAttribute="width" id="MJT-ym-YXP"/>
-                                    <constraint firstItem="Dit-Sm-uxX" firstAttribute="bottom" secondItem="Ese-oO-rnW" secondAttribute="bottom" id="T57-JB-SsD"/>
-                                    <constraint firstItem="Upt-Wv-bAd" firstAttribute="leading" secondItem="Ese-oO-rnW" secondAttribute="leading" constant="20" id="ThR-CN-Q2F"/>
-                                    <constraint firstItem="Dit-Sm-uxX" firstAttribute="leading" secondItem="Upt-Wv-bAd" secondAttribute="trailing" constant="4" id="WqU-X0-pge"/>
-                                    <constraint firstItem="ZsM-mg-VbH" firstAttribute="leading" secondItem="Ese-oO-rnW" secondAttribute="leading" id="YDI-XQ-wDP"/>
-                                    <constraint firstAttribute="trailing" secondItem="UEQ-sx-raQ" secondAttribute="trailing" id="apm-Of-uSv"/>
-                                    <constraint firstItem="Dit-Sm-uxX" firstAttribute="top" secondItem="rFL-S2-pCt" secondAttribute="bottom" id="eIw-al-YWH"/>
-                                    <constraint firstItem="rFL-S2-pCt" firstAttribute="trailing" secondItem="Ese-oO-rnW" secondAttribute="trailing" id="hdb-3J-axy"/>
-                                    <constraint firstItem="UEQ-sx-raQ" firstAttribute="height" secondItem="X9m-I4-iae" secondAttribute="height" id="j9z-eQ-GVZ"/>
-                                    <constraint firstItem="UEQ-sx-raQ" firstAttribute="top" secondItem="ZsM-mg-VbH" secondAttribute="bottom" id="lTz-37-imq"/>
-                                    <constraint firstItem="ZsM-mg-VbH" firstAttribute="trailing" secondItem="Ese-oO-rnW" secondAttribute="trailing" id="ruW-aq-Not"/>
-                                    <constraint firstItem="rFL-S2-pCt" firstAttribute="top" secondItem="UEQ-sx-raQ" secondAttribute="bottom" id="sl0-0p-wsx"/>
-                                    <constraint firstItem="rFL-S2-pCt" firstAttribute="leading" secondItem="dKu-oU-6nq" secondAttribute="trailing" constant="4" id="tIv-Lt-nDT"/>
-                                    <constraint firstItem="Dit-Sm-uxX" firstAttribute="trailing" secondItem="Ese-oO-rnW" secondAttribute="trailing" id="xM4-Re-Y2K"/>
-                                    <constraint firstItem="Upt-Wv-bAd" firstAttribute="top" secondItem="dKu-oU-6nq" secondAttribute="bottom" id="xm4-gS-3JO"/>
-                                    <constraint firstItem="dKu-oU-6nq" firstAttribute="width" secondItem="X9m-I4-iae" secondAttribute="width" id="z3f-1p-zOi"/>
-                                </constraints>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="gPU-gp-dtM" firstAttribute="top" secondItem="u6t-OT-ISf" secondAttribute="top" constant="20" id="6MT-C3-CSo"/>
                             <constraint firstItem="gPU-gp-dtM" firstAttribute="centerX" secondItem="rqU-KK-1bC" secondAttribute="centerX" id="EdP-cX-ZEy"/>
-                            <constraint firstItem="Ese-oO-rnW" firstAttribute="top" secondItem="gPU-gp-dtM" secondAttribute="bottom" constant="40" id="Xf4-hk-SE1"/>
-                            <constraint firstItem="Ese-oO-rnW" firstAttribute="width" secondItem="gPU-gp-dtM" secondAttribute="width" id="nep-pX-d2N"/>
-                            <constraint firstItem="Ese-oO-rnW" firstAttribute="centerX" secondItem="rqU-KK-1bC" secondAttribute="centerX" id="vYC-U0-CHg"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="u6t-OT-ISf"/>
                     </view>
@@ -920,7 +832,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="done" id="7Y2-PQ-QFA">
                             <button key="customView" opaque="NO" contentMode="right" contentHorizontalAlignment="right" contentVerticalAlignment="fill" buttonType="roundedRect" lineBreakMode="middleTruncation" id="8jX-Zj-hIp">
-                                <rect key="frame" x="324" y="6" width="35" height="33"/>
+                                <rect key="frame" x="324" y="5.5" width="35" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <state key="normal" title="&lt;&lt;&lt;"/>
@@ -935,9 +847,6 @@
                         <outlet property="dT_text" destination="SA4-t4-DhU" id="JwQ-AV-i0K"/>
                         <outlet property="da_text" destination="cTF-90-zM8" id="gZ4-LW-KZC"/>
                         <outlet property="dk_text" destination="HaD-cv-y1D" id="lAm-iB-rgg"/>
-                        <outlet property="rotX_text" destination="UEQ-sx-raQ" id="GLy-Xl-Jl5"/>
-                        <outlet property="rotY_text" destination="rFL-S2-pCt" id="awf-13-1gu"/>
-                        <outlet property="rotZ_text" destination="Dit-Sm-uxX" id="awB-6w-q6m"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KK4-Zz-UnV" userLabel="First Responder" sceneMemberID="firstResponder"/>

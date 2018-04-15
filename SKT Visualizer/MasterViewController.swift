@@ -8,82 +8,11 @@
 
 import UIKit
 
-protocol ModelSettings {
-    
-    var N_step: Int { get set }
-    var k_step: Int { get set }
-    var a_step: Double { get set }
-    var T_step: Double { get set }
-    var rotX: Double { get set }
-    var rotY: Double { get set }
-    var rotZ: Double { get set }
-    
-    // ?? var geometry: SKGeometry? { get set }
-    // ?? var physics: SKPhysics? { get set }
-    // ?? var scene: sceneController? { get set }
-    // ?? var geerators: GeneratorSupport? { get set }
-}
-
-class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, ModelSettings, ModelChangeListener {
+class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, ModelChangeListener {
 
     var geometry: SKGeometry?
     var physics: SKPhysics?
     var scene: SceneController?
-
-    var N_step: Int = 1 {
-        
-        willSet(v) {
-            // I don't know why, but the correct value comes in here
-            // but NOT in didSet(...)
-            N_stepper.stepValue = Double(v)
-        }
-    }
-    
-    var k_step: Int = 1 {
-        willSet(newValue) {
-            k_stepper.stepValue = Double(newValue)
-        }
-    }
-    
-    var a_step: Double = 0.01 {
-        willSet(newValue) {
-            a1_stepper.stepValue = newValue
-            a2_stepper.stepValue = newValue
-        }
-    }
-    
-    var T_step: Double = 100 {
-        willSet(newValue) {
-            T_stepper.stepValue = newValue
-        }
-    }
-    
-    var rotX: Double {
-        get {
-            return (scene == nil) ? 0 : scene!.povRotationX
-        }
-        set {
-            if (scene != nil) { scene!.povRotationX = newValue }
-        }
-    }
-    
-    var rotY: Double {
-        get {
-            return (scene == nil) ? 0 : scene!.povRotationY
-        }
-        set {
-            if (scene != nil) { scene!.povRotationY = newValue }
-        }
-    }
-
-    var rotZ: Double {
-        get {
-            return (scene == nil) ? 0 : scene!.povRotationZ
-        }
-        set {
-            if (scene != nil) { scene!.povRotationZ = newValue }
-        }
-    }
 
     override func viewDidLoad() {
         message("viewDidLoad")
@@ -120,9 +49,12 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
+        // FIXME HACK HACK HACK HACK
         if (segue.destination is SettingsViewController) {
             let settings = segue.destination as! SettingsViewController
-            settings.model = self
+            settings.geometry = self.geometry
+            settings.physics = self.physics
+            settings.scene = self.scene
         }
     }
     
@@ -261,25 +193,29 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     }
     
     func configureModelControls() {
-        N_stepper.minimumValue = Double(SKGeometry.N_min)
-        N_stepper.maximumValue = Double(SKGeometry.N_max)
-        N_stepper.stepValue = Double(N_step)
-
-        k_stepper.minimumValue = Double(SKGeometry.k_min)
-        k_stepper.maximumValue = Double(SKGeometry.N_max/2)
-        k_stepper.stepValue = Double(k_step)
-
-        a1_stepper.minimumValue = Double(SKPhysics.alpha_min)
-        a1_stepper.maximumValue = Double(SKPhysics.alpha_max)
-        a1_stepper.stepValue = Double(a_step)
-
-        a2_stepper.minimumValue = Double(SKPhysics.alpha_min)
-        a2_stepper.maximumValue = Double(SKPhysics.alpha_max)
-        a2_stepper.stepValue = Double(a_step)
-
-        T_stepper.minimumValue = Double(SKPhysics.T_min)
-        T_stepper.maximumValue = Double(SKPhysics.T_max)
-        T_stepper.stepValue = Double(T_step)
+        if (geometry != nil) {
+            N_stepper.minimumValue = Double(geometry!.N_min)
+            N_stepper.maximumValue = Double(geometry!.N_max)
+            N_stepper.stepValue = Double(geometry!.N_step)
+            
+            k_stepper.minimumValue = Double(geometry!.k_min)
+            k_stepper.maximumValue = Double(geometry!.N_max/2)
+            k_stepper.stepValue = Double(geometry!.k_step)
+        }
+        
+        if (physics != nil) {
+            a1_stepper.minimumValue = Double(physics!.alpha_min)
+            a1_stepper.maximumValue = Double(physics!.alpha_max)
+            a1_stepper.stepValue = Double(physics!.alpha_step)
+            
+            a2_stepper.minimumValue = Double(physics!.alpha_min)
+            a2_stepper.maximumValue = Double(physics!.alpha_max)
+            a2_stepper.stepValue = Double(physics!.alpha_step)
+            
+            T_stepper.minimumValue = Double(physics!.T_min)
+            T_stepper.maximumValue = Double(physics!.T_max)
+            T_stepper.stepValue = Double(physics!.T_step)
+        }
     }
     
     func updateModelControls() {

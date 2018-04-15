@@ -56,15 +56,65 @@ struct SKPoint {
 
 class SKGeometry : ChangeCounted {
     
-    static let N_min: Int = 3
-    static let N_max: Int = 1000
-    static let N_default: Int = 100
+    // ====================================
+    // N
+    
+    let N_min: Int = 3
+    let N_max: Int = 1000
+    let N_default = 100
+    let N_stepDefault = 1
 
-    static let k_min: Int = 1
-    static let k_default: Int = N_default/2
+    var N: Int {
+        didSet(newValue) {
+            if (newValue < N_min) {
+                N = N_prev
+            }
+            else if (newValue > N_max) {
+                N = N_prev
+            }
+            if (N != N_prev) {
+                if (!(k <= k_max)) {
+                    k = k_max
+                }
+                self.registerChange()
+            }
+        }
+    }
+
+    var N_step: Int
+    
+    // ====================================
+    // k
+    
+    let k_min: Int = 1
+    let k_default: Int = 50
+    let k_stepDefault = 1
+    
+    var k: Int {
+        didSet(newValue) {
+            if (newValue < k_min) {
+                k = k_prev
+            }
+            if (newValue > k_max) {
+                k = k_prev
+            }
+            if (k != k_prev) {
+                self.registerChange()
+            }
+        }
+    }
+    
+    var k_max: Int {
+        get { return N/2 }
+    }
+    
+    var k_step: Int
+    
+    // ===============================================
+    // other properties
     
     let r0: Double = 1.0
-    
+
     var p1: SKPoint {
         get { return SKPoint(self, 0, 0) }
     }
@@ -85,45 +135,8 @@ class SKGeometry : ChangeCounted {
         return (k + 1) * (N - k + 1)
     }
 
-    var k_max: Int {
-        get { return N/2 }
-    }
-    
     var changeNumber: Int {
         get { return pChangeCounter }
-    }
-    
-    var N: Int {
-        
-        didSet(newValue) {
-            if (!(newValue >= SKGeometry.N_min)) {
-                N = SKGeometry.N_min
-            }
-            if (!(newValue <= SKGeometry.N_max)) {
-                N = SKGeometry.N_max
-            }
-            if (!(k <= k_max)) {
-                k = k_max
-            }
-            if (N != N_prev) {
-                self.registerChange()
-            }
-        }
-    }
-    
-    var k: Int {
-        
-        didSet(newValue) {
-            if (!(newValue >= SKGeometry.k_min)) {
-                k = SKGeometry.k_min
-            }
-            if (!(newValue <= k_max)) {
-                k = k_max
-            }
-            if (k != k_prev) {
-                self.registerChange()
-            }
-        }
     }
     
     private var nodeIndexModulus: Int = 0
@@ -134,6 +147,7 @@ class SKGeometry : ChangeCounted {
     private var s12_max: Double = 0
     private var N_prev: Int = 0
     private var k_prev: Int = 0
+    private var r0_prev: Double = 0
     private var pChangeCounter: Int = 0
     
     // DEBUG
@@ -141,9 +155,16 @@ class SKGeometry : ChangeCounted {
     private var problems: [String] = []
     
     init() {
-        N = SKGeometry.N_default
-        k = SKGeometry.k_default
+        N = N_default
+        N_step = N_stepDefault
+        k = k_default
+        k_step = k_stepDefault
         registerChange()
+    }
+    
+    func reset() {
+        N = N_default
+        k = k_default
     }
     
     private func registerChange() {
@@ -155,6 +176,7 @@ class SKGeometry : ChangeCounted {
         s12_max = Constants.twoPi - s0
         N_prev = N
         k_prev = k
+        r0_prev = r0
         pChangeCounter += 1
     }
         

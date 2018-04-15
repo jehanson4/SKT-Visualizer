@@ -30,4 +30,12 @@ select 'make xib'
 
 ==================================================================================
 
+Having each physical quantity compute its own bounds is OK so long as there's only
+one physical quantity that is being kept fresh. Otherwise, it's inefficient.
+
+At present, there's only one pysical quantity being kept fresh.
+
+Q: But how would I deal w/ more than one?
+A: markStale and a func to take a value as part of setting new bounds. Weird & icky.
+
 

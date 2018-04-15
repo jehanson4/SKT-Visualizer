@@ -21,11 +21,11 @@ class NForFixedK : Cycler {
         get { return Double(pMinValue) }
         set(newValue) {
             pMinValue = Int(floor(newValue))
-            if (pMinValue < SKGeometry.N_min) {
-                pMinValue = SKGeometry.N_min
+            if (pMinValue < geometry.N_min) {
+                pMinValue = geometry.N_min
             }
-            else if (pMinValue > SKGeometry.N_max) {
-                pMinValue = SKGeometry.N_max
+            else if (pMinValue > geometry.N_max) {
+                pMinValue = geometry.N_max
             }
             
             if (pMinValue >= pMaxValue) {
@@ -39,11 +39,11 @@ class NForFixedK : Cycler {
         get { return Double(pMaxValue) }
         set(newValue) {
             pMaxValue = Int(floor(newValue))
-            if (pMaxValue < SKGeometry.N_min) {
-                pMaxValue = SKGeometry.N_min
+            if (pMaxValue < geometry.N_min) {
+                pMaxValue = geometry.N_min
             }
-            else if (pMaxValue > SKGeometry.N_max) {
-                pMaxValue = SKGeometry.N_max
+            else if (pMaxValue > geometry.N_max) {
+                pMaxValue = geometry.N_max
             }
             
             if (pMaxValue <= pMinValue) {
@@ -70,12 +70,15 @@ class NForFixedK : Cycler {
     var wrap: Bool = false
     
     private var geometry: SKGeometry
-    private var pMinValue: Int = SKGeometry.N_min
-    private var pMaxValue: Int = SKGeometry.N_max
-    private var pStepSize: Int = 1
+    private var pMinValue: Int
+    private var pMaxValue: Int
+    private var pStepSize: Int
     
     init(_ geometry: SKGeometry) {
         self.geometry = geometry
+        pMinValue = geometry.N_min
+        pMaxValue = geometry.N_max
+        pStepSize = geometry.N_step
     }
     
     func reset() {}
@@ -105,8 +108,8 @@ class KForFixedN : Cycler {
         get { return Double(pMinValue) }
         set(newValue) {
             pMinValue = Int(floor(newValue))
-            if (pMinValue < SKGeometry.k_min) {
-                pMinValue = SKGeometry.k_min
+            if (pMinValue < geometry.k_min) {
+                pMinValue = geometry.k_min
             }
             else if (pMinValue > geometry.k_max) {
                 pMinValue = geometry.k_max
@@ -123,8 +126,8 @@ class KForFixedN : Cycler {
         get { return Double(pMaxValue) }
         set(newValue) {
             pMaxValue = Int(floor(newValue))
-            if (pMaxValue < SKGeometry.k_min) {
-                pMaxValue = SKGeometry.k_min
+            if (pMaxValue < geometry.k_min) {
+                pMaxValue = geometry.k_min
             }
             else if (pMaxValue > geometry.k_max) {
                 pMaxValue = geometry.k_max
@@ -160,7 +163,7 @@ class KForFixedN : Cycler {
     
     init(_ geometry: SKGeometry) {
         self.geometry = geometry
-        pMinValue = SKGeometry.k_min
+        pMinValue = geometry.k_min
         pMaxValue = geometry.k_max
     }
     
@@ -192,11 +195,11 @@ class NForFixedKOverN : Cycler {
         set(newValue) {
             
             pMinValue = Int(floor(newValue))
-            if (pMinValue < SKGeometry.N_min) {
-                pMinValue = SKGeometry.N_min
+            if (pMinValue < geometry.N_min) {
+                pMinValue = geometry.N_min
             }
-            else if (pMinValue > SKGeometry.N_max) {
-                pMinValue = SKGeometry.N_max
+            else if (pMinValue > geometry.N_max) {
+                pMinValue = geometry.N_max
             }
             
             if (pMinValue >= pMaxValue) {
@@ -210,11 +213,11 @@ class NForFixedKOverN : Cycler {
         get { return Double(pMaxValue) }
         set(newValue) {
             pMaxValue = Int(floor(newValue))
-            if (pMaxValue < SKGeometry.N_min) {
-                pMaxValue = SKGeometry.N_min
+            if (pMaxValue < geometry.N_min) {
+                pMaxValue = geometry.N_min
             }
-            else if (pMaxValue > SKGeometry.N_max) {
-                pMaxValue = SKGeometry.N_max
+            else if (pMaxValue > geometry.N_max) {
+                pMaxValue = geometry.N_max
             }
             
             if (pMaxValue <= pMinValue) {
@@ -242,13 +245,15 @@ class NForFixedKOverN : Cycler {
     
     private var geometry: SKGeometry
     private var kOverN: Double
-    private var pMinValue: Int = SKGeometry.N_min
-    private var pMaxValue: Int = SKGeometry.N_max
+    private var pMinValue: Int
+    private var pMaxValue: Int
     private var pStepSize: Int = 2
     
     init(_ geometry: SKGeometry) {
         self.geometry = geometry
         self.kOverN = Double(geometry.k) / Double(geometry.N)
+        self.pMinValue = geometry.N_min
+        self.pMaxValue = geometry.N_max
     }
     
     func reset() {

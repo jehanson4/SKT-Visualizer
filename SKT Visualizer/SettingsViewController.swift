@@ -8,10 +8,10 @@
 import UIKit
 
 class SettingsViewController: UIViewController, UITextFieldDelegate {
-    // var geometry: SKGeometry?
-    // var physics: SKPhysics?
-    // var effects: EffectsController?
-    var model: ModelSettings?
+    
+    var geometry: SKGeometry?
+    var physics: SKPhysics?
+    var scene: SceneController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,9 +21,6 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         dk_text.delegate = self
         da_text.delegate = self
         dT_text.delegate = self
-        rotX_text.delegate = self
-        rotY_text.delegate = self
-        rotZ_text.delegate = self
         
         updateModelControls()
     }
@@ -46,11 +43,11 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var dN_text: UITextField!
 
     @IBAction func dN_textAction(_ sender: UITextField) {
-        if (model != nil && sender.text != nil) {
+        if (geometry != nil && sender.text != nil) {
             let dN: Int? = Int(sender.text!)
             if (dN != nil && dN! > 0) {
                 print("SettingsViewController.dN_textAction dN:", dN!)
-                model!.N_step = dN!
+                geometry!.N_step = dN!
             }
         }
         updateModelControls()
@@ -59,10 +56,10 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var dk_text: UITextField!
     
     @IBAction func dk_textAction(_ sender: UITextField) {
-        if (model != nil || sender.text != nil) {
+        if (geometry != nil || sender.text != nil) {
             let dk: Int? = Int(sender.text!)
             if (dk != nil && dk! > 0) {
-                model!.k_step = dk!
+                geometry!.k_step = dk!
             }
         }
         updateModelControls()
@@ -71,10 +68,10 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var da_text: UITextField!
 
     @IBAction func da_textAction(_ sender: UITextField) {
-        if (model != nil && sender.text != nil) {
+        if (physics != nil && sender.text != nil) {
             let da: Double?  = Double(sender.text!)
             if (da != nil && da! > 0.0) {
-                model!.a_step = da!
+                physics!.alpha_step = da!
             }
         }
         updateModelControls()
@@ -83,46 +80,10 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var dT_text: UITextField!
 
     @IBAction func dT_textAction(_ sender: UITextField) {
-        if (model != nil && sender.text != nil) {
+        if (physics != nil && sender.text != nil) {
             let dT: Double? = Double(sender.text!)
             if (dT != nil) {
-                model!.T_step = dT!
-            }
-        }
-        updateModelControls()
-    }
-    
-    @IBOutlet weak var rotX_text: UITextField!
-    
-    @IBAction func rotX_textAction(_ sender: UITextField) {
-        if (model != nil && sender.text != nil) {
-            let rotX: Double? = Double(sender.text!)
-            if (rotX != nil) {
-                model!.rotX = rotX!
-            }
-        }
-        updateModelControls()
-    }
-
-    @IBOutlet weak var rotY_text: UITextField!
-    
-    @IBAction func rotY_textAction(_ sender: UITextField) {
-        if (model != nil && sender.text != nil) {
-            let rotY: Double? = Double(sender.text!)
-            if (rotY != nil) {
-                model!.rotY = rotY!
-            }
-        }
-        updateModelControls()
-    }
-    
-    @IBOutlet weak var rotZ_text: UITextField!
-    
-    @IBAction func rotZ_textAction(_ sender: UITextField) {
-        if (model != nil && sender.text != nil) {
-            let rotZ: Double? = Double(sender.text!)
-            if (rotZ != nil) {
-                model!.rotZ = rotZ!
+                physics!.T_step = dT!
             }
         }
         updateModelControls()
@@ -130,25 +91,22 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     
     func updateModelControls() {
         loadViewIfNeeded()
-        if (model == nil) {
+        if (geometry == nil) {
             dN_text.text = ""
             dk_text.text = ""
-            da_text.text = ""
-            dT_text.text = ""
-            rotX_text.text = ""
-            rotY_text.text = ""
-            rotZ_text.text = ""
         }
         else {
-            let mm = model!
-            print("SettingsViewController.updateModelControls N_step:", mm.N_step)
-            dN_text.text = String(mm.N_step)
-            dk_text.text = String(mm.k_step)
-            da_text.text = String(mm.a_step)
-            dT_text.text = String(mm.T_step)
-            rotX_text.text = String(mm.rotX)
-            rotY_text.text = String(mm.rotY)
-            rotZ_text.text = String(mm.rotZ)
+            dN_text.text = String(geometry!.N_step)
+            dk_text.text = String(geometry!.k_step)
+        }
+        
+        if (physics == nil) {
+            da_text.text = ""
+            dT_text.text = ""
+        }
+        else {
+            da_text.text = String(physics!.alpha_step)
+            dT_text.text = String(physics!.T_step)
         }
         
     }
