@@ -24,10 +24,11 @@ class Surface : GLKBaseEffect, Effect {
     static let type = String(describing: Surface.self)
     var name = type
     var enabled = false
-    var generator: ColorationGenerator? = nil {
+    
+    var generator: Generator? = nil {
         
         didSet(g2) {
-            message("generator set; recomputing colors")
+            debug("generator set; recomputing colors")
             self.computeColors()
         }
     }
@@ -58,17 +59,8 @@ class Surface : GLKBaseEffect, Effect {
         
         super.init()
         
-//        self.colorFuncs = [
-//            blackColors,
-//            nodeIndexColors,
-//            energyColors,
-//            entropyColors,
-//            logOccupationColors,
-//            occupationColors,
-//        ]
-        
         // material
-        // but isn't it in the color buffer? comment it out & let's see
+        // . . . but isn't it in the color buffer? comment it out & let's see
         
         super.colorMaterialEnabled = GLboolean(GL_TRUE)
         // NO super.material.emissiveColor = GLKVector4Make(0.0, 0.0, 0.0, 1.0)
@@ -78,6 +70,7 @@ class Surface : GLKBaseEffect, Effect {
         // super.material.shininess = 128
         
         // lighting
+        // THIS is necessary
         
         super.light0.enabled = GLboolean(GL_TRUE)
         super.light0.ambientColor = GLKVector4Make(1.0, 1.0, 1.0, 1.0)
@@ -131,15 +124,16 @@ class Surface : GLKBaseEffect, Effect {
     
     private func computeColors() {
         if (generator == nil) {
-            message("generator is nil")
+            debug("generator is nil")
             return
         }
         
         let gg = generator!
         
-        // FIXME this is wrong.
+        // TAG INEFFICIENT
         // I DO want to prepare() before using the generator . . . once per change
         // But the same frame, or diff. effect in same frame, DO NOT PREPARE
+        
         gg.prepare()
         
         for i in 0..<colors.count {
@@ -147,81 +141,6 @@ class Surface : GLKBaseEffect, Effect {
         }
     }
     
-//    private func energyColors() {
-//        if (linearColorMap == nil) {
-//            linearColorMap = LinearColorMap()
-//        }
-//        let colorMap = linearColorMap!
-//
-//        for i in 0..<colors.count {
-//            let mn = geometry.nodeIndexToSK(i)
-//            let v = physics.normalizedEnergy(mn.m, mn.n)
-//            colors[i] = colorMap.getColor(v)
-//
-//            // message("energy color " + String(i) + " = " + String(v))
-//        }
-//    }
-//
-//    private func entropyColors() {
-//        if (linearColorMap == nil) {
-//            linearColorMap = LinearColorMap()
-//        }
-//        let colorMap = linearColorMap!
-//
-//
-//        for i in 0..<colors.count {
-//            let mn = geometry.nodeIndexToSK(i)
-//            let v = physics.normalizedEntropy(mn.m, mn.n)
-//            colors[i] = colorMap.getColor(v)
-//        }
-//    }
-//
-//    private func logOccupationColors() {
-//        if (linearColorMap == nil) {
-//            linearColorMap = LinearColorMap()
-//        }
-//        let colorMap = linearColorMap!
-//
-//        for i in 0..<colors.count {
-//            let mn = geometry.nodeIndexToSK(i)
-//            let v = physics.normalizedLogOccupation(mn.m, mn.n)
-//            colors[i] = colorMap.getColor(v)
-//
-//            message("logOccupation " + String(i) + ": " + String(v))
-//        }
-//    }
-//
-//    private func occupationColors() {
-//        if (logColorMap == nil) {
-//            logColorMap = LogColorMap()
-//        }
-//        let colorMap = logColorMap!
-//
-//        for i in 0..<colors.count {
-//            let mn = geometry.nodeIndexToSK(i)
-//            let v = physics.normalizedLogOccupation(mn.m, mn.n)
-//            colors[i] = colorMap.getColor(v)
-//
-//            // message("occupation color " + String(i) + " = " + String(v))
-//        }
-//    }
-//
-//    private func nodeIndexColors() {
-//        let g = GLfloat(0)
-//        let b = GLfloat(0)
-//        for i in 0..<colors.count {
-//            let r = GLfloat(i)/GLfloat(colors.count)
-//            colors[i] = GLKVector4Make(r, g, b, 1)
-//        }
-//    }
-//
-//    private func blackColors() {
-//        let black = GLKVector4Make(0, 0, 0, 0)
-//        for i in 0..<colors.count {
-//            colors[i] = black
-//        }
-//    }
-
     private func createBuffers() {
         
         glBindVertexArrayOES(vertexArray)
@@ -276,7 +195,7 @@ class Surface : GLKBaseEffect, Effect {
         
         let err = glGetError()
         if (err != 0) {
-            message(String(format: "createBuffers: glError 0x%x", err))
+            debug(String(format: "createBuffers: glError 0x%x", err))
         }
         
     }
@@ -295,32 +214,32 @@ class Surface : GLKBaseEffect, Effect {
         
         let err0 = glGetError()
         if (err0 != 0) {
-            message(String(format:"draw: entering: glError 0x%x", err0))
+            debug(String(format:"draw: entering: glError 0x%x", err0))
         }
 
         let geometryChange = geometry.changeNumber
         let physicsChange = physics.changeNumber
         if (geometryChange != geometryChangeNumber) {
-            message("rebuilding...")
+            debug("rebuilding...")
             self.geometryChangeNumber = geometryChange
             self.physicsChangeNumber = physicsChange
             deleteBuffers()
             buildVertexData()
             computeColors()
             createBuffers()
-            message("done rebuilding")
+            debug("done rebuilding")
         }
         else if (physicsChange != physicsChangeNumber) {
             self.physicsChangeNumber = physicsChange
-            message("recomputing colors...")
+            debug("recomputing colors...")
             computeColors()
-            message("done recomputing colors")
+            debug("done recomputing colors")
         }
 
         // DEBUG
         let err1 = glGetError()
         if (err1 != 0) {
-            message(String(format:"draw[1]: glError 0x%x", err0))
+            debug(String(format:"draw[1]: glError 0x%x", err0))
         }
         
         glBindVertexArrayOES(vertexArray)
@@ -337,7 +256,7 @@ class Surface : GLKBaseEffect, Effect {
         // DEBUG
         let err2 = glGetError()
         if (err2 != 0) {
-            message(String(format:"draw[2]: glError 0x%x", err0))
+            debug(String(format:"draw[2]: glError 0x%x", err0))
         }
         
         glDrawElements(GLenum(GL_TRIANGLES), GLsizei(indices.count), GLenum(GL_UNSIGNED_INT), BUFFER_OFFSET(0))
@@ -346,7 +265,7 @@ class Surface : GLKBaseEffect, Effect {
         // DEBUG
         let err3 = glGetError()
         if (err3 != 0) {
-            message(String(format:"draw[3]: glError 0x%x", err0))
+            debug(String(format:"draw[3]: glError 0x%x", err0))
         }
         
         glBindVertexArrayOES(0)
@@ -354,7 +273,7 @@ class Surface : GLKBaseEffect, Effect {
 
     }
     
-    func message(_ msg: String) {
+    func debug(_ msg: String) {
         print(name, msg)
     }
 

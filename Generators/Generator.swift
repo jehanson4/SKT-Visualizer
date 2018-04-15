@@ -1,5 +1,5 @@
 //
-//  ColorationGenerator.swift
+//  Generator.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 4/13/18.
@@ -17,55 +17,45 @@ import OpenGL
 // ==============================================================================
 // ==============================================================================
 
-protocol ColorationGenerator {
-    // static var type: String { get }
+protocol Generator {
+    
+    static var type: String { get }
+    
     var name: String { get set }
     
     func prepare()
+    
     func color(_ nodeIndex: Int) -> GLKVector4
 }
 
-protocol ColorationGeneratorRegistry {
+protocol GeneratorRegistry {
+    
     var generatorNames: [String] { get }
-    func getGenerator(_ name: String) -> ColorationGenerator?
+    
+    func getGenerator(_ name: String) -> Generator?
 
     /// returns true iff the selection changed
     func selectGenerator(_ name: String) -> Bool
-    var selectedGenerator: ColorationGenerator? { get }
+    
+    var selectedGenerator: Generator? { get }
     
 }
 
 // ==============================================================================
 // ==============================================================================
 
-class BlackGenerator : ColorationGenerator {
+class ConstColor : Generator {
     
-    // static let type = "Black"
-    var name = "Black"
+    static let type = "Const color"
+    var name = type
     let color: GLKVector4
     
-    init() {
-        self.color = GLKVector4Make(0,0,0,1)
+    init(r: GLfloat = 0, g: GLfloat = 0, b: GLfloat = 0) {
+        self.color = GLKVector4Make(r,g,b,1)
     }
     
-    func prepare() {}
-    
-    func color(_ nodeIndex: Int) -> GLKVector4 {
-        return color
-    }
-}
-
-// ==============================================================================
-// ==============================================================================
-
-class WhiteGenerator : ColorationGenerator {
-    
-    // static let type = "White"
-    var name = "White"
-    let color: GLKVector4
-    
-    init() {
-        self.color = GLKVector4Make(1,1,1,1)
+    init(_ color: GLKVector4) {
+        self.color = color
     }
     
     func prepare() {}

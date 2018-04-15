@@ -20,7 +20,7 @@ class Net : GLKBaseEffect, Effect {
     var name = type
     var enabled  = false
     
-    var generator: ColorationGenerator? {
+    var generator: Generator? {
         get { return nil }
         set(g) { }
     }
@@ -76,8 +76,8 @@ class Net : GLKBaseEffect, Effect {
         let indexCount = 2 * geometry.nodeCount
         let lineCount = mMax + nMax + 2
         
-
         self.vertices = buildVertexCoordinateArray(geometry)
+        
         self.indices = Array(repeating: 0, count: indexCount)
         self.lineArrayLengths = Array(repeating: 0, count: lineCount)
         
@@ -176,12 +176,12 @@ class Net : GLKBaseEffect, Effect {
         
         let newCount = geometry.changeNumber
         if (newCount != geometryChangeNumber) {
-            message("rebuilding...")
+            debug("rebuilding...")
             geometryChangeNumber = newCount
             deleteBuffers()
             buildVertexData()
             createBuffers()
-            message("done rebuilding")
+            debug("done rebuilding")
         }
         
         glBindVertexArrayOES(vertexArray)
@@ -203,7 +203,7 @@ class Net : GLKBaseEffect, Effect {
                                 lineArrayOffsets[line])
             let err = glGetError()
             if (err != 0) {
-                message(String(format:"draw: glError 0x%x", err))
+                debug(String(format:"draw: glError 0x%x", err))
                 break
             }
         }
@@ -211,7 +211,7 @@ class Net : GLKBaseEffect, Effect {
         glBindVertexArrayOES(0)
     }
     
-    func message(_ msg: String) {
+    func debug(_ msg: String) {
         print(name, msg)
     }
 
@@ -295,15 +295,15 @@ class Net : GLKBaseEffect, Effect {
 //        var vertex = 0
 //        var index = 0
 //        var phi: Double
-//        var theta_e: Double
+//        var thetaE: Double
 //        print(name, "=========================================================")
 //        for m in 0...mMax {
 //            for n in 0...nMax {
 //                index = m * pointNumberChunkSize + n
 //                let p = geometry.skToSpherical(m, n)
 //                phi = floor(1000 * p.phi/Constants.twoPi) / 1000
-//                theta_e = floor(1000 * p.theta_e/Constants.piOver2) / 1000
-//                print(name, "m,n:", m, n, "|", "v,i:", vertex, index, "|", "p,t:", phi, theta_e)
+//                thetaE = floor(1000 * p.thetaE/Constants.piOver2) / 1000
+//                print(name, "m,n:", m, n, "|", "v,i:", vertex, index, "|", "p,t:", phi, thetaE)
 //                vertex += 1
 //            }
 //        }

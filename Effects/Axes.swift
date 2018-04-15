@@ -20,12 +20,12 @@ class Axes : GLKBaseEffect, Effect {
     var name = type
     var enabled = false
 
-    var generator: ColorationGenerator? {
+    var generator: Generator? {
         get { return nil }
-        set(g) { }
+        set(newValue) { }
     }
     
-    let vertices: [GLfloat] = [
+    private let vertices: [GLfloat] = [
         0.00, 0.00, 0.00,
         0.25, 0.00, 0.00,
         0.00, 0.00, 0.00,
@@ -41,23 +41,8 @@ class Axes : GLKBaseEffect, Effect {
         super.init()
         super.useConstantColor = 1
         super.constantColor = GLKVector4Make(1.0, 1.0, 1.0, 1.0)
-        
-        
-//        // material
-//        super.colorMaterialEnabled = GLboolean(GL_TRUE)
-//        super.lightingType = GLKLightingType.perVertex
-//        super.material.ambientColor = GLKVector4Make(1.0, 1.0, 1.0, 1.0)
-//        super.material.diffuseColor = GLKVector4Make(1.0, 1.0, 1.0, 1.0)
-//        // super.material.specularColor = GLKVector4Make(1.0, 1.0, 1.0, 0.1)
-//        // super.material.shininess = 10.0
-//        
-//        // lighting
-//        // super.light0.enabled = GLboolean(GL_TRUE)
-//        // super.light0.ambientColor = GLKVector4Make(0.0, 0.0, 0.15, 0.1)
-//        // super.light0.diffuseColor = GLKVector4Make(0.0, 0.0, 0.15, 0.1)
-//        // super.light0.specularColor = GLKVector4Make(0.0, 0.0, 1.0, 0.1)
-//        // super.light0.position = GLKVector4Make(1.0, -1.0, 1.0, 0.0)
-        
+
+        // vertex array & buffer
         glGenVertexArraysOES(1, &vertexArray)
         glBindVertexArrayOES(vertexArray)
 
@@ -96,11 +81,11 @@ class Axes : GLKBaseEffect, Effect {
 
         let err = glGetError()
         if (err != 0) {
-            message(String(format: "draw glError 0x%x", err))
+            debug(String(format: "draw glError 0x%x", err))
         }
     }
 
-    func message(_ msg: String) {
+    func debug(_ msg: String) {
         print(name, msg)
     }
 }

@@ -8,13 +8,14 @@
 
 import Foundation
 import GLKit
-#if os(iOS) || os(tvOS)
-import OpenGLES
-#else
-import OpenGL
-#endif
+//#if os(iOS) || os(tvOS)
+//import OpenGLES
+//#else
+//import OpenGL
+//#endif
 
 // ==============================================================================
+// Misc helpers
 // ==============================================================================
 
 /// struct with position & normal coords
@@ -45,19 +46,36 @@ func BUFFER_OFFSET(_ n: Int) -> UnsafeRawPointer? {
  returns array containing x,y,z values of nodes,
  in node index order defined by the given geometry.
  */
-func buildVertexCoordinateArray(_ geometry: SKGeometry) -> [GLfloat] {
+func buildVertexCoordinateArray(_ geometry: SKGeometry, rOffset: Double = 0) -> [GLfloat] {
     let mMax = geometry.m_max
     let nMax = geometry.n_max
     var vertexCoords: [GLfloat] = Array(repeating: 0, count: 3 * geometry.nodeCount)
     var nextVertex: Int = 0
-    for m in 0...mMax {
-        for n in 0...nMax {
-            let v = geometry.skToCartesian(m, n)
-            vertexCoords[3*nextVertex] = GLfloat(v.x)
-            vertexCoords[3*nextVertex+1] = GLfloat(v.y)
-            vertexCoords[3*nextVertex+2] = GLfloat(v.z)
-            nextVertex += 1
+    
+    // HACK HACK HACK HACK retrofit optional rOffset
+    if (rOffset == 0) {
+        for m in 0...mMax {
+            for n in 0...nMax {
+                let v = geometry.skToCartesian(m, n)
+                vertexCoords[3*nextVertex] = GLfloat(v.x)
+                vertexCoords[3*nextVertex+1] = GLfloat(v.y)
+                vertexCoords[3*nextVertex+2] = GLfloat(v.z)
+                nextVertex += 1
+            }
         }
+    }
+    else {
+        for m in 0...mMax {
+            for n in 0...nMax {
+                let sph = geometry.skToSpherical(m, n)
+                let v = geometry.sphericalToCartesian(sph.r + rOffset, sph.phi, sph.thetaE)
+                vertexCoords[3*nextVertex] = GLfloat(v.x)
+                vertexCoords[3*nextVertex+1] = GLfloat(v.y)
+                vertexCoords[3*nextVertex+2] = GLfloat(v.z)
+                nextVertex += 1
+            }
+        }
+        
     }
     return vertexCoords
 }
@@ -89,6 +107,7 @@ func buildPNVertexArray(_ geometry: SKGeometry) -> [PNVertex] {
 }
 
 // ==============================================================================
+// Effect & EffectRegistry
 // ==============================================================================
 
 protocol Effect  {
@@ -96,7 +115,7 @@ protocol Effect  {
     var name: String { get set }
     var enabled: Bool { get set }
     var transform: GLKEffectPropertyTransform { get }
-    var generator: ColorationGenerator? { get set }
+    var generator: Generator? { get set }
     
     func prepareToDraw()
     func draw()

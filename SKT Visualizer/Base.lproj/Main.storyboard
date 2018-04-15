@@ -491,7 +491,7 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
-                                            <action selector="resetViewParams:" destination="3aD-bn-OtG" eventType="touchUpInside" id="8l8-16-t8R"/>
+                                            <action selector="resetModelParams:" destination="3aD-bn-OtG" eventType="touchUpInside" id="IpO-8d-yzq"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="DYT-hy-G98" customClass="DesignableButton" customModule="SKT_Visualizer" customModuleProvider="target">
@@ -504,7 +504,7 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
-                                            <action selector="resetViewParams:" destination="3aD-bn-OtG" eventType="touchUpInside" id="lF9-dG-NIW"/>
+                                            <action selector="resetViewParams:" destination="3aD-bn-OtG" eventType="touchUpInside" id="xP4-ih-fTs"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -832,7 +832,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="done" id="7Y2-PQ-QFA">
                             <button key="customView" opaque="NO" contentMode="right" contentHorizontalAlignment="right" contentVerticalAlignment="fill" buttonType="roundedRect" lineBreakMode="middleTruncation" id="8jX-Zj-hIp">
-                                <rect key="frame" x="324" y="5.5" width="35" height="33"/>
+                                <rect key="frame" x="324" y="6" width="35" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <state key="normal" title="&lt;&lt;&lt;"/>

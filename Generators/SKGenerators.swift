@@ -13,33 +13,30 @@ import GLKit
 // Helpers
 // ==================================================================================
 
-/// Encapsulates domain knownedge about appropriate color map to use with certain
-/// physical properties
-func makeSKGenerators(_ physics: SKPhysics) -> [ColorationGenerator] {
-
+/**
+ Makes generators for all physical properties. Handles special cases.
+ */
+func makeSKGenerators(_ physics: SKPhysics) -> [Generator] {
+    
     let linearColors = LinearColorMap()
     let logColors = LogColorMap()
-    var generators: [ColorationGenerator] = []
+    var generators: [Generator] = []
     
     for pName in physics.physicalPropertyNames {
         let prop = physics.physicalProperty(pName)
         if (prop == nil) {
             continue
         }
-
-        // ============
-        // SPECIAL CASE
-        // ============
         
+        // SPECIAL CASE
         if (prop!.name == SKLogOccupation.type) {
             let gen = SKPhysicalPropertyGenerator("Occupation", prop!, logColors)
             generators.append(gen);
+            continue
         }
-            
-        else {
-            let gen = SKPhysicalPropertyGenerator(prop!.name, prop!, linearColors)
-            generators.append(gen);
-        }
+        
+        let gen = SKPhysicalPropertyGenerator(prop!.name, prop!, linearColors)
+        generators.append(gen);
     }
     return generators
 }
@@ -48,9 +45,11 @@ func makeSKGenerators(_ physics: SKPhysics) -> [ColorationGenerator] {
 // SKPhysicalPropertyGenerator
 // ==================================================================================
 
-class SKPhysicalPropertyGenerator : ColorationGenerator {
+class SKPhysicalPropertyGenerator : Generator {
     
+    static var type: String = "SK physical property"
     var name: String
+    
     var property: SKPhysicalProperty
     var geometry: SKGeometry
     var colorMap: ColorMap
@@ -63,11 +62,16 @@ class SKPhysicalPropertyGenerator : ColorationGenerator {
     }
     
     func prepare() {
-        colorMap.calibrate(vMin: property.min, vMax: property.max)
+        debug("calibrating colorMap")
+        colorMap.calibrate(property.min, property.max)
     }
     
     func color(_ nodeIndex: Int) -> GLKVector4 {
         let mn = geometry.nodeIndexToSK(nodeIndex)
         return colorMap.getColor(property.value(mn.m, mn.n))
+    }
+    
+    func debug(_ msg: String) {
+        print(name + ": " + msg)
     }
 }

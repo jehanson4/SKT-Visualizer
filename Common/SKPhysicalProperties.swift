@@ -13,7 +13,6 @@ import Foundation
 // ==============================================================================
 
 func findBounds(_ physics: SKPhysics, _ property: SKPhysicalProperty) -> (min: Double, max: Double) {
-    
     var tmpValue: Double  = property.value(0, 0)
     var minValue: Double = tmpValue
     var maxValue: Double = tmpValue
@@ -32,6 +31,14 @@ func findBounds(_ physics: SKPhysics, _ property: SKPhysicalProperty) -> (min: D
         }
     }
     return (min: minValue, max: maxValue)
+}
+
+func makeSKPhysicalProperties(_ physics: SKPhysics) -> [SKPhysicalProperty] {
+    var plist: [SKPhysicalProperty] = []
+    plist.append(SKEnergy(physics))
+    plist.append(SKEntropy(physics))
+    plist.append(SKLogOccupation(physics))
+    return plist
 }
 
 // ==============================================================================
@@ -64,6 +71,7 @@ class SKEnergy : SKPhysicalProperty {
     
     let physics: SKPhysics
     let geometry: SKGeometry
+    var geometryChangeNumber: Int
     var physicsChangeNumber: Int
     var pMin: Double = 0
     var pMax: Double = 0
@@ -73,6 +81,7 @@ class SKEnergy : SKPhysicalProperty {
         self.physics = physics
         self.geometry = physics.geometry
         // force refresh next getter
+        self.geometryChangeNumber = geometry.changeNumber - 1
         self.physicsChangeNumber = physics.changeNumber - 1
     }
     
@@ -81,10 +90,13 @@ class SKEnergy : SKPhysicalProperty {
     }
     
     func ensureFresh() {
-        let cnum = physics.changeNumber
-        if (physicsChangeNumber != cnum) {
+        let gnum = geometry.changeNumber
+        let pnum = physics.changeNumber
+        if (geometryChangeNumber != gnum || physicsChangeNumber != pnum) {
+            debug("ensureFresh", "finding bounds")
             let bounds = findBounds(physics, self)
-            self.physicsChangeNumber = cnum
+            self.geometryChangeNumber = gnum
+            self.physicsChangeNumber = pnum
             self.pMin = bounds.min
             self.pMax = bounds.max
         }
@@ -95,6 +107,11 @@ class SKEnergy : SKPhysicalProperty {
         let d2 = Double(geometry.N / 2 - (geometry.k + n - m))
         return physics.alpha1 * d1 * d1 + physics.alpha2 * d2 * d2
     }
+    
+    private func debug(_ mtd: String, _ msg: String = "") {
+        print("SKEnergy", mtd, msg)
+    }
+    
 }
 
 // ==============================================================================
@@ -125,6 +142,10 @@ class SKEntropy : SKPhysicalProperty {
         set(newValue) { pStep = (newValue > 0) ? newValue : 0 }
     }
     
+    // No need to trace physics change numbers because value of entropy
+    // only depends on geometry. We do need to keep ref to physics, tho,
+    // so we can call findBounds(...)
+    
     let physics: SKPhysics
     let geometry: SKGeometry
     var geometryChangeNumber: Int
@@ -144,10 +165,11 @@ class SKEntropy : SKPhysicalProperty {
     }
     
     func ensureFresh() {
-        let cnum = geometry.changeNumber
-        if (geometryChangeNumber != cnum) {
+        let gnum = geometry.changeNumber
+        if (geometryChangeNumber != gnum) {
+            debug("ensureFreash", "finding bounds")
             let bounds = findBounds(physics, self)
-            self.geometryChangeNumber = cnum
+            self.geometryChangeNumber = gnum
             self.pMin = bounds.min
             self.pMax = bounds.max
         }
@@ -156,6 +178,11 @@ class SKEntropy : SKPhysicalProperty {
     static func entropy(_ geometry: SKGeometry, _ m: Int, _ n: Int) -> Double {
         return logBinomial(geometry.k, m) + logBinomial(geometry.N - geometry.k, n)
     }
+
+    private func debug(_ mtd: String, _ msg: String = "") {
+        print("SKEntropy", mtd, msg)
+    }
+    
 }
 
 // ==============================================================================
@@ -188,6 +215,7 @@ class SKLogOccupation : SKPhysicalProperty {
     
     let physics: SKPhysics
     let geometry: SKGeometry
+    var physicsChangeNumber: Int
     var geometryChangeNumber: Int
     var pMin: Double = 0
     var pMax: Double = 0
@@ -197,6 +225,7 @@ class SKLogOccupation : SKPhysicalProperty {
         self.physics = physics
         self.geometry = physics.geometry
         // force refresh next getter
+        self.physicsChangeNumber = physics.changeNumber - 1
         self.geometryChangeNumber = geometry.changeNumber - 1
     }
     
@@ -205,13 +234,20 @@ class SKLogOccupation : SKPhysicalProperty {
     }
     
     func ensureFresh() {
-        let cnum = geometry.changeNumber
-        if (geometryChangeNumber != cnum) {
+        let gnum = geometry.changeNumber
+        let pnum = physics.changeNumber
+        if (geometryChangeNumber != gnum || physicsChangeNumber != pnum) {
+            debug("ensureFresh", "finding bounds")
             let bounds = findBounds(physics, self)
-            self.geometryChangeNumber = cnum
+            self.geometryChangeNumber = gnum
+            self.physicsChangeNumber = pnum
             self.pMin = bounds.min
             self.pMax = bounds.max
         }
     }
+    
+    private func debug(_ mtd: String, _ msg: String) {
+        print("SKLogOccupation", mtd, msg)
     }
+}
 

@@ -2,6 +2,11 @@
 Notes.txt
 ==================================================================================
 
+/**
+m = #steps to the RIGHT of p1. max = k
+n = #steps to the LEFT of p1 (= #steps to the RIGHT of p2). max = N-k
+*/
+
 ==================================================================================
 Split view controller:
 
@@ -38,4 +43,7 @@ At present, there's only one pysical quantity being kept fresh.
 Q: But how would I deal w/ more than one?
 A: markStale and a func to take a value as part of setting new bounds. Weird & icky.
 
+=================================================================================
+“The willSet and didSet observers of superclass properties are called when a property is set in a subclass initializer, after the superclass initializer has been called. They are not called while a class is setting its own properties, before the superclass initializer has been called.”
 
+Excerpt From: Apple Inc. “The Swift Programming Language (Swift 4.0.3).” iBooks. https://itunes.apple.com/us/book/the-swift-programming-language-swift-4-1/id881256329?mt=11

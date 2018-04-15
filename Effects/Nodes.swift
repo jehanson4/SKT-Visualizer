@@ -20,7 +20,7 @@ class Nodes : GLKBaseEffect, Effect {
     var name = type
     var enabled = false
     
-    var generator: ColorationGenerator? {
+    var generator: Generator? {
         get { return nil }
         set(g) { }
     }
@@ -104,7 +104,7 @@ class Nodes : GLKBaseEffect, Effect {
         
         let err = glGetError()
         if (err != 0) {
-            message(String(format: "createBuffers: glError 0x%x", err))
+            debug(String(format: "createBuffers: glError 0x%x", err))
         }
         
     }
@@ -121,31 +121,31 @@ class Nodes : GLKBaseEffect, Effect {
         
         let err0 = glGetError()
         if (err0 != 0) {
-            message(String(format:"draw: entering: glError 0x%x", err0))
+            debug(String(format:"draw: entering: glError 0x%x", err0))
         }
 
         let geometryChange = geometry.changeNumber
         let physicsChange = physics.changeNumber
         if (geometryChange != geometryChangeNumber) {
-            message("rebuilding...")
+            debug("rebuilding...")
             self.geometryChangeNumber = geometryChange
             self.physicsChangeNumber = physicsChange
             deleteBuffers()
             buildVertexAndColorData()
             createBuffers()
-            message("done rebuilding")
+            debug("done rebuilding")
         }
         else if (physicsChange != physicsChangeNumber) {
             self.physicsChangeNumber = physicsChange
-            message("recomputing colors...")
+            debug("recomputing colors...")
             computeColors()
-            message("done recomputing colors")
+            debug("done recomputing colors")
        }
         
         // DEBUG
         let err1 = glGetError()
         if (err1 != 0) {
-            message(String(format:"draw[1]: glError 0x%x", err0))
+            debug(String(format:"draw[1]: glError 0x%x", err0))
         }
         
         glBindVertexArrayOES(vertexArray)
@@ -154,7 +154,7 @@ class Nodes : GLKBaseEffect, Effect {
         // DEBUG
         let err2 = glGetError()
         if (err2 != 0) {
-            message(String(format:"draw[2]: glError 0x%x", err0))
+            debug(String(format:"draw[2]: glError 0x%x", err0))
         }
         
         glDrawArrays(GLenum(GL_POINTS), 0, GLsizei(vertices.count))
@@ -162,14 +162,14 @@ class Nodes : GLKBaseEffect, Effect {
         // DEBUG
         let err3 = glGetError()
         if (err3 != 0) {
-            message(String(format:"draw[3]: glError 0x%x", err0))
+            debug(String(format:"draw[3]: glError 0x%x", err0))
         }
         
         glBindVertexArrayOES(0)
 
     }
     
-    func message(_ msg: String) {
+    func debug(_ msg: String) {
         print(name, msg)
     }
 

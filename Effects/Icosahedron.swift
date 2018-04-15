@@ -20,7 +20,7 @@ class Icosahedron : GLKBaseEffect, Effect {
     var name = type
     var enabled = false
 
-    var generator: ColorationGenerator? {
+    var generator: Generator? {
         get { return nil }
         set(g) { }
     }
@@ -102,17 +102,17 @@ class Icosahedron : GLKBaseEffect, Effect {
         super.init()
         
         // material
-        // glColorMaterial(GLenum(GL_FRONT), GLenum(GL_AMBIENT_AND_DIFFUSE))
-
         super.colorMaterialEnabled = GLboolean(GL_TRUE)
-        // super.material.emissiveColor = GLKVector4Make(0.0, 0.0, 0.0, 0.0)
         // super.material.ambientColor = GLKVector4Make(0.0, 0.0, 0.0, 0.0)
         super.material.diffuseColor = GLKVector4Make(1.0, 1.0, 1.0, 1.0)
         super.material.specularColor = GLKVector4Make(1.0, 1.0, 1.0, 1.0)
         super.material.shininess = 128
         
         // lighting
-
+        // NOTES
+        // 1. when we rotate the scene the light stays put (i.e., it tracks our POV)
+        // 2. light position acts as if we're always above the north pole
+        
         super.light0.enabled = GLboolean(GL_TRUE)
         // super.light0.ambientColor = GLKVector4Make(0.0, 0.0, 0.0, 0.0)
         super.light0.diffuseColor = GLKVector4Make(0.0, 1.0, 0.0, 0.5)
@@ -125,6 +125,7 @@ class Icosahedron : GLKBaseEffect, Effect {
         glBindVertexArrayOES(vertexArray)
 
         // vertex buffer
+        
         let vbSize = MemoryLayout<GLfloat>.stride
         glGenBuffers(1, &vertexBuffer)
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), vertexBuffer)
@@ -150,12 +151,14 @@ class Icosahedron : GLKBaseEffect, Effect {
         glEnableVertexAttribArray(naIndex)
 
         // index buffer
+        
         let ibSize = MemoryLayout<GLuint>.stride
         glGenBuffers(1, &indexBuffer)
         glBindBuffer(GLenum(GL_ELEMENT_ARRAY_BUFFER), indexBuffer)
         glBufferData(GLenum(GL_ELEMENT_ARRAY_BUFFER), ibSize * indices.count, indices, GLenum(GL_STATIC_DRAW))
 
         // finish up
+        
         glBindVertexArrayOES(0)
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), 0)
         glBindBuffer(GLenum(GL_ELEMENT_ARRAY_BUFFER), 0)
@@ -180,11 +183,11 @@ class Icosahedron : GLKBaseEffect, Effect {
 
         let err = glGetError()
         if (err != 0) {
-            message(String(format: "draw glError: 0x%x", err))
+            debug(String(format: "draw glError: 0x%x", err))
         }
     }
 
-    func message(_ msg: String) {
+    func debug(_ msg: String) {
         print(name, msg)
     }
 }

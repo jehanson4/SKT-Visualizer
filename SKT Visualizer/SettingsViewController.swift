@@ -7,15 +7,15 @@
 
 import UIKit
 
-class SettingsViewController: UIViewController, UITextFieldDelegate {
-    
+class SettingsViewController: UIViewController, UITextFieldDelegate, ModelChangeListener {
+
     var geometry: SKGeometry?
     var physics: SKPhysics?
     var scene: SceneController?
     
     override func viewDidLoad() {
+        debug("viewDidLoad")
         super.viewDidLoad()
-        // print("SettingsViewController.viewDidLoad")
         self.navigationItem.hidesBackButton = true
         dN_text.delegate = self
         dk_text.delegate = self
@@ -31,15 +31,26 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        print("SettingsViewController.prepare for seque", segue.destination)
+        debug("prepareForSegue", "destination: " + segue.destination.nibName!)
     }
     
+    func modelHasChanged() {
+        updateModelControls()
+    }
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         // Hide the keyboard.
         textField.resignFirstResponder()
         return true
     }
+
+    private func debug(_ mtd: String, _ msg: String = "") {
+        print("SettingsViewController", mtd, msg)
+    }
     
+    // ==========================================================================
+    // MARK: Model settings
+
     @IBOutlet weak var dN_text: UITextField!
 
     @IBAction func dN_textAction(_ sender: UITextField) {
@@ -89,6 +100,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         updateModelControls()
     }
     
+    
     func updateModelControls() {
         loadViewIfNeeded()
         if (geometry == nil) {
@@ -111,14 +123,4 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         
     }
    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

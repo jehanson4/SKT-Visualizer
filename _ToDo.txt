@@ -35,5 +35,17 @@ frame RATE on cycler not frame COUNT
 
 distinguish step from stepSize -- the latter is always positive
 
+separate step direction after all, so I don't have the delta's switching sign in the UI
+
+"Step over"?
+
+step down in N toward 0: fail to catch the lower limit.
+
+settings VC needs to be model change listener
+
+    *but* does that mean I've got strong ref's to it? Does it get rebuilt or NOT?
+    in either case, it's a bad thing. either there's dead listeners or it keeps
+    re-adding itself.
+
 
 

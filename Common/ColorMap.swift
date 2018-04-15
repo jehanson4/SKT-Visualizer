@@ -8,17 +8,17 @@
 
 import Foundation
 import GLKit
-#if os(iOS) || os(tvOS)
-import OpenGLES
-#else
-import OpenGL
-#endif
+//#if os(iOS) || os(tvOS)
+//import OpenGLES
+//#else
+//import OpenGL
+//#endif
 
 // ==============================================================================
 // ==============================================================================
 
 func defaultColors1() -> [GLKVector4] {
-    let c0 = GLfloat(0.8)
+    let c0 = GLfloat(0.75)
     let c1 = GLfloat(1.0)
     let rgbArray: [[GLfloat]] = [
         [c0,  0,  0],
@@ -78,8 +78,12 @@ func defaultColors2() -> [GLKVector4] {
 // ==============================================================================
 
 protocol ColorMap {
+    
     static var type: String { get }
-    func calibrate(vMin: Double, vMax: Double)
+    var name: String { get set }
+    
+    func calibrate(_ min: Double, _ max: Double)
+    
     func getColor(_ v: Double) -> GLKVector4
 }
 
@@ -87,30 +91,32 @@ protocol ColorMap {
 // ==============================================================================
 
 class LinearColorMap : ColorMap {
-    static let type = "Linear"
     
-    var colors: [GLKVector4]
-    var under: GLKVector4
-    var over: GLKVector4
-    var norm: Double
-    var offset: Double
+    static let type = "Linear"
+    var name = type
+    
+    private var colors: [GLKVector4]
+    private var under: GLKVector4
+    private var over: GLKVector4
+    private var norm: Double
+    private var offset: Double
     
     init() {
         self.under = GLKVector4Make(0,0,0,1)
-        self.over = self.under
+        self.over = GLKVector4Make(1,1,1,1)
         self.colors = defaultColors1()
         self.norm = 1
         self.offset = 0
     }
     
-    func calibrate(vMin: Double, vMax: Double) {
-        if vMin >= vMax {
+    func calibrate(_ min: Double, _ max: Double) {
+        if min >= max {
             self.norm = 1
             self.offset = 0
         }
         else {
-            self.norm = 1.0 / (vMax - vMin)
-            self.offset = vMin
+            self.norm = 1.0 / (max - min)
+            self.offset = min
         }
     }
     
@@ -124,26 +130,29 @@ class LinearColorMap : ColorMap {
 // ==============================================================================
 
 class LogColorMap : ColorMap {
-    static let type = "Log"
     
-    var colors: [GLKVector4]
-    var over: GLKVector4
-    var thresholds: [Double]
+    static let type = "Log"
+    var name = type
+    
+    private var colors: [GLKVector4]
+    private var over: GLKVector4
+    private var thresholds: [Double]
 
     init() {
         self.colors = defaultColors1()
-        self.over = GLKVector4Make(0,0,0,1)
-        self.thresholds = [1.0]
+        self.over = GLKVector4Make(1,1,1,1)
+        self.thresholds = []
     }
 
-    func calibrate(vMin: Double, vMax: Double) {
+    func calibrate(_ min: Double, _ max: Double) {
+
         let logZZMax: Double = 100 // EMPIRICAL
         let logCC = log(Double(colors.count))
-        var tPrev = vMin
+        var tPrev = min
         
         thresholds = []
         for _ in 0..<colors.count {
-            let logZZ = vMax - tPrev - logCC
+            let logZZ = max - tPrev - logCC
             let t = (logZZ < logZZMax) ? (tPrev + log(exp(logZZ)+1.0)) : (tPrev + logZZ)
             thresholds.append(t)
             tPrev = t

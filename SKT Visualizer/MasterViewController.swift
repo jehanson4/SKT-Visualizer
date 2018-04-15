@@ -15,7 +15,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     var scene: SceneController?
 
     override func viewDidLoad() {
-        message("viewDidLoad")
+        debug("viewDidLoad")
         super.viewDidLoad()
         
         N_text.delegate = self
@@ -48,6 +48,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        debug("prepare for segue", "destination: " + segue.destination.nibName!)
         
         // FIXME HACK HACK HACK HACK
         if (segue.destination is SettingsViewController) {
@@ -64,24 +65,16 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         return true
     }
     
-    func message(_ msg: String) {
-        print("MasterViewController", msg)
+    func debug(_ mtd: String, _ msg: String = "") {
+        print("MasterViewController", mtd, msg)
     }
-    
-    // =================================================================================================
-    // MARK: - Navigation
-    
-    //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    //        print("MasterViewController.prepare for seque", "destination", segue.destination)
-    //    }
     
     @IBAction func unwindToMaster(_ sender: UIStoryboardSegue) {
-        message("unwind to master")
+        debug("unwindToMaster")
     }
 
-
     // =====================================================================
-    // MARK model controls
+    // MARK: model controls
 
     @IBOutlet weak var N_text: UITextField!
     
@@ -250,7 +243,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     }
     
     func modelHasChanged() {
-        message("modelHasChanged")
+        debug("modelHasChanged")
         updateModelControls()
     }
     
@@ -492,10 +485,16 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     // ======================================================================================
     // MARK: view controls
     
+    @IBAction func resetModelParams(_ sender: Any) {
+        // message("resetModelParams")
+        if (scene == nil) { return }
+        scene!.resetModel()
+    }
+    
     @IBAction func resetViewParams(_ sender: Any) {
         // message("resetViewParams")
         if (scene == nil) { return }
-        scene!.resetViewParams()
+        scene!.resetView()
     }
     
 }

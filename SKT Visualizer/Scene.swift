@@ -18,38 +18,43 @@ protocol ModelChangeListener {
         func modelHasChanged()
 }
 
-protocol SceneController : EffectRegistry, ColorationGeneratorRegistry, CyclerRegistry {
+protocol SceneController : EffectRegistry, GeneratorRegistry, CyclerRegistry {
     
     var zoom: Double { get set }
     var povR: Double { get }
     var povPhi: Double { get }
     var povTheta_e: Double { get }
     
-    func setPOVAngularPosition(_ phi: Double, _ theta_e: Double)
+    func setPOVAngularPosition(_ phi: Double, _ thetaE: Double)
     
-    var povRotationX: Double { get set }
-    var povRotationY: Double { get set }
-    var povRotationZ: Double { get set }
-    var povRotationAngle : Double { get }
-    func setRotationAngle(_ angle: Double)
-    func resetRotationAngle()
+    var povRotationAngle: Double { get set }
+    var povRotationAxis: (x: Double, y: Double, z: Double) { get set }
     
     func addListener(forModel listener: ModelChangeListener)
     
-    func resetViewParams()
-    func resetModelParams()
+    func resetView()
+    func resetModel()
 }
 
 class Scene : SceneController {
     
     static let povR_default: Double = 2
-    static let povR_min: Double = 1.1 // EMPIRICAL
+    // static let povR_min: Double = 1.1 // EMPIRICAL
     static let povPhi_default: Double = Constants.piOver4
     static let povTheta_e_default: Double = Constants.piOver4
     
-    static let zoom_min: Double = 0.001
-    static let zoom_max: Double = 1000
+//    static let zoom_min: Double = 0.001
+//    static let zoom_max: Double = 1000
+
+    var zoom: Double = 1.0 {
+        didSet(newValue) {
+            //            if (!(newValue >= Scene.zoom_min)) { zoom = Scene.zoom_min }
+            //            if (!(newValue <= Scene.zoom_max)) { zoom = Scene.zoom_max }
+            computeTransforms()
+        }
+    }
     
+
     var geometry: SKGeometry
     var physics: SKPhysics
     
@@ -58,24 +63,24 @@ class Scene : SceneController {
     var cyclerEnabled: Bool = false
     var cyclerFramesPerStep = 10
     var cyclerSgn: Int = -1
-    let rotationRate: Double = 0.02
-    
-    var zoom: Double = 1.0 {
-        didSet(newValue) {
-            if (!(newValue >= Scene.zoom_min)) { zoom = Scene.zoom_min }
-            if (!(newValue <= Scene.zoom_max)) { zoom = Scene.zoom_max }
-            computeTransforms()
-        }
-    }
+//    let rotationRate: Double = 0.02
     
     // point of view
     var povR : Double = Scene.povR_default
     var povPhi: Double = Scene.povPhi_default
     var povTheta_e: Double = Scene.povTheta_e_default
-    var povRotationAngle: Double = 0
-    var povRotationX: Double = 1.0
-    var povRotationY: Double = -1.0
-    var povRotationZ: Double = 1.0
+
+    var povRotationAngle: Double {
+        didSet(newValue) {
+            computeTransforms()
+        }
+    }
+    
+    var povRotationAxis: (x: Double, y: Double, z: Double) {
+        didSet(newValue) {
+            computeTransforms()
+        }
+    }
     
     var projectionMatrix: GLKMatrix4!
     var modelviewMatrix: GLKMatrix4!
@@ -88,7 +93,8 @@ class Scene : SceneController {
         self.geometry = geometry
         self.physics = physics
         
-        // EMPIRICAL if last 2 args are -d, d then it doesn't show net from underside. 10 is OK tho
+        // EMPIRICAL if last 2 args are -d, d then it doesn't show net from underside.
+        // 10 and 2d seem OK
         let d = GLfloat(2.0 * geometry.r0)
         projectionMatrix = GLKMatrix4MakeOrtho(-d, d, -d/aspectRatio, d/aspectRatio, -2*d, 2*d)
         
@@ -121,6 +127,9 @@ class Scene : SceneController {
         // glEnable(GLenum(GL_COLOR_MATERIAL))
         // glColorMaterial(GLenum(GL_FRONT), GLenum(GL_AMBIENT_AND_DIFFUSE))
         
+        povRotationAngle = 0
+        povRotationAxis = (x: 0, y: 0, z: 1)
+        
         computeTransforms()
         addCyclers()
         addGenerators()
@@ -131,12 +140,11 @@ class Scene : SceneController {
         modelChangeListeners.append(listener)
     }
     
-    func resetModelParams() {
-        // TODO
-        // physics and geometry
-        // cyclers?
-        // effects?
-        
+    func resetModel() {
+        physics.revertSettings()
+        physics.resetParams()
+        geometry.revertSettings()
+        geometry.resetParams()
         for listener in modelChangeListeners {
             listener.modelHasChanged()
         }
@@ -198,8 +206,8 @@ class Scene : SceneController {
     // Generators
     // ==========================================================
     
-    var generators = [String: ColorationGenerator]()
-    var selectedGenerator: ColorationGenerator? = nil
+    var generators = [String: Generator]()
+    var selectedGenerator: Generator? = nil
     
     var generatorNames: [String] {
         var names: [String] = []
@@ -209,7 +217,7 @@ class Scene : SceneController {
         return names
     }
     
-    func getGenerator(_ name: String) -> ColorationGenerator? {
+    func getGenerator(_ name: String) -> Generator? {
         return generators[name]
     }
     
@@ -230,10 +238,10 @@ class Scene : SceneController {
     }
 
     func addGenerators() {
-        let black = BlackGenerator()
-        black.name = "None"
-        generators[black.name] = black
-        selectedGenerator = black
+        let gray = ConstColor(r: 0.25, g: 0.25, b: 0.25)
+        gray.name = "None"
+        generators[gray.name] = gray
+        selectedGenerator = gray
         
         let skGenerators = makeSKGenerators(physics)
         for gen in skGenerators {
@@ -318,10 +326,11 @@ class Scene : SceneController {
         // verified: this is the right multiplication order
         modelviewMatrix = GLKMatrix4Multiply(scaleMatrix, modelviewMatrix)
         
-        modelviewMatrix = GLKMatrix4Rotate(modelviewMatrix, GLfloat(povRotationAngle), GLfloat(povRotationX), GLfloat(povRotationY), GLfloat(povRotationZ))
+        modelviewMatrix = GLKMatrix4Rotate(modelviewMatrix, GLfloat(povRotationAngle),
+                GLfloat(povRotationAxis.x), GLfloat(povRotationAxis.y), GLfloat(povRotationAxis.z))
     }
     
-    func setPOVAngularPosition(_ phi: Double, _ theta_e: Double) {
+    func setPOVAngularPosition(_ phi: Double, _ thetaE: Double) {
         povPhi = phi
         while (povPhi < 0) {
             povPhi += Constants.twoPi
@@ -330,7 +339,7 @@ class Scene : SceneController {
             povPhi -= Constants.twoPi
         }
         
-        povTheta_e = theta_e
+        povTheta_e = thetaE
         if (povTheta_e < 0) {
             povTheta_e = 0
         }
@@ -345,39 +354,40 @@ class Scene : SceneController {
         setPOVAngularPosition(povPhi + dPhi, povTheta_e + dTheta_e)
     }
     
-    func resetViewParams() {
+    func resetView() {
         zoom = 1.0
         povR = Scene.povR_default
         povPhi = Scene.povPhi_default
         povTheta_e = Scene.povTheta_e_default
         povRotationAngle = 0
         cyclerEnabled = false
+        cyclerSgn = 1
         computeTransforms()
     }
     
-    func povRotate(_ delta: Double) {
-        setRotationAngle(povRotationAngle + delta)
-    }
-    
-    func setRotationAngle(_ angle: Double) {
-        povRotationAngle = angle
-        while (povRotationAngle < 0) {
-            // DEBUG
-            message("povRotationAngle " + String(povRotationAngle))
-            povRotationAngle += Constants.twoPi
-        }
-        while (povRotationAngle >= Constants.twoPi) {
-            // DEBUG
-            message("povRotationAngle " + String(povRotationAngle))
-            povRotationAngle -= Constants.twoPi
-        }
-        computeTransforms()
-    }
-    
-    func resetRotationAngle() {
-        povRotationAngle = 0
-        computeTransforms()
-    }
+//    func povRotate(_ delta: Double) {
+//        setRotationAngle(povRotationAngle + delta)
+//    }
+//    
+//    func setRotationAngle(_ angle: Double) {
+//        povRotationAngle = angle
+//        while (povRotationAngle < 0) {
+//            // DEBUG
+//            message("povRotationAngle " + String(povRotationAngle))
+//            povRotationAngle += Constants.twoPi
+//        }
+//        while (povRotationAngle >= Constants.twoPi) {
+//            // DEBUG
+//            message("povRotationAngle " + String(povRotationAngle))
+//            povRotationAngle -= Constants.twoPi
+//        }
+//        computeTransforms()
+//    }
+//    
+//    func resetRotationAngle() {
+//        povRotationAngle = 0
+//        computeTransforms()
+//    }
     
     func draw() {
         
@@ -387,8 +397,9 @@ class Scene : SceneController {
             message("draw: frameNumber" + String(frameNumber))
         }
         
-        if (cyclerEnabled && selectedCycler != nil && (frameNumber % cyclerFramesPerStep) == 1) {
-            // DEBUG
+        // TODO check whether it's time to do this
+        if (cyclerEnabled && selectedCycler != nil) {
+            
             selectedCycler!.step()
             message("draw: new cycler value " + String (selectedCycler!.value))
             for listener in modelChangeListeners {

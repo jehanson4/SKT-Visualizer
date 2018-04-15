@@ -9,6 +9,7 @@
 import Foundation
 
 // ====================================================================================
+// LinearAlpha2
 // ====================================================================================
 
 class LinearAlpha2 : Cycler {
@@ -16,10 +17,10 @@ class LinearAlpha2 : Cycler {
     static let type = "alpha2"
     var name = type
     
-    var minValue: Double {
-        get { return pMinValue }
-        set(newValue) {
-            pMinValue = newValue
+    var lowerBound: (Double, BoundType) {
+        get { return (pMinValue, BoundType.closed) }
+        set {
+            pMinValue = newValue.0
             if (pMinValue < physics.alpha_min) {
                 pMinValue = physics.alpha_min
             }
@@ -28,15 +29,15 @@ class LinearAlpha2 : Cycler {
             }
             if (pMinValue >= pMaxValue) {
                 pMinValue = pMaxValue
-                pStepSize = 0
+                pStepDelta = 0
             }
         }
     }
     
-    var maxValue: Double {
-        get { return Double(pMaxValue) }
-        set(newValue) {
-            pMaxValue = newValue
+    var upperBound: (Double, BoundType) {
+        get { return (pMinValue, BoundType.closed) }
+        set {
+            pMaxValue = newValue.0
             if (pMaxValue < physics.alpha_min) {
                 pMaxValue = physics.alpha_min
             }
@@ -45,7 +46,7 @@ class LinearAlpha2 : Cycler {
             }
             if (pMaxValue <= pMinValue) {
                 pMaxValue = pMinValue
-                pStepSize = 0
+                pStepDelta = 0
             }
         }
     }
@@ -54,13 +55,20 @@ class LinearAlpha2 : Cycler {
         get { return physics.alpha2 }
     }
     
-    var stepSize: Double {
-        get { return Double(pStepSize)}
+    var stepSgn: Double {
+        get { return sgn(pStepDelta) }
         set(newValue) {
-            pStepSize = newValue
-            if (abs(pStepSize) >= (pMaxValue-pMinValue)) {
-                pStepSize = 0
+            if (sgn(newValue) != sgn(pStepDelta)) {
+                pStepDelta = -pStepDelta
             }
+        }
+    }
+    
+    var stepSize : Double {
+        get { return abs(pStepDelta) }
+        set(newValue) {
+            if (abs(pStepDelta) == newValue || newValue < 0) { return }
+            pStepDelta = (pStepDelta < 0) ? -newValue : newValue
         }
     }
     
@@ -69,23 +77,23 @@ class LinearAlpha2 : Cycler {
     private var physics: SKPhysics
     private var pMinValue: Double
     private var pMaxValue: Double
-    private var pStepSize: Double
+    private var pStepDelta: Double
     
     init(_ physics: SKPhysics) {
         self.physics = physics
         self.pMinValue = physics.alpha_min
         self.pMaxValue = physics.alpha_max
-        self.pStepSize = physics.alpha_step
+        self.pStepDelta = physics.alpha_step
     }
     
     func reset() {
         self.pMinValue = physics.alpha_min
         self.pMaxValue = physics.alpha_max
-        self.pStepSize = physics.alpha_step
+        self.pStepDelta = physics.alpha_step
     }
     
     func step() {
-        var pValue = physics.alpha2 + pStepSize
+        var pValue = physics.alpha2 + pStepDelta
         if (pValue < pMinValue) {
             pValue = (wrap) ? pValue + (pMaxValue-pMinValue) : pMinValue
         }
@@ -105,10 +113,10 @@ class LinearT : Cycler {
     static let type = "T"
     var name = type
     
-    var minValue: Double {
-        get { return pMinValue }
+    var lowerBound: (Double, BoundType) {
+        get { return (pMinValue, BoundType.closed) }
         set(newValue) {
-            pMinValue = newValue
+            pMinValue = newValue.0
             if (pMinValue < physics.T_min) {
                 pMinValue = physics.T_min
             }
@@ -118,15 +126,15 @@ class LinearT : Cycler {
             
             if (pMinValue >= pMaxValue) {
                 pMinValue = pMaxValue
-                pStepSize = 0
+                pStepDelta = 0
             }
         }
     }
     
-    var maxValue: Double {
-        get { return Double(pMaxValue) }
+    var upperBound: (Double, BoundType) {
+        get { return (pMaxValue, BoundType.closed) }
         set(newValue) {
-            pMaxValue = newValue
+            pMaxValue = newValue.0
             if (pMaxValue < physics.T_min) {
                 pMaxValue = physics.T_min
             }
@@ -135,8 +143,25 @@ class LinearT : Cycler {
             }
             if (pMaxValue <= pMinValue) {
                 pMaxValue = pMinValue
-                pStepSize = 0
+                pStepDelta = 0
             }
+        }
+    }
+    
+    var stepSgn: Double {
+        get { return sgn(pStepDelta) }
+        set(newValue) {
+            if (sgn(newValue) != sgn(pStepDelta)) {
+                pStepDelta = -pStepDelta
+            }
+        }
+    }
+    
+    var stepSize : Double {
+        get { return abs(pStepDelta) }
+        set(newValue) {
+            if (abs(pStepDelta) == newValue || newValue < 0) { return }
+            pStepDelta = (pStepDelta < 0) ? -newValue : newValue
         }
     }
     
@@ -144,38 +169,28 @@ class LinearT : Cycler {
         get { return physics.T }
     }
     
-    var stepSize: Double {
-        get { return Double(pStepSize)}
-        set(newValue) {
-            pStepSize = newValue
-            if (abs(pStepSize) >= (pMaxValue-pMinValue)) {
-                pStepSize = 0
-            }
-        }
-    }
-    
     var wrap: Bool = false
     
     private var physics: SKPhysics
     private var pMinValue: Double
     private var pMaxValue: Double
-    private var pStepSize: Double
+    private var pStepDelta: Double
     
     init(_ physics: SKPhysics) {
         self.physics = physics
         self.pMinValue = physics.T_min
         self.pMaxValue = physics.T_max
-        self.pStepSize = physics.T_step
+        self.pStepDelta = physics.T_step
     }
     
     func reset() {
         self.pMinValue = physics.T_min
         self.pMaxValue = physics.T_max
-        self.pStepSize = physics.T_step
+        self.pStepDelta = physics.T_step
     }
     
     func step() {
-        var pValue = physics.T + pStepSize
+        var pValue = physics.T + pStepDelta
         if (pValue < pMinValue) {
             pValue = (wrap) ? pValue + (pMaxValue-pMinValue) : pMinValue
         }
@@ -198,10 +213,10 @@ class LinearBeta : Cycler {
     static let type = "beta"
     var name = type
     
-    var minValue: Double {
-        get { return pMinValue }
+    var lowerBound: (Double, BoundType) {
+        get { return (pMinValue, BoundType.closed) }
         set(newValue) {
-            pMinValue = newValue
+            pMinValue = newValue.0
             if (pMinValue < physics.beta_min) {
                 pMinValue = physics.beta_min
             }
@@ -211,15 +226,15 @@ class LinearBeta : Cycler {
             
             if (pMinValue >= pMaxValue) {
                 pMinValue = pMaxValue
-                pStepSize = 0
+                pStepDelta = 0
             }
         }
     }
     
-    var maxValue: Double {
-        get { return Double(pMaxValue) }
+    var upperBound: (Double, BoundType) {
+        get { return (Double(pMaxValue), BoundType.closed) }
         set(newValue) {
-            pMaxValue = newValue
+            pMaxValue = newValue.0
             if (pMaxValue < physics.beta_min) {
                 pMaxValue = physics.beta_min
             }
@@ -228,7 +243,7 @@ class LinearBeta : Cycler {
             }
             if (pMaxValue <= pMinValue) {
                 pMaxValue = pMinValue
-                pStepSize = 0
+                pStepDelta = 0
             }
         }
     }
@@ -237,13 +252,20 @@ class LinearBeta : Cycler {
         get { return physics.beta }
     }
     
-    var stepSize: Double {
-        get { return Double(pStepSize)}
+    var stepSgn: Double {
+        get { return sgn(pStepDelta) }
         set(newValue) {
-            pStepSize = newValue
-            if (abs(pStepSize) >= (pMaxValue-pMinValue)) {
-                pStepSize = 0
+            if (sgn(newValue) != sgn(pStepDelta)) {
+                pStepDelta = -pStepDelta
             }
+        }
+    }
+    
+    var stepSize : Double {
+        get { return abs(pStepDelta) }
+        set(newValue) {
+            if (abs(pStepDelta) == newValue || newValue < 0) { return }
+            pStepDelta = (pStepDelta < 0) ? -newValue : newValue
         }
     }
     
@@ -252,23 +274,23 @@ class LinearBeta : Cycler {
     private var physics: SKPhysics
     private var pMinValue: Double
     private var pMaxValue: Double
-    private var pStepSize: Double
+    private var pStepDelta: Double
     
     init(_ physics: SKPhysics) {
         self.physics = physics
         self.pMinValue = physics.beta_min
         self.pMaxValue = physics.beta_max
-        self.pStepSize = physics.beta_step
+        self.pStepDelta = physics.beta_step
     }
     
     func reset() {
         self.pMinValue = physics.beta_min
         self.pMaxValue = physics.beta_max
-        self.pStepSize = physics.beta_step
+        self.pStepDelta = physics.beta_step
     }
     
     func step() {
-        var pValue = physics.beta + pStepSize
+        var pValue = physics.beta + pStepDelta
         if (pValue < pMinValue) {
             pValue = (wrap) ? pValue + (pMaxValue-pMinValue) : pMinValue
         }

@@ -20,14 +20,15 @@ class Meridians : GLKBaseEffect, Effect {
     var name = type
     var enabled = false
 
-    var generator: ColorationGenerator? {
+    var generator: Generator? {
         get { return nil }
         set(g) { }
     }
     
-    let lineWidth: GLfloat = 10.0
-    let lineColor: GLKVector4 = GLKVector4Make(0.0, 1.0, 1.0, 1.0)
-    let lineOffsetR: Double = 0.001 // so it hovers just over the surface
+    let segmentCount: Int = 100
+    let lineWidth: GLfloat = 4.0
+    let lineColor: GLKVector4 = GLKVector4Make(0.5, 0.5, 0.5, 1.0)
+    let lineOffsetR: Double = 0.001 // so they hover just over the surface
     
     var geometry: SKGeometry
     var geometryChangeNumber: Int
@@ -45,27 +46,6 @@ class Meridians : GLKBaseEffect, Effect {
 
         super.useConstantColor = 1
         super.constantColor = GLKVector4Make(0.0, 0.0, 1.0, 1.0)
-
-//        // material
-//        super.colorMaterialEnabled = GLboolean(GL_TRUE)
-//        // super.material.emissiveColor = GLKVector4Make(0.0, 0.0, 0.0, 0.0)
-//        // super.material.ambientColor = GLKVector4Make(0.0, 0.0, 0.0, 0.0)
-//        super.material.diffuseColor = GLKVector4Make(1.0, 1.0, 1.0, 1.0)
-//        super.material.specularColor = GLKVector4Make(1.0, 1.0, 1.0, 1.0)
-//        super.material.shininess = 128
-//
-//        // lighting
-//
-//        super.light0.enabled = GLboolean(GL_TRUE)
-//        // super.light0.ambientColor = GLKVector4Make(0.0, 0.0, 0.0, 0.0)
-//        super.light0.diffuseColor = GLKVector4Make(0.0, 0.0, 1.0, 1.0)
-//        super.light0.specularColor = GLKVector4Make(0.0, 0.0, 1.0, 1.0)
-//        super.light0.position = GLKVector4Make(0.0, -1.0, 0.0, 0.0)
-//
-//        super.light1.enabled = GLboolean(GL_TRUE)
-//        super.light1.diffuseColor = GLKVector4Make(0.1, 0.0, 0.0, 0.0)
-//        super.light1.specularColor = GLKVector4Make(0.1, 0.0, 0.0, 0.0)
-//        super.light1.position = GLKVector4Make(-1.0, -1.0, -1.0, 0.0)
         
         glGenVertexArraysOES(1, &vertexArray)
         buildVertexData()
@@ -86,18 +66,17 @@ class Meridians : GLKBaseEffect, Effect {
     }
 
     private func addMeridian(_ p: SKPoint) {
-        let segmentCount = 100
         let r = geometry.r0 + lineOffsetR
         let phi = p.phi
-        let theta_e_incr = Constants.piOver2/(Double(segmentCount)+1)
+        let thetaE_incr = Constants.piOver2/(Double(segmentCount))
     
         lineStarts.append(GLint(vertices.count))
         lineVertexCounts.append(GLsizei(segmentCount+1))
-        var theta_e = p.theta_e
+        var thetaE: Double = 0
         for _ in 0...segmentCount {
-            let v = geometry.sphericalToCartesian(r, phi, theta_e)
-            theta_e += theta_e_incr
+            let v = geometry.sphericalToCartesian(r, phi, thetaE)
             vertices.append(GLKVector4Make(Float(v.x), Float(v.y), Float(v.z), 0))
+            thetaE += thetaE_incr
         }
     }
     
@@ -135,12 +114,12 @@ class Meridians : GLKBaseEffect, Effect {
         
         let newCount = geometry.changeNumber
         if (newCount != self.geometryChangeNumber) {
-            message("rebuilding...")
+            debug("rebuilding...")
             geometryChangeNumber = newCount
             deleteBuffers()
             buildVertexData()
             createBuffers()
-            message("done rebuilding")
+            debug("done rebuilding")
         }
 
         glBindVertexArrayOES(vertexArray)
@@ -152,7 +131,7 @@ class Meridians : GLKBaseEffect, Effect {
             glDrawArrays(GLenum(GL_LINE_STRIP), lineStarts[i], lineVertexCounts[i])
             let err = glGetError()
             if (err != 0) {
-                message(String(format:"draw: glError 0x%x", err))
+                debug(String(format:"draw: glError 0x%x", err))
                 break
             }
         }
@@ -161,7 +140,7 @@ class Meridians : GLKBaseEffect, Effect {
 
     }
     
-    func message(_ msg: String) {
+    func debug(_ msg: String) {
         print(name, msg)
     }
 }
