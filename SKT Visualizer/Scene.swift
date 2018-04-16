@@ -23,7 +23,7 @@ protocol SceneController : EffectRegistry, ColorSourceRegistry, SequencerRegistr
     var zoom: Double { get set }
     var povR: Double { get }
     var povPhi: Double { get }
-    var povTheta_e: Double { get }
+    var povThetaE: Double { get }
     
     func setPOVAngularPosition(_ phi: Double, _ thetaE: Double)
     
@@ -43,11 +43,11 @@ class Scene : SceneController {
     
     let povR_default: Double = 2
     let povPhi_default: Double = Constants.piOver4
-    let povTheta_e_default: Double = Constants.piOver4
+    let povThetaE_default: Double = Constants.piOver4
     
     var povR : Double
     var povPhi: Double
-    var povTheta_e: Double
+    var povThetaE: Double
     
     var povRotationAngle: Double {
         didSet(newValue) {
@@ -95,7 +95,7 @@ class Scene : SceneController {
         // VIEW PARAMS
         self.povR = povR_default
         self.povPhi = povPhi_default
-        self.povTheta_e = povTheta_e_default
+        self.povThetaE = povThetaE_default
         self.povRotationAngle = 0
         self.povRotationAxis = (x: 0, y: 0, z: 1)
         self.sequencerEnabled = false
@@ -190,7 +190,6 @@ class Scene : SceneController {
         c0.name = "None"
         c0.description = "No sequencer"
         registerSequencer(c0, true)
-        
         
         registerSequencer(NForFixedKOverN(geometry), false)
         registerSequencer(KForFixedN(geometry), false)
@@ -340,7 +339,7 @@ class Scene : SceneController {
         let scaleMatrix = GLKMatrix4MakeScale(zz, zz, zz)
         
         povR = (povR_default - geometry.r0)/zoom + geometry.r0
-        let povXYZ = geometry.sphericalToCartesian(povR, povPhi, povTheta_e)
+        let povXYZ = geometry.sphericalToCartesian(povR, povPhi, povThetaE)
         modelviewMatrix = GLKMatrix4MakeLookAt(Float(povXYZ.x), Float(povXYZ.y), Float(povXYZ.z), 0, 0, 0, 0, 0, 1)
         modelviewMatrix = GLKMatrix4Multiply(scaleMatrix, modelviewMatrix)
         modelviewMatrix = GLKMatrix4Rotate(modelviewMatrix, GLfloat(povRotationAngle),
@@ -356,26 +355,26 @@ class Scene : SceneController {
             povPhi -= Constants.twoPi
         }
         
-        povTheta_e = thetaE
-        if (povTheta_e < 0) {
-            povTheta_e = 0
+        povThetaE = thetaE
+        if (povThetaE < 0) {
+            povThetaE = 0
         }
-        if (povTheta_e >= Constants.piOver2) {
-            povTheta_e = Constants.piOver2 - Constants.eps
+        if (povThetaE >= Constants.piOver2) {
+            povThetaE = Constants.piOver2 - Constants.eps
         }
         computeTransforms()
         
     }
     
     func movePOV(_ dPhi: Double, _ dTheta_e: Double) {
-        setPOVAngularPosition(povPhi + dPhi, povTheta_e + dTheta_e)
+        setPOVAngularPosition(povPhi + dPhi, povThetaE + dTheta_e)
     }
     
     func resetView() {
         self.zoom = 1.0
         self.povR = povR_default
         self.povPhi = povPhi_default
-        self.povTheta_e = povTheta_e_default
+        self.povThetaE = povThetaE_default
         self.povRotationAngle = 0
         self.povRotationAxis = (x: 0, y: 0, z: 1)
         self.sequencerEnabled = false

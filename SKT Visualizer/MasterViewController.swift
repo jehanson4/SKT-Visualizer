@@ -294,6 +294,9 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         if (scene != nil) {
             var effect = scene!.getEffect(Surface.type)
             if (effect != nil) {
+                if (scene!.selectedColorSource != nil) {
+                    effect!.colorSource = scene!.selectedColorSource!
+                }
                 effect!.enabled = sender.isOn
             }
         }

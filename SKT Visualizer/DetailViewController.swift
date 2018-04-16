@@ -98,7 +98,7 @@ class DetailViewController: GLKViewController {
         // print("DetailViewController.handlePan", "sender.state:", sender.state)
         if (sender.state == UIGestureRecognizerState.began) {
             panPhi_initialValue = scene.povPhi
-            panTheta_e_initialValue = scene.povTheta_e
+            panTheta_e_initialValue = scene.povThetaE
         }
         let delta = sender.translation(in: sender.view)
         scene.setPOVAngularPosition(

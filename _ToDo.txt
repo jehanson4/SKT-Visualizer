@@ -2,21 +2,14 @@
 ToDo.txt
 ==================================================================================
 
+[ ] ?
 
+=====================
 
-surface doesn't show the initial color source
-    should treat it as change from nil to gray
-
-sequencer picker order isn't right
-
-
-- - - -
 [ ] 'scene controller' as the one protocol defining all the things the UI needs to know about.
     It doesn't expose geometry or physics. It's a reswizzling to meet the needs of the UI
 
 [ ] Q: best way to do swift dictionary keyset -> array of values
-
-[ ] frame RATE not frame COUNT
 
 [ ] All the ViewControllers need to be model change listeners
     And the all need to have the 'scene controller' passed to them

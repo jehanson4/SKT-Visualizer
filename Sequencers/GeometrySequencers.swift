@@ -31,7 +31,7 @@ class NForFixedK : Sequencer {
             
             if (pMinValue >= pMaxValue) {
                 pMinValue = pMaxValue
-                pStepDelta = 0
+                pStepSgn = 0
             }
         }
     }
@@ -48,7 +48,7 @@ class NForFixedK : Sequencer {
             }
             if (pMaxValue <= pMinValue) {
                 pMaxValue = pMinValue
-                pStepDelta = 0
+                pStepSgn = 0
             }
         }
     }
@@ -58,24 +58,22 @@ class NForFixedK : Sequencer {
     }
     
     var stepSgn: Double {
-        get { return sgn(Double(pStepDelta)) }
+        get { return Double(pStepSgn) }
         set(newValue) {
-            let newSgn = Int(sgn(newValue))
-            if (newSgn == 0) {
-                pStepDelta = 0
-            }
-            else if (newSgn * pStepDelta < 0) {
-                pStepDelta = -pStepDelta
+            pStepSgn = Int(sgn(newValue))
+            if (pMaxValue <= pMinValue) {
+                pStepSgn = 0
             }
         }
     }
     
     var stepSize: Double {
-        get { return abs(Double(pStepDelta)) }
+        get { return Double(geometry.N_step) }
         set(newValue) {
-            let newSize = Int(sgn(newValue))
-            if (abs(pStepDelta) == newSize || newSize < 0) { return }
-            pStepDelta = (pStepDelta < 0) ? -newSize : newSize
+            geometry.N_step = Int(round(newValue))
+            if (geometry.N_step == 0) {
+                pStepSgn = 0
+            }
         }
     }
 
@@ -84,23 +82,23 @@ class NForFixedK : Sequencer {
     private var geometry: SKGeometry
     private var pMinValue: Int
     private var pMaxValue: Int
-    private var pStepDelta: Int
+    private var pStepSgn: Int
     
     init(_ geometry: SKGeometry) {
         self.geometry = geometry
         pMinValue = geometry.N_min
         pMaxValue = geometry.N_max
-        pStepDelta = geometry.N_step
+        pStepSgn = 1
     }
     
     func reset() {
         pMinValue = geometry.N_min
         pMaxValue = geometry.N_max
-        pStepDelta = geometry.N_step
+        pStepSgn = 1
     }
     
     func step() {
-        var pValue: Int = geometry.N + pStepDelta
+        var pValue: Int = geometry.N + (pStepSgn * geometry.N_step)
         if (pValue < pMinValue) {
             pValue = (wrap) ? pValue + (pMaxValue-pMinValue) : pMinValue
         }
@@ -134,7 +132,7 @@ class KForFixedN : Sequencer {
             
             if (pMinValue >= pMaxValue) {
                 pMinValue = pMaxValue
-                pStepDelta = 0
+                pStepSgn = 0
             }
         }
     }
@@ -152,7 +150,7 @@ class KForFixedN : Sequencer {
             
             if (pMaxValue <= pMinValue) {
                 pMaxValue = pMinValue
-                pStepDelta = 0
+                pStepSgn = 0
             }
         }
     }
@@ -162,24 +160,22 @@ class KForFixedN : Sequencer {
     }
     
     var stepSgn: Double {
-        get { return sgn(Double(pStepDelta)) }
+        get { return Double(pStepSgn) }
         set(newValue) {
-            let newSgn = Int(sgn(newValue))
-            if (newSgn == 0) {
-                pStepDelta = 0
-            }
-            else if (newSgn * pStepDelta < 0) {
-                pStepDelta = -pStepDelta
+            pStepSgn = Int(sgn(newValue))
+            if (pMaxValue <= pMinValue) {
+                pStepSgn = 0
             }
         }
     }
     
     var stepSize: Double {
-        get { return abs(Double(pStepDelta)) }
+        get { return Double(geometry.k_step) }
         set(newValue) {
-            let newSize = Int(sgn(newValue))
-            if (abs(pStepDelta) == newSize || newSize < 0) { return }
-            pStepDelta = (pStepDelta < 0) ? -newSize : newSize
+            geometry.k_step = Int(round(newValue))
+            if (geometry.k_step == 0) {
+                pStepSgn = 0
+            }
         }
     }
     
@@ -188,23 +184,23 @@ class KForFixedN : Sequencer {
     private var geometry: SKGeometry
     private var pMinValue: Int
     private var pMaxValue: Int
-    private var pStepDelta: Int
+    private var pStepSgn: Int
     
     init(_ geometry: SKGeometry) {
         self.geometry = geometry
         pMinValue = geometry.k_min
         pMaxValue = geometry.k_max
-        pStepDelta = geometry.k_step
+        pStepSgn = 1
     }
     
     func reset() {
         pMinValue = geometry.k_min
         pMaxValue = geometry.k_max
-        pStepDelta = geometry.k_step
+        pStepSgn = 1
     }
     
     func step() {
-        var pValue: Int = geometry.k + pStepDelta
+        var pValue: Int = geometry.k + (pStepSgn * geometry.k_step)
         if (pValue < pMinValue) {
             pValue = (wrap) ? pValue + (pMaxValue-pMinValue) : pMinValue
         }
@@ -238,7 +234,7 @@ class NForFixedKOverN : Sequencer {
             
             if (pMinValue >= pMaxValue) {
                 pMinValue = pMaxValue
-                pStepDelta = 0
+                pStepSgn = 0
             }
         }
     }
@@ -256,7 +252,7 @@ class NForFixedKOverN : Sequencer {
             
             if (pMaxValue <= pMinValue) {
                 pMaxValue = pMinValue
-                pStepDelta = 0
+                pStepSgn = 0
             }
         }
     }
@@ -266,24 +262,22 @@ class NForFixedKOverN : Sequencer {
     }
     
     var stepSgn: Double {
-        get { return sgn(Double(pStepDelta)) }
+        get { return Double(pStepSgn) }
         set(newValue) {
-            let newSgn = Int(sgn(newValue))
-            if (newSgn == 0) {
-                pStepDelta = 0
-            }
-            else if (newSgn * pStepDelta < 0) {
-                pStepDelta = -pStepDelta
+            pStepSgn = Int(sgn(newValue))
+            if (pMaxValue <= pMinValue) {
+                pStepSgn = 0
             }
         }
     }
     
     var stepSize: Double {
-        get { return abs(Double(pStepDelta)) }
+        get { return Double(geometry.N_step) }
         set(newValue) {
-            let newSize = Int(sgn(newValue))
-            if (abs(pStepDelta) == newSize || newSize < 0) { return }
-            pStepDelta = (pStepDelta < 0) ? -newSize : newSize
+            geometry.N_step = Int(round(newValue))
+            if (geometry.N_step == 0) {
+                pStepSgn = 0
+            }
         }
     }
 
@@ -293,24 +287,27 @@ class NForFixedKOverN : Sequencer {
     private var kOverN: Double
     private var pMinValue: Int
     private var pMaxValue: Int
-    private var pStepDelta: Int
+    private var pStepSgn: Int
     
     init(_ geometry: SKGeometry) {
         self.geometry = geometry
         self.kOverN = Double(geometry.k) / Double(geometry.N)
         self.pMinValue = geometry.N_min
         self.pMaxValue = geometry.N_max
-        self.pStepDelta = geometry.N_step
+        self.pStepSgn = 1
     }
     
     func reset() {
         debug("reset")
         self.kOverN = Double(geometry.k) / Double(geometry.N)
+        self.pMinValue = geometry.N_min
+        self.pMaxValue = geometry.N_max
+        self.pStepSgn = 1
     }
     
     func step() {
         debug("step")
-        var pValue: Int = geometry.N + pStepDelta
+        var pValue: Int = geometry.N + (pStepSgn * geometry.N_step)
         if (pValue < pMinValue) {
             pValue = (wrap) ? pValue + (pMaxValue-pMinValue) : pMinValue
         }

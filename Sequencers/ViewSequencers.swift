@@ -14,6 +14,10 @@ import Foundation
 
 class POVRotationAngle : Sequencer {
 
+    // =========================================================
+    // FIXME angleStep should be part scene, like physics.T_step
+    // =========================================================    
+
     static var type: String = "POV rotation angle"
     var name: String = type
     var description = "Rotate the scene"
@@ -55,6 +59,7 @@ class POVRotationAngle : Sequencer {
     let angle_stepDefault: Double = 0.01 * Constants.twoPi
     
     private var scene: SceneController
+    
     private var angleDelta: Double
     
     init(_ scene: SceneController) {

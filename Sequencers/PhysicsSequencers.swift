@@ -14,9 +14,9 @@ import Foundation
 
 class LinearAlpha2 : Sequencer {
     
-    static let type = "alpha2"
+    static let type = "\u{03B1}2"
     var name = type
-    var description = "change alpha2"
+    var description = "change " + type
 
     var lowerBound: (Double, BoundType) {
         get { return (pMinValue, BoundType.closed) }
@@ -30,7 +30,7 @@ class LinearAlpha2 : Sequencer {
             }
             if (pMinValue >= pMaxValue) {
                 pMinValue = pMaxValue
-                pStepDelta = 0
+                pStepSgn = 0
             }
         }
     }
@@ -47,7 +47,7 @@ class LinearAlpha2 : Sequencer {
             }
             if (pMaxValue <= pMinValue) {
                 pMaxValue = pMinValue
-                pStepDelta = 0
+                pStepSgn = 0
             }
         }
     }
@@ -57,19 +57,22 @@ class LinearAlpha2 : Sequencer {
     }
     
     var stepSgn: Double {
-        get { return sgn(pStepDelta) }
+        get { return pStepSgn }
         set(newValue) {
-            if (sgn(newValue) != sgn(pStepDelta)) {
-                pStepDelta = -pStepDelta
+            pStepSgn = sgn(newValue)
+            if (pMaxValue <= pMinValue) {
+                pStepSgn = 0
             }
         }
     }
     
     var stepSize : Double {
-        get { return abs(pStepDelta) }
+        get { return physics.alpha_step }
         set(newValue) {
-            if (abs(pStepDelta) == newValue || newValue < 0) { return }
-            pStepDelta = (pStepDelta < 0) ? -newValue : newValue
+            physics.alpha_step = newValue
+            if (physics.alpha_step == 0) {
+                pStepSgn = 0
+            }
         }
     }
     
@@ -78,23 +81,23 @@ class LinearAlpha2 : Sequencer {
     private var physics: SKPhysics
     private var pMinValue: Double
     private var pMaxValue: Double
-    private var pStepDelta: Double
+    private var pStepSgn: Double
     
     init(_ physics: SKPhysics) {
         self.physics = physics
         self.pMinValue = physics.alpha_min
         self.pMaxValue = physics.alpha_max
-        self.pStepDelta = physics.alpha_step
+        self.pStepSgn = 1
     }
     
     func reset() {
         self.pMinValue = physics.alpha_min
         self.pMaxValue = physics.alpha_max
-        self.pStepDelta = physics.alpha_step
+        self.pStepSgn = 1
     }
     
     func step() {
-        var pValue = physics.alpha2 + pStepDelta
+        var pValue = physics.alpha2 + (pStepSgn * physics.alpha_step)
         if (pValue < pMinValue) {
             pValue = (wrap) ? pValue + (pMaxValue-pMinValue) : pMinValue
         }
@@ -129,7 +132,7 @@ class LinearT : Sequencer {
             
             if (pMinValue >= pMaxValue) {
                 pMinValue = pMaxValue
-                pStepDelta = 0
+                pStepSgn = 0
             }
         }
     }
@@ -146,25 +149,28 @@ class LinearT : Sequencer {
             }
             if (pMaxValue <= pMinValue) {
                 pMaxValue = pMinValue
-                pStepDelta = 0
+                pStepSgn = 0
             }
         }
     }
     
     var stepSgn: Double {
-        get { return sgn(pStepDelta) }
+        get { return pStepSgn }
         set(newValue) {
-            if (sgn(newValue) != sgn(pStepDelta)) {
-                pStepDelta = -pStepDelta
+            pStepSgn = sgn(newValue)
+            if (pMaxValue <= pMinValue) {
+                pStepSgn = 0
             }
         }
     }
     
     var stepSize : Double {
-        get { return abs(pStepDelta) }
+        get { return physics.T_step }
         set(newValue) {
-            if (abs(pStepDelta) == newValue || newValue < 0) { return }
-            pStepDelta = (pStepDelta < 0) ? -newValue : newValue
+            physics.T_step = newValue
+            if (physics.T_step == 0) {
+                pStepSgn = 0
+            }
         }
     }
     
@@ -177,23 +183,23 @@ class LinearT : Sequencer {
     private var physics: SKPhysics
     private var pMinValue: Double
     private var pMaxValue: Double
-    private var pStepDelta: Double
+    private var pStepSgn: Double
     
     init(_ physics: SKPhysics) {
         self.physics = physics
         self.pMinValue = physics.T_min
         self.pMaxValue = physics.T_max
-        self.pStepDelta = physics.T_step
+        self.pStepSgn = 1
     }
     
     func reset() {
         self.pMinValue = physics.T_min
         self.pMaxValue = physics.T_max
-        self.pStepDelta = physics.T_step
+        self.pStepSgn = 1
     }
     
     func step() {
-        var pValue = physics.T + pStepDelta
+        var pValue = physics.T + (pStepSgn * physics.T_step)
         if (pValue < pMinValue) {
             pValue = (wrap) ? pValue + (pMaxValue-pMinValue) : pMinValue
         }
@@ -231,7 +237,7 @@ class LinearBeta : Sequencer {
             
             if (pMinValue >= pMaxValue) {
                 pMinValue = pMaxValue
-                pStepDelta = 0
+                pStepSgn = 0
             }
         }
     }
@@ -248,7 +254,7 @@ class LinearBeta : Sequencer {
             }
             if (pMaxValue <= pMinValue) {
                 pMaxValue = pMinValue
-                pStepDelta = 0
+                pStepSgn = 0
             }
         }
     }
@@ -258,19 +264,22 @@ class LinearBeta : Sequencer {
     }
     
     var stepSgn: Double {
-        get { return sgn(pStepDelta) }
+        get { return pStepSgn }
         set(newValue) {
-            if (sgn(newValue) != sgn(pStepDelta)) {
-                pStepDelta = -pStepDelta
+            pStepSgn = sgn(newValue)
+            if (pMaxValue <= pMinValue) {
+                pStepSgn = 0
             }
         }
     }
     
     var stepSize : Double {
-        get { return abs(pStepDelta) }
+        get { return physics.beta_step }
         set(newValue) {
-            if (abs(pStepDelta) == newValue || newValue < 0) { return }
-            pStepDelta = (pStepDelta < 0) ? -newValue : newValue
+            physics.beta_step = newValue
+            if (physics.beta_step == 0) {
+                pStepSgn = 0
+            }
         }
     }
     
@@ -279,23 +288,23 @@ class LinearBeta : Sequencer {
     private var physics: SKPhysics
     private var pMinValue: Double
     private var pMaxValue: Double
-    private var pStepDelta: Double
+    private var pStepSgn: Double
     
     init(_ physics: SKPhysics) {
         self.physics = physics
         self.pMinValue = physics.beta_min
         self.pMaxValue = physics.beta_max
-        self.pStepDelta = physics.beta_step
+        self.pStepSgn = 1
     }
     
     func reset() {
         self.pMinValue = physics.beta_min
         self.pMaxValue = physics.beta_max
-        self.pStepDelta = physics.beta_step
+        self.pStepSgn = 1
     }
     
     func step() {
-        var pValue = physics.beta + pStepDelta
+        var pValue = physics.beta + (pStepSgn *  physics.T_step)
         if (pValue < pMinValue) {
             pValue = (wrap) ? pValue + (pMaxValue-pMinValue) : pMinValue
         }
