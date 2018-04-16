@@ -11,41 +11,39 @@ import Foundation
 // ==============================================================================
 // ==============================================================================
 
-protocol Cycler {
+protocol Sequencer {
 
     static var type: String { get }
-    
     var name: String { get set }
+    var description: String { get set }
     
     var lowerBound: (Double, BoundType) { get set }
-    
     var upperBound: (Double, BoundType) { get set }
-    
     var value: Double { get }
-    
+    var wrap: Bool { get set }
+
     /// >= 0
     var stepSize: Double { get set }
     
     /// 0 if stepSize == 0, +1 or -1 otherwise
     var stepSgn: Double { get set }
     
-    var wrap: Bool { get set }
     
     func reset()
     
     func step()
 }
 
-protocol CyclerRegistry {
+protocol SequencerRegistry {
     
-    var cyclerNames: [String] { get }
+    var sequencerNames: [String] { get }
     
-    func getCycler(_ name: String) -> Cycler?
+    func getSequencer(_ name: String) -> Sequencer?
     
     /// returns true iff the selection changed
-    func selectCycler(_ name: String) -> Bool
+    func selectSequencer(_ name: String) -> Bool
     
-    var selectedCycler: Cycler? { get }
+    var selectedSequencer: Sequencer? { get }
 }
 
 // ==============================================================================
@@ -55,11 +53,12 @@ protocol CyclerRegistry {
 /**
  Does nothing. Available for use as a placeholder
 */
-class DummyCycler : Cycler {
+class DummySequencer : Sequencer {
     
-    static let type = ""
-    var name = type
-
+    static let type = "Dummy"
+    var name = ""
+    var description = ""
+    
     var lowerBound: (Double, BoundType) {
         get { return (0, BoundType.closed) }
         set { }

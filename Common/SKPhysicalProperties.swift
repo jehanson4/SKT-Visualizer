@@ -49,6 +49,7 @@ class SKEnergy : SKPhysicalProperty {
     
     static let type: String = "Energy"
     var name = type
+    var description = type
     
     var min: Double {
         get {
@@ -122,7 +123,8 @@ class SKEntropy : SKPhysicalProperty {
     
     static let type = "Entropy"
     var name = type
-    
+    var description = type
+
     var min: Double {
         get {
             ensureFresh()
@@ -193,7 +195,8 @@ class SKLogOccupation : SKPhysicalProperty {
     
     static let type = "LogOccupation"
     var name = type
-    
+    var description = "log(occupation)"
+
     var min: Double {
         get {
             ensureFresh()

@@ -25,10 +25,10 @@ class Surface : GLKBaseEffect, Effect {
     var name = type
     var enabled = false
     
-    var generator: Generator? = nil {
+    var colorSource: ColorSource? = nil {
         
         didSet(g2) {
-            debug("generator set; recomputing colors")
+            debug("color source has been set; recomputing colors")
             self.computeColors()
         }
     }
@@ -121,15 +121,15 @@ class Surface : GLKBaseEffect, Effect {
     }
     
     private func computeColors() {
-        if (generator == nil) {
-            debug("generator is nil")
+        if (colorSource == nil) {
+            debug("color source is nil")
             return
         }
         
-        let gg = generator!
+        let gg = colorSource!
         
         // TAG INEFFICIENT
-        // I DO want to prepare() before using the generator . . . once per change
+        // I DO want to prepare() before using the color source . . . once per change
         // But the same frame, or diff. effect in same frame, DO NOT PREPARE
         
         gg.prepare()

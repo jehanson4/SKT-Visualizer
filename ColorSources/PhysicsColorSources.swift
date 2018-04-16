@@ -1,5 +1,5 @@
 //
-//  SKTGenerators.swift
+//  PhysicsColorSources.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 4/14/18.
@@ -14,13 +14,13 @@ import GLKit
 // ==================================================================================
 
 /**
- Makes generators for all physical properties. Handles special cases.
+ Makes a color source for each physical property. Handles special cases.
  */
-func makeSKGenerators(_ physics: SKPhysics) -> [Generator] {
+func makeColorSourcesForProperties(_ physics: SKPhysics) -> [ColorSource] {
     
     let linearColors = LinearColorMap()
     let logColors = LogColorMap()
-    var generators: [Generator] = []
+    var colorSources: [ColorSource] = []
     
     for pName in physics.physicalPropertyNames {
         let prop = physics.physicalProperty(pName)
@@ -30,32 +30,36 @@ func makeSKGenerators(_ physics: SKPhysics) -> [Generator] {
         
         // SPECIAL CASE
         if (prop!.name == SKLogOccupation.type) {
-            let gen = SKPhysicalPropertyGenerator("Occupation", prop!, logColors)
-            generators.append(gen);
+            let gen = SKPhysicalPropertyColorSource(prop!, logColors)
+            gen.name = "Occupation"
+            gen.description = "Occupation"
+            colorSources.append(gen);
             continue
         }
         
-        let gen = SKPhysicalPropertyGenerator(prop!.name, prop!, linearColors)
-        generators.append(gen);
+        let gen = SKPhysicalPropertyColorSource(prop!, linearColors)
+        colorSources.append(gen);
     }
-    return generators
+    return colorSources
 }
 
 // ==================================================================================
-// SKPhysicalPropertyGenerator
+// SKPhysicalPropertyColorSource
 // ==================================================================================
 
-class SKPhysicalPropertyGenerator : Generator {
+class SKPhysicalPropertyColorSource : ColorSource {
     
     static var type: String = "SK physical property"
-    var name: String
+    var name: String = type
+    var description: String = type
     
     var property: SKPhysicalProperty
     var geometry: SKGeometry
     var colorMap: ColorMap
     
-    init(_ name: String, _ property: SKPhysicalProperty, _ colorMap: ColorMap) {
-        self.name = name
+    init(_ property: SKPhysicalProperty, _ colorMap: ColorMap) {
+        self.name = property.name
+        self.description = property.description
         self.property = property
         self.geometry = property.physics.geometry
         self.colorMap = colorMap

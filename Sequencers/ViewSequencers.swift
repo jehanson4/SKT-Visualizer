@@ -12,11 +12,12 @@ import Foundation
 // POVRotationAngle
 // =====================================================================
 
-class POVRotationAngle : Cycler {
+class POVRotationAngle : Sequencer {
 
     static var type: String = "POV rotation angle"
     var name: String = type
-    
+    var description = "Rotate the scene"
+
     var lowerBound: (Double, BoundType) {
         get { return (0, BoundType.closed) }
         set(newValue) {}

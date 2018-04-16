@@ -12,11 +12,12 @@ import Foundation
 // LinearAlpha2
 // ====================================================================================
 
-class LinearAlpha2 : Cycler {
+class LinearAlpha2 : Sequencer {
     
     static let type = "alpha2"
     var name = type
-    
+    var description = "change alpha2"
+
     var lowerBound: (Double, BoundType) {
         get { return (pMinValue, BoundType.closed) }
         set {
@@ -106,13 +107,15 @@ class LinearAlpha2 : Cycler {
 }
 
 // ====================================================================================
+// LinearT
 // ====================================================================================
 
-class LinearT : Cycler {
+class LinearT : Sequencer {
     
     static let type = "T"
     var name = type
-    
+    var description = "change T"
+
     var lowerBound: (Double, BoundType) {
         get { return (pMinValue, BoundType.closed) }
         set(newValue) {
@@ -206,12 +209,14 @@ class LinearT : Cycler {
 }
 
 // ====================================================================================
+// LinearBeta
 // ====================================================================================
 
-class LinearBeta : Cycler {
+class LinearBeta : Sequencer {
     
     static let type = "beta"
     var name = type
+    var description = type
     
     var lowerBound: (Double, BoundType) {
         get { return (pMinValue, BoundType.closed) }

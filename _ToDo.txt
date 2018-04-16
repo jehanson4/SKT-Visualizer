@@ -2,38 +2,34 @@
 ToDo.txt
 ==================================================================================
 
-sequencer direction doesn't reverse
 
-Q: best way to do swift dictionary keyset -> array of values
+alpha2 max stops at -1.01
 
-you need to change T or something in order to get the surface to show
-
-initial generator is not what the picker shows.
-ditto cycler
+pickers' initial selections are wrong
 
 picker order
 
-remove net flicker -- cf. 'artifacts' in the book; or could incr net's radius
+alpha2 font size
 
-hints: "tap to enabled disable CYCLER"
+None dummysequencer
 
-? one big model class that contains physics and geometry: so I can put other things in it
+- - - -
+[ ] one protocol defining all the things the UI needs to know about.
+    It's a reswizzling of geometry etc -- it's a separaate intf
 
-frame RATE on cycler not frame COUNT
+[ ] Q: best way to do swift dictionary keyset -> array of values
 
-distinguish step from stepSize -- the latter is always positive
+[ ] frame RATE on cycler not frame COUNT
 
-separate step direction after all, so I don't have the delta's switching sign in the UI
+[ ] "Step over"?
 
-"Step over"?
+[ ] step down in N toward 0: fail to catch the lower limit.
 
-step down in N toward 0: fail to catch the lower limit.
-
-settings VC needs to be model change listener
+[ ] settings VC needs to be model change listener
 
     *but* does that mean I've got strong ref's to it? Does it get rebuilt or NOT?
     in either case, it's a bad thing. either there's dead listeners or it keeps
     re-adding itself.
 
-get rid of 'coloration' in the storboard and controllers
+[ ] get rid of the word 'coloration' in the storboard and controllers
 

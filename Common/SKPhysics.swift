@@ -15,7 +15,8 @@ import Foundation
 protocol SKPhysicalProperty {
     
     static var type: String { get }
-    var name : String { get }
+    var name : String { get set }
+    var description : String { get set }
     
     var min : Double { get }
     var max : Double { get }

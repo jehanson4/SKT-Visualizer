@@ -410,14 +410,14 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="KOI-PN-Gta" userLabel="Coloration View">
                                         <rect key="frame" x="0.0" y="0.0" width="295" height="48"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Coloration" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CpF-h2-S6M" userLabel="Color with">
-                                                <rect key="frame" x="0.0" y="0.0" width="71" height="48"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Color source" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CpF-h2-S6M" userLabel="Color with">
+                                                <rect key="frame" x="0.0" y="0.0" width="87.5" height="48"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <pickerView contentMode="scaleToFill" horizontalCompressionResistancePriority="749" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7le-ZY-Z03" userLabel="Color Picker" customClass="DesignablePickerView" customModule="SKT_Visualizer" customModuleProvider="target">
-                                                <rect key="frame" x="74" y="0.0" width="221" height="48"/>
+                                                <rect key="frame" x="90.5" y="0.0" width="204.5" height="48"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="48" id="3If-6x-svT"/>
                                                 </constraints>
@@ -436,21 +436,20 @@
                                             <constraint firstItem="CpF-h2-S6M" firstAttribute="leading" secondItem="KOI-PN-Gta" secondAttribute="leading" id="1A6-UD-IL4"/>
                                             <constraint firstItem="CpF-h2-S6M" firstAttribute="top" secondItem="KOI-PN-Gta" secondAttribute="top" id="AOS-Ou-ckz"/>
                                             <constraint firstAttribute="trailing" secondItem="7le-ZY-Z03" secondAttribute="trailing" id="FuM-WI-7ku"/>
-                                            <constraint firstItem="7le-ZY-Z03" firstAttribute="height" secondItem="CpF-h2-S6M" secondAttribute="height" id="TAQ-pw-Axh"/>
                                             <constraint firstItem="7le-ZY-Z03" firstAttribute="top" secondItem="KOI-PN-Gta" secondAttribute="top" id="VMT-t4-j2a"/>
                                         </constraints>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="6vx-fS-fwQ" userLabel="Cycle View">
                                         <rect key="frame" x="0.0" y="48" width="295" height="48"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cycle over" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sF6-aH-bSM">
-                                                <rect key="frame" x="0.0" y="0.0" width="71" height="48"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sequencer" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sF6-aH-bSM">
+                                                <rect key="frame" x="0.0" y="0.0" width="87.5" height="48"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <pickerView contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E9R-gQ-6eu" userLabel="Cycler Picker" customClass="DesignablePickerView" customModule="SKT_Visualizer" customModuleProvider="target">
-                                                <rect key="frame" x="74" y="0.0" width="221" height="48"/>
+                                            <pickerView contentMode="scaleToFill" horizontalCompressionResistancePriority="749" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E9R-gQ-6eu" userLabel="Cycler Picker" customClass="DesignablePickerView" customModule="SKT_Visualizer" customModuleProvider="target">
+                                                <rect key="frame" x="90.5" y="0.0" width="204.5" height="48"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="48" id="VT3-yF-05X"/>
                                                 </constraints>
@@ -468,14 +467,13 @@
                                         <constraints>
                                             <constraint firstItem="E9R-gQ-6eu" firstAttribute="top" secondItem="6vx-fS-fwQ" secondAttribute="top" id="L73-Rx-qQS"/>
                                             <constraint firstItem="sF6-aH-bSM" firstAttribute="top" secondItem="6vx-fS-fwQ" secondAttribute="top" id="P8z-MK-hPG"/>
-                                            <constraint firstItem="E9R-gQ-6eu" firstAttribute="height" secondItem="sF6-aH-bSM" secondAttribute="height" id="PI6-yw-f3D"/>
                                             <constraint firstAttribute="trailing" secondItem="E9R-gQ-6eu" secondAttribute="trailing" id="cpq-kQ-4WK"/>
                                             <constraint firstItem="sF6-aH-bSM" firstAttribute="leading" secondItem="6vx-fS-fwQ" secondAttribute="leading" id="len-ET-Fhl"/>
                                         </constraints>
                                     </stackView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="sF6-aH-bSM" firstAttribute="width" secondItem="CpF-h2-S6M" secondAttribute="width" id="RQq-nt-oS5"/>
+                                    <constraint firstItem="CpF-h2-S6M" firstAttribute="width" secondItem="sF6-aH-bSM" secondAttribute="width" id="aaJ-bs-TYW"/>
                                 </constraints>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="otc-Jr-cw5" userLabel="Resetters View">
@@ -832,7 +830,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="done" id="7Y2-PQ-QFA">
                             <button key="customView" opaque="NO" contentMode="right" contentHorizontalAlignment="right" contentVerticalAlignment="fill" buttonType="roundedRect" lineBreakMode="middleTruncation" id="8jX-Zj-hIp">
-                                <rect key="frame" x="324" y="6" width="35" height="33"/>
+                                <rect key="frame" x="324" y="5.5" width="35" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <state key="normal" title="&lt;&lt;&lt;"/>

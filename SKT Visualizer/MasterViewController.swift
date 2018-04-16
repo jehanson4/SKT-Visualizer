@@ -26,11 +26,11 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         
         colorationPicker.delegate = self
         colorationPicker.dataSource = self
-        colorationPicker.tag = colorationPickerTag
+        colorationPicker.tag = colorSourcePickerTag
         
         cyclerPicker.delegate = self
         cyclerPicker.dataSource = self
-        cyclerPicker.tag = cyclerPickerTag
+        cyclerPicker.tag = sequencerPickerTag
         
         configureModelControls()
         configurePickerControls()
@@ -48,7 +48,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        debug("prepare for segue", "destination: " + segue.destination.nibName!)
+        debug("prepare for segue")
         
         // FIXME HACK HACK HACK HACK
         if (segue.destination is SettingsViewController) {
@@ -382,10 +382,10 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     let pickerLabelFontSize: CGFloat = 15.0
 
     @IBOutlet weak var colorationPicker: UIPickerView!
-    let colorationPickerTag = 0
+    let colorSourcePickerTag = 0
 
     @IBOutlet weak var cyclerPicker: UIPickerView!
-    let cyclerPickerTag = 1
+    let sequencerPickerTag = 1
     
     func configurePickerControls() {
         if (scene == nil) { return }
@@ -398,21 +398,21 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if pickerView.tag == colorationPickerTag {
-            return (scene == nil) ? nil : scene!.generatorNames[row]
+        if pickerView.tag == colorSourcePickerTag {
+            return (scene == nil) ? nil : scene!.colorSourceNames[row]
         }
-        if pickerView.tag == cyclerPickerTag {
+        if pickerView.tag == sequencerPickerTag {
             return String("Cycler #" + String(row+1))
         }
         return nil
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if pickerView.tag == colorationPickerTag {
-            return (scene == nil) ? 0 : scene!.generatorNames.count
+        if pickerView.tag == colorSourcePickerTag {
+            return (scene == nil) ? 0 : scene!.colorSourceNames.count
         }
-        if pickerView.tag == cyclerPickerTag {
-            return (scene == nil) ? 0 : scene!.cyclerNames.count
+        if pickerView.tag == sequencerPickerTag {
+            return (scene == nil) ? 0 : scene!.sequencerNames.count
         }
         return 0
     }
@@ -427,11 +427,11 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
             pickerLabel?.textAlignment = NSTextAlignment.center
         }
         
-        if pickerView.tag == colorationPickerTag {
-            pickerLabel?.text = (scene == nil) ? nil : scene!.generatorNames[row]
+        if pickerView.tag == colorSourcePickerTag {
+            pickerLabel?.text = (scene == nil) ? nil : scene!.colorSourceNames[row]
         }
-        else if pickerView.tag == cyclerPickerTag {
-            pickerLabel?.text = (scene == nil) ? nil : scene!.cyclerNames[row]
+        else if pickerView.tag == sequencerPickerTag {
+            pickerLabel?.text = (scene == nil) ? nil : scene!.sequencerNames[row]
         }
         
         return pickerLabel!
@@ -441,42 +441,42 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         if (scene == nil) { return }
         let ss = scene!
         
-        if (pickerView.tag == colorationPickerTag) {
-            let ok = ss.selectGenerator(ss.generatorNames[row])
+        if (pickerView.tag == colorSourcePickerTag) {
+            let ok = ss.selectColorSource(ss.colorSourceNames[row])
             if (!ok) {
-                updateGeneratorControls()
+                updateColorSourceControls()
             }
         }
         
-        if (pickerView.tag == cyclerPickerTag) {
-            let ok = ss.selectCycler(ss.cyclerNames[row])
+        if (pickerView.tag == sequencerPickerTag) {
+            let ok = ss.selectSequencer(ss.sequencerNames[row])
             if (!ok) {
-                updateCyclerControls()
+                updateSequencerControls()
             }
         }
     }
     
-    func updateCyclerControls() {
+    func updateSequencerControls() {
         if (scene == nil) { return }
         let ss = scene!
         
-        let name = ss.selectedCycler?.name
+        let name = ss.selectedSequencer?.name
         if (name == nil) { return }
         
-        let r = ss.cyclerNames.index(of: name!)
+        let r = ss.sequencerNames.index(of: name!)
         if (r == nil) { return }
         
         cyclerPicker.selectRow(r!, inComponent: 0, animated: false)
     }
 
-    func updateGeneratorControls() {
+    func updateColorSourceControls() {
         if (scene == nil) { return }
         let ss = scene!
         
-        let name = ss.selectedGenerator?.name
+        let name = ss.selectedColorSource?.name
         if (name == nil) { return }
         
-        let r = ss.generatorNames.index(of: name!)
+        let r = ss.colorSourceNames.index(of: name!)
         if (r == nil) { return }
         
         colorationPicker.selectRow(r!, inComponent: 0, animated: false)

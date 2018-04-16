@@ -12,11 +12,12 @@ import Foundation
 // NForFixedK
 // ==============================================================================
 
-class NForFixedK : Cycler {
+class NForFixedK : Sequencer {
     
     static let type = "N for fixed k"
     var name = type
-    
+    var description = "change N keeping k fixed"
+
     var lowerBound: (Double, BoundType) {
         get { return (Double(pMinValue), BoundType.closed) }
         set(newValue) {
@@ -114,11 +115,12 @@ class NForFixedK : Cycler {
 // KForFixedN
 // ==============================================================================
 
-class KForFixedN : Cycler {
+class KForFixedN : Sequencer {
     
     static let type = "k for fixed N"
     var name = type
-    
+    var description = "change k keeping N fixed"
+
     var lowerBound: (Double, BoundType) {
         get { return (Double(pMinValue), BoundType.closed) }
         set(newValue) {
@@ -217,11 +219,12 @@ class KForFixedN : Cycler {
 // NForFixedKOverN
 // ==============================================================================
 
-class NForFixedKOverN : Cycler {
+class NForFixedKOverN : Sequencer {
     
     static let type = "N for fixed k/N"
     var name = type
-    
+    var description = "change N and k, keeping k/N fixed"
+
     var lowerBound: (Double, BoundType) {
         get { return (Double(pMinValue), BoundType.closed) }
         set(newValue) {

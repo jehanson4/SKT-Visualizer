@@ -18,7 +18,7 @@ protocol ModelChangeListener {
         func modelHasChanged()
 }
 
-protocol SceneController : EffectRegistry, GeneratorRegistry, CyclerRegistry {
+protocol SceneController : EffectRegistry, ColorSourceRegistry, SequencerRegistry {
     
     var zoom: Double { get set }
     var povR: Double { get }
@@ -60,7 +60,7 @@ class Scene : SceneController {
     
     var aspectRatio: Float = 1
     var frameNumber: Int = 0
-    var cyclerEnabled: Bool = false
+    var sequencerEnabled: Bool = false
     var cyclerFramesPerStep = 10
     var cyclerSgn: Int = -1
 //    let rotationRate: Double = 0.02
@@ -131,8 +131,8 @@ class Scene : SceneController {
         povRotationAxis = (x: 0, y: 0, z: 1)
         
         computeTransforms()
-        addCyclers()
-        addGenerators()
+        registerSequencers()
+        registerColorSources()
         addEffects()
     }
     
@@ -154,98 +154,104 @@ class Scene : SceneController {
     // Cyclers
     // ==========================================================
     
-    private var cyclers = [String: Cycler]()
-    var selectedCycler: Cycler? = nil
+    private var sequencers = [String: Sequencer]()
+    var selectedSequencer: Sequencer? = nil
     
-    var cyclerNames: [String] {
+    var sequencerNames: [String] {
         get {
             var names: [String] = []
-            for entry in cyclers {
+            for entry in sequencers {
                 names.append(entry.key)
             }
             return names
         }
     }
     
-    func getCycler(_ name: String) -> Cycler? {
-        return cyclers[name]
+    func getSequencer(_ name: String) -> Sequencer? {
+        return sequencers[name]
     }
     
-    func selectCycler(_ name: String) -> Bool {
-        // FIXME bad style
-        let oldName = (selectedCycler == nil) ? "" : selectedCycler!.name
-        if (name == oldName) { return false }
+    func selectSequencer(_ name: String) -> Bool {
+        let oldSequencer = selectedSequencer
+        let newSequencer = getSequencer(name)
+        if (newSequencer == nil) { return false }
         
-        let newCycler = getCycler(name)
-        if (newCycler == nil) { return false }
+        let oldName = (oldSequencer == nil) ? "nil" : oldSequencer!.name
+        message("selectSeqeuencer: old=" + oldName + " new=" + newSequencer!.name)
         
-        selectedCycler = newCycler
-        message("selectCycler: done. old=" + oldName + " new=" + name)
+        if (oldSequencer == nil || newSequencer!.name != oldSequencer!.name) {
+            newSequencer!.reset()
+        }
+        selectedSequencer = newSequencer
         return true
     }
     
-    private func addCyclers() {
-//        let c0 = NForFixedK(geometry)
-//        cyclers[c0.name] = c0
+    private func registerSequencers() {
 
-        let c1 = KForFixedN(geometry)
-        cyclers[c1.name] = c1
+        let c0 = DummySequencer()
+        c0.name = "None"
+        c0.description = "No sequencer"
+        registerSequencer(c0, true)
         
-        let c2 = NForFixedKOverN(geometry)
-        cyclers[c2.name] = c2
-        selectedCycler = c2
-        
-        let c3 = LinearT(physics)
-        cyclers[c3.name] = c3
-        
-        let c4 = LinearAlpha2(physics)
-        cyclers[c4.name] = c4
+        // NO NForFixedK(geometry)
+
+        registerSequencer(NForFixedKOverN(geometry), false)
+        registerSequencer(KForFixedN(geometry), false)
+        registerSequencer(LinearAlpha2(physics), false)
+        registerSequencer(LinearT(physics), false)
+        registerSequencer(LinearBeta(physics), false)
+    }
+    
+    private func registerSequencer(_ sequencer: Sequencer, _ select: Bool) {
+        sequencers[sequencer.name] = sequencer
+        if select { selectedSequencer = sequencer }
     }
     
     // ==========================================================
-    // Generators
+    // Color sources
     // ==========================================================
     
-    var generators = [String: Generator]()
-    var selectedGenerator: Generator? = nil
+    var colorSources = [String: ColorSource]()
+    var colorSourceNames: [String] = []
+    var selectedColorSource: ColorSource? = nil
     
-    var generatorNames: [String] {
-        var names: [String] = []
-        for entry in generators {
-            names.append(entry.key)
-        }
-        return names
+    func getColorSource(_ name: String) -> ColorSource? {
+        return colorSources[name]
     }
     
-    func getGenerator(_ name: String) -> Generator? {
-        return generators[name]
-    }
-    
-    func selectGenerator(_ name: String) -> Bool {
+    func selectColorSource(_ name: String) -> Bool {
         // FIXME bad style
-        let oldName = (selectedGenerator == nil) ? "" : selectedGenerator!.name
+        let oldName = (selectedColorSource == nil) ? "" : selectedColorSource!.name
         if (name == oldName) { return false }
         
-        let newGenerator = getGenerator(name)
-        if (newGenerator == nil) { return false }
+        let newColorSource = getColorSource(name)
+        if (newColorSource == nil) { return false }
         
-        selectedGenerator = newGenerator
-        message("selectGenerator: changed. old=" + oldName + " new=" + name)
+        selectedColorSource = newColorSource
+        message("selectColorSource: changed from " + oldName + " to " + name)
         for var entry in effects {
-            entry.value.generator = selectedGenerator
+            entry.value.colorSource = selectedColorSource
         }
         return true
     }
 
-    func addGenerators() {
+    func registerColorSources() {
         let gray = ConstColor(r: 0.25, g: 0.25, b: 0.25)
         gray.name = "None"
-        generators[gray.name] = gray
-        selectedGenerator = gray
+        gray.description = "No color source"
+        registerColorSource(gray, true)
         
-        let skGenerators = makeSKGenerators(physics)
-        for gen in skGenerators {
-            generators[gen.name] = gen
+        let skSources = makeColorSourcesForProperties(physics)
+        for ss in skSources {
+            registerColorSource(ss, false)
+        }
+    }
+    
+    private func registerColorSource(_ colorSource: ColorSource, _ select: Bool) {
+        colorSources[colorSource.name] = colorSource
+        colorSourceNames.append(colorSource.name)
+        if select {
+            selectedColorSource = colorSource
         }
     }
     
@@ -301,16 +307,21 @@ class Scene : SceneController {
         }
     }
     
-    func toggleCycler() {
-        if (selectedCycler == nil) { return }
+    func toggleSequencer() {
+        if (selectedSequencer == nil) { return }
         
         // DEBUG
-        message("toggleCycler: cycler=" + selectedCycler!.name)
+        message("toggleSequencer: selected sequencer=" + selectedSequencer!.name)
 
-        cyclerEnabled = !cyclerEnabled
-        if (cyclerEnabled) {
-            selectedCycler!.reset()
-            selectedCycler!.stepSize *= -1
+        sequencerEnabled = !sequencerEnabled
+        if (sequencerEnabled) {
+            let oldSgn = selectedSequencer!.stepSgn
+            selectedSequencer!.stepSgn *= -1
+            let newSgn = selectedSequencer!.stepSgn
+            message("toggleSequencer: sgn change from " + String(oldSgn) + " to " + String(newSgn))
+        }
+        else {
+            message("toggleSequencer: enabled=" + String(sequencerEnabled))
         }
     }
     
@@ -360,8 +371,8 @@ class Scene : SceneController {
         povPhi = Scene.povPhi_default
         povTheta_e = Scene.povTheta_e_default
         povRotationAngle = 0
-        cyclerEnabled = false
-        cyclerSgn = 1
+        sequencerEnabled = false
+        // cyclerSgn = 1
         computeTransforms()
     }
     
@@ -398,16 +409,13 @@ class Scene : SceneController {
         }
         
         // TODO check whether it's time to do this
-        if (cyclerEnabled && selectedCycler != nil) {
-            
-            selectedCycler!.step()
-            message("draw: new cycler value " + String (selectedCycler!.value))
+        if (sequencerEnabled && selectedSequencer != nil) {
+            selectedSequencer!.step()
+            message("draw: sequencer step done, new value: " + String (selectedSequencer!.value))
             for listener in modelChangeListeners {
                 listener.modelHasChanged()
             }
 
-            // povRotate(Double(cyclerSgn) * rotationRate)
-            
         }
         
         // From orbiting teapot

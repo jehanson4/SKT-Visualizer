@@ -1,5 +1,5 @@
 //
-//  Generator.swift
+//  ColorSource.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 4/13/18.
@@ -17,37 +17,39 @@ import OpenGL
 // ==============================================================================
 // ==============================================================================
 
-protocol Generator {
+protocol ColorSource {
     
     static var type: String { get }
-    
     var name: String { get set }
+    var description: String { get set }
     
     func prepare()
     
     func color(_ nodeIndex: Int) -> GLKVector4
 }
 
-protocol GeneratorRegistry {
+protocol ColorSourceRegistry {
     
-    var generatorNames: [String] { get }
+    var colorSourceNames: [String] { get }
     
-    func getGenerator(_ name: String) -> Generator?
+    func getColorSource(_ name: String) -> ColorSource?
 
     /// returns true iff the selection changed
-    func selectGenerator(_ name: String) -> Bool
+    func selectColorSource(_ name: String) -> Bool
     
-    var selectedGenerator: Generator? { get }
+    var selectedColorSource: ColorSource? { get }
     
 }
 
 // ==============================================================================
 // ==============================================================================
 
-class ConstColor : Generator {
+class ConstColor : ColorSource {
     
     static let type = "Const color"
     var name = type
+    var description = type
+    
     let color: GLKVector4
     
     init(r: GLfloat = 0, g: GLfloat = 0, b: GLfloat = 0) {

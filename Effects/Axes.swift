@@ -20,7 +20,7 @@ class Axes : GLKBaseEffect, Effect {
     var name = type
     var enabled = false
 
-    var generator: Generator? {
+    var colorSource: ColorSource? {
         get { return nil }
         set(newValue) { }
     }

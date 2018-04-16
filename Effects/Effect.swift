@@ -115,7 +115,7 @@ protocol Effect  {
     var name: String { get set }
     var enabled: Bool { get set }
     var transform: GLKEffectPropertyTransform { get }
-    var generator: Generator? { get set }
+    var colorSource: ColorSource? { get set }
     
     func prepareToDraw()
     func draw()
