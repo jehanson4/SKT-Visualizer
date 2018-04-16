@@ -1,5 +1,5 @@
 //
-//  PhysicsCyclers.swift
+//  PhysicsSequencers.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 4/14/18.
@@ -36,7 +36,7 @@ class LinearAlpha2 : Sequencer {
     }
     
     var upperBound: (Double, BoundType) {
-        get { return (pMinValue, BoundType.closed) }
+        get { return (pMaxValue, BoundType.closed) }
         set {
             pMaxValue = newValue.0
             if (pMaxValue < physics.alpha_min) {

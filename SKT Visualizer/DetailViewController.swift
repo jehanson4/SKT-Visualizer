@@ -115,11 +115,11 @@ class DetailViewController: GLKViewController {
         // print("DetailViewController.handlePinch", "sender.state:", sender.state)
         if (sender.state == UIGestureRecognizerState.began) {
             pinchZoom_initialValue = scene.zoom
-            print("DetailViewController.handlePinch began", "zoom:", scene.zoom, "povR:", scene.povR)
+            debug("pinch began. zoom=" + String(scene.zoom) + " povR=" + String(scene.povR))
         }
         scene.zoom = (pinchZoom_initialValue * Double(sender.scale))
         if (sender.state == UIGestureRecognizerState.ended) {
-            print("DetailViewController.handlePinch ended", "scale", sender.scale, "zoom:", scene.zoom, "povR:", scene.povR)
+            debug("pinch ended. scale=" + String(Float(sender.scale)) + " zoom=" + String(scene.zoom) + " povR=" + String(scene.povR))
         }
     }
     
@@ -129,4 +129,7 @@ class DetailViewController: GLKViewController {
     //    print("DestinationViewController.prepare for seque", "destination", segue.destination)
     // }
 
+    private func debug(_ msg: String) {
+        print("DetailViewController", msg)
+    }
 }

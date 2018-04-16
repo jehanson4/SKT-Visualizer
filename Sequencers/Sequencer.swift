@@ -1,5 +1,5 @@
 //
-//  Cycler.swift
+//  Sequencer.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 4/14/18.
@@ -47,7 +47,7 @@ protocol SequencerRegistry {
 }
 
 // ==============================================================================
-// DummyCycler
+// DummySequencer
 // ==============================================================================
 
 /**

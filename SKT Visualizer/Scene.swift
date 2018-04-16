@@ -15,7 +15,7 @@ import OpenGL
 #endif
 
 protocol ModelChangeListener {
-        func modelHasChanged()
+    func modelHasChanged()
 }
 
 protocol SceneController : EffectRegistry, ColorSourceRegistry, SequencerRegistry {
@@ -38,38 +38,17 @@ protocol SceneController : EffectRegistry, ColorSourceRegistry, SequencerRegistr
 
 class Scene : SceneController {
     
-    static let povR_default: Double = 2
-    // static let povR_min: Double = 1.1 // EMPIRICAL
-    static let povPhi_default: Double = Constants.piOver4
-    static let povTheta_e_default: Double = Constants.piOver4
+    // ======================================================
+    // POV
     
-//    static let zoom_min: Double = 0.001
-//    static let zoom_max: Double = 1000
-
-    var zoom: Double = 1.0 {
-        didSet(newValue) {
-            //            if (!(newValue >= Scene.zoom_min)) { zoom = Scene.zoom_min }
-            //            if (!(newValue <= Scene.zoom_max)) { zoom = Scene.zoom_max }
-            computeTransforms()
-        }
-    }
+    let povR_default: Double = 2
+    let povPhi_default: Double = Constants.piOver4
+    let povTheta_e_default: Double = Constants.piOver4
     
-
-    var geometry: SKGeometry
-    var physics: SKPhysics
+    var povR : Double
+    var povPhi: Double
+    var povTheta_e: Double
     
-    var aspectRatio: Float = 1
-    var frameNumber: Int = 0
-    var sequencerEnabled: Bool = false
-    var cyclerFramesPerStep = 10
-    var cyclerSgn: Int = -1
-//    let rotationRate: Double = 0.02
-    
-    // point of view
-    var povR : Double = Scene.povR_default
-    var povPhi: Double = Scene.povPhi_default
-    var povTheta_e: Double = Scene.povTheta_e_default
-
     var povRotationAngle: Double {
         didSet(newValue) {
             computeTransforms()
@@ -82,16 +61,47 @@ class Scene : SceneController {
         }
     }
     
+    var zoom: Double = 1.0 {
+        didSet(newValue) {
+            computeTransforms()
+        }
+    }
+    
+    // ======================================================
+    // sequencer
+    
+    let sequencerStepInterval_default: TimeInterval = 0.1
+    
+    var sequencerEnabled: Bool
+    var sequencerStepInterval: TimeInterval
+    var sequencerLastStepTime: TimeInterval
+    
+    // ======================================================
+    // internals
+    
+    var aspectRatio: Float = 1
+    
+    var geometry: SKGeometry
+    var physics: SKPhysics
     var projectionMatrix: GLKMatrix4!
     var modelviewMatrix: GLKMatrix4!
-
+    var effects = [String: Effect]()
     var modelChangeListeners: [ModelChangeListener] = []
     
-    var effects = [String: Effect]()
-
     init(_ geometry: SKGeometry, _ physics: SKPhysics) {
         self.geometry = geometry
         self.physics = physics
+        
+        // VIEW PARAMS
+        self.povR = povR_default
+        self.povPhi = povPhi_default
+        self.povTheta_e = povTheta_e_default
+        self.povRotationAngle = 0
+        self.povRotationAxis = (x: 0, y: 0, z: 1)
+        self.sequencerEnabled = false
+        self.sequencerStepInterval = sequencerStepInterval_default
+        self.sequencerLastStepTime = 0
+        
         
         // EMPIRICAL if last 2 args are -d, d then it doesn't show net from underside.
         // 10 and 2d seem OK
@@ -127,13 +137,10 @@ class Scene : SceneController {
         // glEnable(GLenum(GL_COLOR_MATERIAL))
         // glColorMaterial(GLenum(GL_FRONT), GLenum(GL_AMBIENT_AND_DIFFUSE))
         
-        povRotationAngle = 0
-        povRotationAxis = (x: 0, y: 0, z: 1)
-        
         computeTransforms()
         registerSequencers()
         registerColorSources()
-        addEffects()
+        registerEffects()
     }
     
     func addListener(forModel listener: ModelChangeListener) {
@@ -151,21 +158,12 @@ class Scene : SceneController {
     }
     
     // ==========================================================
-    // Cyclers
+    // Sequencers
     // ==========================================================
     
     private var sequencers = [String: Sequencer]()
+    var sequencerNames: [String] = []
     var selectedSequencer: Sequencer? = nil
-    
-    var sequencerNames: [String] {
-        get {
-            var names: [String] = []
-            for entry in sequencers {
-                names.append(entry.key)
-            }
-            return names
-        }
-    }
     
     func getSequencer(_ name: String) -> Sequencer? {
         return sequencers[name]
@@ -177,7 +175,7 @@ class Scene : SceneController {
         if (newSequencer == nil) { return false }
         
         let oldName = (oldSequencer == nil) ? "nil" : oldSequencer!.name
-        message("selectSeqeuencer: old=" + oldName + " new=" + newSequencer!.name)
+        debug("selectSeqeuencer: old=" + oldName + " new=" + newSequencer!.name)
         
         if (oldSequencer == nil || newSequencer!.name != oldSequencer!.name) {
             newSequencer!.reset()
@@ -187,28 +185,65 @@ class Scene : SceneController {
     }
     
     private func registerSequencers() {
-
+        
         let c0 = DummySequencer()
         c0.name = "None"
         c0.description = "No sequencer"
         registerSequencer(c0, true)
         
-        // NO NForFixedK(geometry)
-
+        
         registerSequencer(NForFixedKOverN(geometry), false)
         registerSequencer(KForFixedN(geometry), false)
+        // USELESS NForFixedK(geometry)
         registerSequencer(LinearAlpha2(physics), false)
         registerSequencer(LinearT(physics), false)
-        registerSequencer(LinearBeta(physics), false)
+        // FIXME BROKEN registerSequencer(LinearBeta(physics), false)
     }
     
     private func registerSequencer(_ sequencer: Sequencer, _ select: Bool) {
         sequencers[sequencer.name] = sequencer
+        sequencerNames.append(sequencer.name)
         if select { selectedSequencer = sequencer }
     }
     
+    func toggleSequencer() {
+        if (selectedSequencer == nil) { return }
+        
+        // debug("toggleSequencer: selected sequencer=" + selectedSequencer!.name)
+        
+        sequencerEnabled = !sequencerEnabled
+        if (sequencerEnabled) {
+            let oldSgn = selectedSequencer!.stepSgn
+            selectedSequencer!.stepSgn *= -1
+            let newSgn = selectedSequencer!.stepSgn
+            debug("toggleSequencer: sgn change from " + String(oldSgn) + " to " + String(newSgn))
+        }
+        else {
+            debug("toggleSequencer: enabled=" + String(sequencerEnabled))
+        }
+    }
+    
+    func sequencerStep() {
+        let t0: TimeInterval = currTime()
+        let dt: TimeInterval = t0 - sequencerLastStepTime
+        if (
+            sequencerEnabled &&
+                (selectedSequencer != nil)
+                && (dt >= sequencerStepInterval)
+            ) {
+            
+            debug("draw: taking sequencer step, current value: " + String (selectedSequencer!.value))
+            sequencerLastStepTime = t0
+            selectedSequencer!.step()
+            debug("draw: sequencer step done, new value: " + String (selectedSequencer!.value))
+            for listener in modelChangeListeners {
+                listener.modelHasChanged()
+            }
+        }
+    }
+    
     // ==========================================================
-    // Color sources
+    // Color Sources
     // ==========================================================
     
     var colorSources = [String: ColorSource]()
@@ -228,13 +263,13 @@ class Scene : SceneController {
         if (newColorSource == nil) { return false }
         
         selectedColorSource = newColorSource
-        message("selectColorSource: changed from " + oldName + " to " + name)
+        debug("selectColorSource: changed from " + oldName + " to " + name)
         for var entry in effects {
             entry.value.colorSource = selectedColorSource
         }
         return true
     }
-
+    
     func registerColorSources() {
         let gray = ConstColor(r: 0.25, g: 0.25, b: 0.25)
         gray.name = "None"
@@ -258,7 +293,7 @@ class Scene : SceneController {
     // ==========================================================
     // Effects
     // ==========================================================
-
+    
     var effectNames: [String] {
         var names: [String] = []
         for entry in effects {
@@ -266,33 +301,26 @@ class Scene : SceneController {
         }
         return names
     }
-
+    
     func getEffect(_ name: String) -> Effect? {
         return effects[name]
     }
     
-    func addEffects() {
-        let axes = Axes()
-        effects[axes.name] = axes
-
-        let meridians = Meridians(geometry)
-        effects[meridians.name] = meridians
-        
-        let net = Net(geometry)
-        effects[net.name] = net
-        
-        let surface = Surface(geometry, physics)
-        effects[surface.name] = surface
-        
-        let nodes = Nodes(geometry, physics)
-        effects[nodes.name] = nodes
-        
-        // let icosahedron = Icosahedron()
-        // effects[icosahedron.name] = icosahedron
+    private func registerEffects() {
+        registerEffect(Axes())
+        registerEffect(Meridians(geometry))
+        registerEffect(Net(geometry))
+        registerEffect(Surface(geometry, physics))
+        // registerEffect(Nodes(geometry, physics))
+        // registerEffect(Icosahedron())
         
         for e in effects {
             e.value.transform.projectionMatrix = projectionMatrix
         }
+    }
+    
+    private func registerEffect(_ effect: Effect) {
+        effects[effect.name] = effect
     }
     
     // ==========================================================
@@ -300,28 +328,9 @@ class Scene : SceneController {
     
     func setAspectRatio(_ aspectRatio: Float) {
         if (aspectRatio != self.aspectRatio) {
-            // DEBUG
-            message("setAspectRatio: aspectRatio=" + String(aspectRatio))
+            debug("setAspectRatio: aspectRatio=" + String(aspectRatio))
             self.aspectRatio = aspectRatio
             computeTransforms()
-        }
-    }
-    
-    func toggleSequencer() {
-        if (selectedSequencer == nil) { return }
-        
-        // DEBUG
-        message("toggleSequencer: selected sequencer=" + selectedSequencer!.name)
-
-        sequencerEnabled = !sequencerEnabled
-        if (sequencerEnabled) {
-            let oldSgn = selectedSequencer!.stepSgn
-            selectedSequencer!.stepSgn *= -1
-            let newSgn = selectedSequencer!.stepSgn
-            message("toggleSequencer: sgn change from " + String(oldSgn) + " to " + String(newSgn))
-        }
-        else {
-            message("toggleSequencer: enabled=" + String(sequencerEnabled))
         }
     }
     
@@ -330,15 +339,12 @@ class Scene : SceneController {
         let zz = GLfloat(zoom)
         let scaleMatrix = GLKMatrix4MakeScale(zz, zz, zz)
         
-        povR = (Scene.povR_default - geometry.r0)/zoom + geometry.r0
+        povR = (povR_default - geometry.r0)/zoom + geometry.r0
         let povXYZ = geometry.sphericalToCartesian(povR, povPhi, povTheta_e)
         modelviewMatrix = GLKMatrix4MakeLookAt(Float(povXYZ.x), Float(povXYZ.y), Float(povXYZ.z), 0, 0, 0, 0, 0, 1)
-        
-        // verified: this is the right multiplication order
         modelviewMatrix = GLKMatrix4Multiply(scaleMatrix, modelviewMatrix)
-        
         modelviewMatrix = GLKMatrix4Rotate(modelviewMatrix, GLfloat(povRotationAngle),
-                GLfloat(povRotationAxis.x), GLfloat(povRotationAxis.y), GLfloat(povRotationAxis.z))
+                                           GLfloat(povRotationAxis.x), GLfloat(povRotationAxis.y), GLfloat(povRotationAxis.z))
     }
     
     func setPOVAngularPosition(_ phi: Double, _ thetaE: Double) {
@@ -366,57 +372,21 @@ class Scene : SceneController {
     }
     
     func resetView() {
-        zoom = 1.0
-        povR = Scene.povR_default
-        povPhi = Scene.povPhi_default
-        povTheta_e = Scene.povTheta_e_default
-        povRotationAngle = 0
-        sequencerEnabled = false
-        // cyclerSgn = 1
+        self.zoom = 1.0
+        self.povR = povR_default
+        self.povPhi = povPhi_default
+        self.povTheta_e = povTheta_e_default
+        self.povRotationAngle = 0
+        self.povRotationAxis = (x: 0, y: 0, z: 1)
+        self.sequencerEnabled = false
+        self.sequencerStepInterval = sequencerStepInterval_default
+        
         computeTransforms()
     }
     
-//    func povRotate(_ delta: Double) {
-//        setRotationAngle(povRotationAngle + delta)
-//    }
-//    
-//    func setRotationAngle(_ angle: Double) {
-//        povRotationAngle = angle
-//        while (povRotationAngle < 0) {
-//            // DEBUG
-//            message("povRotationAngle " + String(povRotationAngle))
-//            povRotationAngle += Constants.twoPi
-//        }
-//        while (povRotationAngle >= Constants.twoPi) {
-//            // DEBUG
-//            message("povRotationAngle " + String(povRotationAngle))
-//            povRotationAngle -= Constants.twoPi
-//        }
-//        computeTransforms()
-//    }
-//    
-//    func resetRotationAngle() {
-//        povRotationAngle = 0
-//        computeTransforms()
-//    }
-    
     func draw() {
         
-        frameNumber += 1
-        // DEBUG
-        if (frameNumber % 100 == 0) {
-            message("draw: frameNumber" + String(frameNumber))
-        }
-        
-        // TODO check whether it's time to do this
-        if (sequencerEnabled && selectedSequencer != nil) {
-            selectedSequencer!.step()
-            message("draw: sequencer step done, new value: " + String (selectedSequencer!.value))
-            for listener in modelChangeListeners {
-                listener.modelHasChanged()
-            }
-
-        }
+        sequencerStep()
         
         // From orbiting teapot
         // I think this needs to be here to clear prev. picture
@@ -435,7 +405,11 @@ class Scene : SceneController {
         }
     }
     
-    func message(_ msg: String) {
-        print("Scene: " + msg)
+    private func currTime() -> TimeInterval {
+        return NSDate().timeIntervalSince1970
+    }
+    
+    private func debug(_ msg: String) {
+        print("Scene", msg)
     }
 }

@@ -1,5 +1,5 @@
 //
-//  ViewCyclers.swift
+//  ViewSequencers.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 4/15/18.

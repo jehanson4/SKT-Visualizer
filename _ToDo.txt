@@ -3,33 +3,26 @@ ToDo.txt
 ==================================================================================
 
 
-alpha2 max stops at -1.01
 
-pickers' initial selections are wrong
+surface doesn't show the initial color source
+    should treat it as change from nil to gray
 
-picker order
+sequencer picker order isn't right
 
-alpha2 font size
-
-None dummysequencer
 
 - - - -
-[ ] one protocol defining all the things the UI needs to know about.
-    It's a reswizzling of geometry etc -- it's a separaate intf
+[ ] 'scene controller' as the one protocol defining all the things the UI needs to know about.
+    It doesn't expose geometry or physics. It's a reswizzling to meet the needs of the UI
 
 [ ] Q: best way to do swift dictionary keyset -> array of values
 
-[ ] frame RATE on cycler not frame COUNT
+[ ] frame RATE not frame COUNT
 
-[ ] "Step over"?
-
-[ ] step down in N toward 0: fail to catch the lower limit.
-
-[ ] settings VC needs to be model change listener
+[ ] All the ViewControllers need to be model change listeners
+    And the all need to have the 'scene controller' passed to them
 
     *but* does that mean I've got strong ref's to it? Does it get rebuilt or NOT?
     in either case, it's a bad thing. either there's dead listeners or it keeps
     re-adding itself.
 
-[ ] get rid of the word 'coloration' in the storboard and controllers
 

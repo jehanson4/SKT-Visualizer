@@ -24,17 +24,18 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         a2_text.delegate = self
         T_text.delegate = self
         
-        colorationPicker.delegate = self
-        colorationPicker.dataSource = self
-        colorationPicker.tag = colorSourcePickerTag
+        colorSourcePicker.delegate = self
+        colorSourcePicker.dataSource = self
+        colorSourcePicker.tag = colorSourcePickerTag
         
-        cyclerPicker.delegate = self
-        cyclerPicker.dataSource = self
-        cyclerPicker.tag = sequencerPickerTag
+        sequencerPicker.delegate = self
+        sequencerPicker.dataSource = self
+        sequencerPicker.tag = sequencerPickerTag
         
         configureModelControls()
-        configurePickerControls()
         updateModelControls()
+        updateSequencerControls()
+        updateColorSourceControls()
         updateEffectControls()
         
         if (scene != nil) {
@@ -381,10 +382,10 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     // This font size needs to be kept in sync with Main.storyboard
     let pickerLabelFontSize: CGFloat = 15.0
 
-    @IBOutlet weak var colorationPicker: UIPickerView!
+    @IBOutlet weak var colorSourcePicker: UIPickerView!
     let colorSourcePickerTag = 0
 
-    @IBOutlet weak var cyclerPicker: UIPickerView!
+    @IBOutlet weak var sequencerPicker: UIPickerView!
     let sequencerPickerTag = 1
     
     func configurePickerControls() {
@@ -398,12 +399,15 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if pickerView.tag == colorSourcePickerTag {
-            return (scene == nil) ? nil : scene!.colorSourceNames[row]
-        }
-        if pickerView.tag == sequencerPickerTag {
-            return String("Cycler #" + String(row+1))
-        }
+        
+        // also done in the label customization below.
+        // TODO should only do it in one place.
+//        if pickerView.tag == colorSourcePickerTag {
+//            return (scene == nil) ? nil : scene!.colorSourceNames[row]
+//        }
+//        if pickerView.tag == sequencerPickerTag {
+//            return (scene == nil) ? nil : scene!.sequencerNames[row]
+//        }
         return nil
     }
     
@@ -426,7 +430,8 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
             pickerLabel?.font = UIFont(name: "System", size: pickerLabelFontSize)
             pickerLabel?.textAlignment = NSTextAlignment.center
         }
-        
+
+        // see above
         if pickerView.tag == colorSourcePickerTag {
             pickerLabel?.text = (scene == nil) ? nil : scene!.colorSourceNames[row]
         }
@@ -466,7 +471,8 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         let r = ss.sequencerNames.index(of: name!)
         if (r == nil) { return }
         
-        cyclerPicker.selectRow(r!, inComponent: 0, animated: false)
+        debug("telling sequencerPicker to select row " + String(r!) + ": " + name!)
+        sequencerPicker.selectRow(r!, inComponent: 0, animated: false)
     }
 
     func updateColorSourceControls() {
@@ -479,7 +485,8 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         let r = ss.colorSourceNames.index(of: name!)
         if (r == nil) { return }
         
-        colorationPicker.selectRow(r!, inComponent: 0, animated: false)
+        debug("telling colorSourcePicker to select row " + String(r!) + ": " + name!)
+        colorSourcePicker.selectRow(r!, inComponent: 0, animated: false)
     }
     
     // ======================================================================================

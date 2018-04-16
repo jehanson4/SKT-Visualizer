@@ -39,7 +39,7 @@ class SKPhysics : ChangeCounted {
     let alpha_max: Double =  2.0
     let alpha_min: Double = -2.0
     let alpha_default: Double = -1.0
-    let alpha_stepDefault: Double = 0.01
+    let alpha_stepDefault: Double = 0.001
     
     var alpha1: Double {
         get { return pAlpha1 }
@@ -55,7 +55,7 @@ class SKPhysics : ChangeCounted {
     var alpha2: Double {
         get { return pAlpha2 }
         set(newValue) {
-            if (newValue == pAlpha1 || newValue < alpha_min || newValue > alpha_max) {
+            if (newValue == pAlpha2 || newValue < alpha_min || newValue > alpha_max) {
                 return
             }
             pAlpha2 = newValue

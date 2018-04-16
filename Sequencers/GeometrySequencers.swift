@@ -1,5 +1,5 @@
 //
-//  GeometryCyclers.swift
+//  GeometrySequencers.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 4/14/18.
