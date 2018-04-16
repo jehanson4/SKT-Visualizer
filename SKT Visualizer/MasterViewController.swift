@@ -10,6 +10,7 @@ import UIKit
 
 class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, ModelChangeListener {
 
+    let name = "MasterViewController"
     var geometry: SKGeometry?
     var physics: SKPhysics?
     var scene: SceneController?
@@ -39,7 +40,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         updateEffectControls()
         
         if (scene != nil) {
-            scene!.addListener(forModel: self)
+            scene!.addListener(forModelChange: self)
         }
     }
     
@@ -243,7 +244,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         }
     }
     
-    func modelHasChanged() {
+    func modelHasChanged(controller: ModelController?) {
         debug("modelHasChanged")
         updateModelControls()
     }

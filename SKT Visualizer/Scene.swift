@@ -14,11 +14,7 @@ import OpenGLES
 import OpenGL
 #endif
 
-protocol ModelChangeListener {
-    func modelHasChanged()
-}
-
-protocol SceneController : EffectRegistry, ColorSourceRegistry, SequencerRegistry {
+protocol SceneController : ModelController {
     
     var zoom: Double { get set }
     var povR: Double { get }
@@ -29,8 +25,6 @@ protocol SceneController : EffectRegistry, ColorSourceRegistry, SequencerRegistr
     
     var povRotationAngle: Double { get set }
     var povRotationAxis: (x: Double, y: Double, z: Double) { get set }
-    
-    func addListener(forModel listener: ModelChangeListener)
     
     func resetView()
     func resetModel()
@@ -143,17 +137,29 @@ class Scene : SceneController {
         registerEffects()
     }
     
-    func addListener(forModel listener: ModelChangeListener) {
-        modelChangeListeners.append(listener)
-    }
-    
     func resetModel() {
         physics.revertSettings()
         physics.resetParams()
         geometry.revertSettings()
         geometry.resetParams()
+        fireModelChange();
+    }
+    
+    func addListener(forModelChange listener: ModelChangeListener?) {
+        if (listener != nil) {
+            modelChangeListeners.append(listener!)
+        }
+    }
+    
+    func removeListener(forModelChange listener: ModelChangeListener?) {
+        if (listener != nil) {
+            // TODO
+        }
+    }
+    
+    private func fireModelChange() {
         for listener in modelChangeListeners {
-            listener.modelHasChanged()
+            listener.modelHasChanged(controller: self)
         }
     }
     
@@ -236,7 +242,7 @@ class Scene : SceneController {
             selectedSequencer!.step()
             debug("draw: sequencer step done, new value: " + String (selectedSequencer!.value))
             for listener in modelChangeListeners {
-                listener.modelHasChanged()
+                listener.modelHasChanged(controller: self)
             }
         }
     }

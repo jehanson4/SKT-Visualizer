@@ -25,6 +25,7 @@
 		8A41A2ED2082D9B000CDDF28 /* PhysicsColorSources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A41A2EC2082D9B000CDDF28 /* PhysicsColorSources.swift */; };
 		8A41A2EF2083722900CDDF28 /* ViewSequencers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A41A2EE2083722900CDDF28 /* ViewSequencers.swift */; };
 		8A41A2F2208398E900CDDF28 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A41A2F1208398E900CDDF28 /* Constants.swift */; };
+		8A47BEC72085081400784B40 /* ModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A47BEC62085081400784B40 /* ModelController.swift */; };
 		8A575FEE20804759002B9951 /* ColorMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A575FED20804759002B9951 /* ColorMap.swift */; };
 		8A57600320805790002B9951 /* smooth-cool-warm-table-float-0128.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8A575FF320805790002B9951 /* smooth-cool-warm-table-float-0128.csv */; };
 		8A57600420805790002B9951 /* smooth-cool-warm-table-float-0512.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8A575FF420805790002B9951 /* smooth-cool-warm-table-float-0512.csv */; };
@@ -109,6 +110,7 @@
 		8A41A2EC2082D9B000CDDF28 /* PhysicsColorSources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicsColorSources.swift; sourceTree = "<group>"; };
 		8A41A2EE2083722900CDDF28 /* ViewSequencers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewSequencers.swift; sourceTree = "<group>"; };
 		8A41A2F1208398E900CDDF28 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		8A47BEC62085081400784B40 /* ModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelController.swift; sourceTree = "<group>"; };
 		8A575FED20804759002B9951 /* ColorMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorMap.swift; sourceTree = "<group>"; };
 		8A575FF320805790002B9951 /* smooth-cool-warm-table-float-0128.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "smooth-cool-warm-table-float-0128.csv"; sourceTree = "<group>"; };
 		8A575FF420805790002B9951 /* smooth-cool-warm-table-float-0512.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "smooth-cool-warm-table-float-0512.csv"; sourceTree = "<group>"; };
@@ -239,10 +241,10 @@
 		8A1CF014207146510099DD97 /* SKT Visualizer */ = {
 			isa = PBXGroup;
 			children = (
-				8A19CD8520821D6800C1EADE /* Designable.swift */,
 				8A1CF015207146510099DD97 /* AppDelegate.swift */,
 				8A1CF01C207146540099DD97 /* Assets.xcassets */,
 				8AD817F8207BF8F300426C25 /* BackgroundWebView.swift */,
+				8A19CD8520821D6800C1EADE /* Designable.swift */,
 				8AF98F9F207FE8350007688E /* DetailViewController.swift */,
 				8AF98F9E207FE8350007688E /* DetailViewController.xib */,
 				8A1CF021207146540099DD97 /* Info.plist */,
@@ -255,6 +257,7 @@
 				8A0C09AB20718FA00017AC4C /* Scene.swift */,
 				8AF98FA3207FE8B40007688E /* SettingsViewController.swift */,
 				8AF98FA2207FE8B40007688E /* SettingsViewController.xib */,
+				8A47BEC62085081400784B40 /* ModelController.swift */,
 			);
 			path = "SKT Visualizer";
 			sourceTree = "<group>";
@@ -515,6 +518,7 @@
 				8A19CD8B208248B100C1EADE /* GeometrySequencers.swift in Sources */,
 				8A41A2EF2083722900CDDF28 /* ViewSequencers.swift in Sources */,
 				8A84313820726F0100F06B9B /* Axes.swift in Sources */,
+				8A47BEC72085081400784B40 /* ModelController.swift in Sources */,
 				8ABEEC3B20803A2F008E72F4 /* Surface.swift in Sources */,
 				8ACE788F2073C57500C29875 /* Effect.swift in Sources */,
 				8AA0637D207A89DD00BB68DB /* SKPhysics.swift in Sources */,

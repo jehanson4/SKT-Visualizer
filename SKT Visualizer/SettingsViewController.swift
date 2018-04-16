@@ -9,6 +9,7 @@ import UIKit
 
 class SettingsViewController: UIViewController, UITextFieldDelegate, ModelChangeListener {
 
+    let name: String = "SettingsViewController"
     var geometry: SKGeometry?
     var physics: SKPhysics?
     var scene: SceneController?
@@ -34,7 +35,8 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, ModelChange
         debug("prepareForSegue", "destination: " + segue.destination.nibName!)
     }
     
-    func modelHasChanged() {
+    
+    func modelHasChanged(controller: ModelController?) {
         updateModelControls()
     }
 

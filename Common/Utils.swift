@@ -8,6 +8,10 @@
 
 import Foundation
 
+// =======================================================================
+// Misc Functions
+// =======================================================================
+
 /// Return true iff the values are NOT within eps of each other
 func unequal(_ x: Double, _ y: Double) -> Bool {
     return abs(y-x) > Constants.eps
@@ -58,6 +62,30 @@ func piFraction(_ x: Double) -> String {
     return (bi == 1) ? "pi/8" : String(bi) + "pi/8"
 }
 
+// =======================================================================
+// ChangeCounted
+// =======================================================================
+
 protocol ChangeCounted {
     var changeNumber: Int { get }
+}
+
+// =======================================================================
+// AdjustableParameter
+// =======================================================================
+
+/**
+ IMPORTANT: the setters are HINTS, and they MAY have side effects.
+*/
+protocol ControlParameter {
+    
+    var name: String { get set }
+
+    var value: Double { get set }
+
+    var bounds: (min: Double, max: Double) { get set }
+
+    var defaultValue: Double { get set }
+
+    var increment: Double { get set }
 }

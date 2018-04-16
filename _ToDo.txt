@@ -2,20 +2,64 @@
 ToDo.txt
 ==================================================================================
 
-[ ] ?
+[ ] ? ModelParameter
 
-=====================
+[ ] the default values (alpha_min etc) get persisted and restored
+    UserDefaults it's not invasive. I can retrofit it
 
-[ ] 'scene controller' as the one protocol defining all the things the UI needs to know about.
+[ ] continue with sub model controllers
+    start with SKPhysicsController / Controller
+    do alpha2
+    cut over to alpha2 everywhere
+    do params 1 by 1 so app is never broken
+
+[ ] Recursive Embedded Definition
+
+[ ] can a protocol have derived properties?
+
+[ ] color source for degeneracy(m, n)
+    if entropy := log(#states) then degeneracy sequencer is just SKEntropy & LogColorMap
+
+[ ] sequencers that simulate dynamics of a population of points
+    steepest descent
+    diffusion
+
+[ ] the Scene is another modelChangeListener
+    ... no, wait, maybe I really meant DetailViewController
+
+[ ] sequencer step() and reset() both update stepSgn at the boundary and both return final stepSgn value
+
+[ ] redo that enum for sequencer behavior at boundary
+
+    MAYBE get rid of BoundType; each sequencer will decide what to do
+
+    "sticky": stepSgn = 0, value set to the boundary
+    Q: but what if boundary is open?
+    A: open boundaries can't be sticky
+
+    "reflect": stepSgn = -stepSgn, value unchanged (for simplicity, see how it looks)
+
+    "wrap" boundary: stepSgn unchanged
+
+[ ]  basin finder option to do a given # of iterations
+    use that do make a sequencer
+
+[ ] put builtin min, max as statics: SKGeometry.N_min etc
+
+[ ] stepper buttons don't track deltas entered into the UI
+
+[ ] move the xxx_step out of physics/geometry into ModelController and Scene
+
+[ ] all the reset / revert mtds return Boolean "changed", so Scene.reset mtds can
+    reduce # model change events it fires
+
+[ ] ModelController as the one protocol defining all the things the UI needs to know about.
     It doesn't expose geometry or physics. It's a reswizzling to meet the needs of the UI
 
 [ ] Q: best way to do swift dictionary keyset -> array of values
 
 [ ] All the ViewControllers need to be model change listeners
-    And the all need to have the 'scene controller' passed to them
-
-    *but* does that mean I've got strong ref's to it? Does it get rebuilt or NOT?
-    in either case, it's a bad thing. either there's dead listeners or it keeps
-    re-adding itself.
+    And the temp ones need to have the 'scene controller' passed to them on seque
+    and thn they remove themselves when they prepare for unwihd
 
 
