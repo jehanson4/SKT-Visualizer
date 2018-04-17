@@ -9,219 +9,144 @@
 import Foundation
 
 // ===============================================================================
-// SKPhysicalProperty
-// ===============================================================================
-
-protocol SKPhysicalProperty {
-    
-    static var type: String { get }
-    var name : String { get set }
-    var description : String { get set }
-    
-    var min : Double { get }
-    var max : Double { get }
-    var step: Double { get set }
-    
-    var physics: SKPhysics { get }
-    
-    func value(_ m: Int, _ n: Int) -> Double
-}
-
-// ===============================================================================
-// SKPhysicsController
-// ===============================================================================
-
-protocol SKPhysicsController {
-    
-}
-
-// ===============================================================================
 // SKPhysics
 // ===============================================================================
 
 class SKPhysics : ChangeCounted {
     
-    // ==================================
-    // alpha2, alpha2
-    
-    let alpha_max: Double =  2.0
-    let alpha_min: Double = -2.0
-    let alpha_default: Double = -1.0
-    let alpha_stepDefault: Double = 0.001
+    // ===============================
+    // alpha1, alpha2
+    // ===============================
+
+    static let alpha_min: Double = -Double.infinity
+    static let alpha_max: Double = Double.infinity
+    static let alpha_default: Double = -1.0
+    static let alpha_defaultStepSize: Double = 0.01
     
     var alpha1: Double {
-        get { return pAlpha1 }
+        get { return fAlpha1 }
         set(newValue) {
-            if (newValue == pAlpha1 || newValue < alpha_min || newValue > alpha_max) {
+            let v2 = clip(newValue, SKPhysics.alpha_min, SKPhysics.alpha_max)
+            if (v2 == fAlpha1) {
                 return
             }
-            pAlpha1 = newValue
+            fAlpha1 = v2
             registerChange()
         }
     }
     
     var alpha2: Double {
-        get { return pAlpha2 }
+        get { return fAlpha2 }
         set(newValue) {
-            if (newValue == pAlpha2 || newValue < alpha_min || newValue > alpha_max) {
+            let v2 = clip(newValue, SKPhysics.alpha_min, SKPhysics.alpha_max)
+            if (v2 == fAlpha2) {
                 return
             }
-            pAlpha2 = newValue
+            fAlpha2 = v2
             registerChange()
         }
     }
     
-    var alpha_step: Double {
-        get { return pAlphaStep }
-        set(newValue) {
-            if (newValue == pAlphaStep || newValue < 0) {
-                return
-            }
-            pAlphaStep = newValue
-            registerChange()
-        }
-    }
-    
-    // ==================================
+    // ===============================
     // T
-    
-    let T_min: Double = 10e-6
-    let T_max: Double = 10e6
-    let T_default: Double = 1000.0
-    let T_stepDefault: Double = 10.0
+    // ===============================
+
+    static let T_min: Double = 0
+    static let T_max: Double = Double.infinity
+    static let T_default: Double = 200.0
+    static let T_defaultStepSize: Double = 2.0
     
     var T: Double {
-        get { return pT }
+        get { return fT }
         set(newValue) {
-            if (newValue == pT || newValue < T_min || newValue > T_max) {
+            let v2 = clip(newValue, SKPhysics.T_min, SKPhysics.T_max)
+            if (v2 == fT) {
                 return
             }
-            pT = newValue
-            pBeta = 1/pT
+            fT = newValue
+            fBeta = (fT == 0) ? Double.infinity : 1.0 / fT
             registerChange()
         }
     }
     
-    var T_step: Double {
-        get { return pTStep }
-        set(newValue) {
-            if (newValue == pTStep || newValue < 0) {
-                return
-            }
-            pTStep = newValue
-            registerChange()
-        }
-    }
-    
-    // ========================================
+    // ===============================
     // beta
+    // ===============================
     
-    var beta_min: Double { return 1.0/T_max }
-    var beta_max: Double { return 1.0/T_min }
-    var beta_default: Double { return 1.0/T_default }
-    let beta_stepDefault: Double = 10 // OK if this doesn't track T
+    static let beta_min: Double = 0
+    static let beta_max: Double = Double.infinity
+    static let beta_default: Double = 1.0 / T_default
+    static let beta_defaultStepSize: Double = 1.0 / T_defaultStepSize
     
     var beta: Double {
-        get { return pBeta }
+        get{ return fBeta }
         set(newValue) {
-            if (newValue == pBeta || newValue < beta_min || newValue > beta_max) {
-                return
-            }
-            pBeta = newValue
-            pT = 1/pBeta
+            let v2 = clip(newValue, SKPhysics.beta_min, SKPhysics.beta_max)
+            if (v2 == fBeta) { return }
+            fBeta = v2
+            fT = (fBeta == 0) ? Double.infinity : 1.0 / fBeta
             registerChange()
         }
     }
-    
-    var beta_step: Double {
-        get { return pBetaStep }
-        set(newValue) {
-            if (newValue == pBetaStep || newValue < 0) {
-                return
-            }
-            pBetaStep = newValue
-            registerChange()
-        }
-    }
-    
-    // ==================================
-    // Others
-    
-    var nodeCount: Int {
-        get { return geometry.nodeCount }
-    }
-    
+
+    // ===============================
+    // ===============================
+
     var changeNumber: Int {
-        get { return pChangeCounter }
+        get { return fChangeCounter }
     }
-    
-    let geometry: SKGeometry
 
-    private var pAlpha1: Double
-    private var pAlpha2: Double
-    private var pAlphaStep: Double
-    private var pT: Double
-    private var pTStep: Double
-    private var pBeta: Double
-    private var pBetaStep: Double
-    private var pChangeCounter: Int
+    var physicalPropertyNames: [String] = []
 
-    private var physicalProperties = [String: SKPhysicalProperty]()
-
-    // ==========================================================
+    private var geometry: SKGeometry
+    private var fPhysicalProperties: [String: PhysicalProperty]
+    private var fAlpha1: Double
+    private var fAlpha2: Double
+    private var fT: Double
+    private var fBeta: Double
+    private var fChangeCounter: Int
     
     init(_ geometry: SKGeometry) {
         self.geometry = geometry
-        self.pAlpha1 = alpha_default
-        self.pAlpha2 = alpha_default
-        self.pAlphaStep = alpha_stepDefault
-        self.pT = T_default
-        self.pTStep = T_stepDefault
-        self.pBeta = 1.0/self.pT
-        self.pBetaStep = beta_stepDefault
-        self.pChangeCounter = 0
-        registerChange()
-        
-        // Do this AFTER registering the change
-        let props = makeSKPhysicalProperties(self)
-        for prop in props {
-            physicalProperties[prop.name] = prop
-        }
+        self.fPhysicalProperties = [String: PhysicalProperty]()
+        self.fAlpha1 = SKPhysics.alpha_default
+        self.fAlpha2 = SKPhysics.alpha_default
+        self.fT = SKPhysics.T_default
+        self.fBeta = 1.0/self.fT
+        self.fChangeCounter = 0
+
+        registerPhysicalProperty(Energy(geometry, self))
+        registerPhysicalProperty(Entropy(geometry, self))
+        registerPhysicalProperty(LogOccupation(geometry, self))
     }
     
-    func resetParams() {
-        self.pAlpha1 = alpha_default
-        self.pAlpha2 = alpha_default
-        self.pT = T_default
-        self.pBeta = 1.0/self.pT
-        registerChange()
-    }
-    
-    func revertSettings() {
-        self.pAlphaStep = alpha_stepDefault
-        self.pBetaStep = beta_stepDefault
-        self.pTStep = T_stepDefault
-        self.pBetaStep = beta_stepDefault
-        registerChange()
-    }
-    
-    var physicalPropertyNames: [String] {
-        get {
-            var names: [String] = []
-            for entry in physicalProperties {
-                names.append(entry.key)
-            }
-            return names
-        }
-    }
-    
-    func physicalProperty(_ name: String) -> SKPhysicalProperty? {
-        return physicalProperties[name]
+    func physicalProperty(_ name: String) -> PhysicalProperty? {
+        return fPhysicalProperties[name]
     }
         
     private func registerChange() {
-        pChangeCounter += 1
+        fChangeCounter += 1
     }
     
+    func registerPhysicalProperty(_ p: PhysicalProperty) {
+        physicalPropertyNames.append(p.name)
+        fPhysicalProperties[p.name] = p
+    }
+    
+    func findBounds(_ property: PhysicalProperty) -> (min: Double, max: Double) {
+        var tmpValue: Double  = property.valueAt(nodeIndex: 0)
+        var minValue: Double = tmpValue
+        var maxValue: Double = tmpValue
+        
+        for i in 0..<geometry.nodeCount {
+            tmpValue = property.valueAt(nodeIndex: i)
+            if (tmpValue < minValue) {
+                minValue = tmpValue
+            }
+            if (tmpValue > maxValue) {
+                maxValue = tmpValue
+            }
+        }
+        return (min: minValue, max: maxValue)
+    }
 }
-

@@ -79,10 +79,10 @@ func defaultColors2() -> [GLKVector4] {
 
 protocol ColorMap {
     
-    static var type: String { get }
-    var name: String { get set }
+    var name: String { get }
+    var description: String? { get }
     
-    func calibrate(_ min: Double, _ max: Double)
+    func calibrate(_ bounds: (min: Double, max: Double) )
     
     func getColor(_ v: Double) -> GLKVector4
 }
@@ -92,8 +92,8 @@ protocol ColorMap {
 
 class LinearColorMap : ColorMap {
     
-    static let type = "Linear"
-    var name = type
+    let name: String = "Linear"
+    var description: String? = "Colors cover equal-size intervals"
     
     private var colors: [GLKVector4]
     private var under: GLKVector4
@@ -109,14 +109,14 @@ class LinearColorMap : ColorMap {
         self.offset = 0
     }
     
-    func calibrate(_ min: Double, _ max: Double) {
-        if min >= max {
+    func calibrate(_ bounds: (min: Double, max: Double)) {
+        if bounds.min >= bounds.max {
             self.norm = 1
             self.offset = 0
         }
         else {
-            self.norm = 1.0 / (max - min)
-            self.offset = min
+            self.norm = 1.0 / (bounds.max - bounds.min)
+            self.offset = bounds.min
         }
     }
     
@@ -131,8 +131,8 @@ class LinearColorMap : ColorMap {
 
 class LogColorMap : ColorMap {
     
-    static let type = "Log"
-    var name = type
+    let name: String = "Log"
+    var description: String? = "Colors follow a logarithmic scale"
     
     private var colors: [GLKVector4]
     private var over: GLKVector4
@@ -144,15 +144,15 @@ class LogColorMap : ColorMap {
         self.thresholds = []
     }
 
-    func calibrate(_ min: Double, _ max: Double) {
+    func calibrate(_ bounds: (min: Double, max: Double)) {
 
         let logZZMax: Double = 100 // EMPIRICAL
         let logCC = log(Double(colors.count))
-        var tPrev = min
+        var tPrev = bounds.min
         
         thresholds = []
         for _ in 0..<colors.count {
-            let logZZ = max - tPrev - logCC
+            let logZZ = bounds.max - tPrev - logCC
             let t = (logZZ < logZZMax) ? (tPrev + log(exp(logZZ)+1.0)) : (tPrev + logZZ)
             thresholds.append(t)
             tPrev = t

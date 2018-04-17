@@ -57,90 +57,39 @@ struct SKPoint {
 }
 
 // ==============================================================================
-// SKGeometryController
-// ==============================================================================
-
-protocol SKGeometryController {
-    
-}
-
-// ==============================================================================
 // SKGeometry
 // ==============================================================================
 
 class SKGeometry : ChangeCounted {
     
-    // ====================================
-    // N
+    static let N_min: Int = 3
+    static let N_max: Int = Int.max
+    static let N_default: Int = 100
+    static let N_defaultStepSize: Int = 2
     
-    let N_min: Int = 3
-    let N_max: Int = 2000
-    let N_default = 200
-    let N_stepDefault = 2
+    static let k0_min: Int = 1
+    static let k0_max: Int = (Int.max % 2 == 0) ? Int.max / 2 : (Int.max-1) / 2
+    static let k0_default: Int = N_default / 2
+    static let k0_defaultStepSize: Int = 1
     
     var N: Int {
-        get { return pN }
+        get { return fN }
         set {
-            if (newValue == pN || newValue < N_min || newValue > N_max) {
-                if (debug && newValue != pN) {
-                    printDebug(String(format: "Bad arg in N setter: %d", newValue))
-                }
-                return
-            }
-            pN = newValue
-            if (pk > pN/2) {
-                pk = pN/2
-            }
+            let v2 = clip(newValue, SKGeometry.N_min, SKGeometry.N_max)
+            if (v2 == fN ) { return }
+            fN = v2
+            if (fk0 > fN / 2) { fk0 = fN / 2 }
             registerChange()
         }
     }
     
-    var N_step: Int {
-        get { return pN_step }
-        set(newValue) {
-            if (newValue < 0 || newValue > (N_max-N_min)) {
-                if (debug) {
-                    printDebug(String(format: "Bad arg in N_step setter: %d", newValue))
-                }
-                return
-            }
-            pN_step = newValue
-            registerChange()
-        }
-    }
-    
-    // ====================================
-    // k
-    
-    let k_min: Int = 1
-    let k_default: Int = 100
-    let k_stepDefault = 1
-    
-    var k: Int {
-        get { return pk }
-        set(newValue) {
-            if (newValue == pk || newValue < k_min || newValue > pN/2) {
-                if (debug && newValue != pk) {
-                    printDebug(String(format: "Bad arg in k setter: %d", newValue))
-                }
-                return
-            }
-            pk = newValue
-            registerChange()
-        }
-    }
-    
-    var k_max: Int { return N/2 }
-    
-    var k_step: Int {
-        get { return pk_step }
-        set(newValue) {
-            if (newValue < 0 || newValue > (pN/2 - k_min)) {
-                if (debug) {
-                    printDebug(String(format: "Bad arg in k_step setter: %d", newValue))
-                }
-            }
-            pk_step = newValue
+    var k0: Int {
+        get { return fk0 }
+        set {
+            let v2 = clip(newValue, SKGeometry.k0_min, SKGeometry.k0_max)
+            if (v2 == fk0) { return }
+            fk0 = v2
+            if (fk0 > fN / 2) { fN = fk0 * 2}
             registerChange()
         }
     }
@@ -155,29 +104,27 @@ class SKGeometry : ChangeCounted {
     }
     
     var p2: SKPoint {
-        get { return SKPoint(self, k, 0) }
+        get { return SKPoint(self, fk0, 0) }
     }
     
     var m_max: Int {
-        get { return k }
+        get { return fk0 }
     }
     
     var n_max: Int {
-        get { return N-k }
+        get { return fN - fk0 }
     }
     
     var nodeCount: Int {
-        return (k + 1) * (N - k + 1)
+        return (fk0 + 1) * (fN - fk0 + 1)
     }
     
     var changeNumber: Int {
         get { return pChangeCounter }
     }
     
-    private var pN: Int
-    private var pN_step: Int
-    private var pk: Int
-    private var pk_step: Int
+    private var fN: Int
+    private var fk0: Int
     
     private var nodeIndexModulus: Int = 0
     private var skNorm: Double = 0
@@ -185,9 +132,6 @@ class SKGeometry : ChangeCounted {
     private var sin_s0: Double = 0
     private var cot_s0: Double = 0
     private var s12_max: Double = 0
-    private var N_prev: Int = 0
-    private var k_prev: Int = 0
-    private var r0_prev: Double = 0
     private var pChangeCounter: Int = 0
     
     // DEBUG
@@ -195,37 +139,23 @@ class SKGeometry : ChangeCounted {
     private var path: String = ""
     private var problems: [String] = []
     
-
     init() {
-        pN = N_default
-        pN_step = N_stepDefault
-        pk = k_default
-        pk_step = k_stepDefault
-        registerChange()
+        fN = SKGeometry.N_default
+        fk0 = SKGeometry.k0_default
+        calculateDerivedVars()
     }
-    
-    func resetParams() {
-        N = N_default
-        k = k_default
-        registerChange()
-    }
- 
-    func revertSettings() {
-        N_step = N_stepDefault
-        k_step = k_stepDefault
-        registerChange()
-    }
-    
-    private func registerChange() {
-        nodeIndexModulus = N - k + 1
-        skNorm = Constants.pi / Double(N)
-        s0 = Constants.pi * Double(k) / Double(N)
+
+    private func calculateDerivedVars() {
+        nodeIndexModulus = fN - fk0 + 1
+        skNorm = Constants.pi / Double(fN)
+        s0 = Constants.pi * Double(fk0) / Double(fN)
         sin_s0 = sin(s0)
         cot_s0 = 1.0/tan(s0)
         s12_max = Constants.twoPi - s0
-        N_prev = N
-        k_prev = k
-        r0_prev = r0
+    }
+    
+    private func registerChange() {
+        calculateDerivedVars()
         pChangeCounter += 1
     }
 
@@ -485,7 +415,7 @@ class SKGeometry : ChangeCounted {
         }
         
         let s1 = self.skNorm * Double(n + m)
-        let s2 = self.skNorm * Double(self.k + n - m)
+        let s2 = self.skNorm * Double(self.fk0 + n - m)
         return (s1, s2)
     }
     
@@ -503,7 +433,7 @@ class SKGeometry : ChangeCounted {
                 printDebug("Multiple problems " + label)
             }
             
-            printDebug("    " + "[N=" + String(N) + " k=" + String(k) + "]" + path)
+            printDebug("    " + "[N=" + String(fN) + " k0=" + String(fk0) + "]" + path)
 
             if (m >= 0 && n >= 0) {
                 let pt = SKPoint(self, m, n)

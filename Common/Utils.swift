@@ -17,6 +17,16 @@ func unequal(_ x: Double, _ y: Double) -> Bool {
     return abs(y-x) > Constants.eps
 }
 
+/// Return min if x<min, max if x>max, x otherwise
+func clip(_ x: Int, _ min: Int, _ max: Int) -> Int {
+    return (x < min) ? min : ((x > max) ? max : x)
+}
+
+/// Return min if x<min, max if x>max, x otherwise
+func clip(_ x: Double, _ min: Double, _ max: Double) -> Double {
+    return (x < min) ? min : ((x > max) ? max : x)
+}
+
 /// 0 if arg == 0, -1 if arg < 0, 1 if arg > 0
 func sgn(_ x: Double) -> Double {
     return (x == 0) ? 0 : ( (x < 0) ? -1 : 1)
@@ -24,7 +34,6 @@ func sgn(_ x: Double) -> Double {
 
 /**
  ln(a choose b) for a > b > 0
- 
  Stirling's approximation. Returns 0 on invalid input
  */
 func logBinomial(_ a:Int, _ b:Int) -> Double {
@@ -70,22 +79,3 @@ protocol ChangeCounted {
     var changeNumber: Int { get }
 }
 
-// =======================================================================
-// AdjustableParameter
-// =======================================================================
-
-/**
- IMPORTANT: the setters are HINTS, and they MAY have side effects.
-*/
-protocol ControlParameter {
-    
-    var name: String { get set }
-
-    var value: Double { get set }
-
-    var bounds: (min: Double, max: Double) { get set }
-
-    var defaultValue: Double { get set }
-
-    var increment: Double { get set }
-}

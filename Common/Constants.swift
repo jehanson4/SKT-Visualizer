@@ -17,7 +17,3 @@ struct Constants {
     static let goldenRatio = (0.5 * (1.0 + sqrt(5.0)))
 }
 
-enum BoundType {
-    case open, closed
-}
-
