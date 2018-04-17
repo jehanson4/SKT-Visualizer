@@ -2,16 +2,15 @@
 ToDo.txt
 ==================================================================================
 
-[ ] ? ModelParameter
+[ ] sequencers vs. steppers
+
+    settable bounds are only useful in sequencers.
+    hard bounds are useful in steppers, and it configuring sequencers
+    increment is useful in sequencers and steppers
+    default is useful only for reset
 
 [ ] the default values (alpha_min etc) get persisted and restored
     UserDefaults it's not invasive. I can retrofit it
-
-[ ] continue with sub model controllers
-    start with SKPhysicsController / Controller
-    do alpha2
-    cut over to alpha2 everywhere
-    do params 1 by 1 so app is never broken
 
 [ ] Recursive Embedded Definition
 
@@ -23,9 +22,6 @@ ToDo.txt
 [ ] sequencers that simulate dynamics of a population of points
     steepest descent
     diffusion
-
-[ ] the Scene is another modelChangeListener
-    ... no, wait, maybe I really meant DetailViewController
 
 [ ] sequencer step() and reset() both update stepSgn at the boundary and both return final stepSgn value
 
