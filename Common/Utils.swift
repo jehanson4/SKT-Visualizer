@@ -71,6 +71,11 @@ func piFraction(_ x: Double) -> String {
     return (bi == 1) ? "pi/8" : String(bi) + "pi/8"
 }
 
+func cleanString(_ x: Double) -> String {
+    // HACK HACK HACK HACK
+    return String(x)
+}
+
 // =======================================================================
 // ChangeCounted
 // =======================================================================
