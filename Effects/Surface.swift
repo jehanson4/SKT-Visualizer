@@ -135,7 +135,7 @@ class Surface : GLKBaseEffect, Effect {
         gg.prepare()
         
         for i in 0..<colors.count {
-            colors[i] = gg.color(i)
+            colors[i] = gg.colorAt(i)
         }
     }
     

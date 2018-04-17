@@ -107,7 +107,7 @@ func buildPNVertexArray(_ geometry: SKGeometry) -> [PNVertex] {
 }
 
 // ==============================================================================
-// Effect & EffectRegistry
+// Effect
 // ==============================================================================
 
 protocol Effect  {
@@ -120,11 +120,4 @@ protocol Effect  {
     func prepareToDraw()
     func draw()
 }
-
-protocol EffectRegistry {
-    var effectNames: [String] { get }
-    
-    func getEffect(_ name: String) -> Effect?
-}
-
 
