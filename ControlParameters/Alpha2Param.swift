@@ -13,7 +13,7 @@ import Foundation
 // ======================================================
 
 class Alpha2Param : ControlParameter {
-    
+
     let name: String = "\u{03B1}2"
     var description: String? = "Depth of the energy well centered on p2"
     
@@ -38,6 +38,9 @@ class Alpha2Param : ControlParameter {
             model.registerModelChange()
         }
     }
+    
+    // TODO formatting
+    var valueString: String { return String(format: "%G", physics.alpha2) }
     
     var defaultStepSize: Double {
         get { return fDefaultStepSize }

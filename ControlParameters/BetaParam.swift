@@ -13,7 +13,7 @@ import Foundation
 // =========================================================================
 
 class BetaParam: ControlParameter {
-    
+
     let name: String = "\u{03B2}"
     var description: String? = "1/T"
     
@@ -39,6 +39,9 @@ class BetaParam: ControlParameter {
         }
     }
         
+    // TODO formatting
+    var valueString: String { return String(format: "%G", physics.alpha1) }
+    
     var defaultStepSize: Double {
         get { return fDefaultStepSize }
         set(newValue) {

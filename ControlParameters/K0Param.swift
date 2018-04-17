@@ -14,7 +14,7 @@ import Foundation
 // ======================================================
 
 class K0Param : ControlParameter {
-    
+
     let name: String = "k0"
     var description: String? = "Distance bewteen p1 and p2"
     
@@ -29,6 +29,8 @@ class K0Param : ControlParameter {
             model.registerModelChange()
         }
     }
+    
+    var valueString: String { return String(geometry.N) }
     
     var defaultValue: Double {
         get { return Double(fDefaultValue) }

@@ -13,7 +13,7 @@ import Foundation
 // ======================================================
 
 class NParam : ControlParameter {
-    
+
     let name: String = "N"
     var description: String? = "Dimensionality of the SK space"
     
@@ -29,6 +29,8 @@ class NParam : ControlParameter {
         }
     }
 
+    var valueString: String { return String(geometry.N) }
+    
     var defaultValue: Double {
         get { return Double(fDefaultValue) }
         set(newValue) {
@@ -52,7 +54,7 @@ class NParam : ControlParameter {
     var defaultStepSize: Double {
         get { return Double(fDefaultStepSize) }
         set(newValue) {
-            let v2 = Int(floor(newValue))
+            let v2 = Int(floor(value))
             if (v2 == fDefaultStepSize || v2 <= 0) { return }
             fDefaultStepSize = v2;
             model.registerModelChange()

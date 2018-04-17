@@ -13,7 +13,7 @@ import Foundation
 // ========================================================
 
 class TParam : ControlParameter {
-        
+
     let name = "T"
     var description: String? = "Temperature"
     
@@ -39,6 +39,9 @@ class TParam : ControlParameter {
         }
     }
 
+    // TODO formatting
+    var valueString: String { return String(format: "%G", physics.alpha1) }
+    
     var defaultStepSize: Double {
         get { return fDefaultStepSize }
         set(newValue) {

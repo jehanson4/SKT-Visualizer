@@ -28,6 +28,8 @@ protocol ControlParameter {
     
     var value: Double { get set }
     
+    var valueString: String { get }
+    
     /// resets stepSize and value to defaults
     func reset()
 }
