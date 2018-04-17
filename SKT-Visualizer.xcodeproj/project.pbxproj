@@ -14,7 +14,6 @@
 		8A19CD8620821D6800C1EADE /* Designable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A19CD8520821D6800C1EADE /* Designable.swift */; };
 		8A19CD882082384600C1EADE /* Sequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A19CD872082384600C1EADE /* Sequencer.swift */; };
 		8A19CD8B208248B100C1EADE /* GeometrySequencers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A19CD8A208248B100C1EADE /* GeometrySequencers.swift */; };
-		8A19CD8D208249E500C1EADE /* PhysicsSequencers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A19CD8C208249E500C1EADE /* PhysicsSequencers.swift */; };
 		8A1CF016207146510099DD97 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1CF015207146510099DD97 /* AppDelegate.swift */; };
 		8A1CF01B207146520099DD97 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A1CF019207146510099DD97 /* Main.storyboard */; };
 		8A1CF01D207146540099DD97 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A1CF01C207146540099DD97 /* Assets.xcassets */; };
@@ -109,7 +108,6 @@
 		8A19CD8520821D6800C1EADE /* Designable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Designable.swift; sourceTree = "<group>"; };
 		8A19CD872082384600C1EADE /* Sequencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sequencer.swift; sourceTree = "<group>"; };
 		8A19CD8A208248B100C1EADE /* GeometrySequencers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometrySequencers.swift; sourceTree = "<group>"; };
-		8A19CD8C208249E500C1EADE /* PhysicsSequencers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicsSequencers.swift; sourceTree = "<group>"; };
 		8A1CF012207146510099DD97 /* SKT Visualizer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SKT Visualizer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A1CF015207146510099DD97 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8A1CF01A207146520099DD97 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -239,7 +237,6 @@
 				8AAF6DFE208167A800E4C9BF /* _ToDo.txt */,
 				8A3C45B72086185B00A1E9CD /* TODO */,
 				8A0C09A220716B050017AC4C /* Common */,
-				8A3C45C220861E6F00A1E9CD /* Model */,
 				8A41A2F320839C9D00CDDF28 /* ColorSources */,
 				8A3C45A12086141700A1E9CD /* ControlParameters */,
 				8A19CD892082488D00C1EADE /* Sequencers */,
@@ -323,29 +320,13 @@
 		8A3C45B72086185B00A1E9CD /* TODO */ = {
 			isa = PBXGroup;
 			children = (
-				8A3C45BB20861C6300A1E9CD /* Sequencers */,
-			);
-			path = TODO;
-			sourceTree = "<group>";
-		};
-		8A3C45BB20861C6300A1E9CD /* Sequencers */ = {
-			isa = PBXGroup;
-			children = (
 				8A41A2EE2083722900CDDF28 /* ViewSequencers.swift */,
-				8A19CD8C208249E500C1EADE /* PhysicsSequencers.swift */,
 				8A19CD8A208248B100C1EADE /* GeometrySequencers.swift */,
-				8A47BECC208579B300784B40 /* ControlParameterSequencer.swift */,
-			);
-			path = Sequencers;
-			sourceTree = "<group>";
-		};
-		8A3C45C220861E6F00A1E9CD /* Model */ = {
-			isa = PBXGroup;
-			children = (
 				8A47BEC62085081400784B40 /* ModelController.swift */,
 				8A0C09AB20718FA00017AC4C /* Scene.swift */,
+				8A47BECC208579B300784B40 /* ControlParameterSequencer.swift */,
 			);
-			path = Model;
+			path = TODO;
 			sourceTree = "<group>";
 		};
 		8A41A2F320839C9D00CDDF28 /* ColorSources */ = {
@@ -589,7 +570,6 @@
 				8A47BECD208579B300784B40 /* ControlParameterSequencer.swift in Sources */,
 				8A3C45B42086165500A1E9CD /* Entropy.swift in Sources */,
 				8AD817FC207BFA9200426C25 /* InfoViewController.swift in Sources */,
-				8A19CD8D208249E500C1EADE /* PhysicsSequencers.swift in Sources */,
 				8A3C45A7208614D100A1E9CD /* Alpha1Param.swift in Sources */,
 				8A5E948E2078EE46003477D3 /* Net.swift in Sources */,
 				8A19CD8620821D6800C1EADE /* Designable.swift in Sources */,
