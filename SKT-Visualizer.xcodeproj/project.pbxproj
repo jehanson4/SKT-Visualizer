@@ -32,6 +32,7 @@
 		8A3C45C8208629F000A1E9CD /* DummySequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3C45C7208629F000A1E9CD /* DummySequencer.swift */; };
 		8A3C45CA208632DD00A1E9CD /* BetaParam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3C45C9208632DD00A1E9CD /* BetaParam.swift */; };
 		8A3C45CC2086396700A1E9CD /* Alpha2Param.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3C45CB2086396700A1E9CD /* Alpha2Param.swift */; };
+		8A3C45CE20868EE500A1E9CD /* Graphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3C45CD20868EE500A1E9CD /* Graphics.swift */; };
 		8A40BC0C207ECC7500F2D2EB /* Nodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A40BC0B207ECC7500F2D2EB /* Nodes.swift */; };
 		8A40BC0E207EEA3D00F2D2EB /* Meridians.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A40BC0D207EEA3D00F2D2EB /* Meridians.swift */; };
 		8A41A2EF2083722900CDDF28 /* ViewSequencers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A41A2EE2083722900CDDF28 /* ViewSequencers.swift */; };
@@ -128,6 +129,7 @@
 		8A3C45C7208629F000A1E9CD /* DummySequencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummySequencer.swift; sourceTree = "<group>"; };
 		8A3C45C9208632DD00A1E9CD /* BetaParam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetaParam.swift; sourceTree = "<group>"; };
 		8A3C45CB2086396700A1E9CD /* Alpha2Param.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alpha2Param.swift; sourceTree = "<group>"; };
+		8A3C45CD20868EE500A1E9CD /* Graphics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Graphics.swift; sourceTree = "<group>"; };
 		8A40BC0B207ECC7500F2D2EB /* Nodes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Nodes.swift; sourceTree = "<group>"; };
 		8A40BC0D207EEA3D00F2D2EB /* Meridians.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Meridians.swift; sourceTree = "<group>"; };
 		8A41A2EE2083722900CDDF28 /* ViewSequencers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewSequencers.swift; sourceTree = "<group>"; };
@@ -325,6 +327,7 @@
 				8A47BEC62085081400784B40 /* ModelController.swift */,
 				8A0C09AB20718FA00017AC4C /* Scene.swift */,
 				8A47BECC208579B300784B40 /* ControlParameterSequencer.swift */,
+				8A3C45CD20868EE500A1E9CD /* Graphics.swift */,
 			);
 			path = TODO;
 			sourceTree = "<group>";
@@ -584,6 +587,7 @@
 				8A47BEC72085081400784B40 /* ModelController.swift in Sources */,
 				8A3C45C42086214D00A1E9CD /* PhysicalPropertyColorSource.swift in Sources */,
 				8ABEEC3B20803A2F008E72F4 /* Surface.swift in Sources */,
+				8A3C45CE20868EE500A1E9CD /* Graphics.swift in Sources */,
 				8ACE788F2073C57500C29875 /* Effect.swift in Sources */,
 				8A3C45C62086278900A1E9CD /* UniformColor.swift in Sources */,
 				8A3C45B02086160A00A1E9CD /* Energy.swift in Sources */,

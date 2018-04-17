@@ -65,6 +65,8 @@ class Scene : ModelController {
     
     private var geometry: SKGeometry
     private var physics: SKPhysics
+    private var graphics: Graphics
+    
     private var setupFinished: Bool = false
     
     var aspectRatio: Float = 1
@@ -76,6 +78,7 @@ class Scene : ModelController {
     init() {
         self.geometry = SKGeometry()
         self.physics = SKPhysics(geometry)
+        self.graphics = Graphics()
         
         // VIEW PARAMS: move into "graphics
         self.povR = povR_default

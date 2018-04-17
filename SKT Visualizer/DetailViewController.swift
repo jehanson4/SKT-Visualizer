@@ -60,7 +60,23 @@ class DetailViewController: GLKViewController, ModelUser, ModelChangeListener {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        print("DetailViewController.prepare for segue")
+        debug("prepare for segue")
+        
+        
+        // FIXME what about unsubscribing?
+        // HACK HACK HACK HACK
+        if (segue.destination is ModelUser) {
+            debug("destination is a model user")
+            var d2 = segue.destination as! ModelUser
+            if (d2.model != nil) {
+                debug("destination's model is already set")
+            }
+            else {
+                debug("setting destination's model")
+                d2.model = self.model
+            }
+        }
+
     }
     
     override func viewWillDisappear(_ animated: Bool) {

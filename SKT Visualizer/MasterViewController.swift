@@ -56,8 +56,15 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         // FIXME what about unsubscribing?
         // HACK HACK HACK HACK
         if (segue.destination is ModelUser) {
+            debug("destination is a model user")
             var d2 = segue.destination as! ModelUser
-            d2.model = self.model
+            if (d2.model != nil) {
+                debug("destination's model is already set")
+            }
+            else {
+                debug("setting destination's model")
+                d2.model = self.model
+            }
         }
     }
     

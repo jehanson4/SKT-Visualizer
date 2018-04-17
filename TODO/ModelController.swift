@@ -45,6 +45,32 @@ protocol ModelController {
     var T: ControlParameter { get set }
     var beta: ControlParameter { get set }
     
+    // ======================================
+    // Graphics
+    // ======================================
+    
+    var zoom: Double { get set }
+    var povR: Double { get }
+    var povRotationAxis: (x: Double, y: Double, z: Double) { get set }
+    
+    // TODO controlparameter
+    var povPhi: Double { get }
+    
+    // TODO controlparameter
+    var povThetaE: Double { get }
+    
+    // TODO controlparameter
+    var povRotationAngle: Double { get set }
+    
+    // TODO replace with var pov(phi, thetaE) { get set }
+    func setPOVAngularPosition(_ phi: Double, _ thetaE: Double)
+    
+    func setAspectRatio(_ aspectRatio: Double)
+
+    func draw()
+
+    func resetView()
+
     // ====================================================
     // Effects
     // ====================================================
@@ -77,40 +103,17 @@ protocol ModelController {
     /// returns true iff the selection changed
     func selectSequencer(_ name: String) -> Bool
     
+    func toggleSequencer()
+
     // ====================================================
-    // Listeners
+    // Other stuff
     // ====================================================
     
     func registerModelChange()
     func addListener(forModelChange: ModelChangeListener?)
     func removeListener(forModelChange: ModelChangeListener?)
     
-    // ======================================
-    // OLD STUFF TO BE FIXED
-    // ======================================
-    
-    var zoom: Double { get set }
-    var povR: Double { get }
-    var povRotationAxis: (x: Double, y: Double, z: Double) { get set }
-    
-    // TODO controlparameter
-    var povPhi: Double { get }
-    
-    // TODO controlparameter
-    var povThetaE: Double { get }
-    
-    // TODO controlparameter
-    var povRotationAngle: Double { get set }
-    
-    // TODO replace with var pov(phi, thetaE) { get set }
-    func setPOVAngularPosition(_ phi: Double, _ thetaE: Double)
-
-    func setAspectRatio(_ aspectRatio: Double)
-    
     func finishSetup()
-    func draw()
-    func toggleSequencer()
-    func resetView()
     func resetModel()
     
     
