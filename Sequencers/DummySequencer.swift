@@ -16,6 +16,7 @@ import Foundation
  Does nothing. Available for use as a placeholder
  */
 class DummySequencer : Sequencer {
+    typealias parameterType = Double
     
     var name: String
     var description: String?

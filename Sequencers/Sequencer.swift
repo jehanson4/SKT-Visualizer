@@ -19,7 +19,7 @@ enum BoundaryBehavior {
 // ==============================================================================
 
 protocol Sequencer {
-
+    
     var name: String { get }
     var description: String? { get }
     var bounds: (min: Double, max: Double) { get set }
