@@ -8,15 +8,20 @@
 
 import UIKit
 
-class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, ModelChangeListener {
+class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, ModelUser, ModelChangeListener {
 
     let name = "MasterViewController"
-    var geometry: SKGeometry?
-    var physics: SKPhysics?
-    var scene: SceneController?
+    
+    var model: ModelController? = nil
 
     override func viewDidLoad() {
-        debug("viewDidLoad")
+        if (model == nil) {
+            debug("viewDidLoad", "model is nil. Gonna crash.")
+        }
+        else {
+            model!.finishSetup()
+            model!.addListener(forModelChange: self)
+        }
         super.viewDidLoad()
         
         N_text.delegate = self
@@ -33,15 +38,11 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         sequencerPicker.dataSource = self
         sequencerPicker.tag = sequencerPickerTag
         
-        configureModelControls()
         updateModelControls()
         updateSequencerControls()
         updateColorSourceControls()
         updateEffectControls()
         
-        if (scene != nil) {
-            scene!.addListener(forModelChange: self)
-        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -52,12 +53,11 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         debug("prepare for segue")
         
-        // FIXME HACK HACK HACK HACK
-        if (segue.destination is SettingsViewController) {
-            let settings = segue.destination as! SettingsViewController
-            settings.geometry = self.geometry
-            settings.physics = self.physics
-            settings.scene = self.scene
+        // FIXME what about unsubscribing?
+        // HACK HACK HACK HACK
+        if (segue.destination is ModelUser) {
+            var d2 = segue.destination as! ModelUser
+            d2.model = self.model
         }
     }
     
@@ -84,20 +84,20 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
 
     @IBAction func N_textAction(_ sender: UITextField) {
         // print("N_textAction")
-        if (geometry != nil && sender.text != nil) {
-            let nn: Int? = Int(sender.text!)
+        if (model != nil && sender.text != nil) {
+            let nn: Double? = Double(sender.text!)
             if (nn != nil) {
-            geometry!.N = nn!
+            model!.N.value = nn!
             }
         }
         updateModelControls()
     }
     
     @IBAction func N_stepperAction(_ sender: UIStepper) {
-        if (geometry != nil) {
-            let nn: Int? = Int(sender.value)
+        if (model != nil) {
+            let nn: Double? = Double(sender.value)
             if (nn != nil) {
-                geometry!.N = nn!
+                model!.N.value = nn!
             }
         }
         updateModelControls()
@@ -108,139 +108,138 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
 
     @IBAction func k_textAction(_ sender: UITextField) {
         // message("k_textAction")
-        if (geometry != nil || sender.text != nil) {
-            let kk: Int? = Int(sender.text!)
+        if (model != nil || sender.text != nil) {
+            let kk: Double? = Double(sender.text!)
             if (kk != nil) {
-                geometry!.k = kk!
+                model!.k0.value = kk!
             }
         }
         updateModelControls()
     }
     
     @IBAction func k_stepperAction(_ sender: UIStepper) {
-        if (geometry != nil) {
-            let kk: Int? = Int(sender.value)
+        if (model != nil) {
+            let kk: Double? = Double(sender.value)
             if (kk != nil) {
-                geometry!.k = kk!
+                model!.k0.value = kk!
             }
         }
         updateModelControls()
     }
     
+    // ===========================
+    // alpha1
+    
     @IBOutlet weak var a1_text: UITextField!
     @IBOutlet weak var a1_stepper: UIStepper!
 
     @IBAction func a1_textAction(_ sender: UITextField) {
-        if (physics != nil || sender.text != nil) {
+        if (model != nil || sender.text != nil) {
             let aa: Double? = Double(sender.text!)
             if (aa != nil) {
-                physics!.alpha1 = aa!
+                model!.alpha1.value = aa!
             }
         }
         updateModelControls()
     }
     
     @IBAction func a1_stepperAction(_ sender: UIStepper) {
-        if (physics != nil) {
-            physics!.alpha1 = sender.value
+        if (model != nil) {
+            model!.alpha1.value = sender.value
         }
         updateModelControls()
     }
+    
+    // ============================================
+    // alpha2
     
     @IBOutlet weak var a2_text: UITextField!
     @IBOutlet weak var a2_stepper: UIStepper!
 
     @IBAction func a2_textAction(_ sender: UITextField) {
-        if (physics != nil && sender.text != nil) {
+        if (model != nil && sender.text != nil) {
             let aa: Double? = Double(sender.text!)
             if (aa != nil) {
-                physics!.alpha2 = aa!
+                model!.alpha2.value = aa!
             }
         }
         updateModelControls()
     }
     
     @IBAction func a2_stepperAction(_ sender: UIStepper) {
-        if (physics != nil) {
-            physics!.alpha2 = sender.value
+        if (model != nil) {
+            model!.alpha2.value = sender.value
         }
         updateModelControls()
     }
+    
+    // ===================================
+    // T
     
     @IBOutlet weak var T_text: UITextField!
     @IBOutlet weak var T_stepper: UIStepper!
     
     @IBAction func T_textAction(_ sender: UITextField) {
-        if (physics != nil && sender.text != nil) {
+        if (model != nil && sender.text != nil) {
             let tt: Double? = Double(sender.text!)
             if (tt != nil) {
-                physics!.T = tt!
+                model!.T.value = tt!
             }
         }
         updateModelControls()
     }
     
     @IBAction func T_stepperAction(_ sender: UIStepper) {
-        if (physics != nil) {
-            physics!.T = sender.value
+        if (model != nil) {
+            model!.T.value = sender.value
         }
         updateModelControls()
     }
     
-    func configureModelControls() {
-        if (geometry != nil) {
-            N_stepper.minimumValue = Double(geometry!.N_min)
-            N_stepper.maximumValue = Double(geometry!.N_max)
-            N_stepper.stepValue = Double(geometry!.N_step)
-            
-            k_stepper.minimumValue = Double(geometry!.k_min)
-            k_stepper.maximumValue = Double(geometry!.N_max/2)
-            k_stepper.stepValue = Double(geometry!.k_step)
-        }
-        
-        if (physics != nil) {
-            a1_stepper.minimumValue = Double(physics!.alpha_min)
-            a1_stepper.maximumValue = Double(physics!.alpha_max)
-            a1_stepper.stepValue = Double(physics!.alpha_step)
-            
-            a2_stepper.minimumValue = Double(physics!.alpha_min)
-            a2_stepper.maximumValue = Double(physics!.alpha_max)
-            a2_stepper.stepValue = Double(physics!.alpha_step)
-            
-            T_stepper.minimumValue = Double(physics!.T_min)
-            T_stepper.maximumValue = Double(physics!.T_max)
-            T_stepper.stepValue = Double(physics!.T_step)
-        }
-    }
-    
     func updateModelControls() {
         loadViewIfNeeded()
-        if (geometry == nil) {
+        if (model == nil) {
             N_text.text = ""
             k_text.text = ""
-        }
-        else {
-            let gg = geometry!
-            N_text.text = String(gg.N)
-            N_stepper.value = Double(gg.N)
-            k_text.text = String(gg.k)
-            k_stepper.value = Double(gg.k)
-            k_stepper.maximumValue = Double(gg.k_max)
-        }
-
-        if (physics == nil) {
             a1_text.text = ""
             a2_text.text = ""
             T_text.text = ""
         }
         else {
-            let ss = physics!
-            a1_text.text = String(ss.alpha1)
-            a1_stepper.value = Double(ss.alpha1)
-            a2_text.text = String(ss.alpha2)
-            a2_stepper.value = Double(ss.alpha2)
-            T_text.text = String(ss.T)
-            T_stepper.value = Double(ss.T)
+            N_text.text = model!.N.valueString
+            
+            N_stepper.value = Double(model!.N.value)
+            N_stepper.minimumValue = Double(model!.N.bounds.min)
+            N_stepper.maximumValue = Double(model!.N.bounds.max)
+            N_stepper.stepValue = Double(model!.N.stepSize)
+
+            k_text.text = model!.k0.valueString
+            
+            k_stepper.value = Double(model!.k0.value)
+            k_stepper.minimumValue = Double(model!.k0.bounds.min)
+            k_stepper.maximumValue = Double(model!.k0.bounds.max)
+            k_stepper.stepValue = Double(model!.k0.stepSize)
+            
+            a1_text.text = model!.alpha1.valueString
+            
+            a1_stepper.value = model!.alpha1.value
+            a1_stepper.minimumValue = model!.alpha1.bounds.min
+            a1_stepper.maximumValue = model!.alpha1.bounds.max
+            a1_stepper.stepValue = model!.alpha1.stepSize
+            
+            a2_text.text = model!.alpha2.valueString
+
+            a2_stepper.value = model!.alpha2.value
+            a1_stepper.minimumValue = model!.alpha2.bounds.min
+            a1_stepper.maximumValue = model!.alpha2.bounds.max
+            a2_stepper.stepValue = model!.alpha2.stepSize
+            
+            T_text.text = model!.T.valueString
+            
+            T_stepper.value = model!.T.value
+            T_stepper.minimumValue = model!.T.bounds.min
+            T_stepper.maximumValue = model!.T.bounds.max
+            T_stepper.stepValue = model!.T.stepSize
         }
     }
     
@@ -256,8 +255,8 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     
     @IBAction func axes_action(_ sender: UISwitch) {
         // message("axes_action: sender.isOn=", sender.isOn)
-        if (scene != nil) {
-            var effect = scene!.getEffect(Axes.type)
+        if (model != nil) {
+            var effect = model!.getEffect(Axes.type)
             if (effect != nil) {
                 effect!.enabled = sender.isOn
             }
@@ -268,8 +267,8 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     @IBOutlet weak var meridians_switch: UISwitch!
 
     @IBAction func meridians_action(_ sender: UISwitch) {
-        if (scene != nil) {
-            var effect = scene!.getEffect(Meridians.type)
+        if (model != nil) {
+            var effect = model!.getEffect(Meridians.type)
             if (effect != nil) {
                 effect!.enabled = sender.isOn
             }
@@ -280,8 +279,8 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     @IBOutlet weak var net_switch: UISwitch!
 
     @IBAction func net_action(_ sender: UISwitch) {
-        if (scene != nil) {
-            var effect = scene!.getEffect(Net.type)
+        if (model != nil) {
+            var effect = model!.getEffect(Net.type)
             if (effect != nil) {
                 effect!.enabled = sender.isOn
             }
@@ -292,11 +291,11 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     @IBOutlet weak var surface_switch: UISwitch!
     
     @IBAction func surface_action(_ sender: UISwitch) {
-        if (scene != nil) {
-            var effect = scene!.getEffect(Surface.type)
+        if (model != nil) {
+            var effect = model!.getEffect(Surface.type)
             if (effect != nil) {
-                if (scene!.selectedColorSource != nil) {
-                    effect!.colorSource = scene!.selectedColorSource!
+                if (model!.selectedColorSource != nil) {
+                    effect!.colorSource = model!.selectedColorSource!
                 }
                 effect!.enabled = sender.isOn
             }
@@ -307,8 +306,8 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     @IBOutlet weak var nodes_switch: UISwitch!
     
     @IBAction func nodes_action(_ sender: UISwitch) {
-        if (scene != nil) {
-            var effect = scene!.getEffect(Nodes.type)
+        if (model != nil) {
+            var effect = model!.getEffect(Nodes.type)
             if (effect != nil) {
                 effect!.enabled = sender.isOn
             }
@@ -320,8 +319,8 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
 //
 //    @IBAction func icosahedron_action(_ sender: UISwitch) {
 //        // message("icosahedron_action: sender.isOn=", sender.isOn)
-//        if (scene != nil) {
-//            var effect = scene!.getEffect(Icosahedron.type)
+//        if (model != nil) {
+//            var effect = model!.getEffect(Icosahedron.type)
 //            if (effect != nil) {
 //                effect!.enabled = sender.isOn
 //            }
@@ -332,7 +331,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     func updateEffectControls() {
         // message("MasterViewController.updateEffectControls start")
         loadViewIfNeeded()
-        if (scene == nil) {
+        if (model == nil) {
             axes_switch.isOn = false
             axes_switch.isEnabled = false
             
@@ -352,7 +351,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
 //            icosahedron_switch.isEnabled = false
         }
         else {
-            let ee = scene!
+            let ee = model!
             
             var axes = ee.getEffect(Axes.type)
             axes_switch.isEnabled = (axes != nil)
@@ -393,7 +392,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     let sequencerPickerTag = 1
     
     func configurePickerControls() {
-        if (scene == nil) { return }
+        if (model == nil) { return }
         
     }
     
@@ -407,20 +406,20 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         // also done in the label customization below.
         // TODO should only do it in one place.
 //        if pickerView.tag == colorSourcePickerTag {
-//            return (scene == nil) ? nil : scene!.colorSourceNames[row]
+//            return (model == nil) ? nil : model!.colorSourceNames[row]
 //        }
 //        if pickerView.tag == sequencerPickerTag {
-//            return (scene == nil) ? nil : scene!.sequencerNames[row]
+//            return (model == nil) ? nil : model!.sequencerNames[row]
 //        }
         return nil
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if pickerView.tag == colorSourcePickerTag {
-            return (scene == nil) ? 0 : scene!.colorSourceNames.count
+            return (model == nil) ? 0 : model!.colorSourceNames.count
         }
         if pickerView.tag == sequencerPickerTag {
-            return (scene == nil) ? 0 : scene!.sequencerNames.count
+            return (model == nil) ? 0 : model!.sequencerNames.count
         }
         return 0
     }
@@ -437,18 +436,18 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
 
         // see above
         if pickerView.tag == colorSourcePickerTag {
-            pickerLabel?.text = (scene == nil) ? nil : scene!.colorSourceNames[row]
+            pickerLabel?.text = (model == nil) ? nil : model!.colorSourceNames[row]
         }
         else if pickerView.tag == sequencerPickerTag {
-            pickerLabel?.text = (scene == nil) ? nil : scene!.sequencerNames[row]
+            pickerLabel?.text = (model == nil) ? nil : model!.sequencerNames[row]
         }
         
         return pickerLabel!
     }
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if (scene == nil) { return }
-        let ss = scene!
+        if (model == nil) { return }
+        let ss = model!
         
         if (pickerView.tag == colorSourcePickerTag) {
             let ok = ss.selectColorSource(ss.colorSourceNames[row])
@@ -466,8 +465,8 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     }
     
     func updateSequencerControls() {
-        if (scene == nil) { return }
-        let ss = scene!
+        if (model == nil) { return }
+        let ss = model!
         
         let name = ss.selectedSequencer?.name
         if (name == nil) { return }
@@ -480,8 +479,8 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     }
 
     func updateColorSourceControls() {
-        if (scene == nil) { return }
-        let ss = scene!
+        if (model == nil) { return }
+        let ss = model!
         
         let name = ss.selectedColorSource?.name
         if (name == nil) { return }
@@ -498,14 +497,14 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     
     @IBAction func resetModelParams(_ sender: Any) {
         // message("resetModelParams")
-        if (scene == nil) { return }
-        scene!.resetModel()
+        if (model == nil) { return }
+        model!.resetModel()
     }
     
     @IBAction func resetViewParams(_ sender: Any) {
         // message("resetViewParams")
-        if (scene == nil) { return }
-        scene!.resetView()
+        if (model == nil) { return }
+        model!.resetView()
     }
     
 }

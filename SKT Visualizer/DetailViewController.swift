@@ -13,11 +13,11 @@ import OpenGLES
 import OpenGL
 #endif
 
-class DetailViewController: GLKViewController {
+class DetailViewController: GLKViewController, ModelUser, ModelChangeListener {
     
-    var geometry: SKGeometry!
-    var physics: SKPhysics!
-    var scene: Scene!
+    let name: String = "DetailViewController"
+    
+    var model: ModelController? = nil
     
     var context: EAGLContext? = nil
 
@@ -37,7 +37,13 @@ class DetailViewController: GLKViewController {
     }
     
     override func viewDidLoad() {
-        print("DetailViewController.viewDidLoad")
+        if (model == nil) {
+            debug("viewDidLoad", "model is nil. Gonna crash.")
+        }
+        else {
+            model!.finishSetup()
+            model!.addListener(forModelChange: self)
+        }
         super.viewDidLoad()
         
         self.context = EAGLContext(api: .openGLES2)
@@ -51,7 +57,6 @@ class DetailViewController: GLKViewController {
         view.context = self.context!
         view.drawableDepthFormat = .format24
         
-        scene = Scene(geometry, physics)
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -82,6 +87,12 @@ class DetailViewController: GLKViewController {
         }
     }
 
+    func modelHasChanged(controller: ModelController?) {
+        // TODO
+        debug("modelHashChanged", "NOT IMPLEMENTED")
+    }
+    
+    
 //    @IBAction func unwindToDetail(_ sender: UIStoryboardSegue) {
 //        print("unwindToDetail")
 //    }
@@ -89,47 +100,47 @@ class DetailViewController: GLKViewController {
     override func glkView(_ view: GLKView, drawIn rect: CGRect) {
         // print("DetailViewController.glkView")
         
-        let aspectRatio = Float(view.drawableWidth)/Float(view.drawableHeight)
-        scene.setAspectRatio(aspectRatio)
-        scene.draw()
+        if (model == nil) { return }
+        let aspectRatio = Double(view.drawableWidth)/Double(view.drawableHeight)
+        model!.setAspectRatio(aspectRatio)
+        model!.draw()
     }
     
     @IBAction func handlePan(_ sender: UIPanGestureRecognizer) {
         // print("DetailViewController.handlePan", "sender.state:", sender.state)
+        if (model == nil) { return }
+
         if (sender.state == UIGestureRecognizerState.began) {
-            panPhi_initialValue = scene.povPhi
-            panTheta_e_initialValue = scene.povThetaE
+            panPhi_initialValue = model!.povPhi
+            panTheta_e_initialValue = model!.povThetaE
         }
         let delta = sender.translation(in: sender.view)
-        scene.setPOVAngularPosition(
+        model!.setPOVAngularPosition(
             panPhi_initialValue - Double(delta.x) * panPhi_scaleFactor,
             panTheta_e_initialValue - Double(delta.y) * panTheta_e_scaleFactor
         )
     }
     
     @IBAction func handleTap(_ sender: UITapGestureRecognizer) {
-        scene.toggleSequencer()
+        if (model == nil) { return }
+        model!.toggleSequencer()
     }
     
     @IBAction func handlePinch(_ sender: UIPinchGestureRecognizer) {
         // print("DetailViewController.handlePinch", "sender.state:", sender.state)
+        if (model == nil) { return }
+
         if (sender.state == UIGestureRecognizerState.began) {
-            pinchZoom_initialValue = scene.zoom
-            debug("pinch began. zoom=" + String(scene.zoom) + " povR=" + String(scene.povR))
+            pinchZoom_initialValue = model!.zoom
+            debug("pinch began. zoom=" + String(model!.zoom) + " povR=" + String(model!.povR))
         }
-        scene.zoom = (pinchZoom_initialValue * Double(sender.scale))
+        model!.zoom = (pinchZoom_initialValue * Double(sender.scale))
         if (sender.state == UIGestureRecognizerState.ended) {
-            debug("pinch ended. scale=" + String(Float(sender.scale)) + " zoom=" + String(scene.zoom) + " povR=" + String(scene.povR))
+            debug("pinch ended. scale=" + String(Float(sender.scale)) + " zoom=" + String(model!.zoom) + " povR=" + String(model!.povR))
         }
     }
     
-    // MARK: - Navigation
-    //
-    //  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    //    print("DestinationViewController.prepare for seque", "destination", segue.destination)
-    // }
-
-    private func debug(_ msg: String) {
-        print("DetailViewController", msg)
+    private func debug(_ mtd: String, _ msg: String = "") {
+        print("DetailViewController", mtd, msg)
     }
 }

@@ -12,23 +12,20 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var geometry: SKGeometry
-    var physics: SKPhysics
+    var model: ModelController?
     
     override init() {
-        geometry = SKGeometry()
-        physics = SKPhysics(geometry)
         super.init()
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-
+        // Override point for customization after application launch
+        
+        model = Scene()
         let rvc = window?.rootViewController
         if (rvc != nil) {
             configureControllers(rvc!)
         }
-        
         return true
     }
 
@@ -61,16 +58,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let detailViewController = splitViewController.viewControllers.last as? DetailViewController
             else { fatalError() }
         
-        masterViewController.geometry = self.geometry
-        masterViewController.physics = self.physics
-        
-        // Need to set detailViewController's geometry & physics before it is loaded
-        detailViewController.geometry = self.geometry
-        detailViewController.physics = self.physics
-        
-        // Need to ensure the detail view has been loaded before we access its scene
-        detailViewController.loadViewIfNeeded()
-        masterViewController.scene = detailViewController.scene
+        masterViewController.model = self.model
+        detailViewController.model = self.model
     }
 
 }

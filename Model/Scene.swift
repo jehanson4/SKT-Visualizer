@@ -14,26 +14,25 @@ import OpenGLES
 import OpenGL
 #endif
 
-protocol SceneController : ModelController {
-    
-    var zoom: Double { get set }
-    var povR: Double { get }
-    var povPhi: Double { get }
-    var povThetaE: Double { get }
-    
-    func setPOVAngularPosition(_ phi: Double, _ thetaE: Double)
-    
-    var povRotationAngle: Double { get set }
-    var povRotationAxis: (x: Double, y: Double, z: Double) { get set }
-    
-    func resetView()
-    func resetModel()
-}
 
-class Scene : SceneController {
+// ============================================================================
+
+class Scene : ModelController {
     
     // ======================================================
-    // POV
+    // Control parameters
+    // These are lazy so that ther init'ers don't get called
+    // until after Scene's initer has finished
+    
+    lazy var N: ControlParameter = NParam(self, geometry)
+    lazy var k0: ControlParameter = K0Param(self, geometry)
+    lazy var alpha1: ControlParameter = Alpha1Param(self, physics)
+    lazy var alpha2: ControlParameter = Alpha2Param(self, physics)
+    lazy var T: ControlParameter = TParam(self, physics)
+    lazy var beta: ControlParameter = BetaParam(self, physics)
+
+    // ======================================================
+    // Graphics POV
     
     let povR_default: Double = 2
     let povPhi_default: Double = Constants.piOver4
@@ -62,31 +61,23 @@ class Scene : SceneController {
     }
     
     // ======================================================
-    // sequencer
-    
-    let sequencerStepInterval_default: TimeInterval = 0.1
-    
-    var sequencerEnabled: Bool
-    var sequencerStepInterval: TimeInterval
-    var sequencerLastStepTime: TimeInterval
-    
-    // ======================================================
     // internals
     
-    var aspectRatio: Float = 1
+    private var geometry: SKGeometry
+    private var physics: SKPhysics
+    private var setupFinished: Bool = false
     
-    var geometry: SKGeometry
-    var physics: SKPhysics
+    var aspectRatio: Float = 1
     var projectionMatrix: GLKMatrix4!
     var modelviewMatrix: GLKMatrix4!
-    var effects = [String: Effect]()
+    
     var modelChangeListeners: [ModelChangeListener] = []
     
-    init(_ geometry: SKGeometry, _ physics: SKPhysics) {
-        self.geometry = geometry
-        self.physics = physics
+    init() {
+        self.geometry = SKGeometry()
+        self.physics = SKPhysics(geometry)
         
-        // VIEW PARAMS
+        // VIEW PARAMS: move into "graphics
         self.povR = povR_default
         self.povPhi = povPhi_default
         self.povThetaE = povThetaE_default
@@ -95,15 +86,19 @@ class Scene : SceneController {
         self.sequencerEnabled = false
         self.sequencerStepInterval = sequencerStepInterval_default
         self.sequencerLastStepTime = 0
-        
-        
+    }
+    
+    func finishSetup() {
+        if (setupFinished) {
+            return
+        }
+    
         // EMPIRICAL if last 2 args are -d, d then it doesn't show net from underside.
         // 10 and 2d seem OK
         let d = GLfloat(2.0 * geometry.r0)
         projectionMatrix = GLKMatrix4MakeOrtho(-d, d, -d/aspectRatio, d/aspectRatio, -2*d, 2*d)
         
         // Some GL setup
-        
         // From orbiting teapot:
         glClearColor(0.0, 0.0, 0.0, 0.0)
         glClearDepthf(1.0)
@@ -135,16 +130,26 @@ class Scene : SceneController {
         registerSequencers()
         registerColorSources()
         registerEffects()
+    
+        setupFinished = true
+
     }
     
     func resetModel() {
-        physics.revertSettings()
-        physics.resetParams()
-        geometry.revertSettings()
-        geometry.resetParams()
+        N.reset()
+        k0.reset()
+        alpha1.reset()
+        alpha2.reset()
+        T.reset()
+        // (Don't reset beta)
+        
         fireModelChange();
     }
-    
+
+    // ==========================================================
+    // Listeners
+    // ==========================================================
+
     func addListener(forModelChange listener: ModelChangeListener?) {
         if (listener != nil) {
             modelChangeListeners.append(listener!)
@@ -154,10 +159,15 @@ class Scene : SceneController {
     func removeListener(forModelChange listener: ModelChangeListener?) {
         if (listener != nil) {
             // TODO
+            debug("removeListener", "NOT IMPLEMENETED!")
         }
     }
     
-    private func fireModelChange() {
+    func registerModelChange() {
+        fireModelChange()
+    }
+    
+    func fireModelChange() {
         for listener in modelChangeListeners {
             listener.modelHasChanged(controller: self)
         }
@@ -167,8 +177,8 @@ class Scene : SceneController {
     // Sequencers
     // ==========================================================
     
-    private var sequencers = [String: Sequencer]()
     var sequencerNames: [String] = []
+    private var sequencers = [String: Sequencer]()
     var selectedSequencer: Sequencer? = nil
     
     func getSequencer(_ name: String) -> Sequencer? {
@@ -184,7 +194,7 @@ class Scene : SceneController {
         debug("selectSeqeuencer: old=" + oldName + " new=" + newSequencer!.name)
         
         if (oldSequencer == nil || newSequencer!.name != oldSequencer!.name) {
-            newSequencer!.reset()
+            newSequencer!.prepare()
         }
         selectedSequencer = newSequencer
         return true
@@ -197,12 +207,15 @@ class Scene : SceneController {
         c0.description = "No sequencer"
         registerSequencer(c0, true)
         
-        registerSequencer(NForFixedKOverN(geometry), false)
-        registerSequencer(KForFixedN(geometry), false)
-        // USELESS NForFixedK(geometry)
-        registerSequencer(LinearAlpha2(physics), false)
-        registerSequencer(LinearT(physics), false)
-        // FIXME BROKEN registerSequencer(LinearBeta(physics), false)
+        registerSequencer(ControlParameterSequencer(self.N), false)
+        registerSequencer(ControlParameterSequencer(self.k0), false)
+        registerSequencer(ControlParameterSequencer(self.alpha1), false)
+        registerSequencer(ControlParameterSequencer(self.alpha2), false)
+        registerSequencer(ControlParameterSequencer(self.T), false)
+        registerSequencer(ControlParameterSequencer(self.beta), false)
+        
+        // TODO
+        // registerSequencer(NForFixedKOverN(geometry), false)
     }
     
     private func registerSequencer(_ sequencer: Sequencer, _ select: Bool) {
@@ -210,6 +223,15 @@ class Scene : SceneController {
         sequencerNames.append(sequencer.name)
         if select { selectedSequencer = sequencer }
     }
+    
+    // ======================================================
+    // Sequencer timing
+    
+    let sequencerStepInterval_default: TimeInterval = 0.1
+    
+    var sequencerEnabled: Bool
+    var sequencerStepInterval: TimeInterval
+    var sequencerLastStepTime: TimeInterval
     
     func toggleSequencer() {
         if (selectedSequencer == nil) { return }
@@ -276,15 +298,37 @@ class Scene : SceneController {
     }
     
     func registerColorSources() {
-        let gray = ConstColor(r: 0.25, g: 0.25, b: 0.25)
-        gray.name = "None"
-        gray.description = "No color source"
-        registerColorSource(gray, true)
+        let grayCS = UniformColor(r: 0.25, g: 0.25, b: 0.25, name: "None", description: "No color source")
+        registerColorSource(grayCS, true)
         
-        let skSources = makeColorSourcesForProperties(physics)
-        for ss in skSources {
-            registerColorSource(ss, false)
+        let linearColorMap = LinearColorMap()
+        let logColorMap = LogColorMap()
+        
+        let energyProp = physics.physicalProperty(Energy.type)
+        if (energyProp != nil) {
+            let energyCS = PhysicalPropertyColorSource(energyProp!, linearColorMap)
+            registerColorSource(energyCS, false)
         }
+        
+        let entropyProp = physics.physicalProperty(Entropy.type)
+        if (entropyProp != nil) {
+            let entropyCS = PhysicalPropertyColorSource(entropyProp!, linearColorMap)
+            registerColorSource(entropyCS, false)
+            
+            let degeneracyCS = PhysicalPropertyColorSource(entropyProp!, logColorMap, name: "Degeneracy", description: "Number of SK states mapped onto a given point")
+            registerColorSource(degeneracyCS, false)
+
+        }
+        
+        let logOccupationProp = physics.physicalProperty(LogOccupation.type)
+        if (logOccupationProp != nil) {
+            let logOccupationCS = PhysicalPropertyColorSource(logOccupationProp!, linearColorMap)
+            registerColorSource(logOccupationCS, false)
+            
+            let occupationCS = PhysicalPropertyColorSource(logOccupationProp!, logColorMap, name: "Occupation")
+            registerColorSource(occupationCS, false)
+        }
+        
     }
     
     private func registerColorSource(_ colorSource: ColorSource, _ select: Bool) {
@@ -299,14 +343,9 @@ class Scene : SceneController {
     // Effects
     // ==========================================================
     
-    var effectNames: [String] {
-        var names: [String] = []
-        for entry in effects {
-            names.append(entry.key)
-        }
-        return names
-    }
-    
+    var effectNames: [String] = []
+    var effects = [String: Effect]()
+
     func getEffect(_ name: String) -> Effect? {
         return effects[name]
     }
@@ -325,16 +364,18 @@ class Scene : SceneController {
     }
     
     private func registerEffect(_ effect: Effect) {
+        effectNames.append(effect.name)
         effects[effect.name] = effect
     }
     
     // ==========================================================
     // ==========================================================
     
-    func setAspectRatio(_ aspectRatio: Float) {
-        if (aspectRatio != self.aspectRatio) {
-            debug("setAspectRatio: aspectRatio=" + String(aspectRatio))
-            self.aspectRatio = aspectRatio
+    func setAspectRatio(_ aspectRatio: Double) {
+        let ar2: Float = Float(aspectRatio)
+        if (ar2 != self.aspectRatio) {
+            debug("setAspectRatio: aspectRatio=" + String(ar2))
+            self.aspectRatio = ar2
             computeTransforms()
         }
     }
@@ -414,7 +455,8 @@ class Scene : SceneController {
         return NSDate().timeIntervalSince1970
     }
     
-    private func debug(_ msg: String) {
-        print("Scene", msg)
+    private func debug(_ mtd: String, _ msg: String = "") {
+        print("Scene", mtd, msg)
     }
 }
+
