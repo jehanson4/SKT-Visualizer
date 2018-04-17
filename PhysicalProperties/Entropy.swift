@@ -14,7 +14,8 @@ import Foundation
 
 class Entropy : PhysicalProperty {
     
-    var name = "Entropy"
+    static let type = "Entropy"
+    var name: String { return Entropy.type }
     var description: String? = nil
     var bounds: (min: Double, max: Double) { ensureFresh(); return fBounds }
     

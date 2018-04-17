@@ -14,7 +14,8 @@ import Foundation
 
 class Energy : PhysicalProperty {
     
-    var name = "Energy"
+    static let type = "Energy"
+    var name: String { return Energy.type }
     var description: String? = nil
     var bounds: (min: Double, max: Double) { ensureFresh(); return fBounds }
     
