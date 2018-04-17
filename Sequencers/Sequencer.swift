@@ -11,82 +11,30 @@ import Foundation
 // ==============================================================================
 // ==============================================================================
 
+enum BoundaryBehavior {
+    case stick, wrap, reflect
+}
+
+// ==============================================================================
+// ==============================================================================
+
 protocol Sequencer {
 
-    static var type: String { get }
-    var name: String { get set }
-    var description: String { get set }
-    
-    var lowerBound: (Double, BoundType) { get set }
-    var upperBound: (Double, BoundType) { get set }
-    var value: Double { get }
-    var wrap: Bool { get set }
+    var name: String { get }
+    var description: String? { get }
+    var bounds: (min: Double, max: Double) { get set }
+    var boundaryBehavior: BoundaryBehavior { get set }
 
-    /// >= 0
+    /// > 0
     var stepSize: Double { get set }
     
-    /// 0 if stepSize == 0, +1 or -1 otherwise
+    /// -1, 0, or 1
     var stepSgn: Double { get set }
     
+    var value: Double { get }
     
-    func reset()
+    func prepare()
     
     func step()
-}
-
-protocol SequencerRegistry {
-    
-    var sequencerNames: [String] { get }
-    
-    func getSequencer(_ name: String) -> Sequencer?
-    
-    /// returns true iff the selection changed
-    func selectSequencer(_ name: String) -> Bool
-    
-    var selectedSequencer: Sequencer? { get }
-}
-
-// ==============================================================================
-// DummySequencer
-// ==============================================================================
-
-/**
- Does nothing. Available for use as a placeholder
-*/
-class DummySequencer : Sequencer {
-    
-    static let type = "Dummy"
-    var name = ""
-    var description = ""
-    
-    var lowerBound: (Double, BoundType) {
-        get { return (0, BoundType.closed) }
-        set { }
-    }
-
-    var upperBound: (Double, BoundType) {
-        get { return (0, BoundType.closed) }
-        set { }
-    }
-
-    var value: Double  {
-        get { return 0 }
-    }
-    
-    var stepSgn: Double {
-        get { return 0 }
-        set { }
-    }
-    
-    var stepSize: Double {
-        get { return 0 }
-        set { }
-    }
-    
-    var wrap: Bool = false
-    
-    func reset() { }
-    
-    func step() { }
 }
 
