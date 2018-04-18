@@ -10,6 +10,13 @@ show something on startup
 
 sequencer check status after step
 
+Ooccupation
+
+'reasonable' bounds on sequener.
+prepare/reset DOES NOT forget them
+
+reflect flaps if initial is outside range
+
 -----
 
 [ ] Recursive Embedded Definition

@@ -240,9 +240,14 @@ class Scene : ModelController {
         let oldName = (oldSequencer == nil) ? "nil" : oldSequencer!.name
         if (oldSequencer == nil || newSequencer!.name != oldSequencer!.name) {
             debug("selectSequencer", "changed from " + oldName + " to " + newSequencer!.name)
+            debug("selectSequencer", "calling prepare() on " + newSequencer!.name)
             newSequencer!.prepare()
         }
         selectedSequencer = newSequencer
+        
+        debug("selectSequencer", "registering model change")
+        registerModelChange()
+        
         return true
     }
     
@@ -294,6 +299,8 @@ class Scene : ModelController {
         else {
             debug("toggleSequencer: enabled=" + String(sequencerEnabled))
         }
+        debug("toggleSequencer", "registering model change")
+        registerModelChange()
     }
     
     func sequencerStep() {
@@ -312,10 +319,8 @@ class Scene : ModelController {
             debug("draw: sequencer step done, new value: " + String (ss.value))
             
             if (changed) {
-            // I think we need to
-            for listener in modelChangeListeners {
-                listener.modelHasChanged(controller: self)
-            }
+                debug("draw", "registering model change")
+                registerModelChange()
             }
         }
     }

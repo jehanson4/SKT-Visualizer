@@ -41,16 +41,19 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         else {
             let mm = model!
             debug("viewDidLoad", "Updating model controls")
-            updateParamControls(mm)
-            updateEffectControls(mm)
-            updateSequencerControls(mm)
-            updateColorSourceControls(mm)
-            
+            updateAllControls(mm)
             debug("viewDidLoad", "adding self as listener to model.")
             mm.addListener(forModelChange: self)
         }
     }
-    
+
+    private func updateAllControls(_ mm: ModelController) {
+        updateParamControls(mm)
+        updateEffectControls(mm)
+        updateSequencerControls(mm)
+        updateColorSourceControls(mm)
+    }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -309,7 +312,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     func modelHasChanged(controller: ModelController?) {
         debug("modelHasChanged")
         if (model != nil) {
-            updateParamControls(model!)
+            updateAllControls(model!)
         }
     }
     
