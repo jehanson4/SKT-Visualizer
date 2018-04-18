@@ -11,8 +11,10 @@ import Foundation
 // ==============================================================================
 // ==============================================================================
 
-enum BoundaryBehavior {
-    case stick, wrap, reflect
+enum BoundaryCondition: Int {
+    case sticky = 0
+    case reflective = 1
+    case periodic = 2
 }
 
 // ==============================================================================
@@ -23,7 +25,7 @@ protocol Sequencer {
     var name: String { get }
     var description: String? { get }
     var bounds: (min: Double, max: Double) { get set }
-    var boundaryBehavior: BoundaryBehavior { get set }
+    var boundaryCondition: BoundaryCondition { get set }
 
     /// > 0
     var stepSize: Double { get set }
@@ -35,6 +37,7 @@ protocol Sequencer {
     
     func prepare()
     
-    func step()
+    /// returns true iff it changed something other than its own state
+    func step() -> Bool
 }
 

@@ -18,7 +18,7 @@ class Icosahedron : GLKBaseEffect, Effect {
     
     static let type = String(describing: Icosahedron.self)
     var name = type
-    var enabled = false
+    var enabled: Bool
 
     var colorSource: ColorSource? {
         get { return nil }
@@ -99,6 +99,11 @@ class Icosahedron : GLKBaseEffect, Effect {
     var indexBuffer: GLuint = 0
     var built: Bool = false
 
+    init(enabled: Bool = false) {
+        self.enabled = enabled
+        super.init()
+    }
+    
     private func build() -> Bool {
         // material
         super.colorMaterialEnabled = GLboolean(GL_TRUE)

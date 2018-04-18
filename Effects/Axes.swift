@@ -18,7 +18,7 @@ class Axes : GLKBaseEffect, Effect {
     
     static let type = String(describing: Axes.self)
     var name = type
-    var enabled = false
+    var enabled: Bool
     var built: Bool = false
 
     var colorSource: ColorSource? {
@@ -45,29 +45,13 @@ class Axes : GLKBaseEffect, Effect {
         }
     }
   
-    func draw() {
-        if (!enabled) {
-            return
-        }
-        
-        if (!built) {
-            built = build()
-        }
-        glBindVertexArrayOES(vertexArray);
-        prepareToDraw()
-        glLineWidth(10.0)
-        glDrawArrays(GLenum(GL_LINES), 0, GLsizei(vertices.count))
-        glLineWidth(1.0)
-        glBindVertexArrayOES(0)
-
-        let err = glGetError()
-        if (err != 0) {
-            debug("draw", String(format: "glError 0x%x", err))
-        }
+    init(enabled: Bool = false) {
+        self.enabled = enabled
+        super.init()
+        // debug("init", "projectionMatrix: " + String(describing: super.transform.projectionMatrix))
     }
-
+    
     private func build() -> Bool {
-        debug("build")
         
         super.useConstantColor = 1
         super.constantColor = GLKVector4Make(1.0, 1.0, 1.0, 1.0)
@@ -90,8 +74,34 @@ class Axes : GLKBaseEffect, Effect {
         glBindVertexArrayOES(0)
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), 0)
         
-        // print(name,"init: done")
         return true
+    }
+    
+    func draw() {
+        if (!enabled) {
+            return
+        }
+        
+        if (!built) {
+            debug("building")
+            built = build()
+        }
+
+        // debug("draw", "projectionMatrix: " + String(describing: super.transform.projectionMatrix))
+        // debug("draw", "modelviewMatrix: " + String(describing: super.transform.modelviewMatrix))
+
+        glBindVertexArrayOES(vertexArray);
+        prepareToDraw()
+        glLineWidth(10.0)
+        debug("drawing")
+        glDrawArrays(GLenum(GL_LINES), 0, GLsizei(vertices.count))
+        glLineWidth(1.0)
+        glBindVertexArrayOES(0)
+        
+        let err = glGetError()
+        if (err != 0) {
+            debug("draw", String(format: "glError 0x%x", err))
+        }
     }
     
     private func debug(_ mtd: String, _ msg: String = "") {

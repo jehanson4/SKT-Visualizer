@@ -16,9 +16,10 @@ import OpenGL
 
 class Net : GLKBaseEffect, Effect {
     
+    static let rOffsetDefault = 0.0
     static let type = String(describing: Net.self)
     var name = type
-    var enabled  = false
+    var enabled: Bool
     
     var colorSource: ColorSource? {
         get { return nil }
@@ -27,6 +28,7 @@ class Net : GLKBaseEffect, Effect {
     
     var geometry: SKGeometry
     var geometryChangeNumber: Int
+    var rOffset: Double
     
     // GL
     let lineWidth: GLfloat = 2.0
@@ -42,10 +44,11 @@ class Net : GLKBaseEffect, Effect {
     var lineArrayOffsets: [UnsafeRawPointer?] = []
     var built: Bool = false
     
-    init(_ geometry: SKGeometry) {
+    init(_ geometry: SKGeometry, enabled: Bool = false, rOffset: Double = Net.rOffsetDefault) {
         self.geometry = geometry
         self.geometryChangeNumber = geometry.changeNumber - 1
-
+        self.enabled = enabled
+        self.rOffset = rOffset
         super.init()
     }
     
@@ -83,7 +86,7 @@ class Net : GLKBaseEffect, Effect {
         let lineCount = mMax + nMax + 2
         
         debug("buildVertexData", "old #vertices: " + String(vertices.count))
-        self.vertices = buildVertexCoordinateArray(geometry)
+        self.vertices = buildVertexCoordinateArray(geometry, rOffset: self.rOffset)
         debug("buildVertexData", "new #vertices: " + String(vertices.count))
         
         self.indices = Array(repeating: 0, count: indexCount)

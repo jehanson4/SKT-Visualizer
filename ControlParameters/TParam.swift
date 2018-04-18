@@ -39,8 +39,7 @@ class TParam : ControlParameter {
         }
     }
 
-    // TODO formatting
-    var valueString: String { return String(format: "%G", physics.T) }
+    var valueString: String { return prettyString(physics.T) }
     
     var defaultStepSize: Double {
         get { return fDefaultStepSize }
@@ -59,7 +58,9 @@ class TParam : ControlParameter {
             model.registerModelChange()
         }
     }
-    
+
+    var stepSizeString: String { return prettyString(fStepSize) }
+
     private var model: ModelController!
     private var physics: SKPhysics!
     private var fDefaultValue: Double

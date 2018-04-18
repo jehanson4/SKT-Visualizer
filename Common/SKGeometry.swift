@@ -207,8 +207,8 @@ class SKGeometry : ChangeCounted {
     func skToCartesian(_ m: Int, _ n: Int) -> (x: Double, y: Double, z: Double) {
         if (debug) { printProblems("before skToCartesian", m: m, n: n) }
         let t1 = skToTwoPointP(m, n)
-        let t2 = twoPointToSphericalP(t1.s1, t1.s2)
-        let xyz = sphericalToCartesianP(t2.r, t2.phi, t2.thetaE)
+        let sph = twoPointToSphericalP(t1.s1, t1.s2)
+        let xyz = sphericalToCartesianP(sph.r, sph.phi, sph.thetaE)
         if (debug) { printProblems("in skToCartesian", m: m, n: n) }
         return xyz
     }

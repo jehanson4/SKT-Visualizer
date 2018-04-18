@@ -52,12 +52,12 @@ class Surface : GLKBaseEffect, Effect {
     var indexBuffer: GLuint = 0
     var built: Bool = false
 
-    init(_ geometry: SKGeometry, _ physics: SKPhysics) {
+    init(_ geometry: SKGeometry, _ physics: SKPhysics, enabled: Bool = false) {
         self.geometry = geometry
         self.geometryChangeNumber = geometry.changeNumber - 1
         self.physics = physics
         self.physicsChangeNumber = physics.changeNumber - 1
-        
+        self.enabled = enabled
         super.init()
     }
     
@@ -101,6 +101,8 @@ class Surface : GLKBaseEffect, Effect {
         let nMax = geometry.n_max
         for m in 0..<mMax {
             for n in 0..<nMax {
+                
+                // v1->v2->v3->v4 is counterclockwise
                 let v1 = geometry.skToNodeIndex(m,n)
                 let v2 = geometry.skToNodeIndex(m + 1, n)
                 let v3 = geometry.skToNodeIndex(m + 1, n + 1)
@@ -108,10 +110,12 @@ class Surface : GLKBaseEffect, Effect {
                 
                 // Draw two triangles of quad (v1,v2,v3,v4):
                 
+                // counterclockwise again
                 indices.append(GLuint(v1))
                 indices.append(GLuint(v2))
                 indices.append(GLuint(v3))
                 
+                // counterclockwise again
                 indices.append(GLuint(v1))
                 indices.append(GLuint(v3))
                 indices.append(GLuint(v4))

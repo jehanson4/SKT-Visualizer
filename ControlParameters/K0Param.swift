@@ -52,6 +52,8 @@ class K0Param : ControlParameter {
         }
     }
     
+    var stepSizeString: String { return String(fStepSize) }
+    
     var defaultStepSize: Double {
         get { return Double(fDefaultStepSize) }
         set(newValue) {

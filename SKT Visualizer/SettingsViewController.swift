@@ -14,23 +14,27 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, ModelUser, 
     var model: ModelController? = nil
     
     override func viewDidLoad() {
-        if (model == nil) {
-            debug("viewDidLoad", "model is nil. Gonna crash.")
-        }
-        else {
-            model!.setupGraphics()
-            model!.addListener(forModelChange: self)
-        }
         super.viewDidLoad()
 
         self.navigationItem.hidesBackButton = true
         dN_text.delegate = self
         dk_text.delegate = self
-        da_text.delegate = self
+        da1_text.delegate = self
+        da2_text.delegate = self
         dT_text.delegate = self
+        // dbeta_text.delegate = self
         
-        updateModelControls()
-
+        if (model == nil) {
+            debug("viewDidLoad", "model is nil")
+        }
+        else {
+            let mm = model!
+            debug("viewDidLoad", "Updating model controls")
+            updateModelControls(mm)
+            
+            debug("viewDidLoad", "Adding self as listener to model")
+            mm.addListener(forModelChange: self)
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -39,14 +43,11 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, ModelUser, 
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        debug("prepareForSegue", "NOP")
-
-        if (segue.destination.title != nil) {
-            debug("prepare for segue: title = " + segue.destination.title!)
-        }
-        
+        let dname = (segue.destination.title == nil) ? "" : segue.destination.title!
+        debug("prepare for segue", dname)
         
         // FIXME what about unsubscribing?
+        
         // HACK HACK HACK HACK
         if (segue.destination is ModelUser) {
             debug("destination is a model user")
@@ -59,14 +60,8 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, ModelUser, 
                 d2.model = self.model
             }
         }
-
     }
     
-    
-    func modelHasChanged(controller: ModelController?) {
-        updateModelControls()
-    }
-
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         // Hide the keyboard.
         textField.resignFirstResponder()
@@ -77,6 +72,17 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, ModelUser, 
         print("SettingsViewController", mtd, msg)
     }
     
+    func modelHasChanged(controller: ModelController?) {
+        if (model == nil) {
+            debug("modelHasChanged", "model is nil")
+        }
+        else {
+            let mm = model!
+            debug("modelHasChanged", "updating model controls")
+            updateModelControls(mm)
+        }
+    }
+    
     // ==========================================================================
     // MARK: Model settings
 
@@ -84,67 +90,89 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, ModelUser, 
 
     @IBAction func dN_textAction(_ sender: UITextField) {
         if (model != nil && sender.text != nil) {
+            var mm = model!
             let dN: Double? = Double(sender.text!)
-            if (dN != nil && dN! > 0) {
-                print("SettingsViewController.dN_textAction dN:", dN!)
-                model!.N.stepSize = dN!
+            if (dN != nil) {
+                mm.N.stepSize = dN!
+                updateModelControls(mm)
             }
         }
-        updateModelControls()
     }
     
     @IBOutlet weak var dk_text: UITextField!
     
     @IBAction func dk_textAction(_ sender: UITextField) {
         if (model != nil || sender.text != nil) {
+            var mm = model!
             let dk: Double? = Double(sender.text!)
-            if (dk != nil && dk! > 0) {
-                model!.k0.stepSize = dk!
+            if (dk != nil) {
+                mm.k0.stepSize = dk!
+                updateModelControls(mm)
             }
         }
-        updateModelControls()
     }
 
-    @IBOutlet weak var da_text: UITextField!
-
-    @IBAction func da_textAction(_ sender: UITextField) {
+    @IBOutlet weak var da1_text: UITextField!
+    
+    @IBAction func da1_textAction(_ sender: UITextField) {
         if (model != nil && sender.text != nil) {
-            let da: Double?  = Double(sender.text!)
-            if (da != nil && da! > 0.0) {
-                model!.alpha1.stepSize = da!
-                model!.alpha2.stepSize = da!
+            var mm = model!
+            let da1: Double?  = Double(sender.text!)
+            if (da1 != nil) {
+                mm.alpha1.stepSize = da1!
+                updateModelControls(mm)
             }
         }
-        updateModelControls()
+    }
+    
+    @IBOutlet weak var da2_text: UITextField!
+
+    @IBAction func da2_textAction(_ sender: UITextField) {
+        if (model != nil && sender.text != nil) {
+            var mm = model!
+            let da2: Double?  = Double(sender.text!)
+            if (da2 != nil) {
+                mm.alpha2.stepSize = da2!
+                updateModelControls(mm)
+            }
+        }
     }
     
     @IBOutlet weak var dT_text: UITextField!
 
     @IBAction func dT_textAction(_ sender: UITextField) {
         if (model != nil && sender.text != nil) {
+            var mm = model!
             let dT: Double? = Double(sender.text!)
             if (dT != nil) {
-                model!.T.stepSize = dT!
+                mm.T.stepSize = dT!
+                updateModelControls(mm)
             }
         }
-        updateModelControls()
     }
     
     
-    func updateModelControls() {
-        loadViewIfNeeded()
-        if (model == nil) {
-            dN_text.text = ""
-            dk_text.text = ""
-            da_text.text = ""
-            dT_text.text = ""
-        }
-        else {
-            da_text.text = String(model!.alpha1.stepSize)
-            dN_text.text = String(model!.N.stepSize)
-            dk_text.text = String(model!.k0.stepSize)
-            dT_text.text = String(model!.T.stepSize)
-        }
+    func updateModelControls(_ mm : ModelController) {
+            da1_text.text = String(mm.alpha1.stepSizeString)
+            da2_text.text = String(mm.alpha2.stepSizeString)
+            dN_text.text = String(mm.N.stepSizeString)
+            dk_text.text = String(mm.k0.stepSizeString)
+            dT_text.text = String(mm.T.stepSizeString)
     }
    
+    // ======================================================================================
+    // MARK: resetters
+    
+//    @IBAction func resetModelParams(_ sender: Any) {
+//        // message("resetModelParams")
+//        if (model == nil) { return }
+//        model!.resetControlParameters()
+//    }
+    
+    @IBAction func resetViewParams(_ sender: Any) {
+        // message("resetViewParams")
+        if (model == nil) { return }
+        model!.resetPOV()
+    }
+    
 }

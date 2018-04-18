@@ -39,8 +39,7 @@ class Alpha2Param : ControlParameter {
         }
     }
     
-    // TODO formatting
-    var valueString: String { return String(format: "%G", physics.alpha2) }
+    var valueString: String { return prettyString(physics.alpha2) }
     
     var defaultStepSize: Double {
         get { return fDefaultStepSize }
@@ -60,6 +59,8 @@ class Alpha2Param : ControlParameter {
         }
     }
     
+    var stepSizeString: String { return prettyString(fStepSize) }
+
     private var model: ModelController!
     private var physics: SKPhysics!
     private var fDefaultValue: Double

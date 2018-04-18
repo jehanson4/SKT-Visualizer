@@ -17,8 +17,10 @@ import OpenGL
 class Meridians : GLKBaseEffect, Effect {
 
     static let type = String(describing: Meridians.self)
+    static let rOffsetDefault = 0.0
+    
     var name = type
-    var enabled = false
+    var enabled: Bool
     var built: Bool = false
 
     var colorSource: ColorSource? {
@@ -29,7 +31,8 @@ class Meridians : GLKBaseEffect, Effect {
     let segmentCount: Int = 100
     let lineWidth: GLfloat = 4.0
     let lineColor: GLKVector4 = GLKVector4Make(0.5, 0.5, 0.5, 1.0)
-    let lineOffsetR: Double = 0.001 // so they hover just over the surface
+   
+    var rOffset: Double
     
     var geometry: SKGeometry
     var geometryChangeNumber: Int
@@ -40,9 +43,11 @@ class Meridians : GLKBaseEffect, Effect {
     private var vertexArray: GLuint = 0
     private var vertexBuffer: GLuint = 0
 
-    init(_ geometry: SKGeometry) {
+    init(_ geometry: SKGeometry, enabled: Bool = false, rOffset: Double = Meridians.rOffsetDefault) {
         self.geometry = geometry
         self.geometryChangeNumber = geometry.changeNumber - 1
+        self.enabled = enabled
+        self.rOffset = rOffset
         super.init()
     }
     
@@ -70,7 +75,7 @@ class Meridians : GLKBaseEffect, Effect {
     }
 
     private func addMeridian(_ p: SKPoint) {
-        let r = geometry.r0 + lineOffsetR
+        let r = geometry.r0 + rOffset
         let phi = p.phi
         let thetaE_incr = Constants.piOver2/(Double(segmentCount))
     

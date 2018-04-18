@@ -26,6 +26,8 @@ protocol ControlParameter {
     /// > 0
     var stepSize: Double { get set }
     
+    var stepSizeString: String { get }
+    
     var value: Double { get set }
     
     var valueString: String { get }

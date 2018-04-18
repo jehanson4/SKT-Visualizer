@@ -47,17 +47,22 @@ func logBinomial(_ a:Int, _ b:Int) -> Double {
             + 0.5 * (log(aa) - log(bb) - log(cc) - log(Constants.twoPi))
 }
 
+func prettyString(_ x: Double) -> String {
+    // FIXME
+    return String(format: "%G", x)
+}
+
 func piFraction(_ x: Double) -> String {
     let b = 8.0 * x / Constants.pi
     let br = round(b)
     
     if (unequal(br-b, 0)) {
-        return String(x)
+        return prettyString(x)
     }
     
     let bi = Int(br)
     if (bi == 0) {
-        return "0"
+        return prettyString(0)
     }
     if ((bi % 8) == 0) {
         return (bi/8 == 1) ? "pi" : String(bi/8) + "pi"
@@ -69,11 +74,6 @@ func piFraction(_ x: Double) -> String {
         return (bi/2 == 1) ? "pi/4" : String(bi/2) + "pi/4"
     }
     return (bi == 1) ? "pi/8" : String(bi) + "pi/8"
-}
-
-func cleanString(_ x: Double) -> String {
-    // HACK HACK HACK HACK
-    return String(x)
 }
 
 // =======================================================================

@@ -39,8 +39,7 @@ class BetaParam: ControlParameter {
         }
     }
         
-    // TODO formatting
-    var valueString: String { return String(format: "%G", physics.beta) }
+    var valueString: String { return prettyString(physics.beta) }
     
     var defaultStepSize: Double {
         get { return fDefaultStepSize }
@@ -59,7 +58,9 @@ class BetaParam: ControlParameter {
             model.registerModelChange()
         }
     }
-        
+
+    var stepSizeString: String { return prettyString(fStepSize) }
+
     private var model: ModelController!
     private var physics: SKPhysics!
     private var fDefaultValue: Double

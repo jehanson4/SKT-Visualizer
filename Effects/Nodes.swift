@@ -18,8 +18,8 @@ class Nodes : GLKBaseEffect, Effect {
     
     static let type = String(describing: Nodes.self)
     var name = type
-    var enabled = false
-    var built = false
+    var enabled: Bool
+    var built: Bool = false
     
     var colorSource: ColorSource? {
         get { return nil }
@@ -38,11 +38,12 @@ class Nodes : GLKBaseEffect, Effect {
     var vertexBuffer: GLuint = 0
     // var colorBuffer: GLuint = 0
     
-    init(_ geometry: SKGeometry, _ physics: SKPhysics) {
+    init(_ geometry: SKGeometry, _ physics: SKPhysics, enabled: Bool = false) {
         self.geometry = geometry
         self.geometryChangeNumber = geometry.changeNumber
         self.physics = physics
         self.physicsChangeNumber = physics.changeNumber
+        self.enabled = enabled
         super.init()
     }
     

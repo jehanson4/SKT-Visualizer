@@ -23,40 +23,53 @@ class Scene : ModelController {
     // Control parameters
     // These are lazy so that ther init'ers don't get called
     // until after Scene's initer has finished
-    
+    // ======================================================
+
     lazy var N: ControlParameter = NParam(self, geometry)
     lazy var k0: ControlParameter = K0Param(self, geometry)
     lazy var alpha1: ControlParameter = Alpha1Param(self, physics)
     lazy var alpha2: ControlParameter = Alpha2Param(self, physics)
     lazy var T: ControlParameter = TParam(self, physics)
-    lazy var beta: ControlParameter = BetaParam(self, physics)
+    // lazy var beta: ControlParameter = BetaParam(self, physics)
+
+    func resetControlParameters() {
+        N.reset()
+        k0.reset()
+        alpha1.reset()
+        alpha2.reset()
+        T.reset()
+        // Don't reset beta
+        
+        fireModelChange();
+    }
+    
 
     // ======================================================
-    // Graphics POV
+    // Graphics & POV
     
     let povR_default: Double = 2
     let povPhi_default: Double = Constants.piOver4
     let povThetaE_default: Double = Constants.piOver4
     
-    var povR : Double
+    var povR: Double { return (povR_default - geometry.r0)/zoom + geometry.r0 }
     var povPhi: Double
     var povThetaE: Double
     
     var povRotationAngle: Double {
         didSet(newValue) {
-            computeTransforms()
+            updateModelview()
         }
     }
     
     var povRotationAxis: (x: Double, y: Double, z: Double) {
         didSet(newValue) {
-            computeTransforms()
+            updateModelview()
         }
     }
     
     var zoom: Double = 1.0 {
         didSet(newValue) {
-            computeTransforms()
+            updateModelview()
         }
     }
     
@@ -65,30 +78,41 @@ class Scene : ModelController {
     
     private var geometry: SKGeometry
     private var physics: SKPhysics
-    private var graphics: Graphics
+    private var pov: PointOfView
     
+    private var rOffset: Double = -0.001
     private var setupFinished: Bool = false
     
     var aspectRatio: Float = 1
-    var projectionMatrix: GLKMatrix4!
-    var modelviewMatrix: GLKMatrix4!
-    
+    // var projectionMatrix: GLKMatrix4!
+    // var modelviewMatrix: GLKMatrix4!
+
     var modelChangeListeners: [ModelChangeListener] = []
-    
+
+    // ======================================================
+
     init() {
         self.geometry = SKGeometry()
         self.physics = SKPhysics(geometry)
-        self.graphics = Graphics()
+        self.pov = PointOfView()
         
-        // VIEW PARAMS: move into "graphics
-        self.povR = povR_default
+        // self.povR = povR_default
         self.povPhi = povPhi_default
         self.povThetaE = povThetaE_default
         self.povRotationAngle = 0
         self.povRotationAxis = (x: 0, y: 0, z: 1)
+        
         self.sequencerEnabled = false
         self.sequencerStepInterval = sequencerStepInterval_default
         self.sequencerLastStepTime = 0
+
+        // needs to be done in init() b/c multiple view controllers
+        // access color sources
+        makeColorSources()
+        
+        // needs to be done in init() b/c multiple view controllers
+        // access sequencers
+        makeSequencers()
     }
     
     func setupGraphics() {
@@ -97,62 +121,78 @@ class Scene : ModelController {
             return
         }
         
-        debug("setupGraphics", "configuring graphics")
+        configureGL()
         
-        // EMPIRICAL if last 2 args are -d, d then it doesn't show net from underside.
-        // 10 and 2d seem OK
-        let d = GLfloat(2.0 * geometry.r0)
-        projectionMatrix = GLKMatrix4MakeOrtho(-d, d, -d/aspectRatio, d/aspectRatio, -2*d, 2*d)
+        // ok here ?
+        makeEffects()
         
-        // Some GL setup
-        // From orbiting teapot:
+        updateProjection()
+        updateModelview()
+        
+        setupFinished = true
+    }
+    
+    func configureGL() {
+        debug("configureGL")
+        
         glClearColor(0.0, 0.0, 0.0, 0.0)
         glClearDepthf(1.0)
         
-        // From rotating cylinder:
-        glEnable(GLenum(GL_DEPTH_TEST))
-        glDepthFunc(GLenum(GL_LEQUAL))
-        // glEnable(GLenum(GL_CULL_FACE))
-        // glFrontFace(GLenum(GL_CCW))
-        // glCullFace(GLenum(GL_BACK))
+        glEnable(GLenum(GL_CULL_FACE))
+        glFrontFace(GLenum(GL_CCW))
+        // ?? glFrontFace(GLenum(GL_CW))
+        glCullFace(GLenum(GL_BACK))
         
         // For transparent objects
-        // From http://www.opengl-tutorial.org/intermediate-tutorials/tutorial-10-transparency/
         glEnable(GLenum(GL_BLEND))
         glBlendFunc(GLenum(GL_SRC_ALPHA), GLenum(GL_ONE_MINUS_SRC_ALPHA))
         
-        // from v1
-        // glEnable(GL_DEPTH_TEST)
+        glEnable(GLenum(GL_DEPTH_TEST))
+        glDepthFunc(GLenum(GL_LEQUAL))
+        // ?? glDepthFunc(GLenum(GL_GEQUAL))
+        
+        // From v1; not needed here b/c each GLKBaseEffect has its own lighting model
         // glEnable(GLenum(GL_LIGHTING))
         // glLightModel(GLenum(GL_LIGHT_MODEL_AMBIENT), lightAmbientIntensity)
         // glEnable(GLenum(GL_LIGHT0))
         // glLightfv(GLenum(GL_LIGHT0), GLenum(GL_POSITION), light0Direction)
         // glLightfv(GLenum(GL_LIGHT0), GLenum(GL_DIFFUSE), light0Intensity)
-        
         // glEnable(GLenum(GL_COLOR_MATERIAL))
         // glColorMaterial(GLenum(GL_FRONT), GLenum(GL_AMBIENT_AND_DIFFUSE))
-        
-        registerColorSources()
-        registerSequencers()
-
-        computeTransforms()
-        registerEffects()
+    }
     
-        setupFinished = true
+    func updateProjection() {
+        debug("updateProjection")
+        
+        // EMPIRICAL if last 2 args are -d, d then it doesn't show net from underside.
+        // 10 and 2d seem OK
+        let d = GLfloat(2.0 * geometry.r0)
+        let projectionMatrix: GLKMatrix4 = GLKMatrix4MakeOrtho(-d, d, -d/aspectRatio, d/aspectRatio, 2*d, -2*d)
+        
+        for e in effects {
+            e.value.transform.projectionMatrix = projectionMatrix
+        }
+    }
+    
+    func updateModelview() {
+        debug("updateModelview")
+        
+        let povXYZ = geometry.sphericalToCartesian(povR, povPhi, povThetaE)
+        let zz = GLfloat(zoom)
+
+        var modelviewMatrix: GLKMatrix4 = GLKMatrix4MakeLookAt(Float(povXYZ.x), Float(povXYZ.y), Float(povXYZ.z), 0, 0, 0, 0, 0, 1)
+        let scaleMatrix = GLKMatrix4MakeScale(zz, zz, zz)
+        modelviewMatrix = GLKMatrix4Multiply(scaleMatrix, modelviewMatrix)
+        
+        modelviewMatrix = GLKMatrix4Rotate(modelviewMatrix, GLfloat(povRotationAngle),
+            GLfloat(povRotationAxis.x), GLfloat(povRotationAxis.y), GLfloat(povRotationAxis.z))
+        
+        for e in effects {
+            e.value.transform.modelviewMatrix = modelviewMatrix
+        }
 
     }
     
-    func resetModel() {
-        N.reset()
-        k0.reset()
-        alpha1.reset()
-        alpha2.reset()
-        T.reset()
-        // (Don't reset beta)
-        
-        fireModelChange();
-    }
-
     // ==========================================================
     // Listeners
     // ==========================================================
@@ -198,21 +238,19 @@ class Scene : ModelController {
         if (newSequencer == nil) { return false }
         
         let oldName = (oldSequencer == nil) ? "nil" : oldSequencer!.name
-        debug("selectSeqeuencer: old=" + oldName + " new=" + newSequencer!.name)
-        
         if (oldSequencer == nil || newSequencer!.name != oldSequencer!.name) {
+            debug("selectSequencer", "changed from " + oldName + " to " + newSequencer!.name)
             newSequencer!.prepare()
         }
         selectedSequencer = newSequencer
         return true
     }
     
-    private func registerSequencers() {
-        debug("registerSequencers")
+    private func makeSequencers() {
+        debug("makeSequencers")
         
         let c0 = DummySequencer()
         c0.name = "None"
-        c0.description = "No sequencer"
         registerSequencer(c0, true)
         
         registerSequencer(ControlParameterSequencer(self.N), false)
@@ -220,7 +258,7 @@ class Scene : ModelController {
         registerSequencer(ControlParameterSequencer(self.alpha1), false)
         registerSequencer(ControlParameterSequencer(self.alpha2), false)
         registerSequencer(ControlParameterSequencer(self.T), false)
-        registerSequencer(ControlParameterSequencer(self.beta), false)
+        // registerSequencer(ControlParameterSequencer(self.beta), false)
         
         // TODO
         // registerSequencer(NForFixedKOverN(geometry), false)
@@ -244,7 +282,7 @@ class Scene : ModelController {
     func toggleSequencer() {
         if (selectedSequencer == nil) { return }
         
-        // debug("toggleSequencer: selected sequencer=" + selectedSequencer!.name)
+        debug("toggleSequencer: selected sequencer=" + selectedSequencer!.name)
         
         sequencerEnabled = !sequencerEnabled
         if (sequencerEnabled) {
@@ -267,12 +305,17 @@ class Scene : ModelController {
                 && (dt >= sequencerStepInterval)
             ) {
             
-            debug("draw: taking sequencer step, current value: " + String (selectedSequencer!.value))
+            let ss = selectedSequencer!
+            debug("draw: taking sequencer step, current value: " + String (ss.value))
             sequencerLastStepTime = t0
-            selectedSequencer!.step()
-            debug("draw: sequencer step done, new value: " + String (selectedSequencer!.value))
+            let changed = ss.step()
+            debug("draw: sequencer step done, new value: " + String (ss.value))
+            
+            if (changed) {
+            // I think we need to
             for listener in modelChangeListeners {
                 listener.modelHasChanged(controller: self)
+            }
             }
         }
     }
@@ -305,9 +348,9 @@ class Scene : ModelController {
         return true
     }
     
-    func registerColorSources() {
-        debug("registerColorSources")
-        let grayCS = UniformColor(r: 0.25, g: 0.25, b: 0.25, name: "None", description: "No color source")
+    func makeColorSources() {
+        debug("makeColorSources")
+        let grayCS = UniformColor(r: 0.25, g: 0.25, b: 0.25, name: "None", description: "Uniform dark gray")
         registerColorSource(grayCS, true)
         
         let linearColorMap = LinearColorMap()
@@ -359,20 +402,19 @@ class Scene : ModelController {
         return effects[name]
     }
     
-    private func registerEffects() {
-        debug("registerEffects")
+    private func makeEffects() {
+        debug("makeEffects")
         
-        registerEffect(Axes())
-        registerEffect(Meridians(geometry))
-        registerEffect(Net(geometry))
-        registerEffect(Surface(geometry, physics))
+        registerEffect(Axes(enabled: false))
+        registerEffect(Meridians(geometry, enabled: false, rOffset: rOffset))
+        registerEffect(Net(geometry, enabled: false, rOffset: rOffset))
+        registerEffect(Surface(geometry, physics, enabled: true))
         // registerEffect(Nodes(geometry, physics))
-        // registerEffect(Icosahedron())
         
-        for e in effects {
-            e.value.transform.projectionMatrix = projectionMatrix
-            e.value.transform.modelviewMatrix = modelviewMatrix
-        }
+//        var ico = Icosahedron()
+//        ico.enabled = true
+//        registerEffect(ico)
+        
     }
     
     private func registerEffect(_ effect: Effect) {
@@ -388,21 +430,9 @@ class Scene : ModelController {
         if (ar2 != self.aspectRatio) {
             debug("setAspectRatio: aspectRatio=" + String(ar2))
             self.aspectRatio = ar2
-            computeTransforms()
+            updateProjection()
+            updateModelview()
         }
-    }
-    
-    func computeTransforms() {
-        
-        let zz = GLfloat(zoom)
-        let scaleMatrix = GLKMatrix4MakeScale(zz, zz, zz)
-        
-        povR = (povR_default - geometry.r0)/zoom + geometry.r0
-        let povXYZ = geometry.sphericalToCartesian(povR, povPhi, povThetaE)
-        modelviewMatrix = GLKMatrix4MakeLookAt(Float(povXYZ.x), Float(povXYZ.y), Float(povXYZ.z), 0, 0, 0, 0, 0, 1)
-        modelviewMatrix = GLKMatrix4Multiply(scaleMatrix, modelviewMatrix)
-        modelviewMatrix = GLKMatrix4Rotate(modelviewMatrix, GLfloat(povRotationAngle),
-                                           GLfloat(povRotationAxis.x), GLfloat(povRotationAxis.y), GLfloat(povRotationAxis.z))
     }
     
     func setPOVAngularPosition(_ phi: Double, _ thetaE: Double) {
@@ -421,43 +451,33 @@ class Scene : ModelController {
         if (povThetaE >= Constants.piOver2) {
             povThetaE = Constants.piOver2 - Constants.eps
         }
-        computeTransforms()
+        updateModelview()
         
     }
     
-    func movePOV(_ dPhi: Double, _ dTheta_e: Double) {
-        setPOVAngularPosition(povPhi + dPhi, povThetaE + dTheta_e)
-    }
+//    func movePOV(_ dPhi: Double, _ dTheta_e: Double) {
+//        setPOVAngularPosition(povPhi + dPhi, povThetaE + dTheta_e)
+//    }
     
-    func resetView() {
+    func resetPOV() {
         self.zoom = 1.0
-        self.povR = povR_default
+        // self.povR = povR_default
         self.povPhi = povPhi_default
         self.povThetaE = povThetaE_default
         self.povRotationAngle = 0
         self.povRotationAxis = (x: 0, y: 0, z: 1)
-        self.sequencerEnabled = false
-        self.sequencerStepInterval = sequencerStepInterval_default
-        
-        computeTransforms()
+        // self.sequencerEnabled = false
+        // self.sequencerStepInterval = sequencerStepInterval_default
+        updateModelview()
     }
     
     func draw() {
         
-        sequencerStep()
-        
         // From orbiting teapot
-        // I think this needs to be here to clear prev. picture
+        // I think this needs to be called once per frame . . . .
         glClear(GLbitfield(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
         
-        // update all effects
-        
-        for e in effects {
-            e.value.transform.modelviewMatrix = self.modelviewMatrix
-        }
-        
-        // draw all effects
-        
+        sequencerStep()
         for e in effects {
             e.value.draw()
         }

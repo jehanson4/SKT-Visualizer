@@ -43,35 +43,32 @@ protocol ModelController {
     var alpha1: ControlParameter { get set }
     var alpha2: ControlParameter { get set }
     var T: ControlParameter { get set }
-    var beta: ControlParameter { get set }
+    // var beta: ControlParameter { get set }
+    
+    func resetControlParameters()
     
     // ======================================
-    // Graphics
+    // Graphics & POV
     // ======================================
     
     func setupGraphics()
 
+    func setAspectRatio(_ aspectRatio: Double)
+    
+    func draw()
+    
     var zoom: Double { get set }
     var povR: Double { get }
-    var povRotationAxis: (x: Double, y: Double, z: Double) { get set }
-    
-    // TODO controlparameter
     var povPhi: Double { get }
-    
-    // TODO controlparameter
     var povThetaE: Double { get }
     
-    // TODO controlparameter
+    var povRotationAxis: (x: Double, y: Double, z: Double) { get set }
     var povRotationAngle: Double { get set }
     
     // TODO replace with var pov(phi, thetaE) { get set }
     func setPOVAngularPosition(_ phi: Double, _ thetaE: Double)
     
-    func setAspectRatio(_ aspectRatio: Double)
-
-    func draw()
-
-    func resetView()
+    func resetPOV()
 
     // ====================================================
     // Effects
@@ -114,8 +111,6 @@ protocol ModelController {
     func registerModelChange()
     func addListener(forModelChange: ModelChangeListener?)
     func removeListener(forModelChange: ModelChangeListener?)
-    
-    func resetModel()
     
     
     

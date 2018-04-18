@@ -23,9 +23,10 @@ class DetailViewController: GLKViewController, ModelUser, ModelChangeListener {
 
     let panPhi_scaleFactor: Double = 0.01 // EMPIRICAL
     var panPhi_initialValue: Double = 0
-    let panTheta_e_scaleFactor: Double = -0.01 // EMPIRICAL
-    var panTheta_e_initialValue: Double = 0
-    
+
+    let panTheta_scaleFactor: Double = -0.01 // EMPIRICAL
+    var panTheta_initialValue: Double = 0
+
     var pinchZoom_initialValue: Double = 1
 
     deinit {
@@ -34,15 +35,6 @@ class DetailViewController: GLKViewController, ModelUser, ModelChangeListener {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if (model == nil) {
-            debug("viewDidLoad", "model is nil!")
-        }
-        else {
-            debug("viewDidLoad", "model is set!")
-            debug("viewDidLoad", "setting up graphics!")
-            model!.setupGraphics()
-            // model!.addListener(forModelChange: self)
-        }
 
         self.context = EAGLContext(api: .openGLES2)
         if self.context == nil {
@@ -55,22 +47,33 @@ class DetailViewController: GLKViewController, ModelUser, ModelChangeListener {
         view.context = self.context!
         view.drawableDepthFormat = .format24
         
+        if (model == nil) {
+            debug("viewDidLoad", "model is nil!")
+        }
+        else {
+            debug("viewDidLoad", "setting up graphics!")
+            model!.setupGraphics()
+            // model!.addListener(forModelChange: self)
+        }
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let dname = (segue.destination.title == nil) ? "" : segue.destination.title!
+        debug("prepare for segue", dname)
+        
+        // FIXME what about unsubscribing?
+        
         // HACK HACK HACK HACK
         if (segue.destination is ModelUser) {
+            debug("destination is a model user")
             var d2 = segue.destination as! ModelUser
             if (d2.model != nil) {
-                debug("prepare for segue", "destination's model is already set")
+                debug("destination's model is already set")
             }
             else {
-                debug("prepare for segue", "setting destination's model")
+                debug("setting destination's model")
                 d2.model = self.model
             }
-        }
-        else {
-            debug("prepare for segue", "destination is not a model user")
         }
     }
     
@@ -97,8 +100,7 @@ class DetailViewController: GLKViewController, ModelUser, ModelChangeListener {
     }
 
     func modelHasChanged(controller: ModelController?) {
-        // TODO
-        debug("modelHashChanged", "NOT IMPLEMENTED")
+        debug("modelHashChanged", "Nuthin to do")
     }
     
     
@@ -121,12 +123,12 @@ class DetailViewController: GLKViewController, ModelUser, ModelChangeListener {
 
         if (sender.state == UIGestureRecognizerState.began) {
             panPhi_initialValue = model!.povPhi
-            panTheta_e_initialValue = model!.povThetaE
+            panTheta_initialValue = model!.povThetaE
         }
         let delta = sender.translation(in: sender.view)
         model!.setPOVAngularPosition(
             panPhi_initialValue - Double(delta.x) * panPhi_scaleFactor,
-            panTheta_e_initialValue - Double(delta.y) * panTheta_e_scaleFactor
+            panTheta_initialValue - Double(delta.y) * panTheta_scaleFactor
         )
     }
     

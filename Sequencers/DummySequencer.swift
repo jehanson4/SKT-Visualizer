@@ -16,7 +16,6 @@ import Foundation
  Does nothing. Available for use as a placeholder
  */
 class DummySequencer : Sequencer {
-    typealias parameterType = Double
     
     var name: String
     var description: String?
@@ -26,7 +25,7 @@ class DummySequencer : Sequencer {
         set(newValue) { }
     }
     
-    var boundaryBehavior = BoundaryBehavior.stick
+    var boundaryCondition: BoundaryCondition = BoundaryCondition.sticky
     
     var stepSize: Double {
         get { return 1 }
@@ -49,7 +48,7 @@ class DummySequencer : Sequencer {
     
     func prepare() {}
     
-    func step() {}
+    func step() -> Bool { return false }
     
 }
 
