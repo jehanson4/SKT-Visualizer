@@ -157,6 +157,7 @@ class SKGeometry : ChangeCounted {
     private func registerChange() {
         calculateDerivedVars()
         pChangeCounter += 1
+        printDebug("registerChange", "changeCounter is now " + String(pChangeCounter))
     }
 
     // ===========================================================
@@ -448,7 +449,7 @@ class SKGeometry : ChangeCounted {
         path = ""
     }
     
-    private func printDebug(_ msg: String) {
+    private func printDebug(_ mtd: String, _ msg: String = "") {
         print("SKGeometry", msg)
     }
 

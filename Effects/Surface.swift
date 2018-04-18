@@ -50,15 +50,18 @@ class Surface : GLKBaseEffect, Effect {
     var normalBuffer: GLuint = 0
     var colorBuffer: GLuint = 0
     var indexBuffer: GLuint = 0
-    
+    var built: Bool = false
+
     init(_ geometry: SKGeometry, _ physics: SKPhysics) {
         self.geometry = geometry
-        self.geometryChangeNumber = geometry.changeNumber
+        self.geometryChangeNumber = geometry.changeNumber - 1
         self.physics = physics
-        self.physicsChangeNumber = physics.changeNumber
+        self.physicsChangeNumber = physics.changeNumber - 1
         
         super.init()
-        
+    }
+    
+    private func build() -> Bool {
         // material
         // . . . but isn't it in the color buffer? comment it out & let's see
         
@@ -79,6 +82,7 @@ class Surface : GLKBaseEffect, Effect {
         glGenVertexArraysOES(1, &vertexArray)
         buildVertexData()
         createBuffers()
+        return true
     }
     
     deinit {
@@ -208,6 +212,9 @@ class Surface : GLKBaseEffect, Effect {
     func draw() {
         if (!enabled) {
             return
+        }
+        if (!built) {
+            built = build()
         }
         
         let err0 = glGetError()

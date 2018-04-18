@@ -19,6 +19,7 @@ class Nodes : GLKBaseEffect, Effect {
     static let type = String(describing: Nodes.self)
     var name = type
     var enabled = false
+    var built = false
     
     var colorSource: ColorSource? {
         get { return nil }
@@ -43,7 +44,9 @@ class Nodes : GLKBaseEffect, Effect {
         self.physics = physics
         self.physicsChangeNumber = physics.changeNumber
         super.init()
-        
+    }
+    
+    private func build() -> Bool {
         // material
         super.colorMaterialEnabled = GLboolean(GL_TRUE)
         super.lightingType = GLKLightingType.perVertex
@@ -53,11 +56,14 @@ class Nodes : GLKBaseEffect, Effect {
         glGenVertexArraysOES(1, &vertexArray)
         buildVertexAndColorData()
         createBuffers()
+        return true
     }
     
     deinit {
+        if (built) {
         glDeleteVertexArraysOES(1, &vertexArray)
         deleteBuffers()
+        }
     }
     
     private func buildVertexAndColorData() {
@@ -117,6 +123,9 @@ class Nodes : GLKBaseEffect, Effect {
     func draw() {
         if (!enabled) {
             return
+        }
+        if (!built) {
+            built = build()
         }
         
         let err0 = glGetError()

@@ -91,11 +91,14 @@ class Scene : ModelController {
         self.sequencerLastStepTime = 0
     }
     
-    func finishSetup() {
+    func setupGraphics() {
         if (setupFinished) {
+            debug("setupGraphics", "already done; returning")
             return
         }
-    
+        
+        debug("setupGraphics", "configuring graphics")
+        
         // EMPIRICAL if last 2 args are -d, d then it doesn't show net from underside.
         // 10 and 2d seem OK
         let d = GLfloat(2.0 * geometry.r0)
@@ -129,9 +132,10 @@ class Scene : ModelController {
         // glEnable(GLenum(GL_COLOR_MATERIAL))
         // glColorMaterial(GLenum(GL_FRONT), GLenum(GL_AMBIENT_AND_DIFFUSE))
         
-        computeTransforms()
-        registerSequencers()
         registerColorSources()
+        registerSequencers()
+
+        computeTransforms()
         registerEffects()
     
         setupFinished = true
@@ -204,6 +208,7 @@ class Scene : ModelController {
     }
     
     private func registerSequencers() {
+        debug("registerSequencers")
         
         let c0 = DummySequencer()
         c0.name = "None"
@@ -301,6 +306,7 @@ class Scene : ModelController {
     }
     
     func registerColorSources() {
+        debug("registerColorSources")
         let grayCS = UniformColor(r: 0.25, g: 0.25, b: 0.25, name: "None", description: "No color source")
         registerColorSource(grayCS, true)
         
@@ -354,6 +360,8 @@ class Scene : ModelController {
     }
     
     private func registerEffects() {
+        debug("registerEffects")
+        
         registerEffect(Axes())
         registerEffect(Meridians(geometry))
         registerEffect(Net(geometry))
@@ -363,6 +371,7 @@ class Scene : ModelController {
         
         for e in effects {
             e.value.transform.projectionMatrix = projectionMatrix
+            e.value.transform.modelviewMatrix = modelviewMatrix
         }
     }
     

@@ -18,7 +18,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, ModelUser, 
             debug("viewDidLoad", "model is nil. Gonna crash.")
         }
         else {
-            model!.finishSetup()
+            model!.setupGraphics()
             model!.addListener(forModelChange: self)
         }
         super.viewDidLoad()

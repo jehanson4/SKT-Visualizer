@@ -97,10 +97,9 @@ class Icosahedron : GLKBaseEffect, Effect {
     var vertexBuffer: GLuint = 0
     var normalBuffer: GLuint = 0
     var indexBuffer: GLuint = 0
-    
-    override init() {
-        super.init()
-        
+    var built: Bool = false
+
+    private func build() -> Bool {
         // material
         super.colorMaterialEnabled = GLboolean(GL_TRUE)
         // super.material.ambientColor = GLKVector4Make(0.0, 0.0, 0.0, 0.0)
@@ -163,6 +162,7 @@ class Icosahedron : GLKBaseEffect, Effect {
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), 0)
         glBindBuffer(GLenum(GL_ELEMENT_ARRAY_BUFFER), 0)
         
+        return true
     }
     
     deinit {
@@ -175,6 +175,9 @@ class Icosahedron : GLKBaseEffect, Effect {
     func draw() {
         if (!enabled) {
             return
+        }
+        if (!built) {
+            built = build()
         }
         glBindVertexArrayOES(vertexArray)
         prepareToDraw()

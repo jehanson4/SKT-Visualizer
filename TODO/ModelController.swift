@@ -49,6 +49,8 @@ protocol ModelController {
     // Graphics
     // ======================================
     
+    func setupGraphics()
+
     var zoom: Double { get set }
     var povR: Double { get }
     var povRotationAxis: (x: Double, y: Double, z: Double) { get set }
@@ -113,7 +115,6 @@ protocol ModelController {
     func addListener(forModelChange: ModelChangeListener?)
     func removeListener(forModelChange: ModelChangeListener?)
     
-    func finishSetup()
     func resetModel()
     
     

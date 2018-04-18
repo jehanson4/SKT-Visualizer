@@ -30,7 +30,7 @@ class K0Param : ControlParameter {
         }
     }
     
-    var valueString: String { return String(geometry.N) }
+    var valueString: String { return String(geometry.k0) }
     
     var defaultValue: Double {
         get { return Double(fDefaultValue) }

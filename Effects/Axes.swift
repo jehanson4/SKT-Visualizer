@@ -19,6 +19,7 @@ class Axes : GLKBaseEffect, Effect {
     static let type = String(describing: Axes.self)
     var name = type
     var enabled = false
+    var built: Bool = false
 
     var colorSource: ColorSource? {
         get { return nil }
@@ -34,43 +35,23 @@ class Axes : GLKBaseEffect, Effect {
         0.00, 0.00, 1.00
     ]
     
-    var vertexArray: GLuint = 0
-    var vertexBuffer: GLuint = 0
-    
-    override init() {
-        super.init()
-        super.useConstantColor = 1
-        super.constantColor = GLKVector4Make(1.0, 1.0, 1.0, 1.0)
+    private var vertexArray: GLuint = 0
+    private var vertexBuffer: GLuint = 0
 
-        // vertex array & buffer
-        glGenVertexArraysOES(1, &vertexArray)
-        glBindVertexArrayOES(vertexArray)
-
-        let vbSize = MemoryLayout<GLfloat>.stride
-        glGenBuffers(1, &vertexBuffer)
-        glBindBuffer(GLenum(GL_ARRAY_BUFFER), vertexBuffer)
-        glBufferData(GLenum(GL_ARRAY_BUFFER), vbSize * vertices.count, vertices, GLenum(GL_STATIC_DRAW))
-
-        let vaIndex = GLenum(GLKVertexAttrib.position.rawValue)
-        let vaStride = GLsizei(MemoryLayout<GLfloat>.stride * 3)
-        glEnableVertexAttribArray(vaIndex)
-        glVertexAttribPointer(vaIndex, 3, GLenum(GL_FLOAT), 0, vaStride, BUFFER_OFFSET(0))
-        
-        // finish up
-        glBindVertexArrayOES(0)
-        glBindBuffer(GLenum(GL_ARRAY_BUFFER), 0)
-
-        // print(name,"init: done")
-    }
-    
     deinit {
-        glDeleteVertexArraysOES(1, &vertexArray)
-        glDeleteBuffers(1, &vertexBuffer)
+        if (built) {
+            glDeleteVertexArraysOES(1, &vertexArray)
+            glDeleteBuffers(1, &vertexBuffer)
+        }
     }
   
     func draw() {
         if (!enabled) {
             return
+        }
+        
+        if (!built) {
+            built = build()
         }
         glBindVertexArrayOES(vertexArray);
         prepareToDraw()
@@ -81,11 +62,39 @@ class Axes : GLKBaseEffect, Effect {
 
         let err = glGetError()
         if (err != 0) {
-            debug(String(format: "draw glError 0x%x", err))
+            debug("draw", String(format: "glError 0x%x", err))
         }
     }
 
-    func debug(_ msg: String) {
-        print(name, msg)
+    private func build() -> Bool {
+        debug("build")
+        
+        super.useConstantColor = 1
+        super.constantColor = GLKVector4Make(1.0, 1.0, 1.0, 1.0)
+        
+        // vertex array & buffer
+        glGenVertexArraysOES(1, &vertexArray)
+        glBindVertexArrayOES(vertexArray)
+        
+        let vbSize = MemoryLayout<GLfloat>.stride
+        glGenBuffers(1, &vertexBuffer)
+        glBindBuffer(GLenum(GL_ARRAY_BUFFER), vertexBuffer)
+        glBufferData(GLenum(GL_ARRAY_BUFFER), vbSize * vertices.count, vertices, GLenum(GL_STATIC_DRAW))
+        
+        let vaIndex = GLenum(GLKVertexAttrib.position.rawValue)
+        let vaStride = GLsizei(MemoryLayout<GLfloat>.stride * 3)
+        glEnableVertexAttribArray(vaIndex)
+        glVertexAttribPointer(vaIndex, 3, GLenum(GL_FLOAT), 0, vaStride, BUFFER_OFFSET(0))
+        
+        // finish up
+        glBindVertexArrayOES(0)
+        glBindBuffer(GLenum(GL_ARRAY_BUFFER), 0)
+        
+        // print(name,"init: done")
+        return true
+    }
+    
+    private func debug(_ mtd: String, _ msg: String = "") {
+        print(name, mtd, msg)
     }
 }

@@ -58,9 +58,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let detailViewController = splitViewController.viewControllers.last as? DetailViewController
             else { fatalError() }
         
+        debug("configureControllers", "setting master view controller's model")
         masterViewController.model = self.model
+
+        debug("configureControllers", "setting detail view controller's model")
         detailViewController.model = self.model
     }
 
+    private func debug(_ mtd: String, _ msg: String = "") {
+        print("AppDelegate", mtd, msg);
+    }
 }
 

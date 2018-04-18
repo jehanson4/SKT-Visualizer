@@ -19,6 +19,7 @@ class Meridians : GLKBaseEffect, Effect {
     static let type = String(describing: Meridians.self)
     var name = type
     var enabled = false
+    var built: Bool = false
 
     var colorSource: ColorSource? {
         get { return nil }
@@ -41,15 +42,18 @@ class Meridians : GLKBaseEffect, Effect {
 
     init(_ geometry: SKGeometry) {
         self.geometry = geometry
-        self.geometryChangeNumber = geometry.changeNumber
+        self.geometryChangeNumber = geometry.changeNumber - 1
         super.init()
-
+    }
+    
+    private func build() -> Bool {
         super.useConstantColor = 1
         super.constantColor = GLKVector4Make(0.0, 0.0, 1.0, 1.0)
         
         glGenVertexArraysOES(1, &vertexArray)
         buildVertexData()
         createBuffers()
+        return true
     }
     
     deinit {
@@ -110,6 +114,9 @@ class Meridians : GLKBaseEffect, Effect {
     func draw() {
         if (!enabled) {
             return
+        }
+        if (!built) {
+            built = build()
         }
         
         let newCount = geometry.changeNumber

@@ -40,28 +40,34 @@ class Net : GLKBaseEffect, Effect {
     var indices: [GLuint] = []
     var lineArrayLengths: [GLsizei] = []
     var lineArrayOffsets: [UnsafeRawPointer?] = []
-
+    var built: Bool = false
+    
     init(_ geometry: SKGeometry) {
         self.geometry = geometry
-        self.geometryChangeNumber = geometry.changeNumber
+        self.geometryChangeNumber = geometry.changeNumber - 1
 
         super.init()
+    }
+    
+    deinit {
+        if (built) {
+            glDeleteVertexArraysOES(1, &vertexArray)
+            deleteBuffers()
+        }
+    }
+    
+    private func build() -> Bool {
         super.useConstantColor = 1
         super.constantColor = lineColor
         
         glGenVertexArraysOES(1, &vertexArray)
         buildVertexData()
         createBuffers()
-    }
-    
-    deinit {
-        glDeleteVertexArraysOES(1, &vertexArray)
-        deleteBuffers()
+        return true
     }
     
     private func buildVertexData() {
-        // print(name, "buildVertexData start")
-        
+
         // =========================================
         // vertex data & array allocation
         // # ellipse lines = nMax+1
@@ -76,7 +82,9 @@ class Net : GLKBaseEffect, Effect {
         let indexCount = 2 * geometry.nodeCount
         let lineCount = mMax + nMax + 2
         
+        debug("buildVertexData", "old #vertices: " + String(vertices.count))
         self.vertices = buildVertexCoordinateArray(geometry)
+        debug("buildVertexData", "new #vertices: " + String(vertices.count))
         
         self.indices = Array(repeating: 0, count: indexCount)
         self.lineArrayLengths = Array(repeating: 0, count: lineCount)
@@ -113,13 +121,14 @@ class Net : GLKBaseEffect, Effect {
             }
         }
         
-        self.lineArrayOffsets = makeIndexBufferOffsets(lineStarts)
+        let ibSize = MemoryLayout<GLuint>.size
+        self.lineArrayOffsets = Net.makeIndexBufferOffsets(lineStarts, ibSize)
+        
         // print(name, "buildVertexData done")
     }
     
-    private func makeIndexBufferOffsets(_ ibIndices: [Int]) -> [UnsafeRawPointer?] {
+    private static func makeIndexBufferOffsets(_ ibIndices: [Int], _ ibSize: Int) -> [UnsafeRawPointer?] {
         let len = ibIndices.count
-        let ibSize = MemoryLayout<GLuint>.size
         var ibOffsets = Array<UnsafeRawPointer?>(repeating: nil, count: len)
         for i in 0..<len {
             ibOffsets[i] = BUFFER_OFFSET(ibSize * ibIndices[i])
@@ -173,11 +182,14 @@ class Net : GLKBaseEffect, Effect {
         if (!enabled) {
             return
         }
+        if (!built) {
+            built = build()
+        }
         
-        let newCount = geometry.changeNumber
-        if (newCount != geometryChangeNumber) {
+        let gCount = geometry.changeNumber
+        if (gCount != geometryChangeNumber) {
             debug("rebuilding...")
-            geometryChangeNumber = newCount
+            geometryChangeNumber = gCount
             deleteBuffers()
             buildVertexData()
             createBuffers()
@@ -193,10 +205,11 @@ class Net : GLKBaseEffect, Effect {
         // debugDraw1()
         // debugDraw2()
         // debugDraw3()
-        
+
         let lineCount = lineArrayLengths.count
         for line in 0..<lineCount {
-            // print("SKNet.draw", "line:", line)
+            // debug("draw","line " + String(line+1) + " of " + String(lineCount))
+
             glDrawElements(GLenum(GL_LINE_STRIP),
                                 lineArrayLengths[line],
                                 GLenum(GL_UNSIGNED_INT),
@@ -211,8 +224,8 @@ class Net : GLKBaseEffect, Effect {
         glBindVertexArrayOES(0)
     }
     
-    func debug(_ msg: String) {
-        print(name, msg)
+    func debug(_ mtd: String, _ msg: String = "") {
+        print(name, mtd, msg)
     }
 
 //    // =============================================================================

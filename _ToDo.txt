@@ -2,6 +2,7 @@
 ToDo.txt
 ==================================================================================
 
+[ ] alpha2 stepper
 [ ] sequencers vs. steppers
 
     settable bounds are only useful in sequencers.

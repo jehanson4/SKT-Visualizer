@@ -59,3 +59,8 @@ Who create the scene?
 Currently detailviewcontroller creates it
 the app delegate should create it but it should NOT create things that expects a view.
 
+=================================
+
+make threading issue appear: click a stepper.
+somebody gets unhappy about the part that's updating model controls
+

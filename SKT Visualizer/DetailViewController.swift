@@ -28,24 +28,22 @@ class DetailViewController: GLKViewController, ModelUser, ModelChangeListener {
     
     var pinchZoom_initialValue: Double = 1
 
-//    init() {
-//        super.init()
-//    }
-
     deinit {
-        print("DetailViewController.deinit")
+            print("DetailViewController.deinit")
     }
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         if (model == nil) {
-            debug("viewDidLoad", "model is nil. Gonna crash.")
+            debug("viewDidLoad", "model is nil!")
         }
         else {
-            model!.finishSetup()
-            model!.addListener(forModelChange: self)
+            debug("viewDidLoad", "model is set!")
+            debug("viewDidLoad", "setting up graphics!")
+            model!.setupGraphics()
+            // model!.addListener(forModelChange: self)
         }
-        super.viewDidLoad()
-        
+
         self.context = EAGLContext(api: .openGLES2)
         if self.context == nil {
             NSLog("Failed to create ES context")
@@ -60,33 +58,28 @@ class DetailViewController: GLKViewController, ModelUser, ModelChangeListener {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        debug("prepare for segue")
-        
-        
-        // FIXME what about unsubscribing?
         // HACK HACK HACK HACK
         if (segue.destination is ModelUser) {
-            debug("destination is a model user")
             var d2 = segue.destination as! ModelUser
             if (d2.model != nil) {
-                debug("destination's model is already set")
+                debug("prepare for segue", "destination's model is already set")
             }
             else {
-                debug("setting destination's model")
+                debug("prepare for segue", "setting destination's model")
                 d2.model = self.model
             }
         }
-
+        else {
+            debug("prepare for segue", "destination is not a model user")
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        print("DetailViewController.viewWillDisappear")
+        debug("viewWillDisappear")
     }
     
     override func removeFromParentViewController() {
-        print("DetailViewController.removeFromParentViewController")
-        print("detail.definesPresentationContex", self.definesPresentationContext)
-        print("detail.modalPresentationStyle", self.modalPresentationStyle.rawValue)
+        debug("removeFromParentViewController")
         super.removeFromParentViewController()
     }
     
@@ -157,6 +150,6 @@ class DetailViewController: GLKViewController, ModelUser, ModelChangeListener {
     }
     
     private func debug(_ mtd: String, _ msg: String = "") {
-        print("DetailViewController", mtd, msg)
+        print(name, mtd, msg)
     }
 }
