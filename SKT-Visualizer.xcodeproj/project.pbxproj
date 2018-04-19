@@ -324,17 +324,6 @@
 			path = ControlParameters;
 			sourceTree = "<group>";
 		};
-		8A3C45AE208615E200A1E9CD /* PhysicalProperties */ = {
-			isa = PBXGroup;
-			children = (
-				8A3C45AF2086160A00A1E9CD /* Energy.swift */,
-				8A3C45B12086162F00A1E9CD /* PhysicalProperty.swift */,
-				8A3C45B32086165500A1E9CD /* Entropy.swift */,
-				8A3C45B52086167E00A1E9CD /* LogOccupation.swift */,
-			);
-			path = PhysicalProperties;
-			sourceTree = "<group>";
-		};
 		8A3C45B72086185B00A1E9CD /* TODO */ = {
 			isa = PBXGroup;
 			children = (
@@ -468,7 +457,10 @@
 		8AF5320C2088B63E009D1882 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				8A3C45AE208615E200A1E9CD /* PhysicalProperties */,
+				8A3C45AF2086160A00A1E9CD /* Energy.swift */,
+				8A3C45B12086162F00A1E9CD /* PhysicalProperty.swift */,
+				8A3C45B32086165500A1E9CD /* Entropy.swift */,
+				8A3C45B52086167E00A1E9CD /* LogOccupation.swift */,
 				8AF5320620881A77009D1882 /* BasinFinder.swift */,
 				8A0C09A520716B670017AC4C /* SKGeometry.swift */,
 				8AA0637C207A89DD00BB68DB /* SKPhysics.swift */,
