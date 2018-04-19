@@ -14,8 +14,8 @@ import Foundation
 
 class BetaParam: ControlParameter {
 
-    let name: String = "\u{03B2}"
-    var description: String? = "1/T"
+    let name: String = "1/T"
+    var description: String? = nil
     
     let bounds: (min: Double, max: Double) = (SKPhysics.beta_min, SKPhysics.beta_max)
     

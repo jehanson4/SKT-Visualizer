@@ -17,7 +17,7 @@ class TParam : ControlParameter {
     let name = "T"
     var description: String? = "Temperature"
     
-    let bounds: (min: Double, max: Double) = (SKPhysics.T_min, SKPhysics.T_max)
+    let bounds: (min: Double, max: Double) = (SKPhysics.T_defaultLowerBound, SKPhysics.T_defaultUpperBound)
     
     var defaultValue: Double {
         get { return fDefaultValue }
@@ -70,7 +70,7 @@ class TParam : ControlParameter {
     init(_ model: ModelController1, _ physics: SKPhysics) {
         self.model = model
         self.physics = physics
-        self.fDefaultValue = SKPhysics.T_default
+        self.fDefaultValue = SKPhysics.T_defaultValue
         self.fDefaultStepSize = SKPhysics.T_defaultStepSize
         self.fStepSize = fDefaultStepSize
         // don't modify physics.T here.

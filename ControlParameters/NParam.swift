@@ -34,7 +34,7 @@ class NParam : ControlParameter {
     var defaultValue: Double {
         get { return Double(fDefaultValue) }
         set(newValue) {
-            let v2 = clip(Int(floor(newValue)), SKGeometry.N_min, SKGeometry.N_max)
+            let v2 = clip(Int(floor(newValue)), SKGeometry.N_defaultLowerBound, SKGeometry.N_defaultUpperBound)
             if (v2 == fDefaultValue) { return }
             fDefaultValue = v2
             model.registerModelChange()

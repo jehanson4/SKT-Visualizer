@@ -1,0 +1,24 @@
+
+h3, h3, h4 {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.h2-dropcap {
+    color: #903;
+    float: left;
+    font-family: Arial, Helvetica, sals-serif;
+    font-size: 40px;
+    line-height: 30px;
+    padding-top: 4px;
+    padding-right: 8px;
+    padding-left: 3px;
+}
+
+.quicklink {
+    text-align: right;
+}
+
+.faq {
+    font-style: italic;
+    font-weight: bold;
+}

@@ -17,12 +17,13 @@ class K0Param : ControlParameter {
 
     let name: String = "k0"
     var description: String? = "Distance bewteen p1 and p2"
-    
-    let bounds: (min: Double, max: Double) = (Double(SKGeometry.k0_min), Double(SKGeometry.k0_max))
+        
+    let bounds: (min: Double,max: Double) = (Double(SKGeometry.k0_defaultLowerBound), Double(SKGeometry.k0_defaultUpperBound))
     
     var value: Double {
         get { return Double(geometry.k0) }
         set(newValue) {
+            // TODO decide whether to use bounds of SKGeometry or this parameter
             let v2 = clip(Int(floor(newValue)), SKGeometry.k0_min, SKGeometry.k0_max)
             if (v2 == geometry.k0) { return }
             geometry.k0 = v2

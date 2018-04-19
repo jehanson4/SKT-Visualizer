@@ -2,11 +2,30 @@
 ToDo.txt
 ==================================================================================
 
-[ ] --- instead of None
+[ ] KForFixedKOverN
 
 ====================================
 
-[ ] a1 & a2 steppers not init'ed right. they get fixed by a reset
+[ ] String(10) => \(10)
+
+[ ] sequencer params take their initial values from control parameter defaults
+    as found at sequencer creation time, but are independent thereafter
+    bounds
+    stepSize
+
+[ ] page 2 has ui section for 'Parameter Defaults'
+    INDEPENDENT from sequencer params
+    look like CP wigets but have 1 extra nesting for parameter name
+    parameter-defaults can be in a scrollview
+
+[ ] sequencer numeric controls look like CP widgets
+[ ] stepsize widget in sequencer controls
+
+[ ] CP's clip value to their own bounds
+
+[ ] Int and Double flavors for ControlParameter
+
+[?] generalize ControlParameter so it can be used for sequencers & first-level-parameter defaults
 
 [ ] when user changes the sequencer, the old one gets sgn=0 and the new one does too
 
@@ -14,23 +33,17 @@ ToDo.txt
     no!
     impl it in the caller
 
-once we've got reasonable bounds the OK to put the system inside them
+[ ] decide when it's appropriate to put the value inside the sequencer's bounds
+    ? on enable
+    ? never
 
-[ ] reasonable bounds on sequencer that are not overwritten.
-    prepare/reset DOES NOT forget them
-    reset model does not forget them
-
-    needs to wait for the partition into model/visualizaiton/presentation
-
-[ ] popover scrolling list instead of picker
+[?] popover scrolling list instead of picker
 
 [ ] set a func whenever bounds changes so I don't have to go thru the switch
 
-[ ] instead of PhysicalProperty.type, make an enum
-    ditto the other things
+[ ] instead of PhysicalProperty.type, make an enum. ditto for anything else that uses a "type"
 
-[ ] width of text widget stretches automatically to fix ....
-    a priority thing?
+[ ] width of text widget stretches automatically to fix . . . a priority thing?
 
 [ ] show something on startup
 
@@ -39,7 +52,7 @@ once we've got reasonable bounds the OK to put the system inside them
 [ ] when sequencer is running the controler parameter text fields all read-only
     deltas and steppers OK
 
-[ ] reflect flaps if initial is outside range
+[ ] BUG reflect flaps if initial is outside range
 
 [ ] I think we're looking at the underside of the hemisphere
 
@@ -57,20 +70,22 @@ once we've got reasonable bounds the OK to put the system inside them
 
     MAYBE we can put the control-param deltas & sequencer bounds into Visualization?
 
-[ ] enum for the major parts
+[ ] enum for the major app parts
     so a sequencer (or UI control action or etc) can tell the app which kinds of part-change
-    to send to which sets of listeners. Note the plural
+    might need updating, so the app can send the rignt events its listeners.
 
-    not enum: use bitmasks
+    Note the plural
+
+    not enum: use bitmasks or tuples
+
+[ ] a single registerChange method that lets a sender say, "both Visualization and Model have changed"
+    etc
 
 [ ] Recursive Embedded Definition
 
 [ ] sequencers that simulate dynamics of a population of points
     steepest descent
     diffusion
-
-[ ]  basin finder option to do a given # of iterations
-    use that do make a sequencer
 
 [ ] all the reset / revert mtds return Boolean "changed", so Scene.reset mtds can
     reduce # model change events it fires

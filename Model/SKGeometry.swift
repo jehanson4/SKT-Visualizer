@@ -67,11 +67,15 @@ class SKGeometry : ChangeCounted {
     static let N_max: Int = 10000000 // rather less than sqrt(Int.max)
     static let N_default: Int = 100
     static let N_defaultStepSize: Int = 2
+    static let N_defaultLowerBound: Int = 4
+    static let N_defaultUpperBound: Int = 500
     
     static let k0_min: Int = 1
     static let k0_max: Int = N_max / 2
     static let k0_default: Int = N_default / 2
     static let k0_defaultStepSize: Int = 1
+    static let k0_defaultLowerBound: Int = 1
+    static let k0_defaultUpperBound: Int = N_default / 2
     
     var N: Int {
         get { return fN }

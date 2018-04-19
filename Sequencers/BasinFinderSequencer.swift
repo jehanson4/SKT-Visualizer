@@ -14,7 +14,7 @@ import Foundation
 
 class BasinFinderSequencer :  Sequencer {
     
-    static var type = "Basin Expansion"
+    static var type = "Basin Finding"
     
     var name: String = type
     
@@ -32,8 +32,8 @@ class BasinFinderSequencer :  Sequencer {
     }
     
     var boundaryCondition: BoundaryCondition {
-        get { return BoundaryCondition.sticky }
-        set {}
+        get { return fBC }
+        set(newBC) {}
     }
     
     var stepSize: Double {
@@ -64,12 +64,17 @@ class BasinFinderSequencer :  Sequencer {
     private var fBounds: (min: Int, max: Int)
     private var fStepSize: Int
     private var fStepSgn: Int
+    private var fBC: BoundaryCondition
+    private var applyBC: (inout Int, inout Int, Int, (min: Int, max: Int)) -> ()
+    
     
     init(_ basinFinder: BasinFinder) {
         self.basinFinder = basinFinder
         self.fBounds = (min: BasinFinder.stepCount_min, max: BasinFinder.stepCount_max)
         self.fStepSize = 1
         self.fStepSgn = 0
+        self.fBC = BoundaryCondition.sticky
+        self.applyBC = getBCFuncForInt(bc: self.fBC)
     }
     
     func prepare() {
@@ -77,6 +82,9 @@ class BasinFinderSequencer :  Sequencer {
     }
     
     func step() -> Bool {
+        
+        // TODO figure out how to apply the BC
+        
         for _ in 0..<fStepSize {
             if (!basinFinder.canStep) { break }
             basinFinder.extendBasins()

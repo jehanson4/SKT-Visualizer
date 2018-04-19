@@ -17,7 +17,7 @@ class Alpha1Param : ControlParameter {
     let name: String = "\u{03B1}1"
     var description: String? = "Depth of the energy well centered on p1"
     
-    let bounds: (min: Double, max: Double) = (SKPhysics.alpha_min, SKPhysics.alpha_max)
+    let bounds: (min: Double, max: Double) = (SKPhysics.alpha_defaultLowerBound, SKPhysics.alpha_defaultUpperBound)
 
     var defaultValue: Double {
         get { return fDefaultValue }
@@ -70,7 +70,7 @@ class Alpha1Param : ControlParameter {
     init(_ model: ModelController1, _ physics: SKPhysics) {
         self.model = model
         self.physics = physics
-        self.fDefaultValue = SKPhysics.alpha_default
+        self.fDefaultValue = SKPhysics.alpha_defaultValue
         self.fDefaultStepSize  = SKPhysics.alpha_defaultStepSize
         self.fStepSize = fDefaultStepSize
     }

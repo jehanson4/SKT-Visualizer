@@ -384,7 +384,7 @@ class Scene : ModelController1 {
             let entropyCS = PhysicalPropertyColorSource(entropyProp!, linearColorMap)
             registerColorSource(entropyCS, false)
             
-            let degeneracyCS = PhysicalPropertyColorSource(entropyProp!, logColorMap, name: "Degeneracy", description: "Number of SK states mapped onto a given point")
+            let degeneracyCS = PhysicalPropertyColorSource(entropyProp!, logColorMap, name: "Degeneracy", description: "#states in SK space mapped onto a given point on the surface")
             registerColorSource(degeneracyCS, false)
 
         }
