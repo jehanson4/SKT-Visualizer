@@ -13,11 +13,11 @@ import OpenGLES
 import OpenGL
 #endif
 
-class DetailViewController: GLKViewController, ModelUser, ModelChangeListener {
+class DetailViewController: GLKViewController, ModelUser1, ModelChangeListener1 {
     
     let name: String = "DetailViewController"
     
-    var model: ModelController? = nil
+    var model: ModelController1? = nil
     
     var context: EAGLContext? = nil
 
@@ -64,9 +64,9 @@ class DetailViewController: GLKViewController, ModelUser, ModelChangeListener {
         // FIXME what about unsubscribing?
         
         // HACK HACK HACK HACK
-        if (segue.destination is ModelUser) {
+        if (segue.destination is ModelUser1) {
             debug("destination is a model user")
-            var d2 = segue.destination as! ModelUser
+            var d2 = segue.destination as! ModelUser1
             if (d2.model != nil) {
                 debug("destination's model is already set")
             }
@@ -99,7 +99,7 @@ class DetailViewController: GLKViewController, ModelUser, ModelChangeListener {
         }
     }
 
-    func modelHasChanged(controller: ModelController?) {
+    func modelHasChanged(controller: ModelController1?) {
         debug("modelHashChanged", "Nuthin to do")
     }
     

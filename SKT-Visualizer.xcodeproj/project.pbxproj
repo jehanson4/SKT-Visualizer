@@ -36,7 +36,7 @@
 		8A40BC0E207EEA3D00F2D2EB /* Meridians.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A40BC0D207EEA3D00F2D2EB /* Meridians.swift */; };
 		8A41A2EF2083722900CDDF28 /* POVRotationAngle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A41A2EE2083722900CDDF28 /* POVRotationAngle.swift */; };
 		8A41A2F2208398E900CDDF28 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A41A2F1208398E900CDDF28 /* Constants.swift */; };
-		8A47BEC72085081400784B40 /* ModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A47BEC62085081400784B40 /* ModelController.swift */; };
+		8A47BEC72085081400784B40 /* ModelController1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A47BEC62085081400784B40 /* ModelController1.swift */; };
 		8A47BECD208579B300784B40 /* ControlParameterSequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A47BECC208579B300784B40 /* ControlParameterSequencer.swift */; };
 		8A575FEE20804759002B9951 /* ColorMaps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A575FED20804759002B9951 /* ColorMaps.swift */; };
 		8A57600320805790002B9951 /* smooth-cool-warm-table-float-0128.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8A575FF320805790002B9951 /* smooth-cool-warm-table-float-0128.csv */; };
@@ -137,7 +137,7 @@
 		8A40BC0D207EEA3D00F2D2EB /* Meridians.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Meridians.swift; sourceTree = "<group>"; };
 		8A41A2EE2083722900CDDF28 /* POVRotationAngle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POVRotationAngle.swift; sourceTree = "<group>"; };
 		8A41A2F1208398E900CDDF28 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		8A47BEC62085081400784B40 /* ModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelController.swift; sourceTree = "<group>"; };
+		8A47BEC62085081400784B40 /* ModelController1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelController1.swift; sourceTree = "<group>"; };
 		8A47BECC208579B300784B40 /* ControlParameterSequencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlParameterSequencer.swift; sourceTree = "<group>"; };
 		8A575FED20804759002B9951 /* ColorMaps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorMaps.swift; sourceTree = "<group>"; };
 		8A575FF320805790002B9951 /* smooth-cool-warm-table-float-0128.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "smooth-cool-warm-table-float-0128.csv"; sourceTree = "<group>"; };
@@ -335,7 +335,7 @@
 			children = (
 				8A41A2EE2083722900CDDF28 /* POVRotationAngle.swift */,
 				8A19CD8A208248B100C1EADE /* NForFixedKOverN.swift */,
-				8A47BEC62085081400784B40 /* ModelController.swift */,
+				8A47BEC62085081400784B40 /* ModelController1.swift */,
 				8A0C09AB20718FA00017AC4C /* Scene.swift */,
 				8AE48BB820876EB1001B5D11 /* PointOfView.swift */,
 			);
@@ -601,7 +601,7 @@
 				8AE48BB720876676001B5D11 /* ControlParameter2.swift in Sources */,
 				8A84313820726F0100F06B9B /* Axes.swift in Sources */,
 				8A3C45A5208614AE00A1E9CD /* TParam.swift in Sources */,
-				8A47BEC72085081400784B40 /* ModelController.swift in Sources */,
+				8A47BEC72085081400784B40 /* ModelController1.swift in Sources */,
 				8A3C45C42086214D00A1E9CD /* PhysicalPropertyColorSource.swift in Sources */,
 				8ABEEC3B20803A2F008E72F4 /* Surface.swift in Sources */,
 				8ACE788F2073C57500C29875 /* Effect.swift in Sources */,

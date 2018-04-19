@@ -64,13 +64,13 @@ class K0Param : ControlParameter {
         }
     }
     
-    private var model: ModelController!
+    private var model: ModelController1!
     private var geometry: SKGeometry!
     private var fDefaultValue: Int
     private var fDefaultStepSize: Int
     private var fStepSize: Int
     
-    init(_ model: ModelController, _ geometry: SKGeometry) {
+    init(_ model: ModelController1, _ geometry: SKGeometry) {
         self.model = model
         self.geometry = geometry
         self.fDefaultValue = SKGeometry.k0_default

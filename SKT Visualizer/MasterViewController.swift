@@ -8,11 +8,11 @@
 
 import UIKit
 
-class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, ModelUser, ModelChangeListener {
+class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, ModelUser1, ModelChangeListener1 {
     
     let name = "MasterViewController"
     
-    var model: ModelController? = nil
+    var model: ModelController1? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,7 +47,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         }
     }
 
-    private func updateAllControls(_ mm: ModelController) {
+    private func updateAllControls(_ mm: ModelController1) {
         updateParamControls(mm)
         updateEffectControls(mm)
         updateSequencerControls(mm)
@@ -66,9 +66,9 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         // FIXME what about unsubscribing?
         
         // HACK HACK HACK HACK
-        if (segue.destination is ModelUser) {
+        if (segue.destination is ModelUser1) {
             debug("destination is a model user")
-            var d2 = segue.destination as! ModelUser
+            var d2 = segue.destination as! ModelUser1
             if (d2.model != nil) {
                 debug("destination's model is already set")
             }
@@ -264,7 +264,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     //        }
     //    }
     
-    private func updateParamControls(_ mm: ModelController) {
+    private func updateParamControls(_ mm: ModelController1) {
         
         N_text.text = mm.N.valueString
         
@@ -309,7 +309,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         //        beta_stepper.stepValue = mm.beta.stepSize
     }
     
-    func modelHasChanged(controller: ModelController?) {
+    func modelHasChanged(controller: ModelController1?) {
         debug("modelHasChanged")
         if (model != nil) {
             updateAllControls(model!)
@@ -330,7 +330,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     @IBAction func axes_action(_ sender: UISwitch) {
         // message("axes_action: sender.isOn=", sender.isOn)
         if (model != nil) {
-            let mm: ModelController = model!
+            let mm: ModelController1 = model!
             var effect = mm.getEffect(Axes.type)
             if (effect != nil) {
                 effect!.enabled = sender.isOn
@@ -343,7 +343,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     
     @IBAction func meridians_action(_ sender: UISwitch) {
         if (model != nil) {
-            let mm: ModelController = model!
+            let mm: ModelController1 = model!
             var effect = mm.getEffect(Meridians.type)
             if (effect != nil) {
                 effect!.enabled = sender.isOn
@@ -356,7 +356,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     
     @IBAction func net_action(_ sender: UISwitch) {
         if (model != nil) {
-            let mm: ModelController = model!
+            let mm: ModelController1 = model!
             var effect = mm.getEffect(Net.type)
             if (effect != nil) {
                 effect!.enabled = sender.isOn
@@ -369,7 +369,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     
     @IBAction func surface_action(_ sender: UISwitch) {
         if (model != nil) {
-            let mm: ModelController = model!
+            let mm: ModelController1 = model!
             var effect = model!.getEffect(Surface.type)
             if (effect != nil) {
                 if (mm.selectedColorSource != nil) {
@@ -385,7 +385,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     
     @IBAction func nodes_action(_ sender: UISwitch) {
         if (model != nil) {
-            let mm: ModelController = model!
+            let mm: ModelController1 = model!
             var effect = mm.getEffect(Nodes.type)
             if (effect != nil) {
                 effect!.enabled = sender.isOn
@@ -428,7 +428,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     //            //            icosahedron_switch.isEnabled = false
     //    }
     
-    func updateEffectControls(_ ee: ModelController) {
+    func updateEffectControls(_ ee: ModelController1) {
         var axes = ee.getEffect(Axes.type)
         axes_switch.isEnabled = (axes != nil)
         axes_switch.isOn = (axes != nil && axes!.enabled)
@@ -535,7 +535,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         }
     }
     
-    func updateColorSourceControls(_ ss: ModelController) {
+    func updateColorSourceControls(_ ss: ModelController1) {
         let name = ss.selectedColorSource?.name
         if (name == nil) { return }
         
@@ -614,7 +614,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         }
     }
     
-    func updateSequencerControls(_ mm: ModelController) {
+    func updateSequencerControls(_ mm: ModelController1) {
         if (mm.selectedSequencer == nil) {
             return
         }

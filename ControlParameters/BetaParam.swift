@@ -61,13 +61,13 @@ class BetaParam: ControlParameter {
 
     var stepSizeString: String { return prettyString(fStepSize) }
 
-    private var model: ModelController!
+    private var model: ModelController1!
     private var physics: SKPhysics!
     private var fDefaultValue: Double
     private var fDefaultStepSize: Double
     private var fStepSize: Double
         
-    init(_ model: ModelController, _ physics: SKPhysics) {
+    init(_ model: ModelController1, _ physics: SKPhysics) {
         self.model = model
         self.physics = physics
         self.fDefaultValue = SKPhysics.beta_default

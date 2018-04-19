@@ -12,7 +12,7 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var model: ModelController?
+    var model: ModelController1?
     
     override init() {
         super.init()

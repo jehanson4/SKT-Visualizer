@@ -2,9 +2,10 @@
 ToDo.txt
 ==================================================================================
 
-fx text wd -- it's a priority thing
+with of text widget stretches automatically to fix ....
+    a priority thing?
 
-a1 & a2 steppers not init'ed right
+a1 & a2 steppers not init'ed right. they get fixed by a reset
 
 show something on startup
 
@@ -12,12 +13,27 @@ sequencer check status after step
 
 Ooccupation
 
-'reasonable' bounds on sequener.
-prepare/reset DOES NOT forget them
+'reasonable' bounds on sequencer that are not overwritten.
+    prepare/reset DOES NOT forget them
 
 reflect flaps if initial is outside range
 
------
+I think we're looking at the underside of the hemisphere
+
+[ ] 1 app consisting of:
+    model (geometry, physics incl. PhysicalProperties)
+    visualization (color sources)
+    presentation(effects, sequencers, POV, GL settings)
+    UI (Master, Settings, Display)
+
+    ModelController
+    VisualizationController
+    PresentationController
+
+    protocol & associated user/listener protocol for each
+
+[ ] when user changes the sequencer, the old one gets sgn=0 and the new one does too
+    once we've got reasonable bounds the OK to put the system inside them
 
 [ ] Recursive Embedded Definition
 
@@ -30,6 +46,4 @@ reflect flaps if initial is outside range
 
 [ ] all the reset / revert mtds return Boolean "changed", so Scene.reset mtds can
     reduce # model change events it fires
-
-[ ] Q: best way to do swift dictionary keyset -> array of values
 

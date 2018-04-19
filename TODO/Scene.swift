@@ -17,7 +17,7 @@ import OpenGL
 
 // ============================================================================
 
-class Scene : ModelController {
+class Scene : ModelController1 {
     
     // ======================================================
     // Control parameters
@@ -87,7 +87,7 @@ class Scene : ModelController {
     // var projectionMatrix: GLKMatrix4!
     // var modelviewMatrix: GLKMatrix4!
 
-    var modelChangeListeners: [ModelChangeListener] = []
+    var modelChangeListeners: [ModelChangeListener1] = []
 
     // ======================================================
 
@@ -197,13 +197,13 @@ class Scene : ModelController {
     // Listeners
     // ==========================================================
 
-    func addListener(forModelChange listener: ModelChangeListener?) {
+    func addListener(forModelChange listener: ModelChangeListener1?) {
         if (listener != nil) {
             modelChangeListeners.append(listener!)
         }
     }
     
-    func removeListener(forModelChange listener: ModelChangeListener?) {
+    func removeListener(forModelChange listener: ModelChangeListener1?) {
         if (listener != nil) {
             // TODO
             debug("removeListener", "NOT IMPLEMENETED!")

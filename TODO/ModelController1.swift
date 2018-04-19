@@ -11,19 +11,19 @@ import Foundation
 // =========================================================
 // =========================================================
 
-protocol ModelUser {
+protocol ModelUser1 {
     
-    var model: ModelController? { get set }
+    var model: ModelController1? { get set }
 }
 
 // =========================================================
 // =========================================================
 
-protocol ModelChangeListener {
+protocol ModelChangeListener1 {
     
     var name: String { get }
     
-    func modelHasChanged(controller: ModelController?)
+    func modelHasChanged(controller: ModelController1?)
     
 }
 
@@ -31,7 +31,7 @@ protocol ModelChangeListener {
 // ModelController
 // =========================================================
 
-protocol ModelController {
+protocol ModelController1 {
 
     
     // ====================================================
@@ -109,8 +109,8 @@ protocol ModelController {
     // ====================================================
     
     func registerModelChange()
-    func addListener(forModelChange: ModelChangeListener?)
-    func removeListener(forModelChange: ModelChangeListener?)
+    func addListener(forModelChange: ModelChangeListener1?)
+    func removeListener(forModelChange: ModelChangeListener1?)
     
     
     

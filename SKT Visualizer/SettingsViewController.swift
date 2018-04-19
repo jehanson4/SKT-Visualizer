@@ -7,11 +7,11 @@
 
 import UIKit
 
-class SettingsViewController: UIViewController, UITextFieldDelegate, ModelUser, ModelChangeListener {
+class SettingsViewController: UIViewController, UITextFieldDelegate, ModelUser1, ModelChangeListener1 {
 
     let name: String = "SettingsViewController"
     
-    var model: ModelController? = nil
+    var model: ModelController1? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,9 +49,9 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, ModelUser, 
         // FIXME what about unsubscribing?
         
         // HACK HACK HACK HACK
-        if (segue.destination is ModelUser) {
+        if (segue.destination is ModelUser1) {
             debug("destination is a model user")
-            var d2 = segue.destination as! ModelUser
+            var d2 = segue.destination as! ModelUser1
             if (d2.model != nil) {
                 debug("destination's model is already set")
             }
@@ -72,7 +72,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, ModelUser, 
         print("SettingsViewController", mtd, msg)
     }
     
-    func modelHasChanged(controller: ModelController?) {
+    func modelHasChanged(controller: ModelController1?) {
         if (model == nil) {
             debug("modelHasChanged", "model is nil")
         }
@@ -152,7 +152,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, ModelUser, 
     }
     
     
-    func updateModelControls(_ mm : ModelController) {
+    func updateModelControls(_ mm : ModelController1) {
             da1_text.text = String(mm.alpha1.stepSizeString)
             da2_text.text = String(mm.alpha2.stepSizeString)
             dN_text.text = String(mm.N.stepSizeString)
