@@ -22,7 +22,7 @@ class DummySequencer : Sequencer {
     
     var bounds: (min: Double, max: Double) {
         get { return (min: 0, max: 1) }
-        set(newValue) { }
+        set { }
     }
     
     var boundaryCondition: BoundaryCondition = BoundaryCondition.sticky
@@ -32,9 +32,10 @@ class DummySequencer : Sequencer {
         set { }
     }
     
-    var stepSgn: Double {
-        get { return 0 }
-        set { }
+    var stepSgn: Double  = 0 {
+        didSet(newValue) {
+            stepSgn = sgn(newValue)
+        }
     }
     
     var value: Double  {

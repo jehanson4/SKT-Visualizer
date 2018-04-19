@@ -24,7 +24,6 @@
 		8A3C45AB2086154F00A1E9CD /* NParam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3C45AA2086154F00A1E9CD /* NParam.swift */; };
 		8A3C45AD2086156D00A1E9CD /* K0Param.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3C45AC2086156D00A1E9CD /* K0Param.swift */; };
 		8A3C45B02086160A00A1E9CD /* Energy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3C45AF2086160A00A1E9CD /* Energy.swift */; };
-		8A3C45B22086162F00A1E9CD /* PhysicalProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3C45B12086162F00A1E9CD /* PhysicalProperty.swift */; };
 		8A3C45B42086165500A1E9CD /* Entropy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3C45B32086165500A1E9CD /* Entropy.swift */; };
 		8A3C45B62086167E00A1E9CD /* LogOccupation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3C45B52086167E00A1E9CD /* LogOccupation.swift */; };
 		8A3C45C42086214D00A1E9CD /* PhysicalPropertyColorSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3C45C32086214D00A1E9CD /* PhysicalPropertyColorSource.swift */; };
@@ -128,7 +127,6 @@
 		8A3C45AA2086154F00A1E9CD /* NParam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NParam.swift; sourceTree = "<group>"; };
 		8A3C45AC2086156D00A1E9CD /* K0Param.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = K0Param.swift; sourceTree = "<group>"; };
 		8A3C45AF2086160A00A1E9CD /* Energy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Energy.swift; sourceTree = "<group>"; };
-		8A3C45B12086162F00A1E9CD /* PhysicalProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicalProperty.swift; sourceTree = "<group>"; };
 		8A3C45B32086165500A1E9CD /* Entropy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entropy.swift; sourceTree = "<group>"; };
 		8A3C45B52086167E00A1E9CD /* LogOccupation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogOccupation.swift; sourceTree = "<group>"; };
 		8A3C45C32086214D00A1E9CD /* PhysicalPropertyColorSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicalPropertyColorSource.swift; sourceTree = "<group>"; };
@@ -458,7 +456,6 @@
 			isa = PBXGroup;
 			children = (
 				8A3C45AF2086160A00A1E9CD /* Energy.swift */,
-				8A3C45B12086162F00A1E9CD /* PhysicalProperty.swift */,
 				8A3C45B32086165500A1E9CD /* Entropy.swift */,
 				8A3C45B52086167E00A1E9CD /* LogOccupation.swift */,
 				8AF5320620881A77009D1882 /* BasinFinder.swift */,
@@ -618,7 +615,6 @@
 				8A3C45C62086278900A1E9CD /* UniformColor.swift in Sources */,
 				8A3C45B02086160A00A1E9CD /* Energy.swift in Sources */,
 				8AA0637D207A89DD00BB68DB /* SKPhysics.swift in Sources */,
-				8A3C45B22086162F00A1E9CD /* PhysicalProperty.swift in Sources */,
 				8A3C45CA208632DD00A1E9CD /* BetaParam.swift in Sources */,
 				8AF5320720881A77009D1882 /* BasinFinder.swift in Sources */,
 				8A19CD882082384600C1EADE /* Sequencer.swift in Sources */,

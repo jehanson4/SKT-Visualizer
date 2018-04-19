@@ -262,7 +262,7 @@ class Scene : ModelController1 {
         debug("makeSequencers")
         
         let c0 = DummySequencer()
-        c0.name = "None"
+        c0.name = "---"
         registerSequencer(c0, true)
         
         registerSequencer(ControlParameterSequencer(self.N), false)
@@ -308,6 +308,9 @@ class Scene : ModelController1 {
         else {
             debug("toggleSequencer: enabled=" + String(sequencerEnabled))
         }
+        
+        // FIXME infinite loop here sometimes, I think.
+        // Maybe if model change event we're about to fire changes the value?
         debug("toggleSequencer", "registering model change")
         registerModelChange()
     }
@@ -364,7 +367,7 @@ class Scene : ModelController1 {
     
     func makeColorSources() {
         debug("makeColorSources")
-        let grayCS = UniformColor(r: 0.25, g: 0.25, b: 0.25, name: "None", description: "Uniform dark gray")
+        let grayCS = UniformColor(r: 0.25, g: 0.25, b: 0.25, name: "---")
         registerColorSource(grayCS, true)
         
         let linearColorMap = LinearColorMap()

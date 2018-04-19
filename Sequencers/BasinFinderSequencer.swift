@@ -73,7 +73,6 @@ class BasinFinderSequencer :  Sequencer {
     }
     
     func prepare() {
-        // TODO decide what goes here
         basinFinder.reset()
     }
     

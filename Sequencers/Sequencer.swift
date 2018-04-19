@@ -34,10 +34,11 @@ protocol Sequencer {
     var stepSgn: Double { get set }
     
     var value: Double { get }
-    
+
+    // called when a sequencer is selected for use
     func prepare()
     
-    /// returns true iff it changed something other than its own state
+    /// returns true iff . . . .what?
     func step() -> Bool
 }
 

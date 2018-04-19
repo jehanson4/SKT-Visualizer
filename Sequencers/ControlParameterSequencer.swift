@@ -53,9 +53,7 @@ class ControlParameterSequencer : Sequencer {
     }
 
     func prepare() {
-        debug("prepare")
-        fStepSgn = 1.0
-        // TODO what else?
+        // TODO set fParam.value to be in bounds
     }
     
     func step() -> Bool {
@@ -67,6 +65,7 @@ class ControlParameterSequencer : Sequencer {
         
         let oldVal = fParam.value
         let newVal = oldVal + stepSgn * fParam.stepSize
+        
         if (newVal > bounds.max) {
             switch boundaryCondition {
             case .sticky:

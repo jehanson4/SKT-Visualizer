@@ -2,15 +2,32 @@
 ToDo.txt
 ==================================================================================
 
-[ ] reasonable bounds on sequencer that are not overwritten.
-    prepare/reset DOES NOT forget them
+[ ] --- instead of None
+
+====================================
 
 [ ] a1 & a2 steppers not init'ed right. they get fixed by a reset
 
 [ ] when user changes the sequencer, the old one gets sgn=0 and the new one does too
-    once we've got reasonable bounds the OK to put the system inside them
 
-====================================
+    impl the 2nd inside prepare()?
+    no!
+    impl it in the caller
+
+once we've got reasonable bounds the OK to put the system inside them
+
+[ ] reasonable bounds on sequencer that are not overwritten.
+    prepare/reset DOES NOT forget them
+    reset model does not forget them
+
+    needs to wait for the partition into model/visualizaiton/presentation
+
+[ ] popover scrolling list instead of picker
+
+[ ] set a func whenever bounds changes so I don't have to go thru the switch
+
+[ ] instead of PhysicalProperty.type, make an enum
+    ditto the other things
 
 [ ] width of text widget stretches automatically to fix ....
     a priority thing?
@@ -26,7 +43,7 @@ ToDo.txt
 
 [ ] I think we're looking at the underside of the hemisphere
 
-[ ] 1 app consisting of:
+[ ] app consists of 3 major parts
     model (geometry, physics incl. PhysicalProperties)
     visualization (color sources)
     presentation(effects, sequencers, POV, GL settings)
@@ -39,6 +56,12 @@ ToDo.txt
     protocol & associated user/listener protocol for each
 
     MAYBE we can put the control-param deltas & sequencer bounds into Visualization?
+
+[ ] enum for the major parts
+    so a sequencer (or UI control action or etc) can tell the app which kinds of part-change
+    to send to which sets of listeners. Note the plural
+
+    not enum: use bitmasks
 
 [ ] Recursive Embedded Definition
 

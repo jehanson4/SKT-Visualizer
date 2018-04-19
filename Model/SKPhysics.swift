@@ -9,6 +9,19 @@
 import Foundation
 
 // ===============================================================================
+// PhysicalProperty
+// ===============================================================================
+
+protocol PhysicalProperty {
+    var name : String { get }
+    var description : String? { get }
+    var bounds: (min: Double, max: Double) { get }
+    
+    func valueAt(nodeIndex: Int) -> Double
+    func valueAt(m: Int, n: Int) -> Double
+}
+
+// ===============================================================================
 // SKPhysics
 // ===============================================================================
 
