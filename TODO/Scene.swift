@@ -386,6 +386,10 @@ class Scene : ModelController1 {
             registerColorSource(occupationCS, false)
         }
         
+        let bbc = BasinNumberColorSource(geometry, physics)
+        bbc.showFinalCount = false
+        bbc.maxStepCount = 10
+        registerColorSource(bbc, false)
     }
     
     private func registerColorSource(_ colorSource: ColorSource, _ select: Bool) {

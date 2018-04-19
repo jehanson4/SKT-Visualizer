@@ -13,6 +13,7 @@ import Foundation
 // ========================================================================================
 
 struct SKPoint {
+    
     var nodeIndex: Int
     var m: Int
     var n: Int

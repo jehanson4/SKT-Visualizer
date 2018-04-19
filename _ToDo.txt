@@ -2,23 +2,29 @@
 ToDo.txt
 ==================================================================================
 
-with of text widget stretches automatically to fix ....
-    a priority thing?
-
-a1 & a2 steppers not init'ed right. they get fixed by a reset
-
-show something on startup
-
-sequencer check status after step
-
-Ooccupation
-
-'reasonable' bounds on sequencer that are not overwritten.
+[ ] reasonable bounds on sequencer that are not overwritten.
     prepare/reset DOES NOT forget them
 
-reflect flaps if initial is outside range
+[ ] a1 & a2 steppers not init'ed right. they get fixed by a reset
 
-I think we're looking at the underside of the hemisphere
+[ ] when user changes the sequencer, the old one gets sgn=0 and the new one does too
+    once we've got reasonable bounds the OK to put the system inside them
+
+====================================
+
+[ ] width of text widget stretches automatically to fix ....
+    a priority thing?
+
+[ ] show something on startup
+
+[ ] sequencer check status after step
+
+[ ] when sequencer is running the controler parameter text fields all read-only
+    deltas and steppers OK
+
+[ ] reflect flaps if initial is outside range
+
+[ ] I think we're looking at the underside of the hemisphere
 
 [ ] 1 app consisting of:
     model (geometry, physics incl. PhysicalProperties)
@@ -32,8 +38,7 @@ I think we're looking at the underside of the hemisphere
 
     protocol & associated user/listener protocol for each
 
-[ ] when user changes the sequencer, the old one gets sgn=0 and the new one does too
-    once we've got reasonable bounds the OK to put the system inside them
+    MAYBE we can put the control-param deltas & sequencer bounds into Visualization?
 
 [ ] Recursive Embedded Definition
 
@@ -46,4 +51,10 @@ I think we're looking at the underside of the hemisphere
 
 [ ] all the reset / revert mtds return Boolean "changed", so Scene.reset mtds can
     reduce # model change events it fires
+
+[ ] images for the 7 buttons
+    reset
+    3 for BC
+    3 for stepSgn
+
 
