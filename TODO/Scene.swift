@@ -78,6 +78,8 @@ class Scene : ModelController1 {
     
     private var geometry: SKGeometry
     private var physics: SKPhysics
+    private var basinFinder: BasinFinder
+    
     private var pov: PointOfView
     
     private var rOffset: Double = -0.001
@@ -94,6 +96,11 @@ class Scene : ModelController1 {
     init() {
         self.geometry = SKGeometry()
         self.physics = SKPhysics(geometry)
+        self.basinFinder = BasinFinder(geometry, physics)
+        
+        
+        
+        
         self.pov = PointOfView()
         
         // self.povR = povR_default
@@ -267,6 +274,8 @@ class Scene : ModelController1 {
         
         // TODO
         // registerSequencer(NForFixedKOverN(geometry), false)
+        
+        registerSequencer(BasinFinderSequencer(basinFinder), false)
     }
     
     private func registerSequencer(_ sequencer: Sequencer, _ select: Bool) {
@@ -386,9 +395,7 @@ class Scene : ModelController1 {
             registerColorSource(occupationCS, false)
         }
         
-        let bbc = BasinNumberColorSource(geometry, physics)
-        bbc.showFinalCount = false
-        bbc.maxStepCount = 10
+        let bbc = BasinNumberColorSource(basinFinder, showFinalCount: false)
         registerColorSource(bbc, false)
     }
     

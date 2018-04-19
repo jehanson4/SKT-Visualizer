@@ -48,7 +48,7 @@ func logBinomial(_ a:Int, _ b:Int) -> Double {
 }
 
 func prettyString(_ x: Double) -> String {
-    // FIXME
+    // TODO something better than tnis!
     return String(format: "%G", x)
 }
 

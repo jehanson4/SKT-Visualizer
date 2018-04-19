@@ -16,8 +16,7 @@ class BasinNumberColorSource : ColorSource {
     var description: String? = nil
     
     var basinFinder: BasinFinder
-    var showFinalCount: Bool = true
-    var maxStepCount: Int = -1
+    var showFinalCount: Bool
     
     private var basin0_color: GLKVector4 // blue
     private var basin1_color: GLKVector4 // green
@@ -25,9 +24,9 @@ class BasinNumberColorSource : ColorSource {
     private var basinBoundary_color: GLKVector4 // black
     private var noBasin_color: GLKVector4 // gray
 
-    init(_ geometry: SKGeometry, _ physics: SKPhysics) {
-        
-        self.basinFinder = BasinFinder(geometry, physics)
+    init(_ basinFinder: BasinFinder, showFinalCount: Bool = true) {
+        self.basinFinder = basinFinder
+        self.showFinalCount = showFinalCount
         self.basin0_color = GLKVector4Make(0,0,1,1)
         self.basin1_color = GLKVector4Make(0,1,0,1)
         self.otherBasin_color = GLKVector4Make(1,0,0,1)
@@ -39,11 +38,6 @@ class BasinNumberColorSource : ColorSource {
         if (showFinalCount) {
             let finalCount = basinFinder.findBasins()
             debug("prepare", "finalCount=" + String(finalCount))
-        }
-        else {
-            while (basinFinder.finalStepCount == nil && basinFinder.stepCount < maxStepCount) {
-                basinFinder.extendBasins()
-            }
         }
     }
     

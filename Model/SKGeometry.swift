@@ -64,12 +64,12 @@ struct SKPoint {
 class SKGeometry : ChangeCounted {
     
     static let N_min: Int = 3
-    static let N_max: Int = Int.max
+    static let N_max: Int = 10000000 // rather less than sqrt(Int.max)
     static let N_default: Int = 100
     static let N_defaultStepSize: Int = 2
     
     static let k0_min: Int = 1
-    static let k0_max: Int = (Int.max % 2 == 0) ? Int.max / 2 : (Int.max-1) / 2
+    static let k0_max: Int = N_max / 2
     static let k0_default: Int = N_default / 2
     static let k0_defaultStepSize: Int = 1
     

@@ -69,9 +69,16 @@ class BasinFinder {
     
     var basinCount: Int = 0
     
+    static var stepCount_min: Int = 0
+    static var stepCount_max: Int = SKGeometry.N_max
+    
     var stepCount: Int = 0
     
     var finalStepCount: Int? = nil
+    
+    var canStep: Bool {
+        return (finalStepCount == nil && stepCount < BasinFinder.stepCount_max)
+    }
     
     private var physicsChangeNumber: Int = -1
     
@@ -81,6 +88,10 @@ class BasinFinder {
         self.energy = physics.physicalProperty(Energy.type)!
     }
     
+    // =================================================================
+    // Public funcs auto-refresh
+    // =================================================================
+    
     func nodeDataAt(_ idx: Int) -> BasinFinderNodeData? {
         ensureFresh()
         return nodeData[idx]
@@ -88,23 +99,34 @@ class BasinFinder {
     
     func findBasins() -> Int {
         ensureFresh()
-        
-        if (finalStepCount != nil) {
-            return finalStepCount!
+        while (canStep) {
+            doExtendBasins()
         }
-        
-        var numNewlyAssigned = extendBasins()
-        while (numNewlyAssigned > 0) {
-             numNewlyAssigned = extendBasins()
-        }
-        finalStepCount = stepCount
         return stepCount
     }
     
-    // Does one step. Returns the number newly assigned to a basin (or identified as a boundary)
+
+    // Does one step. Returns the number newly identified, i.e., assigned to a basin or identified as a boundary
     func extendBasins() -> Int {
         ensureFresh()
-        
+        return (canStep) ? doExtendBasins() : 0
+    }
+    
+    func reset() {
+        let gnum = geometry.changeNumber
+        if (gnum != self.geometryChangeNumber) {
+            self.refreshGeometry()
+        }
+        self.resetPhysics()
+    }
+    
+    // =================================================================
+    // Private stuff does all the work
+    // =================================================================
+    
+    /// DOES NOT check canStep
+    /// DOES set finalStepCount if appropriate
+    private func doExtendBasins() -> Int {
         stepCount += 1
 
         var numAssigned = 0
@@ -173,13 +195,13 @@ class BasinFinder {
               "numAssigned=" + String(numAssigned)
                 + " numIndeterminate=" + String(numIndeterminate)
                 + " numError=" + String(numError))
+        
+        if (numAssigned == 0) {
+            finalStepCount = stepCount
+        }
         return numAssigned
     }
     
-    // =================================================================
-    // Private stuff does all the work
-    // =================================================================
-
     /// return true of all nbrs have energy > nd's. NOTE equality is NOT OK
     private func isLocalMinimum(_ nd: BasinFinderNodeData) -> Bool {
         let elemValue = getNodeValue(nd)
@@ -222,10 +244,10 @@ class BasinFinder {
         let pnum = physics.changeNumber
         if (gnum != self.geometryChangeNumber) {
             self.refreshGeometry()
-            self.refreshPhysics()
+            self.resetPhysics()
         }
         else if (pnum != self.physicsChangeNumber) {
-            self.refreshPhysics()
+            self.resetPhysics()
         }
     }
     
@@ -234,7 +256,7 @@ class BasinFinder {
         self.geometryChangeNumber = geometry.changeNumber
     }
     
-    private func refreshPhysics() {
+    private func resetPhysics() {
         self.basinCount = 0
         self.stepCount = 0
         self.finalStepCount = nil
