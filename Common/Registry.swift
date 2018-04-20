@@ -101,6 +101,22 @@ class Registry<T> {
         return newEntry
     }
     
+    // AWKWARD because I don't functional programming. Or swift, really.
+    // TODO clean this up
+    func visit(_ visitor: @escaping (T) -> ()) {
+        
+        func visitorMapper(_ entry: RegistryEntry<T>) throws {
+            visitor(entry.value!)
+        }
+        
+        do {
+            try fEntries.mapValues(visitorMapper)
+        }
+        catch {
+            // TODO something sensible
+        }
+    }
+    
     private func findUniqueName(_ hint: String?) -> String {
         let basis = (hint == nil) ? "Entry" : hint!
         var test = basis

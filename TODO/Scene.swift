@@ -18,8 +18,7 @@ import OpenGL
 // ============================================================================
 
 class Scene : ModelController1, Model, Visualization {
-    
-    
+ 
     // ======================================================
     // Model
     
@@ -49,7 +48,12 @@ class Scene : ModelController1, Model, Visualization {
     // ======================================================
     // Visualization
     
-    var colorSources: Registry<ColorSource>
+    lazy var colorSources: Registry<ColorSource> = Registry<ColorSource>()
+
+    // ======================================================
+    // Presentation
+    
+    lazy var effects: Registry<Effect> = Registry<Effect>()
     
     // ======================================================
     // OLD STUFF
@@ -117,7 +121,7 @@ class Scene : ModelController1, Model, Visualization {
         // ===================================================
         // NEW STUFF
         
-        colorSources = Registry<ColorSource>()
+        // colorSources = Registry<ColorSource>()
         makeColorSources()
         
         // needs to be done in init() b/c multiple view controllers
@@ -171,35 +175,44 @@ class Scene : ModelController1, Model, Visualization {
         // glColorMaterial(GLenum(GL_FRONT), GLenum(GL_AMBIENT_AND_DIFFUSE))
     }
     
+    private var projectionMatrix: GLKMatrix4!
+    private var modelviewMatrix: GLKMatrix4!
+    
     func updateProjection() {
-        debug("updateProjection")
+        // debug("updateProjection")
         
         // EMPIRICAL if last 2 args are -d, d then it doesn't show net from underside.
         // 10 and 2d seem OK
         let d = GLfloat(2.0 * geometry.r0)
-        let projectionMatrix: GLKMatrix4 = GLKMatrix4MakeOrtho(-d, d, -d/aspectRatio, d/aspectRatio, 2*d, -2*d)
+        projectionMatrix = GLKMatrix4MakeOrtho(-d, d, -d/aspectRatio, d/aspectRatio, 2*d, -2*d)
         
-        for e in effects {
-            e.value.transform.projectionMatrix = projectionMatrix
-        }
+        effects.visit(applyProjectionMatrix)
+    }
+    
+    private func applyProjectionMatrix(_ effect: Effect) {
+        // debug("applyProjectionMatrix", "effect:" + effect.name)
+        effect.transform.projectionMatrix = self.projectionMatrix
+    }
+    
+    private func applyModelviewMatrix(_ effect: Effect) {
+        // debug("applyModelviewMatrix", "effect:" + effect.name)
+        effect.transform.modelviewMatrix = self.modelviewMatrix
     }
     
     func updateModelview() {
-        debug("updateModelview")
+        // debug("updateModelview")
         
         let povXYZ = geometry.sphericalToCartesian(povR, povPhi, povThetaE)
         let zz = GLfloat(zoom)
         
-        var modelviewMatrix: GLKMatrix4 = GLKMatrix4MakeLookAt(Float(povXYZ.x), Float(povXYZ.y), Float(povXYZ.z), 0, 0, 0, 0, 0, 1)
+        modelviewMatrix = GLKMatrix4MakeLookAt(Float(povXYZ.x), Float(povXYZ.y), Float(povXYZ.z), 0, 0, 0, 0, 0, 1)
         let scaleMatrix = GLKMatrix4MakeScale(zz, zz, zz)
         modelviewMatrix = GLKMatrix4Multiply(scaleMatrix, modelviewMatrix)
         
         modelviewMatrix = GLKMatrix4Rotate(modelviewMatrix, GLfloat(povRotationAngle),
                                            GLfloat(povRotationAxis.x), GLfloat(povRotationAxis.y), GLfloat(povRotationAxis.z))
         
-        for e in effects {
-            e.value.transform.modelviewMatrix = modelviewMatrix
-        }
+        effects.visit(applyModelviewMatrix)
         
     }
     
@@ -416,12 +429,15 @@ class Scene : ModelController1, Model, Visualization {
     // Effects
     // ==========================================================
     
-    var effectNames: [String] = []
-    var effects = [String: Effect]()
+    var effectNames: [String] {
+        return effects.entryNames
+    }
     
     func getEffect(_ name: String) -> Effect? {
-        return effects[name]
+        return effects.entry(name)?.value
     }
+    
+    
     
     private func makeEffects() {
         debug("makeEffects")
@@ -435,8 +451,7 @@ class Scene : ModelController1, Model, Visualization {
     }
     
     private func registerEffect(_ effect: Effect) {
-        effectNames.append(effect.name)
-        effects[effect.name] = effect
+        effects.register(effect, nameHint: effect.name)
     }
     
     // ==========================================================
@@ -495,9 +510,13 @@ class Scene : ModelController1, Model, Visualization {
         glClear(GLbitfield(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
         
         sequencerStep()
-        for e in effects {
-            e.value.draw()
+        for name in effects.entryNames {
+            effects.visit(drawEffect)
         }
+    }
+    
+    private func drawEffect(_ effect: Effect) {
+        effect.draw()
     }
     
     private func currTime() -> TimeInterval {

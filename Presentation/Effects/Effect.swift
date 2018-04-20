@@ -10,6 +10,20 @@ import Foundation
 import GLKit
 
 // ==============================================================================
+// Effect
+// ==============================================================================
+
+protocol Effect  {
+    static var type: String { get }
+    var name: String { get set }
+    var enabled: Bool { get set }
+    var transform: GLKEffectPropertyTransform { get }
+    
+    func prepareToDraw()
+    func draw()
+}
+
+// ==============================================================================
 // Misc helpers
 // ==============================================================================
 
@@ -75,19 +89,5 @@ func buildPNVertexArray(_ geometry: SKGeometry) -> [PNVertex] {
         }
     }
     return vertices
-}
-
-// ==============================================================================
-// Effect
-// ==============================================================================
-
-protocol Effect  {
-    static var type: String { get }
-    var name: String { get set }
-    var enabled: Bool { get set }
-    var transform: GLKEffectPropertyTransform { get }
-    
-    func prepareToDraw()
-    func draw()
 }
 
