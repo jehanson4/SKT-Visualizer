@@ -13,6 +13,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var model: ModelController1?
+    var visualization: Visualization?
     
     override init() {
         super.init()
@@ -21,7 +22,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch
         
-        model = Scene()
+        let scene = Scene()
+        model = scene
+        visualization = scene
         let rvc = window?.rootViewController
         if (rvc != nil) {
             configureControllers(rvc!)
@@ -58,8 +61,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let detailViewController = splitViewController.viewControllers.last as? DetailViewController
             else { fatalError() }
         
-        debug("configureControllers", "setting master view controller's model")
+        debug("configureControllers", "setting master view controller's model & visualization")
         masterViewController.model = self.model
+        masterViewController.visualization = self.visualization
 
         debug("configureControllers", "setting detail view controller's model")
         detailViewController.model = self.model

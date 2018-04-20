@@ -19,6 +19,9 @@ ToDo.txt
 
 ====================================
 
+[ ] FIXME strog retain cycles b/c of listeners
+    cf. http://blog.scottlogic.com/2015/02/05/swift-events.html
+
 [ ] make the CP steppers fixed stepsize & bounds and don't permit user to change it
     ...maybe on page 2 someday if I feel like it, under "Manual Control"
 
@@ -83,24 +86,32 @@ How about a struct<T> instead that contains every single relevant number I can t
 [ ] when sequencer is running the controler parameter text fields all read-only
     deltas and steppers OK
 
-[ ] BUG reflect flaps if initial is outside range
-
 [ ] I think we're looking at the underside of the hemisphere
 
-[ ] app consists of 3 major parts
-    model (geometry, physics incl. PhysicalProperties)
-    visualization (color sources)
-    presentation(effects, sequencers, POV, GL settings)
-    UI (Master, Settings, Display)
+[ ] app consists of 4 major parts
 
-    ModelController
-    VisualizationController
-    PresentationController
+    1. model (geometry, physics incl. PhysicalProperties)
 
-    protocol & associated user/listener protocol for each
+    2. visualization (color sources)
 
-    MAYBE we can put the control-param deltas & sequencer bounds into Visualization?
+    3. presentation(effects, sequencers, POV, GL settings)
 
+    4. UI (Master, Settings, Display)
+
+    protocol & associated user/listener protocol for each of the first 3?
+
+    MAYBE put the control-param deltas & sequencer bounds into Visualization?
+
+--------
+[ ] "visualization"
+
+needs a different name; too close to 'presentation'
+
+generation? that's the right idea: we are generating the data to be presented
+
+group theory calls it 'realizing' a group
+
+--------
 [ ] enum for the major app parts
     so a sequencer (or UI control action or etc) can tell the app which kinds of part-change
     might need updating, so the app can send the rignt events its listeners.

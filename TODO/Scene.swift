@@ -17,21 +17,23 @@ import OpenGL
 
 // ============================================================================
 
-class Scene : ModelController1 {
-
+class Scene : ModelController1, Model, Visualization {
+    
+    
     // ======================================================
-    // Control parameters
-    // These are lazy so that ther init'ers don't get called
-    // until after Scene's initer has finished
-    // ======================================================
-
+    // Model
+    
+    lazy var geometry: SKGeometry = SKGeometry()
+    lazy var physics: SKPhysics = SKPhysics(geometry)
+    lazy var basinFinder: BasinFinder = BasinFinder(geometry, physics)
+    
     lazy var N: ControlParameter = NParam(self, geometry)
     lazy var k0: ControlParameter = K0Param(self, geometry)
     lazy var alpha1: ControlParameter = Alpha1Param(self, physics)
     lazy var alpha2: ControlParameter = Alpha2Param(self, physics)
     lazy var T: ControlParameter = TParam(self, physics)
-    // lazy var beta: ControlParameter = BetaParam(self, physics)
-
+    lazy var beta: ControlParameter = BetaParam(self, physics)
+    
     func resetControlParameters() {
         N.reset()
         k0.reset()
@@ -40,10 +42,18 @@ class Scene : ModelController1 {
         T.reset()
         // Don't reset beta
         
-        fireModelChange();
+        // TODO This should go away
+        fireModelChange()
     }
     
-
+    // ======================================================
+    // Visualization
+    
+    var colorSources: Registry<ColorSource>
+    
+    // ======================================================
+    // OLD STUFF
+    
     // ======================================================
     // Graphics & POV
     
@@ -73,14 +83,7 @@ class Scene : ModelController1 {
         }
     }
     
-    // ======================================================
-    // OLD STUFF
-
-    private var geometry: SKGeometry
-    private var physics: SKPhysics
-    private var basinFinder: BasinFinder
     
-
     private var pov: PointOfView
     
     private var rOffset: Double = -0.001
@@ -89,24 +92,16 @@ class Scene : ModelController1 {
     var aspectRatio: Float = 1
     // var projectionMatrix: GLKMatrix4!
     // var modelviewMatrix: GLKMatrix4!
-
+    
     var modelChangeListeners: [ModelChangeListener1] = []
-
-    // ======================================================
-    // NEW STUFF
-    
-    var colorSources: ColorSourceRegistry
     
     // ======================================================
-
+    
     init() {
-
+        
         // ===================================================
         // OLD STUFF
         
-        self.geometry = SKGeometry()
-        self.physics = SKPhysics(geometry)
-        self.basinFinder = BasinFinder(geometry, physics)
         self.pov = PointOfView()
         
         // self.povR = povR_default
@@ -121,12 +116,9 @@ class Scene : ModelController1 {
         
         // ===================================================
         // NEW STUFF
-
-        colorSources = ColorSourceRegistry()
         
-        // needs to be done in init() b/c multiple view controllers
-        // access color sources
-       makeColorSources()
+        colorSources = Registry<ColorSource>()
+        makeColorSources()
         
         // needs to be done in init() b/c multiple view controllers
         // access sequencers
@@ -197,24 +189,24 @@ class Scene : ModelController1 {
         
         let povXYZ = geometry.sphericalToCartesian(povR, povPhi, povThetaE)
         let zz = GLfloat(zoom)
-
+        
         var modelviewMatrix: GLKMatrix4 = GLKMatrix4MakeLookAt(Float(povXYZ.x), Float(povXYZ.y), Float(povXYZ.z), 0, 0, 0, 0, 0, 1)
         let scaleMatrix = GLKMatrix4MakeScale(zz, zz, zz)
         modelviewMatrix = GLKMatrix4Multiply(scaleMatrix, modelviewMatrix)
         
         modelviewMatrix = GLKMatrix4Rotate(modelviewMatrix, GLfloat(povRotationAngle),
-            GLfloat(povRotationAxis.x), GLfloat(povRotationAxis.y), GLfloat(povRotationAxis.z))
+                                           GLfloat(povRotationAxis.x), GLfloat(povRotationAxis.y), GLfloat(povRotationAxis.z))
         
         for e in effects {
             e.value.transform.modelviewMatrix = modelviewMatrix
         }
-
+        
     }
     
     // ==========================================================
     // Listeners
     // ==========================================================
-
+    
     func addListener(forModelChange listener: ModelChangeListener1?) {
         if (listener != nil) {
             modelChangeListeners.append(listener!)
@@ -349,35 +341,34 @@ class Scene : ModelController1 {
     // ==========================================================
     // Color Sources
     // ==========================================================
-
+    
     // TODO stop using then delete
     var colorSourceNames: [String] {
-        return colorSources.colorSourceNames
+        return colorSources.entryNames
     }
     
     // TODO stop using then delete
     var selectedColorSource: ColorSource? {
-        return colorSources.colorSource(atIndex: colorSources.colorSourceSelection)
+        return colorSources.selection?.value
     }
     
     // TODO stop using then delete
     func getColorSource(_ name: String) -> ColorSource? {
-        return colorSources.colorSource(withName: name)
+        return colorSources.entry(name)?.value
     }
     
     // TODO stop using then delete
     func selectColorSource(_ name: String) -> Bool {
         let idx = colorSourceNames.index(of: name)
         if (idx == nil) { return false }
-        let oldSelIdx = colorSources.colorSourceSelection
-        colorSources.selectColorSource(index: idx!)
-        let newSelIdx = colorSources.colorSourceSelection
-        return (oldSelIdx != newSelIdx)
+        colorSources.select(idx!)
+        // FIxME
+        return true
     }
     
     private func makeColorSources() {
         debug("makeColorSources")
-        let grayCS = UniformColor(r: 0.25, g: 0.25, b: 0.25, name: "---")
+        let grayCS = UniformColor(r: 0.25, g: 0.25, b: 0.25, name: "None")
         registerColorSource(grayCS, true)
         
         let linearColorMap = LinearColorMap()
@@ -396,7 +387,7 @@ class Scene : ModelController1 {
             
             let degeneracyCS = PhysicalPropertyColorSource(entropyProp!, logColorMap, name: "Degeneracy", description: "#states in SK space mapped onto a given point on the surface")
             registerColorSource(degeneracyCS, false)
-
+            
         }
         
         let logOccupationProp = physics.physicalProperty(LogOccupation.type)
@@ -410,12 +401,14 @@ class Scene : ModelController1 {
         
         let bbc = BasinNumberColorSource(basinFinder, showFinalCount: false)
         registerColorSource(bbc, false)
+        
+        debug("makeColorSources", "done. sources=\(colorSources.entryNames)")
     }
     
     private func registerColorSource(_ colorSource: ColorSource, _ select: Bool) {
-        let nameAndIndex = colorSources.register(colorSource)
+        let entry = colorSources.register(colorSource, nameHint: colorSource.name)
         if select {
-            colorSources.selectColorSource(index: nameAndIndex.index)
+            colorSources.select(entry.index)
         }
     }
     
@@ -425,7 +418,7 @@ class Scene : ModelController1 {
     
     var effectNames: [String] = []
     var effects = [String: Effect]()
-
+    
     func getEffect(_ name: String) -> Effect? {
         return effects[name]
     }
@@ -436,22 +429,14 @@ class Scene : ModelController1 {
         registerEffect(Axes(enabled: false))
         registerEffect(Meridians(geometry, enabled: false, rOffset: rOffset))
         registerEffect(Net(geometry, enabled: false, rOffset: rOffset))
-        registerEffect(Surface(geometry, physics, enabled: true))
-        // registerEffect(Nodes(geometry, physics))
-        
-//        var ico = Icosahedron()
-//        ico.enabled = true
-//        registerEffect(ico)
-        
+        registerEffect(Surface(geometry, physics, colorSources, enabled: true))
+        // registerEffect(Nodes(geometry, physics, colorSources, enabled: false))
+        // registerEffect(Icosahedron(enabled: false))
     }
     
     private func registerEffect(_ effect: Effect) {
         effectNames.append(effect.name)
         effects[effect.name] = effect
-        
-        if (effect is ColorSourceRegistryListener) {
-            colorSources.addListener(effect as! ColorSourceRegistryListener)
-        }
     }
     
     // ==========================================================
@@ -487,9 +472,9 @@ class Scene : ModelController1 {
         
     }
     
-//    func movePOV(_ dPhi: Double, _ dTheta_e: Double) {
-//        setPOVAngularPosition(povPhi + dPhi, povThetaE + dTheta_e)
-//    }
+    //    func movePOV(_ dPhi: Double, _ dTheta_e: Double) {
+    //        setPOVAngularPosition(povPhi + dPhi, povThetaE + dTheta_e)
+    //    }
     
     func resetPOV() {
         self.zoom = 1.0

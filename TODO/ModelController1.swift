@@ -31,22 +31,8 @@ protocol ModelChangeListener1 {
 // ModelController
 // =========================================================
 
-protocol ModelController1 {
+protocol ModelController1: Model {
 
-    
-    // ====================================================
-    // ControlParameters
-    // ====================================================
-
-    var N: ControlParameter { get set }
-    var k0: ControlParameter { get set }
-    var alpha1: ControlParameter { get set }
-    var alpha2: ControlParameter { get set }
-    var T: ControlParameter { get set }
-    // var beta: ControlParameter { get set }
-    
-    func resetControlParameters()
-    
     // ======================================
     // Graphics & POV
     // ======================================
@@ -81,14 +67,10 @@ protocol ModelController1 {
     // ====================================================
     // ColorSources
     // ====================================================
-
-    var colorSourceNames: [String] { get }
-    var selectedColorSource: ColorSource? { get }
-    
-    func getColorSource(_ name: String) -> ColorSource?
-    
-    /// returns true iff the selection changed
-    func selectColorSource(_ name: String) -> Bool
+    // var colorSourceNames: [String] { get }
+    // var selectedColorSource: ColorSource? { get }
+    // func getColorSource(_ name: String) -> ColorSource?
+    // func selectColorSource(_ name: String) -> Bool
 
     // ====================================================
     // Sequencers

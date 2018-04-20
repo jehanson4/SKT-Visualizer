@@ -13,9 +13,13 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     let name = "MasterViewController"
     
     var model: ModelController1? = nil
+    var visualization: Visualization? = nil
+    
+    var colorSourceListener: RegistryListener<ColorSource>? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        debug("viewDidLoad")
         
         N_text.delegate = self
         k_text.delegate = self
@@ -45,13 +49,26 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
             debug("viewDidLoad", "adding self as listener to model.")
             mm.addListener(forModelChange: self)
         }
+        
+        if (visualization == nil) {
+            debug("viewDidLoad", "visualization is nil")
+        }
+        else {
+            let csReg = visualization!.colorSources
+            updateColorSourceControls(csReg)
+            debug("viewDidLoad", "starting to listen for color-source selection changes")
+            colorSourceListener = csReg.addSelectionCallback(colorSourceChanged)
+        }
     }
 
+    private func colorSourceChanged(_ sender: Registry<ColorSource>?) {
+            updateColorSourceControls(sender)
+    }
+    
     private func updateAllControls(_ mm: ModelController1) {
         updateParamControls(mm)
         updateEffectControls(mm)
         updateSequencerControls(mm)
-        updateColorSourceControls(mm)
     }
 
     override func didReceiveMemoryWarning() {
@@ -484,7 +501,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if pickerView.tag == colorSourcePickerTag {
-            return (model == nil) ? 0 : model!.colorSourceNames.count
+            return visualization?.colorSources.entryNames.count ?? 0
         }
         if pickerView.tag == sequencerPickerTag {
             return (model == nil) ? 0 : model!.sequencerNames.count
@@ -504,27 +521,26 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         
         // see above
         if pickerView.tag == colorSourcePickerTag {
-            pickerLabel?.text = (model == nil) ? nil : model!.colorSourceNames[row]
+            let label = visualization?.colorSources.entryNames[row]
+            debug("telling color source picker to use label \(label ?? "nil")) for row \(row)")
+            pickerLabel?.text = label
         }
         else if pickerView.tag == sequencerPickerTag {
-            pickerLabel?.text = (model == nil) ? nil : model!.sequencerNames[row]
+            pickerLabel?.text = model?.sequencerNames[row]
         }
         
         return pickerLabel!
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if (model == nil) { return }
-        let mm = model!
         
         if (pickerView.tag == colorSourcePickerTag) {
-            let changed = mm.selectColorSource(mm.colorSourceNames[row])
-            if (changed) {
-                updateColorSourceControls(mm)
-            }
+            visualization?.colorSources.select(row)
         }
         
         if (pickerView.tag == sequencerPickerTag) {
+            if (model == nil) { return }
+            let mm = model!
             let changed = mm.selectSequencer(mm.sequencerNames[row])
             if (changed) {
                 updateSequencerControls(mm)
@@ -532,15 +548,14 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         }
     }
     
-    func updateColorSourceControls(_ ss: ModelController1) {
-        let name = ss.selectedColorSource?.name
-        if (name == nil) { return }
-        
-        let r = ss.colorSourceNames.index(of: name!)
-        if (r == nil) { return }
-        
-        debug("telling colorSourcePicker to select row " + String(r!) + ": " + name!)
-        colorSourcePicker.selectRow(r!, inComponent: 0, animated: false)
+    func updateColorSourceControls(_ colorSources: Registry<ColorSource>?) {
+        let selection = colorSources?.selection
+        if (selection == nil) {
+            debug("updateColorSourceControls", "No color source is selected")
+        }
+        let sel = selection!
+        debug("updateColorSourceControls", "telling colorSourcePicker to select row \(sel.index): \(sel.name)")
+        colorSourcePicker.selectRow(sel.index, inComponent: 0, animated: false)
     }
     
     // =====================================================

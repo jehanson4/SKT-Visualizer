@@ -19,15 +19,12 @@ import OpenGL
  This impl does the bookkeeping and the rendering, but sets the color to solid black.
  Subclasses needo only override computeColors()
 */
-class Surface : GLKBaseEffect, Effect, ColorSourceRegistryListener {
+class Surface : GLKBaseEffect, Effect {
     
     static let type = String(describing: Surface.self)
     var name = type
     var enabled = false
     private var built: Bool = false
-    
-    private var colorSource: ColorSource? = nil
-    private var computeColorsNeeded: Bool = true
 
     // ====================================
     // GL stuff
@@ -49,6 +46,11 @@ class Surface : GLKBaseEffect, Effect, ColorSourceRegistryListener {
     var geometryChangeNumber: Int
     var physics: SKPhysics
     var physicsChangeNumber: Int
+    
+    private var colorSources: Registry<ColorSource>? = nil
+    private var computeColorsNeeded: Bool = true
+    private var colorSourceSelectionListener: RegistryListener<ColorSource>? = nil
+
     var linearColorMap: ColorMap? = nil
     var logColorMap: ColorMap? = nil
 
@@ -56,13 +58,22 @@ class Surface : GLKBaseEffect, Effect, ColorSourceRegistryListener {
     // Initiailzers
     // ====================================
 
-    init(_ geometry: SKGeometry, _ physics: SKPhysics, enabled: Bool = false) {
+    init(_ geometry: SKGeometry, _ physics: SKPhysics, _ colorSources: Registry<ColorSource>?, enabled: Bool = false) {
         self.geometry = geometry
         self.geometryChangeNumber = geometry.changeNumber - 1
         self.physics = physics
         self.physicsChangeNumber = physics.changeNumber - 1
+        self.colorSources = colorSources
         self.enabled = enabled
         super.init()
+    }
+    
+    deinit {
+        if (colorSourceSelectionListener != nil) {
+            colorSourceSelectionListener?.disable()
+        }
+        glDeleteVertexArraysOES(1, &vertexArray)
+        deleteBuffers()
     }
     
     private func build() -> Bool {
@@ -84,11 +95,6 @@ class Surface : GLKBaseEffect, Effect, ColorSourceRegistryListener {
         buildVertexData()
         createBuffers()
         return true
-    }
-    
-    deinit {
-        glDeleteVertexArraysOES(1, &vertexArray)
-        deleteBuffers()
     }
     
     private func buildVertexData() {
@@ -129,22 +135,42 @@ class Surface : GLKBaseEffect, Effect, ColorSourceRegistryListener {
         self.colors = Array(repeating: black, count: vertices.count)
     }
     
-    private func ensureColorsAreFresh() {
-        if (colorSource == nil) {
-            debug("color source is nil")
-            return
-        }
+    private func ensureColorsAreFresh() -> Bool {
         if (!computeColorsNeeded) {
-            debug("colors are already fresh")
-            return
+            // debug("colors are fresh")
+            return false
         }
-
-        debug("recomputing colors")
-        let viz = colorSource!
-        viz.prepare()
-        for i in 0..<colors.count {
-            colors[i] = viz.colorAt(i)
+            
+        if (colorSources == nil) {
+            debug("cannot refresh colors: colorSources is nil")
+            return false
         }
+        
+        // Ignore sender; use colorSources
+        debug("recomputing colors", "colorSource: \(colorSources?.selection?.name ?? "nil")")
+        
+        let colorSource = colorSources?.selection?.value
+        if (colorSource != nil) {
+            let cs = colorSource!
+            cs.prepare()
+            for i in 0..<colors.count {
+                colors[i] = cs.colorAt(i)
+            }
+        }
+        computeColorsNeeded = false
+        
+        // AFTER calling recompute
+        if (colorSourceSelectionListener == nil) {
+            debug("starting to listen for colorSource selection events")
+            colorSourceSelectionListener = colorSources!.addSelectionCallback(self.colorSourceHasChanged)
+        }
+        
+        return true
+    }
+    
+    private func colorSourceHasChanged(_ sender: Registry<ColorSource>?) {
+        debug("colorSourceHasChanged", "marking colors as stale")
+        self.computeColorsNeeded = true
     }
     
     private func createBuffers() {
@@ -213,46 +239,39 @@ class Surface : GLKBaseEffect, Effect, ColorSourceRegistryListener {
         glDeleteBuffers(1, &indexBuffer)
     }
     
-    func selectionChanged(_ sender: ColorSourceRegistry) {
-        colorSource = sender.selectedColorSource
-        computeColorsNeeded = true
-    }
-    
-    
     func draw() {
         if (!enabled) {
             return
         }
-        if (!built) {
-            built = build()
-        }
-        
+
         let err0 = glGetError()
         if (err0 != 0) {
             debug(String(format:"draw: entering: glError 0x%x", err0))
         }
 
+        if (!built) {
+            built = build()
+        }
+        
         let geometryChange = geometry.changeNumber
         let physicsChange = physics.changeNumber
         if (geometryChange != geometryChangeNumber) {
-            debug("rebuilding...")
+            debug("geometry has changed...")
             self.geometryChangeNumber = geometryChange
             self.physicsChangeNumber = physicsChange
             self.computeColorsNeeded = true
+            
             deleteBuffers()
             buildVertexData()
-            
-            // TODO move this outside this if/else
-            ensureColorsAreFresh()
+            // INEFFICIENT redundant copy colors to color buffer
             createBuffers()
 
             debug("done rebuilding")
         }
         else if (physicsChange != physicsChangeNumber) {
+            debug("physics has changed...")
             self.physicsChangeNumber = physicsChange
             self.computeColorsNeeded = true
-            // TODO move this outside this if/else
-            ensureColorsAreFresh()
         }
 
         // DEBUG
@@ -261,15 +280,19 @@ class Surface : GLKBaseEffect, Effect, ColorSourceRegistryListener {
             debug(String(format:"draw[1]: glError 0x%x", err0))
         }
         
+        let needsColorBufferUpdate = ensureColorsAreFresh()
+        
         glBindVertexArrayOES(vertexArray)
         
-        // Q: Just re-bind color & copy new values using glBufferSubData
-        // A: seems to do the trick
-        // TODO only do this if we recomputed the colors
-        let cbSize = MemoryLayout<GLKVector4>.stride
-        glBindBuffer(GLenum(GL_ARRAY_BUFFER), colorBuffer)
-        glBufferSubData(GLenum(GL_ARRAY_BUFFER), 0, cbSize * colors.count, colors)
-
+        if (needsColorBufferUpdate) {
+            debug("copying colors into GL color buffer")
+            // Q: Just re-bind color & copy new values using glBufferSubData
+            // A: seems to do the trick
+            // TODO only do this if we recomputed the colors
+            let cbSize = MemoryLayout<GLKVector4>.stride
+            glBindBuffer(GLenum(GL_ARRAY_BUFFER), colorBuffer)
+            glBufferSubData(GLenum(GL_ARRAY_BUFFER), 0, cbSize * colors.count, colors)
+        }
         prepareToDraw()
 
         // DEBUG
@@ -292,8 +315,8 @@ class Surface : GLKBaseEffect, Effect, ColorSourceRegistryListener {
 
     }
     
-    func debug(_ msg: String) {
-        print(name, msg)
+    func debug(_ mtd: String, _ msg: String = "") {
+        print(name, mtd, msg)
     }
 
 }
