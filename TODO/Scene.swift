@@ -17,7 +17,7 @@ import OpenGL
 
 // ============================================================================
 
-class Scene : ModelController1, Model, Visualization {
+class Scene : ModelController1, Model, Visualization, Presentation {
  
     // ======================================================
     // Model

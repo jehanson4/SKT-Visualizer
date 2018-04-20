@@ -14,30 +14,30 @@ import Foundation
 
 protocol Presentation {
 
-    // ===============================
-    // POV & Zoom
-    
-    var pov: (r: Double, phi: Double, thetaE: Double) { get set }
-    
-    func resetPOV()
-
-    func resetZoom()
-    
-    var zoom: Double { get set }
+//    // ===============================
+//    // POV & Zoom
+//
+//    var pov: (r: Double, phi: Double, thetaE: Double) { get set }
+//
+//    func resetPOV()
+//
+//    func resetZoom()
+//
+//    var zoom: Double { get set }
 
     // ===============================
     // Effects
     
     var effects: Registry<Effect> { get }
     
-    // ===============================
-    // Sequencer
-    
-    var sequencers: Registry<Sequencer> { get }
-   
-    var isSequencerRunning: Bool { get set }
-    
-    // steps per second
-    var targetSequenceRate: Double { get set }
+//    // ===============================
+//    // Sequencer
+//    
+//    var sequencers: Registry<Sequencer> { get }
+//   
+//    var isSequencerRunning: Bool { get set }
+//    
+//    // steps per second
+//    var targetSequenceRate: Double { get set }
     
 }

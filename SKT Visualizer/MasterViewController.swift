@@ -14,8 +14,10 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     
     var model: ModelController1? = nil
     var visualization: Visualization? = nil
+    var presentation: Presentation? = nil
     
-    var colorSourceListener: RegistryListener<ColorSource>? = nil
+    private var colorSourceListener: RegistryListener<ColorSource>? = nil
+    private var effectListener: RegistryListener<Effect>? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,17 +59,34 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
             let csReg = visualization!.colorSources
             updateColorSourceControls(csReg)
             debug("viewDidLoad", "starting to listen for color-source selection changes")
-            colorSourceListener = csReg.addSelectionCallback(colorSourceChanged)
+            colorSourceListener = csReg.addSelectionCallback(colorSourceSelectionChanged)
         }
+        
+        if (presentation == nil) {
+            debug("viewDidLoad", "presentation is nil")
+        }
+        else {
+            let eReg = presentation!.effects
+            updateEffectControls(eReg)
+            debug("viewDidLoad", "starting to listen for effects selection changes")
+            effectListener = eReg.addSelectionCallback(effectSelectionChanged)
+        }
+
     }
 
-    private func colorSourceChanged(_ sender: Registry<ColorSource>?) {
+    private func colorSourceSelectionChanged(_ sender: Registry<ColorSource>?) {
             updateColorSourceControls(sender)
+    }
+    
+    private func effectSelectionChanged(_ sender: Registry<Effect>?) {
+        if (sender != nil) {
+            updateEffectControls(sender!)
+            
+        }
     }
     
     private func updateAllControls(_ mm: ModelController1) {
         updateParamControls(mm)
-        updateEffectControls(mm)
         updateSequencerControls(mm)
     }
 
@@ -345,66 +364,60 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     @IBOutlet weak var axes_switch: UISwitch!
     
     @IBAction func axes_action(_ sender: UISwitch) {
-        // message("axes_action: sender.isOn=", sender.isOn)
-        if (model != nil) {
-            let mm: ModelController1 = model!
-            var effect = mm.getEffect(Axes.type)
-            if (effect != nil) {
-                effect!.enabled = sender.isOn
-            }
-            updateEffectControls(mm)
+        let effectName = Axes.type
+        let effectOrNil: Effect? = presentation?.effects.entry(effectName)?.value
+        if (effectOrNil != nil) {
+            var effect = effectOrNil!
+            effect.enabled = sender.isOn
+            sender.isOn = effect.enabled
         }
     }
     
     @IBOutlet weak var meridians_switch: UISwitch!
     
     @IBAction func meridians_action(_ sender: UISwitch) {
-        if (model != nil) {
-            let mm: ModelController1 = model!
-            var effect = mm.getEffect(Meridians.type)
-            if (effect != nil) {
-                effect!.enabled = sender.isOn
-            }
-            updateEffectControls(mm)
+        let effectName = Meridians.type
+        let effectOrNil: Effect? = presentation?.effects.entry(effectName)?.value
+        if (effectOrNil != nil) {
+            var effect = effectOrNil!
+            effect.enabled = sender.isOn
+            sender.isOn = effect.enabled
         }
     }
     
     @IBOutlet weak var net_switch: UISwitch!
     
     @IBAction func net_action(_ sender: UISwitch) {
-        if (model != nil) {
-            let mm: ModelController1 = model!
-            var effect = mm.getEffect(Net.type)
-            if (effect != nil) {
-                effect!.enabled = sender.isOn
-            }
-            updateEffectControls(mm)
+        let effectName = Net.type
+        let effectOrNil: Effect? = presentation?.effects.entry(effectName)?.value
+        if (effectOrNil != nil) {
+            var effect = effectOrNil!
+            effect.enabled = sender.isOn
+            sender.isOn = effect.enabled
         }
     }
     
     @IBOutlet weak var surface_switch: UISwitch!
     
     @IBAction func surface_action(_ sender: UISwitch) {
-        if (model != nil) {
-            let mm: ModelController1 = model!
-            var effect = model!.getEffect(Surface.type)
-            if (effect != nil) {
-                effect!.enabled = sender.isOn
-            }
-            updateEffectControls(mm)
+        let effectName = Net.type
+        let effectOrNil: Effect? = presentation?.effects.entry(effectName)?.value
+        if (effectOrNil != nil) {
+            var effect = effectOrNil!
+            effect.enabled = sender.isOn
+            sender.isOn = effect.enabled
         }
     }
     
     @IBOutlet weak var nodes_switch: UISwitch!
     
     @IBAction func nodes_action(_ sender: UISwitch) {
-        if (model != nil) {
-            let mm: ModelController1 = model!
-            var effect = mm.getEffect(Nodes.type)
-            if (effect != nil) {
-                effect!.enabled = sender.isOn
-            }
-            updateEffectControls(mm)
+        let effectName = Nodes.type
+        let effectOrNil: Effect? = presentation?.effects.entry(effectName)?.value
+        if (effectOrNil != nil) {
+            var effect = effectOrNil!
+            effect.enabled = sender.isOn
+            sender.isOn = effect.enabled
         }
     }
     
@@ -442,31 +455,14 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     //            //            icosahedron_switch.isEnabled = false
     //    }
     
-    func updateEffectControls(_ ee: ModelController1) {
-        var axes = ee.getEffect(Axes.type)
-        axes_switch.isEnabled = (axes != nil)
-        axes_switch.isOn = (axes != nil && axes!.enabled)
-        
-        var meridians = ee.getEffect(Meridians.type)
-        meridians_switch.isEnabled = (meridians != nil)
-        meridians_switch.isOn = (meridians != nil && meridians!.enabled)
-        
-        var net = ee.getEffect(Net.type)
-        net_switch.isEnabled = (net != nil)
-        net_switch.isOn = (net != nil && net!.enabled)
-        
-        var surface = ee.getEffect(Surface.type)
-        surface_switch.isEnabled = (surface != nil)
-        surface_switch.isOn = (surface != nil && surface!.enabled)
-        
-        //        var nodes = ee.getEffect(Nodes.type)
-        //        nodes_switch.isEnabled = (nodes != nil)
-        //        nodes_switch.isOn = (nodes != nil && nodes!.enabled)
-        //
-        //            var icosahedron = ee.getEffect(Icosahedron.type)
-        //            icosahedron_switch.isEnabled = (icosahedron != nil)
-        //            icosahedron_switch.isOn = (icosahedron != nil && icosahedron!.enabled)
-        
+    func updateEffectControls(_ effects: Registry<Effect>) {
+        // INELEGANT
+        axes_switch.isOn = (effects.entry(Axes.type)?.value?.enabled ?? false)
+        meridians_switch.isOn = (effects.entry(Meridians.type)?.value?.enabled ?? false)
+        net_switch.isOn = (effects.entry(Net.type)?.value?.enabled ?? false)
+        surface_switch.isOn = (effects.entry(Surface.type)?.value?.enabled ?? false)
+        // Nodes
+        // Icosahedron
     }
     
     // =======================================================================

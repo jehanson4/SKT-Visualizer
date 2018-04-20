@@ -14,6 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var model: ModelController1?
     var visualization: Visualization?
+    var presentation: Presentation?
     
     override init() {
         super.init()
@@ -25,6 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let scene = Scene()
         model = scene
         visualization = scene
+        presentation = scene
         let rvc = window?.rootViewController
         if (rvc != nil) {
             configureControllers(rvc!)
@@ -63,7 +65,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         debug("configureControllers", "setting master view controller's model & visualization")
         masterViewController.model = self.model
+        debug("configureControllers", "setting master view controller's visualization")
         masterViewController.visualization = self.visualization
+        debug("configureControllers", "setting master view controller's presentation")
+        masterViewController.presentation = self.presentation
 
         debug("configureControllers", "setting detail view controller's model")
         detailViewController.model = self.model

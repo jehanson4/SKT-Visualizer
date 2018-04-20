@@ -60,9 +60,7 @@ protocol ModelController1: Model {
     // Effects
     // ====================================================
 
-    var effectNames: [String] { get }
-    
-    func getEffect(_ name: String) -> Effect?
+    var effects: Registry<Effect> { get }
     
     // ====================================================
     // ColorSources
