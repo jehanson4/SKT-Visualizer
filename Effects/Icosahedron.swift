@@ -20,11 +20,6 @@ class Icosahedron : GLKBaseEffect, Effect {
     var name = type
     var enabled: Bool
 
-    var colorSource: ColorSource? {
-        get { return nil }
-        set(g) { }
-    }
-    
     static let c0 = GLfloat(0.0)
     static let c1 = GLfloat(1.0 / sqrt(1.0 + Constants.goldenRatio * Constants.goldenRatio))
     static let c2 = GLfloat(Constants.goldenRatio / sqrt(1.0 + Constants.goldenRatio * Constants.goldenRatio))

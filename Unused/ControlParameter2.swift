@@ -9,22 +9,22 @@
 import Foundation
 
 // =======================================================================
-// ControlParameter2
+// ControlParameter
 // =======================================================================
 
-// EXPERIMENTAL
-class ControlParameter2<T> {
-    
-    var name: String = ""
-    var description: String? = nil
-    var bounds: (min: T, max: T)
-    var valueString: String = ""
-    var stepSize: T
-    func incr(fraction: T) { }
-    func reset() { }
-    
-    init(bounds: (min: T, max: T), stepSize: T) {
-        self.bounds = bounds
-        self.stepSize = stepSize
-    }
+protocol ControlParameter2 {
+    var name: String { get set }
+    var description: String { get set }
 }
+
+protocol IControlParameter2: ControlParameter2 {
+    
+    var range: (min: Int, max: Int) { get }
+    var value: Int { get set }
+
+}
+
+protocol IControlParameterDelegate {
+    
+}
+

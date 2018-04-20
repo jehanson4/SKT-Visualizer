@@ -23,11 +23,6 @@ class Meridians : GLKBaseEffect, Effect {
     var enabled: Bool
     var built: Bool = false
 
-    var colorSource: ColorSource? {
-        get { return nil }
-        set(g) { }
-    }
-    
     let segmentCount: Int = 100
     let lineWidth: GLfloat = 4.0
     let lineColor: GLKVector4 = GLKVector4Make(0.5, 0.5, 0.5, 1.0)

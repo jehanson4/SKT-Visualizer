@@ -20,12 +20,7 @@ class Net : GLKBaseEffect, Effect {
     static let type = String(describing: Net.self)
     var name = type
     var enabled: Bool
-    
-    var colorSource: ColorSource? {
-        get { return nil }
-        set(g) { }
-    }
-    
+        
     var geometry: SKGeometry
     var geometryChangeNumber: Int
     var rOffset: Double

@@ -2,9 +2,40 @@
 ToDo.txt
 ==================================================================================
 
-[ ] KForFixedKOverN
+[ ] KForFixedKOverN bounds from UI not listening, and picking up values from geometry not control params
+
+[ ] now that we've got buttons for up & down, don't change sign on toggle
+
+[ ] UI indicator for whether we're on or off
+    separate from sgn
+    so we can know what will happen if we tap
+
+[ ] 2 binary buttons on bottom row
+    up/down
+    on/off
+
+    let the tapping do whatever, these follow it
+    tapping and these back onto same var's so they're always in sync
 
 ====================================
+
+[ ] make the CP steppers fixed stepsize & bounds and don't permit user to change it
+    ...maybe on page 2 someday if I feel like it, under "Manual Control"
+
+[ ] Consider a much-finer-grained control over which UI controls get touched when something behind them
+changes. "N", "k0", etc; things listen for those strings
+
+[ ] SIMPLIFY manual stepper & sequencer should share as much as possible
+
+Contra: makes the CP params unwieldy; and doesn't help for sequencers that aren't CPs
+...which is an important class of 'em
+
+[ ] ControlParameter was fun but maybe not worth the complexity.
+Esp since I find it useful to have the code know them by name: model.T and so forth.
+How about a struct<T> instead that contains every single relevant number I can think of
+
+    NOT QUITE. use a parametrics class that contains a delegate
+    PROBLEM is the delegate is a protocol buy it needs to get/set T's
 
 [ ] String(10) => \(10)
 

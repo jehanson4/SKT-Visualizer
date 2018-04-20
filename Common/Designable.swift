@@ -2,12 +2,11 @@
 //  Designable.swift
 //  SKT Visualizer
 //
-//  Created by James Hanson on 4/14/18.
+//  Created by James Hanson on 4/14/18 based on
+//  https://spin.atomicobject.com/2017/07/18/swift-interface-builder/
+//  accessed 4/14/2018.
 //  Copyright © 2018 James Hanson. All rights reserved.
 //
-//  Adapted from https://spin.atomicobject.com/2017/07/18/swift-interface-builder/
-//  accessed on 4/14/2018
-
 import UIKit
 
 @IBDesignable

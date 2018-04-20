@@ -18,7 +18,7 @@ import OpenGL
 // ============================================================================
 
 class Scene : ModelController1 {
-    
+
     // ======================================================
     // Control parameters
     // These are lazy so that ther init'ers don't get called
@@ -74,12 +74,13 @@ class Scene : ModelController1 {
     }
     
     // ======================================================
-    // internals
-    
+    // OLD STUFF
+
     private var geometry: SKGeometry
     private var physics: SKPhysics
     private var basinFinder: BasinFinder
     
+
     private var pov: PointOfView
     
     private var rOffset: Double = -0.001
@@ -92,15 +93,20 @@ class Scene : ModelController1 {
     var modelChangeListeners: [ModelChangeListener1] = []
 
     // ======================================================
+    // NEW STUFF
+    
+    var colorSources: ColorSourceRegistry
+    
+    // ======================================================
 
     init() {
+
+        // ===================================================
+        // OLD STUFF
+        
         self.geometry = SKGeometry()
         self.physics = SKPhysics(geometry)
         self.basinFinder = BasinFinder(geometry, physics)
-        
-        
-        
-        
         self.pov = PointOfView()
         
         // self.povR = povR_default
@@ -112,10 +118,15 @@ class Scene : ModelController1 {
         self.sequencerEnabled = false
         self.sequencerStepInterval = sequencerStepInterval_default
         self.sequencerLastStepTime = 0
+        
+        // ===================================================
+        // NEW STUFF
 
+        colorSources = ColorSourceRegistry()
+        
         // needs to be done in init() b/c multiple view controllers
         // access color sources
-        makeColorSources()
+       makeColorSources()
         
         // needs to be done in init() b/c multiple view controllers
         // access sequencers
@@ -271,9 +282,7 @@ class Scene : ModelController1 {
         registerSequencer(ControlParameterSequencer(self.alpha2), false)
         registerSequencer(ControlParameterSequencer(self.T), false)
         // registerSequencer(ControlParameterSequencer(self.beta), false)
-        
-        // TODO
-        // registerSequencer(NForFixedKOverN(geometry), false)
+        registerSequencer(NForFixedKOverN(geometry, k0: self.k0, N: self.N), false)
         
         registerSequencer(BasinFinderSequencer(basinFinder), false)
     }
@@ -340,32 +349,33 @@ class Scene : ModelController1 {
     // ==========================================================
     // Color Sources
     // ==========================================================
+
+    // TODO stop using then delete
+    var colorSourceNames: [String] {
+        return colorSources.colorSourceNames
+    }
     
-    var colorSources = [String: ColorSource]()
-    var colorSourceNames: [String] = []
-    var selectedColorSource: ColorSource? = nil
+    // TODO stop using then delete
+    var selectedColorSource: ColorSource? {
+        return colorSources.colorSource(atIndex: colorSources.colorSourceSelection)
+    }
     
+    // TODO stop using then delete
     func getColorSource(_ name: String) -> ColorSource? {
-        return colorSources[name]
+        return colorSources.colorSource(withName: name)
     }
     
+    // TODO stop using then delete
     func selectColorSource(_ name: String) -> Bool {
-        // FIXME bad style
-        let oldName = (selectedColorSource == nil) ? "" : selectedColorSource!.name
-        if (name == oldName) { return false }
-        
-        let newColorSource = getColorSource(name)
-        if (newColorSource == nil) { return false }
-        
-        selectedColorSource = newColorSource
-        debug("selectColorSource: changed from " + oldName + " to " + name)
-        for var entry in effects {
-            entry.value.colorSource = selectedColorSource
-        }
-        return true
+        let idx = colorSourceNames.index(of: name)
+        if (idx == nil) { return false }
+        let oldSelIdx = colorSources.colorSourceSelection
+        colorSources.selectColorSource(index: idx!)
+        let newSelIdx = colorSources.colorSourceSelection
+        return (oldSelIdx != newSelIdx)
     }
     
-    func makeColorSources() {
+    private func makeColorSources() {
         debug("makeColorSources")
         let grayCS = UniformColor(r: 0.25, g: 0.25, b: 0.25, name: "---")
         registerColorSource(grayCS, true)
@@ -403,10 +413,9 @@ class Scene : ModelController1 {
     }
     
     private func registerColorSource(_ colorSource: ColorSource, _ select: Bool) {
-        colorSources[colorSource.name] = colorSource
-        colorSourceNames.append(colorSource.name)
+        let nameAndIndex = colorSources.register(colorSource)
         if select {
-            selectedColorSource = colorSource
+            colorSources.selectColorSource(index: nameAndIndex.index)
         }
     }
     
@@ -439,6 +448,10 @@ class Scene : ModelController1 {
     private func registerEffect(_ effect: Effect) {
         effectNames.append(effect.name)
         effects[effect.name] = effect
+        
+        if (effect is ColorSourceRegistryListener) {
+            colorSources.addListener(effect as! ColorSourceRegistryListener)
+        }
     }
     
     // ==========================================================

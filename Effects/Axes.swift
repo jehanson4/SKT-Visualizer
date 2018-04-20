@@ -21,11 +21,6 @@ class Axes : GLKBaseEffect, Effect {
     var enabled: Bool
     var built: Bool = false
 
-    var colorSource: ColorSource? {
-        get { return nil }
-        set(newValue) { }
-    }
-    
     private let vertices: [GLfloat] = [
         0.00, 0.00, 0.00,
         0.25, 0.00, 0.00,

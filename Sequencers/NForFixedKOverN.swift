@@ -14,13 +14,14 @@ import Foundation
 
 class NForFixedKOverN : Sequencer {
     
-    static let type = "N for fixed k/N"
+    static let type = "N for fixed k0/N"
     var name = type
-    var description: String? = "change N and k, keeping k/N fixed"
+    var description: String?
     
     var bounds: (min: Double, max: Double) {
         get { return (Double(fBounds.min), Double(fBounds.max)) }
         set(newValue) {
+            // Clip these to the geometry, not N's bounds
             let min2 = clip(Int(floor(newValue.min)), SKGeometry.N_min, SKGeometry.N_max)
             let max2 = clip(Int(floor(newValue.max)), SKGeometry.N_min, SKGeometry.N_max)
             if (min2 == fBounds.min || max2 == fBounds.max || min2 >= max2) { return }
@@ -30,7 +31,15 @@ class NForFixedKOverN : Sequencer {
         }
     }
     
-    var boundaryCondition: BoundaryCondition = BoundaryCondition.sticky
+    var boundaryCondition: BoundaryCondition {
+        get { return fBC }
+        set(newValue) {
+            if (newValue == fBC) { return }
+            fBC = newValue
+            applyBC = getBCFuncForInt(bc: fBC)
+            // TODO register the change
+        }
+    }
     
     var value: Double {
         get { return Double(geometry.N) }
@@ -40,6 +49,7 @@ class NForFixedKOverN : Sequencer {
         get { return Double(fStepSgn) }
         set(newValue) {
             fStepSgn = Int(sgn(newValue))
+            // TODO register the change
         }
     }
 
@@ -52,19 +62,25 @@ class NForFixedKOverN : Sequencer {
                 // TODO register the change
             }
         }
-        
+    
     private var geometry: SKGeometry
     private var kOverN: Double
-    private var fBounds: (min: Int, max: Int) =
-        (min: SKGeometry.N_defaultLowerBound, max: SKGeometry.N_defaultUpperBound)
-    private var fStepSgn: Int
+    
+    private var fBounds: (min: Int, max: Int)
     private var fStepSize: Int
+    private var fStepSgn: Int
+    private var fBC: BoundaryCondition
+    private var applyBC: (inout Int, inout Int, Int, (min: Int, max: Int)) -> ()
 
-    init(_ geometry: SKGeometry) {
+    init(_ geometry: SKGeometry, k0: ControlParameter, N: ControlParameter) {
         self.geometry = geometry
+        // self.name = N.name + " for fixed " + k0.name + "/" + N.name
         self.kOverN = Double(geometry.k0) / Double(geometry.N)
+        self.fBounds = (min: Int(floor(N.bounds.min)), max: Int(floor(N.bounds.max)))
         self.fStepSgn = 1
-        self.fStepSize = 2
+        self.fStepSize = Int(floor(N.stepSize))
+        self.fBC = BoundaryCondition.sticky
+        self.applyBC = getBCFuncForInt(bc: fBC)
     }
     
     func prepare() {
@@ -72,28 +88,30 @@ class NForFixedKOverN : Sequencer {
     }
     
     func step() -> Bool {
-        <#code#>
+
+        let oldValue = geometry.N
+        let oldSgn = fStepSgn
+        var newValue = geometry.N + fStepSgn * fStepSize
+        var newSgn = fStepSgn
+        applyBC(&newValue, &newSgn, fStepSize, fBounds)
         
         
-    }
-    
-    
-    func step() {
-        debug("step")
-        var pValue: Int = geometry.N + (pStepSgn * geometry.N_step)
-        if (pValue < pMinValue) {
-            pValue = (wrap) ? pValue + (pMaxValue-pMinValue) : pMinValue
+        var changed = false
+        if (newValue != oldValue) {
+            geometry.N = newValue
+            geometry.k0 = Int(kOverN * Double(geometry.N))
+            changed = true
+            // TODO register the change
         }
-        else if (pValue > pMaxValue) {
-            pValue = (wrap) ? pValue - (pMaxValue-pMinValue) : pMaxValue
+        if (newSgn != oldSgn) {
+            self.fStepSgn = newSgn
+            changed = true
+            // TODO register the change
         }
-        updateGeometry(pValue)
+        
+        return changed
     }
     
-    private func updateGeometry(_ newN: Int) {
-        geometry.N = newN
-        geometry.k = Int(round(kOverN * Double(geometry.N)))
-    }
     
     private func debug(_ msg: String) {
         print(String(describing: NForFixedKOverN.self), msg)

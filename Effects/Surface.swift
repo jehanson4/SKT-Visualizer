@@ -19,27 +19,18 @@ import OpenGL
  This impl does the bookkeeping and the rendering, but sets the color to solid black.
  Subclasses needo only override computeColors()
 */
-class Surface : GLKBaseEffect, Effect {
+class Surface : GLKBaseEffect, Effect, ColorSourceRegistryListener {
     
     static let type = String(describing: Surface.self)
     var name = type
     var enabled = false
+    private var built: Bool = false
     
-    var colorSource: ColorSource? = nil {
-        
-        didSet(g2) {
-            debug("color source has been set; recomputing colors")
-            self.computeColors()
-        }
-    }
-    
-    var geometry: SKGeometry
-    var geometryChangeNumber: Int
-    var physics: SKPhysics
-    var physicsChangeNumber: Int
-    var linearColorMap: ColorMap? = nil
-    var logColorMap: ColorMap? = nil
+    private var colorSource: ColorSource? = nil
+    private var computeColorsNeeded: Bool = true
 
+    // ====================================
+    // GL stuff
     var vertices: [PNVertex] = []
     var indices: [GLuint] = []
     var colors: [GLKVector4] = []
@@ -50,7 +41,20 @@ class Surface : GLKBaseEffect, Effect {
     var normalBuffer: GLuint = 0
     var colorBuffer: GLuint = 0
     var indexBuffer: GLuint = 0
-    var built: Bool = false
+    
+    // ====================================
+    // OLD stuff
+
+    var geometry: SKGeometry
+    var geometryChangeNumber: Int
+    var physics: SKPhysics
+    var physicsChangeNumber: Int
+    var linearColorMap: ColorMap? = nil
+    var logColorMap: ColorMap? = nil
+
+    // ====================================
+    // Initiailzers
+    // ====================================
 
     init(_ geometry: SKGeometry, _ physics: SKPhysics, enabled: Bool = false) {
         self.geometry = geometry
@@ -62,22 +66,19 @@ class Surface : GLKBaseEffect, Effect {
     }
     
     private func build() -> Bool {
-        // material
-        // . . . but isn't it in the color buffer? comment it out & let's see
+        
+        // color material. The colors themselves are in the color buffer
         
         super.colorMaterialEnabled = GLboolean(GL_TRUE)
-        // super.material.emissiveColor = GLKVector4Make(0.0, 0.0, 0.0, 1.0)
-        // super.material.ambientColor = GLKVector4Make(1.0, 1.0, 1.0, 1.0)
-        // super.material.diffuseColor = GLKVector4Make(1.0, 1.0, 1.0, 1.0)
         super.material.shininess = 0
         
         // lighting
-        // THIS is necessary
         
         super.light0.enabled = GLboolean(GL_TRUE)
         super.light0.ambientColor = GLKVector4Make(0.1, 0.1, 0.1, 1.0)
         super.light0.diffuseColor = GLKVector4Make(1.0, 1.0, 1.0, 1.0)
-        super.light0.position = GLKVector4Make(0.0, 0.0, 1.0, 0.0)
+        // EMPIRICAL
+        super.light0.position = GLKVector4Make(1.0, 1.0, 2.0, 0.0)
         
         glGenVertexArraysOES(1, &vertexArray)
         buildVertexData()
@@ -128,22 +129,21 @@ class Surface : GLKBaseEffect, Effect {
         self.colors = Array(repeating: black, count: vertices.count)
     }
     
-    private func computeColors() {
+    private func ensureColorsAreFresh() {
         if (colorSource == nil) {
             debug("color source is nil")
             return
         }
-        
-        let gg = colorSource!
-        
-        // TAG INEFFICIENT
-        // I DO want to prepare() before using the color source . . . once per change
-        // But the same frame, or diff. effect in same frame, DO NOT PREPARE
-        
-        gg.prepare()
-        
+        if (!computeColorsNeeded) {
+            debug("colors are already fresh")
+            return
+        }
+
+        debug("recomputing colors")
+        let viz = colorSource!
+        viz.prepare()
         for i in 0..<colors.count {
-            colors[i] = gg.colorAt(i)
+            colors[i] = viz.colorAt(i)
         }
     }
     
@@ -213,6 +213,12 @@ class Surface : GLKBaseEffect, Effect {
         glDeleteBuffers(1, &indexBuffer)
     }
     
+    func selectionChanged(_ sender: ColorSourceRegistry) {
+        colorSource = sender.selectedColorSource
+        computeColorsNeeded = true
+    }
+    
+    
     func draw() {
         if (!enabled) {
             return
@@ -232,17 +238,21 @@ class Surface : GLKBaseEffect, Effect {
             debug("rebuilding...")
             self.geometryChangeNumber = geometryChange
             self.physicsChangeNumber = physicsChange
+            self.computeColorsNeeded = true
             deleteBuffers()
             buildVertexData()
-            computeColors()
+            
+            // TODO move this outside this if/else
+            ensureColorsAreFresh()
             createBuffers()
+
             debug("done rebuilding")
         }
         else if (physicsChange != physicsChangeNumber) {
             self.physicsChangeNumber = physicsChange
-            debug("recomputing colors...")
-            computeColors()
-            debug("done recomputing colors")
+            self.computeColorsNeeded = true
+            // TODO move this outside this if/else
+            ensureColorsAreFresh()
         }
 
         // DEBUG
@@ -255,7 +265,7 @@ class Surface : GLKBaseEffect, Effect {
         
         // Q: Just re-bind color & copy new values using glBufferSubData
         // A: seems to do the trick
-        
+        // TODO only do this if we recomputed the colors
         let cbSize = MemoryLayout<GLKVector4>.stride
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), colorBuffer)
         glBufferSubData(GLenum(GL_ARRAY_BUFFER), 0, cbSize * colors.count, colors)

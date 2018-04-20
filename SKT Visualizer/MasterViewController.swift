@@ -372,9 +372,6 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
             let mm: ModelController1 = model!
             var effect = model!.getEffect(Surface.type)
             if (effect != nil) {
-                if (mm.selectedColorSource != nil) {
-                    effect!.colorSource = mm.selectedColorSource!
-                }
                 effect!.enabled = sender.isOn
             }
             updateEffectControls(mm)
