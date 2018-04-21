@@ -1039,7 +1039,7 @@
         <!--Balrrgh-->
         <scene sceneID="FHe-FN-UGP">
             <objects>
-                <tableViewController title="Balrrgh" modalTransitionStyle="crossDissolve" modalPresentationStyle="overCurrentContext" id="34H-Ki-NCN" customClass="ColorSourceTableViewController" customModule="SKT_Visualizer" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Balrrgh" modalTransitionStyle="crossDissolve" modalPresentationStyle="overCurrentContext" id="34H-Ki-NCN" customClass="RegistrySelectionTableViewController" customModule="SKT_Visualizer" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="singleLineEtched" rowHeight="45" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="gxS-9a-t8i">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1051,7 +1051,7 @@
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </tableView>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="colorSourceCell" textLabel="GGa-uC-ptQ" style="IBUITableViewCellStyleDefault" id="fST-0u-SU7">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="registryEntryCell" textLabel="GGa-uC-ptQ" style="IBUITableViewCellStyleDefault" id="fST-0u-SU7">
                                 <rect key="frame" x="0.0" y="28" width="375" height="45"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fST-0u-SU7" id="kPN-Zq-m2v">

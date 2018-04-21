@@ -34,5 +34,6 @@ protocol ControlParameter {
     
     /// resets stepSize and value to defaults
     func reset()
+    
 }
 

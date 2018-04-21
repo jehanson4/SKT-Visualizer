@@ -27,7 +27,7 @@ class K0Param : ControlParameter {
             let v2 = clip(Int(floor(newValue)), SKGeometry.k0_min, SKGeometry.k0_max)
             if (v2 == geometry.k0) { return }
             geometry.k0 = v2
-            model.registerModelChange()
+            model.controlParameterHasChanged()
         }
     }
     
@@ -39,7 +39,7 @@ class K0Param : ControlParameter {
             let v2 = clip(Int(floor(newValue)), SKGeometry.k0_min, SKGeometry.k0_max)
             if (v2 == fDefaultValue) { return }
             fDefaultValue = v2
-            model.registerModelChange()
+            model.controlParameterHasChanged()
         }
     }
     
@@ -49,7 +49,7 @@ class K0Param : ControlParameter {
             let v2 = Int(floor(newValue))
             if (v2 == fStepSize || v2 <= 0) { return }
             fStepSize = v2;
-            model.registerModelChange()
+            model.controlParameterHasChanged()
         }
     }
     
@@ -61,17 +61,17 @@ class K0Param : ControlParameter {
             let v2 = Int(floor(newValue))
             if (v2 == fDefaultStepSize || v2 <= 0) { return }
             fDefaultStepSize = v2;
-            model.registerModelChange()
+            model.controlParameterHasChanged()
         }
     }
     
-    private var model: ModelController1!
-    private var geometry: SKGeometry!
+    private var model: SKTModel
+    private var geometry: SKGeometry
     private var fDefaultValue: Int
     private var fDefaultStepSize: Int
     private var fStepSize: Int
     
-    init(_ model: ModelController1, _ geometry: SKGeometry) {
+    init(_ model: SKTModel, _ geometry: SKGeometry) {
         self.model = model
         self.geometry = geometry
         self.fDefaultValue = SKGeometry.k0_default
@@ -91,7 +91,7 @@ class K0Param : ControlParameter {
             changed = true
         }
         if (changed) {
-            model.registerModelChange()
+            model.controlParameterHasChanged()
         }
     }
     

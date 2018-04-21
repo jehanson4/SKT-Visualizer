@@ -25,6 +25,9 @@ protocol SKTModel {
     var T: ControlParameter { get set }
     var beta: ControlParameter { get set }
     
+    // Callback used by control parameters when they change
+    func controlParameterHasChanged()
+    
     func resetControlParameters()
     
     func monitorParameters(_ callback: (_ sender: SKTModel) -> ()) -> ChangeMonitor?    

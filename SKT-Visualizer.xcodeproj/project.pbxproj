@@ -33,7 +33,6 @@
 		8A40BC0C207ECC7500F2D2EB /* Nodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A40BC0B207ECC7500F2D2EB /* Nodes.swift */; };
 		8A40BC0E207EEA3D00F2D2EB /* Meridians.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A40BC0D207EEA3D00F2D2EB /* Meridians.swift */; };
 		8A41A2F2208398E900CDDF28 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A41A2F1208398E900CDDF28 /* Constants.swift */; };
-		8A47BEC72085081400784B40 /* ModelController1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A47BEC62085081400784B40 /* ModelController1.swift */; };
 		8A47BECD208579B300784B40 /* ControlParameterSequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A47BECC208579B300784B40 /* ControlParameterSequencer.swift */; };
 		8A575FEE20804759002B9951 /* ColorMaps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A575FED20804759002B9951 /* ColorMaps.swift */; };
 		8A57600320805790002B9951 /* smooth-cool-warm-table-float-0128.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8A575FF320805790002B9951 /* smooth-cool-warm-table-float-0128.csv */; };
@@ -57,8 +56,6 @@
 		8A5E9489207523DA003477D3 /* Shader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A5E9488207523DA003477D3 /* Shader.swift */; };
 		8A5E948E2078EE46003477D3 /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A5E948D2078EE46003477D3 /* Net.swift */; };
 		8A75B68320894B6300EACD13 /* sticky.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A75B68220894B6300EACD13 /* sticky.png */; };
-		8A75B6862089FB1400EACD13 /* ColorSourceTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B6842089FB1400EACD13 /* ColorSourceTableViewController.swift */; };
-		8A75B6872089FB1400EACD13 /* ColorSourceTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A75B6852089FB1400EACD13 /* ColorSourceTableViewController.xib */; };
 		8A75B690208A317D00EACD13 /* Registry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B68F208A317D00EACD13 /* Registry.swift */; };
 		8A75B694208A771800EACD13 /* SKTModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B693208A771800EACD13 /* SKTModel.swift */; };
 		8A84313820726F0100F06B9B /* Axes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A84313720726F0100F06B9B /* Axes.swift */; };
@@ -100,6 +97,8 @@
 		8AF5320B2088AD24009D1882 /* BasinFinderSequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF5320A2088AD24009D1882 /* BasinFinderSequencer.swift */; };
 		8AF59500208AC0420082C5DE /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF594FF208AC0420082C5DE /* AppModel.swift */; };
 		8AF59503208AC5B10082C5DE /* VisualizatonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF59502208AC5B10082C5DE /* VisualizatonModel.swift */; };
+		8AF59507208AFBD70082C5DE /* RegistrySelectionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF59505208AFBD70082C5DE /* RegistrySelectionTableViewController.swift */; };
+		8AF59508208AFBD70082C5DE /* RegistrySelectionTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8AF59506208AFBD70082C5DE /* RegistrySelectionTableViewController.xib */; };
 		8AF98F96207FE7D60007688E /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 8AF98F95207FE7D60007688E /* LICENSE */; };
 		8AF98F9B207FE80E0007688E /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 8AF98F98207FE80D0007688E /* index.html */; };
 		8AF98F9C207FE80E0007688E /* sample.html in Resources */ = {isa = PBXBuildFile; fileRef = 8AF98F99207FE80D0007688E /* sample.html */; };
@@ -140,7 +139,6 @@
 		8A40BC0B207ECC7500F2D2EB /* Nodes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Nodes.swift; sourceTree = "<group>"; };
 		8A40BC0D207EEA3D00F2D2EB /* Meridians.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Meridians.swift; sourceTree = "<group>"; };
 		8A41A2F1208398E900CDDF28 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		8A47BEC62085081400784B40 /* ModelController1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelController1.swift; sourceTree = "<group>"; };
 		8A47BECC208579B300784B40 /* ControlParameterSequencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlParameterSequencer.swift; sourceTree = "<group>"; };
 		8A575FED20804759002B9951 /* ColorMaps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorMaps.swift; sourceTree = "<group>"; };
 		8A575FF320805790002B9951 /* smooth-cool-warm-table-float-0128.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "smooth-cool-warm-table-float-0128.csv"; sourceTree = "<group>"; };
@@ -164,8 +162,6 @@
 		8A5E9488207523DA003477D3 /* Shader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shader.swift; sourceTree = "<group>"; };
 		8A5E948D2078EE46003477D3 /* Net.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Net.swift; sourceTree = "<group>"; };
 		8A75B68220894B6300EACD13 /* sticky.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sticky.png; sourceTree = "<group>"; };
-		8A75B6842089FB1400EACD13 /* ColorSourceTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSourceTableViewController.swift; sourceTree = "<group>"; };
-		8A75B6852089FB1400EACD13 /* ColorSourceTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ColorSourceTableViewController.xib; sourceTree = "<group>"; };
 		8A75B68F208A317D00EACD13 /* Registry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registry.swift; sourceTree = "<group>"; };
 		8A75B693208A771800EACD13 /* SKTModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKTModel.swift; sourceTree = "<group>"; };
 		8A84313720726F0100F06B9B /* Axes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Axes.swift; sourceTree = "<group>"; };
@@ -207,6 +203,8 @@
 		8AF5320A2088AD24009D1882 /* BasinFinderSequencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasinFinderSequencer.swift; sourceTree = "<group>"; };
 		8AF594FF208AC0420082C5DE /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
 		8AF59502208AC5B10082C5DE /* VisualizatonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualizatonModel.swift; sourceTree = "<group>"; };
+		8AF59505208AFBD70082C5DE /* RegistrySelectionTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrySelectionTableViewController.swift; sourceTree = "<group>"; };
+		8AF59506208AFBD70082C5DE /* RegistrySelectionTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RegistrySelectionTableViewController.xib; sourceTree = "<group>"; };
 		8AF98F95207FE7D60007688E /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		8AF98F98207FE80D0007688E /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		8AF98F99207FE80D0007688E /* sample.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = sample.html; sourceTree = "<group>"; };
@@ -256,20 +254,20 @@
 		8A1CF009207146510099DD97 = {
 			isa = PBXGroup;
 			children = (
-				8AF98F95207FE7D60007688E /* LICENSE */,
 				8AF98FA6207FE9CF0007688E /* README.md */,
 				8A131C90207160100088F2FC /* _Notes.txt */,
 				8AAF6DFE208167A800E4C9BF /* _ToDo.txt */,
 				8A0C09A220716B050017AC4C /* Common */,
-				8ACE78902073CCDA00C29875 /* Frameworks */,
-				8A1CF013207146510099DD97 /* Products */,
 				8AF138B7207B8966001A88C6 /* Resources */,
 				8AF5320C2088B63E009D1882 /* SKT */,
 				8AF59501208AC50D0082C5DE /* Visualization */,
-				8A1CF014207146510099DD97 /* SKT Visualizer */,
 				8AF59504208AC6DB0082C5DE /* UI */,
+				8A1CF014207146510099DD97 /* SKT Visualizer */,
 				8A3C45B72086185B00A1E9CD /* Unfinished */,
 				8A1E1C85207D7C64008C1AAF /* Unused */,
+				8AF98F95207FE7D60007688E /* LICENSE */,
+				8ACE78902073CCDA00C29875 /* Frameworks */,
+				8A1CF013207146510099DD97 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -323,10 +321,9 @@
 		8A3C45B72086185B00A1E9CD /* Unfinished */ = {
 			isa = PBXGroup;
 			children = (
-				8A47BEC62085081400784B40 /* ModelController1.swift */,
 				8A0C09AB20718FA00017AC4C /* Scene.swift */,
-				8A75B6842089FB1400EACD13 /* ColorSourceTableViewController.swift */,
-				8A75B6852089FB1400EACD13 /* ColorSourceTableViewController.xib */,
+				8AF59505208AFBD70082C5DE /* RegistrySelectionTableViewController.swift */,
+				8AF59506208AFBD70082C5DE /* RegistrySelectionTableViewController.xib */,
 			);
 			path = Unfinished;
 			sourceTree = "<group>";
@@ -600,8 +597,8 @@
 				8AD81826207C9BD900426C25 /* image1-20@2x.png in Resources */,
 				8AD81820207C9BD900426C25 /* image1-60@2x.png in Resources */,
 				8A57600620805790002B9951 /* smooth-cool-warm-table-byte-0016.csv in Resources */,
+				8AF59508208AFBD70082C5DE /* RegistrySelectionTableViewController.xib in Resources */,
 				8A1CF020207146540099DD97 /* LaunchScreen.storyboard in Resources */,
-				8A75B6872089FB1400EACD13 /* ColorSourceTableViewController.xib in Resources */,
 				8AD81824207C9BD900426C25 /* image1-20@3x.png in Resources */,
 				8AD81827207C9BD900426C25 /* Contents.json in Resources */,
 				8A1CF01D207146540099DD97 /* Assets.xcassets in Resources */,
@@ -635,16 +632,15 @@
 				8AD817FC207BFA9200426C25 /* InfoViewController.swift in Sources */,
 				8A3C45A7208614D100A1E9CD /* Alpha1Param.swift in Sources */,
 				8A5E948E2078EE46003477D3 /* Net.swift in Sources */,
-				8A75B6862089FB1400EACD13 /* ColorSourceTableViewController.swift in Sources */,
 				8A41A2F2208398E900CDDF28 /* Constants.swift in Sources */,
 				8A19CD8B208248B100C1EADE /* NForFixedKOverN.swift in Sources */,
 				8A3C45CC2086396700A1E9CD /* Alpha2Param.swift in Sources */,
+				8AF59507208AFBD70082C5DE /* RegistrySelectionTableViewController.swift in Sources */,
 				8A3C45B62086167E00A1E9CD /* LogOccupation.swift in Sources */,
 				8A3C45AD2086156D00A1E9CD /* K0Param.swift in Sources */,
 				8AE48BB720876676001B5D11 /* ControlParameter2.swift in Sources */,
 				8A84313820726F0100F06B9B /* Axes.swift in Sources */,
 				8A3C45A5208614AE00A1E9CD /* TParam.swift in Sources */,
-				8A47BEC72085081400784B40 /* ModelController1.swift in Sources */,
 				8A3C45C42086214D00A1E9CD /* PhysicalPropertyColorSource.swift in Sources */,
 				8ABEEC3B20803A2F008E72F4 /* Surface.swift in Sources */,
 				8ACE788F2073C57500C29875 /* Effect.swift in Sources */,

@@ -25,7 +25,7 @@ class Alpha1Param : ControlParameter {
             let v2 = clip(newValue, bounds.min, bounds.max)
             if (v2 == fDefaultValue) { return }
             fDefaultValue = v2
-            model.registerModelChange()
+            model.controlParameterHasChanged()
         }
     }
     
@@ -35,7 +35,7 @@ class Alpha1Param : ControlParameter {
             let v2 = clip(newValue, bounds.min, bounds.max)
             if (v2 == physics.alpha1) { return }
             physics.alpha1 = v2
-            model.registerModelChange()
+            model.controlParameterHasChanged()
         }
     }
     
@@ -46,7 +46,7 @@ class Alpha1Param : ControlParameter {
         set(newValue) {
             if (newValue == fStepSize || newValue <= 0) { return }
             fDefaultStepSize = newValue
-            model.registerModelChange()
+            model.controlParameterHasChanged()
         }
     }
     
@@ -55,19 +55,19 @@ class Alpha1Param : ControlParameter {
         set(newValue) {
             if (newValue == fStepSize || newValue <= 0) { return }
             fStepSize = newValue
-            model.registerModelChange()
+            model.controlParameterHasChanged()
         }
     }
     
     var stepSizeString: String { return prettyString(fStepSize) }
 
-    private var model: ModelController1!
-    private var physics: SKPhysics!
+    private var model: SKTModel
+    private var physics: SKPhysics
     private var fDefaultValue: Double
     private var fDefaultStepSize: Double
     private var fStepSize: Double
 
-    init(_ model: ModelController1, _ physics: SKPhysics) {
+    init(_ model: SKTModel, _ physics: SKPhysics) {
         self.model = model
         self.physics = physics
         self.fDefaultValue = SKPhysics.alpha_defaultValue
@@ -86,7 +86,7 @@ class Alpha1Param : ControlParameter {
             changed = true
         }
         if (changed) {
-            model.registerModelChange()
+            model.controlParameterHasChanged()
         }
     }
 }

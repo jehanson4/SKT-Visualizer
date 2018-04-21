@@ -16,10 +16,12 @@ import OpenGL
 
 // ============================================================================
 
-class Scene : AppModel, ModelController1 {
-   
-    // TODO
-    var pov: POV
+class Scene : AppModel {
+    
+    func monitorParameters(_ callback: (SKTModel) -> ()) -> ChangeMonitor? {
+        // TODO
+        return nil
+    }
     
     // TODO
     func resetPOV() {
@@ -27,16 +29,11 @@ class Scene : AppModel, ModelController1 {
     }
     
     // TODO
-    var sequencers: Registry<Sequencer>
+    var sequencers: Registry<Sequencer> = Registry<Sequencer>()
     
     // TODO
-    var sequenceRateLimit: Double
+    var sequenceRateLimit: Double = 2
     
-    func monitorParameters(_ callback: (SKTModel) -> ()) -> ChangeMonitor {
-        // TODO
-    }
-    
- 
     // =================================
     // Model
     // =================================
@@ -59,9 +56,10 @@ class Scene : AppModel, ModelController1 {
         alpha2.reset()
         T.reset()
         // Don't reset beta
-        
-        // TODO This should go away
-        fireModelChange()
+    }
+    
+    func controlParameterHasChanged() {
+        // TODO
     }
     
     // =================================
@@ -76,14 +74,14 @@ class Scene : AppModel, ModelController1 {
 
     static let pov_initial = POV(2.0, Constants.piOver4, Constants.piOver4, 1.0)
     
-    var pov_default: (r: Double, phi: Double, thetaE: Double) {
+    var pov_default: POV {
         get { return fpov_default }
         set(newValue) {
             fpov_default = fixPOV(newValue)
         }
     }
     
-    var pov: (r: Double, phi: Double, thetaE: Double) {
+    var pov: POV {
         get { return fpov }
         set(newValue) {
             fpov = fixPOV(newValue)
@@ -91,68 +89,19 @@ class Scene : AppModel, ModelController1 {
         }
     }
     
-    static let zoom_initial = 1.0
-
-    var zoom_default: Double {
-        get { return fzoom_default }
-        set(newValue) {
-            if (newValue > 0) {
-                fzoom_default = newValue
-            }
-        }
-    }
-    
-    var zoom: Double {
-        get { return fzoom }
-        set(newValue) {
-            if (newValue > 0) {
-                fzoom = newValue
-            }
-        }
-    }
     
     lazy var effects: Registry<Effect> = Registry<Effect>()
 
-    private var fpov_default: (r: Double, phi: Double, thetaE: Double) = Scene.pov_initial
-    private var fpov: (r: Double, phi: Double, thetaE: Double) = Scene.pov_initial
-    private var fzoom_default: Double = Scene.zoom_initial
-    private var fzoom: Double = Scene.zoom_initial
+    private var fpov_default: POV = Scene.pov_initial
+    private var fpov: POV = Scene.pov_initial
     
     // ======================================================
     // OLD STUFF
-    
-    // ======================================================
-    // Graphics & POV
-    
-    // let povR_default: Double = 2
-    // let povPhi_default: Double = Constants.piOver4
-    // let povThetaE_default: Double = Constants.piOver4
-//
-//    var povR: Double { return (povR_default - geometry.r0)/zoom + geometry.r0 }
-//    var povPhi: Double
-//    var povThetaE: Double
-//
-//    var povRotationAngle: Double {
-//        didSet(newValue) {
-//            updateModelview()
-//        }
-//    }
-//
-//    var povRotationAxis: (x: Double, y: Double, z: Double) {
-//        didSet(newValue) {
-//            updateModelview()
-//        }
-//    }
-    
-    
-    // private var pov: PointOfView
     
     private var rOffset: Double = -0.001
     private var setupFinished: Bool = false
     
     var aspectRatio: Float = 1
-    
-    var modelChangeListeners: [ModelChangeListener1] = []
     
     // ======================================================
     
@@ -169,23 +118,9 @@ class Scene : AppModel, ModelController1 {
         // access sequencers
         makeSequencers()
         
-        // ===================================================
-        // OLD STUFF
-        
-        // self.pov = PointOfView()
-        //
-        // self.povR = povR_default
-        //   self.povPhi = povPhi_default
-        //     self.povThetaE = povThetaE_default
-        //
-        //        self.povRotationAngle = 0
-        //        self.povRotationAxis = (x: 0, y: 0, z: 1)
-        
         self.sequencerEnabled = false
         self.sequencerStepInterval = sequencerStepInterval_default
         self.sequencerLastStepTime = 0
-        
-
     }
     
     func setupGraphics() {
@@ -234,10 +169,11 @@ class Scene : AppModel, ModelController1 {
         // glColorMaterial(GLenum(GL_FRONT), GLenum(GL_AMBIENT_AND_DIFFUSE))
     }
     
-    private func fixPOV(_ pov: (r: Double, phi: Double, thetaE: Double)) -> ((r: Double, phi: Double, thetaE: Double)) {
+    private func fixPOV(_ pov: POV) -> POV {
         var r2 = pov.r
         var phi2 = pov.phi
         var thetaE2 = pov.thetaE
+        var zoom2 = pov.zoom
         
         if (r2 <= geometry.r0) {
             r2 = 2 * geometry.r0
@@ -257,7 +193,11 @@ class Scene : AppModel, ModelController1 {
             thetaE2 = Constants.piOver2 - Constants.eps
         }
         
-        return (r: r2, phi: phi2, thetaE: thetaE2)
+        if (zoom2 <= 0) {
+            zoom2 = 1.0
+        }
+        
+        return POV(r2, phi2, thetaE2, zoom2)
     }
     
     private func updateProjection() {
@@ -280,11 +220,11 @@ class Scene : AppModel, ModelController1 {
         
         // EMPIRICAL pretty much everything in here
         
-        let povR2: Double = (fpov.r - geometry.r0)/zoom + geometry.r0
+        let povR2: Double = (fpov.r - geometry.r0)/fpov.zoom + geometry.r0
         let povXYZ = geometry.sphericalToCartesian(povR2, fpov.phi, fpov.thetaE) // povR, povPhi, povThetaE)
         let lookatMatrix = GLKMatrix4MakeLookAt(Float(povXYZ.x), Float(povXYZ.y), Float(povXYZ.z), 0, 0, 0, 0, 0, 1)
 
-        let zz = GLfloat(fzoom)
+        let zz = GLfloat(fpov.zoom)
         let scaleMatrix = GLKMatrix4MakeScale(zz, zz, zz)
         let newMatrix = GLKMatrix4Multiply(scaleMatrix, lookatMatrix)
     
@@ -296,55 +236,8 @@ class Scene : AppModel, ModelController1 {
     }
 
     // ==========================================================
-    // OLD
-    // ==========================================================
-    
-    func addListener(forModelChange listener: ModelChangeListener1?) {
-        if (listener != nil) {
-            modelChangeListeners.append(listener!)
-        }
-    }
-    
-    func removeListener(forModelChange listener: ModelChangeListener1?) {
-        if (listener != nil) {
-            // TODO
-            debug("removeListener", "NOT IMPLEMENETED!")
-        }
-    }
-    
-    func registerModelChange() {
-        fireModelChange()
-    }
-    
-    func fireModelChange() {
-        for listener in modelChangeListeners {
-            listener.modelHasChanged(controller: self)
-        }
-    }
-    
-    // ==========================================================
     // Sequencers
     // ==========================================================
-    
-    
-    func selectSequencer(_ name: String) -> Bool {
-        let oldSequencer = selectedSequencer
-        let newSequencer = getSequencer(name)
-        if (newSequencer == nil) { return false }
-        
-        let oldName = (oldSequencer == nil) ? "nil" : oldSequencer!.name
-        if (oldSequencer == nil || newSequencer!.name != oldSequencer!.name) {
-            debug("selectSequencer", "changed from " + oldName + " to " + newSequencer!.name)
-            debug("selectSequencer", "calling prepare() on " + newSequencer!.name)
-            newSequencer!.prepare()
-        }
-        selectedSequencer = newSequencer
-        
-        debug("selectSequencer", "registering model change")
-        registerModelChange()
-        
-        return true
-    }
     
     private func makeSequencers() {
         debug("makeSequencers")
@@ -365,9 +258,10 @@ class Scene : AppModel, ModelController1 {
     }
     
     private func registerSequencer(_ sequencer: Sequencer, _ select: Bool) {
-        sequencers[sequencer.name] = sequencer
-        sequencerNames.append(sequencer.name)
-        if select { selectedSequencer = sequencer }
+        let newEntry = sequencers.register(sequencer, nameHint: sequencer.name)
+        if (select) {
+            sequencers.select(newEntry.index)
+        }
     }
     
     // ======================================================
@@ -380,15 +274,26 @@ class Scene : AppModel, ModelController1 {
     var sequencerLastStepTime: TimeInterval = TimeInterval()
     
     func toggleSequencer() {
-        if (selectedSequencer == nil) { return }
+        var sequencer = sequencers.selection?.value
+        if (sequencer == nil) {
+            return
+        }
         
-        debug("toggleSequencer: selected sequencer=" + selectedSequencer!.name)
+        var seq = sequencer!
+        debug("toggleSequencer: selected sequencer=" + seq.name)
+        
+
+        // ===================================
+        // TODO FIND THE RIGHT HOME FOR THIS
+        // ==================================
+        seq.prepare()
+        
         
         sequencerEnabled = !sequencerEnabled
         if (sequencerEnabled) {
-            let oldSgn = selectedSequencer!.stepSgn
-            selectedSequencer!.stepSgn *= -1
-            let newSgn = selectedSequencer!.stepSgn
+            let oldSgn = seq.stepSgn
+            seq.stepSgn *= -1
+            let newSgn = seq.stepSgn
             debug("toggleSequencer: sgn change from " + String(oldSgn) + " to " + String(newSgn))
         }
         else {
@@ -398,28 +303,26 @@ class Scene : AppModel, ModelController1 {
         // FIXME infinite loop here sometimes, I think.
         // Maybe if model change event we're about to fire changes the value?
         debug("toggleSequencer", "registering model change")
-        registerModelChange()
+        controlParameterHasChanged()
     }
     
     func sequencerStep() {
+        if (!sequencerEnabled) {
+            return
+        }
+        var sequencer = sequencers.selection?.value
+        if (sequencer == nil) {
+            return
+        }
         let t0: TimeInterval = currTime()
         let dt: TimeInterval = t0 - sequencerLastStepTime
-        if (
-            sequencerEnabled &&
-                (selectedSequencer != nil)
-                && (dt >= sequencerStepInterval)
-            ) {
+        if (dt >= sequencerStepInterval) {
             
-            let ss = selectedSequencer!
-            debug("draw: taking sequencer step, current value: " + String (ss.value))
+            var seq = sequencer!
+            debug("taking sequencer step, current value: \(seq.value)")
             sequencerLastStepTime = t0
-            let changed = ss.step()
-            debug("draw: sequencer step done, new value: " + String (ss.value))
-            
-            if (changed) {
-                debug("draw", "registering model change")
-                registerModelChange()
-            }
+            seq.step()
+            debug("sequencer step done, new value: \(seq.value)")
         }
     }
     
