@@ -67,7 +67,7 @@ class ControlParameterSequencer : Sequencer {
 
     init(_ parameter: ControlParameter) {
         self.name = parameter.name
-        self.description = parameter.description
+        self.description = parameter.info
         self.fParam = parameter
         self.fBounds = parameter.bounds
         self.fStepSize = parameter.stepSize

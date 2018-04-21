@@ -19,61 +19,49 @@ ToDo.txt
 
 ====================================
 
+---
 [ ] FIXME strog retain cycles b/c of listeners
     cf. http://blog.scottlogic.com/2015/02/05/swift-events.html
 
+---
 [ ] make the CP steppers fixed stepsize & bounds and don't permit user to change it
     ...maybe on page 2 someday if I feel like it, under "Manual Control"
 
-[ ] Consider a much-finer-grained control over which UI controls get touched when something behind them
-changes. "N", "k0", etc; things listen for those strings
-
+---
 [ ] SIMPLIFY manual stepper & sequencer should share as much as possible
 
+---
 Contra: makes the CP params unwieldy; and doesn't help for sequencers that aren't CPs
 ...which is an important class of 'em
 
-[ ] ControlParameter was fun but maybe not worth the complexity.
-Esp since I find it useful to have the code know them by name: model.T and so forth.
-How about a struct<T> instead that contains every single relevant number I can think of
-
-    NOT QUITE. use a parametrics class that contains a delegate
-    PROBLEM is the delegate is a protocol buy it needs to get/set T's
-
+---
 [ ] String(10) => \(10)
 
+---
 [ ] sequencer params take their initial values from control parameter defaults
     as found at sequencer creation time, but are independent thereafter
     bounds
     stepSize
-
+---
 [ ] page 2 has ui section for 'Parameter Defaults'
     INDEPENDENT from sequencer params
     look like CP wigets but have 1 extra nesting for parameter name
     parameter-defaults can be in a scrollview
 
+---
 [ ] sequencer numeric controls look like CP widgets
+
+---
 [ ] stepsize widget in sequencer controls
 
-[ ] CP's clip value to their own bounds
-
-[ ] Int and Double flavors for ControlParameter
-
-[?] generalize ControlParameter so it can be used for sequencers & first-level-parameter defaults
-
+---
 [ ] when user changes the sequencer, the old one gets sgn=0 and the new one does too
 
     impl the 2nd inside prepare()?
     no!
     impl it in the caller
 
-[ ] decide when it's appropriate to put the value inside the sequencer's bounds
-    ? on enable
-    ? never
-
-[?] popover scrolling list instead of picker
-
-[ ] set a func whenever bounds changes so I don't have to go thru the switch
+[ ] popover scrolling list instead of picker
 
 [ ] instead of PhysicalProperty.type, make an enum. ditto for anything else that uses a "type"
 
@@ -88,42 +76,38 @@ How about a struct<T> instead that contains every single relevant number I can t
 
 [ ] I think we're looking at the underside of the hemisphere
 
-[ ] app consists of 4 major parts
+[ ] app consists of 3 major parts
 
     1. model (geometry, physics incl. PhysicalProperties)
 
-    2. visualization (color sources)
+    2. visualization
+    2a. generation (color sources)
+    2b. presentation(effects, sequencers, POV, GL settings)
 
-    3. presentation(effects, sequencers, POV, GL settings)
+    3. UI (Master, Settings, Display)
 
-    4. UI (Master, Settings, Display)
+The App is in charge at first, but it quickly turns thte job over the the UI.
+For the UI to do its job, it needs to get and set things on the model & visualization.
 
-    protocol & associated user/listener protocol for each of the first 3?
+The UI has controls that touch both model & viz.
+The viz uses the model pretty heavily.
+The model doesn't know about either of these two things.
 
-    MAYBE put the control-param deltas & sequencer bounds into Visualization?
+option 1: layered with viz above model, then UI has hooks into both
+in that case, the AppModel contains an SKTModel class and adopts the Viz protocol
+
+option 2: viz and model are peers (sim. to physics & geometry)
+in that case, the AppModel contains an SKTModel class and Viz class
+
+Option 2 means there's some code to be put into app model, in order to bind the two together
+That same code would look just the same in option 1
+
+I want option 2
 
 --------
-[ ] "visualization"
-
-needs a different name; too close to 'presentation'
-
-generation? that's the right idea: we are generating the data to be presented
-
-group theory calls it 'realizing' a group
-
---------
-[ ] enum for the major app parts
-    so a sequencer (or UI control action or etc) can tell the app which kinds of part-change
-    might need updating, so the app can send the rignt events its listeners.
-
-    Note the plural
-
-    not enum: use bitmasks or tuples
-
-[ ] a single registerChange method that lets a sender say, "both Visualization and Model have changed"
-    etc
 
 [ ] Recursive Embedded Definition
+    This idea needs refinement. the definitions are the easy bit.
 
 [ ] sequencers that simulate dynamics of a population of points
     steepest descent

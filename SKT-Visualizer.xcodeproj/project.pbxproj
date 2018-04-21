@@ -17,6 +17,12 @@
 		8A1CF01B207146520099DD97 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A1CF019207146510099DD97 /* Main.storyboard */; };
 		8A1CF01D207146540099DD97 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A1CF01C207146540099DD97 /* Assets.xcassets */; };
 		8A1CF020207146540099DD97 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A1CF01E207146540099DD97 /* LaunchScreen.storyboard */; };
+		8A3BBBB3208B8BC600669227 /* AdjustableParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BBBB2208B8BC600669227 /* AdjustableParameter.swift */; };
+		8A3BBBB5208BBB0600669227 /* SKTModel1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BBBB4208BBB0600669227 /* SKTModel1.swift */; };
+		8A3BBBB7208BC28A00669227 /* VisualizationModel1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BBBB6208BC28A00669227 /* VisualizationModel1.swift */; };
+		8A3BBBB9208BC49D00669227 /* science.html in Resources */ = {isa = PBXBuildFile; fileRef = 8A3BBBB8208BC49D00669227 /* science.html */; };
+		8A3BBBBB208BCB5C00669227 /* AppModel1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BBBBA208BCB5B00669227 /* AppModel1.swift */; };
+		8A3BBBBD208BCFE600669227 /* AdjustableParameterSequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BBBBC208BCFE600669227 /* AdjustableParameterSequencer.swift */; };
 		8A3C45A32086145200A1E9CD /* ControlParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3C45A22086145200A1E9CD /* ControlParameter.swift */; };
 		8A3C45A5208614AE00A1E9CD /* TParam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3C45A4208614AE00A1E9CD /* TParam.swift */; };
 		8A3C45A7208614D100A1E9CD /* Alpha1Param.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3C45A6208614D100A1E9CD /* Alpha1Param.swift */; };
@@ -88,7 +94,6 @@
 		8AD81826207C9BD900426C25 /* image1-20@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8AD81815207C9BD900426C25 /* image1-20@2x.png */; };
 		8AD81827207C9BD900426C25 /* Contents.json in Resources */ = {isa = PBXBuildFile; fileRef = 8AD81816207C9BD900426C25 /* Contents.json */; };
 		8AD81828207C9BD900426C25 /* image1-29.png in Resources */ = {isa = PBXBuildFile; fileRef = 8AD81817207C9BD900426C25 /* image1-29.png */; };
-		8AE48BB720876676001B5D11 /* ControlParameter2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE48BB620876676001B5D11 /* ControlParameter2.swift */; };
 		8AE48BBB2087857C001B5D11 /* GLUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE48BBA2087857C001B5D11 /* GLUtils.swift */; };
 		8AE48BBD2087DD4F001B5D11 /* reset.png in Resources */ = {isa = PBXBuildFile; fileRef = 8AE48BBC2087DD4E001B5D11 /* reset.png */; };
 		8AE48BBF2087E63A001B5D11 /* background.css in Resources */ = {isa = PBXBuildFile; fileRef = 8AE48BBE2087E639001B5D11 /* background.css */; };
@@ -123,6 +128,12 @@
 		8A1CF01C207146540099DD97 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8A1CF01F207146540099DD97 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8A1CF021207146540099DD97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8A3BBBB2208B8BC600669227 /* AdjustableParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdjustableParameter.swift; sourceTree = "<group>"; };
+		8A3BBBB4208BBB0600669227 /* SKTModel1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKTModel1.swift; sourceTree = "<group>"; };
+		8A3BBBB6208BC28A00669227 /* VisualizationModel1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualizationModel1.swift; sourceTree = "<group>"; };
+		8A3BBBB8208BC49D00669227 /* science.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = science.html; sourceTree = "<group>"; };
+		8A3BBBBA208BCB5B00669227 /* AppModel1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel1.swift; sourceTree = "<group>"; };
+		8A3BBBBC208BCFE600669227 /* AdjustableParameterSequencer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdjustableParameterSequencer.swift; sourceTree = "<group>"; };
 		8A3C45A22086145200A1E9CD /* ControlParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlParameter.swift; sourceTree = "<group>"; };
 		8A3C45A4208614AE00A1E9CD /* TParam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TParam.swift; sourceTree = "<group>"; };
 		8A3C45A6208614D100A1E9CD /* Alpha1Param.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alpha1Param.swift; sourceTree = "<group>"; };
@@ -194,7 +205,6 @@
 		8AD81815207C9BD900426C25 /* image1-20@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "image1-20@2x.png"; sourceTree = "<group>"; };
 		8AD81816207C9BD900426C25 /* Contents.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Contents.json; sourceTree = "<group>"; };
 		8AD81817207C9BD900426C25 /* image1-29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "image1-29.png"; sourceTree = "<group>"; };
-		8AE48BB620876676001B5D11 /* ControlParameter2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlParameter2.swift; sourceTree = "<group>"; };
 		8AE48BBA2087857C001B5D11 /* GLUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GLUtils.swift; sourceTree = "<group>"; };
 		8AE48BBC2087DD4E001B5D11 /* reset.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = reset.png; sourceTree = "<group>"; };
 		8AE48BBE2087E639001B5D11 /* background.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = background.css; sourceTree = "<group>"; };
@@ -235,6 +245,7 @@
 				8A41A2F1208398E900CDDF28 /* Constants.swift */,
 				8A75B68F208A317D00EACD13 /* Registry.swift */,
 				8ACE789D2073F7A400C29875 /* Utils.swift */,
+				8A3BBBB2208B8BC600669227 /* AdjustableParameter.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -244,7 +255,7 @@
 			children = (
 				8A19CD872082384600C1EADE /* Sequencer.swift */,
 				8A3C45C7208629F000A1E9CD /* DummySequencer.swift */,
-				8A47BECC208579B300784B40 /* ControlParameterSequencer.swift */,
+				8A3BBBBC208BCFE600669227 /* AdjustableParameterSequencer.swift */,
 				8AF5320A2088AD24009D1882 /* BasinFinderSequencer.swift */,
 				8A19CD8A208248B100C1EADE /* NForFixedKOverN.swift */,
 			);
@@ -288,6 +299,7 @@
 				8A1CF021207146540099DD97 /* Info.plist */,
 				8A1CF01E207146540099DD97 /* LaunchScreen.storyboard */,
 				8A1CF019207146510099DD97 /* Main.storyboard */,
+				8A3BBBBA208BCB5B00669227 /* AppModel1.swift */,
 			);
 			path = "SKT Visualizer";
 			sourceTree = "<group>";
@@ -295,8 +307,10 @@
 		8A1E1C85207D7C64008C1AAF /* Unused */ = {
 			isa = PBXGroup;
 			children = (
+				8A0C09AB20718FA00017AC4C /* Scene.swift */,
+				8A47BECC208579B300784B40 /* ControlParameterSequencer.swift */,
+				8A3C45A12086141700A1E9CD /* ControlParameters */,
 				8AD817F8207BF8F300426C25 /* BackgroundWebView.swift */,
-				8AE48BB620876676001B5D11 /* ControlParameter2.swift */,
 				8A5E9488207523DA003477D3 /* Shader.swift */,
 				8A5E948420751F5B003477D3 /* SimpleFragmentShader.glsl */,
 				8A5E948520751F5B003477D3 /* SimpleVertexShader.glsl */,
@@ -321,9 +335,6 @@
 		8A3C45B72086185B00A1E9CD /* Unfinished */ = {
 			isa = PBXGroup;
 			children = (
-				8A0C09AB20718FA00017AC4C /* Scene.swift */,
-				8AF59505208AFBD70082C5DE /* RegistrySelectionTableViewController.swift */,
-				8AF59506208AFBD70082C5DE /* RegistrySelectionTableViewController.xib */,
 			);
 			path = Unfinished;
 			sourceTree = "<group>";
@@ -406,6 +417,7 @@
 		8AD817FE207BFD9E00426C25 /* background */ = {
 			isa = PBXGroup;
 			children = (
+				8A3BBBB8208BC49D00669227 /* science.html */,
 				8AE48BBE2087E639001B5D11 /* background.css */,
 				8AF98F98207FE80D0007688E /* index.html */,
 				8AF98F99207FE80D0007688E /* sample.html */,
@@ -464,8 +476,8 @@
 				8A0C09A520716B670017AC4C /* SKGeometry.swift */,
 				8AA0637C207A89DD00BB68DB /* SKPhysics.swift */,
 				8A75B693208A771800EACD13 /* SKTModel.swift */,
-				8A3C45A12086141700A1E9CD /* ControlParameters */,
 				8A75B692208A76D100EACD13 /* PhysicalProperties */,
+				8A3BBBB4208BBB0600669227 /* SKTModel1.swift */,
 			);
 			path = SKT;
 			sourceTree = "<group>";
@@ -476,6 +488,7 @@
 				8A575FED20804759002B9951 /* ColorMaps.swift */,
 				8AE48BBA2087857C001B5D11 /* GLUtils.swift */,
 				8AF59502208AC5B10082C5DE /* VisualizatonModel.swift */,
+				8A3BBBB6208BC28A00669227 /* VisualizationModel1.swift */,
 				8A75B691208A768100EACD13 /* ColorSources */,
 				8A5E948A2077D285003477D3 /* Effects */,
 				8A19CD892082488D00C1EADE /* Sequencers */,
@@ -494,6 +507,8 @@
 				8AF98F9E207FE8350007688E /* DetailViewController.xib */,
 				8AD817FA207BFA9200426C25 /* InfoViewController.swift */,
 				8AD817FB207BFA9200426C25 /* InfoViewController.xib */,
+				8AF59505208AFBD70082C5DE /* RegistrySelectionTableViewController.swift */,
+				8AF59506208AFBD70082C5DE /* RegistrySelectionTableViewController.xib */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -581,6 +596,7 @@
 				8AF98F9D207FE80E0007688E /* app.html in Resources */,
 				8A57600920805790002B9951 /* smooth-cool-warm-table-float-0016.csv in Resources */,
 				8A57600C20805790002B9951 /* smooth-cool-warm-table-byte-0128.csv in Resources */,
+				8A3BBBB9208BC49D00669227 /* science.html in Resources */,
 				8A75B68320894B6300EACD13 /* sticky.png in Resources */,
 				8AD81825207C9BD900426C25 /* image1-76.png in Resources */,
 				8A131C91207160100088F2FC /* _Notes.txt in Resources */,
@@ -626,7 +642,9 @@
 				8AF5320B2088AD24009D1882 /* BasinFinderSequencer.swift in Sources */,
 				8A3C45AB2086154F00A1E9CD /* NParam.swift in Sources */,
 				8A0C09A620716B670017AC4C /* SKGeometry.swift in Sources */,
+				8A3BBBB3208B8BC600669227 /* AdjustableParameter.swift in Sources */,
 				8A0269DD2080B1240054107D /* ColorSource.swift in Sources */,
+				8A3BBBBD208BCFE600669227 /* AdjustableParameterSequencer.swift in Sources */,
 				8A47BECD208579B300784B40 /* ControlParameterSequencer.swift in Sources */,
 				8A3C45B42086165500A1E9CD /* Entropy.swift in Sources */,
 				8AD817FC207BFA9200426C25 /* InfoViewController.swift in Sources */,
@@ -638,7 +656,6 @@
 				8AF59507208AFBD70082C5DE /* RegistrySelectionTableViewController.swift in Sources */,
 				8A3C45B62086167E00A1E9CD /* LogOccupation.swift in Sources */,
 				8A3C45AD2086156D00A1E9CD /* K0Param.swift in Sources */,
-				8AE48BB720876676001B5D11 /* ControlParameter2.swift in Sources */,
 				8A84313820726F0100F06B9B /* Axes.swift in Sources */,
 				8A3C45A5208614AE00A1E9CD /* TParam.swift in Sources */,
 				8A3C45C42086214D00A1E9CD /* PhysicalPropertyColorSource.swift in Sources */,
@@ -648,6 +665,9 @@
 				8A3C45B02086160A00A1E9CD /* Energy.swift in Sources */,
 				8AA0637D207A89DD00BB68DB /* SKPhysics.swift in Sources */,
 				8A3C45CA208632DD00A1E9CD /* BetaParam.swift in Sources */,
+				8A3BBBB7208BC28A00669227 /* VisualizationModel1.swift in Sources */,
+				8A3BBBBB208BCB5C00669227 /* AppModel1.swift in Sources */,
+				8A3BBBB5208BBB0600669227 /* SKTModel1.swift in Sources */,
 				8A75B694208A771800EACD13 /* SKTModel.swift in Sources */,
 				8AF5320720881A77009D1882 /* BasinFinder.swift in Sources */,
 				8A19CD882082384600C1EADE /* Sequencer.swift in Sources */,

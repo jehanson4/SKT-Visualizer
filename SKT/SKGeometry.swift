@@ -62,74 +62,95 @@ struct SKPoint {
 // ==============================================================================
 
 class SKGeometry : ChangeCounted {
+
+    // =======================================================
+    // Constants
     
     static let N_min: Int = 3
     static let N_max: Int = 10000000 // rather less than sqrt(Int.max)
-    static let N_default: Int = 100
+    static let N_defaultValue: Int = 100
     static let N_defaultStepSize: Int = 2
     static let N_defaultLowerBound: Int = 4
     static let N_defaultUpperBound: Int = 500
     
     static let k0_min: Int = 1
     static let k0_max: Int = N_max / 2
-    static let k0_default: Int = N_default / 2
+    static let k0_defaultValue: Int = N_defaultValue / 2
     static let k0_defaultStepSize: Int = 1
     static let k0_defaultLowerBound: Int = 1
-    static let k0_defaultUpperBound: Int = N_default / 2
+    static let k0_defaultUpperBound: Int = N_defaultValue / 2
     
+    let r0: Double = 1.0
+    
+    // =======================================================
+    // Getters and setters as computed properties as per common practice
+
     var N: Int {
-        get { return fN }
-        set {
-            let v2 = clip(newValue, SKGeometry.N_min, SKGeometry.N_max)
-            if (v2 == fN ) { return }
-            fN = v2
-            if (fk0 > fN / 2) { fk0 = fN / 2 }
-            registerChange()
-        }
+        get { return getN() }
+        set { setN(newValue) }
     }
     
     var k0: Int {
-        get { return fk0 }
-        set {
-            let v2 = clip(newValue, SKGeometry.k0_min, SKGeometry.k0_max)
-            if (v2 == fk0) { return }
-            fk0 = v2
-            if (fk0 > fN / 2) { fN = fk0 * 2}
-            registerChange()
-        }
+        get { return getK0() }
+        set { return setK0(newValue) }
+    }
+    
+    // =======================================================
+    // Getters and setters as funcs so they can be passed around
+
+    func getN() -> Int {
+        return _N
+    }
+    
+    func setN(_ newValue: Int) {
+        let v2 = clip(newValue, SKGeometry.N_min, SKGeometry.N_max)
+        if (v2 == _N ) { return }
+        _N = v2
+        if (_k0 > _N / 2) { _k0 = _N / 2 }
+        registerChange()
+    }
+    
+    func getK0() -> Int {
+        return _k0
+    }
+    
+    func setK0(_ newValue: Int) {
+        let v2 = clip(newValue, SKGeometry.k0_min, SKGeometry.k0_max)
+        if (v2 == _k0) { return }
+        _k0 = v2
+        if (_k0 > _N / 2) { _N = _k0 * 2 }
+        registerChange()
     }
     
     // ===============================================
     // other properties
-    
-    let r0: Double = 1.0
     
     var p1: SKPoint {
         get { return SKPoint(self, 0, 0) }
     }
     
     var p2: SKPoint {
-        get { return SKPoint(self, fk0, 0) }
+        get { return SKPoint(self, _k0, 0) }
     }
     
     var m_max: Int {
-        get { return fk0 }
+        get { return _k0 }
     }
     
     var n_max: Int {
-        get { return fN - fk0 }
+        get { return _N - _k0 }
     }
     
     var nodeCount: Int {
-        return (fk0 + 1) * (fN - fk0 + 1)
+        return (_k0 + 1) * (_N - _k0 + 1)
     }
     
     var changeNumber: Int {
         get { return pChangeCounter }
     }
     
-    private var fN: Int
-    private var fk0: Int
+    private var _N: Int
+    private var _k0: Int
     
     private var nodeIndexModulus: Int = 0
     private var skNorm: Double = 0
@@ -145,15 +166,15 @@ class SKGeometry : ChangeCounted {
     private var problems: [String] = []
     
     init() {
-        fN = SKGeometry.N_default
-        fk0 = SKGeometry.k0_default
+        _N = SKGeometry.N_defaultValue
+        _k0 = SKGeometry.k0_defaultValue
         calculateDerivedVars()
     }
 
     private func calculateDerivedVars() {
-        nodeIndexModulus = fN - fk0 + 1
-        skNorm = Constants.pi / Double(fN)
-        s0 = Constants.pi * Double(fk0) / Double(fN)
+        nodeIndexModulus = _N - _k0 + 1
+        skNorm = Constants.pi / Double(_N)
+        s0 = Constants.pi * Double(_k0) / Double(_N)
         sin_s0 = sin(s0)
         cot_s0 = 1.0/tan(s0)
         s12_max = Constants.twoPi - s0
@@ -270,7 +291,7 @@ class SKGeometry : ChangeCounted {
         var s2a = s2
         
         if (s1 + s2 < s0) {
-            if (debug && unequal(s1+s2, s0)) {
+            if (debug && distinct(s1+s2, s0)) {
                 problems.append("bad s1,s2: " + String(s1) + " " + String(s2) +  " sum too small by " + String(s0-(s1+s2)))
             }
             let diff = 0.5 * (s0 - (s1+s2))
@@ -279,7 +300,7 @@ class SKGeometry : ChangeCounted {
         }
         
         if (s1 + s2 > s12_max) {
-            if (debug && unequal(s1+s2, s12_max)) {
+            if (debug && distinct(s1+s2, s12_max)) {
                 problems.append("bad s1,s2: " + String(s1) + " " + String(s2) +  " sum too large by " + String((s1+s2) - s12_max))
             }
             let diff = 0.5 * ((s1+s2) - s12_max)
@@ -336,13 +357,13 @@ class SKGeometry : ChangeCounted {
         
         //  Avoid domain errors due to roundoff
         if (cos_theta < -1.0) {
-            if (debug && unequal(cos_theta, -1.0)) {
+            if (debug && distinct(cos_theta, -1.0)) {
                 problems.append("bad cos_theta: " + String(cos_theta) + " too small by " + String(-(cos_theta + 1.0)))
             }
             cos_theta = -1.0
         }
         if (cos_theta > 1.0) {
-            if (debug && unequal(cos_theta, 1.0)) {
+            if (debug && distinct(cos_theta, 1.0)) {
                 problems.append("bad cos_theta: " + String(cos_theta) + " too large by " + String(cos_theta - 1.0))
             }
             cos_theta = 1.0
@@ -397,13 +418,13 @@ class SKGeometry : ChangeCounted {
         
         //  Avoid domain errors due to roundoff
         if (cos_thetaE < -1.0) {
-            if (debug && unequal(cos_thetaE, -1.0)) {
+            if (debug && distinct(cos_thetaE, -1.0)) {
                 problems.append("bad cos_thetaE: " + String(cos_thetaE) + " too small by " + String(-(cos_thetaE + 1.0)))
             }
             cos_thetaE = -1.0
         }
         if cos_thetaE > 1.0 {
-            if (debug && unequal(cos_thetaE, 1.0)) {
+            if (debug && distinct(cos_thetaE, 1.0)) {
                 problems.append("bad cos_thetaE: " + String(cos_thetaE) + " too large by " + String(cos_thetaE - 1.0))
             }
             cos_thetaE = 1.0
@@ -421,7 +442,7 @@ class SKGeometry : ChangeCounted {
         }
         
         let s1 = self.skNorm * Double(n + m)
-        let s2 = self.skNorm * Double(self.fk0 + n - m)
+        let s2 = self.skNorm * Double(self._k0 + n - m)
         return (s1, s2)
     }
     
@@ -439,7 +460,7 @@ class SKGeometry : ChangeCounted {
                 printDebug("Multiple problems " + label)
             }
             
-            printDebug("    " + "[N=" + String(fN) + " k0=" + String(fk0) + "]" + path)
+            printDebug("    " + "[N=" + String(_N) + " k0=" + String(_k0) + "]" + path)
 
             if (m >= 0 && n >= 0) {
                 let pt = SKPoint(self, m, n)

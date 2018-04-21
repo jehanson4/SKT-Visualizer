@@ -72,7 +72,7 @@ class NParam : ControlParameter {
     init(_ model: SKTModel, _ geometry: SKGeometry) {
         self.model = model
         self.geometry = geometry
-        self.fDefaultValue = SKGeometry.N_default
+        self.fDefaultValue = SKGeometry.N_defaultValue
         self.fDefaultStepSize = SKGeometry.N_defaultStepSize
         self.fStepSize = fDefaultStepSize
         // Don't modify geometry.N here

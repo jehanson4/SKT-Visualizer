@@ -70,7 +70,7 @@ class BetaParam: ControlParameter {
     init(_ model: SKTModel, _ physics: SKPhysics) {
         self.model = model
         self.physics = physics
-        self.fDefaultValue = SKPhysics.beta_default
+        self.fDefaultValue = SKPhysics.beta_defaultValue
         self.fDefaultStepSize = SKPhysics.beta_defaultStepSize
         self.fStepSize = fDefaultStepSize
         // don't modify physics.beta here.

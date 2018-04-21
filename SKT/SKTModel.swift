@@ -1,5 +1,5 @@
 //
-//  Model.swift
+//  SKTModel.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 4/20/18.
@@ -9,26 +9,28 @@
 import Foundation
 
 // ===========================================================
-// SKModel
+// SKTModel
 // ===========================================================
 
 protocol SKTModel {
-    
+
     var geometry: SKGeometry { get }
     var physics: SKPhysics { get }
+    
+    // Parameters
+    
+    var N: AdjustableParameter<Int> { get }
+    var k0: AdjustableParameter<Int>  { get }
+    var alpha1: AdjustableParameter<Double>  { get }
+    var alpha2: AdjustableParameter<Double>  { get }
+    var T: AdjustableParameter<Double>  { get }
+    var beta: AdjustableParameter<Double>  { get }
+
+    // Physical properties
+    
+    var energy: PhysicalProperty { get }
+    var entropy: PhysicalProperty { get }
+    var logOccupation: PhysicalProperty { get }    
     var basinFinder: BasinFinder { get }
-    
-    var N: ControlParameter { get set }
-    var k0: ControlParameter { get set }
-    var alpha1: ControlParameter { get set }
-    var alpha2: ControlParameter { get set }
-    var T: ControlParameter { get set }
-    var beta: ControlParameter { get set }
-    
-    // Callback used by control parameters when they change
-    func controlParameterHasChanged()
-    
-    func resetControlParameters()
-    
-    func monitorParameters(_ callback: (_ sender: SKTModel) -> ()) -> ChangeMonitor?    
+
 }

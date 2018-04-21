@@ -8,6 +8,8 @@ n = #steps to the LEFT of p1 (= #steps to the RIGHT of p2). max = N-k
 */
 
 ==================================================================================
+OptionSet
+==================================================================================
 Split view controller:
 
 https://www.raywenderlich.com/173753/uisplitviewcontroller-tutorial-getting-started-2

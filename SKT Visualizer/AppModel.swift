@@ -21,6 +21,25 @@ protocol AppModelUser {
 // AppModel
 // =========================================================
 
-protocol AppModel : SKTModel, VisualizationModel {
+protocol AppModel  {
+    
+    var skt: SKTModel { get }
+    
+    var viz: VisualizationModel { get }
+}
+
+// ============================================================
+// AppModel1
+// ============================================================
+
+class AppModel1 : AppModel {
+    
+    var skt: SKTModel
+    var viz: VisualizationModel
+    
+    init() {
+        skt = SKTModel1()
+        viz = VisualizationModel1(skt)
+    }
     
 }

@@ -74,7 +74,7 @@ class K0Param : ControlParameter {
     init(_ model: SKTModel, _ geometry: SKGeometry) {
         self.model = model
         self.geometry = geometry
-        self.fDefaultValue = SKGeometry.k0_default
+        self.fDefaultValue = SKGeometry.k0_defaultValue
         self.fDefaultStepSize = SKGeometry.k0_defaultStepSize
         self.fStepSize = fDefaultStepSize
         // Don't modify geometry.k0 here

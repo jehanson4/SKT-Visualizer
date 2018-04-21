@@ -12,18 +12,13 @@ import Foundation
 // Misc Functions
 // =======================================================================
 
-/// Return true iff the values are NOT within eps of each other
-func unequal(_ x: Double, _ y: Double) -> Bool {
-    return abs(y-x) > Constants.eps
+/// Return true iff the values differ by more than Constants.eps
+func distinct(_ x: Double, _ y: Double) -> Bool {
+    return abs(y - x) > Constants.eps
 }
 
-/// Return min if x<min, max if x>max, x otherwise
-func clip(_ x: Int, _ min: Int, _ max: Int) -> Int {
-    return (x < min) ? min : ((x > max) ? max : x)
-}
-
-/// Return min if x<min, max if x>max, x otherwise
-func clip(_ x: Double, _ min: Double, _ max: Double) -> Double {
+/// Return min if x < min, max if x > max, x otherwise
+func clip<T: Comparable>(_ x: T, _ min: T, _ max: T) -> T {
     return (x < min) ? min : ((x > max) ? max : x)
 }
 
@@ -47,6 +42,11 @@ func logBinomial(_ a:Int, _ b:Int) -> Double {
             + 0.5 * (log(aa) - log(bb) - log(cc) - log(Constants.twoPi))
 }
 
+func prettyString(_ x: Int) -> String {
+    // TODO something better than tnis!
+    return String(x)
+}
+
 func prettyString(_ x: Double) -> String {
     // TODO something better than tnis!
     return String(format: "%G", x)
@@ -56,7 +56,7 @@ func piFraction(_ x: Double) -> String {
     let b = 8.0 * x / Constants.pi
     let br = round(b)
     
-    if (unequal(br-b, 0)) {
+    if (distinct(br-b, 0)) {
         return prettyString(x)
     }
     
@@ -92,3 +92,11 @@ protocol ChangeMonitor {
     func disconnect()
 }
 
+// =======================================================================
+// Named
+// =======================================================================
+
+protocol Named {
+    var name: String { get set }
+    var info: String? { get set }
+}
