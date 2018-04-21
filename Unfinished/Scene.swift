@@ -14,14 +14,33 @@ import OpenGLES
 import OpenGL
 #endif
 
-
 // ============================================================================
 
-class Scene : ModelController1, Model, Visualization, Presentation {
- 
-    // ======================================================
-    // Model
+class Scene : AppModel, ModelController1 {
+   
+    // TODO
+    var pov: POV
     
+    // TODO
+    func resetPOV() {
+        // TODO
+    }
+    
+    // TODO
+    var sequencers: Registry<Sequencer>
+    
+    // TODO
+    var sequenceRateLimit: Double
+    
+    func monitorParameters(_ callback: (SKTModel) -> ()) -> ChangeMonitor {
+        // TODO
+    }
+    
+ 
+    // =================================
+    // Model
+    // =================================
+
     lazy var geometry: SKGeometry = SKGeometry()
     lazy var physics: SKPhysics = SKPhysics(geometry)
     lazy var basinFinder: BasinFinder = BasinFinder(geometry, physics)
@@ -45,15 +64,59 @@ class Scene : ModelController1, Model, Visualization, Presentation {
         fireModelChange()
     }
     
-    // ======================================================
+    // =================================
     // Visualization
-    
+    // =================================
+
     lazy var colorSources: Registry<ColorSource> = Registry<ColorSource>()
 
-    // ======================================================
+    // =================================
     // Presentation
+    // =================================
+
+    static let pov_initial = POV(2.0, Constants.piOver4, Constants.piOver4, 1.0)
+    
+    var pov_default: (r: Double, phi: Double, thetaE: Double) {
+        get { return fpov_default }
+        set(newValue) {
+            fpov_default = fixPOV(newValue)
+        }
+    }
+    
+    var pov: (r: Double, phi: Double, thetaE: Double) {
+        get { return fpov }
+        set(newValue) {
+            fpov = fixPOV(newValue)
+            updateModelview()
+        }
+    }
+    
+    static let zoom_initial = 1.0
+
+    var zoom_default: Double {
+        get { return fzoom_default }
+        set(newValue) {
+            if (newValue > 0) {
+                fzoom_default = newValue
+            }
+        }
+    }
+    
+    var zoom: Double {
+        get { return fzoom }
+        set(newValue) {
+            if (newValue > 0) {
+                fzoom = newValue
+            }
+        }
+    }
     
     lazy var effects: Registry<Effect> = Registry<Effect>()
+
+    private var fpov_default: (r: Double, phi: Double, thetaE: Double) = Scene.pov_initial
+    private var fpov: (r: Double, phi: Double, thetaE: Double) = Scene.pov_initial
+    private var fzoom_default: Double = Scene.zoom_initial
+    private var fzoom: Double = Scene.zoom_initial
     
     // ======================================================
     // OLD STUFF
@@ -61,41 +124,33 @@ class Scene : ModelController1, Model, Visualization, Presentation {
     // ======================================================
     // Graphics & POV
     
-    let povR_default: Double = 2
-    let povPhi_default: Double = Constants.piOver4
-    let povThetaE_default: Double = Constants.piOver4
-    
-    var povR: Double { return (povR_default - geometry.r0)/zoom + geometry.r0 }
-    var povPhi: Double
-    var povThetaE: Double
-    
-    var povRotationAngle: Double {
-        didSet(newValue) {
-            updateModelview()
-        }
-    }
-    
-    var povRotationAxis: (x: Double, y: Double, z: Double) {
-        didSet(newValue) {
-            updateModelview()
-        }
-    }
-    
-    var zoom: Double = 1.0 {
-        didSet(newValue) {
-            updateModelview()
-        }
-    }
+    // let povR_default: Double = 2
+    // let povPhi_default: Double = Constants.piOver4
+    // let povThetaE_default: Double = Constants.piOver4
+//
+//    var povR: Double { return (povR_default - geometry.r0)/zoom + geometry.r0 }
+//    var povPhi: Double
+//    var povThetaE: Double
+//
+//    var povRotationAngle: Double {
+//        didSet(newValue) {
+//            updateModelview()
+//        }
+//    }
+//
+//    var povRotationAxis: (x: Double, y: Double, z: Double) {
+//        didSet(newValue) {
+//            updateModelview()
+//        }
+//    }
     
     
-    private var pov: PointOfView
+    // private var pov: PointOfView
     
     private var rOffset: Double = -0.001
     private var setupFinished: Bool = false
     
     var aspectRatio: Float = 1
-    // var projectionMatrix: GLKMatrix4!
-    // var modelviewMatrix: GLKMatrix4!
     
     var modelChangeListeners: [ModelChangeListener1] = []
     
@@ -103,23 +158,9 @@ class Scene : ModelController1, Model, Visualization, Presentation {
     
     init() {
         
-        // ===================================================
-        // OLD STUFF
-        
-        self.pov = PointOfView()
-        
-        // self.povR = povR_default
-        self.povPhi = povPhi_default
-        self.povThetaE = povThetaE_default
-        self.povRotationAngle = 0
-        self.povRotationAxis = (x: 0, y: 0, z: 1)
-        
-        self.sequencerEnabled = false
-        self.sequencerStepInterval = sequencerStepInterval_default
-        self.sequencerLastStepTime = 0
-        
-        // ===================================================
-        // NEW STUFF
+        // Fix the POV values in case the geometry has an unexpected r0.
+        fpov = fixPOV(fpov)
+        fpov_default = fixPOV(fpov_default)
         
         // colorSources = Registry<ColorSource>()
         makeColorSources()
@@ -127,6 +168,24 @@ class Scene : ModelController1, Model, Visualization, Presentation {
         // needs to be done in init() b/c multiple view controllers
         // access sequencers
         makeSequencers()
+        
+        // ===================================================
+        // OLD STUFF
+        
+        // self.pov = PointOfView()
+        //
+        // self.povR = povR_default
+        //   self.povPhi = povPhi_default
+        //     self.povThetaE = povThetaE_default
+        //
+        //        self.povRotationAngle = 0
+        //        self.povRotationAxis = (x: 0, y: 0, z: 1)
+        
+        self.sequencerEnabled = false
+        self.sequencerStepInterval = sequencerStepInterval_default
+        self.sequencerLastStepTime = 0
+        
+
     }
     
     func setupGraphics() {
@@ -175,49 +234,69 @@ class Scene : ModelController1, Model, Visualization, Presentation {
         // glColorMaterial(GLenum(GL_FRONT), GLenum(GL_AMBIENT_AND_DIFFUSE))
     }
     
-    private var projectionMatrix: GLKMatrix4!
-    private var modelviewMatrix: GLKMatrix4!
+    private func fixPOV(_ pov: (r: Double, phi: Double, thetaE: Double)) -> ((r: Double, phi: Double, thetaE: Double)) {
+        var r2 = pov.r
+        var phi2 = pov.phi
+        var thetaE2 = pov.thetaE
+        
+        if (r2 <= geometry.r0) {
+            r2 = 2 * geometry.r0
+        }
+        
+        while (phi2 < 0) {
+            phi2  += Constants.twoPi
+        }
+        while (phi2 >= Constants.twoPi) {
+            phi2 -= Constants.twoPi
+        }
+        
+        if (thetaE2 < 0) {
+            thetaE2 = 0
+        }
+        if (thetaE2 >= Constants.piOver2) {
+            thetaE2 = Constants.piOver2 - Constants.eps
+        }
+        
+        return (r: r2, phi: phi2, thetaE: thetaE2)
+    }
     
-    func updateProjection() {
+    private func updateProjection() {
         // debug("updateProjection")
         
         // EMPIRICAL if last 2 args are -d, d then it doesn't show net from underside.
         // 10 and 2d seem OK
         let d = GLfloat(2.0 * geometry.r0)
-        projectionMatrix = GLKMatrix4MakeOrtho(-d, d, -d/aspectRatio, d/aspectRatio, 2*d, -2*d)
+        let newMatrix = GLKMatrix4MakeOrtho(-d, d, -d/aspectRatio, d/aspectRatio, 2*d, -2*d)
         
+        func applyProjectionMatrix(_ effect: Effect) {
+            // debug("applyProjectionMatrix", "effect:" + effect.name)
+            effect.transform.projectionMatrix = newMatrix
+        }
         effects.visit(applyProjectionMatrix)
     }
     
-    private func applyProjectionMatrix(_ effect: Effect) {
-        // debug("applyProjectionMatrix", "effect:" + effect.name)
-        effect.transform.projectionMatrix = self.projectionMatrix
-    }
-    
-    private func applyModelviewMatrix(_ effect: Effect) {
-        // debug("applyModelviewMatrix", "effect:" + effect.name)
-        effect.transform.modelviewMatrix = self.modelviewMatrix
-    }
-    
-    func updateModelview() {
+    private func updateModelview() {
         // debug("updateModelview")
         
-        let povXYZ = geometry.sphericalToCartesian(povR, povPhi, povThetaE)
-        let zz = GLfloat(zoom)
+        // EMPIRICAL pretty much everything in here
         
-        modelviewMatrix = GLKMatrix4MakeLookAt(Float(povXYZ.x), Float(povXYZ.y), Float(povXYZ.z), 0, 0, 0, 0, 0, 1)
+        let povR2: Double = (fpov.r - geometry.r0)/zoom + geometry.r0
+        let povXYZ = geometry.sphericalToCartesian(povR2, fpov.phi, fpov.thetaE) // povR, povPhi, povThetaE)
+        let lookatMatrix = GLKMatrix4MakeLookAt(Float(povXYZ.x), Float(povXYZ.y), Float(povXYZ.z), 0, 0, 0, 0, 0, 1)
+
+        let zz = GLfloat(fzoom)
         let scaleMatrix = GLKMatrix4MakeScale(zz, zz, zz)
-        modelviewMatrix = GLKMatrix4Multiply(scaleMatrix, modelviewMatrix)
-        
-        modelviewMatrix = GLKMatrix4Rotate(modelviewMatrix, GLfloat(povRotationAngle),
-                                           GLfloat(povRotationAxis.x), GLfloat(povRotationAxis.y), GLfloat(povRotationAxis.z))
-        
-        effects.visit(applyModelviewMatrix)
-        
-    }
+        let newMatrix = GLKMatrix4Multiply(scaleMatrix, lookatMatrix)
     
+        func applyModelviewMatrix(_ effect: Effect) {
+            // debug("applyModelviewMatrix", "effect:" + effect.name)
+            effect.transform.modelviewMatrix = newMatrix
+        }
+        effects.visit(applyModelviewMatrix)
+    }
+
     // ==========================================================
-    // Listeners
+    // OLD
     // ==========================================================
     
     func addListener(forModelChange listener: ModelChangeListener1?) {
@@ -247,13 +326,6 @@ class Scene : ModelController1, Model, Visualization, Presentation {
     // Sequencers
     // ==========================================================
     
-    var sequencerNames: [String] = []
-    private var sequencers = [String: Sequencer]()
-    var selectedSequencer: Sequencer? = nil
-    
-    func getSequencer(_ name: String) -> Sequencer? {
-        return sequencers[name]
-    }
     
     func selectSequencer(_ name: String) -> Bool {
         let oldSequencer = selectedSequencer
@@ -303,9 +375,9 @@ class Scene : ModelController1, Model, Visualization, Presentation {
     
     let sequencerStepInterval_default: TimeInterval = 0.1
     
-    var sequencerEnabled: Bool
-    var sequencerStepInterval: TimeInterval
-    var sequencerLastStepTime: TimeInterval
+    var sequencerEnabled: Bool = false
+    var sequencerStepInterval: TimeInterval = TimeInterval()
+    var sequencerLastStepTime: TimeInterval = TimeInterval()
     
     func toggleSequencer() {
         if (selectedSequencer == nil) { return }
@@ -355,29 +427,24 @@ class Scene : ModelController1, Model, Visualization, Presentation {
     // Color Sources
     // ==========================================================
     
-    // TODO stop using then delete
-    var colorSourceNames: [String] {
-        return colorSources.entryNames
-    }
-    
-    // TODO stop using then delete
-    var selectedColorSource: ColorSource? {
-        return colorSources.selection?.value
-    }
-    
-    // TODO stop using then delete
-    func getColorSource(_ name: String) -> ColorSource? {
-        return colorSources.entry(name)?.value
-    }
-    
-    // TODO stop using then delete
-    func selectColorSource(_ name: String) -> Bool {
-        let idx = colorSourceNames.index(of: name)
-        if (idx == nil) { return false }
-        colorSources.select(idx!)
-        // FIxME
-        return true
-    }
+//    var colorSourceNames: [String] {
+//        return colorSources.entryNames
+//    }
+//
+//    var selectedColorSource: ColorSource? {
+//        return colorSources.selection?.value
+//    }
+//
+//    func getColorSource(_ name: String) -> ColorSource? {
+//        return colorSources.entry(name)?.value
+//    }
+//
+//    func selectColorSource(_ name: String) -> Bool {
+//        let idx = colorSourceNames.index(of: name)
+//        if (idx == nil) { return false }
+//        colorSources.select(idx!)
+//        return true
+//    }
     
     private func makeColorSources() {
         debug("makeColorSources")
@@ -457,67 +524,71 @@ class Scene : ModelController1, Model, Visualization, Presentation {
     // ==========================================================
     // ==========================================================
     
-    func setAspectRatio(_ aspectRatio: Double) {
-        let ar2: Float = Float(aspectRatio)
+//    private func setAspectRatio(_ aspectRatio: Double) {
+//        let ar2: Float = Float(aspectRatio)
+//        if (ar2 != self.aspectRatio) {
+//            debug("setAspectRatio: aspectRatio=" + String(ar2))
+//            self.aspectRatio = ar2
+//            updateProjection()
+//            updateModelview()
+//        }
+//    }
+//
+//    func setPOVAngularPosition(_ phi: Double, _ thetaE: Double) {
+//        povPhi = phi
+//        while (povPhi < 0) {
+//            povPhi += Constants.twoPi
+//        }
+//        while (povPhi >= Constants.twoPi) {
+//            povPhi -= Constants.twoPi
+//        }
+//
+//        povThetaE = thetaE
+//        if (povThetaE < 0) {
+//            povThetaE = 0
+//        }
+//        if (povThetaE >= Constants.piOver2) {
+//            povThetaE = Constants.piOver2 - Constants.eps
+//        }
+//        updateModelview()
+//
+//    }
+//
+    //    func movePOV(_ dPhi: Double, _ dTheta_e: Double) {
+    //        setPOVAngularPosition(povPhi + dPhi, povThetaE + dTheta_e)
+    //    }
+  //
+//    func resetPOV() {
+//        self.zoom = 1.0
+//        // self.povR = povR_default
+//        self.povPhi = povPhi_default
+//        self.povThetaE = povThetaE_default
+//        self.povRotationAngle = 0
+//        self.povRotationAxis = (x: 0, y: 0, z: 1)
+//        // self.sequencerEnabled = false
+//        // self.sequencerStepInterval = sequencerStepInterval_default
+//        updateModelview()
+//    }
+//
+    func draw(_ drawableWidth: Int, _ drawableHeight: Int) {
+
+        sequencerStep()
+        
+        let ar2 = Float(drawableWidth)/Float(drawableHeight)
         if (ar2 != self.aspectRatio) {
             debug("setAspectRatio: aspectRatio=" + String(ar2))
             self.aspectRatio = ar2
             updateProjection()
             updateModelview()
         }
-    }
-    
-    func setPOVAngularPosition(_ phi: Double, _ thetaE: Double) {
-        povPhi = phi
-        while (povPhi < 0) {
-            povPhi += Constants.twoPi
-        }
-        while (povPhi >= Constants.twoPi) {
-            povPhi -= Constants.twoPi
-        }
-        
-        povThetaE = thetaE
-        if (povThetaE < 0) {
-            povThetaE = 0
-        }
-        if (povThetaE >= Constants.piOver2) {
-            povThetaE = Constants.piOver2 - Constants.eps
-        }
-        updateModelview()
-        
-    }
-    
-    //    func movePOV(_ dPhi: Double, _ dTheta_e: Double) {
-    //        setPOVAngularPosition(povPhi + dPhi, povThetaE + dTheta_e)
-    //    }
-    
-    func resetPOV() {
-        self.zoom = 1.0
-        // self.povR = povR_default
-        self.povPhi = povPhi_default
-        self.povThetaE = povThetaE_default
-        self.povRotationAngle = 0
-        self.povRotationAxis = (x: 0, y: 0, z: 1)
-        // self.sequencerEnabled = false
-        // self.sequencerStepInterval = sequencerStepInterval_default
-        updateModelview()
-    }
-    
-    func draw() {
-        
-        // From orbiting teapot
-        // I think this needs to be called once per frame . . . .
+
         glClear(GLbitfield(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
-        
-        sequencerStep()
-        for name in effects.entryNames {
-            effects.visit(drawEffect)
+        func drawEffect(_ effect: Effect) {
+            effect.draw()
         }
+        effects.visit(drawEffect)
     }
     
-    private func drawEffect(_ effect: Effect) {
-        effect.draw()
-    }
     
     private func currTime() -> TimeInterval {
         return NSDate().timeIntervalSince1970
