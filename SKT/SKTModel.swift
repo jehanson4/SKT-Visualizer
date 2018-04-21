@@ -9,30 +9,23 @@
 import Foundation
 
 // ===========================================================
-// Model
+// SKModel
 // ===========================================================
 
-protocol Model {
+protocol SKTModel {
     
-    // ==============================
-    // Control parameters
-    // ==============================
-
+    var geometry: SKGeometry { get }
+    var physics: SKPhysics { get }
+    var basinFinder: BasinFinder { get }
+    
     var N: ControlParameter { get set }
     var k0: ControlParameter { get set }
     var alpha1: ControlParameter { get set }
     var alpha2: ControlParameter { get set }
     var T: ControlParameter { get set }
-    // var beta: ControlParameter { get set }
+    var beta: ControlParameter { get set }
     
     func resetControlParameters()
-
-    // ==============================
-    // Other stuff
-    // ==============================
-
-    var geometry: SKGeometry { get }
-    var physics: SKPhysics { get }
-    var basinFinder: BasinFinder { get }
     
+    func monitorParameters(_ callback: (_ sender: SKTModel) -> ()) -> ChangeMonitor?    
 }

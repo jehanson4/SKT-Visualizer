@@ -14,6 +14,8 @@ import Foundation
 
 class BasinFinderSequencer :  Sequencer {
     
+    
+    
     static var type = "Basin Finding"
     
     var name: String = type
@@ -92,5 +94,10 @@ class BasinFinderSequencer :  Sequencer {
         return basinFinder.canStep
     }
     
+    func monitorProperties(_ callback: (Sequencer) -> ()) -> ChangeMonitor? {
+        // TODO
+        return nil
+    }
     
+
 }

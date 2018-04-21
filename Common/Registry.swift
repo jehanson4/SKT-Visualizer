@@ -9,11 +9,10 @@
 import Foundation
 
 // =======================================================================
-// RegistryListener
+// RegistryMonitor
 // =======================================================================
 
-// Don't subclass this: pass your callback to registry.addSelectionListener(...)
-class RegistryListener<T> {
+class RegistryMonitor<T> : ChangeMonitor {
     
     let registrationID: Int
     private var callback: (_ sender: Registry<T>?) -> ()
@@ -31,10 +30,14 @@ class RegistryListener<T> {
         callback(sender)
     }
     
-    func disable() {
+    func disconnect() {
         unregister(registrationID)
     }
 }
+
+// =======================================================================
+// RegistryEntry
+// =======================================================================
 
 class RegistryEntry<T> {
     var index: Int
@@ -66,8 +69,8 @@ class Registry<T> {
     private var fEntryNames: [String] = []
     private var fEntries = [String: RegistryEntry<T>]()
     private var fSelection: RegistryEntry<T>? = nil
-    private var fSelectionListeners = [Int: RegistryListener<T>]()
-    private var fNextRegistrationID = 0
+    private var fSelectionMonitors = [Int: RegistryMonitor<T>]()
+    private var fMonitorCounter = 0
     
     func entry(_ name: String) -> RegistryEntry<T>? {
         return fEntries[name]
@@ -101,20 +104,28 @@ class Registry<T> {
         return newEntry
     }
     
-    // AWKWARD because I don't functional programming. Or swift, really.
-    // TODO clean this up
     func visit(_ visitor: @escaping (T) -> ()) {
         
         func visitorMapper(_ entry: RegistryEntry<T>) throws {
             visitor(entry.value!)
         }
         
+        // AWKWARD because I don't functional programming.
+        // Or swift, really.
+        // TODO clean this up
         do {
             try fEntries.mapValues(visitorMapper)
         }
         catch {
             // TODO something sensible
         }
+    }
+    
+    func monitorSelection(_ callback: @escaping (_ sender: Registry<T>?) -> ()) -> ChangeMonitor? {
+        let regID = nextMonitorID
+        let monitor = RegistryMonitor(regID, callback, removeSelectionMonitor)
+        fSelectionMonitors[regID] = monitor
+        return monitor
     }
     
     private func findUniqueName(_ hint: String?) -> String {
@@ -128,26 +139,19 @@ class Registry<T> {
         return test
     }
     
-    func addSelectionCallback(_ callback: @escaping (_ sender: Registry<T>?) -> ()) -> RegistryListener<T> {
-        let regID = nextRegistrationID
-        let listener = RegistryListener(regID, callback, removeSelectionListener)
-        fSelectionListeners[regID] = listener
-        return listener
-    }
-    
-    func removeSelectionListener(_ registrationID: Int?) {
-        if (registrationID != nil) { fSelectionListeners[registrationID!] = nil }
+    func removeSelectionMonitor(_ registrationID: Int?) {
+        if (registrationID != nil) { fSelectionMonitors[registrationID!] = nil }
     }
     
     private func fireSelectionChange() {
-        for listenerEntry in fSelectionListeners {
-            listenerEntry.value.invoke(self)
+        for mEntry in fSelectionMonitors {
+            mEntry.value.invoke(self)
         }
     }
     
-    private var nextRegistrationID: Int {
-        let id = fNextRegistrationID
-        fNextRegistrationID += 1
+    private var nextMonitorID: Int {
+        let id = fMonitorCounter
+        fMonitorCounter += 1
         return id
     }
 

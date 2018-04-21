@@ -11,22 +11,15 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    var window: UIWindow?
-    var model: ModelController1?
-    var visualization: Visualization?
-    var presentation: Presentation?
+    var debugEnabled: Bool = true
     
-    override init() {
-        super.init()
-    }
+    var window: UIWindow?
+    var appModel: AppModel?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch
         
-        let scene = Scene()
-        model = scene
-        visualization = scene
-        presentation = scene
+        appModel = Scene()
         let rvc = window?.rootViewController
         if (rvc != nil) {
             configureControllers(rvc!)
@@ -63,19 +56,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let detailViewController = splitViewController.viewControllers.last as? DetailViewController
             else { fatalError() }
         
-        debug("configureControllers", "setting master view controller's model & visualization")
-        masterViewController.model = self.model
-        debug("configureControllers", "setting master view controller's visualization")
-        masterViewController.visualization = self.visualization
-        debug("configureControllers", "setting master view controller's presentation")
-        masterViewController.presentation = self.presentation
+        debug("configureControllers", "setting master view controller's app model")
+        masterViewController.appModel = self.appModel
 
-        debug("configureControllers", "setting detail view controller's model")
-        detailViewController.model = self.model
+        debug("configureControllers", "setting detail view controller's app model")
+        detailViewController.appModel = self.appModel
     }
 
     private func debug(_ mtd: String, _ msg: String = "") {
-        print("AppDelegate", mtd, msg);
+        if (debugEnabled) {
+            print("AppDelegate", mtd, msg)
+        }
     }
 }
 

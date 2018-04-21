@@ -13,12 +13,12 @@ import OpenGLES
 import OpenGL
 #endif
 
-class DetailViewController: GLKViewController, ModelUser1, ModelChangeListener1 {
+class DetailViewController: GLKViewController, AppModelUser {
     
     let name: String = "DetailViewController"
+    var debugEnabled = true
     
-    var model: ModelController1? = nil
-    
+    var appModel: AppModel? = nil
     var context: EAGLContext? = nil
 
     let panPhi_scaleFactor: Double = 0.01 // EMPIRICAL
@@ -46,14 +46,13 @@ class DetailViewController: GLKViewController, ModelUser1, ModelChangeListener1 
         let view = self.view as! GLKView
         view.context = self.context!
         view.drawableDepthFormat = .format24
-        
-        if (model == nil) {
-            debug("viewDidLoad", "model is nil!")
+
+        if (appModel == nil) {
+            debug("viewDidLoad", "appModel is nil")
         }
         else {
-            debug("viewDidLoad", "setting up graphics!")
-            model!.setupGraphics()
-            // model!.addListener(forModelChange: self)
+            debug("viewDidLoad", "setting up graphics")
+            appModel!.setupGraphics()
         }
     }
 
@@ -61,18 +60,17 @@ class DetailViewController: GLKViewController, ModelUser1, ModelChangeListener1 
         let dname = (segue.destination.title == nil) ? "" : segue.destination.title!
         debug("prepare for segue", dname)
         
-        // FIXME what about unsubscribing?
-        
-        // HACK HACK HACK HACK
-        if (segue.destination is ModelUser1) {
-            debug("destination is a model user")
-            var d2 = segue.destination as! ModelUser1
-            if (d2.model != nil) {
-                debug("destination's model is already set")
+        if (segue.destination is AppModelUser) {
+            debug("destination is a not an app model user")
+        }
+        else {
+            var d2 = segue.destination as! AppModelUser
+            if (d2.appModel != nil) {
+                debug("destination's app model is already set")
             }
             else {
-                debug("setting destination's model")
-                d2.model = self.model
+                debug("setting destination's app model")
+                d2.appModel = self.appModel
             }
         }
     }
@@ -99,59 +97,47 @@ class DetailViewController: GLKViewController, ModelUser1, ModelChangeListener1 
         }
     }
 
-    func modelHasChanged(controller: ModelController1?) {
-        debug("modelHashChanged", "Nuthin to do")
-    }
-    
-    
-//    @IBAction func unwindToDetail(_ sender: UIStoryboardSegue) {
-//        print("unwindToDetail")
-//    }
     
     override func glkView(_ view: GLKView, drawIn rect: CGRect) {
         // print("DetailViewController.glkView")
-        
-        if (model == nil) { return }
-        let aspectRatio = Double(view.drawableWidth)/Double(view.drawableHeight)
-        model!.setAspectRatio(aspectRatio)
-        model!.draw()
+        appModel?.draw(view.drawableWidth, view.drawableHeight)
     }
     
     @IBAction func handlePan(_ sender: UIPanGestureRecognizer) {
         // print("DetailViewController.handlePan", "sender.state:", sender.state)
-        if (model == nil) { return }
+        if (appModel == nil) { return }
 
+        let pov = appModel!.pov
         if (sender.state == UIGestureRecognizerState.began) {
-            panPhi_initialValue = model!.povPhi
-            panTheta_initialValue = model!.povThetaE
+            panPhi_initialValue = pov.phi
+            panTheta_initialValue = pov.thetaE
         }
         let delta = sender.translation(in: sender.view)
-        model!.setPOVAngularPosition(
-            panPhi_initialValue - Double(delta.x) * panPhi_scaleFactor,
-            panTheta_initialValue - Double(delta.y) * panTheta_scaleFactor
-        )
+        let phi2 = panPhi_initialValue - Double(delta.x) * panPhi_scaleFactor
+        let thetaE2 = panTheta_initialValue - Double(delta.y) * panTheta_scaleFactor
+        appModel!.pov = POV(pov.r, phi2, thetaE2, pov.zoom)
     }
     
     @IBAction func handleTap(_ sender: UITapGestureRecognizer) {
-        if (model == nil) { return }
-        model!.toggleSequencer()
+        if (appModel == nil) { return }
+        appModel!.toggleSequencer()
     }
     
     @IBAction func handlePinch(_ sender: UIPinchGestureRecognizer) {
         // print("DetailViewController.handlePinch", "sender.state:", sender.state)
-        if (model == nil) { return }
+        if (appModel == nil) { return }
 
+        let pov = appModel!.pov
         if (sender.state == UIGestureRecognizerState.began) {
-            pinchZoom_initialValue = model!.zoom
-            debug("pinch began. zoom=" + String(model!.zoom) + " povR=" + String(model!.povR))
+            pinchZoom_initialValue = pov.zoom
         }
-        model!.zoom = (pinchZoom_initialValue * Double(sender.scale))
-        if (sender.state == UIGestureRecognizerState.ended) {
-            debug("pinch ended. scale=" + String(Float(sender.scale)) + " zoom=" + String(model!.zoom) + " povR=" + String(model!.povR))
-        }
+        let newZoom = (pinchZoom_initialValue * Double(sender.scale))
+        appModel!.pov = POV(pov.r, pov.phi, pov.thetaE, newZoom)
     }
     
     private func debug(_ mtd: String, _ msg: String = "") {
-        print(name, mtd, msg)
+        if (debugEnabled) {
+            print(name, mtd, msg)
+        }
     }
 }

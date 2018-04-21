@@ -84,3 +84,11 @@ protocol ChangeCounted {
     var changeNumber: Int { get }
 }
 
+// =======================================================================
+// ChangeMonitor
+// =======================================================================
+
+protocol ChangeMonitor {
+    func disconnect()
+}
+

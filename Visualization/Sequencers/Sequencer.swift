@@ -40,6 +40,8 @@ protocol Sequencer {
     
     /// returns true iff . . . .what?
     func step() -> Bool
+    
+    func monitorProperties(_ callback: (_ sender: Sequencer) -> ()) -> ChangeMonitor?
 }
 
 // ==============================================================================
@@ -55,8 +57,6 @@ func getBCFuncForDouble(bc: BoundaryCondition)
             return applyReflectiveBCForDouble
         case .periodic:
             return applyPeriodicBCForDouble
-        default:
-            return applyNullBCForDouble
         }
 }
 
@@ -119,8 +119,6 @@ func getBCFuncForInt(bc: BoundaryCondition)
             return applyReflectiveBCForInt
         case .periodic:
             return applyPeriodicBCForInt
-        default:
-            return applyNullBCForInt
         }
 }
 

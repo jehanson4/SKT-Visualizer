@@ -31,44 +31,7 @@ protocol ModelChangeListener1 {
 // ModelController
 // =========================================================
 
-protocol ModelController1: Model {
-
-    // ======================================
-    // Graphics & POV
-    // ======================================
-    
-    func setupGraphics()
-
-    func setAspectRatio(_ aspectRatio: Double)
-    
-    func draw()
-    
-    var zoom: Double { get set }
-    var povR: Double { get }
-    var povPhi: Double { get }
-    var povThetaE: Double { get }
-    
-    var povRotationAxis: (x: Double, y: Double, z: Double) { get set }
-    var povRotationAngle: Double { get set }
-    
-    // TODO replace with var pov(phi, thetaE) { get set }
-    func setPOVAngularPosition(_ phi: Double, _ thetaE: Double)
-    
-    func resetPOV()
-
-    // ====================================================
-    // Effects
-    // ====================================================
-
-    var effects: Registry<Effect> { get }
-    
-    // ====================================================
-    // ColorSources
-    // ====================================================
-    // var colorSourceNames: [String] { get }
-    // var selectedColorSource: ColorSource? { get }
-    // func getColorSource(_ name: String) -> ColorSource?
-    // func selectColorSource(_ name: String) -> Bool
+protocol ModelController1 {
 
     // ====================================================
     // Sequencers

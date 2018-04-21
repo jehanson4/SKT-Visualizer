@@ -49,7 +49,7 @@ class Surface : GLKBaseEffect, Effect {
     
     private var colorSources: Registry<ColorSource>? = nil
     private var computeColorsNeeded: Bool = true
-    private var colorSourceSelectionListener: RegistryListener<ColorSource>? = nil
+    private var colorSourceMonitor: ChangeMonitor? = nil
 
     var linearColorMap: ColorMap? = nil
     var logColorMap: ColorMap? = nil
@@ -69,9 +69,7 @@ class Surface : GLKBaseEffect, Effect {
     }
     
     deinit {
-        if (colorSourceSelectionListener != nil) {
-            colorSourceSelectionListener?.disable()
-        }
+        colorSourceMonitor?.disconnect()
         glDeleteVertexArraysOES(1, &vertexArray)
         deleteBuffers()
     }
@@ -160,9 +158,9 @@ class Surface : GLKBaseEffect, Effect {
         computeColorsNeeded = false
         
         // AFTER calling recompute
-        if (colorSourceSelectionListener == nil) {
-            debug("starting to listen for colorSource selection events")
-            colorSourceSelectionListener = colorSources!.addSelectionCallback(self.colorSourceHasChanged)
+        if (colorSourceMonitor == nil) {
+            debug("starting to monitor colorSource selection")
+            colorSourceMonitor = colorSources?.monitorSelection(self.colorSourceHasChanged)
         }
         
         return true

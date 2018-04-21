@@ -17,6 +17,11 @@ import Foundation
  */
 class DummySequencer : Sequencer {
     
+    func monitorProperties(_ callback: (Sequencer) -> ()) -> ChangeMonitor? {
+        return nil
+    }
+    
+    
     var name: String
     var description: String?
     

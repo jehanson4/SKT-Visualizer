@@ -17,6 +17,7 @@ class NForFixedKOverN : Sequencer {
     static let type = "N for fixed k0/N"
     var name = type
     var description: String?
+    var debugEnabled = true
     
     var bounds: (min: Double, max: Double) {
         get { return (Double(fBounds.min), Double(fBounds.max)) }
@@ -112,9 +113,16 @@ class NForFixedKOverN : Sequencer {
         return changed
     }
     
+    func monitorProperties(_ callback: (Sequencer) -> ()) -> ChangeMonitor? {
+        // TODO
+        return nil
+    }
     
+
     private func debug(_ msg: String) {
-        print(String(describing: NForFixedKOverN.self), msg)
+        if (debugEnabled) {
+            print(String(describing: NForFixedKOverN.self), msg)
+        }
     }
 }
 

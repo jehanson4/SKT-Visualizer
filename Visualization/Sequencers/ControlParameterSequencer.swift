@@ -10,8 +10,10 @@ import Foundation
 
 class ControlParameterSequencer : Sequencer {
     
+    
     let name: String
     var description: String?
+    var debugEnabled = true
     
     var value: Double {
         get {return self.fParam.value }
@@ -103,7 +105,16 @@ class ControlParameterSequencer : Sequencer {
         return changed
     }
     
+    func monitorProperties(_ callback: (Sequencer) -> ()) -> ChangeMonitor? {
+        // TODO
+        return nil
+    }
+    
+    
+
     private func debug(_ mtd:String, _ msg: String = "") {
-        print(name, mtd, msg)
+        if (debugEnabled) {
+            print(name, mtd, msg)
+        }
     }
 }
