@@ -9,29 +9,29 @@
 import Foundation
 
 // =======================================================================
-// RegistryMonitor
+// RegistryChangeMonitor
 // =======================================================================
 
-class RegistryMonitor<T> : ChangeMonitor {
+class RegistryChangeMonitor<T> : ChangeMonitor {
     
-    let registrationID: Int
-    private var callback: (_ sender: Registry<T>?) -> ()
-    var unregister: (_ registrationID: Int?) -> ()
+    let id: Int
+    private let callback: (_ sender: Registry<T>) -> ()
+    private weak var registry: Registry<T>!
 
-    init(_ registrationID: Int,
-         _ callback: @escaping (Registry<T>?) -> (),
-         _ unregister: @escaping (_ registrationID: Int?) -> ()) {
-            self.registrationID = registrationID
+    init(_ id: Int,
+         _ callback: @escaping (Registry<T>) -> (),
+         _ registry: Registry<T>) {
+            self.id = id
             self.callback = callback
-            self.unregister = unregister
+            self.registry = registry
     }
     
-    func invoke(_ sender: Registry<T>) {
-        callback(sender)
+    func fire() {
+        callback(registry)
     }
     
     func disconnect() {
-        unregister(registrationID)
+        registry.monitors[id] = nil
     }
 }
 
@@ -55,52 +55,32 @@ class RegistryEntry<T> {
 // Registry
 // =======================================================================
 
-
-// TODO check whether strong ref's
-// TODO make this an extension on Dictionary
-// TODO regiterXXX doesn't return Int, it returns a self-unregistering registration object
-
 class Registry<T> {
     
-    var entryNames: [String] { return fEntryNames }
+    // =============================
+    // Entries
+    // =============================
+
+    var entryNames: [String] { return _entryNames }
     
-    var selection: RegistryEntry<T>? { return fSelection }
-    
-    private var fEntryNames: [String] = []
-    private var fEntries = [String: RegistryEntry<T>]()
-    private var fSelection: RegistryEntry<T>? = nil
-    private var fSelectionMonitors = [Int: RegistryMonitor<T>]()
-    private var fMonitorCounter = 0
+    private var _entryNames: [String] = []
+    private var _entries = [String: RegistryEntry<T>]()
     
     func entry(_ name: String) -> RegistryEntry<T>? {
-        return fEntries[name]
+        return _entries[name]
     }
     
     func entry(_ index: Int) -> RegistryEntry<T>? {
-        return fEntries[entryNames[index]]
-    }
-    
-    func select(_ index: Int) {
-        if (index >= 0 && index < fEntryNames.count && (fSelection == nil || fSelection!.index != index)) {
-            fSelection = entry(index)
-            fireSelectionChange()
-        }
-    }
-    
-    func select(_ name: String) {
-        let newSel = fEntries[name]
-        if (newSel != nil && (fSelection == nil || fSelection!.name != name)) {
-            fSelection = newSel
-            fireSelectionChange()
-        }
+        return _entries[entryNames[index]]
     }
     
     func register(_ t: T, nameHint: String? = nil) -> RegistryEntry<T> {
         let name = findUniqueName(nameHint)
-        let index = entryNames.count        
+        let index = entryNames.count
         let newEntry = RegistryEntry<T>(index, name, t)
-        fEntryNames.append(name)
-        fEntries[name] = newEntry
+        _entryNames.append(name)
+        _entries[name] = newEntry
+        fireRegistryChange()
         return newEntry
     }
     
@@ -110,48 +90,72 @@ class Registry<T> {
             visitor(entry.value!)
         }
         
-        // AWKWARD because I don't functional programming.
-        // Or swift, really.
-        // TODO clean this up
+        // AWKWARD because Jim doesn't Swift
         do {
-            try fEntries.mapValues(visitorMapper)
+            try _entries.mapValues(visitorMapper)
         }
         catch {
             // TODO something sensible
         }
     }
     
-    func monitorSelection(_ callback: @escaping (_ sender: Registry<T>?) -> ()) -> ChangeMonitor? {
-        let regID = nextMonitorID
-        let monitor = RegistryMonitor(regID, callback, removeSelectionMonitor)
-        fSelectionMonitors[regID] = monitor
-        return monitor
-    }
-    
     private func findUniqueName(_ hint: String?) -> String {
         let basis = (hint == nil) ? "Entry" : hint!
         var test = basis
         var idx = 0
-        while (fEntries[test] != nil) {
+        while (_entries[test] != nil) {
             idx += 1
             test = basis + "-" + String(idx)
         }
         return test
     }
+
+    // =================================
+    // Selection
+    // =================================
+
+    var selection: RegistryEntry<T>? { return _selection }
     
-    func removeSelectionMonitor(_ registrationID: Int?) {
-        if (registrationID != nil) { fSelectionMonitors[registrationID!] = nil }
+    private var _selection: RegistryEntry<T>? = nil
+
+    func select(_ index: Int) {
+        if (index >= 0 && index < _entryNames.count && (_selection == nil || _selection!.index != index)) {
+            _selection = entry(index)
+            fireRegistryChange()
+        }
     }
     
-    private func fireSelectionChange() {
-        for mEntry in fSelectionMonitors {
-            mEntry.value.invoke(self)
+    func select(_ name: String) {
+        let newSel = _entries[name]
+        if (newSel != nil && (_selection == nil || _selection!.name != name)) {
+            _selection = newSel
+            fireRegistryChange()
+        }
+    }
+    
+    // =================================
+    // Change monitoring
+    // =================================
+
+    fileprivate var monitors = [Int: RegistryChangeMonitor<T>]()
+    private var monitorCount = 0
+
+    func monitorChanges(_ callback: @escaping (_ sender: Registry<T>?) -> ()) -> ChangeMonitor? {
+        let id = nextMonitorID
+        let monitor = RegistryChangeMonitor(id, callback, self)
+        monitors[id] = monitor
+        return monitor
+    }
+    
+    private func fireRegistryChange() {
+        for mEntry in monitors {
+            mEntry.value.fire()
         }
     }
     
     private var nextMonitorID: Int {
-        let id = fMonitorCounter
-        fMonitorCounter += 1
+        let id = monitorCount
+        monitorCount += 1
         return id
     }
 

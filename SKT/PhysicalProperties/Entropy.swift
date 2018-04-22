@@ -15,8 +15,9 @@ import Foundation
 class Entropy : PhysicalProperty {
     
     static let type = "Entropy"
-    var name: String { return Entropy.type }
-    var description: String? = nil
+    
+    var name: String = Entropy.type
+    var info: String? = nil
     var bounds: (min: Double, max: Double) { ensureFresh(); return fBounds }
     
     private let geometry: SKGeometry

@@ -52,7 +52,7 @@ class DetailViewController: GLKViewController, AppModelUser {
         }
         else {
             debug("viewDidLoad", "setting up graphics")
-            appModel!.setupGraphics()
+            appModel!.viz.setupGraphics()
         }
     }
 
@@ -100,14 +100,14 @@ class DetailViewController: GLKViewController, AppModelUser {
     
     override func glkView(_ view: GLKView, drawIn rect: CGRect) {
         // print("DetailViewController.glkView")
-        appModel?.draw(view.drawableWidth, view.drawableHeight)
+        appModel?.viz.draw(view.drawableWidth, view.drawableHeight)
     }
     
     @IBAction func handlePan(_ sender: UIPanGestureRecognizer) {
         // print("DetailViewController.handlePan", "sender.state:", sender.state)
         if (appModel == nil) { return }
 
-        let pov = appModel!.pov
+        let pov = appModel!.viz.pov
         if (sender.state == UIGestureRecognizerState.began) {
             panPhi_initialValue = pov.phi
             panTheta_initialValue = pov.thetaE
@@ -115,24 +115,24 @@ class DetailViewController: GLKViewController, AppModelUser {
         let delta = sender.translation(in: sender.view)
         let phi2 = panPhi_initialValue - Double(delta.x) * panPhi_scaleFactor
         let thetaE2 = panTheta_initialValue - Double(delta.y) * panTheta_scaleFactor
-        appModel!.pov = POV(pov.r, phi2, thetaE2, pov.zoom)
+        appModel!.viz.pov = POV(pov.r, phi2, thetaE2, pov.zoom)
     }
     
     @IBAction func handleTap(_ sender: UITapGestureRecognizer) {
         if (appModel == nil) { return }
-        appModel!.toggleSequencer()
+        appModel!.viz.toggleSequencer()
     }
     
     @IBAction func handlePinch(_ sender: UIPinchGestureRecognizer) {
         // print("DetailViewController.handlePinch", "sender.state:", sender.state)
         if (appModel == nil) { return }
 
-        let pov = appModel!.pov
+        let pov = appModel!.viz.pov
         if (sender.state == UIGestureRecognizerState.began) {
             pinchZoom_initialValue = pov.zoom
         }
         let newZoom = (pinchZoom_initialValue * Double(sender.scale))
-        appModel!.pov = POV(pov.r, pov.phi, pov.thetaE, newZoom)
+        appModel!.viz.pov = POV(pov.r, pov.phi, pov.thetaE, newZoom)
     }
     
     private func debug(_ mtd: String, _ msg: String = "") {

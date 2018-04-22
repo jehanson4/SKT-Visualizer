@@ -21,8 +21,8 @@ class Icosahedron : GLKBaseEffect, Effect {
     var enabled: Bool
 
     static let c0 = GLfloat(0.0)
-    static let c1 = GLfloat(1.0 / sqrt(1.0 + Constants.goldenRatio * Constants.goldenRatio))
-    static let c2 = GLfloat(Constants.goldenRatio / sqrt(1.0 + Constants.goldenRatio * Constants.goldenRatio))
+    static let c1 = GLfloat(1.0 / sqrt(1.0 + Double.constants.goldenRatio * Double.constants.goldenRatio))
+    static let c2 = GLfloat(Double.constants.goldenRatio / sqrt(1.0 + Double.constants.goldenRatio * Double.constants.goldenRatio))
     
     let vertices: [GLfloat] = [
         -c1,  c2,  c0,

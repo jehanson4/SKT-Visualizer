@@ -23,9 +23,9 @@ protocol AppModelUser {
 
 protocol AppModel  {
     
-    var skt: SKTModel { get }
+    var skt: SKTModel { get set }
     
-    var viz: VisualizationModel { get }
+    var viz: VisualizationModel { get set }
 }
 
 // ============================================================

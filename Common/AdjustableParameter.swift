@@ -2,7 +2,7 @@
 //  AdjustableParameter.swift
 //  SKT Visualizer
 //
-//  Created by James Hanson on 4/21/18.
+//  Created by James Hanson on 4/22/18.
 //  Copyright © 2018 James Hanson. All rights reserved.
 //
 
@@ -12,56 +12,17 @@ import Foundation
 // AdjustableParameter
 // ============================================================================
 
-class AdjustableParameter<T: Comparable> : Named {
+protocol AdjustableParameter : Named {
     
-    var name: String
-    var info: String? = nil
+    var minStr: String { get }
+    var maxStr: String { get }
+    var setPointStr: String { get set }
+    var stepSizeStr: String { get set }
+    var valueStr: String { get set }
     
-    let min: T
-    let max: T
-    let zero: T
+    /// reread value of underlying variable and fire a change if appropriate
+    func refresh()
     
-    var setPoint: T {
-        get { return _setPoint }
-        set(newValue) { _setPoint = clip(newValue, min, max) }
-    }
-    
-    var stepSize: T {
-        get { return _stepSize }
-        set(newValue) {
-            if (newValue > zero) {
-              _stepSize = newValue
-            }
-        }
-    }
-    
-    var value: T {
-        get { return getter() }
-        set(newValue) { setter(clip(newValue, min, max)) }
-    }
-    
-    func str(_ t: T) -> String {
-        return stringifier(t)
-    }
-    
-    private let getter: () -> T
-    private let setter: (T) -> ()
-    private let stringifier: (T) -> String
-    private var _setPoint: T
-    private var _stepSize: T
-    
-    /// min SHOULD be strictly less than max
-    /// minStepSize SHOULD be positive definite
-    init(_ name: String, _ getter: @escaping () -> T, _ setter: @escaping (T) -> (),
-         _ stringifier: @escaping (T) -> String, min: T, max: T, zero: T, setPoint: T, stepSize: T) {
-        self.name = name
-        self.getter = getter
-        self.setter = setter
-        self.stringifier = stringifier
-        self.min = min
-        self.max = max
-        self.zero = zero
-        self._setPoint = setPoint
-        self._stepSize = stepSize
-    }
+    func monitorChanges(_ callback: @escaping (AdjustableParameter) -> ()) -> ChangeMonitor?
 }
+

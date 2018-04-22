@@ -15,11 +15,7 @@ import Foundation
 /**
  Does nothing. Available for use as a placeholder
  */
-class DummySequencer : Sequencer {
-    
-    func monitorProperties(_ callback: (Sequencer) -> ()) -> ChangeMonitor? {
-        return nil
-    }
+class DummySequencer : Sequencer_OLD {
     
     
     var name: String
@@ -55,6 +51,10 @@ class DummySequencer : Sequencer {
     func prepare() {}
     
     func step() -> Bool { return false }
+    
+    func monitorProperties(_ callback: (Sequencer) -> ()) -> ChangeMonitor? {
+        return nil
+    }
     
 }
 

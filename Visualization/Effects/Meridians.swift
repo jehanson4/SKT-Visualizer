@@ -72,7 +72,7 @@ class Meridians : GLKBaseEffect, Effect {
     private func addMeridian(_ p: SKPoint) {
         let r = geometry.r0 + rOffset
         let phi = p.phi
-        let thetaE_incr = Constants.piOver2/(Double(segmentCount))
+        let thetaE_incr = Double.constants.piOver2/(Double(segmentCount))
     
         lineStarts.append(GLint(vertices.count))
         lineVertexCounts.append(GLsizei(segmentCount+1))

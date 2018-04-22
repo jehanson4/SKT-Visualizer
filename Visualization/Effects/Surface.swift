@@ -160,7 +160,7 @@ class Surface : GLKBaseEffect, Effect {
         // AFTER calling recompute
         if (colorSourceMonitor == nil) {
             debug("starting to monitor colorSource selection")
-            colorSourceMonitor = colorSources?.monitorSelection(self.colorSourceHasChanged)
+            colorSourceMonitor = colorSources?.monitorChanges(self.colorSourceHasChanged)
         }
         
         return true

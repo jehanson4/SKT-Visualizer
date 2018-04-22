@@ -30,18 +30,9 @@ ToDo.txt
 ---
 [ ] SIMPLIFY manual stepper & sequencer should share as much as possible
 
----
 Contra: makes the CP params unwieldy; and doesn't help for sequencers that aren't CPs
 ...which is an important class of 'em
 
----
-[ ] String(10) => \(10)
-
----
-[ ] sequencer params take their initial values from control parameter defaults
-    as found at sequencer creation time, but are independent thereafter
-    bounds
-    stepSize
 ---
 [ ] page 2 has ui section for 'Parameter Defaults'
     INDEPENDENT from sequencer params
@@ -49,6 +40,11 @@ Contra: makes the CP params unwieldy; and doesn't help for sequencers that aren'
     parameter-defaults can be in a scrollview
 
 ---
+[ ] Sequencer needs to think floating point even for discrete things, do keep it from getting stuck.
+Maybe we'll need separate flavors for int and double adjustable params
+
+---
+
 [ ] sequencer numeric controls look like CP widgets
 
 ---
@@ -67,42 +63,12 @@ Contra: makes the CP params unwieldy; and doesn't help for sequencers that aren'
 
 [ ] width of text widget stretches automatically to fix . . . a priority thing?
 
-[ ] show something on startup
-
 [ ] sequencer check status after step
 
 [ ] when sequencer is running the controler parameter text fields all read-only
     deltas and steppers OK
 
 [ ] I think we're looking at the underside of the hemisphere
-
-[ ] app consists of 3 major parts
-
-    1. model (geometry, physics incl. PhysicalProperties)
-
-    2. visualization
-    2a. generation (color sources)
-    2b. presentation(effects, sequencers, POV, GL settings)
-
-    3. UI (Master, Settings, Display)
-
-The App is in charge at first, but it quickly turns thte job over the the UI.
-For the UI to do its job, it needs to get and set things on the model & visualization.
-
-The UI has controls that touch both model & viz.
-The viz uses the model pretty heavily.
-The model doesn't know about either of these two things.
-
-option 1: layered with viz above model, then UI has hooks into both
-in that case, the AppModel contains an SKTModel class and adopts the Viz protocol
-
-option 2: viz and model are peers (sim. to physics & geometry)
-in that case, the AppModel contains an SKTModel class and Viz class
-
-Option 2 means there's some code to be put into app model, in order to bind the two together
-That same code would look just the same in option 1
-
-I want option 2
 
 --------
 
@@ -121,4 +87,7 @@ I want option 2
     3 for BC
     3 for stepSgn
 
+[ ] extension Int { add constants }
+[ ] extension Double { add more constants }
+[ ] Number is protocol w/ getter for constants appropriate to its type
 

@@ -14,7 +14,7 @@ import Foundation
 
 /// Return true iff the values differ by more than Constants.eps
 func distinct(_ x: Double, _ y: Double) -> Bool {
-    return abs(y - x) > Constants.eps
+    return abs(y - x) > Double.constants.eps
 }
 
 /// Return min if x < min, max if x > max, x otherwise
@@ -39,30 +39,42 @@ func logBinomial(_ a:Int, _ b:Int) -> Double {
     let bb = Double(b)
     let cc = Double(a-b)
     return aa * log(aa) - bb * log(bb) - cc * log(cc)
-            + 0.5 * (log(aa) - log(bb) - log(cc) - log(Constants.twoPi))
+            + 0.5 * (log(aa) - log(bb) - log(cc) - log(Double.constants.twoPi))
 }
 
-func prettyString(_ x: Int) -> String {
+// =======================================================================
+// Conversions to & from String
+// =======================================================================
+
+func numify(_ x: String) -> Int? {
+    return Int(x)
+}
+
+func stringify(_ x: Int) -> String {
     // TODO something better than tnis!
     return String(x)
 }
 
-func prettyString(_ x: Double) -> String {
+func numify(_ x: String) -> Double? {
+    return Double(x)
+}
+
+func basicString(_ x: Double) -> String {
     // TODO something better than tnis!
     return String(format: "%G", x)
 }
 
 func piFraction(_ x: Double) -> String {
-    let b = 8.0 * x / Constants.pi
+    let b = 8.0 * x / Double.constants.pi
     let br = round(b)
     
     if (distinct(br-b, 0)) {
-        return prettyString(x)
+        return basicString(x)
     }
     
     let bi = Int(br)
     if (bi == 0) {
-        return prettyString(0)
+        return stringify(0)
     }
     if ((bi % 8) == 0) {
         return (bi/8 == 1) ? "pi" : String(bi/8) + "pi"
@@ -75,6 +87,7 @@ func piFraction(_ x: Double) -> String {
     }
     return (bi == 1) ? "pi/8" : String(bi) + "pi/8"
 }
+
 
 // =======================================================================
 // ChangeCounted
@@ -89,6 +102,8 @@ protocol ChangeCounted {
 // =======================================================================
 
 protocol ChangeMonitor {
+    var id: Int { get }
+    func fire()
     func disconnect()
 }
 
@@ -100,3 +115,11 @@ protocol Named {
     var name: String { get set }
     var info: String? { get set }
 }
+
+// =======================================================================
+// Number
+// =======================================================================
+
+typealias Number = Comparable & Numeric & LosslessStringConvertible
+
+

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		8A0269DD2080B1240054107D /* ColorSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0269DC2080B1240054107D /* ColorSource.swift */; };
 		8A0C09A620716B670017AC4C /* SKGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0C09A520716B670017AC4C /* SKGeometry.swift */; };
-		8A0C09AC20718FA00017AC4C /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0C09AB20718FA00017AC4C /* Scene.swift */; };
 		8A131C91207160100088F2FC /* _Notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8A131C90207160100088F2FC /* _Notes.txt */; };
 		8A19CD882082384600C1EADE /* Sequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A19CD872082384600C1EADE /* Sequencer.swift */; };
 		8A19CD8B208248B100C1EADE /* NForFixedKOverN.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A19CD8A208248B100C1EADE /* NForFixedKOverN.swift */; };
@@ -17,29 +16,18 @@
 		8A1CF01B207146520099DD97 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A1CF019207146510099DD97 /* Main.storyboard */; };
 		8A1CF01D207146540099DD97 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A1CF01C207146540099DD97 /* Assets.xcassets */; };
 		8A1CF020207146540099DD97 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A1CF01E207146540099DD97 /* LaunchScreen.storyboard */; };
-		8A3BBBB3208B8BC600669227 /* AdjustableParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BBBB2208B8BC600669227 /* AdjustableParameter.swift */; };
 		8A3BBBB5208BBB0600669227 /* SKTModel1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BBBB4208BBB0600669227 /* SKTModel1.swift */; };
 		8A3BBBB7208BC28A00669227 /* VisualizationModel1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BBBB6208BC28A00669227 /* VisualizationModel1.swift */; };
 		8A3BBBB9208BC49D00669227 /* science.html in Resources */ = {isa = PBXBuildFile; fileRef = 8A3BBBB8208BC49D00669227 /* science.html */; };
-		8A3BBBBB208BCB5C00669227 /* AppModel1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BBBBA208BCB5B00669227 /* AppModel1.swift */; };
-		8A3BBBBD208BCFE600669227 /* AdjustableParameterSequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BBBBC208BCFE600669227 /* AdjustableParameterSequencer.swift */; };
-		8A3C45A32086145200A1E9CD /* ControlParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3C45A22086145200A1E9CD /* ControlParameter.swift */; };
-		8A3C45A5208614AE00A1E9CD /* TParam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3C45A4208614AE00A1E9CD /* TParam.swift */; };
-		8A3C45A7208614D100A1E9CD /* Alpha1Param.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3C45A6208614D100A1E9CD /* Alpha1Param.swift */; };
-		8A3C45AB2086154F00A1E9CD /* NParam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3C45AA2086154F00A1E9CD /* NParam.swift */; };
-		8A3C45AD2086156D00A1E9CD /* K0Param.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3C45AC2086156D00A1E9CD /* K0Param.swift */; };
+		8A3BBBBF208BF29A00669227 /* splash.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8A3BBBBE208BF29A00669227 /* splash.jpg */; };
 		8A3C45B02086160A00A1E9CD /* Energy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3C45AF2086160A00A1E9CD /* Energy.swift */; };
 		8A3C45B42086165500A1E9CD /* Entropy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3C45B32086165500A1E9CD /* Entropy.swift */; };
 		8A3C45B62086167E00A1E9CD /* LogOccupation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3C45B52086167E00A1E9CD /* LogOccupation.swift */; };
 		8A3C45C42086214D00A1E9CD /* PhysicalPropertyColorSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3C45C32086214D00A1E9CD /* PhysicalPropertyColorSource.swift */; };
 		8A3C45C62086278900A1E9CD /* UniformColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3C45C52086278900A1E9CD /* UniformColor.swift */; };
-		8A3C45C8208629F000A1E9CD /* DummySequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3C45C7208629F000A1E9CD /* DummySequencer.swift */; };
-		8A3C45CA208632DD00A1E9CD /* BetaParam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3C45C9208632DD00A1E9CD /* BetaParam.swift */; };
-		8A3C45CC2086396700A1E9CD /* Alpha2Param.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3C45CB2086396700A1E9CD /* Alpha2Param.swift */; };
 		8A40BC0C207ECC7500F2D2EB /* Nodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A40BC0B207ECC7500F2D2EB /* Nodes.swift */; };
 		8A40BC0E207EEA3D00F2D2EB /* Meridians.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A40BC0D207EEA3D00F2D2EB /* Meridians.swift */; };
-		8A41A2F2208398E900CDDF28 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A41A2F1208398E900CDDF28 /* Constants.swift */; };
-		8A47BECD208579B300784B40 /* ControlParameterSequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A47BECC208579B300784B40 /* ControlParameterSequencer.swift */; };
+		8A41A2F2208398E900CDDF28 /* NumericConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A41A2F1208398E900CDDF28 /* NumericConstants.swift */; };
 		8A575FEE20804759002B9951 /* ColorMaps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A575FED20804759002B9951 /* ColorMaps.swift */; };
 		8A57600320805790002B9951 /* smooth-cool-warm-table-float-0128.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8A575FF320805790002B9951 /* smooth-cool-warm-table-float-0128.csv */; };
 		8A57600420805790002B9951 /* smooth-cool-warm-table-float-0512.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8A575FF420805790002B9951 /* smooth-cool-warm-table-float-0512.csv */; };
@@ -65,6 +53,12 @@
 		8A75B690208A317D00EACD13 /* Registry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B68F208A317D00EACD13 /* Registry.swift */; };
 		8A75B694208A771800EACD13 /* SKTModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B693208A771800EACD13 /* SKTModel.swift */; };
 		8A84313820726F0100F06B9B /* Axes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A84313720726F0100F06B9B /* Axes.swift */; };
+		8A8D5965208CFAEF005550CD /* DiscreteParameterSequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A8D5964208CFAEF005550CD /* DiscreteParameterSequencer.swift */; };
+		8A8D5967208D0513005550CD /* AdjustableParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A8D5966208D0513005550CD /* AdjustableParameter.swift */; };
+		8A8D596D208D11B7005550CD /* DiscreteParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A8D596C208D11B7005550CD /* DiscreteParameter.swift */; };
+		8A8D596F208D131F005550CD /* ContinuousParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A8D596E208D131F005550CD /* ContinuousParameter.swift */; };
+		8A8D5971208D1F10005550CD /* NumericSequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A8D5970208D1F10005550CD /* NumericSequencer.swift */; };
+		8A8D5973208D1FFE005550CD /* ContinuousParameterSequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A8D5972208D1FFE005550CD /* ContinuousParameterSequencer.swift */; };
 		8AA0637D207A89DD00BB68DB /* SKPhysics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA0637C207A89DD00BB68DB /* SKPhysics.swift */; };
 		8AAA008E207166C0001A136D /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAA008C207166C0001A136D /* MasterViewController.swift */; };
 		8AAA008F207166C0001A136D /* MasterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8AAA008D207166C0001A136D /* MasterViewController.xib */; };
@@ -118,7 +112,6 @@
 /* Begin PBXFileReference section */
 		8A0269DC2080B1240054107D /* ColorSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSource.swift; sourceTree = "<group>"; };
 		8A0C09A520716B670017AC4C /* SKGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKGeometry.swift; sourceTree = "<group>"; };
-		8A0C09AB20718FA00017AC4C /* Scene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
 		8A131C90207160100088F2FC /* _Notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _Notes.txt; sourceTree = "<group>"; };
 		8A19CD872082384600C1EADE /* Sequencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sequencer.swift; sourceTree = "<group>"; };
 		8A19CD8A208248B100C1EADE /* NForFixedKOverN.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NForFixedKOverN.swift; sourceTree = "<group>"; };
@@ -128,29 +121,18 @@
 		8A1CF01C207146540099DD97 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8A1CF01F207146540099DD97 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8A1CF021207146540099DD97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8A3BBBB2208B8BC600669227 /* AdjustableParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdjustableParameter.swift; sourceTree = "<group>"; };
 		8A3BBBB4208BBB0600669227 /* SKTModel1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKTModel1.swift; sourceTree = "<group>"; };
 		8A3BBBB6208BC28A00669227 /* VisualizationModel1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualizationModel1.swift; sourceTree = "<group>"; };
 		8A3BBBB8208BC49D00669227 /* science.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = science.html; sourceTree = "<group>"; };
-		8A3BBBBA208BCB5B00669227 /* AppModel1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel1.swift; sourceTree = "<group>"; };
-		8A3BBBBC208BCFE600669227 /* AdjustableParameterSequencer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdjustableParameterSequencer.swift; sourceTree = "<group>"; };
-		8A3C45A22086145200A1E9CD /* ControlParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlParameter.swift; sourceTree = "<group>"; };
-		8A3C45A4208614AE00A1E9CD /* TParam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TParam.swift; sourceTree = "<group>"; };
-		8A3C45A6208614D100A1E9CD /* Alpha1Param.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alpha1Param.swift; sourceTree = "<group>"; };
-		8A3C45AA2086154F00A1E9CD /* NParam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NParam.swift; sourceTree = "<group>"; };
-		8A3C45AC2086156D00A1E9CD /* K0Param.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = K0Param.swift; sourceTree = "<group>"; };
+		8A3BBBBE208BF29A00669227 /* splash.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = splash.jpg; sourceTree = "<group>"; };
 		8A3C45AF2086160A00A1E9CD /* Energy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Energy.swift; sourceTree = "<group>"; };
 		8A3C45B32086165500A1E9CD /* Entropy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entropy.swift; sourceTree = "<group>"; };
 		8A3C45B52086167E00A1E9CD /* LogOccupation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogOccupation.swift; sourceTree = "<group>"; };
 		8A3C45C32086214D00A1E9CD /* PhysicalPropertyColorSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicalPropertyColorSource.swift; sourceTree = "<group>"; };
 		8A3C45C52086278900A1E9CD /* UniformColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniformColor.swift; sourceTree = "<group>"; };
-		8A3C45C7208629F000A1E9CD /* DummySequencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummySequencer.swift; sourceTree = "<group>"; };
-		8A3C45C9208632DD00A1E9CD /* BetaParam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetaParam.swift; sourceTree = "<group>"; };
-		8A3C45CB2086396700A1E9CD /* Alpha2Param.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alpha2Param.swift; sourceTree = "<group>"; };
 		8A40BC0B207ECC7500F2D2EB /* Nodes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Nodes.swift; sourceTree = "<group>"; };
 		8A40BC0D207EEA3D00F2D2EB /* Meridians.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Meridians.swift; sourceTree = "<group>"; };
-		8A41A2F1208398E900CDDF28 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		8A47BECC208579B300784B40 /* ControlParameterSequencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlParameterSequencer.swift; sourceTree = "<group>"; };
+		8A41A2F1208398E900CDDF28 /* NumericConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumericConstants.swift; sourceTree = "<group>"; };
 		8A575FED20804759002B9951 /* ColorMaps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorMaps.swift; sourceTree = "<group>"; };
 		8A575FF320805790002B9951 /* smooth-cool-warm-table-float-0128.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "smooth-cool-warm-table-float-0128.csv"; sourceTree = "<group>"; };
 		8A575FF420805790002B9951 /* smooth-cool-warm-table-float-0512.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "smooth-cool-warm-table-float-0512.csv"; sourceTree = "<group>"; };
@@ -176,6 +158,12 @@
 		8A75B68F208A317D00EACD13 /* Registry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registry.swift; sourceTree = "<group>"; };
 		8A75B693208A771800EACD13 /* SKTModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKTModel.swift; sourceTree = "<group>"; };
 		8A84313720726F0100F06B9B /* Axes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Axes.swift; sourceTree = "<group>"; };
+		8A8D5964208CFAEF005550CD /* DiscreteParameterSequencer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscreteParameterSequencer.swift; sourceTree = "<group>"; };
+		8A8D5966208D0513005550CD /* AdjustableParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdjustableParameter.swift; sourceTree = "<group>"; };
+		8A8D596C208D11B7005550CD /* DiscreteParameter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscreteParameter.swift; sourceTree = "<group>"; };
+		8A8D596E208D131F005550CD /* ContinuousParameter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContinuousParameter.swift; sourceTree = "<group>"; };
+		8A8D5970208D1F10005550CD /* NumericSequencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumericSequencer.swift; sourceTree = "<group>"; };
+		8A8D5972208D1FFE005550CD /* ContinuousParameterSequencer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContinuousParameterSequencer.swift; sourceTree = "<group>"; };
 		8AA0637C207A89DD00BB68DB /* SKPhysics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKPhysics.swift; sourceTree = "<group>"; };
 		8AAA008C207166C0001A136D /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
 		8AAA008D207166C0001A136D /* MasterViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MasterViewController.xib; sourceTree = "<group>"; };
@@ -242,10 +230,12 @@
 		8A0C09A220716B050017AC4C /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				8A41A2F1208398E900CDDF28 /* Constants.swift */,
+				8A8D5966208D0513005550CD /* AdjustableParameter.swift */,
+				8A8D596E208D131F005550CD /* ContinuousParameter.swift */,
+				8A8D596C208D11B7005550CD /* DiscreteParameter.swift */,
+				8A41A2F1208398E900CDDF28 /* NumericConstants.swift */,
 				8A75B68F208A317D00EACD13 /* Registry.swift */,
 				8ACE789D2073F7A400C29875 /* Utils.swift */,
-				8A3BBBB2208B8BC600669227 /* AdjustableParameter.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -253,11 +243,10 @@
 		8A19CD892082488D00C1EADE /* Sequencers */ = {
 			isa = PBXGroup;
 			children = (
+				8A8D5964208CFAEF005550CD /* DiscreteParameterSequencer.swift */,
+				8A8D5972208D1FFE005550CD /* ContinuousParameterSequencer.swift */,
 				8A19CD872082384600C1EADE /* Sequencer.swift */,
-				8A3C45C7208629F000A1E9CD /* DummySequencer.swift */,
-				8A3BBBBC208BCFE600669227 /* AdjustableParameterSequencer.swift */,
-				8AF5320A2088AD24009D1882 /* BasinFinderSequencer.swift */,
-				8A19CD8A208248B100C1EADE /* NForFixedKOverN.swift */,
+				8A8D5970208D1F10005550CD /* NumericSequencer.swift */,
 			);
 			path = Sequencers;
 			sourceTree = "<group>";
@@ -299,7 +288,6 @@
 				8A1CF021207146540099DD97 /* Info.plist */,
 				8A1CF01E207146540099DD97 /* LaunchScreen.storyboard */,
 				8A1CF019207146510099DD97 /* Main.storyboard */,
-				8A3BBBBA208BCB5B00669227 /* AppModel1.swift */,
 			);
 			path = "SKT Visualizer";
 			sourceTree = "<group>";
@@ -307,9 +295,6 @@
 		8A1E1C85207D7C64008C1AAF /* Unused */ = {
 			isa = PBXGroup;
 			children = (
-				8A0C09AB20718FA00017AC4C /* Scene.swift */,
-				8A47BECC208579B300784B40 /* ControlParameterSequencer.swift */,
-				8A3C45A12086141700A1E9CD /* ControlParameters */,
 				8AD817F8207BF8F300426C25 /* BackgroundWebView.swift */,
 				8A5E9488207523DA003477D3 /* Shader.swift */,
 				8A5E948420751F5B003477D3 /* SimpleFragmentShader.glsl */,
@@ -318,23 +303,11 @@
 			path = Unused;
 			sourceTree = "<group>";
 		};
-		8A3C45A12086141700A1E9CD /* ControlParameters */ = {
-			isa = PBXGroup;
-			children = (
-				8A3C45A22086145200A1E9CD /* ControlParameter.swift */,
-				8A3C45AA2086154F00A1E9CD /* NParam.swift */,
-				8A3C45AC2086156D00A1E9CD /* K0Param.swift */,
-				8A3C45A6208614D100A1E9CD /* Alpha1Param.swift */,
-				8A3C45CB2086396700A1E9CD /* Alpha2Param.swift */,
-				8A3C45A4208614AE00A1E9CD /* TParam.swift */,
-				8A3C45C9208632DD00A1E9CD /* BetaParam.swift */,
-			);
-			path = ControlParameters;
-			sourceTree = "<group>";
-		};
 		8A3C45B72086185B00A1E9CD /* Unfinished */ = {
 			isa = PBXGroup;
 			children = (
+				8AF5320A2088AD24009D1882 /* BasinFinderSequencer.swift */,
+				8A19CD8A208248B100C1EADE /* NForFixedKOverN.swift */,
 			);
 			path = Unfinished;
 			sourceTree = "<group>";
@@ -460,6 +433,7 @@
 		8AF138B7207B8966001A88C6 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				8A3BBBBE208BF29A00669227 /* splash.jpg */,
 				8A75B68220894B6300EACD13 /* sticky.png */,
 				8AE48BBC2087DD4E001B5D11 /* reset.png */,
 				8A575FF120805790002B9951 /* colorMaps */,
@@ -476,8 +450,8 @@
 				8A0C09A520716B670017AC4C /* SKGeometry.swift */,
 				8AA0637C207A89DD00BB68DB /* SKPhysics.swift */,
 				8A75B693208A771800EACD13 /* SKTModel.swift */,
-				8A75B692208A76D100EACD13 /* PhysicalProperties */,
 				8A3BBBB4208BBB0600669227 /* SKTModel1.swift */,
+				8A75B692208A76D100EACD13 /* PhysicalProperties */,
 			);
 			path = SKT;
 			sourceTree = "<group>";
@@ -583,6 +557,7 @@
 				8AF98F96207FE7D60007688E /* LICENSE in Resources */,
 				8A57600320805790002B9951 /* smooth-cool-warm-table-float-0128.csv in Resources */,
 				8A57600E20805790002B9951 /* smooth-cool-warm-table-byte-0256.csv in Resources */,
+				8A3BBBBF208BF29A00669227 /* splash.jpg in Resources */,
 				8AD8181D207C9BD900426C25 /* image1-40.png in Resources */,
 				8A57600A20805790002B9951 /* smooth-cool-warm-table-byte-1024.csv in Resources */,
 				8AAA008F207166C0001A136D /* MasterViewController.xib in Resources */,
@@ -640,33 +615,28 @@
 				8A575FEE20804759002B9951 /* ColorMaps.swift in Sources */,
 				8ACE788D2072E51800C29875 /* Icosahedron.swift in Sources */,
 				8AF5320B2088AD24009D1882 /* BasinFinderSequencer.swift in Sources */,
-				8A3C45AB2086154F00A1E9CD /* NParam.swift in Sources */,
 				8A0C09A620716B670017AC4C /* SKGeometry.swift in Sources */,
-				8A3BBBB3208B8BC600669227 /* AdjustableParameter.swift in Sources */,
+				8A8D596D208D11B7005550CD /* DiscreteParameter.swift in Sources */,
 				8A0269DD2080B1240054107D /* ColorSource.swift in Sources */,
-				8A3BBBBD208BCFE600669227 /* AdjustableParameterSequencer.swift in Sources */,
-				8A47BECD208579B300784B40 /* ControlParameterSequencer.swift in Sources */,
 				8A3C45B42086165500A1E9CD /* Entropy.swift in Sources */,
 				8AD817FC207BFA9200426C25 /* InfoViewController.swift in Sources */,
-				8A3C45A7208614D100A1E9CD /* Alpha1Param.swift in Sources */,
 				8A5E948E2078EE46003477D3 /* Net.swift in Sources */,
-				8A41A2F2208398E900CDDF28 /* Constants.swift in Sources */,
+				8A41A2F2208398E900CDDF28 /* NumericConstants.swift in Sources */,
 				8A19CD8B208248B100C1EADE /* NForFixedKOverN.swift in Sources */,
-				8A3C45CC2086396700A1E9CD /* Alpha2Param.swift in Sources */,
 				8AF59507208AFBD70082C5DE /* RegistrySelectionTableViewController.swift in Sources */,
 				8A3C45B62086167E00A1E9CD /* LogOccupation.swift in Sources */,
-				8A3C45AD2086156D00A1E9CD /* K0Param.swift in Sources */,
+				8A8D5973208D1FFE005550CD /* ContinuousParameterSequencer.swift in Sources */,
 				8A84313820726F0100F06B9B /* Axes.swift in Sources */,
-				8A3C45A5208614AE00A1E9CD /* TParam.swift in Sources */,
 				8A3C45C42086214D00A1E9CD /* PhysicalPropertyColorSource.swift in Sources */,
 				8ABEEC3B20803A2F008E72F4 /* Surface.swift in Sources */,
+				8A8D5971208D1F10005550CD /* NumericSequencer.swift in Sources */,
 				8ACE788F2073C57500C29875 /* Effect.swift in Sources */,
 				8A3C45C62086278900A1E9CD /* UniformColor.swift in Sources */,
 				8A3C45B02086160A00A1E9CD /* Energy.swift in Sources */,
 				8AA0637D207A89DD00BB68DB /* SKPhysics.swift in Sources */,
-				8A3C45CA208632DD00A1E9CD /* BetaParam.swift in Sources */,
+				8A8D596F208D131F005550CD /* ContinuousParameter.swift in Sources */,
+				8A8D5965208CFAEF005550CD /* DiscreteParameterSequencer.swift in Sources */,
 				8A3BBBB7208BC28A00669227 /* VisualizationModel1.swift in Sources */,
-				8A3BBBBB208BCB5C00669227 /* AppModel1.swift in Sources */,
 				8A3BBBB5208BBB0600669227 /* SKTModel1.swift in Sources */,
 				8A75B694208A771800EACD13 /* SKTModel.swift in Sources */,
 				8AF5320720881A77009D1882 /* BasinFinder.swift in Sources */,
@@ -675,15 +645,13 @@
 				8A75B690208A317D00EACD13 /* Registry.swift in Sources */,
 				8ACE789E2073F7A400C29875 /* Utils.swift in Sources */,
 				8A40BC0E207EEA3D00F2D2EB /* Meridians.swift in Sources */,
-				8A3C45A32086145200A1E9CD /* ControlParameter.swift in Sources */,
 				8AF5320920887329009D1882 /* BasinNumberColorSource.swift in Sources */,
+				8A8D5967208D0513005550CD /* AdjustableParameter.swift in Sources */,
 				8AF59503208AC5B10082C5DE /* VisualizatonModel.swift in Sources */,
 				8AF59500208AC0420082C5DE /* AppModel.swift in Sources */,
-				8A0C09AC20718FA00017AC4C /* Scene.swift in Sources */,
 				8AD817F9207BF8F300426C25 /* BackgroundWebView.swift in Sources */,
 				8AAA008E207166C0001A136D /* MasterViewController.swift in Sources */,
 				8A40BC0C207ECC7500F2D2EB /* Nodes.swift in Sources */,
-				8A3C45C8208629F000A1E9CD /* DummySequencer.swift in Sources */,
 				8AF98FA5207FE8B40007688E /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -840,7 +808,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "self.SKT-Visualizer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
 		};
@@ -860,7 +828,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "self.SKT-Visualizer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
 		};

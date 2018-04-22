@@ -8,13 +8,13 @@
 
 import Foundation
 
+
 // ===============================================================================
 // PhysicalProperty
 // ===============================================================================
 
-protocol PhysicalProperty {
-    var name : String { get }
-    var description : String? { get }
+protocol PhysicalProperty : Named {
+
     var bounds: (min: Double, max: Double) { get }
     
     func valueAt(nodeIndex: Int) -> Double
@@ -34,7 +34,7 @@ class SKPhysics : ChangeCounted {
     static let alpha_min: Double = -Double.infinity
     static let alpha_max: Double = Double.infinity
     static let alpha_defaultValue: Double = -1.0
-    static let alpha_defaultLowerBound = -1.0
+    static let alpha_defaultLowerBound = -2.0
     static let alpha_defaultUpperBound = 0.0
     static let alpha_defaultStepSize: Double = 0.01
     
@@ -81,76 +81,77 @@ class SKPhysics : ChangeCounted {
     // =======================================================
     
     func getAlpha1() -> Double {
-        return fAlpha1
+        return _alpha1
     }
     
     func setAlpha1(_ newValue: Double) {
+        debug("setAlpha1", "newValue=\(newValue)")
         let v2 = clip(newValue, SKPhysics.alpha_min, SKPhysics.alpha_max)
-        if (v2 == fAlpha1) { return }
-        fAlpha1 = v2
+        if (v2 == _alpha1) { return }
+        _alpha1 = v2
         registerChange()
     }
     
     func getAlpha2() -> Double {
-        return fAlpha2
+        return _alpha2
     }
     
     func setAlpha2(_ newValue: Double) {
         let v2 = clip(newValue, SKPhysics.alpha_min, SKPhysics.alpha_max)
-        if (v2 == fAlpha2) { return }
-        fAlpha2 = v2
+        if (v2 == _alpha2) { return }
+        _alpha2 = v2
         registerChange()
     }
     
     func getT() -> Double {
-        return fT
+        return _T
     }
     
     func setT(_ newValue: Double) {
         let v2 = clip(newValue, SKPhysics.T_min, SKPhysics.T_max)
-        if (v2 == fT) {
+        if (v2 == _T) {
             return
         }
-        fT = newValue
-        fBeta = (fT == 0) ? Double.infinity : 1.0 / fT
+        _T = newValue
+        _beta = (_T == 0) ? Double.infinity : 1.0 / _T
         registerChange()
     }
     
     func getBeta() -> Double {
-        return fBeta
+        return _beta
     }
     
     
     func setBeta(_ newValue: Double) {
         let v2 = clip(newValue, SKPhysics.beta_min, SKPhysics.beta_max)
-        if (v2 == fBeta) { return }
-        fBeta = v2
-        fT = (fBeta == 0) ? Double.infinity : 1.0 / fBeta
+        if (v2 == _beta) { return }
+        _beta = v2
+        _T = (_beta == 0) ? Double.infinity : 1.0 / _beta
         registerChange()
     }
     
     var changeNumber: Int {
-        get { return fChangeCounter }
+        get { return _changeCount }
     }
     
     var physicalPropertyNames: [String] = []
     
     private var geometry: SKGeometry
     private var fPhysicalProperties: [String: PhysicalProperty]
-    private var fAlpha1: Double
-    private var fAlpha2: Double
-    private var fT: Double
-    private var fBeta: Double
-    private var fChangeCounter: Int
+    private var _alpha1: Double
+    private var _alpha2: Double
+    private var _T: Double
+    private var _beta: Double
+    private var _changeCount: Int
     
     init(_ geometry: SKGeometry) {
         self.geometry = geometry
         self.fPhysicalProperties = [String: PhysicalProperty]()
-        self.fAlpha1 = SKPhysics.alpha_defaultValue
-        self.fAlpha2 = SKPhysics.alpha_defaultValue
-        self.fT = SKPhysics.T_defaultValue
-        self.fBeta = 1.0/self.fT
-        self.fChangeCounter = 0
+        self._alpha1 = SKPhysics.alpha_defaultValue
+        self._alpha2 = SKPhysics.alpha_defaultValue
+        self._T = SKPhysics.T_defaultValue
+        self._beta = 1.0/self._T
+        self._changeCount = 0
         
         registerPhysicalProperty(Energy(geometry, self))
         registerPhysicalProperty(Entropy(geometry, self))
@@ -162,7 +163,8 @@ class SKPhysics : ChangeCounted {
     }
     
     private func registerChange() {
-        fChangeCounter += 1
+        _changeCount += 1
+        debug("registerChange", "new changeCount=\(_changeCount)")
     }
     
     func registerPhysicalProperty(_ p: PhysicalProperty) {
@@ -185,5 +187,12 @@ class SKPhysics : ChangeCounted {
             }
         }
         return (min: minValue, max: maxValue)
+    }
+    
+    var debugEnabled = true
+    func debug(_ mtd: String, _ msg: String) {
+        if (debugEnabled) {
+            print("SKPhysics", mtd, msg)
+        }
     }
 }

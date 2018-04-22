@@ -21,11 +21,10 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     private var sequencerPropertiesMonitor: ChangeMonitor? = nil
     
     override func viewDidLoad() {
-        super.viewDidLoad()
-        
         let mtd = "viewDidLoad"
         debug(mtd, "entering")
-        
+        super.viewDidLoad()
+
         N_text.delegate = self
         k_text.delegate = self
         a1_text.delegate = self
@@ -48,23 +47,38 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
             debug(mtd, "app Model is nil")
         }
         else {
-            debug(mtd, "Updating SKT parameter controls")
-            updateSKTControls(appModel!)
-            debug(mtd, "Starting to monitor SKT parameters")
-            paramChangeMonitor = appModel?.monitorParameters(updateSKTControls)
+            
+            let skt = appModel!.skt
+            
+            debug(mtd, "updating and monitoring SKT params")
+            
+            N_update(skt.N)
+            N_monitor = skt.N.monitorChanges(N_update)
+            
+            k0_update(skt.k0)
+            k0_monitor = skt.k0.monitorChanges(k0_update)
+            
+            a1_update(skt.alpha1)
+            a1_monitor = skt.alpha1.monitorChanges(a1_update)
+            
+            a2_update(skt.alpha2)
+            a2_monitor = skt.alpha2.monitorChanges(a2_update)
+            
+            T_update(skt.T)
+            T_monitor = skt.T.monitorChanges(T_update)
             
             debug(mtd, "Updating color source controls")
-            updateColorSourceControls(appModel!.colorSources)
+            updateColorSourceControls(appModel!.viz.colorSources)
             debug(mtd, "Starting to monitor color source selection changes")
-            colorSourceMonitor = appModel?.colorSources.monitorSelection(updateColorSourceControls)
+            colorSourceMonitor = appModel!.viz.colorSources.monitorChanges(updateColorSourceControls)
             
             debug(mtd, "Updating effects controls")
-            updateEffectsControls(appModel!.effects)
+            updateEffectsControls(appModel!.viz.effects)
             
             debug(mtd, "Updating sequencer controls")
-            updateSequencerControls(appModel!.sequencers)
+            updateSequencerControls(appModel!.viz.sequencers)
             debug(mtd, "Starting to monitor sequencer selection changes")
-            sequencerSelectionMonitor = appModel?.sequencers.monitorSelection(updateSequencerControls)
+            sequencerSelectionMonitor = appModel!.viz.sequencers.monitorChanges(updateSequencerControls)
         }
     }
     
@@ -111,48 +125,72 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     }
     
     // =====================================================================
-    // MARK: Parameters
+    // N
     
     @IBOutlet weak var N_text: UITextField!
     
     @IBOutlet weak var N_stepper: UIStepper!
     
     @IBAction func N_textAction(_ sender: UITextField) {
-        var param = appModel?.N
+        let param = appModel?.skt.N
         if (param != nil && sender.text != nil) {
-            let nn: Double? = Double(sender.text!)
-            if (nn != nil) {
-                param!.value = nn!
-            }
+            param!.valueStr = sender.text!
         }
+        // MAYBE N_update(param)
     }
     
     @IBAction func N_stepperAction(_ sender: UIStepper) {
-        var param = appModel?.N
-        if (param != nil) {
-            param!.value = sender.value
+        let param = appModel?.skt.N
+        let nn: Int? = Int(sender.value)
+        if (param != nil && nn != nil) {
+            param!.value = nn!
         }
+        // MAYBE N_update(param)
     }
+    
+    var N_monitor: ChangeMonitor!
+    
+    func N_update(_ N: DiscreteParameter) {
+        N_text.text = N.valueStr
+        N_stepper.minimumValue = Double(N.min)
+        N_stepper.maximumValue = Double(N.max)
+        N_stepper.stepValue = Double(N.stepSize)
+        N_stepper.value = Double(N.value)
+    }
+    
+    // ===============================
+    // k0
     
     @IBOutlet weak var k_text: UITextField!
 
     @IBOutlet weak var k_stepper: UIStepper!
     
     @IBAction func k_textAction(_ sender: UITextField) {
-        var param = appModel?.k0
+        let param = appModel?.skt.k0
         if (param != nil || sender.text != nil) {
-            let kk: Double? = Double(sender.text!)
-            if (kk != nil) {
-                param!.value = kk!
-            }
+            param!.valueStr = sender.text!
+            // MAYBE k0_update(param)
         }
     }
     
     @IBAction func k_stepperAction(_ sender: UIStepper) {
-        var param = appModel?.k0
-        if (param != nil) {
-            param!.value = sender.value
+        let param = appModel?.skt.k0
+        let kk: Int? = Int(sender.value)
+        if (param != nil && kk != nil) {
+            param!.value = kk!
         }
+        // MAYBE k0_update(param)
+    }
+    
+    var k0_monitor: ChangeMonitor!
+    
+    func k0_update(_ param: DiscreteParameter) {
+        debug("k0_update", "param.name=\(param.name)")
+        k_text.text = param.valueStr
+        k_stepper.minimumValue = Double(param.min)
+        k_stepper.maximumValue = Double(param.max)
+        k_stepper.stepValue = Double(param.stepSize)
+        k_stepper.value = Double(param.value)
     }
     
     // ===========================
@@ -162,20 +200,34 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     @IBOutlet weak var a1_stepper: UIStepper!
 
     @IBAction func a1_textAction(_ sender: UITextField) {
-        var param = appModel?.alpha1
+        let param = appModel?.skt.alpha1
         if (param != nil || sender.text != nil) {
-            let aa: Double? = Double(sender.text!)
-            if (aa != nil) {
-                param!.value = aa!
-            }
+            param!.valueStr = sender.text!
         }
+        // MAYBE a1_update(param)
     }
     
     @IBAction func a1_stepperAction(_ sender: UIStepper) {
-        var param = appModel?.alpha1
+        let param = appModel?.skt.alpha1
         if (param != nil) {
+            debug("a1_stepperAction", "sender.value=\(sender.value)")
             param!.value  = sender.value
         }
+        // MAYBE a1_update(param)
+    }
+    
+    var a1_monitor: ChangeMonitor!
+    
+    func a1_update(_ param: ContinuousParameter) {
+        debug("a1_update", "param name=\(param.name) value=\(param.value)")
+        a1_text.text = param.valueStr
+        
+        a1_stepper.minimumValue = param.min
+        a1_stepper.maximumValue = param.max
+        a1_stepper.stepValue = param.stepSize
+        a1_stepper.value = param.value
+
+        debug("a1_update", "on exit: param.value=\(param.value) a1_stepper.value=\(a1_stepper.value)")
     }
     
     // ============================================
@@ -185,20 +237,30 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     @IBOutlet weak var a2_stepper: UIStepper!
   
     @IBAction func a2_textAction(_ sender: UITextField) {
-        var param = appModel?.alpha2
+        let param = appModel?.skt.alpha2
         if (param != nil && sender.text != nil) {
-            let aa: Double? = Double(sender.text!)
-            if (aa != nil) {
-                param!.value = aa!
-            }
+            param!.valueStr = sender.text!
         }
+        // MAYBE a2_update(param)
     }
     
     @IBAction func a2_stepperAction(_ sender: UIStepper) {
-        var param = appModel?.alpha2
+        let param = appModel?.skt.alpha2
         if (param != nil) {
             param!.value = sender.value
         }
+        // MAYBE a2_update(param)
+    }
+    
+    var a2_monitor: ChangeMonitor!
+    
+    func a2_update(_ param: ContinuousParameter) {
+        debug("a2_update", "param.name=\(param.name)")
+        a2_text.text = param.valueStr
+        a2_stepper.minimumValue = param.min
+        a2_stepper.maximumValue = param.max
+        a2_stepper.stepValue = param.stepSize
+        a2_stepper.value = param.value
     }
     
     // ===================================
@@ -208,116 +270,69 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     @IBOutlet weak var T_stepper: UIStepper!
     
     @IBAction func T_textAction(_ sender: UITextField) {
-        var param = appModel?.T
+        let param = appModel?.skt.T
         if (param != nil && sender.text != nil) {
-            let tt: Double? = Double(sender.text!)
-            if (tt != nil) {
-                param!.value = tt!
-            }
+            param!.valueStr = sender.text!
         }
+        // MAYBE T_update(param)
     }
     
     @IBAction func T_stepperAction(_ sender: UIStepper) {
-        var param = appModel?.T
+        let param = appModel?.skt.T
         if (param != nil) {
             param!.value = sender.value
         }
+        // MAYBE T_update(param)
     }
     
-    // ===================================================
-    // END BROKEN SECTION #1
-    // ===================================================
+    var T_monitor: ChangeMonitor!
     
-
-    //    // ===================================
-    //    // beta
-    //
-    //    @IBOutlet weak var beta_text: UITextField!
-    //    @IBOutlet weak var beta_stepper: UIStepper!
-    //
-    //    @IBAction func beta_textAction(_ sender: UITextField) {
-    //        if (model != nil && sender.text != nil) {
-    //            let tt: Double? = Double(sender.text!)
-    //            if (tt != nil) {
-    //                var mm = model!
-    //                mm.beta.value = tt!
-    //                updateControls(mm)
-    //            }
-    //        }
-    //    }
-    //
-    //    @IBAction func beta_stepperAction(_ sender: UIStepper) {
-    //        if (model != nil) {
-    //            var mm = model!
-    //            mm.beta.value = sender.value
-    //            updateControls(mm)
-    //        }
-    //    }
+    func T_update(_ param: ContinuousParameter) {
+        T_text.text = param.valueStr
+        
+        T_stepper.minimumValue = param.min
+        T_stepper.maximumValue = param.max
+        T_stepper.stepValue = param.stepSize
+        T_stepper.value = param.value
+    }
     
-    //    func updateParamControls() {
-    //        loadViewIfNeeded()
-    //        if (model == nil) {
-    //            N_text.text = ""
-    //            k_text.text = ""
-    //            a1_text.text = ""
-    //            a2_text.text = ""
-    //            T_text.text = ""
-    //            // beta_text.text = ""
-    //        }
-    //        else {
-    //            updateParamControls(model!)
-    //        }
-    //    }
+    // ===================================
+    // beta
     
-    func updateSKTControls(_ sktModel: SKTModel) {
+    @IBOutlet weak var beta_text: UITextField!
+    @IBOutlet weak var beta_stepper: UIStepper!
+    
+    @IBAction func beta_textAction(_ sender: UITextField) {
+        let param = appModel?.skt.beta
+        if (param != nil && sender.text != nil) {
+            param!.valueStr = sender.text!
+        }
+        // MAYBE beta_update(param)
+    }
+    
+    @IBAction func beta_stepperAction(_ sender: UIStepper) {
+        let param = appModel?.skt.beta
+        if (param != nil) {
+            param!.value = sender.value
+        }
+        // MAYBE beta_update(param)
+    }
+    
+    var beta_monitor: ChangeMonitor!
+    
+    func beta_update(_ param: ContinuousParameter) {
+        beta_text.text = param.valueStr
         
-        N_text.text = sktModel.N.valueString
-        
-        N_stepper.value = Double(sktModel.N.value)
-        N_stepper.minimumValue = Double(sktModel.N.bounds.min)
-        N_stepper.maximumValue = Double(sktModel.N.bounds.max)
-        N_stepper.stepValue = Double(sktModel.N.stepSize)
-        
-        k_text.text = sktModel.k0.valueString
-        
-        k_stepper.value = Double(sktModel.k0.value)
-        k_stepper.minimumValue = Double(sktModel.k0.bounds.min)
-        k_stepper.maximumValue = Double(sktModel.k0.bounds.max)
-        k_stepper.stepValue = Double(sktModel.k0.stepSize)
-        
-        a1_text.text = sktModel.alpha1.valueString
-        
-        a1_stepper.value = sktModel.alpha1.value
-        a1_stepper.minimumValue = sktModel.alpha1.bounds.min
-        a1_stepper.maximumValue = sktModel.alpha1.bounds.max
-        a1_stepper.stepValue = sktModel.alpha1.stepSize
-        
-        a2_text.text = sktModel.alpha2.valueString
-        
-        a2_stepper.value = sktModel.alpha2.value
-        a2_stepper.minimumValue = sktModel.alpha2.bounds.min
-        a2_stepper.maximumValue = sktModel.alpha2.bounds.max
-        a2_stepper.stepValue = sktModel.alpha2.stepSize
-        
-        T_text.text = sktModel.T.valueString
-        
-        T_stepper.value = sktModel.T.value
-        T_stepper.minimumValue = sktModel.T.bounds.min
-        T_stepper.maximumValue = sktModel.T.bounds.max
-        T_stepper.stepValue = sktModel.T.stepSize
-        
-        //        beta_text.text = mm.beta.valueString
-        //
-        //        beta_stepper.value = mm.beta.value
-        //        beta_stepper.minimumValue = mm.beta.bounds.min
-        //        beta_stepper.maximumValue = mm.beta.bounds.max
-        //        beta_stepper.stepValue = mm.beta.stepSize
+        beta_stepper.minimumValue = param.min
+        T_stepper.maximumValue = param.max
+        T_stepper.stepValue = param.stepSize
+        T_stepper.value = param.value
     }
     
     @IBAction func resetControlParameters(_ sender: Any) {
-        appModel?.resetControlParameters()
+        appModel?.skt.resetParameters()
     }
-    
+
     // ====================================================================
     // MARK: effects controls
     
@@ -325,7 +340,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     
     @IBAction func axes_action(_ sender: UISwitch) {
         let effectName = Axes.type
-        let effectOrNil: Effect? = appModel?.effects.entry(effectName)?.value
+        let effectOrNil: Effect? = appModel?.viz.effects.entry(effectName)?.value
         if (effectOrNil != nil) {
             var effect = effectOrNil!
             effect.enabled = sender.isOn
@@ -337,7 +352,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     
     @IBAction func meridians_action(_ sender: UISwitch) {
         let effectName = Meridians.type
-        let effectOrNil: Effect? = appModel?.effects.entry(effectName)?.value
+        let effectOrNil: Effect? = appModel?.viz.effects.entry(effectName)?.value
         if (effectOrNil != nil) {
             var effect = effectOrNil!
             effect.enabled = sender.isOn
@@ -349,7 +364,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     
     @IBAction func net_action(_ sender: UISwitch) {
         let effectName = Net.type
-        let effectOrNil: Effect? = appModel?.effects.entry(effectName)?.value
+        let effectOrNil: Effect? = appModel?.viz.effects.entry(effectName)?.value
         if (effectOrNil != nil) {
             var effect = effectOrNil!
             effect.enabled = sender.isOn
@@ -361,7 +376,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     
     @IBAction func surface_action(_ sender: UISwitch) {
         let effectName = Net.type
-        let effectOrNil: Effect? = appModel?.effects.entry(effectName)?.value
+        let effectOrNil: Effect? = appModel?.viz.effects.entry(effectName)?.value
         if (effectOrNil != nil) {
             var effect = effectOrNil!
             effect.enabled = sender.isOn
@@ -373,7 +388,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     
     @IBAction func nodes_action(_ sender: UISwitch) {
         let effectName = Nodes.type
-        let effectOrNil: Effect? = appModel?.effects.entry(effectName)?.value
+        let effectOrNil: Effect? = appModel?.viz.effects.entry(effectName)?.value
         if (effectOrNil != nil) {
             var effect = effectOrNil!
             effect.enabled = sender.isOn
@@ -437,10 +452,10 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if pickerView.tag == colorSourcePickerTag {
-            return appModel?.colorSources.entryNames.count ?? 0
+            return appModel?.viz.colorSources.entryNames.count ?? 0
         }
         if pickerView.tag == sequencerPickerTag {
-            return appModel?.sequencers.entryNames.count ?? 0
+            return appModel?.viz.sequencers.entryNames.count ?? 0
         }
         return 0
     }
@@ -457,12 +472,12 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         
         // see above
         if pickerView.tag == colorSourcePickerTag {
-            let label = appModel?.colorSources.entryNames[row]
+            let label = appModel?.viz.colorSources.entryNames[row]
             debug("telling color source picker to use label \(label ?? "nil")) for row \(row)")
             pickerLabel?.text = label
         }
         else if pickerView.tag == sequencerPickerTag {
-            let label = appModel?.sequencers.entryNames[row]
+            let label = appModel?.viz.sequencers.entryNames[row]
             debug("telling sequencer picker to use label \(label ?? "nil")) for row \(row)")
             pickerLabel?.text = label
         }
@@ -473,11 +488,11 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
         if (pickerView.tag == colorSourcePickerTag) {
-            appModel?.colorSources.select(row)
+            appModel?.viz.colorSources.select(row)
         }
         
         if (pickerView.tag == sequencerPickerTag) {
-            appModel?.sequencers.select(row)
+            appModel?.viz.sequencers.select(row)
         }
     }
     
@@ -498,28 +513,24 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     @IBOutlet weak var ub_text: UITextField!
     
     @IBAction func ub_action(_ sender: UITextField) {
-        let sequencer = appModel?.sequencers.selection?.value
-        if (sequencer != nil && sender.text != nil) {
-            let newMax: Double? = Double(sender.text!)
-            if (newMax != nil) {
-                var seq = sequencer!
-                let b = seq.bounds
-                seq.bounds = (min: b.min, max: newMax!)
+        var sequencer = appModel?.viz.sequencers.selection?.value
+        if (sequencer != nil) {
+            if (sender.text != nil) {
+                sequencer!.upperBoundStr = sender.text!
             }
+            // MAYBE updte widget
         }
     }
     
     @IBOutlet weak var lb_text: UITextField!
     
     @IBAction func lb_action(_ sender: UITextField) {
-        let sequencer = appModel?.sequencers.selection?.value
-        if (sequencer != nil && sender.text != nil) {
-            let newMin: Double? = Double(sender.text!)
-            if (newMin != nil) {
-                var seq = sequencer!
-                let b = seq.bounds
-                seq.bounds = (min: newMin!, max: b.max)
+        var sequencer = appModel?.viz.sequencers.selection?.value
+        if (sequencer != nil) {
+            if (sender.text != nil) {
+                sequencer!.lowerBoundStr = sender.text!
             }
+            // MAYBE updte widget
         }
     }
 
@@ -527,31 +538,35 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     
     @IBAction func bc_action(_ sender: UISegmentedControl) {
         debug("bc_action", "selectedSegmentIndex=" + String(sender.selectedSegmentIndex))
-        let sequencer = appModel?.sequencers.selection?.value
-        if (sequencer == nil) {
-            return
+        var sequencer = appModel?.viz.sequencers.selection?.value
+        if (sequencer != nil) {
+            let newBC = segmentIndexToBoundaryCondition(sender.selectedSegmentIndex)
+            if (newBC != nil) {
+                sequencer!.boundaryCondition = newBC!
+            }
+            // MAYBE updte widget
         }
-        var seq = sequencer!
-        seq.boundaryCondition = segmentIndexToBoundaryCondition(sender.selectedSegmentIndex)
     }
     
     @IBOutlet weak var dir_segment: UISegmentedControl!
     
     @IBAction func dir_action(_ sender: UISegmentedControl) {
         debug("dir_action", "selectedSegmentIndex=" + String(sender.selectedSegmentIndex))
-        let sequencer = appModel?.sequencers.selection?.value
-        if (sequencer == nil) {
-            return
+        var sequencer = appModel?.viz.sequencers.selection?.value
+        if (sequencer != nil) {
+            let newDir = segmentIndexToDirection(sender.selectedSegmentIndex)
+            if (newDir != nil) {
+                sequencer!.direction = newDir!
+            }
+            // MAYBE updte widget
         }
-        var seq = sequencer!
-        let newSgn = segmentIndexToStepSgn(sender.selectedSegmentIndex)
-        seq.stepSgn = newSgn
     }
     
     func updateSequencerControls(_ sequencers: Registry<Sequencer>?) {
         let selection = sequencers?.selection
         if (selection == nil) {
             debug("updateSequencerControls", "No sequencer is selected")
+            return
         }
         let sel = selection!
         debug("updateSequencerControls", "telling picker to select row \(sel.index): \(sel.name)")
@@ -563,7 +578,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         updateSequencerPropertyControls(sel.value)
         
         debug("updateSequencerControls", "starting to monitor the new sequencer's properties")
-        sequencerPropertiesMonitor = sel.value?.monitorProperties(updateSequencerPropertyControls)
+        sequencerPropertiesMonitor = sel.value?.monitorChanges(updateSequencerPropertyControls)
     }
     
     func updateSequencerPropertyControls(_ sequencer: Sequencer?) {
@@ -574,58 +589,54 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         }
         else {
             let seq = sequencer!
-            let b = seq.bounds
-            ub_text.text = String(b.max)
-            lb_text.text = String(b.min)
+            ub_text.text = seq.upperBoundStr
+            lb_text.text = seq.lowerBoundStr
             
             debug("updateSequencerControls", "selecting bc index")
             bc_segment.selectedSegmentIndex = boundaryConditionToSegmentIndex(seq.boundaryCondition)
             debug("updateSequencerControls", "selecting dir index")
-            dir_segment.selectedSegmentIndex = stepSgnToSegmentIndex(seq.stepSgn)
+            dir_segment.selectedSegmentIndex = directionToSegmentIndex(seq.direction)
         }
     }
     
-    func segmentIndexToBoundaryCondition(_ idx : Int) -> BoundaryCondition {
-        // HACK HACK HACK HACK
-        if (idx == 0) {
+    func segmentIndexToBoundaryCondition(_ idx : Int) -> BoundaryCondition? {
+      
+        // INELEGANT because Jim doesn't swift good
+        
+        if (idx == BoundaryCondition.sticky.rawValue) {
             return BoundaryCondition.sticky
         }
-        else if (idx == 1) {
-            return BoundaryCondition.reflective
+        if (idx == BoundaryCondition.elastic.rawValue) {
+            return BoundaryCondition.elastic
         }
-        else {
-            return BoundaryCondition.periodic
+        if (idx == BoundaryCondition.periodic.rawValue) {
+            return BoundaryCondition.elastic
         }
+        return nil
     }
+    
     func boundaryConditionToSegmentIndex(_ bc: BoundaryCondition) -> Int {
-        // HACK HACK HACK HACK
         return bc.rawValue
     }
     
-    func segmentIndexToStepSgn(_ idx : Int) -> Double {
-        // HACK HACK HACK HACK
-        if (idx == 0) {
-            return 1.0
+    func segmentIndexToDirection(_ idx : Int) -> Direction? {
+
+        // INELEGANT because Jim doesn't swift good
+        
+        if (idx == Direction.forward.rawValue) {
+            return Direction.forward
         }
-        else if (idx == 1) {
-            return -1.0
+        if (idx == Direction.reverse.rawValue) {
+            return Direction.reverse
         }
-        else {
-            return 0.0
+        if (idx == Direction.stopped.rawValue) {
+            return Direction.stopped
         }
+        return nil
     }
     
-    func stepSgnToSegmentIndex(_ stepSgn: Double) -> Int {
-        // HACK HACK HACK HACK
-        if (stepSgn > 0) {
-            return 0
-        }
-        else if (stepSgn < 0) {
-            return 1
-        }
-        else {
-            return 2
-        }
+    func directionToSegmentIndex(_ dir: Direction) -> Int {
+        return dir.rawValue
     }
     
 }

@@ -24,7 +24,7 @@ class PhysicalPropertyColorSource : ColorSource {
     
     init(_ property: PhysicalProperty, _ colorMap: ColorMap, name: String? = nil, description: String? = nil) {
         self.name = (name != nil) ? name! : property.name
-        self.description = (description != nil) ? description : property.description
+        self.description = (description != nil) ? description : property.info
         self.property = property
         self.colorMap = colorMap
     }

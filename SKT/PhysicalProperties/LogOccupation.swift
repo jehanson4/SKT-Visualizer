@@ -15,8 +15,9 @@ import Foundation
 class LogOccupation : PhysicalProperty {
     
     static let type = "LogOccupation"
-    var name: String { return LogOccupation.type }
-    var description: String? = "log(occupation)"
+    
+    var name: String  = LogOccupation.type
+    var info: String? = "log(occupation)"
     var bounds: (min: Double, max: Double) { ensureFresh(); return fBounds }
     
     private let physics: SKPhysics

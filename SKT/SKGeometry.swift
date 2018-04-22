@@ -173,11 +173,11 @@ class SKGeometry : ChangeCounted {
 
     private func calculateDerivedVars() {
         nodeIndexModulus = _N - _k0 + 1
-        skNorm = Constants.pi / Double(_N)
-        s0 = Constants.pi * Double(_k0) / Double(_N)
+        skNorm = Double.constants.pi / Double(_N)
+        s0 = Double.constants.pi * Double(_k0) / Double(_N)
         sin_s0 = sin(s0)
         cot_s0 = 1.0/tan(s0)
-        s12_max = Constants.twoPi - s0
+        s12_max = Double.constants.twoPi - s0
     }
     
     private func registerChange() {
@@ -263,12 +263,12 @@ class SKGeometry : ChangeCounted {
             if (thetaE < 0) {
                 problems.append("bad thetaE: " + piFraction(thetaE) + " too small by " + String(-thetaE))
             }
-            if (thetaE > Constants.piOver2) {
+            if (thetaE > Double.constants.piOver2) {
                 problems.append("bad thetaE: " + piFraction(thetaE))
             }
         }
         
-        let theta = Constants.piOver2 - thetaE
+        let theta = Double.constants.piOver2 - thetaE
         let x = r * sin(theta) * cos(phi)
         let y = r * sin(theta) * sin(phi)
         let z = r * cos(theta)
@@ -309,7 +309,7 @@ class SKGeometry : ChangeCounted {
         }
         
         let left = (s1a <= s2a)
-        let bottom = (s1a <= Constants.pi - s2a)
+        let bottom = (s1a <= Double.constants.pi - s2a)
         
         if debug {
             path.append("[" + (left ? "left" : "right") + "][" + (bottom ? "bottom" : "top") + "]")
@@ -336,22 +336,22 @@ class SKGeometry : ChangeCounted {
         
         //  atan(x) returns principal value, in [-pi/2, pi/2]
         //  Need to add pi if we're on the far side (s1 > pi/2)
-        if (s1 > Constants.piOver2) {
-            phi += Constants.pi
+        if (s1 > Double.constants.piOver2) {
+            phi += Double.constants.pi
         }
         
         //  Normalize phi
         if (phi < 0) {
-            phi += Constants.twoPi
+            phi += Double.constants.twoPi
         }
         if (phi >= 0) {
-            phi -= Constants.twoPi
+            phi -= Double.constants.twoPi
         }
         
         //  Avoid division by zero.
         var cos_phi = cos(phi)
         if cos_phi == 0 {
-            cos_phi = Constants.eps
+            cos_phi = Double.constants.eps
         }
         var cos_theta = cos_s1/cos_phi
         
@@ -395,23 +395,23 @@ class SKGeometry : ChangeCounted {
         
         // atan(x) returns the principal branch, i.e., in [-pi_2, pi_2].
         // Need to add pi if we're on the far side (s2 > pi/2)
-        if (s2 > Constants.piOver2) {
-            phi += Constants.pi
+        if (s2 > Double.constants.piOver2) {
+            phi += Double.constants.pi
         }
         
         // Normailze phi
         if (phi < 0) {
-            phi += Constants.twoPi
+            phi += Double.constants.twoPi
         }
-        if (phi >= Constants.twoPi) {
-            phi -= Constants.twoPi
+        if (phi >= Double.constants.twoPi) {
+            phi -= Double.constants.twoPi
         }
         
         var cos_phi2 = cos(self.s0 - phi)
         
         //  Avoid division by zero.
         if (cos_phi2 == 0) {
-            cos_phi2 = Constants.eps
+            cos_phi2 = Double.constants.eps
         }
         
         var cos_thetaE = cos_s2/cos_phi2

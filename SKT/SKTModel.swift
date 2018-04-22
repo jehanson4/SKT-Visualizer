@@ -17,20 +17,19 @@ protocol SKTModel {
     var geometry: SKGeometry { get }
     var physics: SKPhysics { get }
     
-    // Parameters
     
-    var N: AdjustableParameter<Int> { get }
-    var k0: AdjustableParameter<Int>  { get }
-    var alpha1: AdjustableParameter<Double>  { get }
-    var alpha2: AdjustableParameter<Double>  { get }
-    var T: AdjustableParameter<Double>  { get }
-    var beta: AdjustableParameter<Double>  { get }
+    var N: DiscreteParameter { get }
+    var k0: DiscreteParameter  { get }
+    var alpha1: ContinuousParameter  { get }
+    var alpha2: ContinuousParameter  { get }
+    var T: ContinuousParameter  { get }
+    var beta: ContinuousParameter  { get }
 
-    // Physical properties
+    func resetParameters()
     
     var energy: PhysicalProperty { get }
     var entropy: PhysicalProperty { get }
-    var logOccupation: PhysicalProperty { get }    
+    var logOccupation: PhysicalProperty { get }
     var basinFinder: BasinFinder { get }
-
+    
 }

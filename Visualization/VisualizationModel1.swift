@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import GLKit
 #if os(iOS) || os(tvOS)
 import OpenGLES
 #else
@@ -46,9 +47,9 @@ class VisualizationModel1 : VisualizationModel {
     // POV
     // =================================
     
-    static let pov_initial = POV(2.0, Constants.piOver4, Constants.piOver4, 1.0)
-    private var fpov_default: POV = Scene.pov_initial
-    private var fpov: POV = Scene.pov_initial
+    static let pov_initial = POV(2.0, Double.constants.piOver4, Double.constants.piOver4, 1.0)
+    private var fpov_default: POV = pov_initial
+    private var fpov: POV = pov_initial
     
     
     var pov_default: POV {
@@ -88,17 +89,17 @@ class VisualizationModel1 : VisualizationModel {
         }
         
         while (phi2 < 0) {
-            phi2  += Constants.twoPi
+            phi2  += Double.constants.twoPi
         }
-        while (phi2 >= Constants.twoPi) {
-            phi2 -= Constants.twoPi
+        while (phi2 >= Double.constants.twoPi) {
+            phi2 -= Double.constants.twoPi
         }
         
         if (thetaE2 < 0) {
             thetaE2 = 0
         }
-        if (thetaE2 >= Constants.piOver2) {
-            thetaE2 = Constants.piOver2 - Constants.eps
+        if (thetaE2 >= Double.constants.piOver2) {
+            thetaE2 = Double.constants.piOver2 - Double.constants.eps
         }
         
         if (zoom2 <= 0) {
@@ -191,9 +192,9 @@ class VisualizationModel1 : VisualizationModel {
     // ====================================
     // Sequencers
     // ====================================
-    
+
     lazy var sequencers: Registry<Sequencer> = Registry<Sequencer>()
-    
+
     var sequencerEnabled: Bool = false
     
     var sequenceRateLimit: Double {
@@ -206,8 +207,8 @@ class VisualizationModel1 : VisualizationModel {
     }
     
     static let sequencerRateLimit_default = 2.0
-    private var fSequencerRateLimit: Double = Scene.sequencerRateLimit_default
-    private  var sequencerStepInterval: TimeInterval = 1.0/Scene.sequencerRateLimit_default
+    private var fSequencerRateLimit: Double = sequencerRateLimit_default
+    private  var sequencerStepInterval: TimeInterval = 1.0/sequencerRateLimit_default
     private var sequencerLastStepTime: TimeInterval = 0.0
     
     private func initSequencers() {
@@ -219,19 +220,20 @@ class VisualizationModel1 : VisualizationModel {
     private func makeSequencers() {
         debug("makeSequencers")
         
-        let c0 = DummySequencer()
-        c0.name = "---"
-        registerSequencer(c0, true)
+        registerSequencer(DiscreteParameterSequencer(
+            skt.N,
+            SKGeometry.N_defaultLowerBound,
+            SKGeometry.N_defaultUpperBound,
+            SKGeometry.N_defaultStepSize
+        ), false)
         
-        registerSequencer(ControlParameterSequencer(skt.N), false)
-        registerSequencer(ControlParameterSequencer(skt.k0), false)
-        registerSequencer(ControlParameterSequencer(skt.alpha1), false)
-        registerSequencer(ControlParameterSequencer(skt.alpha2), false)
-        registerSequencer(ControlParameterSequencer(skt.T), false)
-        // registerSequencer(ControlParameterSequencer(skt.beta), false)
-        registerSequencer(NForFixedKOverN(skt.geometry, k0: skt.k0, N: skt.N), false)
-        
-        registerSequencer(BasinFinderSequencer(skt.basinFinder), false)
+//        registerSequencer(AdjustableParameterSequencer(skt.k0), false)
+//        registerSequencer(AdjustableParameterSequencer(skt.alpha1), false)
+//        registerSequencer(AdjustableParameterSequencer(skt.alpha2), false)
+//        registerSequencer(AdjustableParameterSequencer(skt.T), false)
+//        registerSequencer(NForFixedKOverN(skt), false)
+//
+//        registerSequencer(BasinFinderSequencer(skt.basinFinder), false)
     }
     
     private func registerSequencer(_ sequencer: Sequencer, _ select: Bool) {
@@ -252,26 +254,26 @@ class VisualizationModel1 : VisualizationModel {
         
         
         // ===================================
-        // TODO FIND THE RIGHT HOME FOR THIS
+        // WRONG: reset puts us back to initial state,
+        // incl initial stepSgn
+        // I want a seq.reverse()
         // ==================================
-        seq.prepare()
+        seq.reset()
         
         
         sequencerEnabled = !sequencerEnabled
         if (sequencerEnabled) {
-            let oldSgn = seq.stepSgn
-            seq.stepSgn *= -1
-            let newSgn = seq.stepSgn
-            debug("toggleSequencer: sgn change from " + String(oldSgn) + " to " + String(newSgn))
+            debug("toggleSequencer", "reversing sequencer direction")
+            seq.reverse()
         }
         else {
             debug("toggleSequencer: enabled=" + String(sequencerEnabled))
         }
-        
+ 
+        // TODO gotta do sth here
         // FIXME infinite loop here sometimes, I think.
         // Maybe if model change event we're about to fire changes the value?
-        debug("toggleSequencer", "registering model change")
-        controlParameterHasChanged()
+        //        controlParameterHasChanged()
     }
     
     func sequencerStep() {
@@ -287,10 +289,8 @@ class VisualizationModel1 : VisualizationModel {
         if (dt >= sequencerStepInterval) {
             
             let seq = sequencer!
-            debug("taking sequencer step, current value: \(seq.value)")
             sequencerLastStepTime = t0
             seq.step()
-            debug("sequencer step done, new value: \(seq.value)")
         }
     }
     
@@ -359,7 +359,7 @@ class VisualizationModel1 : VisualizationModel {
         
         // EMPIRICAL if last 2 args are -d, d then it doesn't show net from underside.
         // 10 and 2d seem OK
-        let d = GLfloat(2.0 * geometry.r0)
+        let d = GLfloat(2.0 * skt.geometry.r0)
         let newMatrix = GLKMatrix4MakeOrtho(-d, d, -d/aspectRatio, d/aspectRatio, 2*d, -2*d)
         
         func applyProjectionMatrix(_ effect: Effect) {
@@ -374,8 +374,8 @@ class VisualizationModel1 : VisualizationModel {
         
         // EMPIRICAL pretty much everything in here
         
-        let povR2: Double = (fpov.r - geometry.r0)/fpov.zoom + geometry.r0
-        let povXYZ = geometry.sphericalToCartesian(povR2, fpov.phi, fpov.thetaE) // povR, povPhi, povThetaE)
+        let povR2: Double = (fpov.r - skt.geometry.r0)/fpov.zoom + skt.geometry.r0
+        let povXYZ = skt.geometry.sphericalToCartesian(povR2, fpov.phi, fpov.thetaE) // povR, povPhi, povThetaE)
         let lookatMatrix = GLKMatrix4MakeLookAt(Float(povXYZ.x), Float(povXYZ.y), Float(povXYZ.z), 0, 0, 0, 0, 0, 1)
         
         let zz = GLfloat(fpov.zoom)
