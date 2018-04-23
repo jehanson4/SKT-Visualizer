@@ -182,7 +182,7 @@ class ContinuousParameter : AdjustableParameter {
     }
     
     func stringify(_ t: Double) -> String {
-        return String(t)
+        return basicString(t)
     }
     
     // ============================

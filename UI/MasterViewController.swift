@@ -565,6 +565,10 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
             // MAYBE update widget
         }
     }
+    @IBOutlet weak var ub_stepper: UIStepper!
+    @IBAction func ub_stepperAction(_ sender: UIStepper) {
+        // TODO
+    }
     
     @IBOutlet weak var lb_text: UITextField!
     
@@ -577,7 +581,11 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
             // MAYBE update widget
         }
     }
-
+    @IBOutlet weak var lb_stepper: UIStepper!
+    @IBAction func lb_stepperAction(_ sender: UIStepper) {
+        // TODO
+    }
+    
     @IBOutlet weak var stepSize_text: UITextField!
     
     @IBAction func stepSize_action(_ sender: UITextField) {
@@ -588,6 +596,10 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
             }
             // MAYBE update widget
         }
+    }
+    
+    @IBOutlet weak var sepSize_stepper: UIStepper!
+    @IBAction func stepSize_stepperAction(_ sender: UIStepper) {
     }
     
     @IBOutlet weak var bc_segment: UISegmentedControl!

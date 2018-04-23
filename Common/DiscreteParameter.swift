@@ -175,7 +175,7 @@ class DiscreteParameter : AdjustableParameter {
     }
     
     func stringify(_ t: Int) -> String {
-        return String(t)
+        return basicString(t)
     }
     
     // ============================

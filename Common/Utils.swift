@@ -43,25 +43,15 @@ func logBinomial(_ a:Int, _ b:Int) -> Double {
 }
 
 // =======================================================================
-// Conversions to & from String
+// Conversions to String
 // =======================================================================
 
-func numify(_ x: String) -> Int? {
-    return Int(x)
-}
-
-func stringify(_ x: Int) -> String {
-    // TODO something better than tnis!
+func basicString(_ x: Int) -> String {
     return String(x)
 }
 
-func numify(_ x: String) -> Double? {
-    return Double(x)
-}
-
 func basicString(_ x: Double) -> String {
-    // TODO something better than tnis!
-    return String(format: "%G", x)
+    return String(format: "%12.6G", x)
 }
 
 func piFraction(_ x: Double) -> String {
@@ -74,7 +64,7 @@ func piFraction(_ x: Double) -> String {
     
     let bi = Int(br)
     if (bi == 0) {
-        return stringify(0)
+        return basicString(0)
     }
     if ((bi % 8) == 0) {
         return (bi/8 == 1) ? "pi" : String(bi/8) + "pi"

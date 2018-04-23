@@ -2,22 +2,18 @@
 ToDo.txt
 ==================================================================================
 
-[ ] beta controls constraints
-[ ] rescale alpha by -100 so it goes 0 -> 100 not -1 -> 0
+[ ] beta step size on p.2
+[ ] hookup sequencer param steppers
 
+==================================================
+
+[ ] rescale alpha by -100 so it goes 0 -> 100 not -1 -> 0
 ----------------------------------
 
 [ ] basinfinder renamed & made a PhysicalProperty
     it has its own control parameter: #steps in finder alg'm
     another reason to use a tableview for choosing color source:
         can put in a UI widget for its control params
-
-----------------------------------
-
-[ ] SKTModel has a Registry<PhysicalProperty>
-    It does NOT expose the PhysicalProperties by name
-
-    instead of PhysicalProperty.type, make an enum. ditto for anything else that uses a "type"
 
 ----------------------------------
 
@@ -29,7 +25,7 @@ ToDo.txt
 
 ----------------------------------
 
-[ ] alternative name for "PhysicalProperty". shorter. should indicate that it's "derivied" or "emergent" rather than "defininig"
+[ ] alternative name for "PhysicalProperty". shorter. should indicate that it's "derived" or "emergent" rather than "defininig"
 
 ----------------------------------
 
