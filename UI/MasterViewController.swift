@@ -347,8 +347,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     @IBOutlet weak var axes_switch: UISwitch!
     
     @IBAction func axes_action(_ sender: UISwitch) {
-        let effectName = Axes.type
-        let effectOrNil: Effect? = appModel?.viz.effects.entry(effectName)?.value
+        let effectOrNil = installedEffect(EffectType.axes)
         if (effectOrNil != nil) {
             var effect = effectOrNil!
             effect.enabled = sender.isOn
@@ -359,8 +358,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     @IBOutlet weak var meridians_switch: UISwitch!
     
     @IBAction func meridians_action(_ sender: UISwitch) {
-        let effectName = Meridians.type
-        let effectOrNil: Effect? = appModel?.viz.effects.entry(effectName)?.value
+        let effectOrNil  = installedEffect(EffectType.meridians)
         if (effectOrNil != nil) {
             var effect = effectOrNil!
             effect.enabled = sender.isOn
@@ -371,8 +369,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     @IBOutlet weak var net_switch: UISwitch!
     
     @IBAction func net_action(_ sender: UISwitch) {
-        let effectName = Net.type
-        let effectOrNil: Effect? = appModel?.viz.effects.entry(effectName)?.value
+        let effectOrNil = installedEffect(EffectType.net)
         if (effectOrNil != nil) {
             var effect = effectOrNil!
             effect.enabled = sender.isOn
@@ -383,8 +380,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     @IBOutlet weak var surface_switch: UISwitch!
     
     @IBAction func surface_action(_ sender: UISwitch) {
-        let effectName = Surface.type
-        let effectOrNil: Effect? = appModel?.viz.effects.entry(effectName)?.value
+        let effectOrNil = installedEffect(EffectType.surface)
         if (effectOrNil != nil) {
             var effect = effectOrNil!
             effect.enabled = sender.isOn
@@ -395,7 +391,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
 //    @IBOutlet weak var nodes_switch: UISwitch!
 //
 //    @IBAction func nodes_action(_ sender: UISwitch) {
-//        let effectName = Nodes.type
+//        let effectName = installedEffects[EffectType.nodes]
 //        let effectOrNil: Effect? = appModel?.viz.effects.entry(effectName)?.value
 //        if (effectOrNil != nil) {
 //            var effect = effectOrNil!
@@ -418,14 +414,21 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     //        }
     //    }
     
+    func installedEffect(_ type: EffectType) -> Effect? {
+        return appModel?.viz.effect(forType: type)
+    }
+    
     func updateEffectsControls(_ registry: Registry<Effect>) {
+        self.updateEffectsControls()
+    }
+    
+    func updateEffectsControls() {
         debug("updateEffectsControls")
-        axes_switch.isOn = (registry.entry(Axes.type)?.value.enabled ?? false)
-        meridians_switch.isOn = (registry.entry(Meridians.type)?.value.enabled ?? false)
-        net_switch.isOn = (registry.entry(Net.type)?.value.enabled ?? false)
-        surface_switch.isOn = (registry.entry(Surface.type)?.value.enabled ?? false)
-        // Nodes
-        // Icosahedron
+        let viz = appModel!.viz
+        axes_switch.isOn = viz.effect(forType: EffectType.axes)?.enabled ?? false
+        meridians_switch.isOn = viz.effect(forType: EffectType.meridians)?.enabled ?? false
+        net_switch.isOn = viz.effect(forType: EffectType.net)?.enabled ?? false
+        surface_switch.isOn   = viz.effect(forType: EffectType.surface)?.enabled ?? false
     }
     
     // =======================================================================

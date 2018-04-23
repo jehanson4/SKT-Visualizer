@@ -18,10 +18,12 @@ class Meridians : GLKBaseEffect, Effect {
 
     var debugEnabled = false
     
-    static let type = String(describing: Meridians.self)
+    let effectType = EffectType.meridians
+    var name = "Meridians"
+    var info: String? = nil
+    
     static let rOffsetDefault = 0.0
     
-    var name = type
     var enabled: Bool
     var built: Bool = false
 

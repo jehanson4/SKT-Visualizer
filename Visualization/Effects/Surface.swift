@@ -23,8 +23,9 @@ class Surface : GLKBaseEffect, Effect {
     
     var debugEnabled = false
     
-    static let type = String(describing: Surface.self)
-    var name = type
+    let effectType = EffectType.surface
+    var name = "Surface"
+    var info: String? = nil
     var enabled = false
     private var built: Bool = false
 

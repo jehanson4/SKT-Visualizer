@@ -10,12 +10,27 @@ import Foundation
 import GLKit
 
 // ==============================================================================
+// EffectType
+// ==============================================================================
+
+/// Global list of all effects ever defined
+enum EffectType: Int {
+    case axes = 0
+    case meridians = 1
+    case icosahedron = 2
+    case net = 3
+    case surface = 4
+    case nodes = 5
+}
+
+// ==============================================================================
 // Effect
 // ==============================================================================
 
-protocol Effect  {
-    static var type: String { get }
-    var name: String { get set }
+protocol Effect : Named  {
+    
+    var effectType: EffectType { get }
+    
     var enabled: Bool { get set }
     var transform: GLKEffectPropertyTransform { get }
     

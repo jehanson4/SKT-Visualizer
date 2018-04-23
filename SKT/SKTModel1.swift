@@ -50,6 +50,9 @@ import Foundation
 
 class SKTModel1: SKTModel {
     
+    let clsName = "SKTModel1"
+    var debugEnabled = false
+    
     init() {
         self.geometry = SKGeometry()
         self.physics = SKPhysics(geometry)
@@ -91,9 +94,12 @@ class SKTModel1: SKTModel {
          T.refresh()
     }
     
-    private func debug(_ mtd: String, _ msg: String) {
-        
+    private func debug(_ mtd: String, _ msg: String = "") {
+        if ( debugEnabled) {
+            print(clsName, mtd, msg)
+        }
     }
+    
     let geometry: SKGeometry
     
     let physics: SKPhysics

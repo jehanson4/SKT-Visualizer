@@ -15,9 +15,11 @@ import OpenGL
 #endif
 
 class Icosahedron : GLKBaseEffect, Effect {
+    var debugEnabled = false
     
-    static let type = String(describing: Icosahedron.self)
-    var name = type
+    let effectType = EffectType.icosahedron
+    var name = "Icosahedron"
+    var info: String? = nil
     var enabled: Bool
 
     static let c0 = GLfloat(0.0)
@@ -190,7 +192,9 @@ class Icosahedron : GLKBaseEffect, Effect {
         }
     }
 
-    func debug(_ msg: String) {
-        print(name, msg)
+    func debug(_ mtd: String, _ msg: String = "") {
+        if (debugEnabled) {
+            print(name, mtd, msg)
+        }
     }
 }

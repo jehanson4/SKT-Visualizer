@@ -175,6 +175,13 @@ class VisualizationModel1 : VisualizationModel {
     
     lazy var effects: Registry<Effect> = Registry<Effect>()
     
+    lazy var effectNamesByType = [EffectType: String]()
+    
+    func effect(forType t: EffectType) -> Effect? {
+        let name = effectNamesByType[t]
+        return (name == nil) ? nil : effects.entry(name!)?.value
+    }
+    
     private func initEffects() {
         debug("makeEffects")
         
@@ -188,7 +195,8 @@ class VisualizationModel1 : VisualizationModel {
     }
     
     private func registerEffect(_ effect: Effect) {
-        effects.register(effect, nameHint: effect.name)
+        let entry = effects.register(effect, nameHint: effect.name)
+        effectNamesByType[effect.effectType] = entry.name
     }
     
     // ====================================

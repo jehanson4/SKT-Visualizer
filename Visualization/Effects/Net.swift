@@ -16,11 +16,14 @@ import OpenGL
 
 class Net : GLKBaseEffect, Effect {
     
+    
     var debugEnabled = false
+
+    let effectType = EffectType.net
+    var name: String = "Net"
+    var info: String? = nil
     
     static let rOffsetDefault = 0.0
-    static let type = String(describing: Net.self)
-    var name = type
     var enabled: Bool
         
     var geometry: SKGeometry

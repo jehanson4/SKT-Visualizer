@@ -10,7 +10,7 @@ import UIKit
 
 class RegistrySelectionTableViewController: UITableViewController {
     
-    var name = "RegistrySelectionTableViewController"
+    var clsName = "RegistrySelectionTableViewController"
     var debugEnabled = true
     
     var registry: Registry<Any>?
@@ -104,7 +104,7 @@ class RegistrySelectionTableViewController: UITableViewController {
     
     private func debug(_ mtd: String, _ msg: String = "") {
         if (debugEnabled) {
-            print(name, mtd, msg)
+            print(clsName, mtd, msg)
         }
     }
 

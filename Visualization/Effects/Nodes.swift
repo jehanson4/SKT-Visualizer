@@ -16,8 +16,10 @@ import OpenGL
 
 class Nodes : GLKBaseEffect, Effect {
     
-    static let type = String(describing: Nodes.self)
-    var name = type
+    let effectType = EffectType.nodes
+    var name = "Nodes"
+    var info: String? = nil
+    
     var enabled: Bool
     var built: Bool = false
     
