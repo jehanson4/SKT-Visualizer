@@ -15,16 +15,14 @@ import GLKit
 
 class PhysicalPropertyColorSource : ColorSource {
     
-    let name: String
-    
-    var description: String?
+    var name: String
+    var info: String? = nil
     
     var property: PhysicalProperty
     var colorMap: ColorMap
     
-    init(_ property: PhysicalProperty, _ colorMap: ColorMap, name: String? = nil, description: String? = nil) {
+    init(_ property: PhysicalProperty, _ colorMap: ColorMap, name: String? = nil) {
         self.name = (name != nil) ? name! : property.name
-        self.description = (description != nil) ? description : property.info
         self.property = property
         self.colorMap = colorMap
     }

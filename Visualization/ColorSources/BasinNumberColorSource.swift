@@ -11,9 +11,8 @@ import GLKit
 
 class BasinNumberColorSource : ColorSource {
     
-    static var type = "BasinNumber"
-    var name: String = type
-    var description: String? = nil
+    var name: String = "Basins"
+    var info: String? = nil
     
     var basinFinder: BasinFinder
     var showFinalCount: Bool

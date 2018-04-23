@@ -63,8 +63,9 @@ struct SKPoint {
 
 class SKGeometry : ChangeCounted {
 
-    private let debugEnabled: Bool = false
-
+    var debugEnabled: Bool = false
+    var clsName = "SKGeometry"
+    
     // =======================================================
     // Constants
     
@@ -482,7 +483,7 @@ class SKGeometry : ChangeCounted {
     
     private func printDebug(_ mtd: String, _ msg: String = "") {
         if (debugEnabled) {
-            print("SKGeometry", msg)
+            print(clsName, mtd, msg)
         }
     }
 

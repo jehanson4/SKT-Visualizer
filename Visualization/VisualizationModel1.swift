@@ -125,36 +125,28 @@ class VisualizationModel1 : VisualizationModel {
     
     private func initColorSources() {
         debug("initColorSources")
-        let grayCS = UniformColor(r: 0.25, g: 0.25, b: 0.25, name: "Nothing")
+        let grayCS = UniformColor("Nothing", r: 0.25, g: 0.25, b: 0.25)
         registerColorSource(grayCS, false)
         
         let linearColorMap = LinearColorMap()
         let logColorMap = LogColorMap()
         
-        let energyProp = skt.physics.physicalProperty(Energy.type)
-        if (energyProp != nil) {
-            let energyCS = PhysicalPropertyColorSource(energyProp!, linearColorMap)
-            registerColorSource(energyCS, false)
-        }
+        let energyCS = PhysicalPropertyColorSource(skt.energy, linearColorMap)
+        registerColorSource(energyCS, false)
         
-        let entropyProp = skt.physics.physicalProperty(Entropy.type)
-        if (entropyProp != nil) {
-            let entropyCS = PhysicalPropertyColorSource(entropyProp!, linearColorMap)
-            registerColorSource(entropyCS, false)
+        let entropyCS = PhysicalPropertyColorSource(skt.entropy, linearColorMap)
+        registerColorSource(entropyCS, false)
             
-            let degeneracyCS = PhysicalPropertyColorSource(entropyProp!, logColorMap, name: "Degeneracy", description: "#states in SK space mapped onto a given point on the surface")
-            registerColorSource(degeneracyCS, false)
+        let degeneracyCS = PhysicalPropertyColorSource(skt.entropy, logColorMap, name: "Degeneracy")
+        registerColorSource(degeneracyCS, false)
             
-        }
         
-        let logOccupationProp = skt.physics.physicalProperty(LogOccupation.type)
-        if (logOccupationProp != nil) {
-            let logOccupationCS = PhysicalPropertyColorSource(logOccupationProp!, linearColorMap)
-            registerColorSource(logOccupationCS, false)
+        let logOccupationCS = PhysicalPropertyColorSource(skt.logOccupation, linearColorMap)
+        registerColorSource(logOccupationCS, false)
             
-            let occupationCS = PhysicalPropertyColorSource(logOccupationProp!, logColorMap, name: "Occupation")
+        let occupationCS = PhysicalPropertyColorSource(skt.logOccupation, logColorMap, name: "Occupation")
             registerColorSource(occupationCS, true)
-        }
+        
         
 //        let bbc = BasinNumberColorSource(skt.basinFinder, showFinalCount: false)
 //        registerColorSource(bbc, false)

@@ -8,19 +8,45 @@ ToDo.txt
 sequencers get their own page
 middle page has arrows to both left and right
 so the info button is only on page 1
----------------------
-
-[ ] Nodes effect
-
-[ ] scroll & pan: track finger exactly. Depends on thetaE & zoom?
-
-[ ] store & restore
-
-[ ] "configuration space" -- another defined term
-
-[ ] custom buttons or something still
 
 [ ] beta controls
+
+[ ] physical properties go in registry in SKTModel
+    NOT by-var-name there
+    NOT in SKPhysics at all
+
+[ ] UIStackView w/ borderColor user-defined property
+[ ] UIStackView w/ shadowColor user-defined property
+
+---------------------
+
+[ ] basinfinder renamed & made a PhysicalProperty
+    it has its own control parameter: #steps in finder alg'm
+    another reason to use a tableview for choosing color source:
+        can put in a UI widget for its control params
+
+[ ] SKTModel has a Registry<PhysicalProperty>
+    It does NOT expose the PhysicalProperties by name
+
+    instead of PhysicalProperty.type, make an enum. ditto for anything else that uses a "type"
+
+[ ] PhysicalProperty contains a dict of AdjustableParameters
+    not a registry, tho.
+
+[ ] basins color source
+    better name
+    color saturation goes down w/ distance from well.
+    scale to get it pretty-washed-out at N/2
+    boundaries are still black
+
+[ ] Nodes effect
+    custom shader. point spite is image of a ball
+
+[ ] scroll & pan: track finger *exactly*
+
+[ ] store & restore ("UserData"?)
+
+[ ] custom buttons or something still
 
 [ ] segue from background to prev, not back to main
 
@@ -37,12 +63,7 @@ so the info button is only on page 1
 
 [ ] popover scrolling list instead of picker
 
-[ ] instead of PhysicalProperty.type, make an enum. ditto for anything else that uses a "type"
-
 [ ] width of text widget stretches automatically to fix . . . a priority thing?
-
-[ ] when sequencer is running the controler parameter text fields all read-only
-    deltas and steppers OK
 
 [ ] I think we're looking at the underside of the hemisphere
 
@@ -57,4 +78,6 @@ so the info button is only on page 1
     reset
     3 for BC
     3 for dir/enable
+
+[ ] "capture" the display view
 

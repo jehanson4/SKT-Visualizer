@@ -88,6 +88,7 @@
 		8AD81826207C9BD900426C25 /* image1-20@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8AD81815207C9BD900426C25 /* image1-20@2x.png */; };
 		8AD81827207C9BD900426C25 /* Contents.json in Resources */ = {isa = PBXBuildFile; fileRef = 8AD81816207C9BD900426C25 /* Contents.json */; };
 		8AD81828207C9BD900426C25 /* image1-29.png in Resources */ = {isa = PBXBuildFile; fileRef = 8AD81817207C9BD900426C25 /* image1-29.png */; };
+		8AD823B4208E36CB0045F3B1 /* PhysicalProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AD823B3208E36CB0045F3B1 /* PhysicalProperty.swift */; };
 		8AE48BBB2087857C001B5D11 /* GLUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE48BBA2087857C001B5D11 /* GLUtils.swift */; };
 		8AE48BBF2087E63A001B5D11 /* background.css in Resources */ = {isa = PBXBuildFile; fileRef = 8AE48BBE2087E639001B5D11 /* background.css */; };
 		8AF5320720881A77009D1882 /* BasinFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF5320620881A77009D1882 /* BasinFinder.swift */; };
@@ -191,6 +192,7 @@
 		8AD81815207C9BD900426C25 /* image1-20@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "image1-20@2x.png"; sourceTree = "<group>"; };
 		8AD81816207C9BD900426C25 /* Contents.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Contents.json; sourceTree = "<group>"; };
 		8AD81817207C9BD900426C25 /* image1-29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "image1-29.png"; sourceTree = "<group>"; };
+		8AD823B3208E36CB0045F3B1 /* PhysicalProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicalProperty.swift; sourceTree = "<group>"; };
 		8AE48BBA2087857C001B5D11 /* GLUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GLUtils.swift; sourceTree = "<group>"; };
 		8AE48BBE2087E639001B5D11 /* background.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = background.css; sourceTree = "<group>"; };
 		8AF5320620881A77009D1882 /* BasinFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasinFinder.swift; sourceTree = "<group>"; };
@@ -357,6 +359,7 @@
 				8A3C45AF2086160A00A1E9CD /* Energy.swift */,
 				8A3C45B32086165500A1E9CD /* Entropy.swift */,
 				8A3C45B52086167E00A1E9CD /* LogOccupation.swift */,
+				8AD823B3208E36CB0045F3B1 /* PhysicalProperty.swift */,
 			);
 			path = PhysicalProperties;
 			sourceTree = "<group>";
@@ -628,6 +631,7 @@
 				8A3C45B02086160A00A1E9CD /* Energy.swift in Sources */,
 				8AA0637D207A89DD00BB68DB /* SKPhysics.swift in Sources */,
 				8A8D596F208D131F005550CD /* ContinuousParameter.swift in Sources */,
+				8AD823B4208E36CB0045F3B1 /* PhysicalProperty.swift in Sources */,
 				8A8D5965208CFAEF005550CD /* DiscreteParameterSequencer.swift in Sources */,
 				8A3BBBB7208BC28A00669227 /* VisualizationModel1.swift in Sources */,
 				8A3BBBB5208BBB0600669227 /* SKTModel1.swift in Sources */,

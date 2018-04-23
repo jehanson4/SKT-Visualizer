@@ -82,10 +82,10 @@ class BasinFinder {
     
     private var physicsChangeNumber: Int = -1
     
-    init(_ geometry: SKGeometry, _ physics: SKPhysics) {
+    init(_ geometry: SKGeometry, _ physics: SKPhysics, _ energy: PhysicalProperty) {
         self.geometry = geometry
         self.physics = physics
-        self.energy = physics.physicalProperty(Energy.type)!
+        self.energy = energy
     }
     
     // =================================================================

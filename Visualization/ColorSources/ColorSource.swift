@@ -12,11 +12,8 @@ import GLKit
 // ==============================================================================
 // ==============================================================================
 
-protocol ColorSource {
-    
-    var name: String { get }
-    var description: String? { get set }
-    
+protocol ColorSource : Named {
+        
     /// Updates this color source's internal state as needed. Should be called
     /// before each iteration over node indices.
     func prepare()

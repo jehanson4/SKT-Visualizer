@@ -169,11 +169,14 @@ class SKTModel1: SKTModel {
         // Don't touch beta
     }
     
-    
+    // ======================================
+    // Physical properties
+    // ======================================
+
     lazy var energy: PhysicalProperty = Energy(geometry, physics)
     lazy var entropy: PhysicalProperty =  Entropy(geometry, physics)
     lazy var logOccupation: PhysicalProperty = LogOccupation(geometry, physics)
-    lazy var basinFinder: BasinFinder = BasinFinder(geometry, physics)
+    lazy var basinFinder: BasinFinder = BasinFinder(geometry, physics, energy)
     
     
 }

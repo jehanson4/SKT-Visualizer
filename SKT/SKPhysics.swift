@@ -10,25 +10,14 @@ import Foundation
 
 
 // ===============================================================================
-// PhysicalProperty
-// ===============================================================================
-
-protocol PhysicalProperty : Named {
-
-    var bounds: (min: Double, max: Double) { get }
-    
-    func valueAt(nodeIndex: Int) -> Double
-    func valueAt(m: Int, n: Int) -> Double
-}
-
-// ===============================================================================
 // SKPhysics
 // ===============================================================================
 
 class SKPhysics : ChangeCounted {
     
     var debugEnabled = false
-
+    let clsName = "SKPhysics"
+    
     // ===============================
     // Constants
     // ===============================
@@ -132,47 +121,21 @@ class SKPhysics : ChangeCounted {
         registerChange()
     }
     
-    var changeNumber: Int {
-        get { return _changeCount }
-    }
-    
-    var physicalPropertyNames: [String] = []
-    
-    private var geometry: SKGeometry
-    private var fPhysicalProperties: [String: PhysicalProperty]
-    private var _alpha1: Double
-    private var _alpha2: Double
-    private var _T: Double
-    private var _beta: Double
-    private var _changeCount: Int
-    
-    init(_ geometry: SKGeometry) {
-        self.geometry = geometry
-        self.fPhysicalProperties = [String: PhysicalProperty]()
-        self._alpha1 = SKPhysics.alpha_defaultValue
-        self._alpha2 = SKPhysics.alpha_defaultValue
-        self._T = SKPhysics.T_defaultValue
-        self._beta = 1.0/self._T
-        self._changeCount = 0
-        
-        registerPhysicalProperty(Energy(geometry, self))
-        registerPhysicalProperty(Entropy(geometry, self))
-        registerPhysicalProperty(LogOccupation(geometry, self))
-    }
-    
-    func physicalProperty(_ name: String) -> PhysicalProperty? {
-        return fPhysicalProperties[name]
-    }
-    
-    private func registerChange() {
-        _changeCount += 1
-        debug("registerChange", "new changeCount=\(_changeCount)")
-    }
-    
-    func registerPhysicalProperty(_ p: PhysicalProperty) {
-        physicalPropertyNames.append(p.name)
-        fPhysicalProperties[p.name] = p
-    }
+    // ============================================
+    // Physical properties
+    // ============================================
+
+//    var physicalPropertyNames: [String] = []
+//    private var fPhysicalProperties: [String: PhysicalProperty]
+//
+//    func physicalProperty(_ name: String) -> PhysicalProperty? {
+//        return fPhysicalProperties[name]
+//    }
+//
+//    func registerPhysicalProperty(_ p: PhysicalProperty) {
+//        physicalPropertyNames.append(p.name)
+//        fPhysicalProperties[p.name] = p
+//    }
     
     func findBounds(_ property: PhysicalProperty) -> (min: Double, max: Double) {
         var tmpValue: Double  = property.valueAt(nodeIndex: 0)
@@ -191,9 +154,44 @@ class SKPhysics : ChangeCounted {
         return (min: minValue, max: maxValue)
     }
     
-    func debug(_ mtd: String, _ msg: String) {
+
+    // ============================================
+    // ============================================
+
+    private var geometry: SKGeometry
+    private var _alpha1: Double
+    private var _alpha2: Double
+    private var _T: Double
+    private var _beta: Double
+    private var _changeCount: Int
+    
+    init(_ geometry: SKGeometry) {
+        self.geometry = geometry
+        self._alpha1 = SKPhysics.alpha_defaultValue
+        self._alpha2 = SKPhysics.alpha_defaultValue
+        self._T = SKPhysics.T_defaultValue
+        self._beta = 1.0/self._T
+        self._changeCount = 0
+        
+        // TODO get rid of this
+//        self.fPhysicalProperties = [String: PhysicalProperty]()
+//        registerPhysicalProperty(Energy(geometry, self))
+//        registerPhysicalProperty(Entropy(geometry, self))
+//        registerPhysicalProperty(LogOccupation(geometry, self))
+    }
+    
+    var changeNumber: Int {
+        get { return _changeCount }
+    }
+    
+    private func registerChange() {
+        _changeCount += 1
+        debug("registerChange", "new changeCount=\(_changeCount)")
+    }
+    
+    private func debug(_ mtd: String, _ msg: String) {
         if (debugEnabled) {
-            print("SKPhysics", mtd, msg)
+            print(clsName, mtd, msg)
         }
     }
 }

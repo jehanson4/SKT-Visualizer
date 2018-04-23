@@ -14,12 +14,13 @@ import Foundation
 
 class LogOccupation : PhysicalProperty {
     
-    static let type = "LogOccupation"
-    
+    static var type = "LogOccupation"
     var name: String  = LogOccupation.type
-    var info: String? = "log(occupation)"
+    var info: String? = nil
+
     var bounds: (min: Double, max: Double) { ensureFresh(); return fBounds }
-    
+    var params: [String: AdjustableParameter]? = nil
+
     private let physics: SKPhysics
     private let geometry: SKGeometry
     private var physicsChangeNumber: Int

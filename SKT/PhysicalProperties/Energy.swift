@@ -14,11 +14,11 @@ import Foundation
 
 class Energy : PhysicalProperty {
     
-    static let type = "Energy"
-    
-    var name: String = Energy.type
+    var name: String = "Energy"
     var info: String? = nil
+    
     var bounds: (min: Double, max: Double) { ensureFresh(); return fBounds }
+    let params: [String: AdjustableParameter]? = nil
     
     private let geometry: SKGeometry
     private let physics: SKPhysics

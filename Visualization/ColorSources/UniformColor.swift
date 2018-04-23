@@ -11,14 +11,14 @@ import GLKit
 
 class UniformColor : ColorSource {
     
-    let name: String
-    var description: String?
+    let alpha: GLfloat = 1.0
+    var name: String
+    var info: String? = nil
     var color: GLKVector4
     
-    init(r: GLfloat = 0, g: GLfloat = 0, b: GLfloat = 0, name: String? = nil, description: String? = nil) {
-        self.name = (name != nil) ? name! : "Uniform"
-        self.description = (description != nil) ? description : "The same color everywhere"
-        self.color = GLKVector4Make(r,g,b,1)
+    init(_ name: String, r: GLfloat = 0, g: GLfloat = 0, b: GLfloat = 0) {
+        self.name = name
+        self.color = GLKVector4Make(r, g, b, alpha)
     }
     
     func prepare() {}

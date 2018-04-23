@@ -27,7 +27,11 @@ protocol SKTModel {
 
     func setParameters(N: Int, k0: Int)
     func resetParameters()
-    
+
+    // ==============================
+    // Physical properties
+    // ==============================
+
     var energy: PhysicalProperty { get }
     var entropy: PhysicalProperty { get }
     var logOccupation: PhysicalProperty { get }
