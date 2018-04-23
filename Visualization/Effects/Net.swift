@@ -16,6 +16,8 @@ import OpenGL
 
 class Net : GLKBaseEffect, Effect {
     
+    var debugEnabled = false
+    
     static let rOffsetDefault = 0.0
     static let type = String(describing: Net.self)
     var name = type
@@ -223,7 +225,9 @@ class Net : GLKBaseEffect, Effect {
     }
     
     func debug(_ mtd: String, _ msg: String = "") {
-        print(name, mtd, msg)
+        if (debugEnabled) {
+            print(name, mtd, msg)
+        }
     }
 
 //    // =============================================================================
