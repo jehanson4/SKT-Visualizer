@@ -2,8 +2,9 @@
 ToDo.txt
 ==================================================================================
 
-[ ] k0 labels
 ====================================
+
+[ ] "configuration space" -- another defined term
 
 [ ] custom buttons or something still
 
