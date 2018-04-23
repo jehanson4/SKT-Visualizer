@@ -28,6 +28,8 @@
 		8A40BC0C207ECC7500F2D2EB /* Nodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A40BC0B207ECC7500F2D2EB /* Nodes.swift */; };
 		8A40BC0E207EEA3D00F2D2EB /* Meridians.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A40BC0D207EEA3D00F2D2EB /* Meridians.swift */; };
 		8A41A2F2208398E900CDDF28 /* NumericConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A41A2F1208398E900CDDF28 /* NumericConstants.swift */; };
+		8A53B2A1208D9B380039C5D7 /* technology.html in Resources */ = {isa = PBXBuildFile; fileRef = 8A53B2A0208D9B380039C5D7 /* technology.html */; };
+		8A53B2A3208D9EBE0039C5D7 /* DummySequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A53B2A2208D9EBE0039C5D7 /* DummySequencer.swift */; };
 		8A575FEE20804759002B9951 /* ColorMaps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A575FED20804759002B9951 /* ColorMaps.swift */; };
 		8A57600320805790002B9951 /* smooth-cool-warm-table-float-0128.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8A575FF320805790002B9951 /* smooth-cool-warm-table-float-0128.csv */; };
 		8A57600420805790002B9951 /* smooth-cool-warm-table-float-0512.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8A575FF420805790002B9951 /* smooth-cool-warm-table-float-0512.csv */; };
@@ -101,7 +103,6 @@
 		8AF98F96207FE7D60007688E /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 8AF98F95207FE7D60007688E /* LICENSE */; };
 		8AF98F9B207FE80E0007688E /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 8AF98F98207FE80D0007688E /* index.html */; };
 		8AF98F9C207FE80E0007688E /* sample.html in Resources */ = {isa = PBXBuildFile; fileRef = 8AF98F99207FE80D0007688E /* sample.html */; };
-		8AF98F9D207FE80E0007688E /* app.html in Resources */ = {isa = PBXBuildFile; fileRef = 8AF98F9A207FE80D0007688E /* app.html */; };
 		8AF98FA0207FE8350007688E /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8AF98F9E207FE8350007688E /* DetailViewController.xib */; };
 		8AF98FA1207FE8350007688E /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF98F9F207FE8350007688E /* DetailViewController.swift */; };
 		8AF98FA4207FE8B40007688E /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8AF98FA2207FE8B40007688E /* SettingsViewController.xib */; };
@@ -133,6 +134,8 @@
 		8A40BC0B207ECC7500F2D2EB /* Nodes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Nodes.swift; sourceTree = "<group>"; };
 		8A40BC0D207EEA3D00F2D2EB /* Meridians.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Meridians.swift; sourceTree = "<group>"; };
 		8A41A2F1208398E900CDDF28 /* NumericConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumericConstants.swift; sourceTree = "<group>"; };
+		8A53B2A0208D9B380039C5D7 /* technology.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = technology.html; sourceTree = "<group>"; };
+		8A53B2A2208D9EBE0039C5D7 /* DummySequencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummySequencer.swift; sourceTree = "<group>"; };
 		8A575FED20804759002B9951 /* ColorMaps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorMaps.swift; sourceTree = "<group>"; };
 		8A575FF320805790002B9951 /* smooth-cool-warm-table-float-0128.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "smooth-cool-warm-table-float-0128.csv"; sourceTree = "<group>"; };
 		8A575FF420805790002B9951 /* smooth-cool-warm-table-float-0512.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "smooth-cool-warm-table-float-0512.csv"; sourceTree = "<group>"; };
@@ -206,7 +209,6 @@
 		8AF98F95207FE7D60007688E /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		8AF98F98207FE80D0007688E /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		8AF98F99207FE80D0007688E /* sample.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = sample.html; sourceTree = "<group>"; };
-		8AF98F9A207FE80D0007688E /* app.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = app.html; sourceTree = "<group>"; };
 		8AF98F9E207FE8350007688E /* DetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailViewController.xib; sourceTree = "<group>"; };
 		8AF98F9F207FE8350007688E /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		8AF98FA2207FE8B40007688E /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
@@ -247,6 +249,8 @@
 				8A8D5964208CFAEF005550CD /* DiscreteParameterSequencer.swift */,
 				8A19CD872082384600C1EADE /* Sequencer.swift */,
 				8A8D5970208D1F10005550CD /* NumericSequencer.swift */,
+				8A53B2A2208D9EBE0039C5D7 /* DummySequencer.swift */,
+				8A19CD8A208248B100C1EADE /* NForFixedKOverN.swift */,
 			);
 			path = Sequencers;
 			sourceTree = "<group>";
@@ -307,7 +311,6 @@
 			isa = PBXGroup;
 			children = (
 				8AF5320A2088AD24009D1882 /* BasinFinderSequencer.swift */,
-				8A19CD8A208248B100C1EADE /* NForFixedKOverN.swift */,
 			);
 			path = Unfinished;
 			sourceTree = "<group>";
@@ -390,11 +393,11 @@
 		8AD817FE207BFD9E00426C25 /* background */ = {
 			isa = PBXGroup;
 			children = (
-				8A3BBBB8208BC49D00669227 /* science.html */,
 				8AE48BBE2087E639001B5D11 /* background.css */,
 				8AF98F98207FE80D0007688E /* index.html */,
 				8AF98F99207FE80D0007688E /* sample.html */,
-				8AF98F9A207FE80D0007688E /* app.html */,
+				8A3BBBB8208BC49D00669227 /* science.html */,
+				8A53B2A0208D9B380039C5D7 /* technology.html */,
 			);
 			path = background;
 			sourceTree = "<group>";
@@ -557,6 +560,7 @@
 				8AF98F96207FE7D60007688E /* LICENSE in Resources */,
 				8A57600320805790002B9951 /* smooth-cool-warm-table-float-0128.csv in Resources */,
 				8A57600E20805790002B9951 /* smooth-cool-warm-table-byte-0256.csv in Resources */,
+				8A53B2A1208D9B380039C5D7 /* technology.html in Resources */,
 				8A3BBBBF208BF29A00669227 /* splash.jpg in Resources */,
 				8AD8181D207C9BD900426C25 /* image1-40.png in Resources */,
 				8A57600A20805790002B9951 /* smooth-cool-warm-table-byte-1024.csv in Resources */,
@@ -568,7 +572,6 @@
 				8A57600820805790002B9951 /* smooth-cool-warm-table-byte-0064.csv in Resources */,
 				8AD81823207C9BD900426C25 /* image1-83.5@2x.png in Resources */,
 				8AD817FD207BFA9200426C25 /* InfoViewController.xib in Resources */,
-				8AF98F9D207FE80E0007688E /* app.html in Resources */,
 				8A57600920805790002B9951 /* smooth-cool-warm-table-float-0016.csv in Resources */,
 				8A57600C20805790002B9951 /* smooth-cool-warm-table-byte-0128.csv in Resources */,
 				8A3BBBB9208BC49D00669227 /* science.html in Resources */,
@@ -631,6 +634,7 @@
 				8ABEEC3B20803A2F008E72F4 /* Surface.swift in Sources */,
 				8A8D5971208D1F10005550CD /* NumericSequencer.swift in Sources */,
 				8ACE788F2073C57500C29875 /* Effect.swift in Sources */,
+				8A53B2A3208D9EBE0039C5D7 /* DummySequencer.swift in Sources */,
 				8A3C45C62086278900A1E9CD /* UniformColor.swift in Sources */,
 				8A3C45B02086160A00A1E9CD /* Energy.swift in Sources */,
 				8AA0637D207A89DD00BB68DB /* SKPhysics.swift in Sources */,

@@ -481,7 +481,9 @@ class SKGeometry : ChangeCounted {
     }
     
     private func printDebug(_ mtd: String, _ msg: String = "") {
-        print("SKGeometry", msg)
+        if (debugEnabled) {
+            print("SKGeometry", msg)
+        }
     }
 
 }

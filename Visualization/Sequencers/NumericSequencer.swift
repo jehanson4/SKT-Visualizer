@@ -209,11 +209,15 @@ class NumericSequencer<T: Number> : Sequencer {
         self._enabled = true
         self._lowerBound = lowerBound
         self._upperBound = upperBound
-        self._boundaryCondition = BoundaryCondition.sticky
+        self._boundaryCondition = BoundaryCondition.periodic
         self._stepSize = stepSize
         
         self.stepSgn = one
     }
+    
+    // =====================================
+    // API funcs
+    // =====================================
     
     func reset() {
         stepSgn = one

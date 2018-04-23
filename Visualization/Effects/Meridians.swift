@@ -16,6 +16,8 @@ import OpenGL
 
 class Meridians : GLKBaseEffect, Effect {
 
+    var debugEnabled = false
+    
     static let type = String(describing: Meridians.self)
     static let rOffsetDefault = 0.0
     
@@ -147,7 +149,9 @@ class Meridians : GLKBaseEffect, Effect {
 
     }
     
-    func debug(_ msg: String) {
-        print(name, msg)
+    func debug(_ mtd: String, _ msg: String = "") {
+        if (debugEnabled) {
+            print(name, mtd, msg)
+        }
     }
 }

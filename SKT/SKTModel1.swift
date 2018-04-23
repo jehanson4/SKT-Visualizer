@@ -137,6 +137,11 @@ class SKTModel1: SKTModel {
                                         setPoint: SKPhysics.beta_defaultValue,
                                         stepSize: SKPhysics.beta_defaultStepSize)
     
+    func setParameters(N: Int, k0: Int) {
+        self.N.value = N
+        self.k0.value = k0
+    }
+
     func resetParameters() {
         N.value = N.setPoint
         k0.value = k0.setPoint
@@ -146,22 +151,6 @@ class SKTModel1: SKTModel {
         // Don't touch beta
     }
     
-    //    fileprivate var monitors = [Int: SKTParameterChangeMonitor1]()
-    //    private var monitorCounter: Int = 0
-    //
-    //    private func fireParameterChange(_ param: AdjustableParameter) {
-    //        for mEntry in monitors {
-    //            mEntry.value.fire()
-    //        }
-    //    }
-    //
-    //    func monitorParameters(_ callback: @escaping (SKTModel) -> ()) -> ChangeMonitor? {
-    //        let id = monitorCounter
-    //        monitorCounter += 1
-    //        let monitor = SKTParameterChangeMonitor1(id, callback, self)
-    //        monitors[id] = monitor
-    //        return monitor
-    //    }
     
     lazy var energy: PhysicalProperty = Energy(geometry, physics)
     lazy var entropy: PhysicalProperty =  Entropy(geometry, physics)

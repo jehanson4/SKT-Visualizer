@@ -25,6 +25,7 @@ protocol SKTModel {
     var T: ContinuousParameter  { get }
     var beta: ContinuousParameter  { get }
 
+    func setParameters(N: Int, k0: Int)
     func resetParameters()
     
     var energy: PhysicalProperty { get }

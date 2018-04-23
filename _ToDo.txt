@@ -4,19 +4,17 @@ ToDo.txt
 
 [ ] KForFixedKOverN
 
-[ ] stopped button needs to combine enabled & direction?
-    or else I need a 2nd indicator
-
-[ ] initial sequencer selection isn't geting picked up.
-
-[ ] button labels
-
- [ ] sequencer stepsize not hooked up
+[ ] k0 labels
 ====================================
+
+[ ] custom buttons or something still
+
+[ ] beta controls
+
+[ ] seque from background to prev, not back to main
 
 [ ] all the monitors dict's should be lazy
 
----
 [ ] FIXME strog retain cycles b/c of listeners
     cf. http://blog.scottlogic.com/2015/02/05/swift-events.html
 

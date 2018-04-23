@@ -11,14 +11,14 @@ import UIKit
 class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, AppModelUser {
     
     let name = "MasterViewController"
-    var debugEnabled = true
+    var debugEnabled = false
     
     var appModel: AppModel? = nil
     
     private var colorSourceMonitor: ChangeMonitor? = nil
     private var paramChangeMonitor: ChangeMonitor? = nil
     private var sequencerSelectionMonitor: ChangeMonitor? = nil
-    private var sequencerPropertiesMonitor: ChangeMonitor? = nil
+    private var sequencerParamsMonitor: ChangeMonitor? = nil
     
     override func viewDidLoad() {
         let mtd = "viewDidLoad"
@@ -32,9 +32,6 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         T_text.delegate = self
         // beta_text.delegate = self
         
-        ub_text.delegate = self
-        lb_text.delegate = self
-        
         colorSourcePicker.delegate = self
         colorSourcePicker.dataSource = self
         colorSourcePicker.tag = colorSourcePickerTag
@@ -42,6 +39,10 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         sequencerPicker.delegate = self
         sequencerPicker.dataSource = self
         sequencerPicker.tag = sequencerPickerTag
+        
+        ub_text.delegate = self
+        lb_text.delegate = self
+        stepSize_text.delegate = self
         
         if (appModel == nil) {
             debug(mtd, "app Model is nil")
@@ -126,7 +127,8 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     
     // =====================================================================
     // N
-    
+    // ====================================================================
+
     @IBOutlet weak var N_text: UITextField!
     
     @IBOutlet weak var N_stepper: UIStepper!
@@ -160,7 +162,8 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     
     // ===============================
     // k0
-    
+    // ====================================================================
+
     @IBOutlet weak var k_text: UITextField!
 
     @IBOutlet weak var k_stepper: UIStepper!
@@ -195,7 +198,8 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     
     // ===========================
     // alpha1
-    
+    // ====================================================================
+
     @IBOutlet weak var a1_text: UITextField!
     @IBOutlet weak var a1_stepper: UIStepper!
 
@@ -232,7 +236,8 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     
     // ============================================
     // alpha2
-    
+    // ====================================================================
+
     @IBOutlet weak var a2_text: UITextField!
     @IBOutlet weak var a2_stepper: UIStepper!
   
@@ -265,7 +270,8 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     
     // ===================================
     // T
-    
+    // ====================================================================
+
     @IBOutlet weak var T_text: UITextField!
     @IBOutlet weak var T_stepper: UIStepper!
     
@@ -296,9 +302,10 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         T_stepper.value = param.value
     }
     
-    // ===================================
+    // ====================================================================
     // beta
-    
+    // ====================================================================
+
     @IBOutlet weak var beta_text: UITextField!
     @IBOutlet weak var beta_stepper: UIStepper!
     
@@ -334,8 +341,9 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     }
 
     // ====================================================================
-    // MARK: effects controls
-    
+    // Effects
+    // ====================================================================
+
     @IBOutlet weak var axes_switch: UISwitch!
     
     @IBAction func axes_action(_ sender: UISwitch) {
@@ -421,8 +429,9 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     }
     
     // =======================================================================
-    // MARK: pickers
-    
+    // Color source & sequencer pickers
+    // =======================================================================
+
     // This font size needs to be kept in sync with Main.storyboard
     let pickerLabelFontSize: CGFloat = 15.0
     
@@ -505,9 +514,37 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         debug("updateColorSourceControls", "telling colorSourcePicker to select row \(sel.index): \(sel.name)")
         colorSourcePicker.selectRow(sel.index, inComponent: 0, animated: false)
     }
+
+    func updateSequencerControls(_ sequencers: Registry<Sequencer>?) {
+        let selection = sequencers?.selection
+        if (selection == nil) {
+            debug("updateSequencerControls", "No sequencer is selected")
+            return
+        }
+        
+        let sel = selection!
+        var seq = sel.value
+        debug("updateSequencerControls", "telling picker to select row \(sel.index): \(sel.name)")
+        sequencerPicker.selectRow(sel.index, inComponent: 0, animated: false)
+        
+        if (sequencerParamsMonitor != nil) {
+            sequencerParamsMonitor!.disconnect()
+            debug("updateSequencerControls", "stopped monitoring the old sequencer")
+        }
+
+        seq.reset()
+        seq.enabled = false
+
+        debug("updateSequencerControls", "updating controls for current sequencer")
+        updateSequencerPropertyControls(seq)
+        
+        debug("updateSequencerControls", "starting to monitor the current sequencer")
+        sequencerParamsMonitor = seq.monitorChanges(updateSequencerPropertyControls)
+    }
     
+
     // =====================================================
-    // Sequencer params
+    // Sequencer properties
     // =====================================================
     
     @IBOutlet weak var ub_text: UITextField!
@@ -534,13 +571,25 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         }
     }
 
+    @IBOutlet weak var stepSize_text: UITextField!
+    
+    @IBAction func stepSize_action(_ sender: UITextField) {
+        var sequencer = appModel?.viz.sequencers.selection?.value
+        if (sequencer != nil) {
+            if (sender.text != nil) {
+                sequencer!.stepSizeStr = sender.text!
+            }
+            // MAYBE update widget
+        }
+    }
+    
     @IBOutlet weak var bc_segment: UISegmentedControl!
     
     @IBAction func bc_action(_ sender: UISegmentedControl) {
-        debug("bc_action", "selectedSegmentIndex=" + String(sender.selectedSegmentIndex))
+        // debug("bc_action", "selectedSegmentIndex=" + String(sender.selectedSegmentIndex))
         var sequencer = appModel?.viz.sequencers.selection?.value
         if (sequencer != nil) {
-            let newBC = segmentIndexToBoundaryCondition(sender.selectedSegmentIndex)
+            let newBC = BoundaryCondition(rawValue: sender.selectedSegmentIndex)
             if (newBC != nil) {
                 sequencer!.boundaryCondition = newBC!
             }
@@ -554,59 +603,30 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         debug("dir_action", "selectedSegmentIndex=" + String(sender.selectedSegmentIndex))
         var sequencer = appModel?.viz.sequencers.selection?.value
         if (sequencer != nil) {
-            let newDir = segmentIndexToDirection(sender.selectedSegmentIndex)
+            let newDir = Direction(rawValue: sender.selectedSegmentIndex)
             if (newDir != nil) {
-                sequencer!.direction = newDir!
+                switch (newDir!) {
+                case .forward:
+                    sequencer!.direction = Direction.forward
+                    sequencer!.enabled = true
+                case .reverse:
+                    sequencer!.direction = Direction.reverse
+                    sequencer!.enabled = true
+                case .stopped:
+                    sequencer!.enabled = false
+                }
             }
             // MAYBE update widget
         }
     }
     
-    func updateSequencerControls(_ sequencers: Registry<Sequencer>?) {
-        let selection = sequencers?.selection
-        if (selection == nil) {
-            debug("updateSequencerControls", "No sequencer is selected")
-            return
-        }
-        let sel = selection!
-        debug("updateSequencerControls", "telling picker to select row \(sel.index): \(sel.name)")
-        sequencerPicker.selectRow(sel.index, inComponent: 0, animated: false)
-        
-        sequencerPropertiesMonitor?.disconnect()
-        debug("updateSequencerControls", "stopped monitoring the old sequencer's properties")
-        
-        updateSequencerPropertyControls(sel.value)
-        
-        debug("updateSequencerControls", "starting to monitor the new sequencer's properties")
-        sequencerPropertiesMonitor = sel.value.monitorChanges(updateSequencerPropertyControls)
-    }
-    
     func updateSequencerPropertyControls(_ sequencer: Sequencer) {
-        debug("updateSequencerPropertyControls", "updating bounds")
         ub_text.text = sequencer.upperBoundStr
         lb_text.text = sequencer.lowerBoundStr
-            
-        debug("updateSequencerPropertyControls", "updating boundary condition")
-        bc_segment.selectedSegmentIndex = boundaryConditionToSegmentIndex(sequencer.boundaryCondition)
-        
-        debug("updateSequencerControls", "updating direction")
-        dir_segment.selectedSegmentIndex = directionToSegmentIndex(sequencer.direction)
-    }
-    
-    func segmentIndexToBoundaryCondition(_ idx : Int) -> BoundaryCondition? {
-        return BoundaryCondition(rawValue: idx)
-    }
-    
-    func boundaryConditionToSegmentIndex(_ bc: BoundaryCondition) -> Int {
-        return bc.rawValue
-    }
-    
-    func segmentIndexToDirection(_ idx : Int) -> Direction? {
-        return Direction(rawValue: idx)
-    }
-    
-    func directionToSegmentIndex(_ dir: Direction) -> Int {
-        return dir.rawValue
+        stepSize_text.text = sequencer.stepSizeStr
+        bc_segment.selectedSegmentIndex = sequencer.boundaryCondition.rawValue
+        let effectiveDir: Direction = (sequencer.enabled) ? sequencer.direction : Direction.stopped
+        dir_segment.selectedSegmentIndex = effectiveDir.rawValue
     }
     
 }

@@ -21,6 +21,8 @@ import OpenGL
 */
 class Surface : GLKBaseEffect, Effect {
     
+    var debugEnabled = false
+    
     static let type = String(describing: Surface.self)
     var name = type
     var enabled = false
@@ -314,7 +316,9 @@ class Surface : GLKBaseEffect, Effect {
     }
     
     func debug(_ mtd: String, _ msg: String = "") {
-        print(name, mtd, msg)
+        if (debugEnabled) {
+            print(name, mtd, msg)
+        }
     }
 
 }

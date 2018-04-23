@@ -20,7 +20,7 @@ import OpenGL
 
 class VisualizationModel1 : VisualizationModel {
     
-    var debugEnabled = true
+    var debugEnabled = false
     
     private var skt: SKTModel
     
@@ -208,6 +208,8 @@ class VisualizationModel1 : VisualizationModel {
     private func initSequencers() {
         debug("initSequencers")
         
+        registerSequencer(DummySequencer("None"), true)
+        
         registerSequencer(DiscreteParameterSequencer(
             skt.N,
             SKGeometry.N_defaultLowerBound,
@@ -215,6 +217,8 @@ class VisualizationModel1 : VisualizationModel {
             SKGeometry.N_defaultStepSize
         ), false)
 
+        registerSequencer(NForFixedKOverN(skt), false)
+        
         registerSequencer(DiscreteParameterSequencer(
             skt.k0,
             SKGeometry.k0_defaultLowerBound,
