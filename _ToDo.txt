@@ -4,13 +4,19 @@ ToDo.txt
 
 ====================================
 
+[ ] surface button is miswired
+
+[ ] scroll & pan: track finger exactly. Depends on thetaE & zoom?
+
+[ ] store & restore
+
 [ ] "configuration space" -- another defined term
 
 [ ] custom buttons or something still
 
 [ ] beta controls
 
-[ ] seque from background to prev, not back to main
+[ ] segue from background to prev, not back to main
 
 [ ] all the monitors dict's should be lazy
 

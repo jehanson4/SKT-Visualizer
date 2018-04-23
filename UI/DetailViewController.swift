@@ -21,13 +21,13 @@ class DetailViewController: GLKViewController, AppModelUser {
     var appModel: AppModel? = nil
     var context: EAGLContext? = nil
 
-    let panPhi_scaleFactor: Double = 0.01 // EMPIRICAL
-    var panPhi_initialValue: Double = 0
-
-    let panTheta_scaleFactor: Double = -0.01 // EMPIRICAL
-    var panTheta_initialValue: Double = 0
-
-    var pinchZoom_initialValue: Double = 1
+    // EMPIRICAL
+    let pan_phiFactor: Double = 0.005
+    let pan_ThetaEFactor: Double = -0.005
+    
+    var pan_initialPhi: Double = 0
+    var pan_initialThetaE: Double = 0
+    var pinch_initialZoom: Double = 1
 
     deinit {
             print("DetailViewController.deinit")
@@ -109,12 +109,12 @@ class DetailViewController: GLKViewController, AppModelUser {
 
         let pov = appModel!.viz.pov
         if (sender.state == UIGestureRecognizerState.began) {
-            panPhi_initialValue = pov.phi
-            panTheta_initialValue = pov.thetaE
+            pan_initialPhi = pov.phi
+            pan_initialThetaE = pov.thetaE
         }
         let delta = sender.translation(in: sender.view)
-        let phi2 = panPhi_initialValue - Double(delta.x) * panPhi_scaleFactor
-        let thetaE2 = panTheta_initialValue - Double(delta.y) * panTheta_scaleFactor
+        let phi2 = pan_initialPhi - Double(delta.x) * pan_phiFactor / pov.zoom
+        let thetaE2 = pan_initialThetaE - Double(delta.y) * pan_ThetaEFactor / pov.zoom
         appModel!.viz.pov = POV(pov.r, phi2, thetaE2, pov.zoom)
     }
     
@@ -129,9 +129,9 @@ class DetailViewController: GLKViewController, AppModelUser {
 
         let pov = appModel!.viz.pov
         if (sender.state == UIGestureRecognizerState.began) {
-            pinchZoom_initialValue = pov.zoom
+            pinch_initialZoom = pov.zoom
         }
-        let newZoom = (pinchZoom_initialValue * Double(sender.scale))
+        let newZoom = (pinch_initialZoom * Double(sender.scale))
         appModel!.viz.pov = POV(pov.r, pov.phi, pov.thetaE, newZoom)
     }
     

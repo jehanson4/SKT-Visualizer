@@ -33,8 +33,8 @@ class VisualizationModel1 : VisualizationModel {
         initSequencers()
         
         // Don't do graphics or effects here; wait for the GL-aware
-        // part of the UI to tell us to do it. There needs to be some
-        // setup before we get involved.
+        // part of the UI to call setupGraphics(). There needs to be some
+        // setup first
     }
     
     private func debug(_ mtd: String, _ msg: String = "") {
@@ -47,35 +47,41 @@ class VisualizationModel1 : VisualizationModel {
     // POV
     // =================================
     
-    static let pov_initial = POV(2.0, Double.constants.piOver4, Double.constants.piOver4, 1.0)
-    private var fpov_default: POV = pov_initial
-    private var fpov: POV = pov_initial
-    
+    /// pov's r = rFactor * geometry.r0
+    static let pov_rFactor = 1.25
+    static let pov_defaultPhi = Double.constants.piOver4
+    static let pov_defaultThetaE = Double.constants.piOver4
+    static let pov_defaultZoom = 1.0
     
     var pov_default: POV {
-        get { return fpov_default }
+        get { return _pov_default }
         set(newValue) {
-            fpov_default = fixPOV(newValue)
+            _pov_default = fixPOV(newValue)
         }
     }
-    
+
+    private var _pov_default: POV = POV(1,0,0,1) // temp value
+
     var pov: POV {
-        get { return fpov }
+        get { return _pov }
         set(newValue) {
-            fpov = fixPOV(newValue)
+            _pov = fixPOV(newValue)
             updateModelview()
         }
     }
-    
+
+    private var _pov: POV = POV(1,0,0,1) // temp value
+
+
     func resetPOV() {
-        fpov = fpov_default
+        _pov = _pov_default
         updateModelview()
     }
     
     private func initPOV() {
-        // Fix the POV values in case the geometry has an unexpected r0.
-        fpov = fixPOV(fpov)
-        fpov_default = fixPOV(fpov_default)
+        _pov_default = POV(VisualizationModel1.pov_rFactor * skt.geometry.r0, VisualizationModel1.pov_defaultPhi, VisualizationModel1.pov_defaultThetaE, VisualizationModel1.pov_defaultZoom)
+        _pov = pov_default
+        // NO updateModelview()
     }
     
     private func fixPOV(_ pov: POV) -> POV {
@@ -85,7 +91,8 @@ class VisualizationModel1 : VisualizationModel {
         var zoom2 = pov.zoom
         
         if (r2 <= skt.geometry.r0) {
-            r2 = 2 * skt.geometry.r0
+            // Illegal r; set it to default
+            r2 = VisualizationModel1.pov_rFactor * skt.geometry.r0
         }
         
         while (phi2 < 0) {
@@ -103,6 +110,7 @@ class VisualizationModel1 : VisualizationModel {
         }
         
         if (zoom2 <= 0) {
+            // Illegal zoom; set it to default
             zoom2 = 1.0
         }
         
@@ -385,9 +393,8 @@ class VisualizationModel1 : VisualizationModel {
     private func updateProjection() {
         debug("updateProjection")
         
-        // EMPIRICAL if last 2 args are -d, d then it doesn't show net from underside.
-        // 10 and 2d seem OK
-        let d = GLfloat(2.0 * skt.geometry.r0)
+        // EMPIRICAL if last 2 args are -d, d then things seem to disappear
+        let d = GLfloat(VisualizationModel1.pov_rFactor * skt.geometry.r0)
         let newMatrix = GLKMatrix4MakeOrtho(-d, d, -d/aspectRatio, d/aspectRatio, 2*d, -2*d)
         
         func applyProjectionMatrix(_ effect: Effect) {
@@ -402,11 +409,11 @@ class VisualizationModel1 : VisualizationModel {
         
         // EMPIRICAL pretty much everything in here
         
-        let povR2: Double = (fpov.r - skt.geometry.r0)/fpov.zoom + skt.geometry.r0
-        let povXYZ = skt.geometry.sphericalToCartesian(povR2, fpov.phi, fpov.thetaE) // povR, povPhi, povThetaE)
+        let povR2: Double = (_pov.r - skt.geometry.r0)/_pov.zoom + skt.geometry.r0
+        let povXYZ = skt.geometry.sphericalToCartesian(povR2, _pov.phi, _pov.thetaE) // povR, povPhi, povThetaE)
         let lookatMatrix = GLKMatrix4MakeLookAt(Float(povXYZ.x), Float(povXYZ.y), Float(povXYZ.z), 0, 0, 0, 0, 0, 1)
         
-        let zz = GLfloat(fpov.zoom)
+        let zz = GLfloat(_pov.zoom)
         let scaleMatrix = GLKMatrix4MakeScale(zz, zz, zz)
         let newMatrix = GLKMatrix4Multiply(scaleMatrix, lookatMatrix)
         
@@ -414,6 +421,7 @@ class VisualizationModel1 : VisualizationModel {
             // debug("applyModelviewMatrix", "effect:" + effect.name)
             effect.transform.modelviewMatrix = newMatrix
         }
+        
         effects.visit(applyModelviewMatrix)
     }
     
