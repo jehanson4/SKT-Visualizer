@@ -63,6 +63,8 @@ struct SKPoint {
 
 class SKGeometry : ChangeCounted {
 
+    private let debugEnabled: Bool = false
+
     // =======================================================
     // Constants
     
@@ -81,6 +83,10 @@ class SKGeometry : ChangeCounted {
     static let k0_defaultUpperBound: Int = N_defaultValue / 2
     
     let r0: Double = 1.0
+    let pi = Double.constants.pi
+    let piOver2 = Double.constants.piOver2
+    let twoPi  = Double.constants.twoPi
+    let eps = Double.constants.eps
     
     // =======================================================
     // Getters and setters as computed properties as per common practice
@@ -161,7 +167,6 @@ class SKGeometry : ChangeCounted {
     private var pChangeCounter: Int = 0
     
     // DEBUG
-    private let debug: Bool = true
     private var path: String = ""
     private var problems: [String] = []
     
@@ -173,11 +178,11 @@ class SKGeometry : ChangeCounted {
 
     private func calculateDerivedVars() {
         nodeIndexModulus = _N - _k0 + 1
-        skNorm = Double.constants.pi / Double(_N)
-        s0 = Double.constants.pi * Double(_k0) / Double(_N)
+        skNorm = pi / Double(_N)
+        s0 = pi * Double(_k0) / Double(_N)
         sin_s0 = sin(s0)
         cot_s0 = 1.0/tan(s0)
-        s12_max = Double.constants.twoPi - s0
+        s12_max = twoPi - s0
     }
     
     private func registerChange() {
@@ -194,48 +199,48 @@ class SKGeometry : ChangeCounted {
     // ===========================================================
 
     func sphericalToCartesian(_ r: Double, _ phi:Double, _ thetaE: Double) -> (x: Double, y: Double, z: Double) {
-        if (debug) { printProblems("before skToCartesian") }
+        if (debugEnabled) { printProblems("before skToCartesian") }
         let xyz = sphericalToCartesianP(r, phi, thetaE)
-        if (debug) { printProblems("in skToCartesian") }
+        if (debugEnabled) { printProblems("in skToCartesian") }
         return xyz
     }
     
     func twoPointToSpherical(_ s1:Double, _ s2:Double) -> (r: Double, phi: Double, thetaE: Double) {
-        if (debug) { printProblems("before twoPointToSpherical") }
+        if (debugEnabled) { printProblems("before twoPointToSpherical") }
         let sph = twoPointToSphericalP(s1, s2)
-        if (debug) { printProblems("in twoPointToSpherical") }
+        if (debugEnabled) { printProblems("in twoPointToSpherical") }
         return sph
     }
 
     func twoPointToCartesian(_ s1: Double, _ s2: Double) -> (x: Double, y: Double, z: Double) {
-        if (debug) { printProblems("before twoPointToCartesian") }
+        if (debugEnabled) { printProblems("before twoPointToCartesian") }
         let t2 = twoPointToSphericalP(s1, s2)
         let xyz = sphericalToCartesianP(t2.r, t2.phi, t2.thetaE)
-        if (debug) { printProblems("in twoPointToCartesian") }
+        if (debugEnabled) { printProblems("in twoPointToCartesian") }
         return xyz
     }
     
     func skToTwoPoint(_ m:Int, _ n:Int) -> (s1: Double, s2: Double) {
-        if (debug) { printProblems("before skToTwoPoint") }
+        if (debugEnabled) { printProblems("before skToTwoPoint") }
         let t = skToTwoPointP(m, n)
-        if (debug) { printProblems("in skToTwoPoint") }
+        if (debugEnabled) { printProblems("in skToTwoPoint") }
         return t
     }
     
     func skToSpherical(_ m: Int, _ n: Int) -> (r: Double, phi: Double, thetaE: Double) {
-        if (debug) { printProblems("before skToSpherical") }
+        if (debugEnabled) { printProblems("before skToSpherical") }
         let t1 = skToTwoPointP(m, n)
         let sph = twoPointToSphericalP(t1.s1, t1.s2)
-        if (debug) { printProblems("in skToSpherical") }
+        if (debugEnabled) { printProblems("in skToSpherical") }
         return sph
     }
     
     func skToCartesian(_ m: Int, _ n: Int) -> (x: Double, y: Double, z: Double) {
-        if (debug) { printProblems("before skToCartesian", m: m, n: n) }
+        if (debugEnabled) { printProblems("before skToCartesian", m: m, n: n) }
         let t1 = skToTwoPointP(m, n)
         let sph = twoPointToSphericalP(t1.s1, t1.s2)
         let xyz = sphericalToCartesianP(sph.r, sph.phi, sph.thetaE)
-        if (debug) { printProblems("in skToCartesian", m: m, n: n) }
+        if (debugEnabled) { printProblems("in skToCartesian", m: m, n: n) }
         return xyz
     }
 
@@ -255,7 +260,7 @@ class SKGeometry : ChangeCounted {
 
     private func sphericalToCartesianP(_ r: Double, _ phi:Double, _ thetaE: Double) -> (x: Double, y: Double, z: Double) {
 
-        if debug {
+        if debugEnabled {
             path.append("[sphericalToCartesianP]")
             if (r <= 0) {
                 problems.append("bad r: " +  String(r))
@@ -263,12 +268,12 @@ class SKGeometry : ChangeCounted {
             if (thetaE < 0) {
                 problems.append("bad thetaE: " + piFraction(thetaE) + " too small by " + String(-thetaE))
             }
-            if (thetaE > Double.constants.piOver2) {
+            if (thetaE > piOver2) {
                 problems.append("bad thetaE: " + piFraction(thetaE))
             }
         }
         
-        let theta = Double.constants.piOver2 - thetaE
+        let theta = piOver2 - thetaE
         let x = r * sin(theta) * cos(phi)
         let y = r * sin(theta) * sin(phi)
         let z = r * cos(theta)
@@ -277,7 +282,7 @@ class SKGeometry : ChangeCounted {
     
     private func twoPointToSphericalP(_ s1:Double, _ s2:Double) -> (r: Double, phi: Double, thetaE: Double) {
         
-        if debug {
+        if debugEnabled {
             path.append("[twoPointToSphericalP]")
             if (s1 < 0) {
                 problems.append("bad s1: " + String(s1))
@@ -291,7 +296,7 @@ class SKGeometry : ChangeCounted {
         var s2a = s2
         
         if (s1 + s2 < s0) {
-            if (debug && distinct(s1+s2, s0)) {
+            if (debugEnabled && distinct(s1+s2, s0)) {
                 problems.append("bad s1,s2: " + String(s1) + " " + String(s2) +  " sum too small by " + String(s0-(s1+s2)))
             }
             let diff = 0.5 * (s0 - (s1+s2))
@@ -300,7 +305,7 @@ class SKGeometry : ChangeCounted {
         }
         
         if (s1 + s2 > s12_max) {
-            if (debug && distinct(s1+s2, s12_max)) {
+            if (debugEnabled && distinct(s1+s2, s12_max)) {
                 problems.append("bad s1,s2: " + String(s1) + " " + String(s2) +  " sum too large by " + String((s1+s2) - s12_max))
             }
             let diff = 0.5 * ((s1+s2) - s12_max)
@@ -309,9 +314,9 @@ class SKGeometry : ChangeCounted {
         }
         
         let left = (s1a <= s2a)
-        let bottom = (s1a <= Double.constants.pi - s2a)
+        let bottom = (s1a <= pi - s2a)
         
-        if debug {
+        if debugEnabled {
             path.append("[" + (left ? "left" : "right") + "][" + (bottom ? "bottom" : "top") + "]")
         }
         return ((left && bottom) || (!left && !bottom))
@@ -325,7 +330,7 @@ class SKGeometry : ChangeCounted {
      thetaE = arccos[cos(s1) / cos(phi)]
      */
     private func twoPointToSphericalG1(_ s1:Double, _ s2:Double) -> (r: Double, phi: Double, thetaE: Double) {
-        if debug {
+        if debugEnabled {
             path.append("[G1]")
         }
         
@@ -336,34 +341,34 @@ class SKGeometry : ChangeCounted {
         
         //  atan(x) returns principal value, in [-pi/2, pi/2]
         //  Need to add pi if we're on the far side (s1 > pi/2)
-        if (s1 > Double.constants.piOver2) {
-            phi += Double.constants.pi
+        if (s1 > piOver2) {
+            phi += pi
         }
         
         //  Normalize phi
         if (phi < 0) {
-            phi += Double.constants.twoPi
+            phi += twoPi
         }
         if (phi >= 0) {
-            phi -= Double.constants.twoPi
+            phi -= twoPi
         }
         
         //  Avoid division by zero.
         var cos_phi = cos(phi)
         if cos_phi == 0 {
-            cos_phi = Double.constants.eps
+            cos_phi = eps
         }
         var cos_theta = cos_s1/cos_phi
         
         //  Avoid domain errors due to roundoff
         if (cos_theta < -1.0) {
-            if (debug && distinct(cos_theta, -1.0)) {
+            if (debugEnabled && distinct(cos_theta, -1.0)) {
                 problems.append("bad cos_theta: " + String(cos_theta) + " too small by " + String(-(cos_theta + 1.0)))
             }
             cos_theta = -1.0
         }
         if (cos_theta > 1.0) {
-            if (debug && distinct(cos_theta, 1.0)) {
+            if (debugEnabled && distinct(cos_theta, 1.0)) {
                 problems.append("bad cos_theta: " + String(cos_theta) + " too large by " + String(cos_theta - 1.0))
             }
             cos_theta = 1.0
@@ -382,7 +387,7 @@ class SKGeometry : ChangeCounted {
     thetaE = arccos [ cos(s2) / cos (s0 - phi) ]
     */
     private func twoPointToSphericalG2(_ s1: Double, _ s2: Double)  -> (r: Double, phi: Double, thetaE: Double) {
-        if (debug) {
+        if (debugEnabled) {
             path.append("[G2]")
         }
         
@@ -395,36 +400,36 @@ class SKGeometry : ChangeCounted {
         
         // atan(x) returns the principal branch, i.e., in [-pi_2, pi_2].
         // Need to add pi if we're on the far side (s2 > pi/2)
-        if (s2 > Double.constants.piOver2) {
-            phi += Double.constants.pi
+        if (s2 > piOver2) {
+            phi += pi
         }
         
         // Normailze phi
         if (phi < 0) {
-            phi += Double.constants.twoPi
+            phi += twoPi
         }
-        if (phi >= Double.constants.twoPi) {
-            phi -= Double.constants.twoPi
+        if (phi >= twoPi) {
+            phi -= twoPi
         }
         
         var cos_phi2 = cos(self.s0 - phi)
         
         //  Avoid division by zero.
         if (cos_phi2 == 0) {
-            cos_phi2 = Double.constants.eps
+            cos_phi2 = eps
         }
         
         var cos_thetaE = cos_s2/cos_phi2
         
         //  Avoid domain errors due to roundoff
         if (cos_thetaE < -1.0) {
-            if (debug && distinct(cos_thetaE, -1.0)) {
+            if (debugEnabled && distinct(cos_thetaE, -1.0)) {
                 problems.append("bad cos_thetaE: " + String(cos_thetaE) + " too small by " + String(-(cos_thetaE + 1.0)))
             }
             cos_thetaE = -1.0
         }
         if cos_thetaE > 1.0 {
-            if (debug && distinct(cos_thetaE, 1.0)) {
+            if (debugEnabled && distinct(cos_thetaE, 1.0)) {
                 problems.append("bad cos_thetaE: " + String(cos_thetaE) + " too large by " + String(cos_thetaE - 1.0))
             }
             cos_thetaE = 1.0
@@ -437,7 +442,7 @@ class SKGeometry : ChangeCounted {
     }
     
     private func skToTwoPointP(_ m:Int, _ n:Int) -> (s1: Double, s2: Double) {
-        if (debug) {
+        if (debugEnabled) {
             path.append("[skToTwoPointP]")
         }
         

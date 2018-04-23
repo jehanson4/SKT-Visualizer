@@ -170,11 +170,11 @@ class DiscreteParameter : AdjustableParameter {
     // ===========================
     // type conversion
     
-    private func numify(_ s: String) -> Int? {
+    func numify(_ s: String) -> Int? {
         return Int(s)
     }
     
-    private func stringify(_ t: Int) -> String {
+    func stringify(_ t: Int) -> String {
         return String(t)
     }
     

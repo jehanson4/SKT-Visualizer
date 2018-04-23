@@ -243,8 +243,8 @@
 		8A19CD892082488D00C1EADE /* Sequencers */ = {
 			isa = PBXGroup;
 			children = (
-				8A8D5964208CFAEF005550CD /* DiscreteParameterSequencer.swift */,
 				8A8D5972208D1FFE005550CD /* ContinuousParameterSequencer.swift */,
+				8A8D5964208CFAEF005550CD /* DiscreteParameterSequencer.swift */,
 				8A19CD872082384600C1EADE /* Sequencer.swift */,
 				8A8D5970208D1F10005550CD /* NumericSequencer.swift */,
 			);
@@ -461,8 +461,8 @@
 			children = (
 				8A575FED20804759002B9951 /* ColorMaps.swift */,
 				8AE48BBA2087857C001B5D11 /* GLUtils.swift */,
-				8AF59502208AC5B10082C5DE /* VisualizatonModel.swift */,
 				8A3BBBB6208BC28A00669227 /* VisualizationModel1.swift */,
+				8AF59502208AC5B10082C5DE /* VisualizatonModel.swift */,
 				8A75B691208A768100EACD13 /* ColorSources */,
 				8A5E948A2077D285003477D3 /* Effects */,
 				8A19CD892082488D00C1EADE /* Sequencers */,

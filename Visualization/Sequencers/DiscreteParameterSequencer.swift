@@ -9,6 +9,7 @@
 import Foundation
 
 // ==============================================================================
+// DiscreteParameterSequencer
 // ==============================================================================
 
 class DiscreteParameterSequencer : NumericSequencer<Int> {
@@ -18,8 +19,8 @@ class DiscreteParameterSequencer : NumericSequencer<Int> {
     init(_ param: DiscreteParameter, _ lowerBound: Int, _ upperBound: Int, _ stepSize: Int) {
         self.param = param
         super.init(param.name,
-                   stringify,
-                   numify,
+                   param.stringify,
+                   param.numify,
                    lowerBound,
                    upperBound,
                    stepSize)
@@ -30,15 +31,21 @@ class DiscreteParameterSequencer : NumericSequencer<Int> {
         param.value = bound(param.value)
     }
     
-    override func step() -> Bool {
-        let oldValue = param.value
-        let nextValue = bound(oldValue + stepSgn * stepSize)
-        if (nextValue == oldValue) {
-            return false
+    override func takeStep() {
+        let currValue = param.value
+        let nextValue = bound(currValue + stepSgn * stepSize)
+        if (nextValue != currValue) {
+            param.value = nextValue
         }
-        stepCount += 1
-        param.value = nextValue
-        return true
     }
+    
+    override func fixLowerBound(_ x: Int) -> Int {
+        return clip(x, param.min, param.max)
+    }
+    
+    override func fixUpperBound(_ x: Int) -> Int {
+        return clip(x, param.min, param.max)
+    }
+
 }
 

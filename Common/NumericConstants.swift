@@ -25,6 +25,8 @@ class NumericConstants<T> where T: Numeric {
 class IntConstants : NumericConstants<Int> {
 }
 
+fileprivate let iConstants = IntConstants()
+
 // ==============================================
 // DoubleConstants
 // ==============================================
@@ -38,13 +40,11 @@ class DoubleConstants : NumericConstants<Double> {
     let goldenRatio = (0.5 * (1.0 + sqrt(5.0)))
 }
 
-// ==============================================
-// Globals & helper funcs
-// ==============================================
-
-fileprivate let iConstants = IntConstants()
-
 fileprivate let dConstants = DoubleConstants()
+
+// ==============================================
+// Access through generics
+// ==============================================
 
 /// Usage: let c = constants(forType: Int.self)
 func constants<T>(forType type: T.Type) -> NumericConstants<T>? {

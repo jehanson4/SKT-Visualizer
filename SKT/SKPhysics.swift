@@ -27,6 +27,8 @@ protocol PhysicalProperty : Named {
 
 class SKPhysics : ChangeCounted {
     
+    var debugEnabled = false
+
     // ===============================
     // Constants
     // ===============================
@@ -189,7 +191,6 @@ class SKPhysics : ChangeCounted {
         return (min: minValue, max: maxValue)
     }
     
-    var debugEnabled = true
     func debug(_ mtd: String, _ msg: String) {
         if (debugEnabled) {
             print("SKPhysics", mtd, msg)

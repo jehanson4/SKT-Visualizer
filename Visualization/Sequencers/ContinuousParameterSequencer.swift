@@ -9,6 +9,7 @@
 import Foundation
 
 // ==============================================================================
+// ContinuousParameterSequencer
 // ==============================================================================
 
 class ContinuousParameterSequencer : NumericSequencer<Double> {
@@ -18,8 +19,8 @@ class ContinuousParameterSequencer : NumericSequencer<Double> {
     init(_ param: ContinuousParameter, _ lowerBound: Double, _ upperBound: Double, _ stepSize: Double) {
         self.param = param
         super.init(param.name,
-                   basicString,
-                   numify,
+                   param.stringify,
+                   param.numify,
                    lowerBound,
                    upperBound,
                    stepSize)
@@ -30,15 +31,21 @@ class ContinuousParameterSequencer : NumericSequencer<Double> {
         param.value = bound(param.value)
     }
     
-    override func step() -> Bool {
-        let oldValue = param.value
-        let nextValue = bound(oldValue + stepSgn * stepSize)
-        if (nextValue == oldValue) {
-            return false
+    override func takeStep() {
+        let currValue = param.value
+        let nextValue = bound(currValue + stepSgn * stepSize)
+        if (nextValue != currValue) {
+            param.value = nextValue
         }
-        stepCount += 1
-        param.value = nextValue
-        return true
     }
+
+    override func fixLowerBound(_ x: Double) -> Double {
+        return clip(x, param.min, param.max)
+    }
+    
+    override func fixUpperBound(_ x: Double) -> Double {
+        return clip(x, param.min, param.max)
+    }
+    
 }
 

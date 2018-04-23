@@ -555,21 +555,21 @@
             <objects>
                 <tableViewController title="Balrrgh" modalTransitionStyle="crossDissolve" modalPresentationStyle="overCurrentContext" id="34H-Ki-NCN" userLabel="Color ChooserPop Scene" customClass="RegistrySelectionTableViewController" customModule="SKT_Visualizer" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="singleLineEtched" rowHeight="45" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="gxS-9a-t8i" userLabel="Color Chooesr Pop View">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="768"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="separatorColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <tableView key="tableFooterView" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="9Xa-cE-WWI">
-                            <rect key="frame" x="0.0" y="73" width="320" height="44"/>
+                            <rect key="frame" x="0.0" y="73" width="1024" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </tableView>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="registryEntryCell" id="fST-0u-SU7">
-                                <rect key="frame" x="0.0" y="28" width="320" height="45"/>
+                                <rect key="frame" x="0.0" y="28" width="1024" height="45"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fST-0u-SU7" id="kPN-Zq-m2v">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="1024" height="44.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jfe-OK-K6e">
@@ -694,20 +694,20 @@
             <objects>
                 <tableViewController id="O2s-Cp-fU7" userLabel="Sequencer Pop Scene" customClass="RegistrySelectionTableViewController" customModule="SKT_Visualizer" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="oCW-GH-9Gb" userLabel="Sequencer Pop View">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <tableView key="tableFooterView" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="IbT-vV-sLV">
-                            <rect key="frame" x="0.0" y="72" width="375" height="44"/>
+                            <rect key="frame" x="0.0" y="72" width="1024" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </tableView>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="registryEntryCell" id="9sB-se-5sC">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="28" width="1024" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9sB-se-5sC" id="UVK-cj-4zP">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="1024" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -731,13 +731,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="2sv-jb-h4c" userLabel="Param Deltas View">
-                                <rect key="frame" x="52" y="96" width="216" height="190.5"/>
+                                <rect key="frame" x="52" y="96" width="216" height="170"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9kI-To-lth">
-                                        <rect key="frame" x="46" y="0.0" width="124.5" height="20.5"/>
+                                        <rect key="frame" x="46" y="0.0" width="124.5" height="50"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Manual Controls" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SVr-QO-TZS">
-                                                <rect key="frame" x="0.0" y="0.0" width="124.5" height="20.5"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SVr-QO-TZS">
+                                                <rect key="frame" x="0.0" y="0.0" width="124.5" height="50"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -749,7 +749,7 @@
                                         </constraints>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="8Zc-T8-2aX">
-                                        <rect key="frame" x="0.0" y="20.5" width="216" height="170"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="216" height="170"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y2O-T0-Aml">
                                                 <rect key="frame" x="0.0" y="21" width="16" height="128"/>
@@ -926,9 +926,14 @@
                                         </subviews>
                                     </stackView>
                                 </subviews>
+                                <variation key="default">
+                                    <mask key="subviews">
+                                        <exclude reference="9kI-To-lth"/>
+                                    </mask>
+                                </variation>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="SAa-fG-jg1" userLabel="Leftovers View">
-                                <rect key="frame" x="32" y="318.5" width="256" height="170"/>
+                                <rect key="frame" x="32" y="362" width="256" height="32"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="iXj-AH-69c" customClass="DesignableButton" customModule="SKT_Visualizer" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="256" height="32"/>
@@ -946,22 +951,17 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ovT-L4-Qeo" userLabel="ColorChooser Trigger">
                                         <rect key="frame" x="0.0" y="48" width="256" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" title="ColorChooser"/>
-                                        <connections>
-                                            <segue destination="O2s-Cp-fU7" kind="popoverPresentation" popoverAnchorView="ovT-L4-Qeo" id="agJ-w9-gh6">
-                                                <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                                            </segue>
-                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EM4-P2-2lk" userLabel="Sequencer Trigger">
-                                        <rect key="frame" x="0.0" y="94" width="256" height="30"/>
+                                        <rect key="frame" x="0.0" y="48" width="256" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" title="Sequencer"/>
-                                        <connections>
-                                            <segue destination="34H-Ki-NCN" kind="presentation" id="Y1M-04-UY5"/>
-                                        </connections>
                                     </button>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="aHS-pe-F4U">
-                                        <rect key="frame" x="0.0" y="140" width="256" height="30"/>
+                                        <rect key="frame" x="0.0" y="48" width="256" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rate Limit" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GbA-GG-w0E">
                                                 <rect key="frame" x="0.0" y="0.0" width="76.5" height="20.5"/>
@@ -981,6 +981,13 @@
                                         </subviews>
                                     </stackView>
                                 </subviews>
+                                <variation key="default">
+                                    <mask key="subviews">
+                                        <exclude reference="ovT-L4-Qeo"/>
+                                        <exclude reference="EM4-P2-2lk"/>
+                                        <exclude reference="aHS-pe-F4U"/>
+                                    </mask>
+                                </variation>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -988,7 +995,7 @@
                             <constraint firstItem="2sv-jb-h4c" firstAttribute="top" secondItem="u6t-OT-ISf" secondAttribute="top" constant="32" id="7KS-gR-Ele"/>
                             <constraint firstItem="SAa-fG-jg1" firstAttribute="leading" secondItem="u6t-OT-ISf" secondAttribute="leading" constant="32" id="DhS-Up-zFy"/>
                             <constraint firstItem="SAa-fG-jg1" firstAttribute="centerX" secondItem="rqU-KK-1bC" secondAttribute="centerX" id="FDa-JZ-LHP"/>
-                            <constraint firstItem="SAa-fG-jg1" firstAttribute="top" secondItem="2sv-jb-h4c" secondAttribute="bottom" constant="32" id="RT4-ZH-Iju"/>
+                            <constraint firstItem="SAa-fG-jg1" firstAttribute="top" secondItem="2sv-jb-h4c" secondAttribute="bottom" constant="96" id="RT4-ZH-Iju"/>
                             <constraint firstItem="2sv-jb-h4c" firstAttribute="centerX" secondItem="rqU-KK-1bC" secondAttribute="centerX" id="f6M-l0-iSH"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="u6t-OT-ISf"/>
@@ -1005,7 +1012,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="done" id="7Y2-PQ-QFA">
                             <button key="customView" opaque="NO" contentMode="right" contentHorizontalAlignment="right" contentVerticalAlignment="fill" buttonType="roundedRect" lineBreakMode="middleTruncation" id="8jX-Zj-hIp">
-                                <rect key="frame" x="269" y="6" width="35" height="33"/>
+                                <rect key="frame" x="269" y="5.5" width="35" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <state key="normal" title="&lt;&lt;&lt;"/>

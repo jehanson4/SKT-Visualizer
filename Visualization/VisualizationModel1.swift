@@ -20,7 +20,7 @@ import OpenGL
 
 class VisualizationModel1 : VisualizationModel {
     
-    // ===========================================
+    var debugEnabled = true
     
     private var skt: SKTModel
     
@@ -38,10 +38,10 @@ class VisualizationModel1 : VisualizationModel {
     }
     
     private func debug(_ mtd: String, _ msg: String = "") {
-        print("VisualizationModel1", mtd, msg)
+        if (debugEnabled) {
+            print("VisualizationModel1", mtd, msg)
+        }
     }
-    
-    // ===========================================
     
     // =================================
     // POV
@@ -116,15 +116,9 @@ class VisualizationModel1 : VisualizationModel {
     lazy var colorSources: Registry<ColorSource> = Registry<ColorSource>()
     
     private func initColorSources() {
-        // needs to be done in init() b/c multiple view controllers
-        // access sequencers
-        makeColorSources()
-    }
-    
-    private func makeColorSources() {
-        debug("makeColorSources")
-        let grayCS = UniformColor(r: 0.25, g: 0.25, b: 0.25, name: "None")
-        registerColorSource(grayCS, true)
+        debug("initColorSources")
+        let grayCS = UniformColor(r: 0.25, g: 0.25, b: 0.25, name: "Nothing")
+        registerColorSource(grayCS, false)
         
         let linearColorMap = LinearColorMap()
         let logColorMap = LogColorMap()
@@ -151,13 +145,13 @@ class VisualizationModel1 : VisualizationModel {
             registerColorSource(logOccupationCS, false)
             
             let occupationCS = PhysicalPropertyColorSource(logOccupationProp!, logColorMap, name: "Occupation")
-            registerColorSource(occupationCS, false)
+            registerColorSource(occupationCS, true)
         }
         
-        let bbc = BasinNumberColorSource(skt.basinFinder, showFinalCount: false)
-        registerColorSource(bbc, false)
+//        let bbc = BasinNumberColorSource(skt.basinFinder, showFinalCount: false)
+//        registerColorSource(bbc, false)
         
-        debug("makeColorSources", "done. sources=\(colorSources.entryNames)")
+        debug("initColorSources", "done. sources=\(colorSources.entryNames)")
     }
     
     private func registerColorSource(_ colorSource: ColorSource, _ select: Bool) {
@@ -173,7 +167,7 @@ class VisualizationModel1 : VisualizationModel {
     
     lazy var effects: Registry<Effect> = Registry<Effect>()
     
-    private func makeEffects() {
+    private func initEffects() {
         debug("makeEffects")
         
         let rOffset = -0.001
@@ -194,31 +188,25 @@ class VisualizationModel1 : VisualizationModel {
     // ====================================
 
     lazy var sequencers: Registry<Sequencer> = Registry<Sequencer>()
-
-    var sequencerEnabled: Bool = false
     
     var sequenceRateLimit: Double {
-        get { return fSequencerRateLimit }
+        get { return _sequencerRateLimit }
         set(newValue) {
-            if (newValue <= 0 || newValue == fSequencerRateLimit ) { return }
-            fSequencerRateLimit = newValue
-            sequencerStepInterval = 1.0/newValue
+            if (newValue <= 0 || newValue == _sequencerRateLimit ) { return }
+            _sequencerRateLimit = newValue
+            _sequencerStepInterval = 1.0/newValue
         }
     }
     
-    static let sequencerRateLimit_default = 2.0
-    private var fSequencerRateLimit: Double = sequencerRateLimit_default
-    private  var sequencerStepInterval: TimeInterval = 1.0/sequencerRateLimit_default
-    private var sequencerLastStepTime: TimeInterval = 0.0
+    static let sequencerRateLimit_default = 10.0
+    private var _sequencerRateLimit: Double = sequencerRateLimit_default
+    private var _sequencerStepInterval: TimeInterval = 1.0/sequencerRateLimit_default
+    private var _sequencerLastStepTime: TimeInterval = 0.0
+    
+    private var sequencerChangeMonitor: ChangeMonitor? = nil
     
     private func initSequencers() {
-        // needs to be done in init() b/c multiple view controllers
-        // access sequencers
-        makeSequencers()
-    }
-    
-    private func makeSequencers() {
-        debug("makeSequencers")
+        debug("initSequencers")
         
         registerSequencer(DiscreteParameterSequencer(
             skt.N,
@@ -226,14 +214,44 @@ class VisualizationModel1 : VisualizationModel {
             SKGeometry.N_defaultUpperBound,
             SKGeometry.N_defaultStepSize
         ), false)
+
+        registerSequencer(DiscreteParameterSequencer(
+            skt.k0,
+            SKGeometry.k0_defaultLowerBound,
+            SKGeometry.k0_defaultUpperBound,
+            SKGeometry.k0_defaultStepSize
+        ), false)
+
+        registerSequencer(ContinuousParameterSequencer(
+            skt.alpha1,
+            SKPhysics.alpha_defaultLowerBound,
+            SKPhysics.alpha_defaultUpperBound,
+            SKPhysics.alpha_defaultStepSize
+        ), false)
         
-//        registerSequencer(AdjustableParameterSequencer(skt.k0), false)
-//        registerSequencer(AdjustableParameterSequencer(skt.alpha1), false)
-//        registerSequencer(AdjustableParameterSequencer(skt.alpha2), false)
-//        registerSequencer(AdjustableParameterSequencer(skt.T), false)
-//        registerSequencer(NForFixedKOverN(skt), false)
-//
-//        registerSequencer(BasinFinderSequencer(skt.basinFinder), false)
+        registerSequencer(ContinuousParameterSequencer(
+            skt.alpha2,
+            SKPhysics.alpha_defaultLowerBound,
+            SKPhysics.alpha_defaultUpperBound,
+            SKPhysics.alpha_defaultStepSize
+        ), false)
+        
+        registerSequencer(ContinuousParameterSequencer(
+            skt.T,
+            SKPhysics.T_defaultLowerBound,
+            SKPhysics.T_defaultUpperBound,
+            SKPhysics.T_defaultStepSize
+        ), false)
+        
+
+        // registerSequencer(NForFixedKOverN(skt), false)
+        // registerSequencer(BasinFinderSequencer(skt.basinFinder), false)
+
+        sequencerChangeMonitor = sequencers.monitorChanges(sequencerSelectionChanged)
+    }
+    
+    private func sequencerSelectionChanged(_ registry: Registry<Sequencer>) {
+        // TODO: verify that there's nothing to do here
     }
     
     private func registerSequencer(_ sequencer: Sequencer, _ select: Bool) {
@@ -243,54 +261,60 @@ class VisualizationModel1 : VisualizationModel {
         }
     }
     
+    // Cycle: fwd, stopped, rev, stopped
     func toggleSequencer() {
+        let mtd = "toggleSequencer"
         let sequencer = sequencers.selection?.value
         if (sequencer == nil) {
+            debug(mtd, "So sequencer is selected")
             return
         }
-        
         var seq = sequencer!
-        debug("toggleSequencer: selected sequencer=" + seq.name)
         
-        
-        // ===================================
-        // WRONG: reset puts us back to initial state,
-        // incl initial stepSgn
-        // I want a seq.reverse()
-        // ==================================
-        seq.reset()
-        
-        
-        sequencerEnabled = !sequencerEnabled
-        if (sequencerEnabled) {
-            debug("toggleSequencer", "reversing sequencer direction")
-            seq.reverse()
+        debug(mtd, "before: enabled=\(seq.enabled) direction=\(Direction.name(seq.direction))")
+        if (seq.enabled) {
+            seq.enabled = false
         }
         else {
-            debug("toggleSequencer: enabled=" + String(sequencerEnabled))
+            seq.reverse()
+            seq.enabled = true
         }
- 
-        // TODO gotta do sth here
-        // FIXME infinite loop here sometimes, I think.
-        // Maybe if model change event we're about to fire changes the value?
-        //        controlParameterHasChanged()
+        debug(mtd, "after: enabled=\(seq.enabled) direction=\(Direction.name(seq.direction))")
     }
     
     func sequencerStep() {
-        if (!sequencerEnabled) {
-            return
-        }
+        let mtd = "SequencerStep"
+        
         let sequencer = sequencers.selection?.value
         if (sequencer == nil) {
+            debug(mtd, "No sequencer is selected")
             return
         }
+
+        var seq = sequencer!
+        if (!seq.enabled) {
+            // debug(mtd, "Sequencer is not enabled")
+            return
+        }
+        if (seq.direction == Direction.stopped) {
+            debug(mtd, "Sequencer is stuck")
+            return
+        }
+        
         let t0: TimeInterval = currTime()
-        let dt: TimeInterval = t0 - sequencerLastStepTime
-        if (dt >= sequencerStepInterval) {
-            
-            let seq = sequencer!
-            sequencerLastStepTime = t0
-            seq.step()
+        let dt: TimeInterval = t0 - _sequencerLastStepTime
+        if (dt < _sequencerStepInterval) {
+            debug(mtd, "Too soon")
+            return
+        }
+        
+        debug(mtd, "Taking the step!")
+        _sequencerLastStepTime = t0
+        seq.step()
+        
+        if (seq.direction == Direction.stopped) {
+            debug(mtd, "Sequencer got stuck, disabling it")
+            seq.enabled = false
         }
     }
     
@@ -317,7 +341,7 @@ class VisualizationModel1 : VisualizationModel {
         configureGL()
         
         // MAYBE needs to follow configureGL()
-        makeEffects()
+        initEffects()
         
         updateProjection()
         updateModelview()
@@ -355,7 +379,7 @@ class VisualizationModel1 : VisualizationModel {
     }
     
     private func updateProjection() {
-        // debug("updateProjection")
+        debug("updateProjection")
         
         // EMPIRICAL if last 2 args are -d, d then it doesn't show net from underside.
         // 10 and 2d seem OK
@@ -370,7 +394,7 @@ class VisualizationModel1 : VisualizationModel {
     }
     
     private func updateModelview() {
-        // debug("updateModelview")
+        debug("updateModelview")
         
         // EMPIRICAL pretty much everything in here
         
@@ -389,12 +413,8 @@ class VisualizationModel1 : VisualizationModel {
         effects.visit(applyModelviewMatrix)
     }
     
-    
-    
     func draw(_ drawableWidth: Int, _ drawableHeight: Int) {
-        
-        sequencerStep()
-        
+ 
         let ar2 = Float(drawableWidth)/Float(drawableHeight)
         if (ar2 != self.aspectRatio) {
             debug("setAspectRatio: aspectRatio=" + String(ar2))
@@ -403,13 +423,13 @@ class VisualizationModel1 : VisualizationModel {
             updateModelview()
         }
         
+        sequencerStep()
+
         glClear(GLbitfield(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
+        
         func drawEffect(_ effect: Effect) {
             effect.draw()
         }
         effects.visit(drawEffect)
     }
-    
-
-    
 }

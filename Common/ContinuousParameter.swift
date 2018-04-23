@@ -177,11 +177,11 @@ class ContinuousParameter : AdjustableParameter {
     // ===========================
     // type conversion
     
-    private func numify(_ s: String) -> Double? {
+    func numify(_ s: String) -> Double? {
         return Double(s)
     }
     
-    private func stringify(_ t: Double) -> String {
+    func stringify(_ t: Double) -> String {
         return String(t)
     }
     

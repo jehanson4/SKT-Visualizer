@@ -42,9 +42,9 @@ class RegistryChangeMonitor<T> : ChangeMonitor {
 class RegistryEntry<T> {
     var index: Int
     var name: String
-    var value: T?
+    var value: T
     
-    init(_ index: Int, _ name: String, _ value: T?) {
+    init(_ index: Int, _ name: String, _ value: T) {
         self.index = index
         self.name = name
         self.value = value
@@ -87,10 +87,10 @@ class Registry<T> {
     func visit(_ visitor: @escaping (T) -> ()) {
         
         func visitorMapper(_ entry: RegistryEntry<T>) throws {
-            visitor(entry.value!)
+            visitor(entry.value)
         }
         
-        // AWKWARD because Jim doesn't Swift
+        // AWKWARD because Jim can't Swift good
         do {
             try _entries.mapValues(visitorMapper)
         }
@@ -140,7 +140,7 @@ class Registry<T> {
     fileprivate var monitors = [Int: RegistryChangeMonitor<T>]()
     private var monitorCount = 0
 
-    func monitorChanges(_ callback: @escaping (_ sender: Registry<T>?) -> ()) -> ChangeMonitor? {
+    func monitorChanges(_ callback: @escaping (_ sender: Registry<T>) -> ()) -> ChangeMonitor? {
         let id = nextMonitorID
         let monitor = RegistryChangeMonitor(id, callback, self)
         monitors[id] = monitor

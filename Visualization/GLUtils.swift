@@ -42,8 +42,11 @@ extension GLKMatrix4: CustomStringConvertible {
     public var description: String {
         return "["
             + String(format: "[%f, %f, %f, %f]", m00, m01, m02, m03)
+            + ", "
             + String(format: "[%f, %f, %f, %f]", m10, m11, m12, m13)
+            + ", "
             + String(format: "[%f, %f, %f, %f]", m20, m21, m22, m23)
+            + ", "
             + String(format: "[%f, %f, %f, %f]", m30, m31, m32, m33)
             + "]"
     }

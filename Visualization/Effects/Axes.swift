@@ -16,6 +16,8 @@ import OpenGL
 
 class Axes : GLKBaseEffect, Effect {
     
+    var debugEnabled = false
+    
     static let type = String(describing: Axes.self)
     var name = type
     var enabled: Bool
@@ -23,9 +25,9 @@ class Axes : GLKBaseEffect, Effect {
 
     private let vertices: [GLfloat] = [
         0.00, 0.00, 0.00,
-        0.25, 0.00, 0.00,
+        0.33, 0.00, 0.00,
         0.00, 0.00, 0.00,
-        0.00, 0.50, 0.00,
+        0.00, 0.67, 0.00,
         0.00, 0.00, 0.00,
         0.00, 0.00, 1.00
     ]
@@ -87,9 +89,9 @@ class Axes : GLKBaseEffect, Effect {
 
         glBindVertexArrayOES(vertexArray);
         prepareToDraw()
-        glLineWidth(10.0)
+        glLineWidth(8.0)
         debug("drawing")
-        glDrawArrays(GLenum(GL_LINES), 0, GLsizei(vertices.count))
+        glDrawArrays(GLenum(GL_LINE_STRIP), 0, GLsizei(vertices.count))
         glLineWidth(1.0)
         glBindVertexArrayOES(0)
         
@@ -100,6 +102,8 @@ class Axes : GLKBaseEffect, Effect {
     }
     
     private func debug(_ mtd: String, _ msg: String = "") {
-        print(name, mtd, msg)
+        if (debugEnabled) {
+            print(name, mtd, msg)
+        }
     }
 }

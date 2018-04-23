@@ -50,7 +50,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
             
             let skt = appModel!.skt
             
-            debug(mtd, "updating and monitoring SKT params")
+            debug(mtd, "updating and starting to monitor SKT params")
             
             N_update(skt.N)
             N_monitor = skt.N.monitorChanges(N_update)
@@ -384,18 +384,18 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         }
     }
     
-    @IBOutlet weak var nodes_switch: UISwitch!
-    
-    @IBAction func nodes_action(_ sender: UISwitch) {
-        let effectName = Nodes.type
-        let effectOrNil: Effect? = appModel?.viz.effects.entry(effectName)?.value
-        if (effectOrNil != nil) {
-            var effect = effectOrNil!
-            effect.enabled = sender.isOn
-            sender.isOn = effect.enabled
-        }
-    }
-    
+//    @IBOutlet weak var nodes_switch: UISwitch!
+//
+//    @IBAction func nodes_action(_ sender: UISwitch) {
+//        let effectName = Nodes.type
+//        let effectOrNil: Effect? = appModel?.viz.effects.entry(effectName)?.value
+//        if (effectOrNil != nil) {
+//            var effect = effectOrNil!
+//            effect.enabled = sender.isOn
+//            sender.isOn = effect.enabled
+//        }
+//    }
+//
     //    @IBOutlet weak var icosahedron_switch: UISwitch!
     //
     //    @IBAction func icosahedron_action(_ sender: UISwitch) {
@@ -410,12 +410,12 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     //        }
     //    }
     
-    func updateEffectsControls(_ effects: Registry<Effect>) {
-        // INELEGANT
-        axes_switch.isOn = (effects.entry(Axes.type)?.value?.enabled ?? false)
-        meridians_switch.isOn = (effects.entry(Meridians.type)?.value?.enabled ?? false)
-        net_switch.isOn = (effects.entry(Net.type)?.value?.enabled ?? false)
-        surface_switch.isOn = (effects.entry(Surface.type)?.value?.enabled ?? false)
+    func updateEffectsControls(_ registry: Registry<Effect>) {
+        debug("updateEffectsControls")
+        axes_switch.isOn = (registry.entry(Axes.type)?.value.enabled ?? false)
+        meridians_switch.isOn = (registry.entry(Meridians.type)?.value.enabled ?? false)
+        net_switch.isOn = (registry.entry(Net.type)?.value.enabled ?? false)
+        surface_switch.isOn = (registry.entry(Surface.type)?.value.enabled ?? false)
         // Nodes
         // Icosahedron
     }
@@ -518,7 +518,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
             if (sender.text != nil) {
                 sequencer!.upperBoundStr = sender.text!
             }
-            // MAYBE updte widget
+            // MAYBE update widget
         }
     }
     
@@ -530,7 +530,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
             if (sender.text != nil) {
                 sequencer!.lowerBoundStr = sender.text!
             }
-            // MAYBE updte widget
+            // MAYBE update widget
         }
     }
 
@@ -544,7 +544,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
             if (newBC != nil) {
                 sequencer!.boundaryCondition = newBC!
             }
-            // MAYBE updte widget
+            // MAYBE update widget
         }
     }
     
@@ -558,7 +558,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
             if (newDir != nil) {
                 sequencer!.direction = newDir!
             }
-            // MAYBE updte widget
+            // MAYBE update widget
         }
     }
     
@@ -578,41 +578,23 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         updateSequencerPropertyControls(sel.value)
         
         debug("updateSequencerControls", "starting to monitor the new sequencer's properties")
-        sequencerPropertiesMonitor = sel.value?.monitorChanges(updateSequencerPropertyControls)
+        sequencerPropertiesMonitor = sel.value.monitorChanges(updateSequencerPropertyControls)
     }
     
-    func updateSequencerPropertyControls(_ sequencer: Sequencer?) {
-        
-        if (sequencer == nil) {
-            ub_text.text = ""
-            lb_text.text = ""
-        }
-        else {
-            let seq = sequencer!
-            ub_text.text = seq.upperBoundStr
-            lb_text.text = seq.lowerBoundStr
+    func updateSequencerPropertyControls(_ sequencer: Sequencer) {
+        debug("updateSequencerPropertyControls", "updating bounds")
+        ub_text.text = sequencer.upperBoundStr
+        lb_text.text = sequencer.lowerBoundStr
             
-            debug("updateSequencerControls", "selecting bc index")
-            bc_segment.selectedSegmentIndex = boundaryConditionToSegmentIndex(seq.boundaryCondition)
-            debug("updateSequencerControls", "selecting dir index")
-            dir_segment.selectedSegmentIndex = directionToSegmentIndex(seq.direction)
-        }
+        debug("updateSequencerPropertyControls", "updating boundary condition")
+        bc_segment.selectedSegmentIndex = boundaryConditionToSegmentIndex(sequencer.boundaryCondition)
+        
+        debug("updateSequencerControls", "updating direction")
+        dir_segment.selectedSegmentIndex = directionToSegmentIndex(sequencer.direction)
     }
     
     func segmentIndexToBoundaryCondition(_ idx : Int) -> BoundaryCondition? {
-      
-        // INELEGANT because Jim doesn't swift good
-        
-        if (idx == BoundaryCondition.sticky.rawValue) {
-            return BoundaryCondition.sticky
-        }
-        if (idx == BoundaryCondition.elastic.rawValue) {
-            return BoundaryCondition.elastic
-        }
-        if (idx == BoundaryCondition.periodic.rawValue) {
-            return BoundaryCondition.elastic
-        }
-        return nil
+        return BoundaryCondition(rawValue: idx)
     }
     
     func boundaryConditionToSegmentIndex(_ bc: BoundaryCondition) -> Int {
@@ -620,19 +602,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     }
     
     func segmentIndexToDirection(_ idx : Int) -> Direction? {
-
-        // INELEGANT because Jim doesn't swift good
-        
-        if (idx == Direction.forward.rawValue) {
-            return Direction.forward
-        }
-        if (idx == Direction.reverse.rawValue) {
-            return Direction.reverse
-        }
-        if (idx == Direction.stopped.rawValue) {
-            return Direction.stopped
-        }
-        return nil
+        return Direction(rawValue: idx)
     }
     
     func directionToSegmentIndex(_ dir: Direction) -> Int {
