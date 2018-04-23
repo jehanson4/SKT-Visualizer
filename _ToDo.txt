@@ -4,7 +4,13 @@ ToDo.txt
 
 ====================================
 
-[ ] surface button is miswired
+[ ] need all data entry to be in top half of the screen
+sequencers get their own page
+middle page has arrows to both left and right
+so the info button is only on page 1
+---------------------
+
+[ ] Nodes effect
 
 [ ] scroll & pan: track finger exactly. Depends on thetaE & zoom?
 

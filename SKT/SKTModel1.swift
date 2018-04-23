@@ -55,14 +55,26 @@ class SKTModel1: SKTModel {
         self.physics = SKPhysics(geometry)
         
         // N and k0 are correlated
-        N.monitorChanges(N_update)
-        k0.monitorChanges(k0_update)
+        N_monitor = N.monitorChanges(N_update)
+        k0_monitor = k0.monitorChanges(k0_update)
         
         // T and beta are correlated
-        T.monitorChanges(T_update)
-        beta.monitorChanges(beta_update)
+        T_monitor = T.monitorChanges(T_update)
+        beta_monitor = beta.monitorChanges(beta_update)
     }
     
+    deinit {
+        N_monitor?.disconnect()
+        k0_monitor?.disconnect()
+        T_monitor?.disconnect()
+        beta_monitor?.disconnect()
+    }
+    
+    private var N_monitor: ChangeMonitor?
+    private var k0_monitor: ChangeMonitor?
+    private var T_monitor: ChangeMonitor?
+    private var beta_monitor: ChangeMonitor?
+
     private func N_update(_ param: DiscreteParameter) {
         k0.refresh()
     }

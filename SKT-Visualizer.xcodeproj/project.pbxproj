@@ -367,7 +367,6 @@
 				8AF594FF208AC0420082C5DE /* AppModel.swift */,
 				8A1CF01E207146540099DD97 /* LaunchScreen.storyboard */,
 				8A1CF015207146510099DD97 /* AppDelegate.swift */,
-				8A1CF019207146510099DD97 /* Main.storyboard */,
 				8A1CF021207146540099DD97 /* Info.plist */,
 			);
 			path = App;
@@ -477,6 +476,7 @@
 				8AD817FB207BFA9200426C25 /* InfoViewController.xib */,
 				8AF59505208AFBD70082C5DE /* RegistrySelectionTableViewController.swift */,
 				8AF59506208AFBD70082C5DE /* RegistrySelectionTableViewController.xib */,
+				8A1CF019207146510099DD97 /* Main.storyboard */,
 			);
 			path = UI;
 			sourceTree = "<group>";

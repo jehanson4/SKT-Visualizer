@@ -383,7 +383,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     @IBOutlet weak var surface_switch: UISwitch!
     
     @IBAction func surface_action(_ sender: UISwitch) {
-        let effectName = Net.type
+        let effectName = Surface.type
         let effectOrNil: Effect? = appModel?.viz.effects.entry(effectName)?.value
         if (effectOrNil != nil) {
             var effect = effectOrNil!

@@ -509,7 +509,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="done" id="FUp-9e-d6R">
                             <button key="customView" opaque="NO" contentMode="right" contentHorizontalAlignment="right" contentVerticalAlignment="fill" buttonType="roundedRect" lineBreakMode="middleTruncation" id="XA9-Ix-gJ4">
-                                <rect key="frame" x="269" y="5.5" width="35" height="33"/>
+                                <rect key="frame" x="269" y="6" width="35" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <state key="normal" title="&gt;&gt;&gt;"/>
@@ -547,26 +547,26 @@
             </objects>
             <point key="canvasLocation" x="624.79999999999995" y="-331.48425787106447"/>
         </scene>
-        <!--Color ChooserPop Scene-->
+        <!--ColorSourcePop Scene-->
         <scene sceneID="FHe-FN-UGP">
             <objects>
-                <tableViewController title="Balrrgh" modalTransitionStyle="crossDissolve" modalPresentationStyle="overCurrentContext" id="34H-Ki-NCN" userLabel="Color ChooserPop Scene" customClass="RegistrySelectionTableViewController" customModule="SKT_Visualizer" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="singleLineEtched" rowHeight="45" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="gxS-9a-t8i" userLabel="Color Chooesr Pop View">
-                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                <tableViewController title="Balrrgh" modalTransitionStyle="crossDissolve" modalPresentationStyle="overCurrentContext" id="34H-Ki-NCN" userLabel="ColorSourcePop Scene" customClass="RegistrySelectionTableViewController" customModule="SKT_Visualizer" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="singleLineEtched" rowHeight="45" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="gxS-9a-t8i" userLabel="ColorSourcePop View">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="separatorColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <tableView key="tableFooterView" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="9Xa-cE-WWI">
-                            <rect key="frame" x="0.0" y="73" width="1024" height="44"/>
+                            <rect key="frame" x="0.0" y="73" width="375" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </tableView>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="registryEntryCell" id="fST-0u-SU7">
-                                <rect key="frame" x="0.0" y="28" width="1024" height="45"/>
+                                <rect key="frame" x="0.0" y="28" width="375" height="45"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fST-0u-SU7" id="kPN-Zq-m2v">
-                                    <rect key="frame" x="0.0" y="0.0" width="1024" height="44.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jfe-OK-K6e">
@@ -590,7 +590,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GEt-8i-4zJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2575" y="-1125"/>
+            <point key="canvasLocation" x="3423" y="-1463"/>
         </scene>
         <!--Master Navigation Controller-->
         <scene sceneID="jzL-Fv-J3k">
@@ -684,7 +684,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fAO-ou-dKh" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="vDh-sL-m6k" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2672.8000000000002" y="68.815592203898049"/>
+            <point key="canvasLocation" x="1877" y="772"/>
         </scene>
         <!--Sequencer Pop Scene-->
         <scene sceneID="58d-AM-2eN">
@@ -717,7 +717,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="B7e-MK-igz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2575" y="-2052"/>
+            <point key="canvasLocation" x="3423" y="-331"/>
         </scene>
         <!--SKT Visualizer-->
         <scene sceneID="4u8-ir-dWX">
@@ -930,7 +930,7 @@
                                 </variation>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="SAa-fG-jg1" userLabel="Leftovers View">
-                                <rect key="frame" x="32" y="362" width="256" height="32"/>
+                                <rect key="frame" x="32" y="362" width="256" height="78"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="iXj-AH-69c" customClass="DesignableButton" customModule="SKT_Visualizer" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="256" height="32"/>
@@ -946,10 +946,14 @@
                                             <action selector="resetViewParams:" destination="vTj-VE-2hE" eventType="touchUpInside" id="hoS-vG-Vdd"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ovT-L4-Qeo" userLabel="ColorChooser Trigger">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ovT-L4-Qeo" userLabel="ColorChooserPop Trigger">
                                         <rect key="frame" x="0.0" y="48" width="256" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" title="ColorChooser"/>
+                                        <connections>
+                                            <segue destination="34H-Ki-NCN" kind="popoverPresentation" popoverAnchorView="ovT-L4-Qeo" id="UEa-pk-rLM">
+                                                <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                            </segue>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EM4-P2-2lk" userLabel="Sequencer Trigger">
                                         <rect key="frame" x="0.0" y="48" width="256" height="30"/>
@@ -980,7 +984,6 @@
                                 </subviews>
                                 <variation key="default">
                                     <mask key="subviews">
-                                        <exclude reference="ovT-L4-Qeo"/>
                                         <exclude reference="EM4-P2-2lk"/>
                                         <exclude reference="aHS-pe-F4U"/>
                                     </mask>
@@ -1009,7 +1012,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="done" id="7Y2-PQ-QFA">
                             <button key="customView" opaque="NO" contentMode="right" contentHorizontalAlignment="right" contentVerticalAlignment="fill" buttonType="roundedRect" lineBreakMode="middleTruncation" id="8jX-Zj-hIp">
-                                <rect key="frame" x="269" y="6" width="35" height="33"/>
+                                <rect key="frame" x="269" y="5.5" width="35" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <state key="normal" title="&lt;&lt;&lt;"/>
@@ -1030,7 +1033,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KK4-Zz-UnV" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="yKA-or-wuf" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1756" y="-701.19940029985014"/>
+            <point key="canvasLocation" x="1801" y="-332"/>
         </scene>
         <!--Split View Controller-->
         <scene sceneID="gMr-bh-oVR">
@@ -1062,10 +1065,10 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RZr-S4-BI5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1756" y="69"/>
+            <point key="canvasLocation" x="1229" y="772"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="7Fl-47-m6b"/>
+        <segue reference="kW3-lj-dqf"/>
     </inferredMetricsTieBreakers>
 </document>
