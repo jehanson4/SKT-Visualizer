@@ -30,7 +30,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         a1_text.delegate = self
         a2_text.delegate = self
         T_text.delegate = self
-        // beta_text.delegate = self
+        beta_text.delegate = self
         
         colorSourcePicker.delegate = self
         colorSourcePicker.dataSource = self
@@ -67,6 +67,9 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
             
             T_update(skt.T)
             T_monitor = skt.T.monitorChanges(T_update)
+            
+            beta_update(skt.beta)
+            beta_monitor = skt.beta.monitorChanges(beta_update)
             
             debug(mtd, "Updating color source controls")
             updateColorSourceControls(appModel!.viz.colorSources)
@@ -160,9 +163,9 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         N_stepper.value = Double(N.value)
     }
     
-    // ===============================
+    // =====================================================
     // k0
-    // ====================================================================
+    // =====================================================
 
     @IBOutlet weak var k_text: UITextField!
 
@@ -196,9 +199,9 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         k_stepper.value = Double(param.value)
     }
     
-    // ===========================
+    // ======================================================
     // alpha1
-    // ====================================================================
+    // =======================================================
 
     @IBOutlet weak var a1_text: UITextField!
     @IBOutlet weak var a1_stepper: UIStepper!
@@ -234,9 +237,9 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         debug("a1_update", "on exit: param.value=\(param.value) a1_stepper.value=\(a1_stepper.value)")
     }
     
-    // ============================================
+    // =======================================================
     // alpha2
-    // ====================================================================
+    // =======================================================
 
     @IBOutlet weak var a2_text: UITextField!
     @IBOutlet weak var a2_stepper: UIStepper!
@@ -268,9 +271,9 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         a2_stepper.value = param.value
     }
     
-    // ===================================
+    // =====================================================
     // T
-    // ====================================================================
+    // =====================================================
 
     @IBOutlet weak var T_text: UITextField!
     @IBOutlet weak var T_stepper: UIStepper!
@@ -512,6 +515,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         let selection = colorSources?.selection
         if (selection == nil) {
             debug("updateColorSourceControls", "No color source is selected")
+            return
         }
         let sel = selection!
         debug("updateColorSourceControls", "telling colorSourcePicker to select row \(sel.index): \(sel.name)")

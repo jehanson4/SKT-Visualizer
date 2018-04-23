@@ -14,6 +14,7 @@ import Foundation
 
 class Energy : PhysicalProperty {
     
+    let physicalPropertyType = PhysicalPropertyType.energy
     var name: String = "Energy"
     var info: String? = nil
     

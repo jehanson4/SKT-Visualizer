@@ -17,7 +17,6 @@ protocol SKTModel {
     var geometry: SKGeometry { get }
     var physics: SKPhysics { get }
     
-    
     var N: DiscreteParameter { get }
     var k0: DiscreteParameter  { get }
     var alpha1: ContinuousParameter  { get }
@@ -28,13 +27,6 @@ protocol SKTModel {
     func setParameters(N: Int, k0: Int)
     func resetParameters()
 
-    // ==============================
-    // Physical properties
-    // ==============================
-
-    var energy: PhysicalProperty { get }
-    var entropy: PhysicalProperty { get }
-    var logOccupation: PhysicalProperty { get }
-    var basinFinder: BasinFinder { get }
-    
+    var physicalProperties: Registry<PhysicalProperty> { get }
+    func physicalProperty(forType: PhysicalPropertyType) -> PhysicalProperty?
 }

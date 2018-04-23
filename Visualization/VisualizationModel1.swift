@@ -125,36 +125,40 @@ class VisualizationModel1 : VisualizationModel {
     
     private func initColorSources() {
         debug("initColorSources")
-        let grayCS = UniformColor("Nothing", r: 0.25, g: 0.25, b: 0.25)
+        let grayCS = UniformColor("Nothing", r: 0.15, g: 0.15, b: 0.15)
         registerColorSource(grayCS, false)
         
         let linearColorMap = LinearColorMap()
         let logColorMap = LogColorMap()
         
-        let energyCS = PhysicalPropertyColorSource(skt.energy, linearColorMap)
-        registerColorSource(energyCS, false)
+        let energyPP = skt.physicalProperty(forType: PhysicalPropertyType.energy)
+        if (energyPP != nil) {
+            let energyCS = PhysicalPropertyColorSource(energyPP!, linearColorMap)
+            registerColorSource(energyCS, false)
+        }
         
-        let entropyCS = PhysicalPropertyColorSource(skt.entropy, linearColorMap)
-        registerColorSource(entropyCS, false)
-            
-        let degeneracyCS = PhysicalPropertyColorSource(skt.entropy, logColorMap, name: "Degeneracy")
-        registerColorSource(degeneracyCS, false)
-            
+        let entropyPP = skt.physicalProperty(forType: PhysicalPropertyType.entropy)
+        if  (entropyPP != nil) {
+            let entropyCS = PhysicalPropertyColorSource(entropyPP!, linearColorMap)
+            registerColorSource(entropyCS, false)
+
+            let degeneracyCS = PhysicalPropertyColorSource(entropyPP!, logColorMap, name: "Degeneracy")
+            registerColorSource(degeneracyCS, false)
+        }
         
-        let logOccupationCS = PhysicalPropertyColorSource(skt.logOccupation, linearColorMap)
-        registerColorSource(logOccupationCS, false)
-            
-        let occupationCS = PhysicalPropertyColorSource(skt.logOccupation, logColorMap, name: "Occupation")
+        let logOccupationPP = skt.physicalProperty(forType: PhysicalPropertyType.logOccupation)
+        if (logOccupationPP != nil) {
+            let logOccupationCS = PhysicalPropertyColorSource(logOccupationPP!, linearColorMap)
+            registerColorSource(logOccupationCS, false)
+        
+            let occupationCS = PhysicalPropertyColorSource(logOccupationPP!, logColorMap, name: "Occupation")
             registerColorSource(occupationCS, true)
-        
-        
-//        let bbc = BasinNumberColorSource(skt.basinFinder, showFinalCount: false)
-//        registerColorSource(bbc, false)
+        }
         
         debug("initColorSources", "done. sources=\(colorSources.entryNames)")
     }
     
-    private func registerColorSource(_ colorSource: ColorSource, _ select: Bool) {
+    func registerColorSource(_ colorSource: ColorSource, _ select: Bool) {
         let entry = colorSources.register(colorSource, nameHint: colorSource.name)
         if select {
             colorSources.select(entry.index)
@@ -165,18 +169,21 @@ class VisualizationModel1 : VisualizationModel {
     // Effects
     // ====================================
     
-    lazy var effects: Registry<Effect> = Registry<Effect>()
+    lazy var effects = Registry<Effect>()
     
-    lazy var effectNamesByType = [EffectType: String]()
+    private lazy var effectNamesByType = [EffectType: String]()
     
     func effect(forType t: EffectType) -> Effect? {
         let name = effectNamesByType[t]
         return (name == nil) ? nil : effects.entry(name!)?.value
     }
     
+    func registerEffect(_ effect: Effect) {
+        let entry = effects.register(effect, nameHint: effect.name)
+        effectNamesByType[effect.effectType] = entry.name
+    }
+    
     private func initEffects() {
-        debug("makeEffects")
-        
         let rOffset = -0.001
         registerEffect(Axes(enabled: false))
         registerEffect(Meridians(skt.geometry, enabled: false, rOffset: rOffset))
@@ -186,16 +193,11 @@ class VisualizationModel1 : VisualizationModel {
         // registerEffect(Icosahedron(enabled: false))
     }
     
-    private func registerEffect(_ effect: Effect) {
-        let entry = effects.register(effect, nameHint: effect.name)
-        effectNamesByType[effect.effectType] = entry.name
-    }
-    
     // ====================================
     // Sequencers
     // ====================================
 
-    lazy var sequencers: Registry<Sequencer> = Registry<Sequencer>()
+    lazy var sequencers = Registry<Sequencer>()
     
     var sequenceRateLimit: Double {
         get { return _sequencerRateLimit }
@@ -255,10 +257,13 @@ class VisualizationModel1 : VisualizationModel {
             SKPhysics.T_defaultStepSize
         ), false)
         
-
-        // registerSequencer(NForFixedKOverN(skt), false)
-        // registerSequencer(BasinFinderSequencer(skt.basinFinder), false)
-
+        registerSequencer(ContinuousParameterSequencer(
+            skt.beta,
+            SKPhysics.beta_defaultLowerBound,
+            SKPhysics.beta_defaultUpperBound,
+            SKPhysics.beta_defaultStepSize
+        ), false)
+        
         sequencerChangeMonitor = sequencers.monitorChanges(sequencerSelectionChanged)
     }
     

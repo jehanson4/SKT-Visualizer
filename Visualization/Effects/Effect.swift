@@ -13,7 +13,8 @@ import GLKit
 // EffectType
 // ==============================================================================
 
-/// Global list of all effects ever defined
+/// Global list of all effects ever defined.
+/// A subset of these is installed at runtime.
 enum EffectType: Int {
     case axes = 0
     case meridians = 1

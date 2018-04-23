@@ -44,7 +44,7 @@ protocol VisualizationModel {
     
     var sequencers: Registry<Sequencer> { get }
     
-    // In sequencer steps per second
+    // max. steps per second
     var sequenceRateLimit: Double { get set }
     
     func toggleSequencer()

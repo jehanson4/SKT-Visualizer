@@ -57,6 +57,8 @@ class SKTModel1: SKTModel {
         self.geometry = SKGeometry()
         self.physics = SKPhysics(geometry)
         
+        initPhysicalProperties()
+        
         // N and k0 are correlated
         N_monitor = N.monitorChanges(N_update)
         k0_monitor = k0.monitorChanges(k0_update)
@@ -173,11 +175,23 @@ class SKTModel1: SKTModel {
     // Physical properties
     // ======================================
 
-    lazy var energy: PhysicalProperty = Energy(geometry, physics)
-    lazy var entropy: PhysicalProperty =  Entropy(geometry, physics)
-    lazy var logOccupation: PhysicalProperty = LogOccupation(geometry, physics)
-    lazy var basinFinder: BasinFinder = BasinFinder(geometry, physics, energy)
+    lazy var physicalProperties = Registry<PhysicalProperty>()
+    private lazy var physicalPropertyNamesByType = [PhysicalPropertyType: String]()
+
+    func physicalProperty(forType t: PhysicalPropertyType) -> PhysicalProperty? {
+        let name = physicalPropertyNamesByType[t]
+        return (name == nil) ? nil : physicalProperties.entry(name!)?.value
+    }
     
+    func registerPhysicalProperty(_ pp: PhysicalProperty) {
+        let entry = physicalProperties.register(pp, nameHint: pp.name)
+        physicalPropertyNamesByType[pp.physicalPropertyType] = entry.name
+    }
     
+    private func initPhysicalProperties() {
+        registerPhysicalProperty(Energy(geometry, physics))
+        registerPhysicalProperty(Entropy(geometry, physics))
+        registerPhysicalProperty(LogOccupation(geometry, physics))
+    }
 }
 

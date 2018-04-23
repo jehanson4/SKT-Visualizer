@@ -2,36 +2,24 @@
 ToDo.txt
 ==================================================================================
 
-====================================
+[ ] beta controls constraints
+[ ] rescale alpha by -100 so it goes 0 -> 100 not -1 -> 0
 
-[ ] need all data entry to be in top half of the screen
-sequencers get their own page
-middle page has arrows to both left and right
-so the info button is only on page 1
-
-[ ] beta controls
-
-[ ] physical properties go in registry in SKTModel
-    NOT by-var-name there
-    NOT in SKPhysics at all
-
-[ ] UIStackView w/ borderColor user-defined property
-[ ] UIStackView w/ shadowColor user-defined property
-
----------------------
+----------------------------------
 
 [ ] basinfinder renamed & made a PhysicalProperty
     it has its own control parameter: #steps in finder alg'm
     another reason to use a tableview for choosing color source:
         can put in a UI widget for its control params
 
+----------------------------------
+
 [ ] SKTModel has a Registry<PhysicalProperty>
     It does NOT expose the PhysicalProperties by name
 
     instead of PhysicalProperty.type, make an enum. ditto for anything else that uses a "type"
 
-[ ] PhysicalProperty contains a dict of AdjustableParameters
-    not a registry, tho.
+----------------------------------
 
 [ ] basins color source
     better name
@@ -39,27 +27,33 @@ so the info button is only on page 1
     scale to get it pretty-washed-out at N/2
     boundaries are still black
 
+----------------------------------
+
+[ ] alternative name for "PhysicalProperty". shorter. should indicate that it's "derivied" or "emergent" rather than "defininig"
+
+----------------------------------
+
 [ ] Nodes effect
     custom shader. point spite is image of a ball
+
+----------------------------------
 
 [ ] scroll & pan: track finger *exactly*
 
 [ ] store & restore ("UserData"?)
 
-[ ] custom buttons or something still
-
 [ ] segue from background to prev, not back to main
 
 [ ] all the monitors dict's should be lazy
 
-[ ] FIXME strog retain cycles b/c of listeners
-    cf. http://blog.scottlogic.com/2015/02/05/swift-events.html
+----------------------------------
 
----
 [ ] page 2 has ui section for 'Parameter Defaults'
     INDEPENDENT from sequencer params
     look like CP wigets but have 1 extra nesting for parameter name
     parameter-defaults can be in a scrollview
+
+----------------------------------
 
 [ ] popover scrolling list instead of picker
 

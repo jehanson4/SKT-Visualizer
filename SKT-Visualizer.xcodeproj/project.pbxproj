@@ -457,8 +457,8 @@
 			children = (
 				8A575FED20804759002B9951 /* ColorMaps.swift */,
 				8AE48BBA2087857C001B5D11 /* GLUtils.swift */,
-				8A3BBBB6208BC28A00669227 /* VisualizationModel1.swift */,
 				8AF59502208AC5B10082C5DE /* VisualizatonModel.swift */,
+				8A3BBBB6208BC28A00669227 /* VisualizationModel1.swift */,
 				8A75B691208A768100EACD13 /* ColorSources */,
 				8A5E948A2077D285003477D3 /* Effects */,
 				8A19CD892082488D00C1EADE /* Sequencers */,
