@@ -34,4 +34,10 @@ class PhysicalPropertyColorSource : ColorSource {
     func colorAt(_ nodeIndex: Int) -> GLKVector4 {
         return colorMap.getColor(property.valueAt(nodeIndex: nodeIndex))
     }
+    
+    func monitorChanges(_ callback: @escaping (Any) -> ()) -> ChangeMonitor? {
+        return nil
+    }
+    
+
 }

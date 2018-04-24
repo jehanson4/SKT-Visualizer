@@ -35,7 +35,10 @@ class Basin {
 
 class BasinNodeData : Hashable, Equatable {
     
+    private static var nodeCounter: Int  = 0
+    
     /// Which node we are
+    let nc: Int
     let idx: Int
     let m: Int
     let n: Int
@@ -68,6 +71,11 @@ class BasinNodeData : Hashable, Equatable {
     // =========================================
     
     init(_ idx: Int, _ m: Int, _ n: Int) {
+        
+        self.nc = BasinNodeData.nodeCounter
+        BasinNodeData.nodeCounter += 1
+        // print("BasinNodeData: nc=\(nc)")
+        
         self.idx = idx
         self.m = m
         self.n = n
@@ -78,6 +86,7 @@ class BasinNodeData : Hashable, Equatable {
     }
     
     func reset(_ energy: Double = Double.nan) {
+        print("BNData(\(m),\(n)) reset")
         self.energy = energy
         self._iteration = nil
         self._isBoundary = nil
@@ -90,6 +99,7 @@ class BasinNodeData : Hashable, Equatable {
         self._isBoundary = false
         self._basinID = basinID
         self._distanceToAttractor = 0
+        print("assignToAttractor(\(m),\(n)) done: " + dumpResettableState())
     }
     
     func assignToBasin(iteration: Int, basinID: Int, distanceToAttractor: Int) {
@@ -97,6 +107,7 @@ class BasinNodeData : Hashable, Equatable {
         self._isBoundary = false
         self._basinID = basinID
         self._distanceToAttractor = distanceToAttractor
+        print("assignToBasin(\(m),\(n)) done: " + dumpResettableState())
     }
     
     func assignToBoundary(iteration: Int) {
@@ -104,6 +115,24 @@ class BasinNodeData : Hashable, Equatable {
         self._isBoundary = true
         self._basinID = nil
         self._distanceToAttractor = nil
+        print("assignToBoundary(\(m),\(n)) done: " + dumpResettableState())
+    }
+
+    func dumpResettableState() -> String {
+        let ncStr = "nc=\(nc) "
+        let iterationStr = (_iteration == nil) ? ""
+            : "iter=" + String(_iteration!) + " "
+        
+        let boundaryStr = (_isBoundary == nil || _isBoundary! == false) ? ""
+            : "boundary=" + String(_isBoundary!) + " "
+        
+        let basinIDStr = (_basinID == nil) ? ""
+            : "basinID=" + String(_basinID!) + " "
+        
+        let dToAStr = (_distanceToAttractor == nil) ? ""
+            : "dToA=" + String(_distanceToAttractor!) + " "
+        
+        return ncStr + iterationStr + boundaryStr + basinIDStr + dToAStr
     }
     
     // =============================================
@@ -114,6 +143,7 @@ class BasinNodeData : Hashable, Equatable {
     static func == (lhs: BasinNodeData, rhs: BasinNodeData) -> Bool {
         return lhs.idx == rhs.idx
     }
+    
 }
 
 // =====================================================================================
@@ -161,7 +191,7 @@ class BasinNodeNeighborhood {
 // BasinFinder
 // =====================================================================================
 
-protocol BasinFinder {
+protocol BasinFinder: ChangeMonitorEnabled {
     
     var nodeData: [BasinNodeData] { get }
     var basins: [Basin] { get }

@@ -9,13 +9,13 @@
 import Foundation
 import GLKit
 
-class BasinAssignmentColorSource : ColorSource {
-    
-    var name: String = "Basin of Attraction"
+class BasinOfAttractionColorSource : ColorSource {
+
+    var name: String = "Basin Finder"
     var info: String? = nil
     
     private let basinFinder: BasinFinder
-    
+
     var unclassified_color: GLKVector4 // gray
     var basin0_color: GLKVector4 // blue
     var basin1_color: GLKVector4 // green
@@ -32,13 +32,14 @@ class BasinAssignmentColorSource : ColorSource {
     }
 
     func prepare() {
+        debug("prepare", "refreshing basinFinder")
         basinFinder.refresh()
         debug("prepare", "done")
     }
     
     func colorAt(_ nodeIndex: Int) -> GLKVector4 {
         let nd = basinFinder.nodeData[nodeIndex]
-        debug("colorAt", "node (\(nd.m),\(nd.n))")
+        debug("colorAt", "node (\(nd.m),\(nd.n)) " + nd.dumpResettableState())
         if (!nd.isClassified) {
             return unclassified_color
         }
@@ -55,6 +56,10 @@ class BasinAssignmentColorSource : ColorSource {
         else {
             return otherBasin_color
         }
+    }
+    
+    func monitorChanges(_ callback: @escaping (Any) -> ()) -> ChangeMonitor? {
+        return basinFinder.monitorChanges(callback)
     }
     
     private func debug(_ mtd: String, _ msg: String) {

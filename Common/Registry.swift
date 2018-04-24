@@ -9,33 +9,6 @@
 import Foundation
 
 // =======================================================================
-// RegistryChangeMonitor
-// =======================================================================
-
-class RegistryChangeMonitor<T> : ChangeMonitor {
-    
-    let id: Int
-    private let callback: (_ sender: Registry<T>) -> ()
-    private weak var registry: Registry<T>!
-
-    init(_ id: Int,
-         _ callback: @escaping (Registry<T>) -> (),
-         _ registry: Registry<T>) {
-            self.id = id
-            self.callback = callback
-            self.registry = registry
-    }
-    
-    func fire() {
-        callback(registry)
-    }
-    
-    func disconnect() {
-        registry.monitors[id] = nil
-    }
-}
-
-// =======================================================================
 // RegistryEntry
 // =======================================================================
 
@@ -55,7 +28,7 @@ class RegistryEntry<T> {
 // Registry
 // =======================================================================
 
-class Registry<T> {
+class Registry<T> : ChangeMonitorEnabled {
     
     // =============================
     // Entries
@@ -64,6 +37,7 @@ class Registry<T> {
     var entryNames: [String] { return _entryNames }
     
     private var _entryNames: [String] = []
+    
     private var _entries = [String: RegistryEntry<T>]()
     
     func entry(_ name: String) -> RegistryEntry<T>? {
@@ -80,7 +54,7 @@ class Registry<T> {
         let newEntry = RegistryEntry<T>(index, name, t)
         _entryNames.append(name)
         _entries[name] = newEntry
-        fireRegistryChange()
+        changeMonitorSupport.fire()
         return newEntry
     }
     
@@ -118,10 +92,18 @@ class Registry<T> {
     
     private var _selection: RegistryEntry<T>? = nil
 
+    func clearSelection() {
+        let changed = (_selection != nil)
+        _selection = nil
+        if (changed) {
+            changeMonitorSupport.fire()
+        }
+    }
+    
     func select(_ index: Int) {
         if (index >= 0 && index < _entryNames.count && (_selection == nil || _selection!.index != index)) {
             _selection = entry(index)
-            fireRegistryChange()
+            changeMonitorSupport.fire()
         }
     }
     
@@ -129,7 +111,7 @@ class Registry<T> {
         let newSel = _entries[name]
         if (newSel != nil && (_selection == nil || _selection!.name != name)) {
             _selection = newSel
-            fireRegistryChange()
+            changeMonitorSupport.fire()
         }
     }
     
@@ -137,26 +119,10 @@ class Registry<T> {
     // Change monitoring
     // =================================
 
-    fileprivate var monitors = [Int: RegistryChangeMonitor<T>]()
-    private var monitorCount = 0
-
-    func monitorChanges(_ callback: @escaping (_ sender: Registry<T>) -> ()) -> ChangeMonitor? {
-        let id = nextMonitorID
-        let monitor = RegistryChangeMonitor(id, callback, self)
-        monitors[id] = monitor
-        return monitor
+    private lazy var changeMonitorSupport = ChangeMonitorSupport()
+    
+    func monitorChanges(_ callback: @escaping (Any) -> ()) -> ChangeMonitor? {
+        return changeMonitorSupport.monitorChanges(callback, self)
     }
     
-    private func fireRegistryChange() {
-        for mEntry in monitors {
-            mEntry.value.fire()
-        }
-    }
-    
-    private var nextMonitorID: Int {
-        let id = monitorCount
-        monitorCount += 1
-        return id
-    }
-
 }

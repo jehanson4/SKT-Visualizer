@@ -1,5 +1,5 @@
 //
-//  BasinFinderSequencer.swift
+//  BasinDiscoverySequencer.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 4/19/18.
@@ -9,12 +9,12 @@
 import Foundation
 
 // =====================================================================
-// BasinAssignmentSequencer
+// BasinDiscoverySequencer
 // =====================================================================
 
-class BasinAssignmentSequencer : Sequencer {
+class BasinDiscoverySequencer : Sequencer {
     
-    var name: String = "Basin assignment"
+    var name: String = "Basin Discovery"
     
     var info: String? = nil
     

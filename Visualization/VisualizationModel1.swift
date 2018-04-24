@@ -155,7 +155,7 @@ class VisualizationModel1 : VisualizationModel {
             registerColorSource(occupationCS, true)
         }
         
-        let basinCS = BasinAssignmentColorSource(skt.basinFinder)
+        let basinCS = BasinOfAttractionColorSource(skt.basinFinder)
         registerColorSource(basinCS, false)
         
         debug("initColorSources", "done. sources=\(colorSources.entryNames)")
@@ -272,7 +272,7 @@ class VisualizationModel1 : VisualizationModel {
         sequencerChangeMonitor = sequencers.monitorChanges(sequencerSelectionChanged)
     }
     
-    private func sequencerSelectionChanged(_ registry: Registry<Sequencer>) {
+    private func sequencerSelectionChanged(_ sender: Any) {
         // TODO: verify that there's nothing to do here
     }
     

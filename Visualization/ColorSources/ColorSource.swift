@@ -12,7 +12,7 @@ import GLKit
 // ==============================================================================
 // ==============================================================================
 
-protocol ColorSource : Named {
+protocol ColorSource : Named, ChangeMonitorEnabled {
         
     /// Updates this color source's internal state as needed. Should be called
     /// before each iteration over node indices.

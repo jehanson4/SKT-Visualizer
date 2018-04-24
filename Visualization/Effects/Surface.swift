@@ -52,7 +52,8 @@ class Surface : GLKBaseEffect, Effect {
     
     private var colorSources: Registry<ColorSource>? = nil
     private var computeColorsNeeded: Bool = true
-    private var colorSourceMonitor: ChangeMonitor? = nil
+    private var colorSourceSelectionMonitor: ChangeMonitor? = nil
+    private var colorSourcePropertiesMonitor: ChangeMonitor? = nil
 
     var linearColorMap: ColorMap? = nil
     var logColorMap: ColorMap? = nil
@@ -72,7 +73,8 @@ class Surface : GLKBaseEffect, Effect {
     }
     
     deinit {
-        colorSourceMonitor?.disconnect()
+        colorSourceSelectionMonitor?.disconnect()
+        colorSourcePropertiesMonitor?.disconnect()
         glDeleteVertexArraysOES(1, &vertexArray)
         deleteBuffers()
     }
@@ -161,17 +163,27 @@ class Surface : GLKBaseEffect, Effect {
         computeColorsNeeded = false
         
         // AFTER calling recompute
-        if (colorSourceMonitor == nil) {
+        if (colorSourceSelectionMonitor == nil) {
             debug("starting to monitor colorSource selection")
-            colorSourceMonitor = colorSources?.monitorChanges(self.colorSourceHasChanged)
+            colorSourceSelectionMonitor = colorSources?.monitorChanges(self.colorSourceHasChanged)
         }
         
         return true
     }
     
-    private func colorSourceHasChanged(_ sender: Registry<ColorSource>?) {
-        debug("colorSourceHasChanged", "marking colors as stale")
+    private func colorSourceHasChanged(_ sender: Any) {
+        // This is called when the color source registry's selection changes
+        debug("colorSourceHasChanged", "marking colors as stale and replacing color source properties monitor")
+        colorSourcePropertiesMonitor?.disconnect()
         self.computeColorsNeeded = true
+        colorSourcePropertiesMonitor = colorSources?.selection?.value.monitorChanges(colorSourcePropertiesHaveChanged)
+    }
+    
+    private func colorSourcePropertiesHaveChanged(_ sender: Any) {
+        // This is called when the color source's params change
+        debug("colorSourcePropertiesHaveChanged", "marking colors as stale")
+        self.computeColorsNeeded = true
+
     }
     
     private func createBuffers() {

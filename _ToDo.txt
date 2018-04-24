@@ -1,10 +1,7 @@
 ==================================================================================
 ToDo.txt
 ==================================================================================
-
-[ ] surface is not recomputing colors because it does not watch for changes in
-basinfinder.
-
+ABOVE THE LINE
 
 [ ] hookup sequencer param steppers
 
@@ -13,7 +10,7 @@ basinfinder.
     means redesign w. fwd/rev sticky
 tap gesture maybe unchanged
 
-==================================================
+-----------------------
 
 [ ] basin finder doesn't fit into my separation of color sources & sequencers
 ....we,,ok, it sorta does. we could show how basins change (@ given generation)
@@ -30,33 +27,33 @@ basin color source doesn't access basinfinder step number but it does access bas
 
 'presets' that pick color source and sequencer
 
-==================================================
+==================================================================================
+THE LINE
+==================================================================================
+BELOW THE LINE
+
+
+[ ] all the change monitor guys impl the new protocol
+
+[ ] ALSO check that rumor about (Void)
 
 [ ] rescale alpha by -100 so it goes 0 -> 100 not -1 -> 0
-----------------------------------
 
-----------------------------------
+--------------------
 
 [ ] basins color source
-    better name
     color saturation goes down w/ distance from well.
     scale to get it pretty-washed-out at N/2
     boundaries are still black
-
-----------------------------------
 
 [ ] alternative name for "PhysicalProperty". shorter. should indicate that it's "derived" or "emergent" rather than "defininig"
 
 ----------------------------------
 
 [ ] Nodes effect
-    custom shader. point spite is image of a ball
-
-----------------------------------
+    custom shader. point spite image of a ball w/ nice highlight
 
 [ ] scroll & pan: track finger *exactly*
-
-[ ] store & restore ("UserData"?)
 
 [ ] segue from background to prev, not back to main
 

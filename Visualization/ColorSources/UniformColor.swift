@@ -26,4 +26,9 @@ class UniformColor : ColorSource {
     func colorAt(_ nodeIndex: Int) -> GLKVector4 {
         return color
     }
+
+    func monitorChanges(_ callback: @escaping (Any) -> ()) -> ChangeMonitor? {
+        return nil
+    }
+    
 }

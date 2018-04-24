@@ -218,8 +218,12 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
     // ========================
     // Basins
     
-    private lazy var basins = BasinFinder1(appModel!.skt.geometry, appModel!.skt.physics)
     @IBAction func doBasins(_ sender: Any) {
+        let bf: BasinFinder? = appModel?.skt.basinFinder
+        if (bf == nil) {
+            return
+        }
+        let basins = bf!
         if (basins.isIterationDone) {
             basins.reset()
         }

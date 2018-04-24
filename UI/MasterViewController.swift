@@ -11,7 +11,7 @@ import UIKit
 class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, AppModelUser {
     
     let name = "MasterViewController"
-    var debugEnabled = true
+    var debugEnabled = false
     
     var appModel: AppModel? = nil
     
@@ -512,8 +512,8 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         }
     }
     
-    func updateColorSourceControls(_ colorSources: Registry<ColorSource>?) {
-        let selection = colorSources?.selection
+    func updateColorSourceControls(_ sender: Any) {
+        let selection = appModel?.viz.colorSources.selection
         if (selection == nil) {
             debug("updateColorSourceControls", "No color source is selected")
             return
@@ -523,8 +523,8 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         colorSourcePicker.selectRow(sel.index, inComponent: 0, animated: false)
     }
 
-    func updateSequencerControls(_ sequencers: Registry<Sequencer>?) {
-        let selection = sequencers?.selection
+    func updateSequencerControls(_ sender: Any) {
+        let selection = appModel?.viz.sequencers.selection
         if (selection == nil) {
             debug("updateSequencerControls", "No sequencer is selected")
             return
