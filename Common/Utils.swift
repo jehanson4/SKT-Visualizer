@@ -12,9 +12,13 @@ import Foundation
 // Misc Functions
 // =======================================================================
 
+fileprivate let eps = Double.constants.eps
+fileprivate let pi = Double.constants.pi
+fileprivate let twoPi = Double.constants.twoPi
+
 /// Return true iff the values differ by more than Constants.eps
 func distinct(_ x: Double, _ y: Double) -> Bool {
-    return abs(y - x) > Double.constants.eps
+    return abs(y - x) > eps
 }
 
 /// Return min if x < min, max if x > max, x otherwise
@@ -39,7 +43,7 @@ func logBinomial(_ a:Int, _ b:Int) -> Double {
     let bb = Double(b)
     let cc = Double(a-b)
     return aa * log(aa) - bb * log(bb) - cc * log(cc)
-            + 0.5 * (log(aa) - log(bb) - log(cc) - log(Double.constants.twoPi))
+            + 0.5 * (log(aa) - log(bb) - log(cc) - log(twoPi))
 }
 
 // =======================================================================
@@ -55,7 +59,7 @@ func basicString(_ x: Double) -> String {
 }
 
 func piFraction(_ x: Double) -> String {
-    let b = 8.0 * x / Double.constants.pi
+    let b = 8.0 * x / pi
     let br = round(b)
     
     if (distinct(br-b, 0)) {

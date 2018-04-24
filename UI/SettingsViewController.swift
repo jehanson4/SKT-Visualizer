@@ -224,8 +224,10 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
             return
         }
         let basins = bf!
+        
+        // basins.findBasins()
         if (basins.isIterationDone) {
-            basins.reset()
+            // basins.reset()
         }
         else {
             basins.expandBasins()

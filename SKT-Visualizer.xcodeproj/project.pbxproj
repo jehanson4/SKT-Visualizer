@@ -66,6 +66,7 @@
 		8AA05A11208FC14E009417A6 /* AppModel1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA05A10208FC14E009417A6 /* AppModel1.swift */; };
 		8AA05A13208FCB58009417A6 /* ChangeSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA05A12208FCB58009417A6 /* ChangeSupport.swift */; };
 		8AA05A15208FD56F009417A6 /* SKPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA05A14208FD56F009417A6 /* SKPoint.swift */; };
+		8AA05A17208FE6A9009417A6 /* BasinHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA05A16208FE6A9009417A6 /* BasinHelpers.swift */; };
 		8AA0637D207A89DD00BB68DB /* SKPhysics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA0637C207A89DD00BB68DB /* SKPhysics.swift */; };
 		8AAA008E207166C0001A136D /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAA008C207166C0001A136D /* MasterViewController.swift */; };
 		8AAA008F207166C0001A136D /* MasterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8AAA008D207166C0001A136D /* MasterViewController.xib */; };
@@ -175,6 +176,7 @@
 		8AA05A10208FC14E009417A6 /* AppModel1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel1.swift; sourceTree = "<group>"; };
 		8AA05A12208FCB58009417A6 /* ChangeSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSupport.swift; sourceTree = "<group>"; };
 		8AA05A14208FD56F009417A6 /* SKPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKPoint.swift; sourceTree = "<group>"; };
+		8AA05A16208FE6A9009417A6 /* BasinHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasinHelpers.swift; sourceTree = "<group>"; };
 		8AA0637C207A89DD00BB68DB /* SKPhysics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKPhysics.swift; sourceTree = "<group>"; };
 		8AAA008C207166C0001A136D /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
 		8AAA008D207166C0001A136D /* MasterViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MasterViewController.xib; sourceTree = "<group>"; };
@@ -393,6 +395,7 @@
 			children = (
 				8AA05A05208E7771009417A6 /* BasinFinder1.swift */,
 				8AA05A09208E7F4B009417A6 /* BasinFinder.swift */,
+				8AA05A16208FE6A9009417A6 /* BasinHelpers.swift */,
 			);
 			path = BasinFinder;
 			sourceTree = "<group>";
@@ -669,6 +672,7 @@
 				8A40BC0E207EEA3D00F2D2EB /* Meridians.swift in Sources */,
 				8AF5320920887329009D1882 /* BasinOfAttractionColorSource.swift in Sources */,
 				8AA05A11208FC14E009417A6 /* AppModel1.swift in Sources */,
+				8AA05A17208FE6A9009417A6 /* BasinHelpers.swift in Sources */,
 				8AA05A15208FD56F009417A6 /* SKPoint.swift in Sources */,
 				8A8D5967208D0513005550CD /* AdjustableParameter.swift in Sources */,
 				8AF59503208AC5B10082C5DE /* VisualizatonModel.swift in Sources */,

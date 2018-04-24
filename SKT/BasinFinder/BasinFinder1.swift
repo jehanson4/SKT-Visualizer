@@ -60,6 +60,8 @@ class BasinFinder1 : BasinFinder {
     
     var basins: [Basin] =  []
     
+    var expectedMaxDistanceToAttractor: Int { return geometry.N / 2 }
+    
     var iteration: Int { return _iteration }
     
     var isIterationDone: Bool { return _iterationDone }
@@ -207,10 +209,15 @@ class BasinFinder1 : BasinFinder {
             return 0
         }
         _iteration = 0
-        
         var numNewlyClassified = 0
+
+        // HACK HACK HACK HACK
+        // Coloring the basins is easier if the distinguished points are
+        // assigned the first two basin IDs. So add them now to make sure.
+        numNewlyClassified += addSuspectedPointAttractor(nodeData[geometry.p1.nodeIndex])
+        numNewlyClassified += addSuspectedPointAttractor(nodeData[geometry.p2.nodeIndex])
+
         for nd in nodeData {
-            
             if (nd.energy.isNaN) {
                 debug(mtd, "node  (\(nd.m),\(nd.n)) energy is undefined")
                 continue
@@ -248,6 +255,19 @@ class BasinFinder1 : BasinFinder {
             changeMonitors.fire()
         }
         return numNewlyClassified
+    }
+    
+    func addSuspectedPointAttractor(_ nd: BasinNodeData) -> Int {
+        let mtd = "addSuspectedPointAttractor"
+        if (!nd.isClassified && isSinglePointAttractor(nd)) {
+            debug(mtd, "node (\(nd.m),\(nd.n)) is an unclassified point attractor")
+            let bb = addBasin()
+            nd.assignToBasin(iteration: _iteration, basinID: bb.id, distanceToAttractor: 0)
+            bb.addNode(nd)
+            debug(mtd, "    " + nd.dumpResettableState())
+            return 1
+        }
+        return 0
     }
     
     /// Handles edge case where a node might be in a multi-point attracting set
