@@ -155,6 +155,7 @@ class VisualizationModel1 : VisualizationModel {
             registerColorSource(occupationCS, true)
         }
         
+        
         debug("initColorSources", "done. sources=\(colorSources.entryNames)")
     }
     

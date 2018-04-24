@@ -215,4 +215,17 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
         appModel?.viz.resetPOV()
     }
     
+    // ========================
+    // Basins
+    
+    private lazy var basins = BasinFinder1(appModel!.skt.geometry, appModel!.skt.physics)
+    @IBAction func doBasins(_ sender: Any) {
+        if (basins.isIterationDone) {
+            basins.reset()
+        }
+        else {
+            basins.expandBasins()
+        }
+    }
+    
 }

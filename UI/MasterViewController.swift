@@ -11,7 +11,7 @@ import UIKit
 class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, AppModelUser {
     
     let name = "MasterViewController"
-    var debugEnabled = false
+    var debugEnabled = true
     
     var appModel: AppModel? = nil
     
@@ -507,6 +507,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         }
         
         if (pickerView.tag == sequencerPickerTag) {
+            debug("pickerView", "sequencerPicker row \(row)")
             appModel?.viz.sequencers.select(row)
         }
     }
@@ -622,6 +623,17 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         debug("dir_action", "selectedSegmentIndex=" + String(sender.selectedSegmentIndex))
         var sequencer = appModel?.viz.sequencers.selection?.value
         if (sequencer != nil) {
+            
+            // HACK HACK HACK HACK
+            if (sender.selectedSegmentIndex == 3) {
+                debug("dir_action", "step!")
+                // sequencer!.enabled = false
+                sequencer!.step()
+                sender.selectedSegmentIndex = 2
+                return
+            }
+            
+            
             let newDir = Direction(rawValue: sender.selectedSegmentIndex)
             if (newDir != nil) {
                 switch (newDir!) {

@@ -2,18 +2,29 @@
 ToDo.txt
 ==================================================================================
 
-[ ] beta step size on p.2
 [ ] hookup sequencer param steppers
+[ ] MANUAL stepping thru a sequence -- needed for basinfinder anyway!
+    means redesign w. fwd/rev sticky
+tap gesture maybe unchanged
+==================================================
+
+[ ] basin finder doesn't fit into my separation of color sources & sequencers
+....we,,ok, it sorta does. we could show how basins change (@ given generation)
+as func of N, a1, etc.
+
+so there's an underlying param, "#generations" that doesn't have a good home
+
+it's because we're trying to show movie of somethign that's itself changing, as opposed
+to a bunch of pictures taken under changing conditions
+
+sopport THIS as paradigmatic case.
+
+basin color source doesn't access basinfinder step number but it does access basinfinder node data
 
 ==================================================
 
 [ ] rescale alpha by -100 so it goes 0 -> 100 not -1 -> 0
 ----------------------------------
-
-[ ] basinfinder renamed & made a PhysicalProperty
-    it has its own control parameter: #steps in finder alg'm
-    another reason to use a tableview for choosing color source:
-        can put in a UI widget for its control params
 
 ----------------------------------
 
@@ -44,7 +55,12 @@ ToDo.txt
 
 ----------------------------------
 
-[ ] page 2 has ui section for 'Parameter Defaults'
+[ ] page 2 top section is about 'preferences'
+
+I could use it as 'swivel' target for adjustable params of the stepper and the
+sweep
+
+has ui section for 'Parameter Defaults'
     INDEPENDENT from sequencer params
     look like CP wigets but have 1 extra nesting for parameter name
     parameter-defaults can be in a scrollview

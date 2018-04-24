@@ -19,7 +19,6 @@ enum PhysicalPropertyType: Int {
     case energy = 0
     case entropy = 1
     case logOccupation = 2
-    case basin = 3
 }
 
 
