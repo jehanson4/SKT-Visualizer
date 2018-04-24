@@ -155,6 +155,8 @@ class VisualizationModel1 : VisualizationModel {
             registerColorSource(occupationCS, true)
         }
         
+        let basinCS = BasinAssignmentColorSource(skt.basinFinder)
+        registerColorSource(basinCS, false)
         
         debug("initColorSources", "done. sources=\(colorSources.entryNames)")
     }

@@ -21,6 +21,8 @@ sopport THIS as paradigmatic case.
 
 basin color source doesn't access basinfinder step number but it does access basinfinder node data
 
+'presets' that pick color source and sequencer
+
 ==================================================
 
 [ ] rescale alpha by -100 so it goes 0 -> 100 not -1 -> 0

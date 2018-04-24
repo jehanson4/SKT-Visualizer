@@ -29,4 +29,6 @@ protocol SKTModel {
 
     var physicalProperties: Registry<PhysicalProperty> { get }
     func physicalProperty(forType: PhysicalPropertyType) -> PhysicalProperty?
+    
+    var basinFinder: BasinFinder! { get }
 }

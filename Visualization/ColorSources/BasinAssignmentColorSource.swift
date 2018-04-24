@@ -9,9 +9,9 @@
 import Foundation
 import GLKit
 
-class BasinNumberColorSource : ColorSource {
+class BasinAssignmentColorSource : ColorSource {
     
-    var name: String = "Basins"
+    var name: String = "Basin of Attraction"
     var info: String? = nil
     
     private let basinFinder: BasinFinder

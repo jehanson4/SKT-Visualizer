@@ -193,5 +193,11 @@ class SKTModel1: SKTModel {
         registerPhysicalProperty(Entropy(geometry, physics))
         registerPhysicalProperty(LogOccupation(geometry, physics))
     }
+    
+    // ======================================
+    // Other things
+    // ======================================
+    
+    lazy var basinFinder: BasinFinder! = BasinFinder1(geometry, physics)
 }
 
