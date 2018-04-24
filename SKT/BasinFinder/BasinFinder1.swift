@@ -17,10 +17,10 @@ class BasinFinder1 : BasinFinder {
     var debugEnabled = true
     var name: String = "BasinFinder1"
     var info: String? = nil
-
+    
     private var geometry: SKGeometry
     private var physics: SKPhysics
-
+    
     // =====================================
     // Initializing
     // =====================================
@@ -31,7 +31,7 @@ class BasinFinder1 : BasinFinder {
         self.geometryChangeNumber = geometry.changeNumber - 1
         self.m_max = geometry.m_max
         self.n_max = geometry.n_max
-
+        
         self.physics = physics
         self.physicsChangeNumber = physics.changeNumber
         self._iteration = -1
@@ -47,7 +47,7 @@ class BasinFinder1 : BasinFinder {
     // =============================================
     // Housekeeping
     // =============================================
-
+    
     var nodeData: [BasinNodeData] = []
     
     var basins: [Basin] =  []
@@ -63,7 +63,7 @@ class BasinFinder1 : BasinFinder {
     private var physicsChangeNumber: Int
     private var _iteration: Int
     private var _iterationDone: Bool
-
+    
     func reset() {
         resetGeometry()
         resetPhysics()
@@ -182,11 +182,11 @@ class BasinFinder1 : BasinFinder {
         
         return true
     }
-
+    
     // =============================================
     // Find the attractors
     // =============================================
-
+    
     func findAttractors() -> Int {
         let mtd = "findAttractors"
         debug(mtd, "entering")
@@ -214,7 +214,7 @@ class BasinFinder1 : BasinFinder {
                 debug(mtd, "node (\(nd.m),\(nd.n)) has a downhill neighbor")
                 continue
             }
-                
+            
             if (isSinglePointAttractor(nd)) {
                 debug(mtd, "node (\(nd.m),\(nd.n)) is point attractor")
                 let bb = addBasin()
@@ -223,7 +223,7 @@ class BasinFinder1 : BasinFinder {
                 totalClassified += 1
                 continue
             }
-                
+            
             totalClassified += growPossibleAttractor(nd)
         }
         
@@ -232,6 +232,7 @@ class BasinFinder1 : BasinFinder {
         }
         
         debug(mtd, "done. classified \(totalClassified) nodes")
+        debugBasinInfo()
         return totalClassified
     }
     
@@ -284,7 +285,7 @@ class BasinFinder1 : BasinFinder {
                         debug(mtd, "Found uphill neighbor (\(nbr.m), \(nbr.n)). Ignoring.")
                         continue
                     }
-                        
+                    
                     if (!nbr.isClassified) {
                         // Unclassified equal-energy neighbor. Check whether it's already
                         // s candidate. If not, add it.
@@ -316,7 +317,7 @@ class BasinFinder1 : BasinFinder {
                     if (nbrDtoA == 0) {
                         // Equal-energy neighbor is in an attracting set, which means that
                         // all the candidates are also in that same attracting set.
-
+                        
                         // Sanity check: if we've already set basinID, it had better be the
                         // same one
                         if (basinID != nil && basinID! != nbrBasin) {
@@ -331,7 +332,7 @@ class BasinFinder1 : BasinFinder {
                         basinID = nbrBasin
                         continue
                     }
-                        
+                    
                     // If we got here, equal-energy neighbor is in a known basin but not in
                     // the basin's attracting set. All the candidates are therefore in the
                     // same situation. We could label their basinIDs right here, but we don't
@@ -385,7 +386,7 @@ class BasinFinder1 : BasinFinder {
             debug(mtd, "iteration is done.")
             return 0
         }
-
+        
         debug(mtd, "starting pass over nodes")
         var totalClassified = 0
         for nd in nodeData {
@@ -396,9 +397,20 @@ class BasinFinder1 : BasinFinder {
         }
         
         debug(mtd, "done. classified \(totalClassified) nodes")
+        debugBasinInfo()
         return totalClassified
     }
-
+    
+    func debugBasinInfo() {
+    debug("", "    iteration: \(iteration) nodes")
+    var sum: Int = 0
+    for i in 0..<basins.count {
+    debug("", "    basin \(i): \(basins[i].nodeCount) nodes")
+    sum += basins[i].nodeCount
+    }
+    debug("", "    unassigned or boundary: \(geometry.nodeCount - sum) nodes")
+    }
+    
     func classify(_ nd: BasinNodeData) -> Int{
         let mtd = "classify(\(nd.m),\(nd.n))"
         if (nd.isClassified) {
@@ -421,7 +433,7 @@ class BasinFinder1 : BasinFinder {
                 debug(mtd, "Neighbor (\(nbr.m), \(nbr.n)) is uphill.")
                 continue
             }
-
+            
             if (!nbr.isClassified) {
                 debug(mtd, "Non-uphill neighbor (\(nbr.m), \(nbr.n)) is unclassified.")
                 return 0
@@ -435,7 +447,7 @@ class BasinFinder1 : BasinFinder {
                 nd.assignToBoundary(iteration: _iteration)
                 return 1
             }
-
+            
             // Sanity check. If nbr is classified and not a boundary then its
             // basinID and distanceToAttractor should both be non-nil
             let nbrBasinID = nbr.basinID!
@@ -469,9 +481,10 @@ class BasinFinder1 : BasinFinder {
         
         debug(mtd, "All non-uphill neighbors are in basin \(nbrBasin0!) --> node is in basin \(nbrBasin0!)")
         nd.assignToBasin(iteration: _iteration, basinID: nbrBasin0!, distanceToAttractor: nbrDtoA0! + 1)
+        basins[nbrBasin0!].addNode(nd)
         return 1
     }
-
+    
     // =============================================
     // Find 'em in one shot
     // =============================================

@@ -2,10 +2,17 @@
 ToDo.txt
 ==================================================================================
 
+[ ] surface is not recomputing colors because it does not watch for changes in
+basinfinder.
+
+
 [ ] hookup sequencer param steppers
+
+
 [ ] MANUAL stepping thru a sequence -- needed for basinfinder anyway!
     means redesign w. fwd/rev sticky
 tap gesture maybe unchanged
+
 ==================================================
 
 [ ] basin finder doesn't fit into my separation of color sources & sequencers

@@ -33,10 +33,12 @@ class BasinAssignmentColorSource : ColorSource {
 
     func prepare() {
         basinFinder.refresh()
+        debug("prepare", "done")
     }
     
     func colorAt(_ nodeIndex: Int) -> GLKVector4 {
         let nd = basinFinder.nodeData[nodeIndex]
+        debug("colorAt", "node (\(nd.m),\(nd.n))")
         if (!nd.isClassified) {
             return unclassified_color
         }

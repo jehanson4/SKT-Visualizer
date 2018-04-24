@@ -267,6 +267,8 @@ class VisualizationModel1 : VisualizationModel {
             SKPhysics.beta_defaultStepSize
         ), false)
         
+        // registerSequencer(BasinAssignmentSequencer(skt.basinFinder), false)
+        
         sequencerChangeMonitor = sequencers.monitorChanges(sequencerSelectionChanged)
     }
     
