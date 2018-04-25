@@ -20,7 +20,6 @@ class BasinOfAttractionColorSource : ColorSource {
     var washoutFudgeFactor: GLfloat = 0.8
     
     private let basinFinder: BasinFinder
-    private let findBasins: Bool
 
     private var unclassified_color: GLKVector4 // gray
     private var basinBoundary_color: GLKVector4 // black
@@ -28,9 +27,8 @@ class BasinOfAttractionColorSource : ColorSource {
     
     private var washoutNorm: GLfloat = 1.0
     
-    init(_ basinFinder: BasinFinder, findBasins: Bool = true, expectedBasinCount: Int = 4) {
+    init(_ basinFinder: BasinFinder, expectedBasinCount: Int = 4) {
         self.basinFinder = basinFinder
-        self.findBasins = findBasins
         
         self.unclassified_color = GLKVector4Make(0.5, 0.5, 0.5, 1)
         self.basinBoundary_color = GLKVector4Make(0,0,0,1)
@@ -51,17 +49,19 @@ class BasinOfAttractionColorSource : ColorSource {
         }
     }
 
-    func prepare() {
-        washoutNorm = washoutFudgeFactor / GLfloat(basinFinder.expectedMaxDistanceToAttractor)
-        if (findBasins) {
-            debug("prepare", "finding basins")
-            basinFinder.findBasins()
+    func prepare() -> Bool {
+        var changed = false
+        let newWashoutNorm = washoutFudgeFactor / GLfloat(basinFinder.expectedMaxDistanceToAttractor)
+        if (newWashoutNorm != self.washoutNorm) {
+            changed = true
+            self.washoutNorm = newWashoutNorm
         }
-        else {
-            debug("prepare", "refreshing basinFinder")
-            basinFinder.refresh()
+        
+        if (basinFinder.expandBasins() > 0) {
+            changed = true
         }
-        debug("prepare", "done")
+        debug("prepare", "done: changed=\(changed)")
+        return changed
     }
     
     func colorAt(_ nodeIndex: Int) -> GLKVector4 {

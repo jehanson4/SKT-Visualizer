@@ -27,8 +27,8 @@ class PhysicalPropertyColorSource : ColorSource {
         self.colorMap = colorMap
     }
     
-    func prepare() {
-        colorMap.calibrate(property.bounds)
+    func prepare() -> Bool {
+        return colorMap.calibrate(property.bounds)
     }
     
     func colorAt(_ nodeIndex: Int) -> GLKVector4 {

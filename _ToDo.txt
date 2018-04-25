@@ -2,25 +2,25 @@
 ToDo.txt
 ==================================================================================
 
-[ ] either DELETE or hook up the sequencer steppers
+[ ] sequencer UI controls
+    [ ] either DELETE or hook up the sequencer steppers
+    [ ] stepper direction buttons behave weirdly
 
-[ ] stepper direction buttons behave weirdly
+[ ] popover appearance
+    [ ] popover size
+    [ ] border around cells in popovers
+    [ ] highlight current selection in popovers
 
-[ ] why isn't basin color-source showing final basins?
+[ ] Nodes
 
-[ ] p2 orphans no longer right-justified
-
-[ ] popover size
-
-[ ] border around cells in popovers
-
-[ ] highlight current selection in popovers
 
 ABOVE THE LINE
 ==================================================================================
 THE LINE
 ==================================================================================
 BELOW THE LINE
+
+[ ] p2 orphans no longer right-justified
 
 [ ] basinfinder change iteration order by quadrant
 doesn't seem to be affected by k0; it's in quarters no matter what

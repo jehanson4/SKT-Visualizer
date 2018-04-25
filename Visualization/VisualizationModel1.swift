@@ -266,9 +266,7 @@ class VisualizationModel1 : VisualizationModel {
             SKPhysics.beta_defaultUpperBound,
             SKPhysics.beta_defaultStepSize
         ), false)
-        
-        registerSequencer(BasinDiscoverySequencer(skt.basinFinder), false)
-        
+                
         sequencerChangeMonitor = sequencers.monitorChanges(sequencerSelectionChanged)
     }
     

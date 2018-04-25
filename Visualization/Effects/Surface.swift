@@ -47,10 +47,8 @@ class Surface : GLKBaseEffect, Effect {
     var physicsChangeNumber: Int
     
     private var colorSources: Registry<ColorSource>? = nil
-    private var computeColorsNeeded: Bool = true
-    private var colorSourceSelectionMonitor: ChangeMonitor? = nil
-    private var colorSourcePropertiesMonitor: ChangeMonitor? = nil
-
+    private var forceColorUpdate: Bool = false
+    
     // var linearColorMap: ColorMap? = nil
     // var logColorMap: ColorMap? = nil
 
@@ -60,17 +58,16 @@ class Surface : GLKBaseEffect, Effect {
 
     init(_ geometry: SKGeometry, _ physics: SKPhysics, _ colorSources: Registry<ColorSource>?, enabled: Bool = false) {
         self.geometry = geometry
-        self.geometryChangeNumber = geometry.changeNumber - 1
+        self.geometryChangeNumber = geometry.changeNumber
         self.physics = physics
-        self.physicsChangeNumber = physics.changeNumber - 1
+        self.physicsChangeNumber = physics.changeNumber
         self.colorSources = colorSources
         self.enabled = enabled
+        self.forceColorUpdate = false
         super.init()
     }
     
     deinit {
-        colorSourceSelectionMonitor?.disconnect()
-        colorSourcePropertiesMonitor?.disconnect()
         glDeleteVertexArraysOES(1, &vertexArray)
         deleteBuffers()
     }
@@ -128,58 +125,35 @@ class Surface : GLKBaseEffect, Effect {
             }
         }
 
-        // colors
+        // Fill array with black and set flag to force an update
         
         let black = GLKVector4Make(0, 0, 0, 0)
         self.colors = Array(repeating: black, count: vertices.count)
+        self.forceColorUpdate = true
     }
     
     private func ensureColorsAreFresh() -> Bool {
-        if (!computeColorsNeeded) {
-            // debug("colors are fresh")
-            return false
-        }
-            
         if (colorSources == nil) {
             debug("cannot refresh colors: colorSources is nil")
             return false
         }
-        
-        // Ignore sender; use colorSources
-        debug("recomputing colors", "colorSource: \(colorSources?.selection?.name ?? "nil")")
-        
+
         let colorSource = colorSources?.selection?.value
-        if (colorSource != nil) {
-            let cs = colorSource!
-            cs.prepare()
+        if (colorSource == nil) {
+            debug("cannot refresh colors: colorSource is nil")
+            return false
+        }
+        
+        let cs = colorSource!
+        let colorsChanged = cs.prepare()
+        if (colorsChanged || forceColorUpdate) {
+            debug("recomputing colors", "colorSource: \(cs.name)")
             for i in 0..<colors.count {
                 colors[i] = cs.colorAt(i)
             }
         }
-        computeColorsNeeded = false
-        
-        // AFTER calling recompute
-        if (colorSourceSelectionMonitor == nil) {
-            debug("starting to monitor colorSource selection")
-            colorSourceSelectionMonitor = colorSources?.monitorChanges(self.colorSourceHasChanged)
-        }
-        
+        forceColorUpdate = false
         return true
-    }
-    
-    private func colorSourceHasChanged(_ sender: Any) {
-        // This is called when the color source registry's selection changes
-        debug("colorSourceHasChanged", "marking colors as stale and replacing color source properties monitor")
-        colorSourcePropertiesMonitor?.disconnect()
-        self.computeColorsNeeded = true
-        colorSourcePropertiesMonitor = colorSources?.selection?.value.monitorChanges(colorSourcePropertiesHaveChanged)
-    }
-    
-    private func colorSourcePropertiesHaveChanged(_ sender: Any) {
-        // This is called when the color source's params change
-        debug("colorSourcePropertiesHaveChanged", "marking colors as stale")
-        self.computeColorsNeeded = true
-
     }
     
     private func createBuffers() {
@@ -248,12 +222,6 @@ class Surface : GLKBaseEffect, Effect {
         glDeleteBuffers(1, &indexBuffer)
     }
     
-    override func prepareToDraw() {
-        // DON'T build() here
-        
-        super.prepareToDraw()
-    }
-    
     func draw() {
         if (!enabled) {
             return
@@ -272,22 +240,26 @@ class Surface : GLKBaseEffect, Effect {
         let geometryChange = geometry.changeNumber
         let physicsChange = physics.changeNumber
         if (geometryChange != geometryChangeNumber) {
-            debug("geometry has changed...")
+            debug("geometry has changed. Rebuilding.")
             self.geometryChangeNumber = geometryChange
             self.physicsChangeNumber = physicsChange
-            self.computeColorsNeeded = true
+            
+            // MAYBE this isn't needed. But it does no harm.
+            self.forceColorUpdate = true
             
             deleteBuffers()
             buildVertexData()
+            
             // INEFFICIENT redundant copy colors to color buffer
             createBuffers()
-
+            
             debug("done rebuilding")
         }
         else if (physicsChange != physicsChangeNumber) {
-            debug("physics has changed...")
+            debug("physics has changed. Rebuilding.")
             self.physicsChangeNumber = physicsChange
-            self.computeColorsNeeded = true
+            // DON'T force color update here; let the color source tell us.
+            debug("done rebuilding.")
         }
 
         // DEBUG
@@ -302,13 +274,11 @@ class Surface : GLKBaseEffect, Effect {
         
         if (needsColorBufferUpdate) {
             debug("copying colors into GL color buffer")
-            // Q: Just re-bind color & copy new values using glBufferSubData
-            // A: seems to do the trick
-            // TODO only do this if we recomputed the colors
             let cbSize = MemoryLayout<GLKVector4>.stride
             glBindBuffer(GLenum(GL_ARRAY_BUFFER), colorBuffer)
             glBufferSubData(GLenum(GL_ARRAY_BUFFER), 0, cbSize * colors.count, colors)
         }
+
         prepareToDraw()
 
         // DEBUG

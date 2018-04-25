@@ -82,7 +82,8 @@ protocol ColorMap {
     var name: String { get }
     var description: String? { get }
     
-    func calibrate(_ bounds: (min: Double, max: Double) )
+    /// returns true if the color mapping was changed by the calibration.
+    func calibrate(_ bounds: (min: Double, max: Double)) -> Bool
     
     func getColor(_ v: Double) -> GLKVector4
 }
@@ -109,15 +110,24 @@ class LinearColorMap : ColorMap {
         self.offset = 0
     }
     
-    func calibrate(_ bounds: (min: Double, max: Double)) {
+    func calibrate(_ bounds: (min: Double, max: Double)) -> Bool {
+        var newNorm: Double = self.norm
+        var newOffset: Double = self.offset
         if bounds.min >= bounds.max {
-            self.norm = 1
-            self.offset = 0
+            newNorm = 1
+            newOffset = 0
         }
         else {
-            self.norm = 1.0 / (bounds.max - bounds.min)
-            self.offset = bounds.min
+            newNorm = 1.0 / (bounds.max - bounds.min)
+            newOffset = bounds.min
         }
+        
+        if (newNorm == norm && newOffset == offset) {
+            return false
+        }
+        norm = newNorm
+        offset = newOffset
+        return true
     }
     
     func getColor(_ v: Double) -> GLKVector4 {
@@ -137,14 +147,20 @@ class LogColorMap : ColorMap {
     private var colors: [GLKVector4]
     private var over: GLKVector4
     private var thresholds: [Double]
-
+    private var bounds: (min: Double, max: Double)?
+    
     init() {
         self.colors = defaultColors1()
         self.over = GLKVector4Make(1,1,1,1)
         self.thresholds = []
+        self.bounds = nil
     }
 
-    func calibrate(_ bounds: (min: Double, max: Double)) {
+    func calibrate(_ bounds: (min: Double, max: Double)) -> Bool {
+        if (self.bounds != nil && self.bounds!.min == bounds.min && self.bounds!.max == bounds.max) {
+            return false
+        }
+        self.bounds = bounds
 
         let logZZMax: Double = 100 // EMPIRICAL
         let logCC = log(Double(colors.count))
@@ -157,6 +173,7 @@ class LogColorMap : ColorMap {
             thresholds.append(t)
             tPrev = t
         }
+        return true
     }
     
     func getColor(_ v: Double) -> GLKVector4 {

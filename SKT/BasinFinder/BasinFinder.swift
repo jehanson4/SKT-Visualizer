@@ -37,8 +37,8 @@ protocol BasinFinder: ChangeMonitorEnabled {
     /// returns number of nodes classified
     func findAttractors() -> Int
     
-    /// If attractors not yet found, finds them and returns. Otherwise, makes one pass
-    /// through the nodes, trying to classify them.
+    /// If iteration is complete, does nothing. If attractors not yet found, finds them
+    /// and returns. Otherwise, makes one pass through the nodes, trying to classify them.
     /// returns number of nodes classified.
     func expandBasins() -> Int
     

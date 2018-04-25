@@ -16,7 +16,8 @@ protocol ColorSource : Named, ChangeMonitorEnabled {
         
     /// Updates this color source's internal state as needed. Should be called
     /// before each iteration over node indices.
-    func prepare()
+    /// returns true iff the colors were changed by the update.
+    func prepare() -> Bool
     
     /// Returns the color assigned to the node at the given index
     func colorAt(_ nodeIndex: Int) -> GLKVector4

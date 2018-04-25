@@ -413,12 +413,13 @@ class BasinFinder1 : BasinFinder {
         
         refresh()
         
-        if (_iteration < 0) {
-            return findAttractors()
-        }
         if (_iterationDone) {
             debug(mtd, "iteration is done.")
             return 0
+        }
+        
+        if (_iteration < 0) {
+            return findAttractors()
         }
         
         debug(mtd, "starting pass over nodes")

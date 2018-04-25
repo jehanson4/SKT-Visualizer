@@ -21,7 +21,9 @@ class UniformColor : ColorSource {
         self.color = GLKVector4Make(r, g, b, alpha)
     }
     
-    func prepare() {}
+    func prepare() -> Bool {
+        return false
+    }
     
     func colorAt(_ nodeIndex: Int) -> GLKVector4 {
         return color

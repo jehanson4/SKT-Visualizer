@@ -5,6 +5,12 @@
 //  Created by James Hanson on 4/18/18.
 //  Copyright © 2018 James Hanson. All rights reserved.
 //
+//  Portions adapted from GLKMatrix4+Array.swift
+//  Created by burt on 2016. 2. 28..
+//  Copyright © 2016년 BurtK. All rights reserved.
+//  @see https://www.snip2code.com/Snippet/407785/Xcode-6-3-OpenGL-Game-template-ported-to
+//  Accessed 4/01/2018
+//
 
 import Foundation
 import GLKit
@@ -49,6 +55,31 @@ extension GLKMatrix4: CustomStringConvertible {
             + ", "
             + String(format: "[%f, %f, %f, %f]", m30, m31, m32, m33)
             + "]"
+    }
+}
+
+extension GLKMatrix2 {
+    var array: [Float] {
+        return (0..<4).map { i in
+            self[i]
+        }
+    }
+}
+
+
+extension GLKMatrix3 {
+    var array: [Float] {
+        return (0..<9).map { i in
+            self[i]
+        }
+    }
+}
+
+extension GLKMatrix4 {
+    var array: [Float] {
+        return (0..<16).map { i in
+            self[i]
+        }
     }
 }
 
