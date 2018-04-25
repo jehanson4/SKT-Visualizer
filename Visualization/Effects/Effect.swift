@@ -33,6 +33,7 @@ protocol Effect : Named  {
     var effectType: EffectType { get }
     
     var enabled: Bool { get set }
+    
     var transform: GLKEffectPropertyTransform { get }
     
     func prepareToDraw()

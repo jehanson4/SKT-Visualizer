@@ -2,12 +2,19 @@
 ToDo.txt
 ==================================================================================
 
-
 [ ] either DELETE or hook up the sequencer steppers
 
 [ ] stepper direction buttons behave weirdly
 
-[ ] why is basin color-source not showing final basins?
+[ ] why isn't basin color-source showing final basins?
+
+[ ] p2 orphans no longer right-justified
+
+[ ] popover size
+
+[ ] border around cells in popovers
+
+[ ] highlight current selection in popovers
 
 ABOVE THE LINE
 ==================================================================================
@@ -18,14 +25,9 @@ BELOW THE LINE
 [ ] basinfinder change iteration order by quadrant
 doesn't seem to be affected by k0; it's in quarters no matter what
 
-
 [ ] all the change monitor guys impl the new protocol
 
-[ ] ALSO check that rumor about (Void)
-
 [ ] rescale alpha by -100 so it goes 0 -> 100 not -1 -> 0
-
---------------------
 
 [ ] basins color source
     color saturation goes down w/ distance from well.
@@ -33,8 +35,6 @@ doesn't seem to be affected by k0; it's in quarters no matter what
     boundaries are still black
 
 [ ] alternative name for "PhysicalProperty". shorter. should indicate that it's "derived" or "emergent" rather than "defininig"
-
-----------------------------------
 
 [ ] Nodes effect
     custom shader. point spite image of a ball w/ nice highlight
@@ -46,7 +46,6 @@ doesn't seem to be affected by k0; it's in quarters no matter what
 [ ] all the monitors dict's should be lazy
 
 ----------------------------------
-
 [ ] page 2 top section is about 'preferences'
 
 I could use it as 'swivel' target for adjustable params of the stepper and the
@@ -56,10 +55,7 @@ has ui section for 'Parameter Defaults'
     INDEPENDENT from sequencer params
     look like CP wigets but have 1 extra nesting for parameter name
     parameter-defaults can be in a scrollview
-
 ----------------------------------
-
-[ ] popover scrolling list instead of picker
 
 [ ] width of text widget stretches automatically to fix . . . a priority thing?
 
@@ -72,10 +68,10 @@ has ui section for 'Parameter Defaults'
     steepest descent
     diffusion
 
-[ ] images for 7 buttons
-    reset
-    3 for BC
-    3 for dir/enable
+[ ] images for the buttons
+    reset parameters
+    sequencer BC
+    sequencer direction/step
 
 [ ] "capture" the display view
 

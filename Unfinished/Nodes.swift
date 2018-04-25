@@ -1,5 +1,5 @@
 //
-//  Surface.swift
+//  Nodes.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 4/7/18.
@@ -15,123 +15,100 @@ import OpenGL
 #endif
 
 // ==============================================================
-// Surface
+// Nodes
 // ==============================================================
 
-class Surface : GLKBaseEffect, Effect {
+class Nodes : Effect {
     
-    var debugEnabled = false
+    var debugEnabled = true
     
-    let effectType = EffectType.surface
-    var name = "Surface"
+    let effectType = EffectType.nodes
+    var name = "Nodes"
     var info: String? = nil
-    var enabled = false
+    var enabled: Bool
     private var built: Bool = false
 
-    // ====================================
+    // ==========================
     // GL stuff
-    var vertices: [PNVertex] = []
-    var indices: [GLuint] = []
+    var transform: GLKEffectPropertyTransform
+
+    var vertices: [GLKVector4] = []
     var colors: [GLKVector4] = []
-    // var colorFuncs: [() -> ()] = []
-    
+
     var vertexArray: GLuint = 0
     var vertexBuffer: GLuint = 0
-    var normalBuffer: GLuint = 0
     var colorBuffer: GLuint = 0
-    var indexBuffer: GLuint = 0
+
+
+    // =====================================
+    // Shader stuff
     
-    var geometry: SKGeometry
-    var geometryChangeNumber: Int
-    var physics: SKPhysics
-    var physicsChangeNumber: Int
+    let vertexShader = "NodesVertexShader.glsl"
+    let fragmentShader = "NodesFragmentShader.glsl"
+    
+    private var program: GLuint = 0
+    private var isShaderBuilt: Bool { return program != 0 }
+    
+    // var pointSize: GLfloat = 2.0
+    
+    // =====================================
+
+    private var geometry: SKGeometry
+    private var geometryChangeNumber: Int
+    private var physics: SKPhysics
+    private var physicsChangeNumber: Int
     
     private var colorSources: Registry<ColorSource>? = nil
     private var computeColorsNeeded: Bool = true
     private var colorSourceSelectionMonitor: ChangeMonitor? = nil
     private var colorSourcePropertiesMonitor: ChangeMonitor? = nil
-
-    // var linearColorMap: ColorMap? = nil
-    // var logColorMap: ColorMap? = nil
-
-    // ====================================
-    // Initiailzers
-    // ====================================
+    
+    // =====================================
+    // Initialization
+    // =====================================
 
     init(_ geometry: SKGeometry, _ physics: SKPhysics, _ colorSources: Registry<ColorSource>?, enabled: Bool = false) {
+        
+        self.transform = GLKEffectPropertyTransform()
+        
         self.geometry = geometry
-        self.geometryChangeNumber = geometry.changeNumber - 1
+        self.geometryChangeNumber = geometry.changeNumber
         self.physics = physics
-        self.physicsChangeNumber = physics.changeNumber - 1
+        self.physicsChangeNumber = physics.changeNumber
         self.colorSources = colorSources
         self.enabled = enabled
-        super.init()
     }
     
     deinit {
         colorSourceSelectionMonitor?.disconnect()
         colorSourcePropertiesMonitor?.disconnect()
-        glDeleteVertexArraysOES(1, &vertexArray)
-        deleteBuffers()
+        if (built) {
+            glDeleteProgram(program)
+            glDeleteVertexArraysOES(1, &vertexArray)
+            deleteBuffers()
+        }
     }
     
+    private func debug(_ mtd: String, _ msg : String = "") {
+        if (debugEnabled) {
+            print(name, mtd, msg)
+        }
+    }
+
+    
     private func build() -> Bool {
-        
-        // color material. The colors themselves are in the color buffer
-        
-        super.colorMaterialEnabled = GLboolean(GL_TRUE)
-        super.material.shininess = 0
-        
-        // lighting
-        
-        super.light0.enabled = GLboolean(GL_TRUE)
-        super.light0.ambientColor = GLKVector4Make(0.1, 0.1, 0.1, 1.0)
-        super.light0.diffuseColor = GLKVector4Make(1.0, 1.0, 1.0, 1.0)
-        // EMPIRICAL
-        super.light0.position = GLKVector4Make(1.0, 1.0, 2.0, 0.0)
-        
+
         glGenVertexArraysOES(1, &vertexArray)
-        buildVertexData()
+        buildVertexAndColorData()
         createBuffers()
         return true
     }
     
-    private func buildVertexData() {
-        // vertices
-        self.vertices = buildPNVertexArray(geometry)
+    private func buildVertexAndColorData() {
+        self.vertices = buildVertexArray4(geometry)
         
-        // indices
-        
-        indices = []
-        let mMax = geometry.m_max
-        let nMax = geometry.n_max
-        for m in 0..<mMax {
-            for n in 0..<nMax {
-                
-                // v1->v2->v3->v4 is counterclockwise
-                let v1 = geometry.skToNodeIndex(m,n)
-                let v2 = geometry.skToNodeIndex(m + 1, n)
-                let v3 = geometry.skToNodeIndex(m + 1, n + 1)
-                let v4 = geometry.skToNodeIndex(m, n + 1)
-                
-                // Draw two triangles of quad (v1,v2,v3,v4):
-                
-                // counterclockwise again
-                indices.append(GLuint(v1))
-                indices.append(GLuint(v2))
-                indices.append(GLuint(v3))
-                
-                // counterclockwise again
-                indices.append(GLuint(v1))
-                indices.append(GLuint(v3))
-                indices.append(GLuint(v4))
-            }
-        }
-
-        // colors
-        
-        let black = GLKVector4Make(0, 0, 0, 0)
-        self.colors = Array(repeating: black, count: vertices.count)
+        let white: GLKVector4 = GLKVector4Make(1,1,1,1)
+        self.colors = Array(repeating: white, count: geometry.nodeCount)
     }
     
     private func ensureColorsAreFresh() -> Bool {
@@ -139,7 +116,7 @@ class Surface : GLKBaseEffect, Effect {
             // debug("colors are fresh")
             return false
         }
-            
+        
         if (colorSources == nil) {
             debug("cannot refresh colors: colorSources is nil")
             return false
@@ -166,7 +143,7 @@ class Surface : GLKBaseEffect, Effect {
         
         return true
     }
-    
+
     private func colorSourceHasChanged(_ sender: Any) {
         // This is called when the color source registry's selection changes
         debug("colorSourceHasChanged", "marking colors as stale and replacing color source properties monitor")
@@ -179,35 +156,27 @@ class Surface : GLKBaseEffect, Effect {
         // This is called when the color source's params change
         debug("colorSourcePropertiesHaveChanged", "marking colors as stale")
         self.computeColorsNeeded = true
-
+        
     }
-    
+
     private func createBuffers() {
         
         glBindVertexArrayOES(vertexArray)
         
         // vertex buffer
-        let vbSize = MemoryLayout<PNVertex>.stride
+        
+        let vbSize = MemoryLayout<GLKVector4>.stride
         glGenBuffers(1, &vertexBuffer)
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), vertexBuffer)
         glBufferData(GLenum(GL_ARRAY_BUFFER), vbSize * vertices.count, vertices, GLenum(GL_STATIC_DRAW))
         
+        // FIXME -- my shader defines this
         let vaIndex = GLenum(GLKVertexAttrib.position.rawValue)
+        
         let vaSize = GLint(3)
-        let vaStride = GLsizei(MemoryLayout<PNVertex>.stride)
+        let vaStride = GLsizei(MemoryLayout<GLKVector4>.stride)
         glVertexAttribPointer(vaIndex, vaSize, GLenum(GL_FLOAT), GLboolean(GL_FALSE), vaStride, BUFFER_OFFSET(0))
         glEnableVertexAttribArray(vaIndex)
-        
-        // normal buffer
-        
-        glGenBuffers(1, &normalBuffer)
-        glBindBuffer(GLenum(GL_ARRAY_BUFFER), normalBuffer)
-        glBufferData(GLenum(GL_ARRAY_BUFFER), vbSize * vertices.count, vertices, GLenum(GL_STATIC_DRAW))
-        
-        let naIndex = GLenum(GLKVertexAttrib.normal.rawValue)
-        let naOffset = 3 * MemoryLayout<GLfloat>.stride
-        glVertexAttribPointer(naIndex, vaSize, GLenum(GL_FLOAT), GLboolean(GL_FALSE), vaStride, BUFFER_OFFSET(naOffset))
-        glEnableVertexAttribArray(naIndex)
         
         // color buffer
         
@@ -216,19 +185,13 @@ class Surface : GLKBaseEffect, Effect {
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), colorBuffer)
         glBufferData(GLenum(GL_ARRAY_BUFFER), cbSize * colors.count, colors, GLenum(GL_DYNAMIC_DRAW))
         
+        // FIXME -- my shader defines this value
         let caIndex = GLenum(GLKVertexAttrib.color.rawValue)
         let caSize = GLint(3)
         let caStride = GLsizei(MemoryLayout<GLKVector4>.stride)
         glVertexAttribPointer(caIndex, caSize, GLenum(GL_FLOAT), GLboolean(GL_FALSE), caStride, BUFFER_OFFSET(0))
         glEnableVertexAttribArray(caIndex)
         
-        // index buffer
-        
-        let ibSize = MemoryLayout<GLuint>.stride
-        glGenBuffers(1, &indexBuffer)
-        glBindBuffer(GLenum(GL_ELEMENT_ARRAY_BUFFER), indexBuffer)
-        glBufferData(GLenum(GL_ELEMENT_ARRAY_BUFFER), ibSize * indices.count, indices, GLenum(GL_STATIC_DRAW))
-
         // finish up
         glBindVertexArrayOES(0)
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), 0)
@@ -243,30 +206,36 @@ class Surface : GLKBaseEffect, Effect {
     
     private func deleteBuffers() {
         glDeleteBuffers(1, &vertexBuffer)
-        glDeleteBuffers(1, &normalBuffer)
         glDeleteBuffers(1, &colorBuffer)
-        glDeleteBuffers(1, &indexBuffer)
     }
     
-    override func prepareToDraw() {
-        // DON'T build() here
+    // =========================================
+    // Prepare & Draw
+    // =========================================
+
+    func prepareToDraw() {
+        if (!isShaderBuilt) {
+            initShader(vertexShader, fragmentShader)
+        }
         
-        super.prepareToDraw()
+        // TODO apply the transform matrices
+        // TODO set the point size
+        
+        glUseProgram(self.program)
     }
+    
     
     func draw() {
         if (!enabled) {
             return
         }
-
+        if (!built) {
+            built = build()
+        }
+        
         let err0 = glGetError()
         if (err0 != 0) {
             debug(String(format:"draw: entering: glError 0x%x", err0))
-        }
-
-        // DO call buind() here
-        if (!built) {
-            built = build()
         }
         
         let geometryChange = geometry.changeNumber
@@ -276,20 +245,20 @@ class Surface : GLKBaseEffect, Effect {
             self.geometryChangeNumber = geometryChange
             self.physicsChangeNumber = physicsChange
             self.computeColorsNeeded = true
-            
+
             deleteBuffers()
-            buildVertexData()
+            buildVertexAndColorData()
             // INEFFICIENT redundant copy colors to color buffer
             createBuffers()
-
+            
             debug("done rebuilding")
         }
         else if (physicsChange != physicsChangeNumber) {
-            debug("physics has changed...")
+            debug("physics has changed colors...")
             self.physicsChangeNumber = physicsChange
             self.computeColorsNeeded = true
-        }
-
+       }
+        
         // DEBUG
         let err1 = glGetError()
         if (err1 != 0) {
@@ -297,7 +266,7 @@ class Surface : GLKBaseEffect, Effect {
         }
         
         let needsColorBufferUpdate = ensureColorsAreFresh()
-        
+
         glBindVertexArrayOES(vertexArray)
         
         if (needsColorBufferUpdate) {
@@ -310,16 +279,18 @@ class Surface : GLKBaseEffect, Effect {
             glBufferSubData(GLenum(GL_ARRAY_BUFFER), 0, cbSize * colors.count, colors)
         }
         prepareToDraw()
-
+        
         // DEBUG
         let err2 = glGetError()
         if (err2 != 0) {
             debug(String(format:"draw[2]: glError 0x%x", err0))
         }
         
-        glDrawElements(GLenum(GL_TRIANGLES), GLsizei(indices.count), GLenum(GL_UNSIGNED_INT), BUFFER_OFFSET(0))
+        glDrawElements(GLenum(GL_POINTS), GLsizei(vertices.count), GLenum(GL_UNSIGNED_INT), BUFFER_OFFSET(0))
         
-
+        // WAS
+        // glDrawArrays(GLenum(GL_POINTS), 0, GLsizei(vertices.count))
+        
         // DEBUG
         let err3 = glGetError()
         if (err3 != 0) {
@@ -331,10 +302,82 @@ class Surface : GLKBaseEffect, Effect {
 
     }
     
-    func debug(_ mtd: String, _ msg: String = "") {
-        if (debugEnabled) {
-            print(name, mtd, msg)
+    // ========================================
+    // Shader
+    // ========================================
+
+    func initShader(_ vertexShaderName: String, _ fragmentShaderName: String) {
+        debug("initShader", "entering")
+        
+        program = glCreateProgram()
+        if program == 0 {
+            NSLog("Program creation failed")
+            // exit(1)
         }
+        
+        let vertexShaderHandle = self.compileShader(vertexShaderName, shaderType: GLenum(GL_VERTEX_SHADER))
+        let fragmentShaderHandle = self.compileShader(fragmentShaderName, shaderType: GLenum(GL_FRAGMENT_SHADER))
+        
+        glAttachShader(self.program, vertexShaderHandle)
+        glAttachShader(self.program, fragmentShaderHandle)
+        
+        glBindAttribLocation(self.program, 0, "a_Position")
+        glLinkProgram(self.program)
+        
+        var linkStatus : GLint = 0
+        glGetProgramiv(self.program, GLenum(GL_LINK_STATUS), &linkStatus)
+        if linkStatus == GL_FALSE {
+            var infoLength : GLsizei = 0
+            let bufferLength : GLsizei = 1024
+            glGetProgramiv(self.program, GLenum(GL_INFO_LOG_LENGTH), &infoLength)
+            
+            let info : [GLchar] = Array(repeating: GLchar(0), count: Int(bufferLength))
+            var actualLength : GLsizei = 0
+            
+            glGetProgramInfoLog(self.program, bufferLength, &actualLength, UnsafeMutablePointer(mutating: info))
+            NSLog(String(validatingUTF8: info)!)
+            // exit(1)
+        }
+        
+        debug("initShader", "done")
+
     }
 
+    func compileShader(_ shaderName: String, shaderType: GLenum) -> GLuint {
+        let path = Bundle.main.path(forResource: shaderName, ofType: nil)
+        
+        do {
+            let shaderString = try NSString(contentsOfFile: path!, encoding: String.Encoding.utf8.rawValue)
+            let shaderHandle = glCreateShader(shaderType)
+            var shaderStringLength : GLint = GLint(Int32(shaderString.length))
+            var shaderCString = shaderString.utf8String
+            glShaderSource(
+                shaderHandle,
+                GLsizei(1),
+                &shaderCString,
+                &shaderStringLength)
+            
+            glCompileShader(shaderHandle)
+            var compileStatus : GLint = 0
+            glGetShaderiv(shaderHandle, GLenum(GL_COMPILE_STATUS), &compileStatus)
+            
+            if compileStatus == GL_FALSE {
+                var infoLength : GLsizei = 0
+                let bufferLength : GLsizei = 1024
+                glGetShaderiv(shaderHandle, GLenum(GL_INFO_LOG_LENGTH), &infoLength)
+                
+                let info : [GLchar] = Array(repeating: GLchar(0), count: Int(bufferLength))
+                var actualLength : GLsizei = 0
+                
+                glGetShaderInfoLog(shaderHandle, bufferLength, &actualLength, UnsafeMutablePointer(mutating: info))
+                NSLog(String(validatingUTF8: info)!)
+                // exit(1)
+            }
+            
+            return shaderHandle
+            
+        } catch {
+            exit(1)
+        }
+    }
 }

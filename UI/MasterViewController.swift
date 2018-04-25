@@ -369,6 +369,17 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
         }
     }
         
+    @IBOutlet weak var nodes_switch: UISwitch!
+    
+    @IBAction func nodes_action(_ sender: UISwitch) {
+        let effectOrNil = installedEffect(EffectType.nodes)
+        if (effectOrNil != nil) {
+            var effect = effectOrNil!
+            effect.enabled = sender.isOn
+            sender.isOn = effect.enabled
+        }
+    }
+    
     func installedEffect(_ type: EffectType) -> Effect? {
         return appModel?.viz.effect(forType: type)
     }
@@ -380,10 +391,11 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     func updateEffectsControls() {
         debug("updateEffectsControls")
         let viz = appModel!.viz
-        axes_switch.isOn = viz.effect(forType: EffectType.axes)?.enabled ?? false
+        axes_switch.isOn      = viz.effect(forType: EffectType.axes)?.enabled ?? false
         meridians_switch.isOn = viz.effect(forType: EffectType.meridians)?.enabled ?? false
-        net_switch.isOn = viz.effect(forType: EffectType.net)?.enabled ?? false
+        net_switch.isOn       = viz.effect(forType: EffectType.net)?.enabled ?? false
         surface_switch.isOn   = viz.effect(forType: EffectType.surface)?.enabled ?? false
+        nodes_switch.isOn     = viz.effect(forType: EffectType.nodes)?.enabled ?? false
     }
     
     // =======================================================================

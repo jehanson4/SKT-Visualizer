@@ -47,12 +47,13 @@
 		8A57601020805790002B9951 /* smooth-cool-warm-table-byte-0032.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8A57600020805790002B9951 /* smooth-cool-warm-table-byte-0032.csv */; };
 		8A57601120805790002B9951 /* smooth-cool-warm-table-float-0256.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8A57600120805790002B9951 /* smooth-cool-warm-table-float-0256.csv */; };
 		8A57601220805790002B9951 /* smooth-cool-warm-table-byte-0008.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8A57600220805790002B9951 /* smooth-cool-warm-table-byte-0008.csv */; };
-		8A5E948620751F5C003477D3 /* SimpleFragmentShader.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 8A5E948420751F5B003477D3 /* SimpleFragmentShader.glsl */; };
-		8A5E948720751F5C003477D3 /* SimpleVertexShader.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 8A5E948520751F5B003477D3 /* SimpleVertexShader.glsl */; };
+		8A5E948620751F5C003477D3 /* NodesFragmentShader.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 8A5E948420751F5B003477D3 /* NodesFragmentShader.glsl */; };
+		8A5E948720751F5C003477D3 /* NodesVertexShader.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 8A5E948520751F5B003477D3 /* NodesVertexShader.glsl */; };
 		8A5E9489207523DA003477D3 /* Shader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A5E9488207523DA003477D3 /* Shader.swift */; };
 		8A5E948E2078EE46003477D3 /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A5E948D2078EE46003477D3 /* Net.swift */; };
 		8A75B690208A317D00EACD13 /* Registry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B68F208A317D00EACD13 /* Registry.swift */; };
 		8A75B694208A771800EACD13 /* SKTModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B693208A771800EACD13 /* SKTModel.swift */; };
+		8A7CB9F42090A427007E3409 /* reset2.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A7CB9F32090A426007E3409 /* reset2.png */; };
 		8A84313820726F0100F06B9B /* Axes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A84313720726F0100F06B9B /* Axes.swift */; };
 		8A8D5965208CFAEF005550CD /* DiscreteParameterSequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A8D5964208CFAEF005550CD /* DiscreteParameterSequencer.swift */; };
 		8A8D5967208D0513005550CD /* AdjustableParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A8D5966208D0513005550CD /* AdjustableParameter.swift */; };
@@ -160,12 +161,13 @@
 		8A57600020805790002B9951 /* smooth-cool-warm-table-byte-0032.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "smooth-cool-warm-table-byte-0032.csv"; sourceTree = "<group>"; };
 		8A57600120805790002B9951 /* smooth-cool-warm-table-float-0256.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "smooth-cool-warm-table-float-0256.csv"; sourceTree = "<group>"; };
 		8A57600220805790002B9951 /* smooth-cool-warm-table-byte-0008.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "smooth-cool-warm-table-byte-0008.csv"; sourceTree = "<group>"; };
-		8A5E948420751F5B003477D3 /* SimpleFragmentShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SimpleFragmentShader.glsl; sourceTree = "<group>"; };
-		8A5E948520751F5B003477D3 /* SimpleVertexShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SimpleVertexShader.glsl; sourceTree = "<group>"; };
+		8A5E948420751F5B003477D3 /* NodesFragmentShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NodesFragmentShader.glsl; sourceTree = "<group>"; };
+		8A5E948520751F5B003477D3 /* NodesVertexShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NodesVertexShader.glsl; sourceTree = "<group>"; };
 		8A5E9488207523DA003477D3 /* Shader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shader.swift; sourceTree = "<group>"; };
 		8A5E948D2078EE46003477D3 /* Net.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Net.swift; sourceTree = "<group>"; };
 		8A75B68F208A317D00EACD13 /* Registry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registry.swift; sourceTree = "<group>"; };
 		8A75B693208A771800EACD13 /* SKTModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKTModel.swift; sourceTree = "<group>"; };
+		8A7CB9F32090A426007E3409 /* reset2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = reset2.png; sourceTree = "<group>"; };
 		8A84313720726F0100F06B9B /* Axes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Axes.swift; sourceTree = "<group>"; };
 		8A8D5964208CFAEF005550CD /* DiscreteParameterSequencer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscreteParameterSequencer.swift; sourceTree = "<group>"; };
 		8A8D5966208D0513005550CD /* AdjustableParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdjustableParameter.swift; sourceTree = "<group>"; };
@@ -303,8 +305,7 @@
 			isa = PBXGroup;
 			children = (
 				8A5E9488207523DA003477D3 /* Shader.swift */,
-				8A5E948420751F5B003477D3 /* SimpleFragmentShader.glsl */,
-				8A5E948520751F5B003477D3 /* SimpleVertexShader.glsl */,
+				8A7CB9F32090A426007E3409 /* reset2.png */,
 			);
 			path = Unused;
 			sourceTree = "<group>";
@@ -312,6 +313,9 @@
 		8A3C45B72086185B00A1E9CD /* Unfinished */ = {
 			isa = PBXGroup;
 			children = (
+				8A40BC0B207ECC7500F2D2EB /* Nodes.swift */,
+				8A5E948420751F5B003477D3 /* NodesFragmentShader.glsl */,
+				8A5E948520751F5B003477D3 /* NodesVertexShader.glsl */,
 			);
 			path = Unfinished;
 			sourceTree = "<group>";
@@ -356,7 +360,6 @@
 				8ACE788C2072E51800C29875 /* Icosahedron.swift */,
 				8A40BC0D207EEA3D00F2D2EB /* Meridians.swift */,
 				8ABEEC3A20803A2F008E72F4 /* Surface.swift */,
-				8A40BC0B207ECC7500F2D2EB /* Nodes.swift */,
 			);
 			path = Effects;
 			sourceTree = "<group>";
@@ -611,7 +614,7 @@
 				8AD81821207C9BD900426C25 /* image1-1024.png in Resources */,
 				8AF98F9B207FE80E0007688E /* index.html in Resources */,
 				8AE48BBF2087E63A001B5D11 /* background.css in Resources */,
-				8A5E948720751F5C003477D3 /* SimpleVertexShader.glsl in Resources */,
+				8A5E948720751F5C003477D3 /* NodesVertexShader.glsl in Resources */,
 				8AD8181B207C9BD900426C25 /* image1-20.png in Resources */,
 				8A57601020805790002B9951 /* smooth-cool-warm-table-byte-0032.csv in Resources */,
 				8AF98FA4207FE8B40007688E /* SettingsViewController.xib in Resources */,
@@ -623,9 +626,10 @@
 				8AA05A2320900692009417A6 /* ColorSourceSelectionViewController.xib in Resources */,
 				8AD81824207C9BD900426C25 /* image1-20@3x.png in Resources */,
 				8AD81827207C9BD900426C25 /* Contents.json in Resources */,
+				8A7CB9F42090A427007E3409 /* reset2.png in Resources */,
 				8A1CF01D207146540099DD97 /* Assets.xcassets in Resources */,
 				8AD81819207C9BD900426C25 /* image1-40@2x.png in Resources */,
-				8A5E948620751F5C003477D3 /* SimpleFragmentShader.glsl in Resources */,
+				8A5E948620751F5C003477D3 /* NodesFragmentShader.glsl in Resources */,
 				8A57601220805790002B9951 /* smooth-cool-warm-table-byte-0008.csv in Resources */,
 				8A1CF01B207146520099DD97 /* Main.storyboard in Resources */,
 				8AAF6DFF208167A800E4C9BF /* _ToDo.txt in Resources */,
