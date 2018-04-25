@@ -74,13 +74,13 @@ class SequencerSelectionViewController: UITableViewController, AppModelUser {
         button.setTitle(registry.entryNames[row], for: .normal)
         button.tag = row
         button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.lightGray.cgColor
         
-        // no margin!
-        // button.contentHorizontalAlignment = .left
-        
-        // no effect!
-        // button.layoutMargins.left = 16
-        
+        let selectedRow = registry.selection?.index
+        if (selectedRow != nil && selectedRow! == row) {
+            button.isSelected = true
+        }
     }
     
     @objc func buttonAction(sender: UIButton!) {

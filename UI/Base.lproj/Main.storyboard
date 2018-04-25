@@ -581,7 +581,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="done" id="FUp-9e-d6R">
                             <button key="customView" opaque="NO" contentMode="right" contentHorizontalAlignment="right" contentVerticalAlignment="fill" buttonType="roundedRect" lineBreakMode="middleTruncation" id="XA9-Ix-gJ4">
-                                <rect key="frame" x="269" y="5.5" width="35" height="33"/>
+                                <rect key="frame" x="269" y="6" width="35" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <state key="normal" title="&gt;&gt;&gt;"/>
@@ -621,40 +621,41 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DKD-mF-e2d" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="624.79999999999995" y="-331.48425787106447"/>
+            <point key="canvasLocation" x="449" y="-331"/>
         </scene>
         <!--ColorSourcePop-->
         <scene sceneID="FHe-FN-UGP">
             <objects>
                 <tableViewController title="ColorSourcePop Controller" modalTransitionStyle="crossDissolve" modalPresentationStyle="overCurrentContext" id="34H-Ki-NCN" userLabel="ColorSourcePop" customClass="ColorSourceSelectionViewController" customModule="SKT_Visualizer" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="singleLineEtched" rowHeight="45" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="gxS-9a-t8i" userLabel="ColorSourcePop View">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="singleLineEtched" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="gxS-9a-t8i" userLabel="ColorSourcePop View">
+                        <rect key="frame" x="0.0" y="0.0" width="256" height="400"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="separatorColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <tableView key="tableFooterView" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="9Xa-cE-WWI">
-                            <rect key="frame" x="0.0" y="73" width="375" height="44"/>
+                        <tableView key="tableFooterView" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="9Xa-cE-WWI">
+                            <rect key="frame" x="0.0" y="72" width="256" height="400"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </tableView>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="colorSourceRegistryEntryCell" id="fST-0u-SU7">
-                                <rect key="frame" x="0.0" y="28" width="375" height="45"/>
+                                <rect key="frame" x="0.0" y="28" width="256" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fST-0u-SU7" id="kPN-Zq-m2v">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="256" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jfe-OK-K6e">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44.5"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jfe-OK-K6e">
+                                            <rect key="frame" x="0.0" y="0.0" width="256" height="44"/>
+                                            <inset key="titleEdgeInsets" minX="16" minY="0.0" maxX="0.0" maxY="0.0"/>
                                             <state key="normal" title="Button"/>
                                         </button>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="trailing" secondItem="jfe-OK-K6e" secondAttribute="trailing" id="4R5-lm-Aiy"/>
-                                        <constraint firstAttribute="bottom" secondItem="jfe-OK-K6e" secondAttribute="bottom" id="Abo-2R-FHT"/>
+                                        <constraint firstItem="jfe-OK-K6e" firstAttribute="trailing" secondItem="kPN-Zq-m2v" secondAttribute="trailing" id="4R5-lm-Aiy"/>
+                                        <constraint firstAttribute="bottom" secondItem="jfe-OK-K6e" secondAttribute="bottom" id="CcS-n5-YCi"/>
+                                        <constraint firstItem="jfe-OK-K6e" firstAttribute="top" secondItem="kPN-Zq-m2v" secondAttribute="top" id="L66-k0-J8g"/>
                                         <constraint firstItem="jfe-OK-K6e" firstAttribute="leading" secondItem="kPN-Zq-m2v" secondAttribute="leading" id="Llg-IN-tYP"/>
-                                        <constraint firstItem="jfe-OK-K6e" firstAttribute="top" secondItem="kPN-Zq-m2v" secondAttribute="top" id="U84-J7-8H7"/>
                                     </constraints>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -666,12 +667,12 @@
                         </connections>
                     </tableView>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="128" height="384"/>
+                    <value key="contentSizeForViewInPopover" type="size" width="180" height="250"/>
+                    <size key="freeformSize" width="256" height="400"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GEt-8i-4zJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1801" y="-1947"/>
+            <point key="canvasLocation" x="1365" y="-1869"/>
         </scene>
         <!--Master Navigation Controller-->
         <scene sceneID="jzL-Fv-J3k">
@@ -765,7 +766,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fAO-ou-dKh" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="vDh-sL-m6k" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1877" y="772"/>
+            <point key="canvasLocation" x="1365" y="696"/>
         </scene>
         <!--Settings Controller-->
         <scene sceneID="4u8-ir-dWX">
@@ -1035,7 +1036,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KK4-Zz-UnV" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="yKA-or-wuf" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1801" y="-332"/>
+            <point key="canvasLocation" x="1365" y="-331"/>
         </scene>
         <!--Split View Controller-->
         <scene sceneID="gMr-bh-oVR">
@@ -1067,39 +1068,41 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RZr-S4-BI5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1229" y="772"/>
+            <point key="canvasLocation" x="941" y="696"/>
         </scene>
         <!--SequencerPop-->
         <scene sceneID="oif-dF-sLa">
             <objects>
                 <tableViewController title="ColorSourcePop Controller" modalTransitionStyle="crossDissolve" modalPresentationStyle="overCurrentContext" id="W2e-t1-c6X" userLabel="SequencerPop" customClass="SequencerSelectionViewController" customModule="SKT_Visualizer" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="singleLineEtched" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="CV0-LY-hAl" userLabel="SequencerPop View">
+                        <rect key="frame" x="0.0" y="0.0" width="256" height="400"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="separatorColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <tableView key="tableFooterView" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="EDJ-Ov-ZXj">
-                            <rect key="frame" x="0.0" y="72" width="0.0" height="44"/>
+                        <tableView key="tableFooterView" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="EDJ-Ov-ZXj">
+                            <rect key="frame" x="0.0" y="72" width="256" height="400"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </tableView>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="sequencerRegistryEntryCell" id="Nnc-fV-6oV">
-                                <rect key="frame" x="0.0" y="28" width="0.0" height="44"/>
+                                <rect key="frame" x="0.0" y="28" width="256" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Nnc-fV-6oV" id="uin-dd-d16">
-                                    <rect key="frame" x="0.0" y="0.0" width="0.0" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="256" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WvG-GC-ZTq">
-                                            <rect key="frame" x="0.0" y="0.0" width="0.0" height="43.5"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WvG-GC-ZTq">
+                                            <rect key="frame" x="0.0" y="0.0" width="256" height="44"/>
+                                            <inset key="titleEdgeInsets" minX="16" minY="0.0" maxX="0.0" maxY="0.0"/>
                                             <state key="normal" title="Button"/>
                                         </button>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="WvG-GC-ZTq" firstAttribute="leading" secondItem="uin-dd-d16" secondAttribute="leading" id="8Qk-rq-e3O"/>
-                                        <constraint firstAttribute="bottom" secondItem="WvG-GC-ZTq" secondAttribute="bottom" id="8a7-sA-h8z"/>
-                                        <constraint firstAttribute="trailing" secondItem="WvG-GC-ZTq" secondAttribute="trailing" id="fh4-q2-5ei"/>
-                                        <constraint firstItem="WvG-GC-ZTq" firstAttribute="top" secondItem="uin-dd-d16" secondAttribute="top" id="iEv-wA-bBM"/>
+                                        <constraint firstAttribute="bottom" secondItem="WvG-GC-ZTq" secondAttribute="bottom" id="Co6-34-uul"/>
+                                        <constraint firstItem="WvG-GC-ZTq" firstAttribute="top" secondItem="uin-dd-d16" secondAttribute="top" id="TVO-yU-eLs"/>
+                                        <constraint firstItem="WvG-GC-ZTq" firstAttribute="trailing" secondItem="uin-dd-d16" secondAttribute="trailing" id="fh4-q2-5ei"/>
                                     </constraints>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -1111,12 +1114,12 @@
                         </connections>
                     </tableView>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="256" height="384"/>
+                    <value key="contentSizeForViewInPopover" type="size" width="180" height="250"/>
+                    <size key="freeformSize" width="256" height="400"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iGj-EZ-FRw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1801" y="-1159"/>
+            <point key="canvasLocation" x="1365" y="-1073"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

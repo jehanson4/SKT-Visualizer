@@ -312,7 +312,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     @IBOutlet weak var colorSourceDrop: UIButton!
     
     func configureColorSourceControls() {
-        colorSourceDrop.layer.borderWidth = 2
+        colorSourceDrop.layer.borderWidth = 1
         colorSourceDrop.layer.borderColor = UIColor.lightGray.cgColor
     }
     
@@ -405,7 +405,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     @IBOutlet weak var sequencerDrop: UIButton!
     
     func configureSequencerControls() {
-        sequencerDrop.layer.borderWidth = 2
+        sequencerDrop.layer.borderWidth = 1
         sequencerDrop.layer.borderColor = UIColor.lightGray.cgColor
     }
     

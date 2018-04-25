@@ -76,13 +76,14 @@ class ColorSourceSelectionViewController: UITableViewController, AppModelUser {
         button.setTitle(registry.entryNames[row], for: .normal)
         button.tag = row
         button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
-
-        // no margin!
-        // button.contentHorizontalAlignment = .left
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.lightGray.cgColor
         
-        // no effect!
-        // button.layoutMargins.left = 16
-
+        let selectedRow = registry.selection?.index
+        if (selectedRow != nil && selectedRow! == row) {
+            button.isSelected = true
+            // button.layer.backgroundColor = UIColor.lightGray.cgColor
+        }
     }
     
     @objc func buttonAction(sender: UIButton!) {

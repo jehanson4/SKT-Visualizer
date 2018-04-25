@@ -6,11 +6,6 @@ ToDo.txt
     [ ] either DELETE or hook up the sequencer steppers
     [ ] stepper direction buttons behave weirdly
 
-[ ] popover appearance
-    [ ] popover size
-    [ ] border around cells in popovers
-    [ ] highlight current selection in popovers
-
 [ ] Nodes
 
 

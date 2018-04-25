@@ -260,13 +260,6 @@ class VisualizationModel1 : VisualizationModel {
             SKPhysics.T_defaultStepSize
         ), false)
         
-        registerSequencer(ContinuousParameterSequencer(
-            skt.beta,
-            SKPhysics.beta_defaultLowerBound,
-            SKPhysics.beta_defaultUpperBound,
-            SKPhysics.beta_defaultStepSize
-        ), false)
-                
         sequencerChangeMonitor = sequencers.monitorChanges(sequencerSelectionChanged)
     }
     
