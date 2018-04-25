@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, AppModelUser {
+class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser {
     
     let name = "MasterViewController"
     var debugEnabled = false
@@ -30,15 +30,9 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         a1_text.delegate = self
         a2_text.delegate = self
         T_text.delegate = self
-        beta_text.delegate = self
         
-        colorSourcePicker.delegate = self
-        colorSourcePicker.dataSource = self
-        colorSourcePicker.tag = colorSourcePickerTag
-        
-        sequencerPicker.delegate = self
-        sequencerPicker.dataSource = self
-        sequencerPicker.tag = sequencerPickerTag
+        configureColorSourceControls()
+        configureSequencerControls()
         
         ub_text.delegate = self
         lb_text.delegate = self
@@ -68,11 +62,9 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
             T_update(skt.T)
             T_monitor = skt.T.monitorChanges(T_update)
             
-            beta_update(skt.beta)
-            beta_monitor = skt.beta.monitorChanges(beta_update)
-            
             debug(mtd, "Updating color source controls")
             updateColorSourceControls(appModel!.viz.colorSources)
+            
             debug(mtd, "Starting to monitor color source selection changes")
             colorSourceMonitor = appModel!.viz.colorSources.monitorChanges(updateColorSourceControls)
             
@@ -305,44 +297,30 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         T_stepper.value = param.value
     }
     
-    // ====================================================================
-    // beta
-    // ====================================================================
+    // =======================================================================
+    // All control paramters
+    // =======================================================================
 
-    @IBOutlet weak var beta_text: UITextField!
-    @IBOutlet weak var beta_stepper: UIStepper!
-    
-    @IBAction func beta_textAction(_ sender: UITextField) {
-        let param = appModel?.skt.beta
-        if (param != nil && sender.text != nil) {
-            param!.valueStr = sender.text!
-        }
-        // MAYBE beta_update(param)
-    }
-    
-    @IBAction func beta_stepperAction(_ sender: UIStepper) {
-        let param = appModel?.skt.beta
-        if (param != nil) {
-            param!.value = sender.value
-        }
-        // MAYBE beta_update(param)
-    }
-    
-    var beta_monitor: ChangeMonitor!
-    
-    func beta_update(_ param: ContinuousParameter) {
-        beta_text.text = param.valueStr
-        
-        beta_stepper.minimumValue = param.min
-        T_stepper.maximumValue = param.max
-        T_stepper.stepValue = param.stepSize
-        T_stepper.value = param.value
-    }
-    
     @IBAction func resetControlParameters(_ sender: Any) {
         appModel?.skt.resetParameters()
     }
 
+    // =======================================================================
+    // Color source
+    // =======================================================================
+    
+    @IBOutlet weak var colorSourceDrop: UIButton!
+    
+    func configureColorSourceControls() {
+        colorSourceDrop.layer.borderWidth = 2
+        colorSourceDrop.layer.borderColor = UIColor.lightGray.cgColor
+    }
+    
+    func updateColorSourceControls(_ sender: Any) {
+        let selectionName = appModel?.viz.colorSources.selection?.name ?? "<none>"
+        colorSourceDrop.setTitle(selectionName, for: .normal)
+    }
+    
     // ====================================================================
     // Effects
     // ====================================================================
@@ -390,33 +368,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
             sender.isOn = effect.enabled
         }
     }
-    
-//    @IBOutlet weak var nodes_switch: UISwitch!
-//
-//    @IBAction func nodes_action(_ sender: UISwitch) {
-//        let effectName = installedEffects[EffectType.nodes]
-//        let effectOrNil: Effect? = appModel?.viz.effects.entry(effectName)?.value
-//        if (effectOrNil != nil) {
-//            var effect = effectOrNil!
-//            effect.enabled = sender.isOn
-//            sender.isOn = effect.enabled
-//        }
-//    }
-//
-    //    @IBOutlet weak var icosahedron_switch: UISwitch!
-    //
-    //    @IBAction func icosahedron_action(_ sender: UISwitch) {
-    //        // message("icosahedron_action: sender.isOn=", sender.isOn)
-    //        if (model != nil) {
-    //            let mm: ModelController = model!
-    //            var effect = mm.getEffect(Icosahedron.type)
-    //            if (effect != nil) {
-    //                effect!.enabled = sender.isOn
-    //            }
-    //        updateEffectControls(mm)
-    //        }
-    //    }
-    
+        
     func installedEffect(_ type: EffectType) -> Effect? {
         return appModel?.viz.effect(forType: type)
     }
@@ -435,111 +387,32 @@ class MasterViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     }
     
     // =======================================================================
-    // Color source & sequencer pickers
+    // Sequencer selection
     // =======================================================================
-
-    // This font size needs to be kept in sync with Main.storyboard
-    let pickerLabelFontSize: CGFloat = 15.0
     
-    @IBOutlet weak var colorSourcePicker: UIPickerView!
-    let colorSourcePickerTag = 0
+    @IBOutlet weak var sequencerDrop: UIButton!
     
-    @IBOutlet weak var sequencerPicker: UIPickerView!
-    let sequencerPickerTag = 1
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        // same for all pickers
-        return 1
+    func configureSequencerControls() {
+        sequencerDrop.layer.borderWidth = 2
+        sequencerDrop.layer.borderColor = UIColor.lightGray.cgColor
     }
     
-    //    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-    //
-    //        // also done in the label customization below.
-    //        // TODO should only do it in one place.
-    //        //        if pickerView.tag == colorSourcePickerTag {
-    //        //            return (model == nil) ? nil : model!.colorSourceNames[row]
-    //        //        }
-    //        //        if pickerView.tag == sequencerPickerTag {
-    //        //            return (model == nil) ? nil : model!.sequencerNames[row]
-    //        //        }
-    //        return nil
-    //    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if pickerView.tag == colorSourcePickerTag {
-            return appModel?.viz.colorSources.entryNames.count ?? 0
-        }
-        if pickerView.tag == sequencerPickerTag {
-            return appModel?.viz.sequencers.entryNames.count ?? 0
-        }
-        return 0
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
-        var pickerLabel = view as? UILabel
-        
-        // same style for all pickers
-        if (pickerLabel == nil) {
-            pickerLabel = UILabel()
-            pickerLabel?.font = UIFont(name: "System", size: pickerLabelFontSize)
-            pickerLabel?.textAlignment = NSTextAlignment.center
-        }
-        
-        // see above
-        if pickerView.tag == colorSourcePickerTag {
-            let label = appModel?.viz.colorSources.entryNames[row]
-            debug("telling color source picker to use label \(label ?? "nil")) for row \(row)")
-            pickerLabel?.text = label
-        }
-        else if pickerView.tag == sequencerPickerTag {
-            let label = appModel?.viz.sequencers.entryNames[row]
-            debug("telling sequencer picker to use label \(label ?? "nil")) for row \(row)")
-            pickerLabel?.text = label
-        }
-        
-        return pickerLabel!
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        
-        if (pickerView.tag == colorSourcePickerTag) {
-            appModel?.viz.colorSources.select(row)
-        }
-        
-        if (pickerView.tag == sequencerPickerTag) {
-            debug("pickerView", "sequencerPicker row \(row)")
-            appModel?.viz.sequencers.select(row)
-        }
-    }
-    
-    func updateColorSourceControls(_ sender: Any) {
-        let selection = appModel?.viz.colorSources.selection
-        if (selection == nil) {
-            debug("updateColorSourceControls", "No color source is selected")
-            return
-        }
-        let sel = selection!
-        debug("updateColorSourceControls", "telling colorSourcePicker to select row \(sel.index): \(sel.name)")
-        colorSourcePicker.selectRow(sel.index, inComponent: 0, animated: false)
-    }
-
     func updateSequencerControls(_ sender: Any) {
+        let selectionName = appModel?.viz.sequencers.selection?.name ?? "<none>"
+        sequencerDrop.setTitle(selectionName, for: .normal)
+        
+        if (sequencerParamsMonitor != nil) {
+            sequencerParamsMonitor!.disconnect()
+            debug("updateSequencerControls", "stopped monitoring the old sequencer")
+        }
+        
         let selection = appModel?.viz.sequencers.selection
         if (selection == nil) {
             debug("updateSequencerControls", "No sequencer is selected")
             return
         }
         
-        let sel = selection!
-        var seq = sel.value
-        debug("updateSequencerControls", "telling picker to select row \(sel.index): \(sel.name)")
-        sequencerPicker.selectRow(sel.index, inComponent: 0, animated: false)
-        
-        if (sequencerParamsMonitor != nil) {
-            sequencerParamsMonitor!.disconnect()
-            debug("updateSequencerControls", "stopped monitoring the old sequencer")
-        }
-
+        var seq = selection!.value
         seq.reset()
         seq.enabled = false
 

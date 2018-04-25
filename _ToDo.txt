@@ -1,36 +1,22 @@
 ==================================================================================
 ToDo.txt
 ==================================================================================
+
+
+[ ] either DELETE or hook up the sequencer steppers
+
+[ ] stepper direction buttons behave weirdly
+
+[ ] why is basin color-source not showing final basins?
+
 ABOVE THE LINE
-
-[ ] hookup sequencer param steppers
-
-
-[ ] MANUAL stepping thru a sequence -- needed for basinfinder anyway!
-    means redesign w. fwd/rev sticky
-tap gesture maybe unchanged
-
------------------------
-
-[ ] basin finder doesn't fit into my separation of color sources & sequencers
-....we,,ok, it sorta does. we could show how basins change (@ given generation)
-as func of N, a1, etc.
-
-so there's an underlying param, "#generations" that doesn't have a good home
-
-it's because we're trying to show movie of somethign that's itself changing, as opposed
-to a bunch of pictures taken under changing conditions
-
-sopport THIS as paradigmatic case.
-
-basin color source doesn't access basinfinder step number but it does access basinfinder node data
-
-'presets' that pick color source and sequencer
-
 ==================================================================================
 THE LINE
 ==================================================================================
 BELOW THE LINE
+
+[ ] basinfinder change iteration order by quadrant
+doesn't seem to be affected by k0; it's in quarters no matter what
 
 
 [ ] all the change monitor guys impl the new protocol

@@ -70,8 +70,6 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
         let mtdName = "prepare for seque"
         debug(mtdName, "destination: \(segue.destination.title ?? "(no title)")")
         
-        // TODO what about disconnecting monitors?
-        
         if (segue.destination is AppModelUser) {
             var d2 = segue.destination as! AppModelUser
             if (d2.appModel != nil) {
@@ -85,6 +83,15 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
         else {
             debug(mtdName, "destination is not an app model user")
         }
+        
+        let segueID = (segue.identifier == nil) ? "nil" : segue.identifier!
+        debug(mtdName, "segue.identifier=\(segueID)")
+//        if (segueID == MagicStrings.colorSourceDroplistSegue &&
+//            segue.destination is RegistrySelectionViewController) {
+//            debug(mtdName, "seque.dest is droplist for color sources!")
+//            var d2 = segue.destination as! RegistrySelectionViewController
+//            d2.registry = appModel?.viz.colorSources
+//        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -208,30 +215,13 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
         dT_text.text = T.stepSizeStr
     }
 
-    // =========================
+    // ===============================================================
     // POV
-    
+    // ===============================================================
+
     @IBAction func resetViewParams(_ sender: Any) {
         appModel?.viz.resetPOV()
     }
     
-    // ========================
-    // Basins
-    
-    @IBAction func doBasins(_ sender: Any) {
-        let bf: BasinFinder? = appModel?.skt.basinFinder
-        if (bf == nil) {
-            return
-        }
-        let basins = bf!
-        
-        // basins.findBasins()
-        if (basins.isIterationDone) {
-            // basins.reset()
-        }
-        else {
-            basins.expandBasins()
-        }
-    }
     
 }

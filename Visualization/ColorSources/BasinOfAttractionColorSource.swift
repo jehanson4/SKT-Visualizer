@@ -26,7 +26,7 @@ class BasinOfAttractionColorSource : ColorSource {
     private var basinBoundary_color: GLKVector4 // black
     private var basin_colors: [GLKVector4]
     
-    private var washoutNorm: GLfloat = 1.5
+    private var washoutNorm: GLfloat = 1.0
     
     init(_ basinFinder: BasinFinder, findBasins: Bool = true, expectedBasinCount: Int = 4) {
         self.basinFinder = basinFinder
