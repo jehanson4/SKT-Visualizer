@@ -14,11 +14,27 @@
 
 import Foundation
 import GLKit
-//#if os(iOS) || os(tvOS)
-//import OpenGLES
-//#else
-//import OpenGL
-//#endif
+
+// =================================================================
+// Conditional imports & type aliasing to hide platform differences
+// =================================================================
+
+#if os(iOS) || os(tvOS)
+
+import OpenGLES
+typealias GLContext = EAGLContext
+
+#else
+
+// guessing here....
+import OpenGL
+typealias GLContext = NSOpenGLContext
+
+#endif
+
+// =================================================================
+// Misc helpers
+// =================================================================
 
 /// struct with position & normal coords
 struct PNVertex {

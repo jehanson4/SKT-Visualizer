@@ -23,18 +23,18 @@ class VisualizationModel1 : VisualizationModel {
     var debugEnabled = false
     
     private var skt: SKTModel
+    private var glContext: GLContext? = nil
     
     init(_ skt: SKTModel) {
         self.skt = skt
-        
         
         initPOV()
         initColorSources()
         initSequencers()
         
         // Don't do graphics or effects here; wait for the GL-aware
-        // part of the UI to call setupGraphics(). There needs to be some
-        // setup first
+        // part of the UI to call setupGraphics(). It needs to do some
+        // work on its own first.
     }
     
     private func debug(_ mtd: String, _ msg: String = "") {
@@ -346,11 +346,13 @@ class VisualizationModel1 : VisualizationModel {
     private var aspectRatio: Float = 1
     
     
-    func setupGraphics() {
+    func setupGraphics(_ context: GLContext?) {
         if (graphicsSetupDone) {
             debug("setupGraphics", "already done; returning")
             return
         }
+        
+        self.glContext = context
         
         // Needs to be in separate method so the GLKViewController does it.
         configureGL()

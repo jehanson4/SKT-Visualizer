@@ -198,7 +198,7 @@ class SKTModel1: SKTModel {
     // Other things
     // ======================================
     
-    lazy var basinFinder: BasinFinder! = BasinFinder1(geometry, physics)
+    lazy var basinFinder: BasinFinder! = BasinFinder2(geometry, physics)
     
 }
 

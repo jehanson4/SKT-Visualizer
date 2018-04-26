@@ -49,7 +49,7 @@ protocol VisualizationModel {
     
     func toggleSequencer()
     
-    func setupGraphics()
+    func setupGraphics(_ context: GLContext?)
     
     func draw(_ drawableWidth: Int, _ drawableHeight: Int)
     

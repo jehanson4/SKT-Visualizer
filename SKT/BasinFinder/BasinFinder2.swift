@@ -9,15 +9,15 @@
 import Foundation
 
 // ============================================================================
-// BasinFinder1
+// BasinFinder2
 // ============================================================================
 
-class BasinFinder1 : BasinFinder {
+class BasinFinder2 : BasinFinder {
     
     var debugEnabled = false
-    var infoEnabled = true
+    var infoEnabled = false
     
-    var name: String = "BasinFinder1"
+    var name: String = "BasinFinder2"
     var info: String? = nil
     
     private var geometry: SKGeometry
@@ -436,9 +436,52 @@ class BasinFinder1 : BasinFinder {
         
         debug(mtd, "starting pass over nodes")
         var numNewlyClassified = 0
-        for nd in nodeData {
-            numNewlyClassified += classify(nd)
+        let m_max = geometry.m_max
+        let n_max = geometry.n_max
+        let n_mid = n_max / 2 + 1
+        let m_mid = m_max / 2 + 1
+        for m in 0...m_mid {
+            for n in 0...n_mid {
+                numNewlyClassified += classify(nodeAt(m,n)!)
+                numNewlyClassified += classify(nodeAt(m,n_max-n)!)
+                numNewlyClassified += classify(nodeAt(m_max-m,n)!)
+                numNewlyClassified += classify(nodeAt(m_max-m,n_max-n)!)
+            }
         }
+
+
+        
+//
+        // RED
+        // 1. m lo, n lo
+//        for m in 0...m_mid {
+//            for n in 0...n_mid {
+//                numNewlyClassified += classify(nodeAt(m,n)!)
+//            }
+//        }
+//
+//        // GREEN
+//        // 2. m lo, n hi
+//        for m in 0...m_mid {
+//            for n in n_max...n_mid {
+//                numNewlyClassified += classify(nodeAt(m,n)!)
+//            }
+//        }
+//
+//        // 3. m hi, n lo
+//        for m in m_mid...m_max {
+//            for n in 0...n_mid {
+//                numNewlyClassified += classify(nodeAt(m,n)!)
+//            }
+//        }
+      //
+//        // 4. m hi, n hi
+//        for m in m_mid...m_max {
+//            for n in n_mid...n_max {
+//                numNewlyClassified += classify(nodeAt(m,n)!)
+//            }
+//        }
+
         if (numNewlyClassified == 0) {
             _iterationDone = true
         }

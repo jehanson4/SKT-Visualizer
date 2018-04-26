@@ -300,17 +300,17 @@ class Nodes : Effect {
         glAttachShader(self.programHandle, vertexShaderName)
         glAttachShader(self.programHandle, fragmentShaderName)
         
-        // MAYBE ok -- these string literals are used in vertex shader
+        // These string literals are used in vertex shader
         glBindAttribLocation(self.programHandle, GLenum(VertexAttrib.position.rawValue), "a_Position")
         glBindAttribLocation(self.programHandle, GLenum(VertexAttrib.color.rawValue), "a_Color")
         
         glLinkProgram(self.programHandle)
         
-        // MAYBE ok -- these string literals are used in vertex shader
+        // These string literals are used in vertex shader
         self.modelViewMatrixUniform  = glGetUniformLocation(self.programHandle, "u_ModelViewMatrix")
         self.projectionMatrixUniform = glGetUniformLocation(self.programHandle, "u_ProjectionMatrix")
         self.pointSizeUniform        = glGetUniformLocation(self.programHandle, "u_PointSize")
-        
+
         var linkStatus : GLint = 0
         glGetProgramiv(self.programHandle, GLenum(GL_LINK_STATUS), &linkStatus)
         if linkStatus == GL_FALSE {

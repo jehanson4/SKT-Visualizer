@@ -103,6 +103,7 @@
 		8AD9DAC620914E020062457C /* TexturedFragmentShader.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 8AD9DAC020914E010062457C /* TexturedFragmentShader.glsl */; };
 		8AD9DAC820914E020062457C /* PointSpriteVertexShader.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 8AD9DAC220914E010062457C /* PointSpriteVertexShader.glsl */; };
 		8AD9DACB20914E3D0062457C /* Balls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AD9DACA20914E3D0062457C /* Balls.swift */; };
+		8AD9DACF2091E7360062457C /* BasinFinder2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AD9DACE2091E7360062457C /* BasinFinder2.swift */; };
 		8AE48BBB2087857C001B5D11 /* GLUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE48BBA2087857C001B5D11 /* GLUtils.swift */; };
 		8AE48BBF2087E63A001B5D11 /* background.css in Resources */ = {isa = PBXBuildFile; fileRef = 8AE48BBE2087E639001B5D11 /* background.css */; };
 		8AF5320920887329009D1882 /* BasinOfAttractionColorSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF5320820887329009D1882 /* BasinOfAttractionColorSource.swift */; };
@@ -218,6 +219,7 @@
 		8AD9DAC020914E010062457C /* TexturedFragmentShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TexturedFragmentShader.glsl; sourceTree = "<group>"; };
 		8AD9DAC220914E010062457C /* PointSpriteVertexShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PointSpriteVertexShader.glsl; sourceTree = "<group>"; };
 		8AD9DACA20914E3D0062457C /* Balls.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Balls.swift; sourceTree = "<group>"; };
+		8AD9DACE2091E7360062457C /* BasinFinder2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasinFinder2.swift; sourceTree = "<group>"; };
 		8AE48BBA2087857C001B5D11 /* GLUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GLUtils.swift; sourceTree = "<group>"; };
 		8AE48BBE2087E639001B5D11 /* background.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = background.css; sourceTree = "<group>"; };
 		8AF5320820887329009D1882 /* BasinOfAttractionColorSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasinOfAttractionColorSource.swift; sourceTree = "<group>"; };
@@ -406,6 +408,7 @@
 			isa = PBXGroup;
 			children = (
 				8AA05A05208E7771009417A6 /* BasinFinder1.swift */,
+				8AD9DACE2091E7360062457C /* BasinFinder2.swift */,
 				8AA05A09208E7F4B009417A6 /* BasinFinder.swift */,
 				8AA05A16208FE6A9009417A6 /* BasinHelpers.swift */,
 			);
@@ -678,6 +681,7 @@
 				8AA0637D207A89DD00BB68DB /* SKPhysics.swift in Sources */,
 				8A8D596F208D131F005550CD /* ContinuousParameter.swift in Sources */,
 				8AD823B4208E36CB0045F3B1 /* PhysicalProperty.swift in Sources */,
+				8AD9DACF2091E7360062457C /* BasinFinder2.swift in Sources */,
 				8A8D5965208CFAEF005550CD /* DiscreteParameterSequencer.swift in Sources */,
 				8AD9DACB20914E3D0062457C /* Balls.swift in Sources */,
 				8A3BBBB7208BC28A00669227 /* VisualizationModel1.swift in Sources */,

@@ -2,11 +2,15 @@
 ToDo.txt
 ==================================================================================
 
+For 1.0.2
 
 [ ] sequencer UI controls
     [ ] DELETE the sequencer steppers
     [ ] stepper direction buttons behave weirdly
     [ ] looks bad
+
+[ ] I don't trust the BofA results. Verify!
+
 
 ABOVE THE LINE
 ==================================================================================
@@ -16,28 +20,22 @@ BELOW THE LINE
 
 [ ] auto-resize Nodes sprites
 
-[ ] texture nodes to make them look like balls
+[ ] add texture to the sprites to make them look like balls
 
 [MAYBE] add steppers to the sequencer controls
 
-[ ] p2 guys no longer right-justified
+[ ] p2 guys no longer right-justified; FIX.
 
 [ ] basinfinder change iteration order by quadrant
-doesn't seem to be affected by k0; it's in quarters no matter what
+...doesn't seem to be affected by k0; it's in quarters no matter what
 
 [ ] all the change monitor guys impl the new protocol
 
 [ ] rescale alpha by -100 so it goes 0 -> 100 not -1 -> 0
 
-[ ] basins color source
-    color saturation goes down w/ distance from well.
-    scale to get it pretty-washed-out at N/2
-    boundaries are still black
-
 [ ] alternative name for "PhysicalProperty". shorter. should indicate that it's "derived" or "emergent" rather than "defininig"
 
-[ ] Nodes effect
-    custom shader. point spite image of a ball w/ nice highlight
+[ ] Nodes  custom shader. point spite uses image of a ball w/ nice highlight
 
 [ ] scroll & pan: track finger *exactly*
 
@@ -57,7 +55,7 @@ has ui section for 'Parameter Defaults'
     parameter-defaults can be in a scrollview
 ----------------------------------
 
-[ ] width of text widget stretches automatically to fix . . . a priority thing?
+[ ] width of text widget stretches automatically to fit . . . a priority thing?
 
 [ ] I think we're looking at the underside of the hemisphere
 

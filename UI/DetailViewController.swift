@@ -40,7 +40,6 @@ class DetailViewController: GLKViewController, AppModelUser {
         if self.context == nil {
             NSLog("Failed to create ES context")
         }
-        
         EAGLContext.setCurrent(self.context)
         
         let view = self.view as! GLKView
@@ -52,7 +51,7 @@ class DetailViewController: GLKViewController, AppModelUser {
         }
         else {
             debug("viewDidLoad", "setting up graphics")
-            appModel!.viz.setupGraphics()
+            appModel!.viz.setupGraphics(context)
         }
     }
 

@@ -146,6 +146,7 @@ class Balls : Effect {
         glUniformMatrix4fv(projectionMatrixUniform, 1, GLboolean(GL_FALSE), projectionMatrix.array)
         glUniformMatrix4fv(modelViewMatrixUniform, 1, GLboolean(GL_FALSE), modelviewMatrix.array)
         glUniform1f(pointSizeUniform, pointSize)
+        
     }
     
     var drawCounter: Int = 0
