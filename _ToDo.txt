@@ -8,18 +8,17 @@ ToDo.txt
     [ ] stepper direction buttons behave weirdly
     [ ] looks bad
 
-[ ] Nodes
-
-
 ABOVE THE LINE
 ==================================================================================
 THE LINE
 ==================================================================================
 BELOW THE LINE
 
+[ ] auto-resize Nodes sprites
 
+[ ] texture nodes to make them look like balls
 
-[ ] steppers in the sequencer controls
+[MAYBE] add steppers to the sequencer controls
 
 [ ] p2 guys no longer right-justified
 

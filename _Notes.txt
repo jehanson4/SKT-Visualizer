@@ -2,6 +2,20 @@
 Notes.txt
 ==================================================================================
 
+
+-----------------------------------
+from https://www.raywenderlich.com/5223/beginning-opengl-es-2-0-with-glkit-part-1
+
+By default, the GLKView only updates itself on an as-needed basis - i.e. when views are first shown, the size changes, or the like. However for game programming, you often need to redraw every frame!
+
+We can disable this default behavior of GLKView by setting enableSetNeedsDisplay to false. Then, we can control when the redrawing occurs by calling the display method on GLKView whenever we want to update the screen.
+
+Ideally we would like to synchronize the time we render with OpenGL to the rate at which the screen refreshes.
+
+Luckily, Apple provides an easy way for us to do this with CADisplayLink! It’s really easy to use so let’s just dive in. First add this import to the top of AppDelegate.m:
+
+------------------------------------
+
 /**
 m = #steps to the RIGHT of p1. max = k
 n = #steps to the LEFT of p1 (= #steps to the RIGHT of p2). max = N-k
