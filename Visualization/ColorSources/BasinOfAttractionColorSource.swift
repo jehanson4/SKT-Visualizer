@@ -12,12 +12,12 @@ import GLKit
 class BasinOfAttractionColorSource : ColorSource {
 
     var debugEnabled = false
+
+    // EMPIRICAL
+    var washoutFudgeFactor: GLfloat = 0.5
     
     var name: String = "Basins"
     var info: String? = nil
-    
-    // EMPIRICAL
-    var washoutFudgeFactor: GLfloat = 0.8
     
     private let basinFinder: BasinFinder
 

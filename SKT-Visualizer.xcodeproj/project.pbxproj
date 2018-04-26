@@ -48,6 +48,8 @@
 		8A57601120805790002B9951 /* smooth-cool-warm-table-float-0256.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8A57600120805790002B9951 /* smooth-cool-warm-table-float-0256.csv */; };
 		8A57601220805790002B9951 /* smooth-cool-warm-table-byte-0008.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8A57600220805790002B9951 /* smooth-cool-warm-table-byte-0008.csv */; };
 		8A5E948E2078EE46003477D3 /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A5E948D2078EE46003477D3 /* Net.swift */; };
+		8A741FE620925E2D002A88D0 /* SKGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A741FE520925E2D002A88D0 /* SKGraph.swift */; };
+		8A741FE820926B9E002A88D0 /* FlowLines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A741FE720926B9E002A88D0 /* FlowLines.swift */; };
 		8A75B690208A317D00EACD13 /* Registry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B68F208A317D00EACD13 /* Registry.swift */; };
 		8A75B694208A771800EACD13 /* SKTModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B693208A771800EACD13 /* SKTModel.swift */; };
 		8A7CB9F42090A427007E3409 /* reset2.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A7CB9F32090A426007E3409 /* reset2.png */; };
@@ -104,7 +106,6 @@
 		8AD9DAC820914E020062457C /* PointSpriteVertexShader.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 8AD9DAC220914E010062457C /* PointSpriteVertexShader.glsl */; };
 		8AD9DACB20914E3D0062457C /* Balls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AD9DACA20914E3D0062457C /* Balls.swift */; };
 		8AD9DACF2091E7360062457C /* BasinFinder2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AD9DACE2091E7360062457C /* BasinFinder2.swift */; };
-		8AD9DAD1209201580062457C /* FlowLines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AD9DAD0209201580062457C /* FlowLines.swift */; };
 		8AE48BBB2087857C001B5D11 /* GLUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE48BBA2087857C001B5D11 /* GLUtils.swift */; };
 		8AE48BBF2087E63A001B5D11 /* background.css in Resources */ = {isa = PBXBuildFile; fileRef = 8AE48BBE2087E639001B5D11 /* background.css */; };
 		8AF5320920887329009D1882 /* BasinOfAttractionColorSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF5320820887329009D1882 /* BasinOfAttractionColorSource.swift */; };
@@ -165,6 +166,8 @@
 		8A57600120805790002B9951 /* smooth-cool-warm-table-float-0256.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "smooth-cool-warm-table-float-0256.csv"; sourceTree = "<group>"; };
 		8A57600220805790002B9951 /* smooth-cool-warm-table-byte-0008.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "smooth-cool-warm-table-byte-0008.csv"; sourceTree = "<group>"; };
 		8A5E948D2078EE46003477D3 /* Net.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Net.swift; sourceTree = "<group>"; };
+		8A741FE520925E2D002A88D0 /* SKGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKGraph.swift; sourceTree = "<group>"; };
+		8A741FE720926B9E002A88D0 /* FlowLines.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlowLines.swift; sourceTree = "<group>"; };
 		8A75B68F208A317D00EACD13 /* Registry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registry.swift; sourceTree = "<group>"; };
 		8A75B693208A771800EACD13 /* SKTModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKTModel.swift; sourceTree = "<group>"; };
 		8A7CB9F32090A426007E3409 /* reset2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = reset2.png; sourceTree = "<group>"; };
@@ -221,7 +224,6 @@
 		8AD9DAC220914E010062457C /* PointSpriteVertexShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PointSpriteVertexShader.glsl; sourceTree = "<group>"; };
 		8AD9DACA20914E3D0062457C /* Balls.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Balls.swift; sourceTree = "<group>"; };
 		8AD9DACE2091E7360062457C /* BasinFinder2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasinFinder2.swift; sourceTree = "<group>"; };
-		8AD9DAD0209201580062457C /* FlowLines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowLines.swift; sourceTree = "<group>"; };
 		8AE48BBA2087857C001B5D11 /* GLUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GLUtils.swift; sourceTree = "<group>"; };
 		8AE48BBE2087E639001B5D11 /* background.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = background.css; sourceTree = "<group>"; };
 		8AF5320820887329009D1882 /* BasinOfAttractionColorSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasinOfAttractionColorSource.swift; sourceTree = "<group>"; };
@@ -309,6 +311,7 @@
 		8A1E1C85207D7C64008C1AAF /* Unused */ = {
 			isa = PBXGroup;
 			children = (
+				8A741FE520925E2D002A88D0 /* SKGraph.swift */,
 				8AF5320A2088AD24009D1882 /* BasinDiscoverySequencer.swift */,
 				8A7CB9F32090A426007E3409 /* reset2.png */,
 			);
@@ -356,7 +359,7 @@
 		8A5E948A2077D285003477D3 /* Effects */ = {
 			isa = PBXGroup;
 			children = (
-				8AD9DAD0209201580062457C /* FlowLines.swift */,
+				8A741FE720926B9E002A88D0 /* FlowLines.swift */,
 				8A84313720726F0100F06B9B /* Axes.swift */,
 				8AD9DACA20914E3D0062457C /* Balls.swift */,
 				8ACE788E2073C57500C29875 /* Effect.swift */,
@@ -666,6 +669,7 @@
 				8AA05A0C208F8E4C009417A6 /* BasinAssignment.swift in Sources */,
 				8A3C45B42086165500A1E9CD /* Entropy.swift in Sources */,
 				8AD817FC207BFA9200426C25 /* InfoViewController.swift in Sources */,
+				8A741FE620925E2D002A88D0 /* SKGraph.swift in Sources */,
 				8A5E948E2078EE46003477D3 /* Net.swift in Sources */,
 				8A41A2F2208398E900CDDF28 /* NumericConstants.swift in Sources */,
 				8A19CD8B208248B100C1EADE /* NForFixedKOverN.swift in Sources */,
@@ -702,10 +706,10 @@
 				8AA05A2620901B19009417A6 /* SequencerSelectionViewController.swift in Sources */,
 				8AA05A15208FD56F009417A6 /* SKPoint.swift in Sources */,
 				8A8D5967208D0513005550CD /* AdjustableParameter.swift in Sources */,
+				8A741FE820926B9E002A88D0 /* FlowLines.swift in Sources */,
 				8AF59503208AC5B10082C5DE /* VisualizatonModel.swift in Sources */,
 				8AF59500208AC0420082C5DE /* AppModel.swift in Sources */,
 				8AAA008E207166C0001A136D /* MasterViewController.swift in Sources */,
-				8AD9DAD1209201580062457C /* FlowLines.swift in Sources */,
 				8AA05A06208E7771009417A6 /* BasinFinder1.swift in Sources */,
 				8A40BC0C207ECC7500F2D2EB /* Nodes.swift in Sources */,
 				8AF98FA5207FE8B40007688E /* SettingsViewController.swift in Sources */,

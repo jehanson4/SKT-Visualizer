@@ -22,6 +22,10 @@ class VisualizationModel1 : VisualizationModel {
     
     var debugEnabled = false
     
+    // EMPIRICAL
+    let backgroundColorValue: GLfloat = 0.15
+    
+
     private var skt: SKTModel
     private var glContext: GLContext? = nil
     
@@ -125,7 +129,8 @@ class VisualizationModel1 : VisualizationModel {
     
     private func initColorSources() {
         debug("initColorSources")
-        let grayCS = UniformColor("Nothing", r: 0.15, g: 0.15, b: 0.15)
+        let bg = backgroundColorValue
+        let grayCS = UniformColor("Nothing", r: bg, g: bg, b: bg)
         registerColorSource(grayCS, false)
         
         let linearColorMap = LinearColorMap()
@@ -343,7 +348,6 @@ class VisualizationModel1 : VisualizationModel {
     // ======================================================
     
     private var graphicsSetupDone: Bool = false
-    
     private var aspectRatio: Float = 1
     
     
@@ -370,7 +374,8 @@ class VisualizationModel1 : VisualizationModel {
     func configureGL() {
         debug("configureGL")
         
-        glClearColor(0.0, 0.0, 0.0, 0.0)
+        let bg = backgroundColorValue
+        glClearColor(bg, bg, bg, bg)
         glClearDepthf(1.0)
         
         glEnable(GLenum(GL_CULL_FACE))

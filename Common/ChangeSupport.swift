@@ -23,9 +23,9 @@ protocol ChangeCounted {
 class ChangeCountWrapper {
     private let _cc: ChangeCounted
     private var _cnum: Int
-    private let _callback: (Any) -> ()
+    private let _callback: (Any?) -> ()
     
-    init(_ cc: ChangeCounted, _ callback: @escaping (Any) -> ()) {
+    init(_ cc: ChangeCounted, _ callback: @escaping (Any?) -> ()) {
         self._cc = cc
         self._cnum = cc.changeNumber
         self._callback = callback
