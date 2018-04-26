@@ -56,6 +56,9 @@ class Surface : GLKBaseEffect, Effect {
     var colorBuffer: GLuint = 0
     var indexBuffer: GLuint = 0
     
+    // ====================================
+    // SKT stuff
+    
     var geometry: SKGeometry
     var geometryChangeNumber: Int
     var physics: SKPhysics
@@ -103,12 +106,12 @@ class Surface : GLKBaseEffect, Effect {
         super.light0.position = GLKVector4Make(1.0, 1.0, 2.0, 0.0)
         
         glGenVertexArraysOES(1, &vertexArray)
-        buildVertexData()
+        buildVertexAndColorData()
         createBuffers()
         return true
     }
     
-    private func buildVertexData() {
+    private func buildVertexAndColorData() {
         // vertices
         self.vertices = buildPNVertexArray(geometry)
         
@@ -159,16 +162,18 @@ class Surface : GLKBaseEffect, Effect {
             return false
         }
         
+        var colorsRecomputed = false
         let cs = colorSource!
-        let colorsChanged = cs.prepare()
-        if (colorsChanged || forceColorUpdate) {
+        let colorSourceChanged = cs.prepare()
+        if (colorSourceChanged || forceColorUpdate) {
+            forceColorUpdate = false
             debug("recomputing colors", "colorSource: \(cs.name)")
             for i in 0..<colors.count {
                 colors[i] = cs.colorAt(i)
             }
+            colorsRecomputed = true
         }
-        forceColorUpdate = false
-        return true
+        return colorsRecomputed
     }
     
     private func createBuffers() {
@@ -176,6 +181,7 @@ class Surface : GLKBaseEffect, Effect {
         glBindVertexArrayOES(vertexArray)
         
         // vertex buffer
+
         let vbSize = MemoryLayout<PNVertex>.stride
         glGenBuffers(1, &vertexBuffer)
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), vertexBuffer)
@@ -237,14 +243,19 @@ class Surface : GLKBaseEffect, Effect {
         glDeleteBuffers(1, &indexBuffer)
     }
     
+    var drawCounter = 0
     func draw() {
+        let mtd = "draw[\(drawCounter)]"
+
         if (!enabled) {
             return
         }
 
+        drawCounter += 1
+
         let err0 = glGetError()
         if (err0 != 0) {
-            debug(String(format:"draw: entering: glError 0x%x", err0))
+            debug(mtd, String(format:"entering: glError 0x%x", err0))
         }
 
         // DO call buind() here
@@ -255,7 +266,7 @@ class Surface : GLKBaseEffect, Effect {
         let geometryChange = geometry.changeNumber
         let physicsChange = physics.changeNumber
         if (geometryChange != geometryChangeNumber) {
-            debug("geometry has changed. Rebuilding.")
+            debug(mtd, "geometry has changed. Rebuilding.")
             self.geometryChangeNumber = geometryChange
             self.physicsChangeNumber = physicsChange
             
@@ -263,24 +274,24 @@ class Surface : GLKBaseEffect, Effect {
             self.forceColorUpdate = true
             
             deleteBuffers()
-            buildVertexData()
+            buildVertexAndColorData()
             
             // INEFFICIENT redundant copy colors to color buffer
             createBuffers()
             
-            debug("done rebuilding")
+            debug(mtd, "done rebuilding")
         }
         else if (physicsChange != physicsChangeNumber) {
-            debug("physics has changed. Rebuilding.")
+            debug(mtd, "physics has changed. Rebuilding.")
             self.physicsChangeNumber = physicsChange
             // DON'T force color update here; let the color source tell us.
-            debug("done rebuilding.")
+            debug(mtd, "done rebuilding.")
         }
 
         // DEBUG
         let err1 = glGetError()
         if (err1 != 0) {
-            debug(String(format:"draw[1]: glError 0x%x", err0))
+            debug(mtd, String(format:"glError 0x%x", err0))
         }
         
         let needsColorBufferUpdate = ensureColorsAreFresh()
@@ -288,7 +299,7 @@ class Surface : GLKBaseEffect, Effect {
         glBindVertexArrayOES(vertexArray)
         
         if (needsColorBufferUpdate) {
-            debug("copying colors into GL color buffer")
+            debug(mtd, "copying colors into GL color buffer")
             let cbSize = MemoryLayout<GLKVector4>.stride
             glBindBuffer(GLenum(GL_ARRAY_BUFFER), colorBuffer)
             glBufferSubData(GLenum(GL_ARRAY_BUFFER), 0, cbSize * colors.count, colors)
@@ -299,16 +310,17 @@ class Surface : GLKBaseEffect, Effect {
         // DEBUG
         let err2 = glGetError()
         if (err2 != 0) {
-            debug(String(format:"draw[2]: glError 0x%x", err0))
+            debug(mtd, String(format:"glError 0x%x", err0))
         }
-        
+
+        debug(mtd, "drawing surface")
         glDrawElements(GLenum(GL_TRIANGLES), GLsizei(indices.count), GLenum(GL_UNSIGNED_INT), BUFFER_OFFSET(0))
         
 
         // DEBUG
         let err3 = glGetError()
         if (err3 != 0) {
-            debug(String(format:"draw[3]: glError 0x%x", err0))
+            debug(mtd, String(format:"glError 0x%x", err0))
         }
         
         glBindVertexArrayOES(0)

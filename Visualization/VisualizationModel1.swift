@@ -192,8 +192,9 @@ class VisualizationModel1 : VisualizationModel {
         registerEffect(Meridians(skt.geometry, enabled: false, rOffset: rOffset))
         registerEffect(Net(skt.geometry, enabled: false, rOffset: rOffset))
         registerEffect(Surface(skt.geometry, skt.physics, colorSources, enabled: true))
-        // registerEffect(Nodes(skt.geometry, skt.physics, colorSources, enabled: false))
-        // registerEffect(Icosahedron(enabled: false))
+        registerEffect(Nodes(skt.geometry, skt.physics, colorSources, enabled: false))
+    
+        registerEffect(Icosahedron(enabled: false))
         registerEffect(Balls(enabled: false))
     }
     

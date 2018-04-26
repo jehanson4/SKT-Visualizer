@@ -1,6 +1,6 @@
 uniform highp mat4 u_ModelViewMatrix;
 uniform highp mat4 u_ProjectionMatrix;
-
+uniform float u_PointSize;
 attribute vec4 a_Position;
 attribute vec4 a_Color;
 
@@ -9,5 +9,5 @@ varying lowp vec4 frag_Color;
 void main(void) {
     frag_Color = a_Color;
     gl_Position = u_ProjectionMatrix * u_ModelViewMatrix * a_Position;
-    gl_PointSize = 100.0;
+    gl_PointSize = u_PointSize;
 }

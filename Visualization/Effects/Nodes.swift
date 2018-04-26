@@ -1,8 +1,8 @@
 //
-//  Icosahedron.swift
+//  Nodes.swift
 //  SKT Visualizer
 //
-//  Created by James Hanson on 4/2/18.
+//  Created by James Hanson on 4/7/18.
 //  Copyright © 2018 James Hanson. All rights reserved.
 //
 
@@ -14,62 +14,20 @@ import OpenGLES
 import OpenGL
 #endif
 
-class Balls : Effect {
+// ==============================================================
+// Nodes
+// ==============================================================
+
+class Nodes : Effect {
+
+    var debugEnabled = false
     
-    var debugEnabled = true
-    
-    let effectType = EffectType.balls
-    var name = "Balls"
+    let effectType = EffectType.nodes
+    var name = "Nodes"
     var info: String? = nil
     var enabled: Bool
-    
-    static let c0 = GLfloat(0.0)
-    static let c1 = GLfloat(1.0 / sqrt(1.0 + Double.constants.goldenRatio * Double.constants.goldenRatio))
-    static let c2 = GLfloat(Double.constants.goldenRatio / sqrt(1.0 + Double.constants.goldenRatio * Double.constants.goldenRatio))
-    
-    static let vertices1: [[GLfloat]] = [
-        [0.0, 0.0, 0.0, 1.0]
-    ]
-    static let colors1: [[GLfloat]] = [
-        [1.0, 1.0, 1.0, 1.0]
-    ]
-    
-    static let vertices2: [[GLfloat]] = [
-        [0.33, 0.0, 0.0, 1.0],
-        [0.0, 0.67, 0.0, 1.0],
-        [0.0, 0.0, 1.0, 1.0]
-    ]
-    static let colors2: [[GLfloat]] = [
-        [1.0, 0.0, 0.0, 1.0],
-        [0.0, 1.0, 0.0, 1.0],
-        [0.0, 0.0, 1.0, 1.0]
-    ]
+    private var built: Bool = false
 
-    //    let coords3: [GLfloat] = [
-    //        0,  0,  1,
-    //        0,  1,  0,
-    //        1,  0,  0,
-    //        ]
-    //
-    //
-    //    let coords12: [GLfloat] = [
-    //        -c1,  c2,  c0,
-    //         c1,  c2,  c0,
-    //        -c1, -c2,  c0,
-    //         c1, -c2,  c0,
-    //
-    //         c0, -c1,  c2,
-    //         c0,  c1,  c2,
-    //         c0, -c1, -c2,
-    //         c0,  c1, -c2,
-    //
-    //         c2,  c0, -c1,
-    //         c2,  c0,  c1,
-    //        -c2,  c0, -c1,
-    //        -c2,  c0,  c1
-    //    ]
-    
-    
     // ==========================
     // GL stuff
     
@@ -84,38 +42,82 @@ class Balls : Effect {
     private var programHandle: GLuint = 0
     private var modelViewMatrixUniform : Int32 = 0
     private var projectionMatrixUniform : Int32 = 0
+    private var pointSizeUniform : Int32 = 0
     
     var projectionMatrix: GLKMatrix4 = GLKMatrix4Identity
     var modelviewMatrix: GLKMatrix4 = GLKMatrix4Identity
+    var pointSize: GLfloat = 48
     
-    var vertices: [GLKVector4]
-    var colors: [GLKVector4]
+    var vertices: [GLKVector4] = []
+    var colors: [GLKVector4] = []
     
     var vertexArray: GLuint = 0
     var vertexBuffer: GLuint = 0
     var colorBuffer: GLuint = 0
-    var built: Bool = false
     
-    init(enabled: Bool = false) {
+    // ====================================
+    // SKT stuff
+    
+    var geometry: SKGeometry
+    var geometryChangeNumber: Int
+    var physics: SKPhysics
+    var physicsChangeNumber: Int
+    
+    private var colorSources: Registry<ColorSource>? = nil
+    private var forceColorUpdate: Bool = false
+    
+    // =====================================
+    // Initialization
+    // =====================================
+
+    init(_ geometry: SKGeometry, _ physics: SKPhysics, _ colorSources: Registry<ColorSource>?, enabled: Bool = false) {
+        self.geometry = geometry
+        self.geometryChangeNumber = geometry.changeNumber
+        self.physics = physics
+        self.physicsChangeNumber = physics.changeNumber
+        self.colorSources = colorSources
         self.enabled = enabled
-        
-        let vv = Balls.vertices2
-        let cc = Balls.colors2
-        
-        vertices = []
-        colors = []
-        for v in vv {
-            vertices.append(GLKVector4Make(v[0], v[1], v[2], v[3]))
+        self.forceColorUpdate = false
+    }
+
+    deinit {
+        glDeleteProgram(programHandle)
+        glDeleteVertexArraysOES(1, &vertexArray)
+        deleteBuffers()
+    }
+    
+    private func debug(_ mtd: String, _ msg : String = "") {
+        if (debugEnabled) {
+            print(name, mtd, msg)
         }
-        for c in cc {
-            colors.append(GLKVector4Make(c[0], c[1], c[2], c[3]))
-        }
+    }
+
+    private func deleteBuffers() {
+        glDeleteBuffers(1, &vertexBuffer)
+        glDeleteBuffers(1, &colorBuffer)
     }
     
     private func build() -> Bool {
-        
         compile(vertexShader, fragmentShader)
+        glGenVertexArraysOES(1, &vertexArray)
+        buildVertexAndColorData()
+        createBuffers()
+        return true
+    }
+    
+    private func buildVertexAndColorData() {
         
+       self.vertices = buildVertexArray4(geometry)
+
+        // Fill colors array with black, then set flag to force an update
+        
+        let black = GLKVector4Make(0, 0, 0, 0)
+        self.colors = Array(repeating: black, count: vertices.count)
+        self.forceColorUpdate = true
+    }
+
+    private func createBuffers() {
+
         glBindVertexArrayOES(vertexArray)
         
         // vertex buffer
@@ -145,58 +147,144 @@ class Balls : Effect {
         glEnableVertexAttribArray(caIndex)
         
         // finish up
+        
         glBindVertexArrayOES(0)
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), 0)
         glBindBuffer(GLenum(GL_ELEMENT_ARRAY_BUFFER), 0)
         
         let err = glGetError()
         if (err != 0) {
-            debug(String(format: "createBuffers: glError 0x%x", err))
+            debug(String(format: "build: glError 0x%x", err))
         }
         
-        return true
+    }
+
+    private func ensureColorsAreFresh() -> Bool {
+        if (colorSources == nil) {
+            debug("cannot refresh colors: colorSources is nil")
+            return false
+        }
+        
+        let colorSource = colorSources?.selection?.value
+        if (colorSource == nil) {
+            debug("cannot refresh colors: colorSource is nil")
+            return false
+        }
+        
+        var colorsRecomputed = false
+        let cs = colorSource!
+        let colorSourceChanged = cs.prepare()
+        if (colorSourceChanged || forceColorUpdate) {
+            forceColorUpdate = false
+            debug("recomputing colors", "colorSource: \(cs.name)")
+            for i in 0..<colors.count {
+                colors[i] = cs.colorAt(i)
+            }
+            colorsRecomputed = true
+        }
+        return colorsRecomputed
     }
     
-    deinit {
-        glDeleteVertexArraysOES(1, &vertexArray)
-        glDeleteBuffers(1, &vertexBuffer)
-        glDeleteBuffers(1, &colorBuffer)
-    }
-    
+    // =========================================
+    // Prepare & Draw
+    // =========================================
+
     func prepareToDraw() {
         glUseProgram(programHandle)
-
+        
         glUniformMatrix4fv(projectionMatrixUniform, 1, GLboolean(GL_FALSE), projectionMatrix.array)
         glUniformMatrix4fv(modelViewMatrixUniform, 1, GLboolean(GL_FALSE), modelviewMatrix.array)
+
+        pointSize = calculatePointSize()
+        glUniform1f(pointSizeUniform, pointSize)
     }
     
     var drawCounter: Int = 0
     func draw() {
+        let mtd = "draw[\(drawCounter)]"
+        
         if (!enabled) {
             return
         }
+        
+        drawCounter += 1
+
+        let err0 = glGetError()
+        if (err0 != 0) {
+            debug(mtd, String(format:"entering: glError 0x%x", err0))
+        }
+        
         if (!built) {
             built = build()
         }
+
+        let geometryChange = geometry.changeNumber
+        let physicsChange = physics.changeNumber
+        if (geometryChange != geometryChangeNumber) {
+            debug(mtd, "geometry has changed. Rebuilding.")
+            self.geometryChangeNumber = geometryChange
+            self.physicsChangeNumber = physicsChange
+            
+            // MAYBE this isn't needed. But it does no harm.
+            self.forceColorUpdate = true
+            
+            deleteBuffers()
+            buildVertexAndColorData()
+            
+            // INEFFICIENT redundant copy colors to color buffer
+            createBuffers()
+            
+            debug(mtd, "done rebuilding")
+        }
+        else if (physicsChange != physicsChangeNumber) {
+            debug(mtd, "physics has changed. Rebuilding.")
+            self.physicsChangeNumber = physicsChange
+            // DON'T force color update here; let the color source tell us.
+            debug(mtd, "done rebuilding.")
+        }
+        
+        // DEBUG
+        let err1 = glGetError()
+        if (err1 != 0) {
+            debug(mtd, String(format:"glError 0x%x", err0))
+        }
+        
+        let needsColorBufferUpdate = ensureColorsAreFresh()
         
         glBindVertexArrayOES(vertexArray)
+
+        if (needsColorBufferUpdate) {
+            debug(mtd, "copying colors into GL color buffer")
+            let cbSize = MemoryLayout<GLKVector4>.stride
+            glBindBuffer(GLenum(GL_ARRAY_BUFFER), colorBuffer)
+            glBufferSubData(GLenum(GL_ARRAY_BUFFER), 0, cbSize * colors.count, colors)
+        }
+        
         prepareToDraw()
         
-        drawCounter += 1
-        debug("draw[\(drawCounter)]")
-        glDrawArrays(GLenum(GL_POINTS), 0, GLsizei(vertices.count))
-        glBindVertexArrayOES(0)
+        // DEBUG
+        let err2 = glGetError()
+        if (err2 != 0) {
+            debug(mtd, String(format:"glError 0x%x", err0))
+        }
         
-        let err = glGetError()
-        if (err != 0) {
-            debug(String(format: "draw glError: 0x%x", err))
+        debug(mtd, "drawing points")
+        glDrawArrays(GLenum(GL_POINTS), 0, GLsizei(vertices.count))
+
+        // DEBUG
+        let err3 = glGetError()
+        if (err3 != 0) {
+            debug(mtd, String(format:"glError 0x%x", err0))
         }
-    }
+        
+        glBindVertexArrayOES(0)
+        glBindBuffer(GLenum(GL_ARRAY_BUFFER), 0)
+   }
     
-    func debug(_ mtd: String, _ msg: String = "") {
-        if (debugEnabled) {
-            print(name, mtd, msg)
-        }
+    func calculatePointSize() -> GLfloat {
+        // TODO make it smaller if nodes are closeer than "64"
+        // use zomm & geometry.
+        return 32
     }
     
     // ========================================
@@ -219,8 +307,9 @@ class Balls : Effect {
         glLinkProgram(self.programHandle)
         
         // MAYBE ok -- these string literals are used in vertex shader
-        self.modelViewMatrixUniform = glGetUniformLocation(self.programHandle, "u_ModelViewMatrix")
+        self.modelViewMatrixUniform  = glGetUniformLocation(self.programHandle, "u_ModelViewMatrix")
         self.projectionMatrixUniform = glGetUniformLocation(self.programHandle, "u_ProjectionMatrix")
+        self.pointSizeUniform        = glGetUniformLocation(self.programHandle, "u_PointSize")
         
         var linkStatus : GLint = 0
         glGetProgramiv(self.programHandle, GLenum(GL_LINK_STATUS), &linkStatus)
@@ -277,6 +366,5 @@ class Balls : Effect {
             exit(1)
         }
     }
-    
-    
+
 }

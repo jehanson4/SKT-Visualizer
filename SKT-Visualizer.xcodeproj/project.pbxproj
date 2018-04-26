@@ -319,8 +319,6 @@
 		8A3C45B72086185B00A1E9CD /* Unfinished */ = {
 			isa = PBXGroup;
 			children = (
-				8AD9DACA20914E3D0062457C /* Balls.swift */,
-				8A40BC0B207ECC7500F2D2EB /* Nodes.swift */,
 				8AD9DABF20914E010062457C /* SecondFragmentShader.glsl */,
 				8AD9DAC220914E010062457C /* SecondVertexShader.glsl */,
 				8AD9DAC020914E010062457C /* ThirdFragmentShader.glsl */,
@@ -363,11 +361,13 @@
 		8A5E948A2077D285003477D3 /* Effects */ = {
 			isa = PBXGroup;
 			children = (
-				8ACE788E2073C57500C29875 /* Effect.swift */,
-				8A5E948D2078EE46003477D3 /* Net.swift */,
 				8A84313720726F0100F06B9B /* Axes.swift */,
+				8AD9DACA20914E3D0062457C /* Balls.swift */,
+				8ACE788E2073C57500C29875 /* Effect.swift */,
 				8ACE788C2072E51800C29875 /* Icosahedron.swift */,
 				8A40BC0D207EEA3D00F2D2EB /* Meridians.swift */,
+				8A5E948D2078EE46003477D3 /* Net.swift */,
+				8A40BC0B207ECC7500F2D2EB /* Nodes.swift */,
 				8ABEEC3A20803A2F008E72F4 /* Surface.swift */,
 			);
 			path = Effects;

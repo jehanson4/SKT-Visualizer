@@ -372,9 +372,10 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     @IBOutlet weak var nodes_switch: UISwitch!
     
     @IBAction func nodes_action(_ sender: UISwitch) {
-        // HACK HACK HACK HACK
-        // let effectOrNil = installedEffect(EffectType.nodes)
-        let effectOrNil = installedEffect(EffectType.balls)
+        // DEBUG
+        // let effectOrNil = installedEffect(EffectType.balls)
+
+        let effectOrNil = installedEffect(EffectType.nodes)
         if (effectOrNil != nil) {
             var effect = effectOrNil!
             effect.enabled = sender.isOn
