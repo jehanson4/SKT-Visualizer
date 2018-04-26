@@ -69,14 +69,14 @@ class Meridians : GLKBaseEffect, Effect {
         super.useConstantColor = 1
         super.constantColor = GLKVector4Make(0.0, 0.0, 1.0, 1.0)
         
-        glGenVertexArraysOES(1, &vertexArray)
+        glGenVertexArrays(1, &vertexArray)
         buildVertexData()
         createBuffers()
         return true
     }
     
     deinit {
-        glDeleteVertexArraysOES(1, &vertexArray)
+        glDeleteVertexArrays(1, &vertexArray)
         deleteBuffers()
     }
   
@@ -105,7 +105,7 @@ class Meridians : GLKBaseEffect, Effect {
     
     private func createBuffers() {
         
-        glBindVertexArrayOES(vertexArray)
+        glBindVertexArray(vertexArray)
         
         // vertex buffer
         
@@ -122,7 +122,7 @@ class Meridians : GLKBaseEffect, Effect {
         
         // finish up
         
-        glBindVertexArrayOES(0)
+        glBindVertexArray(0)
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), 0)
     }
     
@@ -148,7 +148,7 @@ class Meridians : GLKBaseEffect, Effect {
             debug("done rebuilding")
         }
 
-        glBindVertexArrayOES(vertexArray)
+        glBindVertexArray(vertexArray)
         prepareToDraw()
         glLineWidth(lineWidth)
 
@@ -162,7 +162,7 @@ class Meridians : GLKBaseEffect, Effect {
             }
         }
         glLineWidth(1.0)
-        glBindVertexArrayOES(0)
+        glBindVertexArray(0)
 
     }
     

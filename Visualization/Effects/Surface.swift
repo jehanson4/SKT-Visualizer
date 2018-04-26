@@ -86,7 +86,7 @@ class Surface : GLKBaseEffect, Effect {
     }
     
     deinit {
-        glDeleteVertexArraysOES(1, &vertexArray)
+        glDeleteVertexArrays(1, &vertexArray)
         deleteBuffers()
     }
     
@@ -105,7 +105,7 @@ class Surface : GLKBaseEffect, Effect {
         // EMPIRICAL
         super.light0.position = GLKVector4Make(1.0, 1.0, 2.0, 0.0)
         
-        glGenVertexArraysOES(1, &vertexArray)
+        glGenVertexArrays(1, &vertexArray)
         buildVertexAndColorData()
         createBuffers()
         return true
@@ -178,7 +178,7 @@ class Surface : GLKBaseEffect, Effect {
     
     private func createBuffers() {
         
-        glBindVertexArrayOES(vertexArray)
+        glBindVertexArray(vertexArray)
         
         // vertex buffer
 
@@ -225,7 +225,7 @@ class Surface : GLKBaseEffect, Effect {
         glBufferData(GLenum(GL_ELEMENT_ARRAY_BUFFER), ibSize * indices.count, indices, GLenum(GL_STATIC_DRAW))
 
         // finish up
-        glBindVertexArrayOES(0)
+        glBindVertexArray(0)
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), 0)
         glBindBuffer(GLenum(GL_ELEMENT_ARRAY_BUFFER), 0)
         
@@ -296,7 +296,7 @@ class Surface : GLKBaseEffect, Effect {
         
         let needsColorBufferUpdate = ensureColorsAreFresh()
         
-        glBindVertexArrayOES(vertexArray)
+        glBindVertexArray(vertexArray)
         
         if (needsColorBufferUpdate) {
             debug(mtd, "copying colors into GL color buffer")
@@ -323,7 +323,7 @@ class Surface : GLKBaseEffect, Effect {
             debug(mtd, String(format:"glError 0x%x", err0))
         }
         
-        glBindVertexArrayOES(0)
+        glBindVertexArray(0)
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), 0)
 
     }

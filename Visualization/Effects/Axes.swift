@@ -52,7 +52,7 @@ class Axes : GLKBaseEffect, Effect {
 
     deinit {
         if (built) {
-            glDeleteVertexArraysOES(1, &vertexArray)
+            glDeleteVertexArrays(1, &vertexArray)
             glDeleteBuffers(1, &vertexBuffer)
         }
     }
@@ -69,8 +69,8 @@ class Axes : GLKBaseEffect, Effect {
         super.constantColor = GLKVector4Make(1.0, 1.0, 1.0, 1.0)
         
         // vertex array & buffer
-        glGenVertexArraysOES(1, &vertexArray)
-        glBindVertexArrayOES(vertexArray)
+        glGenVertexArrays(1, &vertexArray)
+        glBindVertexArray(vertexArray)
         
         let vbSize = MemoryLayout<GLfloat>.stride
         glGenBuffers(1, &vertexBuffer)
@@ -83,7 +83,7 @@ class Axes : GLKBaseEffect, Effect {
         glVertexAttribPointer(vaIndex, 3, GLenum(GL_FLOAT), 0, vaStride, BUFFER_OFFSET(0))
         
         // finish up
-        glBindVertexArrayOES(0)
+        glBindVertexArray(0)
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), 0)
         
         return true
@@ -102,13 +102,13 @@ class Axes : GLKBaseEffect, Effect {
         // debug("draw", "projectionMatrix: " + String(describing: super.transform.projectionMatrix))
         // debug("draw", "modelviewMatrix: " + String(describing: super.transform.modelviewMatrix))
 
-        glBindVertexArrayOES(vertexArray);
+        glBindVertexArray(vertexArray);
         prepareToDraw()
         glLineWidth(8.0)
         debug("drawing")
         glDrawArrays(GLenum(GL_LINE_STRIP), 0, GLsizei(vertices.count))
         glLineWidth(1.0)
-        glBindVertexArrayOES(0)
+        glBindVertexArray(0)
         
         let err = glGetError()
         if (err != 0) {

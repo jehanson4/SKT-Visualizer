@@ -82,7 +82,7 @@ class Nodes : Effect {
 
     deinit {
         glDeleteProgram(programHandle)
-        glDeleteVertexArraysOES(1, &vertexArray)
+        glDeleteVertexArrays(1, &vertexArray)
         deleteBuffers()
     }
     
@@ -99,7 +99,7 @@ class Nodes : Effect {
     
     private func build() -> Bool {
         compile(vertexShader, fragmentShader)
-        glGenVertexArraysOES(1, &vertexArray)
+        glGenVertexArrays(1, &vertexArray)
         buildVertexAndColorData()
         createBuffers()
         return true
@@ -118,7 +118,7 @@ class Nodes : Effect {
 
     private func createBuffers() {
 
-        glBindVertexArrayOES(vertexArray)
+        glBindVertexArray(vertexArray)
         
         // vertex buffer
         
@@ -148,7 +148,7 @@ class Nodes : Effect {
         
         // finish up
         
-        glBindVertexArrayOES(0)
+        glBindVertexArray(0)
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), 0)
         glBindBuffer(GLenum(GL_ELEMENT_ARRAY_BUFFER), 0)
         
@@ -251,7 +251,7 @@ class Nodes : Effect {
         
         let needsColorBufferUpdate = ensureColorsAreFresh()
         
-        glBindVertexArrayOES(vertexArray)
+        glBindVertexArray(vertexArray)
 
         if (needsColorBufferUpdate) {
             debug(mtd, "copying colors into GL color buffer")
@@ -277,7 +277,7 @@ class Nodes : Effect {
             debug(mtd, String(format:"glError 0x%x", err0))
         }
         
-        glBindVertexArrayOES(0)
+        glBindVertexArray(0)
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), 0)
    }
     

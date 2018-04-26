@@ -93,7 +93,7 @@ class Balls : Effect {
         
         compile(vertexShader, fragmentShader)
         
-        glBindVertexArrayOES(vertexArray)
+        glBindVertexArray(vertexArray)
         
         // vertex buffer
         
@@ -122,7 +122,7 @@ class Balls : Effect {
         glEnableVertexAttribArray(caIndex)
         
         // finish up
-        glBindVertexArrayOES(0)
+        glBindVertexArray(0)
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), 0)
         glBindBuffer(GLenum(GL_ELEMENT_ARRAY_BUFFER), 0)
         
@@ -136,7 +136,7 @@ class Balls : Effect {
     
     deinit {
         glDeleteProgram(programHandle)
-        glDeleteVertexArraysOES(1, &vertexArray)
+        glDeleteVertexArrays(1, &vertexArray)
         glDeleteBuffers(1, &vertexBuffer)
         glDeleteBuffers(1, &colorBuffer)
     }
@@ -157,13 +157,13 @@ class Balls : Effect {
             built = build()
         }
         
-        glBindVertexArrayOES(vertexArray)
+        glBindVertexArray(vertexArray)
         prepareToDraw()
         
         drawCounter += 1
         debug("draw[\(drawCounter)]")
         glDrawArrays(GLenum(GL_POINTS), 0, GLsizei(vertices.count))
-        glBindVertexArrayOES(0)
+        glBindVertexArray(0)
         
         let err = glGetError()
         if (err != 0) {

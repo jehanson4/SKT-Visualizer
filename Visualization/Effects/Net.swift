@@ -69,7 +69,7 @@ class Net : GLKBaseEffect, Effect {
     
     deinit {
         if (built) {
-            glDeleteVertexArraysOES(1, &vertexArray)
+            glDeleteVertexArrays(1, &vertexArray)
             deleteBuffers()
         }
     }
@@ -78,7 +78,7 @@ class Net : GLKBaseEffect, Effect {
         super.useConstantColor = 1
         super.constantColor = lineColor
         
-        glGenVertexArraysOES(1, &vertexArray)
+        glGenVertexArrays(1, &vertexArray)
         buildVertexData()
         createBuffers()
         return true
@@ -157,7 +157,7 @@ class Net : GLKBaseEffect, Effect {
     private func createBuffers() {
         // print(name, "createBuffers start")
         
-        glBindVertexArrayOES(vertexArray)
+        glBindVertexArray(vertexArray)
         
         // vertex buffer
         let vbSize = MemoryLayout<GLfloat>.stride
@@ -178,7 +178,7 @@ class Net : GLKBaseEffect, Effect {
         glBufferData(GLenum(GL_ELEMENT_ARRAY_BUFFER), ibSize * indices.count, indices, GLenum(GL_STATIC_DRAW))
         
         // finish up
-        glBindVertexArrayOES(0)
+        glBindVertexArray(0)
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), 0)
         glBindBuffer(GLenum(GL_ELEMENT_ARRAY_BUFFER), 0)
         
@@ -214,7 +214,7 @@ class Net : GLKBaseEffect, Effect {
             debug("done rebuilding")
         }
         
-        glBindVertexArrayOES(vertexArray)
+        glBindVertexArray(vertexArray)
         prepareToDraw()
         glLineWidth(lineWidth)
 
@@ -239,7 +239,7 @@ class Net : GLKBaseEffect, Effect {
             }
         }
         glLineWidth(1.0)
-        glBindVertexArrayOES(0)
+        glBindVertexArray(0)
     }
     
     func debug(_ mtd: String, _ msg: String = "") {

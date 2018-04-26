@@ -136,8 +136,8 @@ class Icosahedron : GLKBaseEffect, Effect {
 
         // vertex array
         
-        glGenVertexArraysOES(1, &vertexArray)
-        glBindVertexArrayOES(vertexArray)
+        glGenVertexArrays(1, &vertexArray)
+        glBindVertexArray(vertexArray)
 
         // vertex buffer
         
@@ -174,7 +174,7 @@ class Icosahedron : GLKBaseEffect, Effect {
 
         // finish up
         
-        glBindVertexArrayOES(0)
+        glBindVertexArray(0)
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), 0)
         glBindBuffer(GLenum(GL_ELEMENT_ARRAY_BUFFER), 0)
         
@@ -182,7 +182,7 @@ class Icosahedron : GLKBaseEffect, Effect {
     }
     
     deinit {
-        glDeleteVertexArraysOES(1, &vertexArray)
+        glDeleteVertexArrays(1, &vertexArray)
         glDeleteBuffers(1, &vertexBuffer)
         glDeleteBuffers(1, &normalBuffer)
         glDeleteBuffers(1, &indexBuffer)
@@ -195,10 +195,10 @@ class Icosahedron : GLKBaseEffect, Effect {
         if (!built) {
             built = build()
         }
-        glBindVertexArrayOES(vertexArray)
+        glBindVertexArray(vertexArray)
         prepareToDraw()
         glDrawElements(GLenum(GL_TRIANGLES), GLsizei(indices.count), GLenum(GL_UNSIGNED_INT), BUFFER_OFFSET(0))
-        glBindVertexArrayOES(0)
+        glBindVertexArray(0)
 
         let err = glGetError()
         if (err != 0) {
