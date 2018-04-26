@@ -5,12 +5,11 @@ ToDo.txt
 For 1.0.2
 
 [ ] sequencer UI controls
-    [ ] DELETE the sequencer steppers
-    [ ] stepper direction buttons behave weirdly
-    [ ] looks bad
+    [ ] in some cases it forgets a value that I jst set.
 
-[ ] I don't trust the BofA results. Verify!
-
+[ ] flow lines missing on back of equator -- should be sideways.
+[ ] flow lines wrong at the pole & basin boundaries. I will need to be able to draw
+    4 lines from every node
 
 ABOVE THE LINE
 ==================================================================================
@@ -22,20 +21,17 @@ BELOW THE LINE
 
 [ ] add texture to the sprites to make them look like balls
 
-[MAYBE] add steppers to the sequencer controls
+[?] re-add steppers to the sequencer controls
 
-[ ] p2 guys no longer right-justified; FIX.
-
-[ ] basinfinder change iteration order by quadrant
-...doesn't seem to be affected by k0; it's in quarters no matter what
+[ ] page-2 guys no longer right-justified; FIX.
 
 [ ] all the change monitor guys impl the new protocol
 
-[ ] rescale alpha by -100 so it goes 0 -> 100 not -1 -> 0
+[?] rescale alpha by -100 so it goes 0 -> 100 not -1 -> 0
 
 [ ] alternative name for "PhysicalProperty". shorter. should indicate that it's "derived" or "emergent" rather than "defininig"
 
-[ ] Nodes  custom shader. point spite uses image of a ball w/ nice highlight
+[ ] Nodes custom shader w/ textured point spite based on image of a ball w/ nice highlight
 
 [ ] scroll & pan: track finger *exactly*
 
@@ -71,5 +67,5 @@ has ui section for 'Parameter Defaults'
     sequencer BC
     sequencer direction/step
 
-[ ] "capture" the display view
+[ ] button for screenshot of the currently displayed pic
 

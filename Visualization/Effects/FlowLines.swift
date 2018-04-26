@@ -15,7 +15,7 @@ import GLKit
 
 class FlowLines : GLKBaseEffect, Effect {
     
-    var debugEnabled = true
+    var debugEnabled = false
     
     let effectType: EffectType = .flowLines
     var name: String = "FlowLines"
@@ -58,8 +58,9 @@ class FlowLines : GLKBaseEffect, Effect {
     private var vertexBuffer: GLuint = 0
     private var built: Bool { return vertexArray != 0 }
     
-    
-    init(_ geometry: SKGeometry, _ physics: SKPhysics, enabled: Bool = false) {
+    private var rOffset: Double = 0.001
+
+    init(_ geometry: SKGeometry, _ physics: SKPhysics, enabled: Bool = false, rOffset: Double = 0.0001) {
         self.geometry = geometry
         self.physics = physics
         self.enabled = enabled
@@ -70,6 +71,8 @@ class FlowLines : GLKBaseEffect, Effect {
         
         super.useConstantColor = 1
         super.constantColor = GLKVector4Make(1.0, 1.0, 1.0, 1.0)
+        
+        self.rOffset = rOffset
     }
     
     deinit {
@@ -101,7 +104,8 @@ class FlowLines : GLKBaseEffect, Effect {
         let nodeCount = geometry.nodeCount
         self.vertices = []
         for i in 0..<nodeCount {
-            let xyz = geometry.nodeIndexToCartesian(i)
+            let rpt = geometry.nodeIndexToSpherical(i)
+            let xyz = geometry.sphericalToCartesian(rpt.r+rOffset, rpt.phi, rpt.thetaE)
             let v = GLKVector4Make(GLfloat(xyz.x), GLfloat(xyz.y), GLfloat(xyz.z), 1.0)
             self.vertices.append(v) // for start of line #1
             self.vertices.append(v) // for end of line #1

@@ -222,6 +222,11 @@ class SKGeometry : ChangeCounted {
         return (m, n)
     }
     
+    func nodeIndexToSpherical(_ nodeIndex: Int) ->  (r: Double, phi: Double, thetaE: Double) {
+        let mn = nodeIndexToSK(nodeIndex)
+        return skToSpherical(mn.m, mn.n)
+    }
+    
     func nodeIndexToCartesian(_ nodeIndex: Int) -> (x: Double, y: Double, z: Double) {
         let mn = nodeIndexToSK(nodeIndex)
         return skToCartesian(mn.m, mn.n)
