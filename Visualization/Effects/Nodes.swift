@@ -36,8 +36,8 @@ class Nodes : Effect {
         case color = 1
     }
     
-    let vertexShader = "SecondVertexShader.glsl"
-    let fragmentShader = "SecondFragmentShader.glsl"
+    let vertexShader = "PointSpriteVertexShader.glsl"
+    let fragmentShader = "SimpleFragmentShader.glsl"
     
     private var programHandle: GLuint = 0
     private var modelViewMatrixUniform : Int32 = 0
