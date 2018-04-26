@@ -21,7 +21,21 @@ class Icosahedron : GLKBaseEffect, Effect {
     var name = "Icosahedron"
     var info: String? = nil
     var enabled: Bool
-
+    
+    var projectionMatrix: GLKMatrix4 {
+        get { return transform.projectionMatrix }
+        set(newValue) {
+            transform.projectionMatrix = newValue
+        }
+    }
+    
+    var modelviewMatrix: GLKMatrix4 {
+        get { return transform.modelviewMatrix }
+        set(newValue) {
+            transform.modelviewMatrix = newValue
+        }
+    }
+    
     static let c0 = GLfloat(0.0)
     static let c1 = GLfloat(1.0 / sqrt(1.0 + Double.constants.goldenRatio * Double.constants.goldenRatio))
     static let c2 = GLfloat(Double.constants.goldenRatio / sqrt(1.0 + Double.constants.goldenRatio * Double.constants.goldenRatio))

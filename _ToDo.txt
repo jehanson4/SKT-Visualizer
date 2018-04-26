@@ -2,9 +2,11 @@
 ToDo.txt
 ==================================================================================
 
+
 [ ] sequencer UI controls
-    [ ] either DELETE or hook up the sequencer steppers
+    [ ] DELETE the sequencer steppers
     [ ] stepper direction buttons behave weirdly
+    [ ] looks bad
 
 [ ] Nodes
 
@@ -15,7 +17,11 @@ THE LINE
 ==================================================================================
 BELOW THE LINE
 
-[ ] p2 orphans no longer right-justified
+
+
+[ ] steppers in the sequencer controls
+
+[ ] p2 guys no longer right-justified
 
 [ ] basinfinder change iteration order by quadrant
 doesn't seem to be affected by k0; it's in quarters no matter what

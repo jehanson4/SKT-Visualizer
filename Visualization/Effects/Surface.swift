@@ -30,6 +30,21 @@ class Surface : GLKBaseEffect, Effect {
 
     // ====================================
     // GL stuff
+    
+    var projectionMatrix: GLKMatrix4 {
+        get { return transform.projectionMatrix }
+        set(newValue) {
+            transform.projectionMatrix = newValue
+        }
+    }
+    
+    var modelviewMatrix: GLKMatrix4 {
+        get { return transform.modelviewMatrix }
+        set(newValue) {
+            transform.modelviewMatrix = newValue
+        }
+    }
+    
     var vertices: [PNVertex] = []
     var indices: [GLuint] = []
     var colors: [GLKVector4] = []

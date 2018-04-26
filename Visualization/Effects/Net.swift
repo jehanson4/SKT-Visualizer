@@ -31,6 +31,21 @@ class Net : GLKBaseEffect, Effect {
     var rOffset: Double
     
     // GL
+    
+    var projectionMatrix: GLKMatrix4 {
+        get { return transform.projectionMatrix }
+        set(newValue) {
+            transform.projectionMatrix = newValue
+        }
+    }
+    
+    var modelviewMatrix: GLKMatrix4 {
+        get { return transform.modelviewMatrix }
+        set(newValue) {
+            transform.modelviewMatrix = newValue
+        }
+    }
+    
     let lineWidth: GLfloat = 2.0
     let lineColor: GLKVector4 = GLKVector4Make(1.0, 1.0, 1.0, 1.0)
     var vertexArray: GLuint = 0

@@ -192,8 +192,9 @@ class VisualizationModel1 : VisualizationModel {
         registerEffect(Meridians(skt.geometry, enabled: false, rOffset: rOffset))
         registerEffect(Net(skt.geometry, enabled: false, rOffset: rOffset))
         registerEffect(Surface(skt.geometry, skt.physics, colorSources, enabled: true))
-        registerEffect(Nodes(skt.geometry, skt.physics, colorSources, enabled: false))
+        // registerEffect(Nodes(skt.geometry, skt.physics, colorSources, enabled: false))
         // registerEffect(Icosahedron(enabled: false))
+        registerEffect(Balls(enabled: false))
     }
     
     // ====================================
@@ -398,11 +399,11 @@ class VisualizationModel1 : VisualizationModel {
         let d = GLfloat(VisualizationModel1.pov_rFactor * skt.geometry.r0)
         let newMatrix = GLKMatrix4MakeOrtho(-d, d, -d/aspectRatio, d/aspectRatio, 2*d, -2*d)
         
-        func applyProjectionMatrix(_ effect: Effect) {
+        func applyProjectionMatrix(_ effect: inout Effect) {
             // debug("applyProjectionMatrix", "effect:" + effect.name)
-            effect.transform.projectionMatrix = newMatrix
+            effect.projectionMatrix = newMatrix
         }
-        effects.visit(applyProjectionMatrix)
+        effects.apply(applyProjectionMatrix)
     }
     
     private func updateModelview() {
@@ -418,12 +419,11 @@ class VisualizationModel1 : VisualizationModel {
         let scaleMatrix = GLKMatrix4MakeScale(zz, zz, zz)
         let newMatrix = GLKMatrix4Multiply(scaleMatrix, lookatMatrix)
         
-        func applyModelviewMatrix(_ effect: Effect) {
+        func applyModelviewMatrix(_ effect: inout Effect) {
             // debug("applyModelviewMatrix", "effect:" + effect.name)
-            effect.transform.modelviewMatrix = newMatrix
+            effect.modelviewMatrix = newMatrix
         }
-        
-        effects.visit(applyModelviewMatrix)
+        effects.apply(applyModelviewMatrix)
     }
     
     func draw(_ drawableWidth: Int, _ drawableHeight: Int) {

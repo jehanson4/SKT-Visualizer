@@ -36,6 +36,21 @@ class Meridians : GLKBaseEffect, Effect {
     var geometry: SKGeometry
     var geometryChangeNumber: Int
 
+    
+    var projectionMatrix: GLKMatrix4 {
+        get { return transform.projectionMatrix }
+        set(newValue) {
+            transform.projectionMatrix = newValue
+        }
+    }
+    
+    var modelviewMatrix: GLKMatrix4 {
+        get { return transform.modelviewMatrix }
+        set(newValue) {
+            transform.modelviewMatrix = newValue
+        }
+    }
+    
     private var vertices: [GLKVector4] = []
     private var lineStarts: [GLint] = []
     private var lineVertexCounts: [GLsizei] = []

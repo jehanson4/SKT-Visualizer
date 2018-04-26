@@ -22,6 +22,7 @@ enum EffectType: Int {
     case net = 3
     case surface = 4
     case nodes = 5
+    case balls = 6
 }
 
 // ==============================================================================
@@ -34,8 +35,9 @@ protocol Effect : Named  {
     
     var enabled: Bool { get set }
     
-    var transform: GLKEffectPropertyTransform { get }
-    
+    var projectionMatrix: GLKMatrix4 { get set }
+    var modelviewMatrix: GLKMatrix4 { get set }
+
     func prepareToDraw()
     func draw()
 }

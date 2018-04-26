@@ -23,7 +23,21 @@ class Axes : GLKBaseEffect, Effect {
     var info: String? = nil
     var enabled: Bool
     var built: Bool = false
-
+    
+    var projectionMatrix: GLKMatrix4 {
+        get { return transform.projectionMatrix }
+        set(newValue) {
+            transform.projectionMatrix = newValue
+        }
+    }
+    
+    var modelviewMatrix: GLKMatrix4 {
+        get { return transform.modelviewMatrix }
+        set(newValue) {
+            transform.modelviewMatrix = newValue
+        }
+    }
+    
     private let vertices: [GLfloat] = [
         0.00, 0.00, 0.00,
         0.33, 0.00, 0.00,

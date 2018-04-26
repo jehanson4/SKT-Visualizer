@@ -59,20 +59,17 @@ class Registry<T> : ChangeMonitorEnabled {
     }
     
     func visit(_ visitor: @escaping (T) -> ()) {
-        
-        func visitorMapper(_ entry: RegistryEntry<T>) throws {
-            visitor(entry.value)
-        }
-        
-        // AWKWARD because Jim can't Swift good
-        do {
-            try _entries.mapValues(visitorMapper)
-        }
-        catch {
-            // TODO something sensible
+        for ee in _entries {
+            visitor(ee.value.value)
         }
     }
-    
+
+    func apply(_ operatr: @escaping (inout T) -> ()) {
+        for ee in _entries {
+            operatr(&ee.value.value)
+        }
+    }
+
     private func findUniqueName(_ hint: String?) -> String {
         let basis = (hint == nil) ? "Entry" : hint!
         var test = basis
