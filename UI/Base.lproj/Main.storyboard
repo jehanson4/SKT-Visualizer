@@ -259,7 +259,7 @@
                                                 <rect key="frame" x="16" y="0.0" width="240" height="184"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="h8O-m5-mhO" userLabel="EffectsStack View">
-                                                        <rect key="frame" x="0.0" y="0.0" width="224" height="155"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="224" height="186"/>
                                                         <subviews>
                                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZF6-69-Oim" userLabel="Surface View">
                                                                 <rect key="frame" x="0.0" y="0.0" width="224" height="31"/>
@@ -314,8 +314,25 @@
                                                                     </switch>
                                                                 </subviews>
                                                             </stackView>
-                                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Zy-ne-j0X" userLabel="Meridians View">
+                                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u9l-9H-4jf" userLabel="Streamlines View">
                                                                 <rect key="frame" x="0.0" y="93" width="224" height="31"/>
+                                                                <subviews>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Flow lines" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xyA-Su-ZnN" userLabel="Streamlines">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="175" height="31"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                                        <nil key="textColor"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ti5-Qu-2Fm">
+                                                                        <rect key="frame" x="175" y="0.0" width="51" height="31"/>
+                                                                        <connections>
+                                                                            <action selector="flowLines_action:" destination="3aD-bn-OtG" eventType="valueChanged" id="IA7-35-bxg"/>
+                                                                        </connections>
+                                                                    </switch>
+                                                                </subviews>
+                                                            </stackView>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Zy-ne-j0X" userLabel="Meridians View">
+                                                                <rect key="frame" x="0.0" y="124" width="224" height="31"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Meridians" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3ZC-x6-mkX">
                                                                         <rect key="frame" x="0.0" y="0.0" width="175" height="31"/>
@@ -332,7 +349,7 @@
                                                                 </subviews>
                                                             </stackView>
                                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pL8-fe-MDW" userLabel="Axes View">
-                                                                <rect key="frame" x="0.0" y="124" width="224" height="31"/>
+                                                                <rect key="frame" x="0.0" y="155" width="224" height="31"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Axes" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gXd-vm-9hF">
                                                                         <rect key="frame" x="0.0" y="0.0" width="175" height="31"/>
@@ -581,6 +598,7 @@
                         <outlet property="bc_segment" destination="bI0-fv-wHB" id="KGF-7T-BTn"/>
                         <outlet property="colorSourceDrop" destination="V3L-DU-kdT" id="KmM-hF-QEB"/>
                         <outlet property="dir_segment" destination="SZ3-82-JQs" id="qCh-XG-tfp"/>
+                        <outlet property="flowLines_switch" destination="ti5-Qu-2Fm" id="FuB-G3-dZc"/>
                         <outlet property="k_stepper" destination="9Rd-Kx-XBb" id="HgW-kj-dQL"/>
                         <outlet property="k_text" destination="dGE-Z4-yxV" id="eAV-y2-ZMb"/>
                         <outlet property="lb_text" destination="12I-P2-pCP" id="VkO-2C-ZNf"/>
@@ -989,7 +1007,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="done" id="7Y2-PQ-QFA">
                             <button key="customView" opaque="NO" contentMode="right" contentHorizontalAlignment="right" contentVerticalAlignment="fill" buttonType="roundedRect" lineBreakMode="middleTruncation" id="8jX-Zj-hIp">
-                                <rect key="frame" x="269" y="5.5" width="35" height="33"/>
+                                <rect key="frame" x="269" y="6" width="35" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <state key="normal" title="&lt;&lt;&lt;"/>

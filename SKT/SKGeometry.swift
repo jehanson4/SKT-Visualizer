@@ -144,9 +144,25 @@ class SKGeometry : ChangeCounted {
     }
 
     // ===========================================================
+    // Helpers
+    // ===========================================================
+
+    static func magnitude(_ p0: (x: Double, y: Double, z: Double)) -> Double {
+        return sqrt(p0.x*p0.x + p0.y*p0.y + p0.z*p0.z)
+    }
+    
+    static func distance(_ p0: (x: Double, y: Double, z: Double),
+                                  _ p1: (x: Double, y: Double, z: Double)) -> Double {
+        let dx = p1.x-p0.x
+        let dy = p1.y-p0.y
+        let dz=p1.z-p0.z
+        return sqrt( dx*dx + dy*dy + dz*dz)
+    }
+    
+    // ===========================================================
     // MARK: Transform APIs
     //
-    // For debugging purposes, the API methods are all wrappers
+    // For debugging purposes, the tricky ones are all wrappers
     // around private methods that to the actual work
     // ===========================================================
 
@@ -204,6 +220,11 @@ class SKGeometry : ChangeCounted {
         let m = nodeIndex / nodeIndexModulus
         let n = nodeIndex - (m * nodeIndexModulus)
         return (m, n)
+    }
+    
+    func nodeIndexToCartesian(_ nodeIndex: Int) -> (x: Double, y: Double, z: Double) {
+        let mn = nodeIndexToSK(nodeIndex)
+        return skToCartesian(mn.m, mn.n)
     }
     
     // ===========================================================

@@ -23,15 +23,15 @@ protocol ChangeCounted {
 class ChangeCountWrapper {
     private let _cc: ChangeCounted
     private var _cnum: Int
-    private let _callback: (ChangeCounted) -> ()
+    private let _callback: (Any) -> ()
     
-    init(_ cc: ChangeCounted, _ callback: @escaping (ChangeCounted) -> ()) {
+    init(_ cc: ChangeCounted, _ callback: @escaping (Any) -> ()) {
         self._cc = cc
         self._cnum = cc.changeNumber
         self._callback = callback
     }
     
-    public func poke() {
+    public func check() {
         let newCN = _cc.changeNumber
         if (newCN != _cnum) {
             _cnum = newCN

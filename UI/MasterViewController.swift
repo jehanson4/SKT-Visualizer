@@ -383,6 +383,17 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
         }
     }
     
+    @IBOutlet weak var flowLines_switch: UISwitch!
+    
+    @IBAction func flowLines_action(_ sender: UISwitch) {
+        let effectOrNil = installedEffect(EffectType.flowLines)
+        if (effectOrNil != nil) {
+            var effect = effectOrNil!
+            effect.enabled = sender.isOn
+            sender.isOn = effect.enabled
+        }
+    }
+    
     func installedEffect(_ type: EffectType) -> Effect? {
         return appModel?.viz.effect(forType: type)
     }
@@ -399,6 +410,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
         net_switch.isOn       = viz.effect(forType: EffectType.net)?.enabled ?? false
         surface_switch.isOn   = viz.effect(forType: EffectType.surface)?.enabled ?? false
         nodes_switch.isOn     = viz.effect(forType: EffectType.nodes)?.enabled ?? false
+        flowLines_switch.isOn = viz.effect(forType: EffectType.flowLines)?.enabled ?? false
     }
     
     // =======================================================================

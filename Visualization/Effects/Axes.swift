@@ -83,9 +83,9 @@ class Axes : GLKBaseEffect, Effect {
         glVertexAttribPointer(vaIndex, 3, GLenum(GL_FLOAT), 0, vaStride, BUFFER_OFFSET(0))
         
         // finish up
-        glBindVertexArray(0)
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), 0)
-        
+        glBindVertexArray(0)
+
         return true
     }
     
@@ -108,6 +108,7 @@ class Axes : GLKBaseEffect, Effect {
         debug("drawing")
         glDrawArrays(GLenum(GL_LINE_STRIP), 0, GLsizei(vertices.count))
         glLineWidth(1.0)
+        glBindBuffer(GLenum(GL_ARRAY_BUFFER), 0)
         glBindVertexArray(0)
         
         let err = glGetError()
