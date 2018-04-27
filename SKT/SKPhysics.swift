@@ -76,7 +76,6 @@ class SKPhysics : ChangeCounted {
     }
     
     func setAlpha1(_ newValue: Double) {
-        debug("setAlpha1", "newValue=\(newValue)")
         let v2 = clip(newValue, SKPhysics.alpha_min, SKPhysics.alpha_max)
         if (v2 == _alpha1) { return }
         _alpha1 = v2

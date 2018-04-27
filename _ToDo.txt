@@ -7,9 +7,6 @@ For 1.0.2
 [ ] sequencer UI controls
     [ ] in some cases it forgets a value that I jst set.
 
-[ ] flow lines missing on back of equator -- should be sideways.
-[ ] flow lines wrong at the pole & basin boundaries. I will need to be able to draw
-    4 lines from every node
 
 ABOVE THE LINE
 ==================================================================================

@@ -148,6 +148,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     var N_monitor: ChangeMonitor!
     
     func N_update(_ N: DiscreteParameter) {
+        debug("N_update")
         N_text.text = N.valueStr
         N_stepper.minimumValue = Double(N.min)
         N_stepper.maximumValue = Double(N.max)
@@ -209,7 +210,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     @IBAction func a1_stepperAction(_ sender: UIStepper) {
         let param = appModel?.skt.alpha1
         if (param != nil) {
-            debug("a1_stepperAction", "sender.value=\(sender.value)")
+            // debug("a1_stepperAction", "sender.value=\(sender.value)")
             param!.value  = sender.value
         }
         // MAYBE a1_update(param)
@@ -218,7 +219,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     var a1_monitor: ChangeMonitor!
     
     func a1_update(_ param: ContinuousParameter) {
-        debug("a1_update", "param name=\(param.name) value=\(param.value)")
+        // debug("a1_update", "param name=\(param.name) value=\(param.value)")
         a1_text.text = param.valueStr
         
         a1_stepper.minimumValue = param.min
@@ -226,7 +227,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
         a1_stepper.stepValue = param.stepSize
         a1_stepper.value = param.value
 
-        debug("a1_update", "on exit: param.value=\(param.value) a1_stepper.value=\(a1_stepper.value)")
+        // debug("a1_update", "on exit: param.value=\(param.value) a1_stepper.value=\(a1_stepper.value)")
     }
     
     // =======================================================
@@ -239,7 +240,9 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     @IBAction func a2_textAction(_ sender: UITextField) {
         let param = appModel?.skt.alpha2
         if (param != nil && sender.text != nil) {
+            // debug("a2_textAction", "sender.text=\(sender.text!)")
             param!.valueStr = sender.text!
+            // debug("a2_textAction", "new param value: " + param!.valueStr)
         }
         // MAYBE a2_update(param)
     }
@@ -248,14 +251,14 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
         let param = appModel?.skt.alpha2
         if (param != nil) {
             param!.value = sender.value
+            // MAYBE a2_update(param!)
         }
-        // MAYBE a2_update(param)
     }
     
     var a2_monitor: ChangeMonitor!
     
     func a2_update(_ param: ContinuousParameter) {
-        debug("a2_update", "param.name=\(param.name)")
+        // debug("a2_update", "param.name=\(param.name)")
         a2_text.text = param.valueStr
         a2_stepper.minimumValue = param.min
         a2_stepper.maximumValue = param.max
@@ -289,6 +292,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     var T_monitor: ChangeMonitor!
     
     func T_update(_ param: ContinuousParameter) {
+        debug ("T_update")
         T_text.text = param.valueStr
         
         T_stepper.minimumValue = param.min

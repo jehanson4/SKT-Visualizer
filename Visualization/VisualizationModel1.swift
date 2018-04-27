@@ -404,8 +404,10 @@ class VisualizationModel1 : VisualizationModel {
     private func updateProjection() {
         debug("updateProjection")
         
-        // EMPIRICAL if last 2 args are -d, d then things seem to disappear
         let d = GLfloat(VisualizationModel1.pov_rFactor * skt.geometry.r0)
+        
+        // Docco sez args are: left, right, bottom, top, near, far "in eye coordinates"
+        // EMPIRICAL if last 2 args are -d, d then things seem to disappear
         let newMatrix = GLKMatrix4MakeOrtho(-d, d, -d/aspectRatio, d/aspectRatio, 2*d, -2*d)
         
         func applyProjectionMatrix(_ effect: inout Effect) {

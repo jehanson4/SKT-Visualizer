@@ -171,7 +171,7 @@ class DiscreteParameter : AdjustableParameter {
     // type conversion
     
     func numify(_ s: String) -> Int? {
-        return Int(s)
+        return Int(s.trimmingCharacters(in: .whitespacesAndNewlines))
     }
     
     func stringify(_ t: Int) -> String {

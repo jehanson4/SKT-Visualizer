@@ -146,7 +146,10 @@ class ContinuousParameter : AdjustableParameter {
     private var _lastValue: Double
     
     var valueStr: String {
-        get { return stringify(value) }
+        get {
+            return stringify(value)
+            
+        }
         set(newValue) {
             let v2 = numify(newValue)
             if (v2 != nil) {
@@ -178,7 +181,7 @@ class ContinuousParameter : AdjustableParameter {
     // type conversion
     
     func numify(_ s: String) -> Double? {
-        return Double(s)
+        return Double(s.trimmingCharacters(in: .whitespacesAndNewlines))
     }
     
     func stringify(_ t: Double) -> String {
