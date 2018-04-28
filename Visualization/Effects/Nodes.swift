@@ -19,9 +19,13 @@ import OpenGL
 // ==============================================================
 
 class Nodes : Effect {
-
     var debugEnabled = false
     
+    // EMPIRICAL
+    let pointSizeMax: GLfloat = 32
+    let pointSizeScaleFactor: GLfloat = 350
+    
+
     let effectType = EffectType.nodes
     var name = "Nodes"
     var info: String? = nil
@@ -46,7 +50,6 @@ class Nodes : Effect {
     
     var projectionMatrix: GLKMatrix4 = GLKMatrix4Identity
     var modelviewMatrix: GLKMatrix4 = GLKMatrix4Identity
-    var pointSize: GLfloat = 48
     
     var vertices: [GLKVector4] = []
     var colors: [GLKVector4] = []
@@ -54,10 +57,8 @@ class Nodes : Effect {
     var vertexArray: GLuint = 0
     var vertexBuffer: GLuint = 0
     var colorBuffer: GLuint = 0
-    
-    // ====================================
-    // SKT stuff
-    
+
+    var viz: VisualizationModel
     var geometry: SKGeometry
     var geometryChangeNumber: Int
     var physics: SKPhysics
@@ -70,7 +71,8 @@ class Nodes : Effect {
     // Initialization
     // =====================================
 
-    init(_ geometry: SKGeometry, _ physics: SKPhysics, _ colorSources: Registry<ColorSource>?, enabled: Bool = false) {
+    init(_ viz: VisualizationModel, _ geometry: SKGeometry, _ physics: SKPhysics, _ colorSources: Registry<ColorSource>?, enabled: Bool = false) {
+        self.viz = viz
         self.geometry = geometry
         self.geometryChangeNumber = geometry.changeNumber
         self.physics = physics
@@ -195,7 +197,7 @@ class Nodes : Effect {
         glUniformMatrix4fv(projectionMatrixUniform, 1, GLboolean(GL_FALSE), projectionMatrix.array)
         glUniformMatrix4fv(modelViewMatrixUniform, 1, GLboolean(GL_FALSE), modelviewMatrix.array)
 
-        pointSize = calculatePointSize()
+        let pointSize = calculatePointSize()
         glUniform1f(pointSizeUniform, pointSize)
     }
     
@@ -282,9 +284,29 @@ class Nodes : Effect {
    }
     
     func calculatePointSize() -> GLfloat {
-        // TODO make it smaller if nodes are closeer than "64"
-        // use zomm & geometry.
-        return 32
+
+        // TODO solve this
+//        let xform = GLKMatrix4Multiply(projectionMatrix, modelviewMatrix)
+//        // let xform = GLKMatrix4Multiply(modelviewMatrix, projectionMatrix)
+//
+//        // let unit = GLKVector4Make(1,1,1,1)
+//        // let unit = GLKVector4Make(1,0,0,1)
+//        // let unit = GLKVector4Make(0,1,0,1)
+//        let unit = GLKVector4Make(0,0,1,1)
+//
+//        let mvLen = GLKVector4Length(GLKMatrix4MultiplyVector4(xform, unit))
+//        let pts = pointSizeScaleFactor * mvLen * GLfloat(geometry.neighborDistance)
+//        // let mvSquare = mvLen * mvLen
+//        // debug("calculatePointSize", "neighborDistance=\(geometry.neighborDistance)")
+//        // debug("calculatePointSize", "mvLen=\(mvLen)")
+//        debug("calculatePointSize", "pts=\(pts)")
+//
+//        return clip(pts, 1, pointSizeMax)
+        
+        let pts = pointSizeScaleFactor * GLfloat(viz.pov.zoom * geometry.neighborDistance)
+        debug("calculatePointSize", "zoom=\(viz.pov.zoom)")
+        debug("calculatePointSize", "pts=\(pts)")
+        return clip(pts, 1, pointSizeMax)
     }
     
     // ========================================

@@ -19,7 +19,7 @@ class Entropy : PhysicalProperty {
     var info: String? = nil
     
     var bounds: (min: Double, max: Double) { ensureFresh(); return fBounds }
-    let params: [String: AdjustableParameter]? = nil
+    // let params: [String: AdjustableParameter1]? = nil
 
     private let geometry: SKGeometry
     private let physics: SKPhysics

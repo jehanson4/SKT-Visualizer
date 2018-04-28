@@ -73,25 +73,16 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
         if (segue.destination is AppModelUser) {
             var d2 = segue.destination as! AppModelUser
             if (d2.appModel != nil) {
-                debug(mtdName, "destination's app'smodel is already set")
+                debug(mtdName, "destination's app model is already set")
             }
             else {
-                debug(mtdName, "setting destination's model")
+                debug(mtdName, "setting destination's app model")
                 d2.appModel = self.appModel
             }
         }
         else {
             debug(mtdName, "destination is not an app model user")
         }
-        
-        let segueID = (segue.identifier == nil) ? "nil" : segue.identifier!
-        debug(mtdName, "segue.identifier=\(segueID)")
-//        if (segueID == MagicStrings.colorSourceDroplistSegue &&
-//            segue.destination is RegistrySelectionViewController) {
-//            debug(mtdName, "seque.dest is droplist for color sources!")
-//            var d2 = segue.destination as! RegistrySelectionViewController
-//            d2.registry = appModel?.viz.colorSources
-//        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -116,19 +107,22 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
     @IBOutlet weak var dN_text: UITextField!
 
     @IBAction func dN_textAction(_ sender: UITextField) {
-        if (appModel != nil && sender.text != nil) {
-            let N = appModel!.skt.N
-            let dN: Int? = Int(sender.text!)
-            if (dN != nil) {
-                N.stepSize = dN!
+        let param = appModel?.skt.N
+        if (param != nil && sender.text != nil) {
+            let v2 = param!.fromString(sender.text!)
+            if (v2 != nil) {
+                param!.stepSize = v2!
             }
         }
     }
 
     var N_monitor: ChangeMonitor!
     
-    func N_update(_ N: AdjustableParameter) {
-        dN_text.text = N.stepSizeStr
+    func N_update(_ sender: Any?) {
+        let param = sender as? DiscreteParameter
+        if (param != nil) {
+            dN_text.text = param!.toString(param!.stepSize)
+        }
     }
     
     // ============================
@@ -137,19 +131,22 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
     @IBOutlet weak var dk_text: UITextField!
     
     @IBAction func dk_textAction(_ sender: UITextField) {
-        if (appModel != nil || sender.text != nil) {
-            let k0 = appModel!.skt.k0
-            let dk0: Int? = Int(sender.text!)
-            if (dk0 != nil) {
-                k0.stepSize = dk0!
+        let param = appModel?.skt.k0
+        if (param != nil && sender.text != nil) {
+            let v2 = param!.fromString(sender.text!)
+            if (v2 != nil) {
+                param!.stepSize = v2!
             }
         }
     }
 
     var k0_monitor: ChangeMonitor!
     
-    func k0_update(_ k0: AdjustableParameter) {
-        dk_text.text = k0.stepSizeStr
+    func k0_update(_ sender: Any?) {
+        let param = sender as? DiscreteParameter
+        if (param != nil) {
+            dk_text.text = param!.toString(param!.stepSize)
+        }
     }
 
     // ==========================
@@ -158,19 +155,22 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
     @IBOutlet weak var da1_text: UITextField!
     
     @IBAction func da1_textAction(_ sender: UITextField) {
-        if (appModel != nil && sender.text != nil) {
-            let alpha1 = appModel!.skt.alpha1
-            let da1: Double? = Double(sender.text!)
-            if (da1 != nil) {
-                alpha1.stepSize = da1!
+        let param = appModel?.skt.alpha1
+        if (param != nil && sender.text != nil) {
+            let v2 = param!.fromString(sender.text!)
+            if (v2 != nil) {
+                param!.stepSize = v2!
             }
         }
     }
 
     var a1_monitor: ChangeMonitor!
     
-    func a1_update(_ alpha1: AdjustableParameter) {
-        da1_text.text = alpha1.stepSizeStr
+    func a1_update(_ sender: Any?) {
+        let param = sender as? ContinuousParameter
+        if (param != nil) {
+            da1_text.text = param!.toString(param!.stepSize)
+        }
     }
     
     // ==========================
@@ -179,19 +179,22 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
     @IBOutlet weak var da2_text: UITextField!
 
     @IBAction func da2_textAction(_ sender: UITextField) {
-        if (appModel != nil && sender.text != nil) {
-            let alpha2 = appModel!.skt.alpha2
-            let da2: Double? = Double(sender.text!)
-            if (da2 != nil) {
-                alpha2.stepSize = da2!
+        let param = appModel?.skt.alpha2
+        if (param != nil && sender.text != nil) {
+            let v2 = param!.fromString(sender.text!)
+            if (v2 != nil) {
+                param!.stepSize = v2!
             }
         }
     }
     
     var a2_monitor: ChangeMonitor!
     
-    func a2_update(_ alpha2: AdjustableParameter) {
-        da2_text.text = alpha2.stepSizeStr
+    func a2_update(_ sender: Any?) {
+        let param = sender as? ContinuousParameter
+        if (param != nil) {
+            da2_text.text = param!.toString(param!.stepSize)
+        }
     }
 
     // ==========================
@@ -200,19 +203,22 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
     @IBOutlet weak var dT_text: UITextField!
 
     @IBAction func dT_textAction(_ sender: UITextField) {
-        if (appModel != nil && sender.text != nil) {
-            let T = appModel!.skt.T
-            let dT: Double? = Double(sender.text!)
-            if (dT != nil) {
-                T.stepSize = dT!
+        let param = appModel?.skt.T
+        if (param != nil && sender.text != nil) {
+            let v2 = param!.fromString(sender.text!)
+            if (v2 != nil) {
+                param!.stepSize = v2!
             }
         }
     }
 
     var T_monitor: ChangeMonitor!
     
-    func T_update(_ T: AdjustableParameter) {
-        dT_text.text = T.stepSizeStr
+    func T_update(_ sender: Any?) {
+        let param = sender as? ContinuousParameter
+        if (param != nil) {
+            dT_text.text = param!.toString(param!.stepSize)
+        }
     }
 
     // ===============================================================
@@ -222,6 +228,5 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
     @IBAction func resetViewParams(_ sender: Any) {
         appModel?.viz.resetPOV()
     }
-    
-    
+
 }

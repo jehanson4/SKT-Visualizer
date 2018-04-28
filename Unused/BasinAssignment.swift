@@ -19,7 +19,7 @@ class BasinAssignment : PhysicalProperty {
     var name: String = "Basin assignment"
     var info: String? = nil
     
-    var params: [String : AdjustableParameter]? = nil
+    // var params: [String : AdjustableParameter1]? = nil
     
     var bounds: (min: Double, max: Double)  {
         // TODO

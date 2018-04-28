@@ -36,9 +36,14 @@ class Icosahedron : GLKBaseEffect, Effect {
         }
     }
     
+    // EMPIRICAL
+    static let rFactor = 1.5
+    
+    static let gRatio = Double.constants.goldenRatio
+    static let radius = rFactor * sqrt(1.0 + gRatio * gRatio)
     static let c0 = GLfloat(0.0)
-    static let c1 = GLfloat(1.0 / sqrt(1.0 + Double.constants.goldenRatio * Double.constants.goldenRatio))
-    static let c2 = GLfloat(Double.constants.goldenRatio / sqrt(1.0 + Double.constants.goldenRatio * Double.constants.goldenRatio))
+    static let c1 = GLfloat(1.0/radius)
+    static let c2 = GLfloat(gRatio/radius)
     
     let vertices: [GLfloat] = [
         -c1,  c2,  c0,
@@ -121,11 +126,11 @@ class Icosahedron : GLKBaseEffect, Effect {
         // super.material.ambientColor = GLKVector4Make(0.0, 0.0, 0.0, 0.0)
         super.material.diffuseColor = GLKVector4Make(1.0, 1.0, 1.0, 1.0)
         super.material.specularColor = GLKVector4Make(1.0, 1.0, 1.0, 1.0)
-        super.material.shininess = 128
+        super.material.shininess = 64
         
         // lighting
         // NOTES
-        // 1. when we rotate the scene the light stays put (i.e., it tracks our POV)
+        // 1. the light tracks our POV
         // 2. light position acts as if we're always above the north pole
         
         super.light0.enabled = GLboolean(GL_TRUE)

@@ -19,13 +19,13 @@ import OpenGL
 // ==============================================================
 
 class Surface : GLKBaseEffect, Effect {
-    
     var debugEnabled = false
     
     let effectType = EffectType.surface
     var name = "Surface"
     var info: String? = nil
     var enabled = false
+    
     private var built: Bool = false
 
     // ====================================
@@ -258,7 +258,6 @@ class Surface : GLKBaseEffect, Effect {
             debug(mtd, String(format:"entering: glError 0x%x", err0))
         }
 
-        // DO call buind() here
         if (!built) {
             built = build()
         }

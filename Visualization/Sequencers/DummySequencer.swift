@@ -12,54 +12,54 @@ import Foundation
 // DummySequencer
 // ======================================================================
 
-class DummySequencer : Sequencer {
+class DummySequencer: Sequencer {
+    
+    var lowerBound: Double = 0
+    
+    var upperBound: Double = 1
+    
+    var stepSize: Double = 0.01
+    
+    var value: Double = 0
+    
+    func reset() { }
+    
+    func toString(_ x: Double) -> String {
+        return ""
+    }
+    
+    func fromString(_ s: String) -> Double? {
+        return nil
+    }
     
     var name: String
     
-    var info: String? = nil
-    
-    var direction: Direction {
-        get { return Direction.stopped }
-        set { }
+    var enabled: Bool {
+        get { return false }
+        set(newValue) {}
     }
     
     var boundaryCondition: BoundaryCondition {
         get { return BoundaryCondition.sticky }
-        set { }
-    }
-    
-    var lowerBoundStr: String {
-        get { return "" }
         set(newValue) {}
     }
     
-    var upperBoundStr: String {
-        get { return "" }
+    var direction: Direction {
+        get { return Direction.stopped }
         set(newValue) {}
     }
     
-    var stepSizeStr: String {
-        get { return "" }
-        set(newValue) {}
-    }
-    
-    var enabled: Bool {
-        get { return false }
-        set {}
-    }
-    
-    init(_ name: String = "") {
+    init(_ name: String) {
         self.name = name
     }
-    
-    func reset() {}
     
     func reverse() {}
     
     func step() {}
-    
-    func monitorChanges(_ callback: @escaping (Sequencer) -> ()) -> ChangeMonitor? {
+
+    func monitorChanges(_ callback: @escaping (Any) -> ()) -> ChangeMonitor? {
         return nil
     }
+    
     
 }

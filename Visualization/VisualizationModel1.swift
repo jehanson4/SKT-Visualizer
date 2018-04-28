@@ -22,8 +22,16 @@ class VisualizationModel1 : VisualizationModel {
     
     var debugEnabled = false
     
-    // EMPIRICAL
-    let backgroundColorValue: GLfloat = 0.15
+    // EMPIRICAL so that basin boundary nodes are visible
+    static let scene_backgroundColorValue: GLfloat = 0.15
+    
+    // EMPIRICAL so that the surface, nodes, etc don't occlude the net, flow lines, etc
+    static let effect_rOffset: Double = 0.001
+    
+    // EMPIRICAL for projection matrix:
+    // If nff == 1 then things seem to disappear
+    // If nff > 0 then then everything seems inside-out
+    static let scene_nearFarFactor: GLfloat = -2
     
 
     private var skt: SKTModel
@@ -129,7 +137,7 @@ class VisualizationModel1 : VisualizationModel {
     
     private func initColorSources() {
         debug("initColorSources")
-        let bg = backgroundColorValue
+        let bg = VisualizationModel1.scene_backgroundColorValue
         let grayCS = UniformColor("Nothing", r: bg, g: bg, b: bg)
         registerColorSource(grayCS, false)
         
@@ -190,14 +198,14 @@ class VisualizationModel1 : VisualizationModel {
         let entry = effects.register(effect, nameHint: effect.name)
         effectNamesByType[effect.effectType] = entry.name
     }
-    
+
     private func initEffects() {
-        let rOffset = -0.001
+        let rOffset = VisualizationModel1.effect_rOffset
         registerEffect(Axes(enabled: false))
         registerEffect(Meridians(skt.geometry, enabled: false, rOffset: rOffset))
         registerEffect(Net(skt.geometry, enabled: false, rOffset: rOffset))
         registerEffect(Surface(skt.geometry, skt.physics, colorSources, enabled: true))
-        registerEffect(Nodes(skt.geometry, skt.physics, colorSources, enabled: false))
+        registerEffect(Nodes(self, skt.geometry, skt.physics, colorSources, enabled: false))
         registerEffect(FlowLines(skt.geometry, skt.physics, enabled: false, rOffset: rOffset))
 
         registerEffect(Icosahedron(enabled: false))
@@ -231,41 +239,51 @@ class VisualizationModel1 : VisualizationModel {
         
         registerSequencer(DummySequencer("None"), true)
         
-        registerSequencer(DiscreteParameterSequencer(
+        registerSequencer(NumericParameterSequencer(
             skt.N,
-            SKGeometry.N_defaultLowerBound,
-            SKGeometry.N_defaultUpperBound,
-            SKGeometry.N_defaultStepSize
+            min: SKGeometry.N_min,
+            max: SKGeometry.N_max,
+            lowerBound: SKGeometry.N_defaultLowerBound,
+            upperBound: SKGeometry.N_defaultUpperBound,
+            stepSize: SKGeometry.N_defaultStepSize
         ), false)
 
         registerSequencer(NForFixedKOverN(skt), false)
         
-        registerSequencer(DiscreteParameterSequencer(
+        registerSequencer(NumericParameterSequencer(
             skt.k0,
-            SKGeometry.k0_defaultLowerBound,
-            SKGeometry.k0_defaultUpperBound,
-            SKGeometry.k0_defaultStepSize
+            min: SKGeometry.k0_min,
+            max: SKGeometry.k0_max,
+            lowerBound: SKGeometry.k0_defaultLowerBound,
+            upperBound: SKGeometry.k0_defaultUpperBound,
+            stepSize: SKGeometry.k0_defaultStepSize
         ), false)
 
-        registerSequencer(ContinuousParameterSequencer(
+        registerSequencer(NumericParameterSequencer(
             skt.alpha1,
-            SKPhysics.alpha_defaultLowerBound,
-            SKPhysics.alpha_defaultUpperBound,
-            SKPhysics.alpha_defaultStepSize
+            min: SKPhysics.alpha_min,
+            max: SKPhysics.alpha_max,
+            lowerBound: SKPhysics.alpha_defaultLowerBound,
+            upperBound: SKPhysics.alpha_defaultUpperBound,
+            stepSize: SKPhysics.alpha_defaultStepSize
         ), false)
         
-        registerSequencer(ContinuousParameterSequencer(
+        registerSequencer(NumericParameterSequencer(
             skt.alpha2,
-            SKPhysics.alpha_defaultLowerBound,
-            SKPhysics.alpha_defaultUpperBound,
-            SKPhysics.alpha_defaultStepSize
+            min: SKPhysics.alpha_min,
+            max: SKPhysics.alpha_max,
+            lowerBound: SKPhysics.alpha_defaultLowerBound,
+            upperBound: SKPhysics.alpha_defaultUpperBound,
+            stepSize: SKPhysics.alpha_defaultStepSize
         ), false)
         
-        registerSequencer(ContinuousParameterSequencer(
+        registerSequencer(NumericParameterSequencer(
             skt.T,
-            SKPhysics.T_defaultLowerBound,
-            SKPhysics.T_defaultUpperBound,
-            SKPhysics.T_defaultStepSize
+            min: SKPhysics.T_min,
+            max: SKPhysics.T_max,
+            lowerBound: SKPhysics.T_defaultLowerBound,
+            upperBound: SKPhysics.T_defaultUpperBound,
+            stepSize: SKPhysics.T_defaultStepSize
         ), false)
         
         sequencerChangeMonitor = sequencers.monitorChanges(sequencerSelectionChanged)
@@ -374,7 +392,7 @@ class VisualizationModel1 : VisualizationModel {
     func configureGL() {
         debug("configureGL")
         
-        let bg = backgroundColorValue
+        let bg = VisualizationModel1.scene_backgroundColorValue
         glClearColor(bg, bg, bg, bg)
         glClearDepthf(1.0)
         
@@ -388,27 +406,20 @@ class VisualizationModel1 : VisualizationModel {
         glBlendFunc(GLenum(GL_SRC_ALPHA), GLenum(GL_ONE_MINUS_SRC_ALPHA))
         
         glEnable(GLenum(GL_DEPTH_TEST))
+        
         glDepthFunc(GLenum(GL_LEQUAL))
         // ?? glDepthFunc(GLenum(GL_GEQUAL))
         
-        // From v1; not needed here b/c each GLKBaseEffect has its own lighting model
-        // glEnable(GLenum(GL_LIGHTING))
-        // glLightModel(GLenum(GL_LIGHT_MODEL_AMBIENT), lightAmbientIntensity)
-        // glEnable(GLenum(GL_LIGHT0))
-        // glLightfv(GLenum(GL_LIGHT0), GLenum(GL_POSITION), light0Direction)
-        // glLightfv(GLenum(GL_LIGHT0), GLenum(GL_DIFFUSE), light0Intensity)
-        // glEnable(GLenum(GL_COLOR_MATERIAL))
-        // glColorMaterial(GLenum(GL_FRONT), GLenum(GL_AMBIENT_AND_DIFFUSE))
+        // (No lighting set up here; it's done by the effects.)
     }
     
     private func updateProjection() {
         debug("updateProjection")
         
-        let d = GLfloat(VisualizationModel1.pov_rFactor * skt.geometry.r0)
-        
         // Docco sez args are: left, right, bottom, top, near, far "in eye coordinates"
-        // EMPIRICAL if last 2 args are -d, d then things seem to disappear
-        let newMatrix = GLKMatrix4MakeOrtho(-d, d, -d/aspectRatio, d/aspectRatio, 2*d, -2*d)
+        let nff = VisualizationModel1.scene_nearFarFactor
+        let d = GLfloat(VisualizationModel1.pov_rFactor * skt.geometry.r0)
+        let newMatrix = GLKMatrix4MakeOrtho(-d, d, -d/aspectRatio, d/aspectRatio, nff*d, -nff*d)
         
         func applyProjectionMatrix(_ effect: inout Effect) {
             // debug("applyProjectionMatrix", "effect:" + effect.name)

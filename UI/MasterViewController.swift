@@ -131,29 +131,35 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     @IBAction func N_textAction(_ sender: UITextField) {
         let param = appModel?.skt.N
         if (param != nil && sender.text != nil) {
-            param!.valueStr = sender.text!
+            let v2 = param!.fromString(sender.text!)
+            if (v2 != nil) {
+                param!.value = v2!
+            }
         }
-        // MAYBE N_update(param)
     }
     
     @IBAction func N_stepperAction(_ sender: UIStepper) {
         let param = appModel?.skt.N
-        let nn: Int? = Int(sender.value)
-        if (param != nil && nn != nil) {
-            param!.value = nn!
+        if (param != nil) {
+            let v2 = param!.fromDouble(sender.value)
+            if (v2 != nil) {
+                param!.value = v2!
+            }
         }
-        // MAYBE N_update(param)
     }
     
     var N_monitor: ChangeMonitor!
     
-    func N_update(_ N: DiscreteParameter) {
-        debug("N_update")
-        N_text.text = N.valueStr
-        N_stepper.minimumValue = Double(N.min)
-        N_stepper.maximumValue = Double(N.max)
-        N_stepper.stepValue = Double(N.stepSize)
-        N_stepper.value = Double(N.value)
+    func N_update(_ sender: Any?) {
+        let param = sender as? DiscreteParameter
+        if (param != nil) {
+            let p2 = param!
+            N_text.text = p2.toString(p2.value)
+            N_stepper.minimumValue = p2.toDouble(p2.min)
+            N_stepper.maximumValue = p2.toDouble(p2.max)
+            N_stepper.stepValue = p2.toDouble(p2.stepSize)
+            N_stepper.value = p2.toDouble(p2.value)
+        }
     }
     
     // =====================================================
@@ -166,30 +172,36 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     
     @IBAction func k_textAction(_ sender: UITextField) {
         let param = appModel?.skt.k0
-        if (param != nil || sender.text != nil) {
-            param!.valueStr = sender.text!
-            // MAYBE k0_update(param)
+        if (param != nil && sender.text != nil) {
+            let v2 = param!.fromString(sender.text!)
+            if (v2 != nil) {
+                param!.value = v2!
+            }
         }
     }
     
     @IBAction func k_stepperAction(_ sender: UIStepper) {
         let param = appModel?.skt.k0
-        let kk: Int? = Int(sender.value)
-        if (param != nil && kk != nil) {
-            param!.value = kk!
+        if (param != nil) {
+            let v2 = param!.fromDouble(sender.value)
+            if (v2 != nil) {
+                param!.value = v2!
+            }
         }
-        // MAYBE k0_update(param)
     }
     
     var k0_monitor: ChangeMonitor!
     
-    func k0_update(_ param: DiscreteParameter) {
-        debug("k0_update", "param.name=\(param.name)")
-        k_text.text = param.valueStr
-        k_stepper.minimumValue = Double(param.min)
-        k_stepper.maximumValue = Double(param.max)
-        k_stepper.stepValue = Double(param.stepSize)
-        k_stepper.value = Double(param.value)
+    func k0_update(_ sender: Any?) {
+        let param = sender as? DiscreteParameter
+        if (param != nil) {
+            let p2 = param!
+            k_text.text = p2.toString(p2.value)
+            k_stepper.minimumValue = p2.toDouble(p2.min)
+            k_stepper.maximumValue = p2.toDouble(p2.max)
+            k_stepper.stepValue = p2.toDouble(p2.stepSize)
+            k_stepper.value = p2.toDouble(p2.value)
+        }
     }
     
     // ======================================================
@@ -201,33 +213,36 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
 
     @IBAction func a1_textAction(_ sender: UITextField) {
         let param = appModel?.skt.alpha1
-        if (param != nil || sender.text != nil) {
-            param!.valueStr = sender.text!
+        if (param != nil && sender.text != nil) {
+            let v2 = param!.fromString(sender.text!)
+            if (v2 != nil) {
+                param!.value = v2!
+            }
         }
-        // MAYBE a1_update(param)
     }
     
     @IBAction func a1_stepperAction(_ sender: UIStepper) {
         let param = appModel?.skt.alpha1
         if (param != nil) {
-            // debug("a1_stepperAction", "sender.value=\(sender.value)")
-            param!.value  = sender.value
+            let v2 = param!.fromDouble(sender.value)
+            if (v2 != nil) {
+                param!.value = v2!
+            }
         }
-        // MAYBE a1_update(param)
     }
     
     var a1_monitor: ChangeMonitor!
     
-    func a1_update(_ param: ContinuousParameter) {
-        // debug("a1_update", "param name=\(param.name) value=\(param.value)")
-        a1_text.text = param.valueStr
-        
-        a1_stepper.minimumValue = param.min
-        a1_stepper.maximumValue = param.max
-        a1_stepper.stepValue = param.stepSize
-        a1_stepper.value = param.value
-
-        // debug("a1_update", "on exit: param.value=\(param.value) a1_stepper.value=\(a1_stepper.value)")
+    func a1_update(_ sender: Any?) {
+        let param = sender as? ContinuousParameter
+        if (param != nil) {
+            let p2 = param!
+            a1_text.text = p2.toString(p2.value)
+            a1_stepper.minimumValue = p2.toDouble(p2.min)
+            a1_stepper.maximumValue = p2.toDouble(p2.max)
+            a1_stepper.stepValue = p2.toDouble(p2.stepSize)
+            a1_stepper.value = p2.toDouble(p2.value)
+        }
     }
     
     // =======================================================
@@ -240,30 +255,35 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     @IBAction func a2_textAction(_ sender: UITextField) {
         let param = appModel?.skt.alpha2
         if (param != nil && sender.text != nil) {
-            // debug("a2_textAction", "sender.text=\(sender.text!)")
-            param!.valueStr = sender.text!
-            // debug("a2_textAction", "new param value: " + param!.valueStr)
+            let v2 = param!.fromString(sender.text!)
+            if (v2 != nil) {
+                param!.value = v2!
+            }
         }
-        // MAYBE a2_update(param)
     }
     
     @IBAction func a2_stepperAction(_ sender: UIStepper) {
         let param = appModel?.skt.alpha2
         if (param != nil) {
-            param!.value = sender.value
-            // MAYBE a2_update(param!)
+            let v2 = param!.fromDouble(sender.value)
+            if (v2 != nil) {
+                param!.value = v2!
+            }
         }
     }
     
     var a2_monitor: ChangeMonitor!
     
-    func a2_update(_ param: ContinuousParameter) {
-        // debug("a2_update", "param.name=\(param.name)")
-        a2_text.text = param.valueStr
-        a2_stepper.minimumValue = param.min
-        a2_stepper.maximumValue = param.max
-        a2_stepper.stepValue = param.stepSize
-        a2_stepper.value = param.value
+    func a2_update(_ sender: Any?) {
+        let param = sender as? ContinuousParameter
+        if (param != nil) {
+            let p2 = param!
+            a2_text.text = p2.toString(p2.value)
+            a2_stepper.minimumValue = p2.toDouble(p2.min)
+            a2_stepper.maximumValue = p2.toDouble(p2.max)
+            a2_stepper.stepValue = p2.toDouble(p2.stepSize)
+            a2_stepper.value = p2.toDouble(p2.value)
+        }
     }
     
     // =====================================================
@@ -276,37 +296,43 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     @IBAction func T_textAction(_ sender: UITextField) {
         let param = appModel?.skt.T
         if (param != nil && sender.text != nil) {
-            param!.valueStr = sender.text!
+            let v2 = param!.fromString(sender.text!)
+            if (v2 != nil) {
+                param!.value = v2!
+            }
         }
-        // MAYBE T_update(param)
     }
     
     @IBAction func T_stepperAction(_ sender: UIStepper) {
         let param = appModel?.skt.T
         if (param != nil) {
-            param!.value = sender.value
+            let v2 = param!.fromDouble(sender.value)
+            if (v2 != nil) {
+                param!.value = v2!
+            }
         }
-        // MAYBE T_update(param)
     }
     
     var T_monitor: ChangeMonitor!
     
-    func T_update(_ param: ContinuousParameter) {
-        debug ("T_update")
-        T_text.text = param.valueStr
-        
-        T_stepper.minimumValue = param.min
-        T_stepper.maximumValue = param.max
-        T_stepper.stepValue = param.stepSize
-        T_stepper.value = param.value
+    func T_update(_ sender: Any?) {
+        let param = sender as? ContinuousParameter
+        if (param != nil) {
+            let p2 = param!
+            T_text.text = p2.toString(p2.value)
+            T_stepper.minimumValue = p2.toDouble(p2.min)
+            T_stepper.maximumValue = p2.toDouble(p2.max)
+            T_stepper.stepValue = p2.toDouble(p2.stepSize)
+            T_stepper.value = p2.toDouble(p2.value)
+        }
     }
     
     // =======================================================================
-    // All control paramters
+    // Bulk change in control paramters
     // =======================================================================
 
     @IBAction func resetControlParameters(_ sender: Any) {
-        appModel?.skt.resetParameters()
+        appModel?.skt.resetAllParameters()
     }
 
     // =======================================================================
@@ -376,9 +402,6 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     @IBOutlet weak var nodes_switch: UISwitch!
     
     @IBAction func nodes_action(_ sender: UISwitch) {
-        // DEBUG
-        // let effectOrNil = installedEffect(EffectType.balls)
-
         let effectOrNil = installedEffect(EffectType.nodes)
         if (effectOrNil != nil) {
             var effect = effectOrNil!
@@ -391,6 +414,17 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     
     @IBAction func flowLines_action(_ sender: UISwitch) {
         let effectOrNil = installedEffect(EffectType.flowLines)
+        if (effectOrNil != nil) {
+            var effect = effectOrNil!
+            effect.enabled = sender.isOn
+            sender.isOn = effect.enabled
+        }
+    }
+    
+    @IBOutlet weak var icosahedron_switch: UISwitch!
+    
+    @IBAction func icosahedron_action(_ sender: UISwitch) {
+        let effectOrNil = installedEffect(EffectType.icosahedron)
         if (effectOrNil != nil) {
             var effect = effectOrNil!
             effect.enabled = sender.isOn
@@ -415,6 +449,8 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
         surface_switch.isOn   = viz.effect(forType: EffectType.surface)?.enabled ?? false
         nodes_switch.isOn     = viz.effect(forType: EffectType.nodes)?.enabled ?? false
         flowLines_switch.isOn = viz.effect(forType: EffectType.flowLines)?.enabled ?? false
+
+        icosahedron_switch.isOn = viz.effect(forType: EffectType.icosahedron)?.enabled ?? false
     }
     
     // =======================================================================
@@ -465,14 +501,21 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
         var sequencer = appModel?.viz.sequencers.selection?.value
         if (sequencer != nil) {
             if (sender.text != nil) {
-                sequencer!.upperBoundStr = sender.text!
+                let v2 = sequencer!.fromString(sender.text!)
+                if (v2 != nil) {
+                    sequencer!.upperBound = v2!
+                }
             }
-            // MAYBE update widget
         }
     }
+    
     @IBOutlet weak var ub_stepper: UIStepper!
+
     @IBAction func ub_stepperAction(_ sender: UIStepper) {
-        // TODO
+        var sequencer = appModel?.viz.sequencers.selection?.value
+        if (sequencer != nil) {
+            sequencer!.upperBound = sender.value
+        }
     }
     
     @IBOutlet weak var lb_text: UITextField!
@@ -481,14 +524,21 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
         var sequencer = appModel?.viz.sequencers.selection?.value
         if (sequencer != nil) {
             if (sender.text != nil) {
-                sequencer!.lowerBoundStr = sender.text!
+                let v2 = sequencer!.fromString(sender.text!)
+                if (v2 != nil) {
+                    sequencer!.lowerBound = v2!
+                }
             }
-            // MAYBE update widget
         }
     }
+    
     @IBOutlet weak var lb_stepper: UIStepper!
+    
     @IBAction func lb_stepperAction(_ sender: UIStepper) {
-        // TODO
+        var sequencer = appModel?.viz.sequencers.selection?.value
+        if (sequencer != nil) {
+            sequencer!.lowerBound = sender.value
+        }
     }
     
     @IBOutlet weak var stepSize_text: UITextField!
@@ -497,14 +547,12 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
         var sequencer = appModel?.viz.sequencers.selection?.value
         if (sequencer != nil) {
             if (sender.text != nil) {
-                sequencer!.stepSizeStr = sender.text!
+                let v2 = sequencer!.fromString(sender.text!)
+                if (v2 != nil) {
+                    sequencer!.stepSize = v2!
+                }
             }
-            // MAYBE update widget
         }
-    }
-    
-    @IBOutlet weak var sepSize_stepper: UIStepper!
-    @IBAction func stepSize_stepperAction(_ sender: UIStepper) {
     }
     
     @IBOutlet weak var bc_segment: UISegmentedControl!
@@ -555,13 +603,21 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
         }
     }
     
-    func updateSequencerPropertyControls(_ sequencer: Sequencer) {
-        ub_text.text = sequencer.upperBoundStr
-        lb_text.text = sequencer.lowerBoundStr
-        stepSize_text.text = sequencer.stepSizeStr
-        bc_segment.selectedSegmentIndex = sequencer.boundaryCondition.rawValue
-        let effectiveDir: Direction = (sequencer.enabled) ? sequencer.direction : Direction.stopped
-        dir_segment.selectedSegmentIndex = effectiveDir.rawValue
+    func updateSequencerPropertyControls(_ sender: Any?) {
+        let sequencer = sender as? Sequencer
+        if (sequencer != nil) {
+            let seq = sequencer!
+            ub_text.text = seq.toString(seq.upperBound)
+            ub_stepper.value = seq.upperBound
+            ub_stepper.stepValue = seq.stepSize
+            lb_text.text = seq.toString(seq.lowerBound)
+            lb_stepper.value = seq.lowerBound
+            lb_stepper.stepValue = seq.stepSize
+            stepSize_text.text = seq.toString(seq.stepSize)
+            bc_segment.selectedSegmentIndex = seq.boundaryCondition.rawValue
+            let effectiveDir: Direction = (seq.enabled) ? seq.direction : Direction.stopped
+            dir_segment.selectedSegmentIndex = effectiveDir.rawValue
+        }
     }
     
 }

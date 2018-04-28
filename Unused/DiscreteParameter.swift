@@ -1,5 +1,5 @@
 //
-//  ContinuousParameter.swift
+//  DiscreteParameter.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 4/22/18.
@@ -9,18 +9,18 @@
 import Foundation
 
 // ============================================================================
-// ContinuousParmeterChangeMonitor
+// DiscreteParmeterChangeMonitor
 // ============================================================================
 
-class ContinuousParameterChangeMonitor: ChangeMonitor {
+class DiscreteParameterChangeMonitor: ChangeMonitor {
     
     let id: Int
-    private let callback: (ContinuousParameter) -> ()
-    private weak var param: ContinuousParameter!
+    private let callback: (DiscreteParameter) -> ()
+    private weak var param: DiscreteParameter!
 
     init(_ id: Int,
-         _ callback: @escaping (ContinuousParameter) -> (),
-         _ param: ContinuousParameter) {
+         _ callback: @escaping (DiscreteParameter) -> (),
+         _ param: DiscreteParameter) {
         self.id = id
         self.callback = callback
         self.param = param
@@ -36,18 +36,19 @@ class ContinuousParameterChangeMonitor: ChangeMonitor {
 }
 
 // ============================================================================
-// ContinuousParameter
+// DiscreteParameter
 // ============================================================================
 
-class ContinuousParameter : AdjustableParameter {
-    
+class DiscreteParameter1 : AdjustableParameter1 {
+    var debugEnabled = false
+
     // ===========================
-    // initers
+    // initer
     
     /// min SHOULD be strictly less than max
     /// minStepSize SHOULD be positive definite
-    init(_ name: String, _ getter: @escaping () -> Double, _ setter: @escaping (Double) -> (),
-         min: Double, max: Double, setPoint: Double, stepSize: Double) {
+    init(_ name: String, _ getter: @escaping () -> Int, _ setter: @escaping (Int) -> (),
+         min: Int, max: Int, setPoint: Int, stepSize: Int) {
         self.name = name
         self.getter = getter
         self.setter = setter
@@ -56,13 +57,6 @@ class ContinuousParameter : AdjustableParameter {
         self._setPoint = setPoint
         self._stepSize = stepSize
         self._lastValue = getter()
-    }
-    
-    var debugEnabled = true
-    func debug(_ mtd: String, _ msg: String = "") {
-        if (debugEnabled) {
-            print(name, mtd, msg)
-        }
     }
     
     // ========================================
@@ -74,7 +68,7 @@ class ContinuousParameter : AdjustableParameter {
     // ===========================
     // min
     
-    let min: Double
+    let min: Int
     
     var minStr: String {
         get { return stringify(min)}
@@ -83,7 +77,7 @@ class ContinuousParameter : AdjustableParameter {
     // ===========================
     // max
     
-    let max: Double
+    let max: Int
     
     var maxStr: String {
         get { return stringify(max) }
@@ -92,7 +86,7 @@ class ContinuousParameter : AdjustableParameter {
     // ===========================
     // setPoint
     
-    private var _setPoint: Double
+    private var _setPoint: Int
 
     var setPointStr: String {
         get { return stringify(setPoint) }
@@ -104,7 +98,7 @@ class ContinuousParameter : AdjustableParameter {
         }
     }
     
-    var setPoint: Double {
+    var setPoint: Int {
         get { return _setPoint }
         set(newValue) {
             let v2 = clip(newValue, min, max)
@@ -116,7 +110,7 @@ class ContinuousParameter : AdjustableParameter {
     // ===========================
     // stepSize
     
-    private var _stepSize: Double
+    private var _stepSize: Int
 
     var stepSizeStr: String {
         get { return stringify(stepSize) }
@@ -128,9 +122,10 @@ class ContinuousParameter : AdjustableParameter {
         }
     }
     
-    var stepSize: Double {
+    var stepSize: Int {
         get { return _stepSize }
         set(newValue) {
+            debug("stepSize setter", "newValue=\(newValue)")
             if (newValue > 0) {
                 _stepSize = newValue
                 fireParameterChange()
@@ -141,15 +136,12 @@ class ContinuousParameter : AdjustableParameter {
     // ===========================
     // value
     
-    private let getter: () -> Double
-    private let setter: (Double) -> ()
-    private var _lastValue: Double
+    private let getter: () -> Int
+    private let setter: (Int) -> ()
+    private var _lastValue: Int
     
     var valueStr: String {
-        get {
-            return stringify(value)
-            
-        }
+        get { return stringify(value) }
         set(newValue) {
             let v2 = numify(newValue)
             if (v2 != nil) {
@@ -158,7 +150,7 @@ class ContinuousParameter : AdjustableParameter {
         }
     }
     
-    var value: Double {
+    var value: Int {
         get {
             refresh()
             return _lastValue
@@ -180,11 +172,11 @@ class ContinuousParameter : AdjustableParameter {
     // ===========================
     // type conversion
     
-    func numify(_ s: String) -> Double? {
-        return Double(s.trimmingCharacters(in: .whitespacesAndNewlines))
+    func numify(_ s: String) -> Int? {
+        return Int(s.trimmingCharacters(in: .whitespacesAndNewlines))
     }
     
-    func stringify(_ t: Double) -> String {
+    func stringify(_ t: Int) -> String {
         return basicString(t)
     }
     
@@ -194,17 +186,17 @@ class ContinuousParameter : AdjustableParameter {
     fileprivate var monitors = [Int: ChangeMonitor]()
     private var monitorCount = 0
     
-    func monitorChanges(_ callback: @escaping (AdjustableParameter) -> ()) -> ChangeMonitor? {
-        func callback2(_ param: ContinuousParameter) -> () {
-            callback(param as AdjustableParameter)
+    func monitorChanges(_ callback: @escaping (AdjustableParameter1) -> ()) -> ChangeMonitor? {
+        func callback2(_ param: DiscreteParameter) -> () {
+            callback(param as AdjustableParameter1)
         }
-        let monitor = ContinuousParameterChangeMonitor(nextMonitorID, callback2, self)
+        let monitor = DiscreteParameterChangeMonitor(nextMonitorID, callback2, self)
         monitors[monitor.id] = monitor
         return monitor
     }
     
-    func monitorChanges(_ callback: @escaping (ContinuousParameter) -> ()) -> ChangeMonitor? {
-        let monitor = ContinuousParameterChangeMonitor(nextMonitorID, callback, self)
+    func monitorChanges(_ callback: @escaping (DiscreteParameter) -> ()) -> ChangeMonitor? {
+        let monitor = DiscreteParameterChangeMonitor(nextMonitorID, callback, self)
         monitors[monitor.id] = monitor
         return monitor
     }
@@ -223,6 +215,11 @@ class ContinuousParameter : AdjustableParameter {
         }
     }
 
+    private func debug(_ mtd: String, _ msg: String = "") {
+        if (debugEnabled) {
+            print(name, mtd, msg)
+        }
+    }
 }
 
 

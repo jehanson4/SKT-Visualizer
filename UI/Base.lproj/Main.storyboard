@@ -259,7 +259,7 @@
                                                 <rect key="frame" x="16" y="0.0" width="240" height="184"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="h8O-m5-mhO" userLabel="EffectsStack View">
-                                                        <rect key="frame" x="0.0" y="0.0" width="224" height="186"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="224" height="217"/>
                                                         <subviews>
                                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZF6-69-Oim" userLabel="Surface View">
                                                                 <rect key="frame" x="0.0" y="0.0" width="224" height="31"/>
@@ -365,6 +365,23 @@
                                                                     </switch>
                                                                 </subviews>
                                                             </stackView>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aYB-ZO-YFw" userLabel="Icosahedron View">
+                                                                <rect key="frame" x="0.0" y="186" width="224" height="31"/>
+                                                                <subviews>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Icosahedron" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kzw-1Z-G63">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="175" height="31"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                                        <nil key="textColor"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bbf-7G-emr">
+                                                                        <rect key="frame" x="175" y="0.0" width="51" height="31"/>
+                                                                        <connections>
+                                                                            <action selector="icosahedron_action:" destination="3aD-bn-OtG" eventType="valueChanged" id="xGw-Zf-jfJ"/>
+                                                                        </connections>
+                                                                    </switch>
+                                                                </subviews>
+                                                            </stackView>
                                                         </subviews>
                                                     </stackView>
                                                 </subviews>
@@ -435,7 +452,7 @@
                                                 <rect key="frame" x="16" y="0.0" width="239" height="162.5"/>
                                                 <subviews>
                                                     <segmentedControl opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" contentHorizontalAlignment="fill" contentVerticalAlignment="center" segmentControlStyle="bordered" translatesAutoresizingMaskIntoConstraints="NO" id="SZ3-82-JQs">
-                                                        <rect key="frame" x="0.0" y="0.0" width="239" height="29.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="239" height="31.5"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" relation="lessThanOrEqual" constant="32" id="AMp-Jl-4SH"/>
                                                         </constraints>
@@ -450,16 +467,16 @@
                                                         </connections>
                                                     </segmentedControl>
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OWa-NM-ipn" userLabel="Sequencer LB View">
-                                                        <rect key="frame" x="0.0" y="32.5" width="239" height="30"/>
+                                                        <rect key="frame" x="0.0" y="34.5" width="239" height="29"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Min:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rhd-I9-6sm">
-                                                                <rect key="frame" x="0.0" y="0.0" width="29.5" height="30"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="29.5" height="29"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="12I-P2-pCP">
-                                                                <rect key="frame" x="29.5" y="0.0" width="209.5" height="30"/>
+                                                                <rect key="frame" x="29.5" y="0.0" width="115.5" height="29"/>
                                                                 <nil key="textColor"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                 <textInputTraits key="textInputTraits"/>
@@ -467,19 +484,25 @@
                                                                     <action selector="lb_action:" destination="3aD-bn-OtG" eventType="editingDidEnd" id="uIs-q8-RRT"/>
                                                                 </connections>
                                                             </textField>
+                                                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="f08-Jv-nGX">
+                                                                <rect key="frame" x="145" y="0.0" width="94" height="29"/>
+                                                                <connections>
+                                                                    <action selector="lb_stepperAction:" destination="3aD-bn-OtG" eventType="valueChanged" id="Jv0-9A-ecD"/>
+                                                                </connections>
+                                                            </stepper>
                                                         </subviews>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YSI-Ak-Hq0" userLabel="Sequencer UB View">
-                                                        <rect key="frame" x="0.0" y="66.5" width="239" height="30"/>
+                                                        <rect key="frame" x="0.0" y="67.5" width="239" height="29"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Max:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qBh-JZ-Idg" userLabel="Upper bound">
-                                                                <rect key="frame" x="0.0" y="0.0" width="33" height="30"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="33" height="29"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VFg-ct-kyh">
-                                                                <rect key="frame" x="33" y="0.0" width="206" height="30"/>
+                                                                <rect key="frame" x="33" y="0.0" width="112" height="29"/>
                                                                 <nil key="textColor"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                 <textInputTraits key="textInputTraits"/>
@@ -487,6 +510,12 @@
                                                                     <action selector="ub_action:" destination="3aD-bn-OtG" eventType="editingDidEnd" id="uTr-Du-0Yo"/>
                                                                 </connections>
                                                             </textField>
+                                                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="a29-J2-HN0">
+                                                                <rect key="frame" x="145" y="0.0" width="94" height="29"/>
+                                                                <connections>
+                                                                    <action selector="ub_stepperAction:" destination="3aD-bn-OtG" eventType="valueChanged" id="p7t-nG-LFm"/>
+                                                                </connections>
+                                                            </stepper>
                                                         </subviews>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IhQ-fg-nln" userLabel="SequencerStepView">
@@ -575,7 +604,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="done" id="FUp-9e-d6R">
                             <button key="customView" opaque="NO" contentMode="right" contentHorizontalAlignment="right" contentVerticalAlignment="fill" buttonType="roundedRect" lineBreakMode="middleTruncation" id="XA9-Ix-gJ4">
-                                <rect key="frame" x="269" y="5.5" width="35" height="33"/>
+                                <rect key="frame" x="269" y="6" width="35" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <state key="normal" title="&gt;&gt;&gt;"/>
@@ -599,8 +628,10 @@
                         <outlet property="colorSourceDrop" destination="V3L-DU-kdT" id="KmM-hF-QEB"/>
                         <outlet property="dir_segment" destination="SZ3-82-JQs" id="qCh-XG-tfp"/>
                         <outlet property="flowLines_switch" destination="ti5-Qu-2Fm" id="FuB-G3-dZc"/>
+                        <outlet property="icosahedron_switch" destination="bbf-7G-emr" id="Dha-Id-9VG"/>
                         <outlet property="k_stepper" destination="9Rd-Kx-XBb" id="HgW-kj-dQL"/>
                         <outlet property="k_text" destination="dGE-Z4-yxV" id="eAV-y2-ZMb"/>
+                        <outlet property="lb_stepper" destination="f08-Jv-nGX" id="OcL-8d-xZs"/>
                         <outlet property="lb_text" destination="12I-P2-pCP" id="VkO-2C-ZNf"/>
                         <outlet property="meridians_switch" destination="l4F-3a-bVe" id="AzO-Q2-y6E"/>
                         <outlet property="net_switch" destination="DFM-JW-loh" id="aiW-g0-dWd"/>
@@ -608,6 +639,7 @@
                         <outlet property="sequencerDrop" destination="pAw-yA-acQ" id="E1J-cQ-938"/>
                         <outlet property="stepSize_text" destination="xVJ-fX-bJn" id="mB3-sU-Zw5"/>
                         <outlet property="surface_switch" destination="ahh-Fw-kdK" id="fk4-eg-ckk"/>
+                        <outlet property="ub_stepper" destination="a29-J2-HN0" id="4uM-zK-fHf"/>
                         <outlet property="ub_text" destination="VFg-ct-kyh" id="idN-XL-LeD"/>
                     </connections>
                 </viewController>
@@ -987,7 +1019,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="done" id="7Y2-PQ-QFA">
                             <button key="customView" opaque="NO" contentMode="right" contentHorizontalAlignment="right" contentVerticalAlignment="fill" buttonType="roundedRect" lineBreakMode="middleTruncation" id="8jX-Zj-hIp">
-                                <rect key="frame" x="269" y="5.5" width="35" height="33"/>
+                                <rect key="frame" x="269" y="6" width="35" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <state key="normal" title="&lt;&lt;&lt;"/>
@@ -1095,6 +1127,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="kW3-lj-dqf"/>
+        <segue reference="7Fl-47-m6b"/>
     </inferredMetricsTieBreakers>
 </document>

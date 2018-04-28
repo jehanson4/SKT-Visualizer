@@ -16,7 +16,7 @@ import OpenGL
 class DetailViewController: GLKViewController, AppModelUser {
     
     let name: String = "DetailViewController"
-    var debugEnabled = true
+    var debugEnabled = false
     
     var appModel: AppModel? = nil
     var context: EAGLContext? = nil
@@ -112,9 +112,14 @@ class DetailViewController: GLKViewController, AppModelUser {
             pan_initialThetaE = pov.thetaE
         }
         let delta = sender.translation(in: sender.view)
+        
+        // EMPIRICAL reversed the signs on these to make the response seem more natural
         let phi2 = pan_initialPhi - Double(delta.x) * pan_phiFactor / pov.zoom
         let thetaE2 = pan_initialThetaE - Double(delta.y) * pan_ThetaEFactor / pov.zoom
+        
+        debug("handlePan", "pan_initialThetaE=\(pan_initialThetaE), thetaE2=\(thetaE2)")
         appModel!.viz.pov = POV(pov.r, phi2, thetaE2, pov.zoom)
+        debug("handlePan", "new thetaE=\(pov.thetaE)")
     }
     
     @IBAction func handleTap(_ sender: UITapGestureRecognizer) {

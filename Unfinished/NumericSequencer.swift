@@ -15,11 +15,11 @@ import Foundation
 class NumericSequencerChangeMonitor<T: Number> : ChangeMonitor {
     
     let id: Int
-    private let callback: (Sequencer) -> ()
+    private let callback: (Sequencer1) -> ()
     private weak var sequencer: NumericSequencer<T>!
     
     init(_ id: Int,
-         _ callback: @escaping (Sequencer) -> (),
+         _ callback: @escaping (Sequencer1) -> (),
          _ sequencer: NumericSequencer<T>) {
         self.id = id
         self.callback = callback
@@ -38,15 +38,11 @@ class NumericSequencerChangeMonitor<T: Number> : ChangeMonitor {
 // NumericSequencer
 // ==============================================================================
 
-class NumericSequencer<T: Number> : Sequencer {
+class NumericSequencer_OLD<T: Number> : Sequencer1 {
     
     var name: String
     var info: String?
     
-    let zero: T
-    let one: T
-    let minusOne: T
-
     // =====================================
     // Enabled
     
@@ -66,20 +62,27 @@ class NumericSequencer<T: Number> : Sequencer {
     // Lower bound
 
     var lowerBoundStr: String {
-        get { return stringifier(lowerBound) }
+        get { return toString(_lowerBound) }
         set(newValue) {
-            let v2 = numifier(newValue)
-            if (v2 != nil) {
-                lowerBound = v2!
+            let v2: T = clip(fromString(newValue) ?? _lowerBound, min, max)
+            if (v2 >= _upperBound) {
+                return
+            }
+            if (v2 !=  _lowerBound) {
+                _lowerBound = v2
+                fireChange()
             }
         }
     }
     
-    var lowerBound: T {
-        get { return _lowerBound }
+    var lowerBound: Double {
+        get { return toDouble(_lowerBound) }
         set(newValue) {
-            let v2 = fixLowerBound(newValue)
-            if (v2 != _lowerBound && v2 < _upperBound) {
+            let v2: T = clip(fromDouble(newValue) ?? _lowerBound, min, max)
+            if (v2 >= _upperBound) {
+                return
+            }
+            if (v2 !=  _lowerBound) {
                 _lowerBound = v2
                 fireChange()
             }
@@ -92,28 +95,75 @@ class NumericSequencer<T: Number> : Sequencer {
     // Upper bound
     
     var upperBoundStr: String {
-        get { return stringifier(upperBound) }
-        set {
-            let v2 = numifier(newValue)
-            if (v2 != nil) {
-                upperBound = v2!
-            }
-        }
-    }
-    
-    var upperBound: T {
-        get { return _upperBound }
+        get { return toString(_upperBound) }
         set(newValue) {
-            let v2 = fixUpperBound(newValue)
-            if (v2 != _upperBound && v2 > lowerBound) {
+            let v2: T = clip(fromString(newValue) ?? _upperBound, min, max)
+            if (v2 <= _lowerBound) {
+                return
+            }
+            if (v2 !=  _upperBound) {
                 _upperBound = v2
                 fireChange()
             }
         }
     }
     
-    // TODO self-protection in setter
+    var upperBound: Double {
+        get { return toDouble(_upperBound) }
+        set(newValue) {
+            let v2: T = clip(fromDouble(newValue) ?? _upperBound, min, max)
+            if (v2 <= _lowerBound) {
+                return
+            }
+            if (v2 !=  _upperBound) {
+                _upperBound = v2
+                fireChange()
+            }
+        }
+    }
+    
     private var _upperBound: T
+    
+    // =====================================
+    // Step size
+    
+    var stepSizeStr: String {
+        get { return toString(_stepSize) }
+        set {
+            let v2: T = fromString(newValue) ?? _stepSize
+            if (v2 <= zero) {
+                return
+            }
+            if (v2 !=  _stepSize) {
+                _stepSize = v2
+                fireChange()
+            }
+        }
+    }
+    
+    var stepSize: Double {
+        get { return toDouble(_stepSize) }
+        set(newValue) {
+            let v2: T = fromDouble(newValue) ?? _stepSize
+            if (v2 <= zero) {
+                return
+            }
+            if (v2 !=  _stepSize) {
+                _stepSize = v2
+                fireChange()
+            }
+        }
+    }
+    
+    private var _stepSize: T
+    
+    var valueStr: String {
+        get { return toString(getter()) }
+    }
+    
+    var value: Double {
+        get { return toDouble(getter()) }
+    }
     
     // =====================================
     // Boundary condition
@@ -129,31 +179,6 @@ class NumericSequencer<T: Number> : Sequencer {
     }
     
     private var _boundaryCondition: BoundaryCondition
-    
-    // =====================================
-    // Step size
-    
-    var stepSizeStr: String {
-        get { return stringifier(stepSize) }
-        set {
-            let v2 = numifier(newValue)
-            if (v2 != nil) {
-                stepSize = v2!
-            }
-        }
-    }
-    
-    var stepSize: T {
-        get { return _stepSize }
-        set(newValue) {
-            if (newValue > zero && newValue != _stepSize) {
-                _stepSize = newValue
-                fireChange()
-            }
-        }
-    }
-    
-    private var _stepSize: T
     
     // =====================================
     // Direction
@@ -177,34 +202,58 @@ class NumericSequencer<T: Number> : Sequencer {
         }
     }
 
-    /// Shared with subclasses
     var stepSgn: T
-
+    
     // =====================================
     // Other stuff
     
-    var stringifier: (T) -> String
-    var numifier: (String) -> T?
+    let zero: T
+    let one: T
+    let minusOne: T
+    let min: T
+    let max: T
+    
+    var toString: (T) -> String
+    var fromString: (String) -> T?
 
+    var toDouble: (T) -> Double
+    var fromDouble: (Double) -> T?
+    
+    var getter: () -> (T)
+    var setter: (T) -> ()
+    
     // =====================================
     // Initializers
     // =====================================
 
     init(_ name: String,
-         _ stringifier: @escaping (T) -> String,
-         _ numifier: @escaping (String) -> T?,
+         _ toString: @escaping (T) -> String,
+         _ fromString: @escaping (String) -> T?,
+         _ toDouble: @escaping (T) -> Double,
+         _ fromDouble: @escaping (Double) -> T?,
+         _ getter: @escaping () -> T,
+         _ setter: @escaping (T) -> (),
          _ lowerBound: T,
          _ upperBound: T,
-         _ stepSize: T) {
+         _ stepSize: T,
+         _ min: T,
+         _ max: T) {
         
         self.name = name
-        self.stringifier = stringifier
-        self.numifier = numifier
+        self.toString = toString
+        self.fromString = fromString
+        self.toDouble = toDouble
+        self.fromDouble = fromDouble
+        self.getter = getter
+        self.setter = setter
         
         let const = constants(forSample: lowerBound)!
         self.zero = const.zero
         self.one = const.one
         self.minusOne = const.minusOne
+        
+        self.min = min
+        self.max = max
         
         self._enabled = true
         self._lowerBound = lowerBound
@@ -234,29 +283,13 @@ class NumericSequencer<T: Number> : Sequencer {
     
     func step() {
         let prevSgn = stepSgn
-        takeStep()
+        setter(bound(getter() + stepSgn * _stepSize))
         if (stepSgn != prevSgn) {
             fireChange()
         }
     }
 
-    /// TO OVERRIDE. Overrides SHOULD NOT call this impl. This impl sets stepSgn = 0
-    func takeStep() {
-        stepSgn = 0
-    }
-    
-    /// TO OVERRIDE.  Overrides SHOULD NOT call this impl. This impl returns its arg
-    func fixLowerBound(_ x: T) -> T {
-        return x
-    }
-
-    /// TO OVERRIDE.  Overrides SHOULD NOT call this impl. This impl returns its arg
-    func fixUpperBound(_ x: T) -> T {
-        return x
-    }
-    
-    /// For use by subclasses
-    /// IMPORTANT: has side effects. May change self.stepSgn
+    /// Has side effect: may change self.stepSgn
     func bound(_ x: T) -> T {
         // TODO use a function var that gets set whenever bc is set
         switch boundaryCondition {
@@ -282,7 +315,7 @@ class NumericSequencer<T: Number> : Sequencer {
         return id
     }
     
-    func monitorChanges(_ callback: @escaping (Sequencer) -> ()) -> ChangeMonitor? {
+    func monitorChanges(_ callback: @escaping (Sequencer1) -> ()) -> ChangeMonitor? {
         let id = nextMonitorID
         let monitor = NumericSequencerChangeMonitor(id, callback, self)
         monitors[id] = monitor

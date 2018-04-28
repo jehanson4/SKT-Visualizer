@@ -1,5 +1,5 @@
 //
-//  ContinuousParameterSequencer.swift
+//  DiscreteParameterSequencer.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 4/16/18.
@@ -9,14 +9,14 @@
 import Foundation
 
 // ==============================================================================
-// ContinuousParameterSequencer
+// DiscreteParameterSequencer
 // ==============================================================================
 
-class ContinuousParameterSequencer : NumericSequencer<Double> {
+class DiscreteParameterSequencer1 : NumericSequencer1<Int> {
     
-    var param: ContinuousParameter
+    var param: DiscreteParameter
     
-    init(_ param: ContinuousParameter, _ lowerBound: Double, _ upperBound: Double, _ stepSize: Double) {
+    init(_ param: DiscreteParameter, _ lowerBound: Int, _ upperBound: Int, _ stepSize: Int) {
         self.param = param
         super.init(param.name,
                    param.stringify,
@@ -38,14 +38,14 @@ class ContinuousParameterSequencer : NumericSequencer<Double> {
             param.value = nextValue
         }
     }
+    
+    override func fixLowerBound(_ x: Int) -> Int {
+        return clip(x, param.min, param.max)
+    }
+    
+    override func fixUpperBound(_ x: Int) -> Int {
+        return clip(x, param.min, param.max)
+    }
 
-    override func fixLowerBound(_ x: Double) -> Double {
-        return clip(x, param.min, param.max)
-    }
-    
-    override func fixUpperBound(_ x: Double) -> Double {
-        return clip(x, param.min, param.max)
-    }
-    
 }
 

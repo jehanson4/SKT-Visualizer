@@ -30,7 +30,7 @@ enum PhysicalPropertyType: Int {
 protocol PhysicalProperty : Named {
     
     var physicalPropertyType: PhysicalPropertyType { get }
-    var params: [String: AdjustableParameter]? { get }
+    // var params: [String: AdjustableParameter1]? { get }
     
     var bounds: (min: Double, max: Double) { get }
     

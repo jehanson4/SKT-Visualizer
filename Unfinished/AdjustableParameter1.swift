@@ -12,7 +12,7 @@ import Foundation
 // AdjustableParameter
 // ============================================================================
 
-protocol AdjustableParameter : Named {
+protocol AdjustableParameter1 : Named, ChangeMonitorEnabled {
     
     var minStr: String { get }
     var maxStr: String { get }
@@ -23,6 +23,6 @@ protocol AdjustableParameter : Named {
     /// reread value of underlying variable and fire a change if appropriate
     func refresh()
     
-    func monitorChanges(_ callback: @escaping (AdjustableParameter) -> ()) -> ChangeMonitor?
+    // func monitorChanges(_ callback: @escaping (AdjustableParameter) -> ()) -> ChangeMonitor?
 }
 

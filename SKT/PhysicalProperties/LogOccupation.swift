@@ -19,7 +19,7 @@ class LogOccupation : PhysicalProperty {
     var info: String? = nil
 
     var bounds: (min: Double, max: Double) { ensureFresh(); return fBounds }
-    var params: [String: AdjustableParameter]? = nil
+    // var params: [String: AdjustableParameter1]? = nil
 
     private let physics: SKPhysics
     private let geometry: SKGeometry

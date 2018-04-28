@@ -12,7 +12,7 @@ import Foundation
 // BasinDiscoverySequencer
 // =====================================================================
 
-class BasinDiscoverySequencer : Sequencer {
+class BasinDiscoverySequencer : Sequencer1 {
     
     var name: String = "Basin Discovery"
     
@@ -81,7 +81,7 @@ class BasinDiscoverySequencer : Sequencer {
         // TODO
     }
     
-    func monitorChanges(_ callback: @escaping (Sequencer) -> ()) -> ChangeMonitor? {
+    func monitorChanges(_ callback: @escaping (Sequencer1) -> ()) -> ChangeMonitor? {
         // TODO
         return nil
     }

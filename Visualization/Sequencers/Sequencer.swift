@@ -2,7 +2,7 @@
 //  Sequencer.swift
 //  SKT Visualizer
 //
-//  Created by James Hanson on 4/14/18.
+//  Created by James Hanson on 4/27/18.
 //  Copyright © 2018 James Hanson. All rights reserved.
 //
 
@@ -32,7 +32,7 @@ enum BoundaryCondition: Int {
     case sticky = 0
     case elastic = 1
     case periodic = 2
-
+    
     static func name(_ bc: BoundaryCondition) -> String {
         return boundaryConditionNames[bc.rawValue]
     }
@@ -40,28 +40,40 @@ enum BoundaryCondition: Int {
 
 private let boundaryConditionNames = ["sticky", "elastic", "periodic"]
 
-// ==============================================================================
+// =============================================================================
 // Sequencer
-// ==============================================================================
+// =============================================================================
 
-protocol Sequencer : Named {
-
-    var direction: Direction { get set }
-    var boundaryCondition: BoundaryCondition { get set }
-
-    var lowerBoundStr: String { get set }
-    var upperBoundStr: String { get set }
-    var stepSizeStr: String { get set }
+/// The numeric properties (lowerBound, upperBound, stepSize, value) are all
+/// nominal -- i.e., they measure progress over the sequence
+protocol Sequencer: ChangeMonitorEnabled {
+    
+    var name: String { get set }
     
     var enabled: Bool { get set }
 
+    var lowerBound: Double { get set }
+    
+    var upperBound: Double { get set }
+    
+    var stepSize: Double { get set }
+    
+    var value: Double { get }
+    
+    var boundaryCondition: BoundaryCondition { get set }
+
+    var direction: Direction { get set }
+    
     func reset()
     
+    func step()
+
     func reverse()
 
-    func step()
-    
-    /// monitors changes in this sequencer, not in the thing it's sequencing
-    func monitorChanges(_ callback: @escaping (Sequencer) -> ()) -> ChangeMonitor?
+    /// Convert from nominal value to string
+    func toString(_ x: Double) -> String
+
+    /// Convert from string to nominal value
+    func fromString(_ s: String) -> Double?
 }
 

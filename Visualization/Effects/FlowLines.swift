@@ -35,7 +35,7 @@ class FlowLines : GLKBaseEffect, Effect {
     
     // EMPIRICAL
     private let lineWidth: GLfloat = 5.0
-    private let minLengthFraction = 0.1
+    private let minLengthFraction = 0.2
     private let maxLengthFraction = 0.9
 
     private var vertices: [GLKVector4] = []
@@ -155,27 +155,7 @@ class FlowLines : GLKBaseEffect, Effect {
             }
         }
         let eScale: Double = 1.0 / maxDiff
-
-        // 1b. Measure characteristic distance between neighbors up in the middle somewhere.
-        // Gotta watch out for pathological cases N->0 and k0->0
-        var lineScale: Double = 1.0
-        let m_middle = m_max/2
-        let n_middle = n_max/2
-        let xyz_mid0 = geometry.skToCartesian(m_middle, n_middle)
-        if (m_middle < m_max) {
-            let xyz_mid1 = geometry.skToCartesian(m_middle+1, n_middle)
-            let d01 = SKGeometry.distance(xyz_mid1, xyz_mid0)
-            if (d01 < lineScale) {
-                lineScale = d01
-            }
-        }
-        if (n_middle < n_max) {
-            let xyz_mid1 = geometry.skToCartesian(m_middle, n_middle+1)
-            let d01 = SKGeometry.distance(xyz_mid1, xyz_mid0)
-            if (d01 < lineScale) {
-                lineScale = d01
-            }
-        }
+        let lineScale = geometry.neighborDistance
         
         // ==============================================================
         // 2. build

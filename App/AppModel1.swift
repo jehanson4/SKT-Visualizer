@@ -28,23 +28,104 @@ class AppModel1 : AppModel {
     // User defaults
     // ===========================
     
-    let N_key = "skt_geometry_N"
+    let N_value_key = "N.value"
+    let N_stepSize_key = "N.stepSize"
+    let k0_value_key = "k0.value"
+    let k0_stepSize_key = "k0.stepSize"
+    let alpha1_value_key = "alpha1.value"
+    let alpha1_stepSize_key = "alpha1.stepSize"
+    let alpha2_value_key = "alpha2.value"
+    let alpha2_stepSize_key = "alpha2.stepSize"
+    let T_value_key = "T.value"
+    let T_stepSize_key = "T.stepSize"
     
-    func loadUserDefaults() {
-        print("loading user defaults")
-        let defaults = UserDefaults.standard
-        
-        let N = defaults.integer(forKey: N_key)
-        if (N > 0) {
-            skt.geometry.N = N
-        }
-    }
+    let pov_phi_key = "pov.phi"
+    let pov_thetaE_key = "pov.thetaE"
+    let pov_zoom_key  = "pov.zoom"
     
     func saveUserDefaults() {
         print("saving user defaults")
         let defaults = UserDefaults.standard
         
-        defaults.set(skt.geometry.N, forKey: N_key)
+        defaults.set(skt.N.value, forKey: N_value_key)
+        defaults.set(skt.N.stepSize, forKey: N_stepSize_key)
+        defaults.set(skt.k0.value, forKey: k0_value_key)
+        defaults.set(skt.k0.stepSize, forKey: k0_stepSize_key)
+        defaults.set(skt.alpha1.value, forKey: alpha1_value_key)
+        defaults.set(skt.alpha1.stepSize, forKey: alpha1_stepSize_key)
+        defaults.set(skt.alpha2.value, forKey: alpha2_value_key)
+        defaults.set(skt.alpha2.stepSize, forKey: alpha2_stepSize_key)
+        defaults.set(skt.T.value, forKey: T_value_key)
+        defaults.set(skt.T.stepSize, forKey: T_stepSize_key)
+        
+        defaults.set(viz.pov.phi, forKey: pov_phi_key)
+        defaults.set(viz.pov.thetaE, forKey: pov_thetaE_key)
+        defaults.set(viz.pov.zoom, forKey: pov_zoom_key)
+    }
+
+    func loadUserDefaults() {
+        print("loading user defaults")
+        let defaults = UserDefaults.standard
+        
+        let N_value = defaults.integer(forKey: N_value_key)
+        if (N_value > 0) {
+            skt.N.value = N_value
+        }
+
+        let N_stepSize = defaults.integer(forKey: N_stepSize_key)
+        if (N_stepSize > 0) {
+            skt.N.stepSize = N_stepSize
+        }
+        
+        let k0_value = defaults.integer(forKey: k0_value_key)
+        if (k0_value > 0) {
+            skt.k0.value = k0_value
+        }
+        
+        let k0_stepSize = defaults.integer(forKey: k0_stepSize_key)
+        if (k0_stepSize > 0) {
+            skt.k0.stepSize = k0_stepSize
+        }
+
+        let alpha1_value = defaults.double(forKey: alpha1_value_key)
+        if (alpha1_value != 0) {
+            skt.alpha1.value = alpha1_value
+        }
+        
+        let alpha1_stepSize = defaults.double(forKey: alpha1_stepSize_key)
+        if (alpha1_stepSize != 0) {
+            skt.alpha1.stepSize = alpha1_stepSize
+        }
+
+        let alpha2_value = defaults.double(forKey: alpha2_value_key)
+        if (alpha2_value != 0) {
+            skt.alpha2.value = alpha2_value
+        }
+        
+        let alpha2_stepSize = defaults.double(forKey: alpha2_stepSize_key)
+        if (alpha2_stepSize != 0) {
+            skt.alpha2.stepSize = alpha2_stepSize
+        }
+
+        let T_value = defaults.double(forKey: T_value_key)
+        if (T_value != 0) {
+            skt.T.value = T_value
+        }
+        
+        let T_stepSize = defaults.double(forKey: T_stepSize_key)
+        if (T_stepSize != 0) {
+            skt.T.stepSize = T_stepSize
+        }
+        
+        var pov = viz.pov
+        pov.phi = defaults.double(forKey: pov_phi_key)
+        pov.thetaE = defaults.double(forKey: pov_thetaE_key)
+        let pov_zoom = defaults.double(forKey: pov_zoom_key)
+        if (pov_zoom > 0) {
+            pov.zoom = pov_zoom
+        }
+        viz.pov = pov
+
     }
 }
 

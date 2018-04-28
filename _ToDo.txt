@@ -5,52 +5,46 @@ ToDo.txt
 For 1.0.2
 
 [ ] sequencer UI controls
-    [ ] in some cases it forgets a value that I jst set.
+    [ ] it forgot some values that I just set.
+    [ ] ugly layout
+
+[ ] Surface got out of sync w/ Nodes
+    MAYBE from changes that happened with it was disabled?
+
+
+[ ] BasinFinder -- once the quick thing is done go to list-of-unclassified
+
+[ ] BasinFinder -- fat boundary goes unclassified.
+    find it like I was doing for multi-point attractor
+
+[ ] page 2 top section needs a header
 
 
 ABOVE THE LINE
 ==================================================================================
-THE LINE
-==================================================================================
 BELOW THE LINE
 
-[ ] auto-resize Nodes sprites
+
+
+
+[ ] PhysicalProperty -> DerivedProperty
+
+[ ] improved pointsize calc
+
+[ ] page 2 has setPoint controls
+
+[ ] page 2 has POV controls
 
 [ ] add texture to the sprites to make them look like balls
 
-[?] re-add steppers to the sequencer controls
-
-[ ] page-2 guys no longer right-justified; FIX.
-
 [ ] all the change monitor guys impl the new protocol
-
-[?] rescale alpha by -100 so it goes 0 -> 100 not -1 -> 0
-
-[ ] alternative name for "PhysicalProperty". shorter. should indicate that it's "derived" or "emergent" rather than "defininig"
-
-[ ] Nodes custom shader w/ textured point spite based on image of a ball w/ nice highlight
 
 [ ] scroll & pan: track finger *exactly*
 
-[ ] segue from background to prev, not back to main
+[ ] segue from background to prev, not always back to main
 
 [ ] all the monitors dict's should be lazy
 
-----------------------------------
-[ ] page 2 top section is about 'preferences'
-
-I could use it as 'swivel' target for adjustable params of the stepper and the
-sweep
-
-has ui section for 'Parameter Defaults'
-    INDEPENDENT from sequencer params
-    look like CP wigets but have 1 extra nesting for parameter name
-    parameter-defaults can be in a scrollview
-----------------------------------
-
-[ ] width of text widget stretches automatically to fit . . . a priority thing?
-
-[ ] I think we're looking at the underside of the hemisphere
 
 [ ] Recursive Embedded Definition
     This idea needs refinement. the definitions are the easy bit.
@@ -64,5 +58,5 @@ has ui section for 'Parameter Defaults'
     sequencer BC
     sequencer direction/step
 
-[ ] button for screenshot of the currently displayed pic
+[ ] impl button to take screenshot of the currently displayed view
 

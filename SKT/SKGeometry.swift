@@ -50,7 +50,7 @@ class SKGeometry : ChangeCounted {
     
     var k0: Int {
         get { return getK0() }
-        set { return setK0(newValue) }
+        set { setK0(newValue) }
     }
     
     // =======================================================
@@ -62,10 +62,11 @@ class SKGeometry : ChangeCounted {
     
     func setN(_ newValue: Int) {
         let v2 = clip(newValue, SKGeometry.N_min, SKGeometry.N_max)
-        if (v2 == _N ) { return }
-        _N = v2
-        if (_k0 > _N / 2) { _k0 = _N / 2 }
-        registerChange()
+        if (v2 != _N ) {
+            _N = v2
+            if (_k0 > _N / 2) { _k0 = _N / 2 }
+            registerChange()
+        }
     }
     
     func getK0() -> Int {
@@ -74,14 +75,32 @@ class SKGeometry : ChangeCounted {
     
     func setK0(_ newValue: Int) {
         let v2 = clip(newValue, SKGeometry.k0_min, SKGeometry.k0_max)
-        if (v2 == _k0) { return }
-        _k0 = v2
-        if (_k0 > _N / 2) { _N = _k0 * 2 }
-        registerChange()
+        if (v2 != _k0) {
+            _k0 = v2
+            if (_k0 > _N / 2) { _N = _k0 * 2 }
+            registerChange()
+        }
     }
     
     // ===============================================
     // other properties
+    
+    var neighborDistance: Double {
+        let m_middle = m_max/2
+        let n_middle = n_max/2
+
+        var m_distance: Double = 1
+        if (m_middle < m_max) {
+            m_distance = SKGeometry.distance(skToCartesian(m_middle, n_middle), skToCartesian(m_middle+1, n_middle))
+        }
+
+        var n_distance: Double = 1
+        if (n_middle < n_max) {
+            n_distance = SKGeometry.distance(skToCartesian(m_middle, n_middle), skToCartesian(m_middle, n_middle+1))
+        }
+        
+        return min(m_distance, n_distance)
+    }
     
     var p1: SKPoint {
         get { return SKPoint(self, 0, 0) }
