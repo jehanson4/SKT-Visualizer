@@ -4,9 +4,7 @@ ToDo.txt
 
 For 1.0.3
 
-[ ] check the surface-v-nodes sync issue
-[ ] n for fixed k/n
-
+[ ] change solor source doesn't immediately update the picture
 
 ABOVE THE LINE
 ==================================================================================

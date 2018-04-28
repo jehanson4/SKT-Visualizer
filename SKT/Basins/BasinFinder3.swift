@@ -15,7 +15,7 @@ import Foundation
 class BasinFinder3 : BasinFinder {
     
     var debugEnabled = false
-    var infoEnabled = true
+    var infoEnabled = false
     
     var name: String = "BasinFinder3"
     var info: String? = nil
