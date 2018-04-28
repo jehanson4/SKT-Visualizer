@@ -15,7 +15,7 @@ import Foundation
 class BasinFinder2 : BasinFinder {
     
     var debugEnabled = false
-    var infoEnabled = false
+    var infoEnabled = true
     
     var name: String = "BasinFinder2"
     var info: String? = nil
@@ -38,16 +38,17 @@ class BasinFinder2 : BasinFinder {
         self.physicsChangeNumber = physics.changeNumber
         self._iteration = -1
         self._iterationDone = false
+        self.totalClassified = 0
     }
     
     private func debug(_ mtd: String, _ msg: String = "") {
-        if (debugEnabled || infoEnabled) {
+        if (debugEnabled) {
             print(name, mtd, msg)
         }
     }
 
     private func info(_ mtd: String, _ msg: String = "") {
-        if (infoEnabled) {
+        if (infoEnabled || debugEnabled) {
             print(name, mtd, msg)
         }
     }
@@ -85,6 +86,7 @@ class BasinFinder2 : BasinFinder {
     private var physicsChangeNumber: Int
     private var _iteration: Int
     private var _iterationDone: Bool
+    private var totalClassified: Int
     
     func reset() {
         resetGeometry()
@@ -121,6 +123,7 @@ class BasinFinder2 : BasinFinder {
         }
         self._iteration = -1
         self._iterationDone = false
+        self.totalClassified = 0
         self.physicsChangeNumber = physics.changeNumber
     }
     
@@ -254,15 +257,15 @@ class BasinFinder2 : BasinFinder {
                 continue
             }
             
-            numNewlyClassified += growPossibleAttractor(nd)
+            numNewlyClassified += growPossibleAttractorOrBoundary(nd)
         }
         
+        totalClassified += numNewlyClassified
+        debug(mtd, "done. classified \(numNewlyClassified) nodes")
+        debugBasinInfo()
         if (numNewlyClassified == 0) {
             _iterationDone = true
         }
-        
-        debug(mtd, "done. classified \(numNewlyClassified) nodes")
-        debugBasinInfo()
         if (numNewlyClassified > 0) {
             changeMonitors.fire()
         }
@@ -284,8 +287,8 @@ class BasinFinder2 : BasinFinder {
     
     /// Handles edge case where a node might be in a multi-point attracting set.
     /// Returns the number of nodes that were classified.
-    func growPossibleAttractor(_ nd: BasinNodeData) -> Int {
-        let mtd = "growPossibleAttractor"
+    func growPossibleAttractorOrBoundary(_ nd: BasinNodeData) -> Int {
+        let mtd = "growPossibleAttractorOrBoundary"
         debug(mtd, "entering. node=(\(nd.m), \(nd.n))")
         
         // candidateNodes contains nodes that are in same connected equal-energy
@@ -434,7 +437,8 @@ class BasinFinder2 : BasinFinder {
             return findAttractors()
         }
         
-        debug(mtd, "starting pass over nodes")
+        _iteration += 1
+        debug(mtd, "iteration \(_iteration): starting pass over nodes")
         var numNewlyClassified = 0
         let m_max = geometry.m_max
         let n_max = geometry.n_max
@@ -482,12 +486,12 @@ class BasinFinder2 : BasinFinder {
 //            }
 //        }
 
+        totalClassified += numNewlyClassified
+        info(mtd, "iteration \(_iteration) pass over nodes is done: newlyClassified=\(numNewlyClassified) totalClassified=\(totalClassified) nodeCount=\(geometry.nodeCount)")
+        debugBasinInfo()
         if (numNewlyClassified == 0) {
             _iterationDone = true
         }
-        
-        debug(mtd, "done. classified \(numNewlyClassified) nodes")
-        debugBasinInfo()
         if (numNewlyClassified > 0) {
             changeMonitors.fire()
         }
@@ -495,7 +499,7 @@ class BasinFinder2 : BasinFinder {
     }
     
     func debugBasinInfo() {
-    debug("", "    iteration: \(iteration) nodes")
+        debug("", "    iteration \(iteration):")
     var sum: Int = 0
     for i in 0..<basins.count {
     debug("", "    basin \(i): \(basins[i].nodeCount) nodes")
@@ -541,7 +545,7 @@ class BasinFinder2 : BasinFinder {
             let nbrIsBoundary = nbr.isBoundary!
             
             if (nbrIsBoundary) {
-                info(mtd, nbrName + " is a boundary --> node is a boundary.")
+                debug(mtd, nbrName + " is a boundary --> node is a boundary.")
                 nd.assignToBoundary(iteration: _iteration)
                 debug(mtd, "    " + nd.dumpResettableState())
                 return 1
@@ -553,7 +557,7 @@ class BasinFinder2 : BasinFinder {
             let nbrDtoA = nbr.distanceToAttractor!
             
             if (nbrBasin0 != nil && nbrBasin0! != nbrBasinID) {
-                info(mtd, nbrName + " is in basin \(nbrBasinID) but another neighbor is in \(nbrBasin0!) --> node is a boundary")
+                debug(mtd, nbrName + " is in basin \(nbrBasinID) but another neighbor is in \(nbrBasin0!) --> node is a boundary")
                 nd.assignToBoundary(iteration: _iteration)
                 debug(mtd, "    " + nd.dumpResettableState())
                 return 1
@@ -578,7 +582,7 @@ class BasinFinder2 : BasinFinder {
             return 0
         }
         
-        info(mtd, "All non-uphill neighbors are in basin \(nbrBasin0!) --> node is in basin \(nbrBasin0!)")
+        debug(mtd, "All non-uphill neighbors are in basin \(nbrBasin0!) --> node is in basin \(nbrBasin0!)")
         nd.assignToBasin(iteration: _iteration, basinID: nbrBasin0!, distanceToAttractor: nbrDtoA0! + 1)
         basins[nbrBasin0!].addNode(nd)
         debug(mtd, "    " + nd.dumpResettableState())
