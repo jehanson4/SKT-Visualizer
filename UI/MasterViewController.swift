@@ -11,7 +11,7 @@ import UIKit
 class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser {
     
     let name = "MasterViewController"
-    var debugEnabled = false
+    var debugEnabled = true
     
     var appModel: AppModel? = nil
     
@@ -476,24 +476,47 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
         let selection = appModel?.viz.sequencers.selection
         if (selection == nil) {
             debug("updateSequencerControls", "No sequencer is selected")
-            return
+            updateSequencerPropertyControls(nil)
         }
-        
-        var seq = selection!.value
-        seq.reset()
-        seq.enabled = false
+        else {
+            var seq = selection!.value
+            seq.reset()
+            seq.enabled = false
 
-        debug("updateSequencerControls", "updating controls for current sequencer")
-        updateSequencerPropertyControls(seq)
+            debug("updateSequencerControls", "updating controls for current sequencer")
+            updateSequencerPropertyControls(seq)
         
-        debug("updateSequencerControls", "starting to monitor the current sequencer")
-        sequencerParamsMonitor = seq.monitorChanges(updateSequencerPropertyControls)
+            debug("updateSequencerControls", "starting to monitor the current sequencer")
+            sequencerParamsMonitor = seq.monitorChanges(updateSequencerPropertyControls)
+        }
     }
     
 
     // =====================================================
     // Sequencer properties
     // =====================================================
+    
+    @IBOutlet weak var enabled_segment: UISegmentedControl!
+    
+    @IBAction func enabled_action(_ sender: UISegmentedControl) {
+        var sequencer = appModel?.viz.sequencers.selection?.value
+        if (sequencer != nil) {
+            debug("enabled_action", "sequencer=\(sequencer!.name)")
+            if (sender.selectedSegmentIndex == 0) {
+                debug("dir_action", "    setting enabled=false")
+                sequencer!.enabled = false
+            }
+            else if (sender.selectedSegmentIndex == 1) {
+                debug("dir_action", "    setting enabled=true")
+                sequencer!.enabled = true
+            }
+            else if (sender.selectedSegmentIndex == 2) {
+                debug("dir_action", "    taking one step")
+                sequencer!.step()
+            }
+        }
+        updateSequencerPropertyControls(sequencer)
+    }
     
     @IBOutlet weak var ub_text: UITextField!
     
@@ -565,48 +588,42 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
             if (newBC != nil) {
                 sequencer!.boundaryCondition = newBC!
             }
-            // MAYBE update widget
         }
+        updateSequencerPropertyControls(sequencer)
     }
     
     @IBOutlet weak var dir_segment: UISegmentedControl!
     
     @IBAction func dir_action(_ sender: UISegmentedControl) {
-        debug("dir_action", "selectedSegmentIndex=" + String(sender.selectedSegmentIndex))
         var sequencer = appModel?.viz.sequencers.selection?.value
         if (sequencer != nil) {
-            
-            // HACK HACK HACK HACK
-            if (sender.selectedSegmentIndex == 3) {
-                debug("dir_action", "step!")
-                // sequencer!.enabled = false
-                sequencer!.step()
-                sender.selectedSegmentIndex = 2
-                return
+            debug("dir_action", "sequencer=\(sequencer!.name)")
+            if (sender.selectedSegmentIndex == 0) {
+                debug("dir_action", "    setting direction=forward")
+                sequencer!.direction = Direction.forward
             }
-            
-            
-            let newDir = Direction(rawValue: sender.selectedSegmentIndex)
-            if (newDir != nil) {
-                switch (newDir!) {
-                case .forward:
-                    sequencer!.direction = Direction.forward
-                    sequencer!.enabled = true
-                case .reverse:
-                    sequencer!.direction = Direction.reverse
-                    sequencer!.enabled = true
-                case .stopped:
-                    sequencer!.enabled = false
-                }
+            else if (sender.selectedSegmentIndex == 1) {
+                debug("dir_action", "    setting direction=reverse")
+                sequencer!.direction = Direction.reverse
             }
-            // MAYBE update widget
         }
+        updateSequencerPropertyControls(sequencer)
     }
     
     func updateSequencerPropertyControls(_ sender: Any?) {
         let sequencer = sender as? Sequencer
-        if (sequencer != nil) {
+        if (sequencer == nil) {
+            debug("updateSequencerPropertyControls", "sequencer=nil")
+            enabled_segment.selectedSegmentIndex = -1
+            ub_text.text = ""
+            ub_text.text = ""
+            stepSize_text.text = ""
+            bc_segment.selectedSegmentIndex = -1
+            dir_segment.selectedSegmentIndex = -1
+        }
+        else {
             let seq = sequencer!
+            
             ub_text.text = seq.toString(seq.upperBound)
             ub_stepper.value = seq.upperBound
             ub_stepper.stepValue = seq.stepSize
@@ -615,8 +632,27 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
             lb_stepper.stepValue = seq.stepSize
             stepSize_text.text = seq.toString(seq.stepSize)
             bc_segment.selectedSegmentIndex = seq.boundaryCondition.rawValue
-            let effectiveDir: Direction = (seq.enabled) ? seq.direction : Direction.stopped
-            dir_segment.selectedSegmentIndex = effectiveDir.rawValue
+            
+            debug("updateSequencerPropertyControls", "sequencer=\(seq.name)")
+            debug("updateSequencerPropertyControls", "    enabled=\(seq.enabled)")
+            debug("updateSequencerPropertyControls", "    direction=\(seq.direction)")
+            
+            if (seq.enabled) {
+                enabled_segment.selectedSegmentIndex = 1
+            }
+            else {
+                enabled_segment.selectedSegmentIndex = 0
+            }
+
+            if (seq.direction == Direction.forward) {
+                dir_segment.selectedSegmentIndex = 0
+            }
+            else if (seq.direction == Direction.reverse) {
+                dir_segment.selectedSegmentIndex = 1
+            }
+            else {
+                dir_segment.selectedSegmentIndex = -1
+            }
         }
     }
     

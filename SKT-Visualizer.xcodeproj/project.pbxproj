@@ -57,6 +57,7 @@
 		8A91B0A02094164700488907 /* NForFixedKOverN.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A91B09F2094164700488907 /* NForFixedKOverN.swift */; };
 		8A91B0A4209418A900488907 /* NumericParameterSequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A91B0A3209418A900488907 /* NumericParameterSequencer.swift */; };
 		8A91B0AA2094B01400488907 /* GenericSequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A91B0A92094B01400488907 /* GenericSequencer.swift */; };
+		8A91B0AE2094F72300488907 /* BasinFinder3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A91B0AD2094F72300488907 /* BasinFinder3.swift */; };
 		8AA05A06208E7771009417A6 /* BasinFinder1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA05A05208E7771009417A6 /* BasinFinder1.swift */; };
 		8AA05A0A208E7F4B009417A6 /* BasinFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA05A09208E7F4B009417A6 /* BasinFinder.swift */; };
 		8AA05A11208FC14E009417A6 /* AppModel1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA05A10208FC14E009417A6 /* AppModel1.swift */; };
@@ -170,6 +171,7 @@
 		8A91B09F2094164700488907 /* NForFixedKOverN.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NForFixedKOverN.swift; sourceTree = "<group>"; };
 		8A91B0A3209418A900488907 /* NumericParameterSequencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumericParameterSequencer.swift; sourceTree = "<group>"; };
 		8A91B0A92094B01400488907 /* GenericSequencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericSequencer.swift; sourceTree = "<group>"; };
+		8A91B0AD2094F72300488907 /* BasinFinder3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasinFinder3.swift; sourceTree = "<group>"; };
 		8AA05A05208E7771009417A6 /* BasinFinder1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasinFinder1.swift; sourceTree = "<group>"; };
 		8AA05A09208E7F4B009417A6 /* BasinFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasinFinder.swift; sourceTree = "<group>"; };
 		8AA05A10208FC14E009417A6 /* AppModel1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel1.swift; sourceTree = "<group>"; };
@@ -400,6 +402,7 @@
 			children = (
 				8AA05A05208E7771009417A6 /* BasinFinder1.swift */,
 				8AD9DACE2091E7360062457C /* BasinFinder2.swift */,
+				8A91B0AD2094F72300488907 /* BasinFinder3.swift */,
 				8AA05A09208E7F4B009417A6 /* BasinFinder.swift */,
 				8AA05A16208FE6A9009417A6 /* BasinHelpers.swift */,
 			);
@@ -659,6 +662,7 @@
 				8A91B09C2093F98000488907 /* Sequencer.swift in Sources */,
 				8A3C45B62086167E00A1E9CD /* LogOccupation.swift in Sources */,
 				8AA05A13208FCB58009417A6 /* ChangeSupport.swift in Sources */,
+				8A91B0AE2094F72300488907 /* BasinFinder3.swift in Sources */,
 				8AA05A0A208E7F4B009417A6 /* BasinFinder.swift in Sources */,
 				8A84313820726F0100F06B9B /* Axes.swift in Sources */,
 				8A91B09E2094163C00488907 /* DummySequencer.swift in Sources */,

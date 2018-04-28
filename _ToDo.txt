@@ -2,30 +2,17 @@
 ToDo.txt
 ==================================================================================
 
-For 1.0.2
+For 1.0.3
 
-[ ] sequencer UI controls
-    [ ] it forgot some values that I just set.
-    [ ] ugly layout
-
-[ ] Surface got out of sync w/ Nodes
-    MAYBE from changes that happened with it was disabled?
-
-
-[ ] BasinFinder -- once the quick thing is done go to list-of-unclassified
-
-[ ] BasinFinder -- fat boundary goes unclassified.
-    find it like I was doing for multi-point attractor
-
-[ ] page 2 top section needs a header
-
+[ ] check the surface-v-nodes sync issue
 
 ABOVE THE LINE
 ==================================================================================
 BELOW THE LINE
 
+[ ] page 2 top section needs a header
 
-
+[ ] control for sequencer step rate
 
 [ ] PhysicalProperty -> DerivedProperty
 

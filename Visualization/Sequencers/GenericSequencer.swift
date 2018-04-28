@@ -116,7 +116,7 @@ class GenericSequencer<T> : Sequencer {
             changed = false
         }
         
-        if changed {
+        if (changed) {
             fireChange()
         }
     }
