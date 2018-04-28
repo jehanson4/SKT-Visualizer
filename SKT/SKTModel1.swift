@@ -68,7 +68,7 @@ class SKTModel1: SKTModel {
                                    stepSize: SKGeometry.N_defaultStepSize)
     
     
-    lazy var k0 = DiscreteParameter("k0",
+    lazy var k0 = DiscreteParameter("k\u{2080}",
                                     geometry.getK0,
                                     geometry.setK0,
                                     min: SKGeometry.k0_min,
@@ -76,7 +76,7 @@ class SKTModel1: SKTModel {
                                     setPoint: SKGeometry.k0_defaultValue,
                                     stepSize: SKGeometry.k0_defaultStepSize)
     
-    lazy var alpha1  = ContinuousParameter("\u{03B1}1",
+    lazy var alpha1  = ContinuousParameter("\u{03B1}\u{2081}",
                                            physics.getAlpha1,
                                            physics.setAlpha1,
                                            min: SKPhysics.alpha_min,
@@ -84,7 +84,7 @@ class SKTModel1: SKTModel {
                                            setPoint: SKPhysics.alpha_defaultValue,
                                            stepSize: SKPhysics.alpha_defaultStepSize)
     
-    lazy var alpha2 = ContinuousParameter("\u{03B1}2",
+    lazy var alpha2 = ContinuousParameter("\u{03B1}\u{2082}",
                                           physics.getAlpha2,
                                           physics.setAlpha2,
                                           min: SKPhysics.alpha_min,

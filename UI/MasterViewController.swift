@@ -11,7 +11,7 @@ import UIKit
 class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser {
     
     let name = "MasterViewController"
-    var debugEnabled = true
+    var debugEnabled = false
     
     var appModel: AppModel? = nil
     

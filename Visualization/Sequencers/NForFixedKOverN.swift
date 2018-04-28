@@ -28,6 +28,7 @@ class NForFixedKOverN : NumericParameterSequencer<Int> {
                    lowerBound: SKGeometry.N_defaultLowerBound,
                    upperBound: SKGeometry.N_defaultUpperBound,
                    stepSize: N.stepSize)
+        super.name = "N & k\u{2080}"
     }
     
     override func step() {

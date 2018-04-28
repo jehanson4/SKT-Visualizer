@@ -5,6 +5,8 @@ ToDo.txt
 For 1.0.3
 
 [ ] check the surface-v-nodes sync issue
+[ ] n for fixed k/n
+
 
 ABOVE THE LINE
 ==================================================================================
@@ -18,20 +20,19 @@ BELOW THE LINE
 
 [ ] improved pointsize calc
 
-[ ] page 2 has setPoint controls
+[ ] page 2 setPoint controls
 
-[ ] page 2 has POV controls
+[ ] page 2 POV read-only controls
 
 [ ] add texture to the sprites to make them look like balls
 
-[ ] all the change monitor guys impl the new protocol
+[ ] verify that all the change monitor guys impl the new protocol
 
 [ ] scroll & pan: track finger *exactly*
 
 [ ] segue from background to prev, not always back to main
 
 [ ] all the monitors dict's should be lazy
-
 
 [ ] Recursive Embedded Definition
     This idea needs refinement. the definitions are the easy bit.
@@ -46,4 +47,5 @@ BELOW THE LINE
     sequencer direction/step
 
 [ ] impl button to take screenshot of the currently displayed view
+
 
