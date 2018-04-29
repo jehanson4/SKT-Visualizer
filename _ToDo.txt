@@ -4,11 +4,44 @@ ToDo.txt
 
 For 1.0.3
 
-[ ] change solor source doesn't immediately update the picture
+-------------------
+functionality
+
+[/] hook up POV reset
+[/] hook up params reset
+[/] icosahedron hook up
+[/] hook up initial effect state
+
+[ ] BUG change color source doesn't immediately update the picture
+[ ] BUG effects fail to sync w/ color source on activation
+[ ] model params aren't updating
+[ ] animation chooser not hooked up
+[ ] None color source still there
+
+-------------------
+L & F
+
+[/] section: spacing = 4
+[/] section title: system light 12.0
+[/] vspace above section body: 8
+[/] spacing above section: 16
+[/] popup button color: default
+[/] popup button border: none
+[/] text field: border: "rounded edges"
+[/] text field: clear button: never appears
+[?] all fonts except section titles: 16
+[ ] text field: font size: adjust to fit: no
+[ ] text field: keyboard type: "decimal pad"
+
+
 
 ABOVE THE LINE
 ==================================================================================
 BELOW THE LINE
+
+[ ] save as defaults
+
+[ ] busy indicator
 
 [ ] page 2 top section needs a header
 

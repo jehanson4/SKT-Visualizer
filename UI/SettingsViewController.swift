@@ -8,7 +8,7 @@
 import UIKit
 
 class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUser {
-
+    
     let name: String = "SettingsViewController"
     var debugEnabled: Bool = true
     
@@ -17,41 +17,19 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
     override func viewDidLoad() {
         debug("viewDidLoad", "entering")
         super.viewDidLoad()
-
+        
         self.navigationItem.hidesBackButton = true
         
-        dN_text.delegate = self
-        dk_text.delegate = self
-        da1_text.delegate = self
-        da2_text.delegate = self
-        dT_text.delegate = self
-        // dbeta_text.delegate = self
         
         if (appModel == nil) {
             debug("viewDidLoad", "app model is nil")
         }
         else {
-            
-            let skt = appModel!.skt
-            
-            N_update(skt.N)
-            N_monitor = skt.N.monitorChanges(N_update)
-            
-            k0_update(skt.k0)
-            k0_monitor = skt.k0.monitorChanges(k0_update)
-            
-            a1_update(skt.alpha1)
-            a1_monitor = skt.alpha1.monitorChanges(a1_update)
-            
-            a2_update(skt.alpha2)
-            a2_monitor = skt.alpha2.monitorChanges(a2_update)
-            
-            T_update(skt.T)
-            T_monitor = skt.T.monitorChanges(T_update)
-            
+            configureDeltaControls()
+            configureEffectsControls()
         }
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -59,6 +37,17 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
     
     override func viewWillDisappear(_ animated: Bool) {
         debug("viewWillDisappear")
+    }
+
+    deinit{
+        debug("deinit")
+        disconnectChangeMonitors()
+    }
+
+    // TODO figure out where to put this guy.
+    // NOT in viewWillDisappear.
+    // maybe deinit?
+    func disconnectChangeMonitors() {
         N_monitor.disconnect()
         k0_monitor.disconnect()
         a1_monitor.disconnect()
@@ -90,7 +79,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
         textField.resignFirstResponder()
         return true
     }
-
+    
     private func debug(_ mtd: String, _ msg: String = "") {
         if (debugEnabled) {
             print(name, mtd, msg)
@@ -101,11 +90,44 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
         debug("unwindToSettings")
     }
     
-    // ===========================
-    // N
+    // ========================================================
+    // Deltas
+    // ========================================================
+    
+    func configureDeltaControls() {
+        
+        dN_text.delegate = self
+        dk_text.delegate = self
+        da1_text.delegate = self
+        da2_text.delegate = self
+        dT_text.delegate = self
+        
+        
+        let skt = appModel!.skt
+        
+        N_update(skt.N)
+        N_monitor = skt.N.monitorChanges(N_update)
+        
+        k0_update(skt.k0)
+        k0_monitor = skt.k0.monitorChanges(k0_update)
+        
+        a1_update(skt.alpha1)
+        a1_monitor = skt.alpha1.monitorChanges(a1_update)
+        
+        a2_update(skt.alpha2)
+        a2_monitor = skt.alpha2.monitorChanges(a2_update)
+        
+        T_update(skt.T)
+        T_monitor = skt.T.monitorChanges(T_update)
+        
+
+    }
+    
+    // ============================
+    // dN
     
     @IBOutlet weak var dN_text: UITextField!
-
+    
     @IBAction func dN_textAction(_ sender: UITextField) {
         let param = appModel?.skt.N
         if (param != nil && sender.text != nil) {
@@ -115,7 +137,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
             }
         }
     }
-
+    
     var N_monitor: ChangeMonitor!
     
     func N_update(_ sender: Any?) {
@@ -126,7 +148,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
     }
     
     // ============================
-    // k0
+    // dk0
     
     @IBOutlet weak var dk_text: UITextField!
     
@@ -139,7 +161,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
             }
         }
     }
-
+    
     var k0_monitor: ChangeMonitor!
     
     func k0_update(_ sender: Any?) {
@@ -148,9 +170,9 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
             dk_text.text = param!.toString(param!.stepSize)
         }
     }
-
+    
     // ==========================
-    // alpha1
+    // da1
     
     @IBOutlet weak var da1_text: UITextField!
     
@@ -163,7 +185,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
             }
         }
     }
-
+    
     var a1_monitor: ChangeMonitor!
     
     func a1_update(_ sender: Any?) {
@@ -174,10 +196,10 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
     }
     
     // ==========================
-    // alpha2
+    // da2
     
     @IBOutlet weak var da2_text: UITextField!
-
+    
     @IBAction func da2_textAction(_ sender: UITextField) {
         let param = appModel?.skt.alpha2
         if (param != nil && sender.text != nil) {
@@ -196,12 +218,12 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
             da2_text.text = param!.toString(param!.stepSize)
         }
     }
-
+    
     // ==========================
-    // T
+    // dT
     
     @IBOutlet weak var dT_text: UITextField!
-
+    
     @IBAction func dT_textAction(_ sender: UITextField) {
         let param = appModel?.skt.T
         if (param != nil && sender.text != nil) {
@@ -211,7 +233,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
             }
         }
     }
-
+    
     var T_monitor: ChangeMonitor!
     
     func T_update(_ sender: Any?) {
@@ -220,13 +242,134 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
             dT_text.text = param!.toString(param!.stepSize)
         }
     }
-
-    // ===============================================================
-    // POV
-    // ===============================================================
-
-    @IBAction func resetViewParams(_ sender: Any) {
-        appModel?.viz.resetPOV()
+    
+    // ====================================================================
+    // Effects
+    // ====================================================================
+    
+    func installedEffect(_ type: EffectType) -> Effect? {
+        return appModel?.viz.effect(forType: type)
     }
-
+    
+    func updateEffectsControls(_ registry: Registry<Effect>) {
+        self.updateEffectsControls()
+    }
+    
+    func configureEffectsControls() {
+        self.updateEffectsControls()
+    }
+    
+    func updateEffectsControls() {
+        debug("updateEffectsControls")
+        let viz = appModel!.viz
+        axes_switch.isOn      = viz.effect(forType: EffectType.axes)?.enabled ?? false
+        meridians_switch.isOn = viz.effect(forType: EffectType.meridians)?.enabled ?? false
+        net_switch.isOn       = viz.effect(forType: EffectType.net)?.enabled ?? false
+        surface_switch.isOn   = viz.effect(forType: EffectType.surface)?.enabled ?? false
+        nodes_switch.isOn     = viz.effect(forType: EffectType.nodes)?.enabled ?? false
+        flowLines_switch.isOn = viz.effect(forType: EffectType.flowLines)?.enabled ?? false
+        
+        if (icosahedron_switch != nil) {
+            icosahedron_switch.isOn = viz.effect(forType: EffectType.icosahedron)?.enabled ?? false
+        }
+    }
+    
+    // =============================
+    // Surface
+    
+    @IBOutlet weak var surface_switch: UISwitch!
+    
+    @IBAction func surface_action(_ sender: UISwitch) {
+        let effectOrNil = installedEffect(EffectType.surface)
+        if (effectOrNil != nil) {
+            var effect = effectOrNil!
+            effect.enabled = sender.isOn
+            sender.isOn = effect.enabled
+        }
+    }
+    
+    // ==============================
+    // Nodes
+    
+    @IBOutlet weak var nodes_switch: UISwitch!
+    
+    @IBAction func nodes_action(_ sender: UISwitch) {
+        let effectOrNil = installedEffect(EffectType.nodes)
+        if (effectOrNil != nil) {
+            var effect = effectOrNil!
+            effect.enabled = sender.isOn
+            sender.isOn = effect.enabled
+        }
+    }
+    
+    // =========================
+    // Net
+    
+    @IBOutlet weak var net_switch: UISwitch!
+    
+    @IBAction func net_action(_ sender: UISwitch) {
+        let effectOrNil = installedEffect(EffectType.net)
+        if (effectOrNil != nil) {
+            var effect = effectOrNil!
+            effect.enabled = sender.isOn
+            sender.isOn = effect.enabled
+        }
+    }
+    
+    // ===========================
+    // Flow lines
+    
+    @IBOutlet weak var flowLines_switch: UISwitch!
+    
+    @IBAction func flowLines_action(_ sender: UISwitch) {
+        let effectOrNil = installedEffect(EffectType.flowLines)
+        if (effectOrNil != nil) {
+            var effect = effectOrNil!
+            effect.enabled = sender.isOn
+            sender.isOn = effect.enabled
+        }
+    }
+    
+    // =============================
+    // Meridians
+    
+    @IBOutlet weak var meridians_switch: UISwitch!
+    
+    @IBAction func meridians_action(_ sender: UISwitch) {
+        let effectOrNil  = installedEffect(EffectType.meridians)
+        if (effectOrNil != nil) {
+            var effect = effectOrNil!
+            effect.enabled = sender.isOn
+            sender.isOn = effect.enabled
+        }
+    }
+    
+    // =============================
+    // Axes
+    
+    @IBOutlet weak var axes_switch: UISwitch!
+    
+    @IBAction func axes_action(_ sender: UISwitch) {
+        let effectOrNil = installedEffect(EffectType.axes)
+        if (effectOrNil != nil) {
+            var effect = effectOrNil!
+            effect.enabled = sender.isOn
+            sender.isOn = effect.enabled
+        }
+    }
+    
+    // ==========================
+    // Icosahedron
+    
+    @IBOutlet weak var icosahedron_switch: UISwitch!
+    
+    @IBAction func icosahedron_action(_ sender: UISwitch) {
+        let effectOrNil = installedEffect(EffectType.icosahedron)
+        if (effectOrNil != nil) {
+            var effect = effectOrNil!
+            effect.enabled = sender.isOn
+            sender.isOn = effect.enabled
+        }
+    }
+    
 }

@@ -137,9 +137,10 @@ class VisualizationModel1 : VisualizationModel {
     
     private func initColorSources() {
         debug("initColorSources")
-        let bg = VisualizationModel1.scene_backgroundColorValue
-        let grayCS = UniformColor("Nothing", r: bg, g: bg, b: bg)
-        registerColorSource(grayCS, false)
+        
+        // let bg = VisualizationModel1.scene_backgroundColorValue
+        // let grayCS = UniformColor("Nothing", r: bg, g: bg, b: bg)
+        // registerColorSource(grayCS, false)
         
         let linearColorMap = LinearColorMap()
         let logColorMap = LogColorMap()
@@ -237,7 +238,7 @@ class VisualizationModel1 : VisualizationModel {
     private func initSequencers() {
         debug("initSequencers")
         
-        registerSequencer(DummySequencer("None"), true)
+        // registerSequencer(DummySequencer("None"), true)
         
         registerSequencer(NumericParameterSequencer(
             skt.N,

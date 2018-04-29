@@ -11,12 +11,10 @@ import UIKit
 class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser {
     
     let name = "MasterViewController"
-    var debugEnabled = false
+    var debugEnabled = true
     
     var appModel: AppModel? = nil
     
-    private var colorSourceMonitor: ChangeMonitor? = nil
-    private var paramChangeMonitor: ChangeMonitor? = nil
     private var sequencerSelectionMonitor: ChangeMonitor? = nil
     private var sequencerParamsMonitor: ChangeMonitor? = nil
     
@@ -25,12 +23,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
         debug(mtd, "entering")
         super.viewDidLoad()
 
-        N_text.delegate = self
-        k_text.delegate = self
-        a1_text.delegate = self
-        a2_text.delegate = self
-        T_text.delegate = self
-        
+        configureParamsControls()
         configureColorSourceControls()
         configureSequencerControls()
         
@@ -43,38 +36,23 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
         }
         else {
             
-            let skt = appModel!.skt
-            
-            debug(mtd, "updating and starting to monitor SKT params")
-            
-            N_update(skt.N)
-            N_monitor = skt.N.monitorChanges(N_update)
-            
-            k0_update(skt.k0)
-            k0_monitor = skt.k0.monitorChanges(k0_update)
-            
-            a1_update(skt.alpha1)
-            a1_monitor = skt.alpha1.monitorChanges(a1_update)
-            
-            a2_update(skt.alpha2)
-            a2_monitor = skt.alpha2.monitorChanges(a2_update)
-            
-            T_update(skt.T)
-            T_monitor = skt.T.monitorChanges(T_update)
             
             debug(mtd, "Updating color source controls")
             updateColorSourceControls(appModel!.viz.colorSources)
             
             debug(mtd, "Starting to monitor color source selection changes")
-            colorSourceMonitor = appModel!.viz.colorSources.monitorChanges(updateColorSourceControls)
+            colorSourceSelectionMonitor =
+                appModel!.viz.colorSources.monitorChanges(updateColorSourceControls)
             
-            debug(mtd, "Updating effects controls")
-            updateEffectsControls(appModel!.viz.effects)
+            // debug(mtd, "Updating effects controls")
+            // updateEffectsControls(appModel!.viz.effects)
             
             debug(mtd, "Updating sequencer controls")
             updateSequencerControls(appModel!.viz.sequencers)
+            
             debug(mtd, "Starting to monitor sequencer selection changes")
-            sequencerSelectionMonitor = appModel!.viz.sequencers.monitorChanges(updateSequencerControls)
+            sequencerSelectionMonitor =
+                appModel!.viz.sequencers.monitorChanges(updateSequencerControls)
         }
     }
     
@@ -88,6 +66,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
         debug(mtdName, "destination: \(segue.destination.title ?? "(no title)")")
         
         // TODO what about disconnecting monitors?
+        // NOT HERE: do it in 'delete' phase.
         
         if (segue.destination is AppModelUser) {
             var d2 = segue.destination as! AppModelUser
@@ -104,6 +83,28 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        debug("viewWillDisappear")
+    }
+    
+    deinit{
+        debug("deinit")
+        disconnectChangeMonitors()
+    }
+    
+    // TODO: figure out where to call this.
+    // NOT viewWillDisappear; view doesn't get 'loaded' on reappear.
+    func disconnectChangeMonitors() {
+        N_monitor?.disconnect()
+        k0_monitor?.disconnect()
+        a1_monitor?.disconnect()
+        a2_monitor?.disconnect()
+        T_monitor?.disconnect()
+        colorSourceSelectionMonitor?.disconnect()
+        sequencerSelectionMonitor?.disconnect()
+        sequencerParamsMonitor?.disconnect()
+    }
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         // Hide the keyboard.
         textField.resignFirstResponder()
@@ -121,9 +122,42 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     }
     
     // =====================================================================
-    // N
+    // Params
     // ====================================================================
 
+    func configureParamsControls() {
+        N_text.delegate = self
+        k_text.delegate = self
+        a1_text.delegate = self
+        a2_text.delegate = self
+        T_text.delegate = self
+
+        let skt = appModel!.skt
+        
+        N_update(skt.N)
+        N_monitor = skt.N.monitorChanges(N_update)
+        
+        k0_update(skt.k0)
+        k0_monitor = skt.k0.monitorChanges(k0_update)
+        
+        a1_update(skt.alpha1)
+        a1_monitor = skt.alpha1.monitorChanges(a1_update)
+        
+        a2_update(skt.alpha2)
+        a2_monitor = skt.alpha2.monitorChanges(a2_update)
+        
+        T_update(skt.T)
+        T_monitor = skt.T.monitorChanges(T_update)
+    }
+    
+
+    @IBAction func resetControlParameters(_ sender: Any) {
+        appModel?.skt.resetAllParameters()
+    }
+    
+    // ==================================
+    // N
+    
     @IBOutlet weak var N_text: UITextField!
     
     @IBOutlet weak var N_stepper: UIStepper!
@@ -164,7 +198,6 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     
     // =====================================================
     // k0
-    // =====================================================
 
     @IBOutlet weak var k_text: UITextField!
 
@@ -206,7 +239,6 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     
     // ======================================================
     // alpha1
-    // =======================================================
 
     @IBOutlet weak var a1_text: UITextField!
     @IBOutlet weak var a1_stepper: UIStepper!
@@ -247,7 +279,6 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     
     // =======================================================
     // alpha2
-    // =======================================================
 
     @IBOutlet weak var a2_text: UITextField!
     @IBOutlet weak var a2_stepper: UIStepper!
@@ -288,7 +319,6 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     
     // =====================================================
     // T
-    // =====================================================
 
     @IBOutlet weak var T_text: UITextField!
     @IBOutlet weak var T_stepper: UIStepper!
@@ -328,16 +358,10 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     }
     
     // =======================================================================
-    // Bulk change in control paramters
+    // Visualization section
     // =======================================================================
 
-    @IBAction func resetControlParameters(_ sender: Any) {
-        appModel?.skt.resetAllParameters()
-    }
-
-    // =======================================================================
-    // Color source
-    // =======================================================================
+    private var colorSourceSelectionMonitor: ChangeMonitor? = nil
     
     @IBOutlet weak var colorSourceDrop: UIButton!
     
@@ -347,115 +371,21 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     }
     
     func updateColorSourceControls(_ sender: Any) {
-        let selectionName = appModel?.viz.colorSources.selection?.name ?? "<none>"
+        let selectionName = appModel?.viz.colorSources.selection?.name ?? "<choose>"
         colorSourceDrop.setTitle(selectionName, for: .normal)
     }
     
-    // ====================================================================
-    // Effects
-    // ====================================================================
+    @IBAction func resetPOV(_ sender: Any) {
+        appModel?.viz.resetPOV()
+    }
+    
 
-    @IBOutlet weak var axes_switch: UISwitch!
-    
-    @IBAction func axes_action(_ sender: UISwitch) {
-        let effectOrNil = installedEffect(EffectType.axes)
-        if (effectOrNil != nil) {
-            var effect = effectOrNil!
-            effect.enabled = sender.isOn
-            sender.isOn = effect.enabled
-        }
-    }
-    
-    @IBOutlet weak var meridians_switch: UISwitch!
-    
-    @IBAction func meridians_action(_ sender: UISwitch) {
-        let effectOrNil  = installedEffect(EffectType.meridians)
-        if (effectOrNil != nil) {
-            var effect = effectOrNil!
-            effect.enabled = sender.isOn
-            sender.isOn = effect.enabled
-        }
-    }
-    
-    @IBOutlet weak var net_switch: UISwitch!
-    
-    @IBAction func net_action(_ sender: UISwitch) {
-        let effectOrNil = installedEffect(EffectType.net)
-        if (effectOrNil != nil) {
-            var effect = effectOrNil!
-            effect.enabled = sender.isOn
-            sender.isOn = effect.enabled
-        }
-    }
-    
-    @IBOutlet weak var surface_switch: UISwitch!
-    
-    @IBAction func surface_action(_ sender: UISwitch) {
-        let effectOrNil = installedEffect(EffectType.surface)
-        if (effectOrNil != nil) {
-            var effect = effectOrNil!
-            effect.enabled = sender.isOn
-            sender.isOn = effect.enabled
-        }
-    }
-        
-    @IBOutlet weak var nodes_switch: UISwitch!
-    
-    @IBAction func nodes_action(_ sender: UISwitch) {
-        let effectOrNil = installedEffect(EffectType.nodes)
-        if (effectOrNil != nil) {
-            var effect = effectOrNil!
-            effect.enabled = sender.isOn
-            sender.isOn = effect.enabled
-        }
-    }
-    
-    @IBOutlet weak var flowLines_switch: UISwitch!
-    
-    @IBAction func flowLines_action(_ sender: UISwitch) {
-        let effectOrNil = installedEffect(EffectType.flowLines)
-        if (effectOrNil != nil) {
-            var effect = effectOrNil!
-            effect.enabled = sender.isOn
-            sender.isOn = effect.enabled
-        }
-    }
-    
-    @IBOutlet weak var icosahedron_switch: UISwitch!
-    
-    @IBAction func icosahedron_action(_ sender: UISwitch) {
-        let effectOrNil = installedEffect(EffectType.icosahedron)
-        if (effectOrNil != nil) {
-            var effect = effectOrNil!
-            effect.enabled = sender.isOn
-            sender.isOn = effect.enabled
-        }
-    }
-    
-    func installedEffect(_ type: EffectType) -> Effect? {
-        return appModel?.viz.effect(forType: type)
-    }
-    
-    func updateEffectsControls(_ registry: Registry<Effect>) {
-        self.updateEffectsControls()
-    }
-    
-    func updateEffectsControls() {
-        debug("updateEffectsControls")
-        let viz = appModel!.viz
-        axes_switch.isOn      = viz.effect(forType: EffectType.axes)?.enabled ?? false
-        meridians_switch.isOn = viz.effect(forType: EffectType.meridians)?.enabled ?? false
-        net_switch.isOn       = viz.effect(forType: EffectType.net)?.enabled ?? false
-        surface_switch.isOn   = viz.effect(forType: EffectType.surface)?.enabled ?? false
-        nodes_switch.isOn     = viz.effect(forType: EffectType.nodes)?.enabled ?? false
-        flowLines_switch.isOn = viz.effect(forType: EffectType.flowLines)?.enabled ?? false
+    // =======================================================================
+    // Animation section
+    // =======================================================================
 
-        icosahedron_switch.isOn = viz.effect(forType: EffectType.icosahedron)?.enabled ?? false
-    }
-    
     // =======================================================================
     // Sequencer selection
-    // =======================================================================
     
     @IBOutlet weak var sequencerDrop: UIButton!
     
@@ -493,8 +423,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     
 
     // =====================================================
-    // Sequencer properties
-    // =====================================================
+    // Selected sequencer
     
     @IBOutlet weak var enabled_segment: UISegmentedControl!
     

@@ -71,9 +71,11 @@ class SequencerSelectionViewController: UITableViewController, AppModelUser {
     
     
     func configureButtonForRow(_ button: UIButton, _ row: Int) {
-        button.setTitle(registry.entryNames[row], for: .normal)
         button.tag = row
         button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+
+        button.setTitle(registry.entryNames[row], for: .normal)
+        // button.setTitleColor(UIColor.black, for: .normal)
         // button.layer.borderWidth = 1
         // button.layer.borderColor = UIColor.lightGray.cgColor
         
