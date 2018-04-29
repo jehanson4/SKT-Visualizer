@@ -139,9 +139,9 @@ class NumericParameterSequencer<T: Comparable & Numeric> : GenericSequencer<T> {
     private func stickyBackwardStep(_ x: T) -> T {
         // TODO verify correctness
         let x2 = x - _stepSize
-        if (x2 >= _upperBound) {
+        if (x2 <= _lowerBound) {
             _direction = .stopped
-            return _upperBound
+            return _lowerBound
         }
         else {
             return x2

@@ -65,7 +65,8 @@ class Surface : GLKBaseEffect, Effect {
     var physicsChangeNumber: Int
     
     private var colorSources: Registry<ColorSource>? = nil
-    private var forceColorUpdate: Bool = false
+    private var colorSourceSelectionMonitor: ChangeMonitor? = nil
+    private var colorsAreStale: Bool = false
     
     // var linearColorMap: ColorMap? = nil
     // var logColorMap: ColorMap? = nil
@@ -81,13 +82,21 @@ class Surface : GLKBaseEffect, Effect {
         self.physicsChangeNumber = physics.changeNumber
         self.colorSources = colorSources
         self.enabled = enabled
-        self.forceColorUpdate = false
+        
         super.init()
+
+        if (colorSources != nil) {
+            colorSourceSelectionMonitor = colorSources!.monitorChanges(markColorsAsStale)
+        }
     }
     
     deinit {
         glDeleteVertexArrays(1, &vertexArray)
         deleteBuffers()
+    }
+    
+    private func markColorsAsStale(_ sender: Any?) {
+        colorsAreStale = true
     }
     
     private func build() -> Bool {
@@ -147,7 +156,7 @@ class Surface : GLKBaseEffect, Effect {
         
         let black = GLKVector4Make(0, 0, 0, 0)
         self.colors = Array(repeating: black, count: vertices.count)
-        self.forceColorUpdate = true
+        self.colorsAreStale = true
     }
     
     private func ensureColorsAreFresh() -> Bool {
@@ -162,11 +171,16 @@ class Surface : GLKBaseEffect, Effect {
             return false
         }
         
+        // =============================
+        // TODO: catch selection change
+        // TODO: catch param change
+        // =============================
+
         var colorsRecomputed = false
         let cs = colorSource!
         let colorSourceChanged = cs.prepare()
-        if (colorSourceChanged || forceColorUpdate) {
-            forceColorUpdate = false
+        if (colorSourceChanged || colorsAreStale) {
+            colorsAreStale = false
             debug("recomputing colors", "colorSource: \(cs.name)")
             for i in 0..<colors.count {
                 colors[i] = cs.colorAt(i)
@@ -270,7 +284,7 @@ class Surface : GLKBaseEffect, Effect {
             self.physicsChangeNumber = physicsChange
             
             // MAYBE this isn't needed. But it does no harm.
-            self.forceColorUpdate = true
+            self.colorsAreStale = true
             
             deleteBuffers()
             buildVertexAndColorData()

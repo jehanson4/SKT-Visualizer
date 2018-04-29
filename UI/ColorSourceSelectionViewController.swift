@@ -11,7 +11,7 @@ import UIKit
 class ColorSourceSelectionViewController: UITableViewController, AppModelUser {
 
     private var clsName = "ColorSourceSelectionViewController"
-    private var debugEnabled = true
+    private var debugEnabled = false
     
     private func debug(_ mtd: String, _ msg: String = "") {
         if (debugEnabled) {

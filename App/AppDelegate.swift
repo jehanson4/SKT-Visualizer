@@ -11,7 +11,7 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    var debugEnabled: Bool = true
+    var debugEnabled: Bool = false
     
     var window: UIWindow?
     var appModel: AppModel?

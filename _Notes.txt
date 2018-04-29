@@ -2,6 +2,21 @@
 Notes.txt
 ==================================================================================
 
+-------------------
+L & F
+
+[/] section: spacing = 4
+[/] section title: system light 12.0
+[/] vspace above section body: 8
+[/] spacing above section: 16
+[/] popup button color: default
+[/] popup button border: none
+[/] text field: border: "rounded edges"
+[/] text field: clear button: never appears
+[/] all fonts except section titles: 16
+[/] text field: font size: adjust to fit: no
+[/] text field: keyboard type: "decimal pad"
+
 
 -----------------------------------
 from https://www.raywenderlich.com/5223/beginning-opengl-es-2-0-with-glkit-part-1

@@ -65,7 +65,8 @@ class Nodes : Effect {
     var physicsChangeNumber: Int
     
     private var colorSources: Registry<ColorSource>? = nil
-    private var forceColorUpdate: Bool = false
+    private var colorSourceSelectionMonitor: ChangeMonitor? = nil
+    private var colorsAreStale: Bool = false
     
     // =====================================
     // Initialization
@@ -79,7 +80,9 @@ class Nodes : Effect {
         self.physicsChangeNumber = physics.changeNumber
         self.colorSources = colorSources
         self.enabled = enabled
-        self.forceColorUpdate = false
+        if (colorSources != nil) {
+            colorSourceSelectionMonitor = colorSources!.monitorChanges(markColorsStale)
+        }
     }
 
     deinit {
@@ -115,7 +118,7 @@ class Nodes : Effect {
         
         let black = GLKVector4Make(0, 0, 0, 0)
         self.colors = Array(repeating: black, count: vertices.count)
-        self.forceColorUpdate = true
+        self.colorsAreStale = true
     }
 
     private func createBuffers() {
@@ -161,6 +164,10 @@ class Nodes : Effect {
         
     }
 
+    func markColorsStale(_ sender: Any?) {
+        colorsAreStale = true
+    }
+    
     private func ensureColorsAreFresh() -> Bool {
         if (colorSources == nil) {
             debug("cannot refresh colors: colorSources is nil")
@@ -173,11 +180,16 @@ class Nodes : Effect {
             return false
         }
         
+        // ==============================
+        // TODO catch colorSource selection change
+        // TODO catch colorSource param change
+        // ==============================
+
         var colorsRecomputed = false
         let cs = colorSource!
         let colorSourceChanged = cs.prepare()
-        if (colorSourceChanged || forceColorUpdate) {
-            forceColorUpdate = false
+        if (colorSourceChanged || colorsAreStale) {
+            colorsAreStale = false
             debug("recomputing colors", "colorSource: \(cs.name)")
             for i in 0..<colors.count {
                 colors[i] = cs.colorAt(i)
@@ -228,7 +240,7 @@ class Nodes : Effect {
             self.physicsChangeNumber = physicsChange
             
             // MAYBE this isn't needed. But it does no harm.
-            self.forceColorUpdate = true
+            self.colorsAreStale = true
             
             deleteBuffers()
             buildVertexAndColorData()
