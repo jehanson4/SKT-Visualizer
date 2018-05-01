@@ -19,7 +19,7 @@ import OpenGL
 // ==============================================================
 
 class Surface : GLKBaseEffect, Effect {
-    var debugEnabled = false
+    var debugEnabled = true
     
     let effectType = EffectType.surface
     var name = "Surface"
@@ -160,14 +160,15 @@ class Surface : GLKBaseEffect, Effect {
     }
     
     private func ensureColorsAreFresh() -> Bool {
+        let mtd = "ensureColorsAreFresh"
         if (colorSources == nil) {
-            debug("cannot refresh colors: colorSources is nil")
+            debug(mtd, "cannot refresh colors: colorSources is nil")
             return false
         }
 
         let colorSource = colorSources?.selection?.value
         if (colorSource == nil) {
-            debug("cannot refresh colors: colorSource is nil")
+            debug(mtd, "cannot refresh colors: colorSource is nil")
             return false
         }
         
@@ -178,14 +179,16 @@ class Surface : GLKBaseEffect, Effect {
 
         var colorsRecomputed = false
         let cs = colorSource!
+        debug(mtd, "calling colorSource.prepare(). colorSource: \(cs.name)")
         let colorSourceChanged = cs.prepare()
         if (colorSourceChanged || colorsAreStale) {
             colorsAreStale = false
-            debug("recomputing colors", "colorSource: \(cs.name)")
+            debug(mtd, "recomputing colors. colorSource: \(cs.name)")
             for i in 0..<colors.count {
                 colors[i] = cs.colorAt(i)
             }
             colorsRecomputed = true
+            debug(mtd, "colors recomputed. colorSource: \(cs.name)")
         }
         return colorsRecomputed
     }
@@ -283,7 +286,7 @@ class Surface : GLKBaseEffect, Effect {
             self.geometryChangeNumber = geometryChange
             self.physicsChangeNumber = physicsChange
             
-            // MAYBE this isn't needed. But it does no harm.
+            // IMPORTANT
             self.colorsAreStale = true
             
             deleteBuffers()
@@ -297,7 +300,10 @@ class Surface : GLKBaseEffect, Effect {
         else if (physicsChange != physicsChangeNumber) {
             debug(mtd, "physics has changed. Rebuilding.")
             self.physicsChangeNumber = physicsChange
-            // DON'T force color update here; let the color source tell us.
+
+            // IMPORTANT
+            self.colorsAreStale = true
+            
             debug(mtd, "done rebuilding.")
         }
 

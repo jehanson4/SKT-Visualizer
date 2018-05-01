@@ -239,7 +239,7 @@ class Nodes : Effect {
             self.geometryChangeNumber = geometryChange
             self.physicsChangeNumber = physicsChange
             
-            // MAYBE this isn't needed. But it does no harm.
+            // IMPORTANT
             self.colorsAreStale = true
             
             deleteBuffers()
@@ -253,7 +253,10 @@ class Nodes : Effect {
         else if (physicsChange != physicsChangeNumber) {
             debug(mtd, "physics has changed. Rebuilding.")
             self.physicsChangeNumber = physicsChange
-            // DON'T force color update here; let the color source tell us.
+
+            // IMPORTANT
+            self.colorsAreStale = true
+            
             debug(mtd, "done rebuilding.")
         }
         

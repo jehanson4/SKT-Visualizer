@@ -4,8 +4,13 @@ ToDo.txt
 
 For 1.0.4
 
-[ ] BUG k=even, N=2k, alpha2=0 , alpha1=-1. Above a certain T, Occupation picture
-    doesn't change.
+[ ] BUG For any k=even, N=2k, alpha2=0 , alpha1=-1.
+    Above a certain T, Occupation picture doesn't change.
+    If change N & change back, get diff picture but the new picture shows same problem.
+
+Q: does SKPhysics.registerChange fire? when change T
+A: yes
+
 
 [ ] handle long-running calculations -- see _Notes
 
