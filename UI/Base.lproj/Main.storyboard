@@ -223,7 +223,7 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="2d6-ys-rYw" userLabel="VisualizationSection">
-                                <rect key="frame" x="16" y="424.5" width="288" height="195.5"/>
+                                <rect key="frame" x="16" y="424.5" width="288" height="199.5"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SnK-I7-cki" userLabel="Separator">
                                         <rect key="frame" x="0.0" y="0.0" width="288" height="1"/>
@@ -246,14 +246,14 @@
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DHr-Jt-5pc" userLabel="Stack">
-                                        <rect key="frame" x="0.0" y="35.5" width="288" height="160"/>
+                                        <rect key="frame" x="0.0" y="35.5" width="288" height="164"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rwh-Yf-BPb" userLabel="Left spacer">
-                                                <rect key="frame" x="0.0" y="0.0" width="16" height="160"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="16" height="164"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </view>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="lGT-kr-TbP" userLabel="Body">
-                                                <rect key="frame" x="16" y="0.0" width="256" height="160"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="lGT-kr-TbP" userLabel="Body">
+                                                <rect key="frame" x="16" y="0.0" width="256" height="164"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="KOI-PN-Gta" userLabel="Color Source">
                                                         <rect key="frame" x="0.0" y="0.0" width="256" height="32"/>
@@ -279,7 +279,7 @@
                                                         </subviews>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KUe-ch-K8n" userLabel="Buttons">
-                                                        <rect key="frame" x="0.0" y="32" width="256" height="128"/>
+                                                        <rect key="frame" x="0.0" y="36" width="256" height="128"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ggS-Vg-wjy" userLabel="Placeholder">
                                                                 <rect key="frame" x="0.0" y="0.0" width="178" height="128"/>
@@ -298,7 +298,7 @@
                                                 </subviews>
                                             </stackView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="82c-Ic-UcT" userLabel="Right spacer">
-                                                <rect key="frame" x="272" y="0.0" width="16" height="160"/>
+                                                <rect key="frame" x="272" y="0.0" width="16" height="164"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </view>
                                         </subviews>

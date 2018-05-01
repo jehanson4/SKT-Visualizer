@@ -2,21 +2,23 @@
 ToDo.txt
 ==================================================================================
 
-For 1.0.3
+For 1.0.4
 
-[ ] disable debug
+[ ] BUG k=even, N=2k, alpha2=0 , alpha1=-1. Above a certain T, Occupation picture
+    doesn't change.
+
+[ ] handle long-running calculations -- see _Notes
+
+[ ] only execute a clear-and-redraw when needed
+    (frame rate is handled by . . . whom? GLKView?)
+
+[ ] verify: stepper takes step-size from current delta, not default
 
 ABOVE THE LINE
 ==================================================================================
 BELOW THE LINE
 
-[ ] DispatchQueue.asyncAfter()
-
-[ ] save as defaults
-
-[ ] busy indicator
-
-[ ] page 2 top section needs a header
+[ ] save current model parama as defaults
 
 [ ] control for sequencer step rate
 
@@ -24,15 +26,13 @@ BELOW THE LINE
 
 [ ] improved pointsize calc
 
-[ ] page 2 setPoint controls
-
 [ ] page 2 POV read-only controls
 
 [ ] add texture to the sprites to make them look like balls
 
 [ ] verify that all the change monitor guys impl the new protocol
 
-[ ] scroll & pan: track finger *exactly*
+[ ] scroll & pan: track finger *exactly*. esp at v high zoom
 
 [ ] segue from background to prev, not always back to main
 
@@ -51,5 +51,5 @@ BELOW THE LINE
     sequencer direction/step
 
 [ ] impl button to take screenshot of the currently displayed view
-
+    ... put it where?
 
