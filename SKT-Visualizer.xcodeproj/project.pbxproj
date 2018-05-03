@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		8A0269DD2080B1240054107D /* ColorSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0269DC2080B1240054107D /* ColorSource.swift */; };
 		8A0C09A620716B670017AC4C /* SKGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0C09A520716B670017AC4C /* SKGeometry.swift */; };
-		8A131C91207160100088F2FC /* _Notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8A131C90207160100088F2FC /* _Notes.txt */; };
+		8A131C91207160100088F2FC /* _miscNotes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8A131C90207160100088F2FC /* _miscNotes.txt */; };
 		8A1CF016207146510099DD97 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1CF015207146510099DD97 /* AppDelegate.swift */; };
 		8A1CF01B207146520099DD97 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A1CF019207146510099DD97 /* Main.storyboard */; };
 		8A1CF01D207146540099DD97 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A1CF01C207146540099DD97 /* Assets.xcassets */; };
@@ -103,6 +103,11 @@
 		8AD9DAC820914E020062457C /* PointSpriteVertexShader.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 8AD9DAC220914E010062457C /* PointSpriteVertexShader.glsl */; };
 		8AD9DACB20914E3D0062457C /* Balls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AD9DACA20914E3D0062457C /* Balls.swift */; };
 		8AD9DACF2091E7360062457C /* BasinFinder2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AD9DACE2091E7360062457C /* BasinFinder2.swift */; };
+		8AE18F9F2099ED8A0086F127 /* backgroundCalculation.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8AE18F9B2099ED8A0086F127 /* backgroundCalculation.txt */; };
+		8AE18FA12099ED8A0086F127 /* lookAndFeel.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8AE18F9D2099ED8A0086F127 /* lookAndFeel.txt */; };
+		8AE18FA32099EE580086F127 /* particleFlow.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8AE18FA22099EE580086F127 /* particleFlow.txt */; };
+		8AE18FA52099EFF30086F127 /* code.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8AE18FA42099EFF30086F127 /* code.txt */; };
+		8AE18FA7209A1E220086F127 /* FreeEnergy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE18FA6209A1E220086F127 /* FreeEnergy.swift */; };
 		8AE48BBB2087857C001B5D11 /* GLUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE48BBA2087857C001B5D11 /* GLUtils.swift */; };
 		8AE48BBF2087E63A001B5D11 /* background.css in Resources */ = {isa = PBXBuildFile; fileRef = 8AE48BBE2087E639001B5D11 /* background.css */; };
 		8AF5320920887329009D1882 /* BasinOfAttractionColorSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF5320820887329009D1882 /* BasinOfAttractionColorSource.swift */; };
@@ -121,7 +126,7 @@
 /* Begin PBXFileReference section */
 		8A0269DC2080B1240054107D /* ColorSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSource.swift; sourceTree = "<group>"; };
 		8A0C09A520716B670017AC4C /* SKGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKGeometry.swift; sourceTree = "<group>"; };
-		8A131C90207160100088F2FC /* _Notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _Notes.txt; sourceTree = "<group>"; };
+		8A131C90207160100088F2FC /* _miscNotes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _miscNotes.txt; sourceTree = "<group>"; };
 		8A1CF012207146510099DD97 /* SKT Visualizer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SKT Visualizer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A1CF015207146510099DD97 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8A1CF01A207146520099DD97 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -217,6 +222,11 @@
 		8AD9DAC220914E010062457C /* PointSpriteVertexShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PointSpriteVertexShader.glsl; sourceTree = "<group>"; };
 		8AD9DACA20914E3D0062457C /* Balls.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Balls.swift; sourceTree = "<group>"; };
 		8AD9DACE2091E7360062457C /* BasinFinder2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasinFinder2.swift; sourceTree = "<group>"; };
+		8AE18F9B2099ED8A0086F127 /* backgroundCalculation.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = backgroundCalculation.txt; sourceTree = "<group>"; };
+		8AE18F9D2099ED8A0086F127 /* lookAndFeel.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = lookAndFeel.txt; sourceTree = "<group>"; };
+		8AE18FA22099EE580086F127 /* particleFlow.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = particleFlow.txt; sourceTree = "<group>"; };
+		8AE18FA42099EFF30086F127 /* code.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = code.txt; sourceTree = "<group>"; };
+		8AE18FA6209A1E220086F127 /* FreeEnergy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FreeEnergy.swift; sourceTree = "<group>"; };
 		8AE48BBA2087857C001B5D11 /* GLUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GLUtils.swift; sourceTree = "<group>"; };
 		8AE48BBE2087E639001B5D11 /* background.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = background.css; sourceTree = "<group>"; };
 		8AF5320820887329009D1882 /* BasinOfAttractionColorSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasinOfAttractionColorSource.swift; sourceTree = "<group>"; };
@@ -272,8 +282,8 @@
 		8A1CF009207146510099DD97 = {
 			isa = PBXGroup;
 			children = (
-				8A131C90207160100088F2FC /* _Notes.txt */,
-				8AAF6DFE208167A800E4C9BF /* _ToDo.txt */,
+				8AF98FA6207FE9CF0007688E /* README.md */,
+				8AE18F982099EC390086F127 /* _Notes */,
 				8A0C09A220716B050017AC4C /* Common */,
 				8AF5320C2088B63E009D1882 /* SKT */,
 				8AF59501208AC50D0082C5DE /* Visualization */,
@@ -282,7 +292,6 @@
 				8AF138B7207B8966001A88C6 /* Resources */,
 				8A3C45B72086185B00A1E9CD /* Unfinished */,
 				8A1E1C85207D7C64008C1AAF /* Unused */,
-				8AF98FA6207FE9CF0007688E /* README.md */,
 				8AF98F95207FE7D60007688E /* LICENSE */,
 				8ACE78902073CCDA00C29875 /* Frameworks */,
 				8A1CF013207146510099DD97 /* Products */,
@@ -380,6 +389,7 @@
 				8A3C45AF2086160A00A1E9CD /* Energy.swift */,
 				8A3C45B32086165500A1E9CD /* Entropy.swift */,
 				8A3C45B52086167E00A1E9CD /* LogOccupation.swift */,
+				8AE18FA6209A1E220086F127 /* FreeEnergy.swift */,
 				8AD823B3208E36CB0045F3B1 /* PhysicalProperty.swift */,
 			);
 			path = PhysicalProperties;
@@ -459,6 +469,19 @@
 				8AD81817207C9BD900426C25 /* image1-29.png */,
 			);
 			path = AppIcon.appiconset;
+			sourceTree = "<group>";
+		};
+		8AE18F982099EC390086F127 /* _Notes */ = {
+			isa = PBXGroup;
+			children = (
+				8A131C90207160100088F2FC /* _miscNotes.txt */,
+				8AAF6DFE208167A800E4C9BF /* _ToDo.txt */,
+				8AE18F9B2099ED8A0086F127 /* backgroundCalculation.txt */,
+				8AE18FA42099EFF30086F127 /* code.txt */,
+				8AE18F9D2099ED8A0086F127 /* lookAndFeel.txt */,
+				8AE18FA22099EE580086F127 /* particleFlow.txt */,
+			);
+			path = _Notes;
 			sourceTree = "<group>";
 		};
 		8AF138B7207B8966001A88C6 /* Resources */ = {
@@ -581,6 +604,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8AF98F9C207FE80E0007688E /* sample.html in Resources */,
+				8AE18F9F2099ED8A0086F127 /* backgroundCalculation.txt in Resources */,
 				8A57600B20805790002B9951 /* smooth-cool-warm-table-byte-0512.csv in Resources */,
 				8AD81822207C9BD900426C25 /* image1-29@3x.png in Resources */,
 				8A57601120805790002B9951 /* smooth-cool-warm-table-float-0256.csv in Resources */,
@@ -608,9 +632,10 @@
 				8AD817FD207BFA9200426C25 /* InfoViewController.xib in Resources */,
 				8A57600920805790002B9951 /* smooth-cool-warm-table-float-0016.csv in Resources */,
 				8A57600C20805790002B9951 /* smooth-cool-warm-table-byte-0128.csv in Resources */,
+				8AE18FA52099EFF30086F127 /* code.txt in Resources */,
 				8A3BBBB9208BC49D00669227 /* science.html in Resources */,
 				8AD81825207C9BD900426C25 /* image1-76.png in Resources */,
-				8A131C91207160100088F2FC /* _Notes.txt in Resources */,
+				8A131C91207160100088F2FC /* _miscNotes.txt in Resources */,
 				8AA05A2720901B19009417A6 /* SequencerSelectionViewController.xib in Resources */,
 				8A57600420805790002B9951 /* smooth-cool-warm-table-float-0512.csv in Resources */,
 				8AD81821207C9BD900426C25 /* image1-1024.png in Resources */,
@@ -623,6 +648,7 @@
 				8AD81826207C9BD900426C25 /* image1-20@2x.png in Resources */,
 				8AD81820207C9BD900426C25 /* image1-60@2x.png in Resources */,
 				8A57600620805790002B9951 /* smooth-cool-warm-table-byte-0016.csv in Resources */,
+				8AE18FA32099EE580086F127 /* particleFlow.txt in Resources */,
 				8A1CF020207146540099DD97 /* LaunchScreen.storyboard in Resources */,
 				8AA05A2320900692009417A6 /* ColorSourceSelectionViewController.xib in Resources */,
 				8AD81824207C9BD900426C25 /* image1-20@3x.png in Resources */,
@@ -633,6 +659,7 @@
 				8AD81819207C9BD900426C25 /* image1-40@2x.png in Resources */,
 				8A57601220805790002B9951 /* smooth-cool-warm-table-byte-0008.csv in Resources */,
 				8A1CF01B207146520099DD97 /* Main.storyboard in Resources */,
+				8AE18FA12099ED8A0086F127 /* lookAndFeel.txt in Resources */,
 				8AAF6DFF208167A800E4C9BF /* _ToDo.txt in Resources */,
 				8A57600520805790002B9951 /* smooth-cool-warm-table-float-1024.csv in Resources */,
 			);
@@ -680,6 +707,7 @@
 				8A75B694208A771800EACD13 /* SKTModel.swift in Sources */,
 				8AA05A19208FFFD4009417A6 /* MagicStrings.swift in Sources */,
 				8AF98FA1207FE8350007688E /* DetailViewController.swift in Sources */,
+				8AE18FA7209A1E220086F127 /* FreeEnergy.swift in Sources */,
 				8A75B690208A317D00EACD13 /* Registry.swift in Sources */,
 				8ACE789E2073F7A400C29875 /* Utils.swift in Sources */,
 				8A40BC0E207EEA3D00F2D2EB /* Meridians.swift in Sources */,

@@ -135,6 +135,7 @@ class SKTModel1: SKTModel {
     private func initPhysicalProperties() {
         registerPhysicalProperty(Energy(geometry, physics))
         registerPhysicalProperty(Entropy(geometry, physics))
+        registerPhysicalProperty(FreeEnergy(geometry, physics))
         registerPhysicalProperty(LogOccupation(geometry, physics))
     }
     

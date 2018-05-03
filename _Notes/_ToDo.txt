@@ -4,26 +4,21 @@ ToDo.txt
 
 For 1.0.4
 
-[ ] BUG For any k=even, N=2k, alpha2=0 , alpha1=-1.
-    Above a certain T, Occupation picture doesn't change.
-    If change N & change back, get diff picture but the new picture shows same problem.
-
-Q: does SKPhysics.registerChange fire? when change T
-A: yes
-
-
-[ ] handle long-running calculations -- see _Notes
-
-[ ] only execute a clear-and-redraw when needed
+[?] only execute a clear-and-redraw when needed
     (frame rate is handled by . . . whom? GLKView?)
 
 [ ] verify: stepper takes step-size from current delta, not default
+
+[ ] vNext options:
+    [?] more: particleFlow
+    [?] better: backgroundCalculation
+    [?] again: macOS version
 
 ABOVE THE LINE
 ==================================================================================
 BELOW THE LINE
 
-[ ] save current model parama as defaults
+[ ] button to set model defaults equal to current values
 
 [ ] control for sequencer step rate
 
@@ -31,7 +26,7 @@ BELOW THE LINE
 
 [ ] improved pointsize calc
 
-[ ] page 2 POV read-only controls
+[ ] page 2 POV controls
 
 [ ] add texture to the sprites to make them look like balls
 
@@ -46,15 +41,11 @@ BELOW THE LINE
 [ ] Recursive Embedded Definition
     This idea needs refinement. the definitions are the easy bit.
 
-[ ] sequencers that simulate dynamics of a population of points
-    steepest descent
-    diffusion
-
-[ ] images for the buttons
+[ ] tiny square images for the buttons
     reset parameters
     sequencer BC
-    sequencer direction/step
+    sequencer direction
+    sequencer stop/go/step
 
-[ ] impl button to take screenshot of the currently displayed view
-    ... put it where?
+[ ] button to take screenshot of the currently displayed view
 

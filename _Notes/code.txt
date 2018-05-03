@@ -1,0 +1,47 @@
+=================================================================================
+“The willSet and didSet observers of superclass properties are called when a property is set in a subclass initializer, after the superclass initializer has been called. They are not called while a class is setting its own properties, before the superclass initializer has been called.”
+
+Excerpt From: Apple Inc. “The Swift Programming Language (Swift 4.0.3).” iBooks. https://itunes.apple.com/us/book/the-swift-programming-language-swift-4-1/id881256329?mt=11
+
+
+-----------------------------------
+from https://www.raywenderlich.com/5223/beginning-opengl-es-2-0-with-glkit-part-1
+
+By default, the GLKView only updates itself on an as-needed basis - i.e. when views are first shown, the size changes, or the like. However for game programming, you often need to redraw every frame!
+
+We can disable this default behavior of GLKView by setting enableSetNeedsDisplay to false. Then, we can control when the redrawing occurs by calling the display method on GLKView whenever we want to update the screen.
+
+Ideally we would like to synchronize the time we render with OpenGL to the rate at which the screen refreshes.
+
+Luckily, Apple provides an easy way for us to do this with CADisplayLink! It’s really easy to use so let’s just dive in. First add this import to the top of AppDelegate.m:
+
+==================================================================================
+OptionSet
+
+==================================================================================
+Split view controller:
+
+https://www.raywenderlich.com/173753/uisplitviewcontroller-tutorial-getting-started-2
+
+==================================================================================
+Custom view controller class
+
+https://developer.apple.com/library/content/referencelibrary/GettingStarted/DevelopiOSAppsSwift/ImplementingACustomControl.html
+
+To create a subclass of UIStackView
+
+Choose File > New > File (or press Command-N).
+
+At the top of the dialog that appears, select iOS.
+
+Select Cocoa Touch Class, and click Next.
+
+In the Class field, type RatingControl.
+
+In the “Subclass of” field, select UIStackView.
+
+Make sure the Language option is set to Swift.
+
+select 'make xib'
+
+

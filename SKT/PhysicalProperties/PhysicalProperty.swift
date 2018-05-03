@@ -15,11 +15,13 @@ import Foundation
 
 /// Global list of all physical propeties ever defined.
 /// A subset of these is installed at runtime.
+/// Raw values are used in lookups so be careful about changing them.
 enum PhysicalPropertyType: Int {
     case energy = 0
     case entropy = 1
     case logOccupation = 2
     case basinAssignment = 3
+    case freeEnergy = 4
 }
 
 

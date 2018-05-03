@@ -160,6 +160,12 @@ class VisualizationModel1 : VisualizationModel {
             registerColorSource(degeneracyCS, false)
         }
         
+        let freeEnergyPP = skt.physicalProperty(forType: PhysicalPropertyType.freeEnergy)
+        if (freeEnergyPP != nil) {
+            let freeEnergyCS = PhysicalPropertyColorSource(freeEnergyPP!, linearColorMap)
+            registerColorSource(freeEnergyCS, false)
+        }
+        
         let logOccupationPP = skt.physicalProperty(forType: PhysicalPropertyType.logOccupation)
         if (logOccupationPP != nil) {
             let logOccupationCS = PhysicalPropertyColorSource(logOccupationPP!, linearColorMap)

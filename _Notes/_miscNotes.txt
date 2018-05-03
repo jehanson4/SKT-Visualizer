@@ -1,0 +1,30 @@
+==================================================================================
+_miscNotes.txt
+==================================================================================
+/**
+m = #steps to the RIGHT of p1. max = k
+n = #steps to the LEFT of p1 (= #steps to the RIGHT of p2). max = N-k
+*/
+
+==================================================================================
+
+Having each physical quantity compute its own bounds is OK so long as there's only
+one physical quantity that is being kept fresh. Otherwise, it's inefficient.
+
+At present, there's only one pysical quantity being kept fresh.
+
+Q: But how would I deal w/ more than one?
+A: markStale and a func to take a value as part of setting new bounds. Weird & icky.
+
+==================================================================================
+
+who creates the geometry & physics?
+currently the app does it and passes it to the controllers
+option 1 the scene should do it
+
+Who create the scene?
+Currently detailviewcontroller creates it
+the app delegate should create it but it should NOT create things that expects a view.
+
+=================================
+

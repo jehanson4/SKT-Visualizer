@@ -5,7 +5,7 @@
 
 ### Release Notes -- Version 1.0(4)
 
-* Fix bug in which Occupation pictures were not getting updated
+* Fix bug in which Occupation was not getting updated
 
 ### Release Notes -- Version 1.0(3)
 
