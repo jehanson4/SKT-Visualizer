@@ -5,14 +5,16 @@
 
 ### Release Notes -- Version 1.0(4)
 
-* Fix bug in which Occupation was not getting updated
-
+* Bug fixes:
+  * Occupation not getting updated
+  * Incorrect energy for odd N
+ 
 ### Release Notes -- Version 1.0(3)
 
- * UI cleanup
- * Animation
- * Flow Lines
- * Basin Boundaries
+* UI cleanup
+* Animation
+* Flow Lines
+* Basin Boundaries
 
 ### Release Notes -- Version 1.0(2)
 
