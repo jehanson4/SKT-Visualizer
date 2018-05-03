@@ -41,14 +41,14 @@ class FreeEnergy : PhysicalProperty {
     
     func valueAt(nodeIndex: Int) -> Double {
         let sk = geometry.nodeIndexToSK(nodeIndex)
-        return LogOccupation.logOccupation(sk.m, sk.n, geometry, physics)
+        return FreeEnergy.freeEnergy(sk.m, sk.n, geometry, physics)
     }
     
     func valueAt(m: Int, n: Int) -> Double {
-        return LogOccupation.logOccupation(m, n, geometry, physics)
+        return FreeEnergy.freeEnergy(m, n, geometry, physics)
     }
     
-    static func logOccupation(_ m: Int, _ n: Int, _ geometry: SKGeometry, _ physics: SKPhysics) -> Double {
+    static func freeEnergy(_ m: Int, _ n: Int, _ geometry: SKGeometry, _ physics: SKPhysics) -> Double {
         return Energy.energy(m, n, geometry, physics) - physics.T * Entropy.entropy(m, n, geometry)
     }
     
