@@ -4,21 +4,22 @@ ToDo.txt
 
 For 1.0.4
 
-[?] only execute a clear-and-redraw when needed
-    (frame rate is handled by . . . whom? GLKView?)
-
-[ ] verify: stepper takes step-size from current delta, not default
+ABOVE THE LINE
+----------------------------------------------------------------------------------
+BELOW THE LINE
 
 [ ] vNext options:
     [?] more: particleFlow
     [?] better: backgroundCalculation
     [?] again: macOS version
 
-ABOVE THE LINE
-==================================================================================
-BELOW THE LINE
+[ ] use NSLog not print
+    find out about log levels too
 
-[ ] button to set model defaults equal to current values
+[ ] only execute a clear-and-redraw when needed
+    (actual frame rate is handled by . . . whom? GLKView?)
+
+[ ] verify: sequencers and steppers take step-size from current delta, not default
 
 [ ] control for sequencer step rate
 
@@ -32,7 +33,7 @@ BELOW THE LINE
 
 [ ] verify that all the change monitor guys impl the new protocol
 
-[ ] scroll & pan: track finger *exactly*. esp at v high zoom
+[ ] scroll & pan: track finger *exactly*. esp at v high zoom & near center
 
 [ ] segue from background to prev, not always back to main
 

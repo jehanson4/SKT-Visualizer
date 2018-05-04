@@ -16,7 +16,7 @@ import OpenGL
 
 class Balls : Effect {
     
-    var debugEnabled = true
+    var debugEnabled = false
     
     let effectType = EffectType.balls
     var name = "Balls"

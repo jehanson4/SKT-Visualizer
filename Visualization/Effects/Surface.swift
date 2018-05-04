@@ -19,7 +19,7 @@ import OpenGL
 // ==============================================================
 
 class Surface : GLKBaseEffect, Effect {
-    var debugEnabled = true
+    var debugEnabled = false
     
     let effectType = EffectType.surface
     var name = "Surface"

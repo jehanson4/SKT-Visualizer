@@ -529,18 +529,18 @@
 			children = (
 				8AA05A2020900692009417A6 /* ColorSourceSelectionViewController.swift */,
 				8AA05A2120900692009417A6 /* ColorSourceSelectionViewController.xib */,
-				8AF98FA3207FE8B40007688E /* SettingsViewController.swift */,
-				8AF98FA2207FE8B40007688E /* SettingsViewController.xib */,
-				8AAA008C207166C0001A136D /* MasterViewController.swift */,
-				8AA05A2420901B19009417A6 /* SequencerSelectionViewController.swift */,
-				8AA05A2520901B19009417A6 /* SequencerSelectionViewController.xib */,
-				8AAA008D207166C0001A136D /* MasterViewController.xib */,
 				8AF98F9F207FE8350007688E /* DetailViewController.swift */,
 				8AF98F9E207FE8350007688E /* DetailViewController.xib */,
 				8AD817FA207BFA9200426C25 /* InfoViewController.swift */,
 				8AD817FB207BFA9200426C25 /* InfoViewController.xib */,
-				8A1CF019207146510099DD97 /* Main.storyboard */,
 				8AA05A18208FFFD4009417A6 /* MagicStrings.swift */,
+				8A1CF019207146510099DD97 /* Main.storyboard */,
+				8AAA008C207166C0001A136D /* MasterViewController.swift */,
+				8AAA008D207166C0001A136D /* MasterViewController.xib */,
+				8AA05A2420901B19009417A6 /* SequencerSelectionViewController.swift */,
+				8AA05A2520901B19009417A6 /* SequencerSelectionViewController.xib */,
+				8AF98FA3207FE8B40007688E /* SettingsViewController.swift */,
+				8AF98FA2207FE8B40007688E /* SettingsViewController.xib */,
 			);
 			path = UI;
 			sourceTree = "<group>";

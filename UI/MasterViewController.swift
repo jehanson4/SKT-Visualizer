@@ -441,6 +441,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
             }
             else if (sender.selectedSegmentIndex == 2) {
                 debug("dir_action", "    taking one step")
+                sequencer!.enabled = false
                 sequencer!.step()
             }
         }

@@ -15,7 +15,7 @@ import Foundation
 
 class SKPhysics : ChangeCounted {
     
-    var debugEnabled = true
+    var debugEnabled = false
     let clsName = "SKPhysics"
     
     // ===============================
