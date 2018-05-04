@@ -26,7 +26,7 @@ class VisualizationModel1 : VisualizationModel {
     static let scene_backgroundColorValue: GLfloat = 0.15
     
     // EMPIRICAL so that the surface, nodes, etc don't occlude the net, flow lines, etc
-    static let effect_rOffset: Double = 0.001
+    static let effect_rOffset: Double = 0.002
     
     // EMPIRICAL for projection matrix:
     // If nff == 1 then things seem to disappear
@@ -216,15 +216,26 @@ class VisualizationModel1 : VisualizationModel {
 
     private func initEffects() {
         let rOffset = VisualizationModel1.effect_rOffset
-        registerEffect(Axes(enabled: false))
-        registerEffect(Meridians(skt.geometry, enabled: false, rOffset: rOffset))
-        registerEffect(Net(skt.geometry, enabled: false, rOffset: rOffset))
-        registerEffect(Surface(skt.geometry, skt.physics, colorSources, enabled: true))
-        registerEffect(Nodes(self, skt.geometry, skt.physics, colorSources, enabled: false))
-        registerEffect(FlowLines(skt.geometry, skt.physics, enabled: false, rOffset: rOffset))
+        registerEffect(Axes())
+        registerEffect(Meridians(skt.geometry, rOffset: rOffset))
+        registerEffect(Net(skt.geometry, rOffset: rOffset))
+        registerEffect(Surface(skt.geometry, skt.physics, colorSources))
+        registerEffect(Nodes(self, skt.geometry, skt.physics, colorSources))
+        registerEffect(FlowLines(skt.geometry, skt.physics, rOffset: rOffset))
 
         registerEffect(Icosahedron(enabled: false))
         registerEffect(Balls(enabled: false))
+        
+        setEffectsToDefault()
+    }
+    
+    func setEffectsToDefault() {
+        // Surface is enabled, all others disabled
+        let surfaceName = effectNamesByType[EffectType.surface]
+        for effectName in effects.entryNames {
+            let enabled = (effectName == surfaceName)
+            effects.entry(effectName)?.value.enabled = enabled
+        }
     }
     
     // ====================================

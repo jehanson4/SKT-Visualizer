@@ -28,6 +28,8 @@ class AppModel1 : AppModel {
     // User defaults
     // ===========================
     
+    let defaults_saved_key = "defaults.saved"
+
     let N_value_key = "N.value"
     let N_stepSize_key = "N.stepSize"
     let k0_value_key = "k0.value"
@@ -52,6 +54,8 @@ class AppModel1 : AppModel {
     func saveUserDefaults() {
         print("saving user defaults")
         let defaults = UserDefaults.standard
+        
+        defaults.set(true, forKey: defaults_saved_key)
         
         defaults.set(skt.N.value, forKey: N_value_key)
         defaults.set(skt.N.stepSize, forKey: N_stepSize_key)
@@ -81,9 +85,13 @@ class AppModel1 : AppModel {
     }
 
     func loadUserDefaults() {
-        print("loading user defaults")
         let defaults = UserDefaults.standard
+        if (!defaults.bool(forKey: defaults_saved_key)) {
+            return
+        }
         
+        print("loading user defaults")
+
         let N_value = defaults.integer(forKey: N_value_key)
         if (N_value > 0) {
             skt.N.value = N_value
@@ -154,15 +162,22 @@ class AppModel1 : AppModel {
             viz.colorSources.select(colorSourceName!)
         }
 
+        var foundEnabledEffect = false
         for effectName in viz.effects.entryNames {
             let eEntry = viz.effects.entry(effectName)
             if (eEntry != nil) {
                 var effect = eEntry!.value
-                let key = makeEffectEnabledKey(effect)
-                effect.enabled = defaults.bool(forKey: key)
+                let enabled = defaults.bool(forKey: makeEffectEnabledKey(effect))
+                if (enabled) {
+                    foundEnabledEffect = true
+                }
+                effect.enabled = enabled
             }
         }
-
+        if (!foundEnabledEffect) {
+            viz.setEffectsToDefault()
+        }
+        
     }
     
     private func makeEffectEnabledKey(_ effect: Effect) -> String {

@@ -40,6 +40,8 @@ protocol VisualizationModel {
     
     var effects: Registry<Effect> { get }
     
+    func setEffectsToDefault()
+    
     func effect(forType: EffectType) -> Effect?
     
     var sequencers: Registry<Sequencer> { get }

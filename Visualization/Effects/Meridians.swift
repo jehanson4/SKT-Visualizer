@@ -25,8 +25,16 @@ class Meridians : GLKBaseEffect, Effect {
     static let rOffsetDefault = 0.0
     
     var enabled: Bool
-    var built: Bool = false
-
+    var showSecondaries: Bool {
+        get { return _showSecondaries }
+        set(newValue) {
+            if (newValue != _showSecondaries) {
+                _showSecondaries = newValue
+                _built = false
+            }
+        }
+    }
+    
     // EMPIRICAL
     let segmentCount: Int = 100
     let lineWidth_primary: GLfloat = 7.0
@@ -34,10 +42,6 @@ class Meridians : GLKBaseEffect, Effect {
     let lineColor: GLKVector4 = GLKVector4Make(0.5, 0.5, 0.5, 1.0)
    
     var rOffset: Double
-    
-    var geometry: SKGeometry
-    var geometryChangeNumber: Int
-
     
     var projectionMatrix: GLKMatrix4 {
         get { return transform.projectionMatrix }
@@ -53,6 +57,11 @@ class Meridians : GLKBaseEffect, Effect {
         }
     }
     
+    private var _showSecondaries: Bool = true
+    private var _built: Bool = false
+    
+    private var geometry: SKGeometry
+    private var geometryChangeNumber: Int
     private var vertices: [GLKVector4] = []
     private var lineStarts: [GLint] = []
     private var lineWidths: [GLfloat] = []
@@ -99,6 +108,7 @@ class Meridians : GLKBaseEffect, Effect {
         addMeridian(phi1, lineWidth_primary)
         addMeridian(phi2, lineWidth_primary)
         
+        if (_showSecondaries) {
         addMeridian(phi1 + pi, lineWidth_secondary)
         addMeridian(phi2 + pi, lineWidth_secondary)
         
@@ -107,6 +117,7 @@ class Meridians : GLKBaseEffect, Effect {
 
         addMeridian(phi4, lineWidth_secondary)
         addMeridian(phi4 + pi, lineWidth_secondary)
+        }
     }
 
     private func addMeridian(_ phi: Double, _ lineWidth: GLfloat) {
@@ -155,8 +166,8 @@ class Meridians : GLKBaseEffect, Effect {
         if (!enabled) {
             return
         }
-        if (!built) {
-            built = build()
+        if (!_built) {
+            _built = build()
         }
         
         let newCount = geometry.changeNumber
