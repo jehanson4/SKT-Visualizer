@@ -27,8 +27,10 @@ class Meridians : GLKBaseEffect, Effect {
     var enabled: Bool
     var built: Bool = false
 
+    // EMPIRICAL
     let segmentCount: Int = 100
-    let lineWidth: GLfloat = 5.0
+    let lineWidth_primary: GLfloat = 7.0
+    let lineWidth_secondary: GLfloat = 2.0
     let lineColor: GLKVector4 = GLKVector4Make(0.5, 0.5, 0.5, 1.0)
    
     var rOffset: Double
@@ -53,6 +55,7 @@ class Meridians : GLKBaseEffect, Effect {
     
     private var vertices: [GLKVector4] = []
     private var lineStarts: [GLint] = []
+    private var lineWidths: [GLfloat] = []
     private var lineVertexCounts: [GLsizei] = []
     private var vertexArray: GLuint = 0
     private var vertexBuffer: GLuint = 0
@@ -84,15 +87,33 @@ class Meridians : GLKBaseEffect, Effect {
         vertices = []
         lineStarts = []
         lineVertexCounts = []
-        addMeridian(geometry.p1)
-        addMeridian(geometry.p2)
+        
+        let pi = Double.constants.pi
+        let piOver2 = Double.constants.piOver2
+        
+        let phi1 = geometry.p1.phi
+        let phi2 = geometry.p2.phi
+        let phi3 = 0.5 * (phi1 + phi2)
+        let phi4 = phi3 + piOver2
+
+        addMeridian(phi1, lineWidth_primary)
+        addMeridian(phi2, lineWidth_primary)
+        
+        addMeridian(phi1 + pi, lineWidth_secondary)
+        addMeridian(phi2 + pi, lineWidth_secondary)
+        
+        addMeridian(phi3, lineWidth_secondary)
+        addMeridian(phi3 + pi, lineWidth_secondary)
+
+        addMeridian(phi4, lineWidth_secondary)
+        addMeridian(phi4 + pi, lineWidth_secondary)
     }
 
-    private func addMeridian(_ p: SKPoint) {
+    private func addMeridian(_ phi: Double, _ lineWidth: GLfloat) {
         let r = geometry.r0 + rOffset
-        let phi = p.phi
         let thetaE_incr = Double.constants.piOver2/(Double(segmentCount))
     
+        lineWidths.append(lineWidth)
         lineStarts.append(GLint(vertices.count))
         lineVertexCounts.append(GLsizei(segmentCount+1))
         var thetaE: Double = 0
@@ -150,10 +171,10 @@ class Meridians : GLKBaseEffect, Effect {
 
         glBindVertexArray(vertexArray)
         prepareToDraw()
-        glLineWidth(lineWidth)
 
         let lineCount = lineVertexCounts.count
         for i in 0..<lineCount {
+            glLineWidth(lineWidths[i])
             glDrawArrays(GLenum(GL_LINE_STRIP), lineStarts[i], lineVertexCounts[i])
             let err = glGetError()
             if (err != 0) {

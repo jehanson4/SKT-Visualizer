@@ -43,6 +43,12 @@ class AppModel1 : AppModel {
     let pov_thetaE_key = "pov.thetaE"
     let pov_zoom_key  = "pov.zoom"
     
+    let colorSource_name_key = "colorSource.name"
+    let noSelection = "<none>"
+    
+    let effect_prefix = "effect"
+    let effect_enabled_suffix = "enabled"
+    
     func saveUserDefaults() {
         print("saving user defaults")
         let defaults = UserDefaults.standard
@@ -61,6 +67,17 @@ class AppModel1 : AppModel {
         defaults.set(viz.pov.phi, forKey: pov_phi_key)
         defaults.set(viz.pov.thetaE, forKey: pov_thetaE_key)
         defaults.set(viz.pov.zoom, forKey: pov_zoom_key)
+        
+        let colorSourceName = viz.colorSources.selection?.name ?? noSelection
+        defaults.set(colorSourceName, forKey: colorSource_name_key)
+        
+        for effectName in viz.effects.entryNames {
+            let eEntry = viz.effects.entry(effectName)
+            if (eEntry != nil) {
+                let effect = eEntry!.value
+                defaults.set(effect.enabled, forKey: makeEffectEnabledKey(effect))
+            }
+        }
     }
 
     func loadUserDefaults() {
@@ -126,6 +143,30 @@ class AppModel1 : AppModel {
         }
         viz.pov = pov
 
+        let colorSourceName = defaults.string(forKey: colorSource_name_key)
+        if (colorSourceName == nil) {
+            // NOP
+        }
+        else if (colorSourceName! == noSelection) {
+            viz.colorSources.clearSelection()
+        }
+        else {
+            viz.colorSources.select(colorSourceName!)
+        }
+
+        for effectName in viz.effects.entryNames {
+            let eEntry = viz.effects.entry(effectName)
+            if (eEntry != nil) {
+                var effect = eEntry!.value
+                let key = makeEffectEnabledKey(effect)
+                effect.enabled = defaults.bool(forKey: key)
+            }
+        }
+
+    }
+    
+    private func makeEffectEnabledKey(_ effect: Effect) -> String {
+        return effect_prefix + "." + effect.name + "." + effect_enabled_suffix
     }
 }
 

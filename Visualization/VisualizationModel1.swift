@@ -37,6 +37,10 @@ class VisualizationModel1 : VisualizationModel {
     private var skt: SKTModel
     private var glContext: GLContext? = nil
     
+    // ===========================================
+    // Initialization
+    // ===========================================
+
     init(_ skt: SKTModel) {
         self.skt = skt
         
@@ -44,9 +48,13 @@ class VisualizationModel1 : VisualizationModel {
         initColorSources()
         initSequencers()
         
-        // Don't do graphics or effects here; wait for the GL-aware
-        // part of the UI to call setupGraphics(). It needs to do some
-        // work on its own first.
+        // Don't do graphics here: let the GLKView in the UI
+        // call setupGraphics(). It needs to do some work on
+        // its own first.
+        
+        // OK to create effects here, tho
+        initEffects()
+
     }
     
     private func debug(_ mtd: String, _ msg: String = "") {
@@ -382,14 +390,8 @@ class VisualizationModel1 : VisualizationModel {
             return
         }
         
-        self.glContext = context
-        
-        // Needs to be in separate method so the GLKViewController does it.
+        self.glContext = context        
         configureGL()
-        
-        // MAYBE needs to follow configureGL()
-        initEffects()
-        
         updateProjection()
         updateModelview()
         

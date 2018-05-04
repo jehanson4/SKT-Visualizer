@@ -8,7 +8,9 @@
 * Bug fixes:
   * Occupation not getting updated
   * Incorrect energy for odd N
- 
+* Restore last configuration on restart
+* Additional meridian lines
+
 ### Release Notes -- Version 1.0(3)
 
 * UI cleanup
