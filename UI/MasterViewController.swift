@@ -425,25 +425,22 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     // =====================================================
     // Selected sequencer
     
-    @IBOutlet weak var enabled_segment: UISegmentedControl!
+    // MAYBE move this into Sequencer
+    private enum PlayerState: Int {
+        case runBackward = 0
+        case stepBackward = 1
+        case stop = 2
+        case stepForward = 3
+        case runForward = 4
+    }
     
-    @IBAction func enabled_action(_ sender: UISegmentedControl) {
+    @IBOutlet weak var player_segment: UISegmentedControl!
+    
+    @IBAction func player_action(_ sender: UISegmentedControl) {
         var sequencer = appModel?.viz.sequencers.selection?.value
-        if (sequencer != nil) {
-            debug("enabled_action", "sequencer=\(sequencer!.name)")
-            if (sender.selectedSegmentIndex == 0) {
-                debug("dir_action", "    setting enabled=false")
-                sequencer!.enabled = false
-            }
-            else if (sender.selectedSegmentIndex == 1) {
-                debug("dir_action", "    setting enabled=true")
-                sequencer!.enabled = true
-            }
-            else if (sender.selectedSegmentIndex == 2) {
-                debug("dir_action", "    taking one step")
-                sequencer!.enabled = false
-                sequencer!.step()
-            }
+        let playerState = getPlayerState(sender.selectedSegmentIndex)
+        if (sequencer != nil && playerState != nil) {
+            setPlayerState(&sequencer!, playerState!)
         }
         updateSequencerPropertyControls(sequencer)
     }
@@ -544,7 +541,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
         let sequencer = sender as? Sequencer
         if (sequencer == nil) {
             debug("updateSequencerPropertyControls", "sequencer=nil")
-            enabled_segment.selectedSegmentIndex = -1
+            player_segment.selectedSegmentIndex = -1
             ub_text.text = ""
             ub_text.text = ""
             stepSize_text.text = ""
@@ -562,28 +559,55 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
             lb_stepper.stepValue = seq.stepSize
             stepSize_text.text = seq.toString(seq.stepSize)
             bc_segment.selectedSegmentIndex = seq.boundaryCondition.rawValue
-            
-            debug("updateSequencerPropertyControls", "sequencer=\(seq.name)")
-            debug("updateSequencerPropertyControls", "    enabled=\(seq.enabled)")
-            debug("updateSequencerPropertyControls", "    direction=\(seq.direction)")
-            
-            if (seq.enabled) {
-                enabled_segment.selectedSegmentIndex = 1
-            }
-            else {
-                enabled_segment.selectedSegmentIndex = 0
-            }
-
-            if (seq.direction == Direction.forward) {
-                dir_segment.selectedSegmentIndex = 0
-            }
-            else if (seq.direction == Direction.reverse) {
-                dir_segment.selectedSegmentIndex = 1
-            }
-            else {
-                dir_segment.selectedSegmentIndex = -1
-            }
+            player_segment.selectedSegmentIndex = getPlayerState(seq).rawValue
         }
     }
     
+    private func getPlayerState(_ seq: Sequencer) -> PlayerState {
+        switch (seq.direction) {
+        case .reverse:
+            return (seq.enabled) ? .runBackward : .stepBackward
+        case .stopped:
+            return .stop
+        case .forward:
+            return (seq.enabled) ? .runForward : .stepForward
+        }
+    }
+
+    private func setPlayerState(_ seq: inout Sequencer, _ state: PlayerState) {
+        // There must be a better way....
+        switch (state) {
+        case  .runBackward:
+            seq.direction = Direction.reverse
+            if (seq.direction == Direction.reverse) {
+                seq.enabled = true
+            }
+        case .stepBackward:
+            seq.direction = Direction.reverse
+            seq.enabled = false
+            if (seq.direction == Direction.reverse) {
+                seq.step()
+                seq.direction = Direction.stopped
+            }
+        case .stop:
+            seq.direction = Direction.stopped
+            seq.enabled = false
+        case .stepForward:
+            seq.direction = Direction.forward
+            seq.enabled = false
+            if (seq.direction == Direction.forward) {
+                seq.step()
+                seq.direction = Direction.stopped
+            }
+        case .runForward:
+            seq.direction = Direction.forward
+            if (seq.direction == Direction.forward) {
+                seq.enabled = true
+            }
+        }
+    }
+
+    private func getPlayerState(_ s: Int) -> PlayerState? {
+        return PlayerState(rawValue: s)
+    }
 }

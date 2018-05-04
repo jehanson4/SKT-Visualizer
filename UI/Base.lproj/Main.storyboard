@@ -334,12 +334,14 @@
                                     <segmentedControl opaque="NO" contentMode="center" horizontalHuggingPriority="750" contentHorizontalAlignment="fill" contentVerticalAlignment="center" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="SZ3-82-JQs" userLabel="stop/go/step">
                                         <rect key="frame" x="0.0" y="35.5" width="288" height="29"/>
                                         <segments>
+                                            <segment title="◁"/>
+                                            <segment title="||◁"/>
                                             <segment title="||"/>
-                                            <segment title="▷"/>
                                             <segment title="▷||"/>
+                                            <segment title="▷"/>
                                         </segments>
                                         <connections>
-                                            <action selector="enabled_action:" destination="3aD-bn-OtG" eventType="valueChanged" id="bOd-bq-ci7"/>
+                                            <action selector="player_action:" destination="3aD-bn-OtG" eventType="valueChanged" id="bOd-bq-ci7"/>
                                         </connections>
                                     </segmentedControl>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TrR-Bf-3vP" userLabel="Spacer2">
@@ -539,7 +541,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="done" id="FUp-9e-d6R">
                             <button key="customView" opaque="NO" contentMode="right" contentHorizontalAlignment="right" contentVerticalAlignment="fill" buttonType="roundedRect" lineBreakMode="middleTruncation" id="XA9-Ix-gJ4">
-                                <rect key="frame" x="269" y="5.5" width="35" height="33"/>
+                                <rect key="frame" x="269" y="6" width="35" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <state key="normal" title="&gt;&gt;&gt;"/>
@@ -561,11 +563,11 @@
                         <outlet property="bc_segment" destination="bI0-fv-wHB" id="KGF-7T-BTn"/>
                         <outlet property="colorSourceDrop" destination="V3L-DU-kdT" id="KmM-hF-QEB"/>
                         <outlet property="dir_segment" destination="bhy-Vw-27Y" id="J9h-Qx-HWS"/>
-                        <outlet property="enabled_segment" destination="SZ3-82-JQs" id="pOz-JW-RER"/>
                         <outlet property="k_stepper" destination="9Rd-Kx-XBb" id="HgW-kj-dQL"/>
                         <outlet property="k_text" destination="dGE-Z4-yxV" id="eAV-y2-ZMb"/>
                         <outlet property="lb_stepper" destination="f08-Jv-nGX" id="OcL-8d-xZs"/>
                         <outlet property="lb_text" destination="12I-P2-pCP" id="VkO-2C-ZNf"/>
+                        <outlet property="player_segment" destination="SZ3-82-JQs" id="pOz-JW-RER"/>
                         <outlet property="sequencerDrop" destination="pAw-yA-acQ" id="E1J-cQ-938"/>
                         <outlet property="stepSize_text" destination="xVJ-fX-bJn" id="mB3-sU-Zw5"/>
                         <outlet property="ub_stepper" destination="a29-J2-HN0" id="4uM-zK-fHf"/>
@@ -585,7 +587,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="separatorColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <tableView key="tableFooterView" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="9Xa-cE-WWI">
+                        <tableView key="tableFooterView" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="9Xa-cE-WWI">
                             <rect key="frame" x="0.0" y="72" width="256" height="400"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -733,30 +735,30 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="4eA-dB-BsD" userLabel="DeltasSection">
-                                <rect key="frame" x="16" y="80" width="288.5" height="151.5"/>
+                                <rect key="frame" x="16" y="80" width="288" height="151.5"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nwE-eZ-2y3" userLabel="Separator">
-                                        <rect key="frame" x="0.0" y="0.0" width="288.5" height="1"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="288" height="1"/>
                                         <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="2F3-zO-uQI"/>
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="STEP SIZE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="btS-4s-6iS">
-                                        <rect key="frame" x="0.0" y="1" width="288.5" height="14.5"/>
+                                        <rect key="frame" x="0.0" y="1" width="288" height="14.5"/>
                                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Lr-ym-lyu" userLabel="Spacer">
-                                        <rect key="frame" x="0.0" y="15.5" width="288.5" height="8"/>
+                                        <rect key="frame" x="0.0" y="15.5" width="288" height="8"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="8" id="4N3-3R-0Zf"/>
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J0v-pB-f8n">
-                                        <rect key="frame" x="0.0" y="23.5" width="288.5" height="128"/>
+                                        <rect key="frame" x="0.0" y="23.5" width="288" height="128"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XeQ-Qd-BxZ" userLabel="Whitespace">
                                                 <rect key="frame" x="0.0" y="0.0" width="16" height="128"/>
@@ -766,13 +768,13 @@
                                                 </constraints>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="top" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="8Zc-T8-2aX" userLabel="DeltasSection Body">
-                                                <rect key="frame" x="16" y="0.0" width="256.5" height="128"/>
+                                                <rect key="frame" x="16" y="0.0" width="256" height="128"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="gPU-gp-dtM" userLabel="LeftDeltas">
-                                                        <rect key="frame" x="0.0" y="0.0" width="120.5" height="65"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="120" height="65"/>
                                                         <subviews>
                                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K5Z-AR-9BB" userLabel="dN Stack">
-                                                                <rect key="frame" x="0.0" y="0.0" width="120.5" height="30"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="120" height="30"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ΔN:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eG9-JV-bpT">
                                                                         <rect key="frame" x="0.0" y="0.0" width="32" height="30"/>
@@ -784,7 +786,7 @@
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="right" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7co-70-nuI">
-                                                                        <rect key="frame" x="32" y="0.0" width="88.5" height="30"/>
+                                                                        <rect key="frame" x="32" y="0.0" width="88" height="30"/>
                                                                         <nil key="textColor"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                         <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
@@ -795,7 +797,7 @@
                                                                 </subviews>
                                                             </stackView>
                                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yle-Y3-aUN" userLabel="dk0 Stack">
-                                                                <rect key="frame" x="0.0" y="35" width="120.5" height="30"/>
+                                                                <rect key="frame" x="0.0" y="35" width="120" height="30"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Δk₀:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b30-jo-qKo">
                                                                         <rect key="frame" x="0.0" y="0.0" width="32" height="30"/>
@@ -804,7 +806,7 @@
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="right" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HaD-cv-y1D" userLabel="dk0 text">
-                                                                        <rect key="frame" x="32" y="0.0" width="88.5" height="30"/>
+                                                                        <rect key="frame" x="32" y="0.0" width="88" height="30"/>
                                                                         <nil key="textColor"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                         <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
@@ -820,7 +822,7 @@
                                                         </constraints>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="kza-MM-5MZ" userLabel="RightDeltas">
-                                                        <rect key="frame" x="136.5" y="0.0" width="120" height="100"/>
+                                                        <rect key="frame" x="136" y="0.0" width="120" height="100"/>
                                                         <subviews>
                                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qZZ-lQ-fXZ" userLabel="da1 Stack">
                                                                 <rect key="frame" x="0.0" y="0.0" width="120" height="30"/>
@@ -892,7 +894,7 @@
                                                 </constraints>
                                             </stackView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MGo-kb-DVs" userLabel="Whitespace">
-                                                <rect key="frame" x="272.5" y="0.0" width="16" height="128"/>
+                                                <rect key="frame" x="272" y="0.0" width="16" height="128"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </view>
                                         </subviews>
