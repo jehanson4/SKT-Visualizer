@@ -23,7 +23,7 @@ class VisualizationModel1 : VisualizationModel {
     var debugEnabled = false
     
     // EMPIRICAL so that basin boundary nodes are visible
-    static let scene_backgroundColorValue: GLfloat = 0.15
+    static let scene_backgroundColorValue: GLfloat = 0.2
     
     // EMPIRICAL so that the surface, nodes, etc don't occlude the net, flow lines, etc
     static let effect_rOffset: Double = 0.002
