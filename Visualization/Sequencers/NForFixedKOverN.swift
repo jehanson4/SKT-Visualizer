@@ -25,6 +25,7 @@ class NForFixedKOverN : NumericParameterSequencer<Int> {
         super.init(N,
                    min: N.min,
                    max: N.max,
+                   minStepSize: SKGeometry.N_minStepSize,
                    lowerBound: SKGeometry.N_defaultLowerBound,
                    upperBound: SKGeometry.N_defaultUpperBound,
                    stepSize: N.stepSize)

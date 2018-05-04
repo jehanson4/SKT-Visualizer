@@ -24,6 +24,7 @@ class SKPhysics : ChangeCounted {
     
     static let alpha_min: Double = -Double.infinity
     static let alpha_max: Double = Double.infinity
+    static let alpha_minStepSize: Double = Double.leastNormalMagnitude
     static let alpha_defaultValue: Double = -1.0
     static let alpha_defaultLowerBound = -2.0
     static let alpha_defaultUpperBound = 0.0
@@ -31,6 +32,7 @@ class SKPhysics : ChangeCounted {
     
     static let T_min: Double = 0
     static let T_max: Double = Double.infinity
+    static let T_minStepSize: Double = Double.leastNormalMagnitude
     static let T_defaultValue: Double = 200.0
     static let T_defaultLowerBound = 10.0
     static let T_defaultUpperBound = 1000.0
@@ -38,6 +40,7 @@ class SKPhysics : ChangeCounted {
     
     static let beta_min: Double = 0
     static let beta_max: Double = Double.infinity
+    static let beta_minStepSize: Double = Double.leastNormalMagnitude
     static let beta_defaultValue: Double = 1.0 / T_defaultValue
     static let beta_defaultLowerBound: Double = 0.001
     static let beta_defaultUpperBound: Double = 0.100

@@ -11,7 +11,7 @@ import UIKit
 class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser {
     
     let name = "MasterViewController"
-    var debugEnabled = false
+    var debugEnabled = true
     
     var appModel: AppModel? = nil
     
@@ -22,7 +22,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
         let mtd = "viewDidLoad"
         debug(mtd, "entering")
         super.viewDidLoad()
-
+        
         configureParamsControls()
         configureColorSourceControls()
         configureSequencerControls()
@@ -104,7 +104,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
         sequencerSelectionMonitor?.disconnect()
         sequencerParamsMonitor?.disconnect()
     }
-
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         // Hide the keyboard.
         textField.resignFirstResponder()
@@ -124,14 +124,14 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     // =====================================================================
     // Params
     // ====================================================================
-
+    
     func configureParamsControls() {
         N_text.delegate = self
         k_text.delegate = self
         a1_text.delegate = self
         a2_text.delegate = self
         T_text.delegate = self
-
+        
         let skt = appModel!.skt
         
         N_update(skt.N)
@@ -150,7 +150,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
         T_monitor = skt.T.monitorChanges(T_update)
     }
     
-
+    
     @IBAction func resetControlParameters(_ sender: Any) {
         appModel?.skt.resetAllParameters()
     }
@@ -198,9 +198,9 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     
     // =====================================================
     // k0
-
+    
     @IBOutlet weak var k_text: UITextField!
-
+    
     @IBOutlet weak var k_stepper: UIStepper!
     
     @IBAction func k_textAction(_ sender: UITextField) {
@@ -239,10 +239,10 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     
     // ======================================================
     // alpha1
-
+    
     @IBOutlet weak var a1_text: UITextField!
     @IBOutlet weak var a1_stepper: UIStepper!
-
+    
     @IBAction func a1_textAction(_ sender: UITextField) {
         let param = appModel?.skt.alpha1
         if (param != nil && sender.text != nil) {
@@ -279,10 +279,10 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     
     // =======================================================
     // alpha2
-
+    
     @IBOutlet weak var a2_text: UITextField!
     @IBOutlet weak var a2_stepper: UIStepper!
-  
+    
     @IBAction func a2_textAction(_ sender: UITextField) {
         let param = appModel?.skt.alpha2
         if (param != nil && sender.text != nil) {
@@ -319,7 +319,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     
     // =====================================================
     // T
-
+    
     @IBOutlet weak var T_text: UITextField!
     @IBOutlet weak var T_stepper: UIStepper!
     
@@ -360,7 +360,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     // =======================================================================
     // Visualization section
     // =======================================================================
-
+    
     private var colorSourceSelectionMonitor: ChangeMonitor? = nil
     
     @IBOutlet weak var colorSourceDrop: UIButton!
@@ -379,11 +379,11 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
         appModel?.viz.resetPOV()
     }
     
-
+    
     // =======================================================================
     // Animation section
     // =======================================================================
-
+    
     // =======================================================================
     // Sequencer selection
     
@@ -412,16 +412,16 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
             var seq = selection!.value
             seq.reset()
             seq.enabled = false
-
+            
             debug("updateSequencerControls", "updating controls for current sequencer")
             updateSequencerPropertyControls(seq)
-        
+            
             debug("updateSequencerControls", "starting to monitor the current sequencer")
             sequencerParamsMonitor = seq.monitorChanges(updateSequencerPropertyControls)
         }
     }
     
-
+    
     // =====================================================
     // Selected sequencer
     
@@ -460,7 +460,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     }
     
     @IBOutlet weak var ub_stepper: UIStepper!
-
+    
     @IBAction func ub_stepperAction(_ sender: UIStepper) {
         var sequencer = appModel?.viz.sequencers.selection?.value
         if (sequencer != nil) {
@@ -505,6 +505,15 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
         }
     }
     
+    @IBOutlet weak var stepSize_stepper: UIStepper!
+    
+    @IBAction func stepSize_stepperAction(_ sender: UIStepper) {
+        var sequencer = appModel?.viz.sequencers.selection?.value
+        if (sequencer != nil) {
+            sequencer!.stepSize = sender.value
+        }
+    }
+    
     @IBOutlet weak var bc_segment: UISegmentedControl!
     
     @IBAction func bc_action(_ sender: UISegmentedControl) {
@@ -519,38 +528,20 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
         updateSequencerPropertyControls(sequencer)
     }
     
-    @IBOutlet weak var dir_segment: UISegmentedControl!
-    
-    @IBAction func dir_action(_ sender: UISegmentedControl) {
-        var sequencer = appModel?.viz.sequencers.selection?.value
-        if (sequencer != nil) {
-            debug("dir_action", "sequencer=\(sequencer!.name)")
-            if (sender.selectedSegmentIndex == 0) {
-                debug("dir_action", "    setting direction=forward")
-                sequencer!.direction = Direction.forward
-            }
-            else if (sender.selectedSegmentIndex == 1) {
-                debug("dir_action", "    setting direction=reverse")
-                sequencer!.direction = Direction.reverse
-            }
-        }
-        updateSequencerPropertyControls(sequencer)
-    }
-    
     func updateSequencerPropertyControls(_ sender: Any?) {
         let sequencer = sender as? Sequencer
         if (sequencer == nil) {
             debug("updateSequencerPropertyControls", "sequencer=nil")
             player_segment.selectedSegmentIndex = -1
+            bc_segment.selectedSegmentIndex = -1
             ub_text.text = ""
             ub_text.text = ""
             stepSize_text.text = ""
-            bc_segment.selectedSegmentIndex = -1
-            dir_segment.selectedSegmentIndex = -1
         }
         else {
             let seq = sequencer!
-            
+            player_segment.selectedSegmentIndex = getPlayerState(seq).rawValue
+            bc_segment.selectedSegmentIndex = seq.boundaryCondition.rawValue
             ub_text.text = seq.toString(seq.upperBound)
             ub_stepper.value = seq.upperBound
             ub_stepper.stepValue = seq.stepSize
@@ -558,8 +549,8 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
             lb_stepper.value = seq.lowerBound
             lb_stepper.stepValue = seq.stepSize
             stepSize_text.text = seq.toString(seq.stepSize)
-            bc_segment.selectedSegmentIndex = seq.boundaryCondition.rawValue
-            player_segment.selectedSegmentIndex = getPlayerState(seq).rawValue
+            stepSize_stepper.value = seq.stepSize
+            stepSize_stepper.stepValue = getStepSizeIncr(seq)
         }
     }
     
@@ -573,7 +564,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
             return (seq.enabled) ? .runForward : .stepForward
         }
     }
-
+    
     private func setPlayerState(_ seq: inout Sequencer, _ state: PlayerState) {
         // There must be a better way....
         switch (state) {
@@ -606,8 +597,14 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
             }
         }
     }
-
+    
     private func getPlayerState(_ s: Int) -> PlayerState? {
         return PlayerState(rawValue: s)
+    }
+    
+    private func getStepSizeIncr(_ seq: Sequencer) -> Double {
+        let min1 = seq.minStepSize
+        let min2 = seq.defaultStepSize / 10
+        return max(min1, min2)
     }
 }

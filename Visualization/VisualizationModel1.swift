@@ -269,6 +269,7 @@ class VisualizationModel1 : VisualizationModel {
             skt.N,
             min: SKGeometry.N_min,
             max: SKGeometry.N_max,
+            minStepSize: SKGeometry.N_minStepSize,
             lowerBound: SKGeometry.N_defaultLowerBound,
             upperBound: SKGeometry.N_defaultUpperBound,
             stepSize: SKGeometry.N_defaultStepSize
@@ -280,6 +281,7 @@ class VisualizationModel1 : VisualizationModel {
             skt.k0,
             min: SKGeometry.k0_min,
             max: SKGeometry.k0_max,
+            minStepSize: SKGeometry.k0_minStepSize,
             lowerBound: SKGeometry.k0_defaultLowerBound,
             upperBound: SKGeometry.k0_defaultUpperBound,
             stepSize: SKGeometry.k0_defaultStepSize
@@ -289,6 +291,7 @@ class VisualizationModel1 : VisualizationModel {
             skt.alpha1,
             min: SKPhysics.alpha_min,
             max: SKPhysics.alpha_max,
+            minStepSize: SKPhysics.alpha_minStepSize,
             lowerBound: SKPhysics.alpha_defaultLowerBound,
             upperBound: SKPhysics.alpha_defaultUpperBound,
             stepSize: SKPhysics.alpha_defaultStepSize
@@ -298,6 +301,7 @@ class VisualizationModel1 : VisualizationModel {
             skt.alpha2,
             min: SKPhysics.alpha_min,
             max: SKPhysics.alpha_max,
+            minStepSize: SKPhysics.alpha_minStepSize,
             lowerBound: SKPhysics.alpha_defaultLowerBound,
             upperBound: SKPhysics.alpha_defaultUpperBound,
             stepSize: SKPhysics.alpha_defaultStepSize
@@ -307,6 +311,7 @@ class VisualizationModel1 : VisualizationModel {
             skt.T,
             min: SKPhysics.T_min,
             max: SKPhysics.T_max,
+            minStepSize: SKPhysics.T_minStepSize,
             lowerBound: SKPhysics.T_defaultLowerBound,
             upperBound: SKPhysics.T_defaultUpperBound,
             stepSize: SKPhysics.T_defaultStepSize

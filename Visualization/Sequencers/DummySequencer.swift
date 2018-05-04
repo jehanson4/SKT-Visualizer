@@ -20,6 +20,10 @@ class DummySequencer: Sequencer {
     
     var stepSize: Double = 0.01
     
+    var defaultStepSize: Double = 0
+    
+    var minStepSize: Double = 0
+    
     var value: Double = 0
     
     func reset() { }

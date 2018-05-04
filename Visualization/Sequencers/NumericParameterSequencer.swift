@@ -38,11 +38,19 @@ class NumericParameterSequencer<T: Comparable & Numeric> : GenericSequencer<T> {
         }
     }
     
+    override var minStepSize: Double {
+        return param.toDouble(_minStepSize)
+    }
+    
+    override var defaultStepSize: Double {
+        return param.toDouble(_defaultStepSize)
+    }
+    
     override var stepSize: Double {
         get { return param.toDouble(_stepSize) }
         set(newValue) {
             let v2 = param.fromDouble(newValue)
-            if (v2 == nil || v2! == _stepSize || v2! <= zero || v2! >= (_upperBound - _lowerBound)) {
+            if (v2 == nil || v2! == _stepSize || v2! < _minStepSize || v2! >= (_upperBound - _lowerBound)) {
                 return
             }
             _stepSize = v2!
@@ -70,14 +78,16 @@ class NumericParameterSequencer<T: Comparable & Numeric> : GenericSequencer<T> {
     private var _lowerBound: T
     private var _upperBound: T
     private var _stepSize: T
-    
+    private let _minStepSize: T
+    private var _defaultStepSize: T
+
     private let min: T
     private let max: T
     private let zero: T
     private let one: T
     private let minusOne: T
     
-    init(_ param: AdjustableParameter<T>, min: T, max: T, lowerBound: T, upperBound: T, stepSize: T) {
+    init(_ param: AdjustableParameter<T>, min: T, max: T, minStepSize: T, lowerBound: T, upperBound: T, stepSize: T) {
         self.param = param
         self.min = min
         self.max = max
@@ -85,7 +95,9 @@ class NumericParameterSequencer<T: Comparable & Numeric> : GenericSequencer<T> {
         self._lowerBound = lowerBound
         self._upperBound = upperBound
         self._stepSize = stepSize
-        
+        self._minStepSize = minStepSize
+        self._defaultStepSize = stepSize
+
         let const = constants(forSample: min)!
         self.zero = const.zero
         self.one = const.one

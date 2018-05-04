@@ -31,6 +31,11 @@ func sgn(_ x: Double) -> Double {
     return (x == 0) ? 0 : ( (x < 0) ? -1 : 1)
 }
 
+/// returns exponent: for 1 < x < 10, returns 1; etc
+func orderOfMagnitude(_ x: Double) -> Double {
+    return (x == 0) ? 0 : floor(log10(abs(x)))
+}
+
 /**
  ln(a choose b) for a > b > 0
  Stirling's approximation. Returns 0 on invalid input

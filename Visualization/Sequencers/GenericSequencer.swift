@@ -76,6 +76,12 @@ class GenericSequencer<T> : Sequencer {
     }
     
     /// FOR OVERRIDE: this impl is non-functional
+    var minStepSize: Double { return 0 }
+    
+    /// FOR OVERRIDE: this impl is non-functional
+    var defaultStepSize: Double { return 0 }
+    
+    /// FOR OVERRIDE: this impl is non-functional
     var stepSize: Double {
         get { return 0.01 }
         set(newValue) {}

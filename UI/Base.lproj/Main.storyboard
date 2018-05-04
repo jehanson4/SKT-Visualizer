@@ -331,7 +331,7 @@
                                             <constraint firstAttribute="height" constant="8" id="Yo2-BE-sgE"/>
                                         </constraints>
                                     </view>
-                                    <segmentedControl opaque="NO" contentMode="center" horizontalHuggingPriority="750" contentHorizontalAlignment="fill" contentVerticalAlignment="center" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="SZ3-82-JQs" userLabel="stop/go/step">
+                                    <segmentedControl opaque="NO" contentMode="center" horizontalHuggingPriority="750" contentHorizontalAlignment="fill" contentVerticalAlignment="center" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="SZ3-82-JQs" userLabel="player">
                                         <rect key="frame" x="0.0" y="35.5" width="288" height="29"/>
                                         <segments>
                                             <segment title="◁"/>
@@ -480,16 +480,12 @@
                                                                     <action selector="stepSize_action:" destination="3aD-bn-OtG" eventType="editingDidEnd" id="mSV-c4-QNj"/>
                                                                 </connections>
                                                             </textField>
-                                                            <segmentedControl opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" contentHorizontalAlignment="fill" contentVerticalAlignment="center" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="bhy-Vw-27Y">
-                                                                <rect key="frame" x="162" y="0.0" width="94" height="31"/>
-                                                                <segments>
-                                                                    <segment title="⇧"/>
-                                                                    <segment title="⇩"/>
-                                                                </segments>
+                                                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="CPk-qf-RWq">
+                                                                <rect key="frame" x="162" y="0.0" width="94" height="29"/>
                                                                 <connections>
-                                                                    <action selector="dir_action:" destination="3aD-bn-OtG" eventType="valueChanged" id="Iwk-iy-LAy"/>
+                                                                    <action selector="stepSize_stepperAction:" destination="3aD-bn-OtG" eventType="valueChanged" id="AfP-A3-zGU"/>
                                                                 </connections>
-                                                            </segmentedControl>
+                                                            </stepper>
                                                         </subviews>
                                                     </stackView>
                                                 </subviews>
@@ -497,7 +493,6 @@
                                                     <constraint firstItem="B24-Bz-66M" firstAttribute="width" secondItem="rhd-I9-6sm" secondAttribute="width" id="GY7-Mt-NJ6"/>
                                                     <constraint firstItem="qBh-JZ-Idg" firstAttribute="width" secondItem="rhd-I9-6sm" secondAttribute="width" id="M3D-bJ-ek0"/>
                                                     <constraint firstItem="yxl-jR-Ltl" firstAttribute="width" secondItem="B24-Bz-66M" secondAttribute="width" id="XBr-OJ-lNS"/>
-                                                    <constraint firstItem="bhy-Vw-27Y" firstAttribute="width" secondItem="f08-Jv-nGX" secondAttribute="width" id="cwS-Fd-Tjv"/>
                                                 </constraints>
                                             </stackView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ph4-yl-2Xm" userLabel="Right spacer">
@@ -541,7 +536,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="done" id="FUp-9e-d6R">
                             <button key="customView" opaque="NO" contentMode="right" contentHorizontalAlignment="right" contentVerticalAlignment="fill" buttonType="roundedRect" lineBreakMode="middleTruncation" id="XA9-Ix-gJ4">
-                                <rect key="frame" x="269" y="6" width="35" height="33"/>
+                                <rect key="frame" x="269" y="5.5" width="35" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <state key="normal" title="&gt;&gt;&gt;"/>
@@ -562,13 +557,13 @@
                         <outlet property="a2_text" destination="pQX-uW-iHT" id="YiS-5u-5T2"/>
                         <outlet property="bc_segment" destination="bI0-fv-wHB" id="KGF-7T-BTn"/>
                         <outlet property="colorSourceDrop" destination="V3L-DU-kdT" id="KmM-hF-QEB"/>
-                        <outlet property="dir_segment" destination="bhy-Vw-27Y" id="J9h-Qx-HWS"/>
                         <outlet property="k_stepper" destination="9Rd-Kx-XBb" id="HgW-kj-dQL"/>
                         <outlet property="k_text" destination="dGE-Z4-yxV" id="eAV-y2-ZMb"/>
                         <outlet property="lb_stepper" destination="f08-Jv-nGX" id="OcL-8d-xZs"/>
                         <outlet property="lb_text" destination="12I-P2-pCP" id="VkO-2C-ZNf"/>
                         <outlet property="player_segment" destination="SZ3-82-JQs" id="pOz-JW-RER"/>
                         <outlet property="sequencerDrop" destination="pAw-yA-acQ" id="E1J-cQ-938"/>
+                        <outlet property="stepSize_stepper" destination="CPk-qf-RWq" id="ywi-32-InZ"/>
                         <outlet property="stepSize_text" destination="xVJ-fX-bJn" id="mB3-sU-Zw5"/>
                         <outlet property="ub_stepper" destination="a29-J2-HN0" id="4uM-zK-fHf"/>
                         <outlet property="ub_text" destination="VFg-ct-kyh" id="idN-XL-LeD"/>
@@ -587,7 +582,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="separatorColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <tableView key="tableFooterView" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="9Xa-cE-WWI">
+                        <tableView key="tableFooterView" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="9Xa-cE-WWI">
                             <rect key="frame" x="0.0" y="72" width="256" height="400"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1101,7 +1096,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="done" id="7Y2-PQ-QFA">
                             <button key="customView" opaque="NO" contentMode="right" contentHorizontalAlignment="right" contentVerticalAlignment="fill" buttonType="roundedRect" lineBreakMode="middleTruncation" id="8jX-Zj-hIp">
-                                <rect key="frame" x="269" y="6" width="35" height="33"/>
+                                <rect key="frame" x="269" y="5.5" width="35" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <state key="normal" title="&lt;&lt;&lt;"/>

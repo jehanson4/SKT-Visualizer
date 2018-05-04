@@ -58,6 +58,10 @@ protocol Sequencer: ChangeMonitorEnabled {
     
     var stepSize: Double { get set }
     
+    var defaultStepSize: Double { get }
+
+    var minStepSize: Double { get }
+    
     var value: Double { get }
     
     var boundaryCondition: BoundaryCondition { get set }
