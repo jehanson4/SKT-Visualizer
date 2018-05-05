@@ -7,3 +7,5 @@ But let's put some physics in place.
 
 lookup Wikipedia "diffusion on discrete network". That might help; or it might just speak
 of "weights" on edges, which merely begs the question.
+
+"simulated tempering"

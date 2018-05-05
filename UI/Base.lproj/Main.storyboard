@@ -1096,7 +1096,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="done" id="7Y2-PQ-QFA">
                             <button key="customView" opaque="NO" contentMode="right" contentHorizontalAlignment="right" contentVerticalAlignment="fill" buttonType="roundedRect" lineBreakMode="middleTruncation" id="8jX-Zj-hIp">
-                                <rect key="frame" x="269" y="5.5" width="35" height="33"/>
+                                <rect key="frame" x="269" y="6" width="35" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <state key="normal" title="&lt;&lt;&lt;"/>

@@ -42,11 +42,5 @@ BELOW THE LINE
 [ ] Recursive Embedded Definition
     This idea needs refinement. the definitions are the easy bit.
 
-[ ] tiny square images for the buttons
-    reset parameters
-    sequencer BC
-    sequencer direction
-    sequencer stop/go/step
-
 [ ] button to take screenshot of the currently displayed view
 

@@ -36,9 +36,10 @@ class Meridians : GLKBaseEffect, Effect {
     }
     
     // EMPIRICAL
+    let caretSize: Double = 0.07
     let segmentCount: Int = 100
-    let lineWidth_primary: GLfloat = 7.0
-    let lineWidth_secondary: GLfloat = 2.0
+    let lineWidth_primary: GLfloat = 9.0
+    let lineWidth_secondary: GLfloat = 5.0
     let lineColor: GLKVector4 = GLKVector4Make(0.5, 0.5, 0.5, 1.0)
    
     var rOffset: Double
@@ -105,9 +106,12 @@ class Meridians : GLKBaseEffect, Effect {
         let phi3 = 0.5 * (phi1 + phi2)
         let phi4 = phi3 + piOver2
 
-        addMeridian(phi1, lineWidth_primary)
-        addMeridian(phi2, lineWidth_primary)
-        
+        addCaret(phi1, lineWidth_primary)
+        addCaret(phi2, lineWidth_primary)
+
+        addMeridian(phi1, lineWidth_secondary)
+        addMeridian(phi2, lineWidth_secondary)
+
         if (_showSecondaries) {
         addMeridian(phi1 + pi, lineWidth_secondary)
         addMeridian(phi2 + pi, lineWidth_secondary)
@@ -133,6 +137,28 @@ class Meridians : GLKBaseEffect, Effect {
             vertices.append(GLKVector4Make(Float(v.x), Float(v.y), Float(v.z), 0))
             thetaE += thetaE_incr
         }
+    }
+    
+    private func addCaret(_ phi: Double, _ lineWidth: GLfloat) {
+        let r = geometry.r0 + rOffset
+        let thetaE: Double = 0
+
+        let dR = caretSize
+        let dP = 0.5 * caretSize
+        let dT = caretSize
+        
+        let v0 = geometry.sphericalToCartesian(r + 2*dR, phi - dP, thetaE - 2*dT)
+        let v1 = geometry.sphericalToCartesian(r + dR, phi, thetaE - dT)
+        let v2 = geometry.sphericalToCartesian(r + 2*dR, phi + dP, thetaE - 2*dT)
+        
+        lineWidths.append(lineWidth)
+        lineStarts.append(GLint(vertices.count))
+        
+        lineVertexCounts.append(GLsizei(4))
+        vertices.append(GLKVector4Make(Float(v0.x), Float(v0.y), Float(v0.z), 0))
+        vertices.append(GLKVector4Make(Float(v1.x), Float(v1.y), Float(v1.z), 0))
+        vertices.append(GLKVector4Make(Float(v2.x), Float(v2.y), Float(v2.z), 0))
+        vertices.append(GLKVector4Make(Float(v0.x), Float(v0.y), Float(v0.z), 0))
     }
     
     private func createBuffers() {
