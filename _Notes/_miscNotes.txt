@@ -18,13 +18,3 @@ A: markStale and a func to take a value as part of setting new bounds. Weird & i
 
 ==================================================================================
 
-who creates the geometry & physics?
-currently the app does it and passes it to the controllers
-option 1 the scene should do it
-
-Who create the scene?
-Currently detailviewcontroller creates it
-the app delegate should create it but it should NOT create things that expects a view.
-
-=================================
-

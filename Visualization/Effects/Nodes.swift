@@ -299,24 +299,6 @@ class Nodes : Effect {
    }
     
     func calculatePointSize() -> GLfloat {
-
-        // TODO solve this
-//        let xform = GLKMatrix4Multiply(projectionMatrix, modelviewMatrix)
-//        // let xform = GLKMatrix4Multiply(modelviewMatrix, projectionMatrix)
-//
-//        // let unit = GLKVector4Make(1,1,1,1)
-//        // let unit = GLKVector4Make(1,0,0,1)
-//        // let unit = GLKVector4Make(0,1,0,1)
-//        let unit = GLKVector4Make(0,0,1,1)
-//
-//        let mvLen = GLKVector4Length(GLKMatrix4MultiplyVector4(xform, unit))
-//        let pts = pointSizeScaleFactor * mvLen * GLfloat(geometry.neighborDistance)
-//        // let mvSquare = mvLen * mvLen
-//        // debug("calculatePointSize", "neighborDistance=\(geometry.neighborDistance)")
-//        // debug("calculatePointSize", "mvLen=\(mvLen)")
-//        debug("calculatePointSize", "pts=\(pts)")
-//
-//        return clip(pts, 1, pointSizeMax)
         
         let pts = pointSizeScaleFactor * GLfloat(viz.pov.zoom * geometry.neighborDistance)
         debug("calculatePointSize", "zoom=\(viz.pov.zoom)")

@@ -1,11 +1,7 @@
-How does a particle choose downhill nbr?
-Suppose there's 2.
 
-The obvious choices from a computation POV are: 50-50, and proportional to energy diff
+dynamic is stochastic along arcs, weidgetd somehow:
+--IID random
+--proportional to energy diff
+--or free energy diff
+--cf. Fourier's heat flow law sez: proportional to temp. diff,
 
-But let's put some physics in place.
-
-lookup Wikipedia "diffusion on discrete network". That might help; or it might just speak
-of "weights" on edges, which merely begs the question.
-
-"simulated tempering"
