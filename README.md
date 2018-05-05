@@ -9,9 +9,7 @@
   * Occupation not getting updated
   * Incorrect energy for odd N
 * Restore configuration on app relaunch
-* Improvements to meridian lines
-* Improvements to animation controls
-* Free Energy color source
+* Improvements to UI
 
 ### Release Notes -- Version 1.0(3)
 
