@@ -51,6 +51,22 @@ func logBinomial(_ a:Int, _ b:Int) -> Double {
             + 0.5 * (log(aa) - log(bb) - log(cc) - log(twoPi))
 }
 
+/**
+ Returns ln(1+e^x) avoiding over/underflow
+ */
+func log1pexp(_ x: Double) -> Double {
+    if (x <= -37) {
+        return exp(x)
+    }
+    if (x <= 18) {
+        return log1p(exp(x))
+    }
+    if (x <= 33.3) {
+        return x + exp(-x)
+    }
+    return x
+}
+
 // =======================================================================
 // Conversions to String
 // =======================================================================

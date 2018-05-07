@@ -66,6 +66,7 @@ class Nodes : Effect {
     
     private var colorSources: Registry<ColorSource>? = nil
     private var colorSourceSelectionMonitor: ChangeMonitor? = nil
+    private var colorSourceInstanceMonitor: ChangeMonitor? = nil
     private var colorsAreStale: Bool = false
     
     // =====================================
@@ -81,7 +82,12 @@ class Nodes : Effect {
         self.colorSources = colorSources
         self.enabled = enabled
         if (colorSources != nil) {
-            colorSourceSelectionMonitor = colorSources!.monitorChanges(markColorsStale)
+            colorSourceSelectionMonitor = colorSources!.monitorChanges(colorSourceSelectionChanged)
+        }
+        let sel = colorSources?.selection?.value
+        if (sel != nil) {
+            colorSourceInstanceMonitor = sel!.monitorChanges(colorSourceInstanceChanged
+            )
         }
     }
 
@@ -164,7 +170,20 @@ class Nodes : Effect {
         
     }
 
-    func markColorsStale(_ sender: Any?) {
+    func colorSourceSelectionChanged(_ sender: Any?) {
+        markColorsStale()
+        colorSourceInstanceMonitor?.disconnect()
+        let sel = colorSources?.selection?.value
+        if (sel != nil) {
+            colorSourceInstanceMonitor = sel!.monitorChanges(colorSourceInstanceChanged)
+        }
+    }
+    
+    func colorSourceInstanceChanged(_ sender: Any?) {
+        markColorsStale()
+    }
+    
+    func markColorsStale() {
         colorsAreStale = true
     }
     

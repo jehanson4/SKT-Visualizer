@@ -1,7 +1,0 @@
-
-dynamic is stochastic along arcs, weidgetd somehow:
---IID random
---proportional to energy diff
---or free energy diff
---cf. Fourier's heat flow law sez: proportional to temp. diff,
-

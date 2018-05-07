@@ -103,7 +103,7 @@ class NumericParameterSequencer<T: Comparable & Numeric> : GenericSequencer<T> {
         self.one = const.one
         self.minusOne = const.minusOne
         
-        super.init(param.name)
+        super.init(param.name, true)
     }
     
     // ===============================================

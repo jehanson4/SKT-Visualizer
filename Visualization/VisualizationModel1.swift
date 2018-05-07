@@ -186,6 +186,9 @@ class VisualizationModel1 : VisualizationModel {
         let basinCS = BasinOfAttractionColorSource(skt.basinFinder)
         registerColorSource(basinCS, false)
         
+        let flowCS = PopulationColorSource(skt.populationFlow, LogColorMap())
+        registerColorSource(flowCS, false)
+        
         debug("initColorSources", "done. sources=\(colorSources.entryNames)")
     }
     
@@ -316,6 +319,8 @@ class VisualizationModel1 : VisualizationModel {
             upperBound: SKPhysics.T_defaultUpperBound,
             stepSize: SKPhysics.T_defaultStepSize
         ), false)
+        
+        registerSequencer(PopulationFlowSequencer(skt.populationFlow), false)
         
         sequencerChangeMonitor = sequencers.monitorChanges(sequencerSelectionChanged)
     }

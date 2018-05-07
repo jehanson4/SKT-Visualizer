@@ -37,8 +37,10 @@ class BasinNodeData : Hashable, Equatable {
     
     private static var nodeCounter: Int  = 0
     
-    /// Which node we are
+    /// Object identifier
     let nc: Int
+    
+    /// Node index
     let idx: Int
     let m: Int
     let n: Int

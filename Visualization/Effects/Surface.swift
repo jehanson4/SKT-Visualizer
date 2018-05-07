@@ -66,6 +66,7 @@ class Surface : GLKBaseEffect, Effect {
     
     private var colorSources: Registry<ColorSource>? = nil
     private var colorSourceSelectionMonitor: ChangeMonitor? = nil
+    private var colorSourceInstanceMonitor: ChangeMonitor? = nil
     private var colorsAreStale: Bool = false
     
     // var linearColorMap: ColorMap? = nil
@@ -86,7 +87,11 @@ class Surface : GLKBaseEffect, Effect {
         super.init()
 
         if (colorSources != nil) {
-            colorSourceSelectionMonitor = colorSources!.monitorChanges(markColorsAsStale)
+            colorSourceSelectionMonitor = colorSources!.monitorChanges(colorSourceSelectionChanged)
+            let sel = colorSources!.selection?.value
+            if (sel != nil) {
+                colorSourceInstanceMonitor = sel!.monitorChanges(colorSourceInstanceChanged)
+            }
         }
     }
     
@@ -94,8 +99,19 @@ class Surface : GLKBaseEffect, Effect {
         glDeleteVertexArrays(1, &vertexArray)
         deleteBuffers()
     }
+
+    private func colorSourceSelectionChanged(_ sender: Any?) {
+        markColorsAsStale()
+        colorSourceInstanceMonitor?.disconnect()
+        colorSources?.selection?.value.monitorChanges(colorSourceInstanceChanged)
+    }
     
-    private func markColorsAsStale(_ sender: Any?) {
+
+    private func colorSourceInstanceChanged(_ sender: Any?) {
+        markColorsAsStale()
+    }
+    
+    private func markColorsAsStale() {
         colorsAreStale = true
     }
     

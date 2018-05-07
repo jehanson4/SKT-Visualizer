@@ -36,4 +36,5 @@ protocol SKTModel {
     func physicalProperty(forType: PhysicalPropertyType) -> PhysicalProperty?
     
     var basinFinder: BasinFinder! { get }
+    var populationFlow: PopulationFlow! { get }
 }

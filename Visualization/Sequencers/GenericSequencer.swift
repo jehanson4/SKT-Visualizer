@@ -32,36 +32,56 @@ class GenericSequencer<T> : Sequencer {
     var _enabled: Bool = true
     
     // =====================================
-    // Boundary condition
+    // Boundary condition & direction
     
     var boundaryCondition: BoundaryCondition {
         get { return _boundaryCondition }
         set(newValue) {
-            if (newValue != _boundaryCondition) {
+            if (newValue != _boundaryCondition && isSupported(newValue)) {
                 _boundaryCondition = newValue
                 fireChange()
             }
         }
     }
     
-    var _boundaryCondition: BoundaryCondition = BoundaryCondition.sticky
-    
-    // =========================================
-    // Direction
-    
     var direction: Direction {
         get { return _direction }
         set(newValue) {
-            if (newValue != _direction) {
+            if (newValue != _direction && isSupported(newValue)) {
                 _direction = newValue
                 fireChange()
             }
         }
     }
     
+    func isSupported(_ dir: Direction) -> Bool {
+        switch (dir) {
+        case .forward:
+            return true
+        case .reverse:
+            return self.reversible
+        case .stopped:
+            return true
+        }
+    }
+    
+    func isSupported(_ bc: BoundaryCondition) -> Bool {
+        switch (bc) {
+        case .elastic:
+            return self.reversible
+        case .periodic:
+            return true
+        case .sticky:
+            return true
+        }
+    }
+    
+    let reversible: Bool
+    var _boundaryCondition: BoundaryCondition = BoundaryCondition.sticky
     var _direction: Direction = Direction.stopped
     
     // =====================================
+    // Numeric properties: bounds, stepSize, value, etc.
     
     /// FOR OVERRIDE: this impl is non-functional
     var lowerBound: Double {
@@ -101,10 +121,15 @@ class GenericSequencer<T> : Sequencer {
     }
     
     // =========================================
-
-    init(_ name: String) {
+    // Initialization
+    
+    init(_ name: String, _ reversible: Bool) {
         self.name = name
+        self.reversible = reversible
     }
+    
+    // =========================================
+    // Operation
     
     func reset() {
         self._direction = Direction.forward
@@ -133,13 +158,17 @@ class GenericSequencer<T> : Sequencer {
         return false
     }
     
-    // Returns true iff somesequencer state changed
+    // Returns true iff sequencer state changed
     // FOR OVERRIDE. This method does nothing, returns false
     func stepBackward() -> Bool {
         return false
     }
     
     func reverse() {
+        if (!reversible) {
+            return
+        }
+    
         switch (_direction) {
         case .forward:
             direction = .reverse

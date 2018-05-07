@@ -14,6 +14,23 @@ import Foundation
 
 class DummySequencer: Sequencer {
     
+    var name: String
+    
+    var enabled: Bool {
+        get { return false }
+        set(newValue) {}
+    }
+    
+    var boundaryCondition: BoundaryCondition {
+        get { return BoundaryCondition.sticky }
+        set(newValue) {}
+    }
+    
+    var direction: Direction {
+        get { return Direction.stopped }
+        set(newValue) {}
+    }
+    
     var lowerBound: Double = 0
     
     var upperBound: Double = 1
@@ -34,23 +51,6 @@ class DummySequencer: Sequencer {
     
     func fromString(_ s: String) -> Double? {
         return nil
-    }
-    
-    var name: String
-    
-    var enabled: Bool {
-        get { return false }
-        set(newValue) {}
-    }
-    
-    var boundaryCondition: BoundaryCondition {
-        get { return BoundaryCondition.sticky }
-        set(newValue) {}
-    }
-    
-    var direction: Direction {
-        get { return Direction.stopped }
-        set(newValue) {}
     }
     
     init(_ name: String) {
