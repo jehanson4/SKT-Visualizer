@@ -136,7 +136,9 @@ class PopulationFlow {
     
     private var defaultIC = EquilibriumPopulation()
     private var defaultRule = MetropolisFlow()
-    
+    // private var defaultRule = SymmetricFlow()
+    // private var defaultRule = SymmetricFlow2()
+
     // =====================================
     // Inializer
     // =====================================

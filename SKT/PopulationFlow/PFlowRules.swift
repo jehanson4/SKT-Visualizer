@@ -31,6 +31,7 @@ enum PFlowRuleType: Int {
     case anyDescentEqualDivision = 3
     case proportionalEnergyDescent = 4
     case metropolisFlow = 5
+    case symmetricFlow = 6
 }
 
 // ==================================================================
@@ -288,7 +289,12 @@ class ProportionalEnergyDescent : PFlowRule {
 /// 1. If deltaE ~ 0, accept with probability p(accept) = 1/(#equal nbrs)
 /// 2. If deltaE < 0, accept.
 /// 3. If deltaE > 0, accept with probability p(accept) = exp(-deltaE/T).
+///
 class MetropolisFlow : PFlowRule {
+
+    // ===================================================================
+    // NOTES 5/8/2018: this flows down to the minimum, regardless of temp.
+    // ===================================================================
     
     let cls = "MetropolisFlow"
 
@@ -319,15 +325,19 @@ class MetropolisFlow : PFlowRule {
             let nbr = nbrs[i]
             var nbrWeight: Double = 0
             if (!distinct(nbr.potential, node.potential)) {
+
                 // FIXME assumes there will be at most 1 nbr w/ same potential
                 nbrWeight = 0.5
+
+                // DEBUG to see what happens . . . (A: no difference)
+                // nbrWeight = 0.0
+
             }
             else if (nbr.potential < node.potential) {
                 nbrWeight = 1.0
             }
             else if (nbr.potential > node.potential) {
                 nbrWeight = exp(-beta*(nbr.potential-node.potential))
-                // nbrWeight = exp(-beta*(nbr.potential))
                 nbrWeight = clip(nbrWeight, 0, 1)
                 
             }
@@ -340,6 +350,187 @@ class MetropolisFlow : PFlowRule {
         let nodeWeight = numPortions - sumOverNbrWeights
         debug(cls, mtd, "nodeWeight  =\(nodeWeight)")
 
+        // SELF TEST
+        // add up the amount filled
+        var totalFilled = Double.nan
+        
+        for i in 0..<nbrs.count {
+            let nbr = nbrs[i]
+            let nbrWeight = nbrWeights[i]
+            if (nbrWeight > 0) {
+                let nbrPortion = node.wCurr + log(nbrWeight/numPortions)
+                nbr.fill(nbrPortion)
+                totalFilled = addLogs(totalFilled, nbrPortion)
+            }
+        }
+        
+        if (nodeWeight > 0) {
+            /// log(deltaP) = log(weight * exp(wCurr))
+            let nodePortion = node.wCurr + log(nodeWeight/numPortions)
+            node.fill(nodePortion)
+            totalFilled = addLogs(totalFilled, nodePortion)
+        }
+        
+        if (distinct(node.wCurr, totalFilled)) {
+            warn(cls, mtd, "Bad math: node.wCurr=\(node.wCurr), totalFilled=\(totalFilled)")
+        }
+    }
+}
+
+// ==================================================================
+// SymmetricFlow
+// ==================================================================
+
+/// Like Metropolis but:
+/// --it does downhill moves with p(accept) = 1 - exp(-beta*|deltaE|)
+///
+class SymmetricFlow : PFlowRule {
+
+    // ===================================================================
+    // NOTES 5/8/2018: this flows up to the pole for any temp.
+    // ===================================================================
+    
+    let cls = "SymmetricFlow"
+    
+    let ruleType = PFlowRuleType.symmetricFlow
+    var name: String = "Symmetric Flow"
+    var info: String? = nil
+    
+    private var geometry: SKGeometry!
+    private var physics: SKPhysics!
+    private var beta: Double = 0
+    
+    func prepare(_ flow: PopulationFlow) {
+        geometry = flow.geometry
+        physics = flow.physics
+        beta = (physics.T > 0) ? 1/physics.T : Double.greatestFiniteMagnitude
+    }
+    
+    func potentialAt(m: Int, n: Int) -> Double {
+        return Energy.energy(m, n, geometry, physics)
+    }
+    
+    func apply(_ node: PFlowNode, _ nbrs: [PFlowNode]) {
+        let mtd = "apply(\(node.m), \(node.n))"
+        var nbrWeights: [Double] = Array(repeating: 0, count: nbrs.count)
+        let numPortions: Double = Double(nbrs.count + 1)
+        var sumOverNbrWeights: Double = 0
+        for i in 0..<nbrs.count {
+            let nbr = nbrs[i]
+            var nbrWeight: Double = 0
+            if (!distinct(nbr.potential, node.potential)) {
+                // FIXME assumes there will be at most 1 nbr w/ same potential
+                nbrWeight = 0.5
+            }
+            else if (nbr.potential < node.potential) {
+                nbrWeight = 1 - exp(-beta*(node.potential-nbr.potential))
+                nbrWeight = clip(nbrWeight, 0, 1)
+            }
+            else if (nbr.potential > node.potential) {
+                nbrWeight = exp(-beta*(nbr.potential-node.potential))
+                nbrWeight = clip(nbrWeight, 0, 1)
+                
+            }
+            debug(cls, mtd, "nbrWeight[\(i)]=\(nbrWeight)")
+            nbrWeights[i] = nbrWeight
+            sumOverNbrWeights += nbrWeight
+        }
+        
+        /// weight of rejected transitions
+        let nodeWeight = numPortions - sumOverNbrWeights
+        debug(cls, mtd, "nodeWeight  =\(nodeWeight)")
+        
+        // SELF TEST
+        // add up the amount filled
+        var totalFilled = Double.nan
+        
+        for i in 0..<nbrs.count {
+            let nbr = nbrs[i]
+            let nbrWeight = nbrWeights[i]
+            if (nbrWeight > 0) {
+                let nbrPortion = node.wCurr + log(nbrWeight/numPortions)
+                nbr.fill(nbrPortion)
+                totalFilled = addLogs(totalFilled, nbrPortion)
+            }
+        }
+        
+        if (nodeWeight > 0) {
+            /// log(deltaP) = log(weight * exp(wCurr))
+            let nodePortion = node.wCurr + log(nodeWeight/numPortions)
+            node.fill(nodePortion)
+            totalFilled = addLogs(totalFilled, nodePortion)
+        }
+        
+        if (distinct(node.wCurr, totalFilled)) {
+            warn(cls, mtd, "Bad math: node.wCurr=\(node.wCurr), totalFilled=\(totalFilled)")
+        }
+    }
+}
+
+// ==================================================================
+// SymmetricFlow2
+// ==================================================================
+
+/// Like Metropolis but:
+/// --it does uphill moves with p(accept) = 0.5 * ( exp(-beta*|deltaE|) )
+/// --it does downhill moves with p(accept) = 0.5 * ( 1 - exp(-beta*|deltaE|) )
+///
+class SymmetricFlow2 : PFlowRule {
+    
+    // ===================================================================
+    // NOTES 5/8/2018: this also goes up to the pole for any temp.
+    // ===================================================================
+    
+    let cls = "SymmetricFlow"
+    
+    let ruleType = PFlowRuleType.symmetricFlow
+    var name: String = "Symmetric Flow"
+    var info: String? = nil
+    
+    private var geometry: SKGeometry!
+    private var physics: SKPhysics!
+    private var beta: Double = 0
+    
+    func prepare(_ flow: PopulationFlow) {
+        geometry = flow.geometry
+        physics = flow.physics
+        beta = (physics.T > 0) ? 1/physics.T : Double.greatestFiniteMagnitude
+    }
+    
+    func potentialAt(m: Int, n: Int) -> Double {
+        return Energy.energy(m, n, geometry, physics)
+    }
+    
+    func apply(_ node: PFlowNode, _ nbrs: [PFlowNode]) {
+        let mtd = "apply(\(node.m), \(node.n))"
+        var nbrWeights: [Double] = Array(repeating: 0, count: nbrs.count)
+        let numPortions: Double = Double(nbrs.count + 1)
+        var sumOverNbrWeights: Double = 0
+        for i in 0..<nbrs.count {
+            let nbr = nbrs[i]
+            var nbrWeight: Double = 0
+            if (!distinct(nbr.potential, node.potential)) {
+                // FIXME assumes there will be at most 1 nbr w/ same potential
+                nbrWeight = 0.5
+            }
+            else if (nbr.potential < node.potential) {
+                nbrWeight = 0.5 * (1 - exp(-beta*(node.potential-nbr.potential)))
+                nbrWeight = clip(nbrWeight, 0, 1)
+            }
+            else if (nbr.potential > node.potential) {
+                nbrWeight = 0.5 * exp(-beta*(nbr.potential-node.potential))
+                nbrWeight = clip(nbrWeight, 0, 1)
+                
+            }
+            debug(cls, mtd, "nbrWeight[\(i)]=\(nbrWeight)")
+            nbrWeights[i] = nbrWeight
+            sumOverNbrWeights += nbrWeight
+        }
+        
+        /// weight of rejected transitions
+        let nodeWeight = numPortions - sumOverNbrWeights
+        debug(cls, mtd, "nodeWeight  =\(nodeWeight)")
+        
         // SELF TEST
         // add up the amount filled
         var totalFilled = Double.nan
