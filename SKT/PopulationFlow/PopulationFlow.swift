@@ -14,14 +14,6 @@ import Foundation
 
 class PFlowNode {
     
-    var debugEnabled = true
-    
-    func debug(_ mtd: String, _ msg: String = "") {
-        if (debugEnabled) {
-            print("PFlowNode", mtd, msg)
-        }
-    }
-    
     let idx: Int
     let m: Int
     let n: Int
@@ -43,11 +35,11 @@ class PFlowNode {
         self.potential = potential
         self.wCurr = wCurr
         self.wNext = 0
-        debug("init(\(m), \(n): exiting. potential=\(potential) wCurr=\(wCurr)")
+        // debug("init(\(m), \(n): exiting. potential=\(potential) wCurr=\(wCurr)")
     }
 
     func reset(_ potential: Double, _ wCurr: Double) {
-        debug("reset(\(m), \(n): entering. potential=\(potential) wCurr=\(wCurr)")
+        // debug("reset(\(m), \(n): entering. potential=\(potential) wCurr=\(wCurr)")
         self.potential = potential
         self.wCurr = wCurr
         self.wNext = 0
@@ -55,7 +47,7 @@ class PFlowNode {
     
     /// w is natural log of the population being added
     func fill(_ w: Double) {
-        debug("fill(\(m), \(n): entering. wNext=\(wNext) w=\(w))")
+        // debug("fill(\(m), \(n): entering. wNext=\(wNext) w=\(w))")
         if (w > 0) {
             // New population = exp(wNext) + exp(w)
             // New wNext = log( exp(wNext) + exp(w) )
@@ -63,12 +55,12 @@ class PFlowNode {
             // = wNext + log( 1 + exp(w-wNext) )
             wNext += log1pexp(w-wNext)
         }
-        debug("fill(\(m), \(n): exiting. wNext=\(wNext))")
+        // debug("fill(\(m), \(n): exiting. wNext=\(wNext))")
     }
     
     /// returns true iff new pop is distict from old
     func advance() -> Bool {
-        debug("advance(\(m), \(n))", "entering: wCurr=\(wCurr) wNext=\(wNext)")
+        // debug("advance(\(m), \(n))", "entering: wCurr=\(wCurr) wNext=\(wNext)")
         let changed = distinct(wCurr, wNext)
         wCurr = wNext
         wNext = 0
@@ -82,7 +74,7 @@ class PFlowNode {
 
 class PopulationFlow {
     
-    var debugEnabled = true
+    var debugEnabled = false
     
     func debug(_ mtd: String, _ msg: String = "") {
         if (debugEnabled) {
@@ -141,7 +133,7 @@ class PopulationFlow {
         self.physicsCC = skt.physics.changeNumber
         
         self.ic = (ic != nil) ? ic! : EquilibriumPopulation()
-        self.localRule = (localRule != nil) ? localRule : ProportionalFreeEnergyDescent()
+        self.localRule = (localRule != nil) ? localRule : ProportionalEnergyDescent()
         
         self._nodeArrayIsStale = true
         self._potentialIsStale = true
@@ -212,21 +204,12 @@ class PopulationFlow {
     
     private func buildNodes() {
         debug("buildNodes", "entering")
-        let propOrNil = skt.physicalProperty(forType: localRule.potentialType)
         ic.prepare(self)
+        localRule.prepare(self)
         var nodearray: [PFlowNode] = []
-        if (propOrNil == nil) {
-            for i in 0..<geometry.nodeCount {
-                let (m, n) = geometry.nodeIndexToSK(i)
-                nodearray.append(PFlowNode(i, m: m, n: n, 0, ic.logPopulationAt(m: m, n: n)))
-            }
-        }
-        else {
-            let prop = propOrNil!
-            for i in 0..<geometry.nodeCount {
-                let (m, n) = geometry.nodeIndexToSK(i)
-                nodearray.append(PFlowNode(i, m: m, n: n, prop.valueAt(m: m, n: n), ic.logPopulationAt(m: m, n: n)))
-            }
+        for i in 0..<geometry.nodeCount {
+            let (m, n) = geometry.nodeIndexToSK(i)
+            nodearray.append(PFlowNode(i, m: m, n: n, localRule.potentialAt(m: m, n: n), ic.logPopulationAt(m: m, n: n)))
         }
         self.nodes = nodearray
         self._nodeArrayIsStale = false
@@ -241,17 +224,9 @@ class PopulationFlow {
     private func resetNodes() {
         debug("resetNodes", "entering")
         ic.prepare(self)
-        let propOrNil = skt.physicalProperty(forType: localRule.potentialType)
-        if (propOrNil == nil) {
-            for node in nodes {
-                node.reset(0, ic.logPopulationAt(m: node.m, n: node.n))
-            }
-        }
-        else {
-            let prop = propOrNil!
-            for node in nodes {
-                node.reset(prop.valueAt(m: node.m, n: node.n), ic.logPopulationAt(m: node.m, n: node.n))
-            }
+        localRule.prepare(self)
+        for node in nodes {
+            node.reset(localRule.potentialAt(m: node.m, n: node.n), ic.logPopulationAt(m: node.m, n: node.n))
         }
         self._potentialIsStale = false
         self._populationIsSteadyState = false

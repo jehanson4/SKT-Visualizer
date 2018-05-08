@@ -25,6 +25,7 @@ enum PFlowRuleType: Int {
     case steepestDescentEqualDivision = 2
     case anyDescentEqualDivision = 3
     case proportionalEnergyDescent = 4
+    case metropolisDescent = 5
 }
 
 // ==================================================================
@@ -35,8 +36,7 @@ protocol PFlowRule : Named {
     
     var ruleType: PFlowRuleType { get }
     
-    /// Property that defines 'potential' at a node
-    var potentialType: PhysicalPropertyType { get }
+    func potentialAt(m: Int, n: Int) -> Double
     
     func prepare(_ net: PopulationFlow)
     func apply(_ node: PFlowNode, _ nbrs: [PFlowNode])
@@ -55,10 +55,18 @@ class SteepestDescentFirstMatch : PFlowRule {
     var name: String = "Steepest Descent - First Match"
     var info: String? = nil
     
-    let potentialType = PhysicalPropertyType.energy
+    private var geometry: SKGeometry!
+    private var physics: SKPhysics!
     
-    func prepare(_ net: PopulationFlow) {}
+    func prepare(_ flow: PopulationFlow) {
+        geometry = flow.geometry
+        physics = flow.physics
+    }
     
+    func potentialAt(m: Int, n: Int) -> Double {
+        return Energy.energy(m, n, geometry, physics)
+    }
+
     func apply(_ node: PFlowNode, _ nbrs: [PFlowNode]) {
         var lowestNbr: PFlowNode = node
         for nbr in nbrs {
@@ -84,9 +92,17 @@ class SteepestDescentLastMatch : PFlowRule {
     var name: String = "Steepest Descent - Last Match"
     var info: String? = nil
     
-    let potentialType = PhysicalPropertyType.energy
+    private var geometry: SKGeometry!
+    private var physics: SKPhysics!
     
-    func prepare(_ net: PopulationFlow) {}
+    func prepare(_ flow: PopulationFlow) {
+        geometry = flow.geometry
+        physics = flow.physics
+    }
+    
+    func potentialAt(m: Int, n: Int) -> Double {
+        return Energy.energy(m, n, geometry, physics)
+    }
     
     func apply(_ node: PFlowNode, _ nbrs: [PFlowNode]) {
         var lowestNbr: PFlowNode = node
@@ -113,9 +129,17 @@ class SteepestDescentEqualDivision : PFlowRule {
     var name: String = "Steepest Descent - Equal Division"
     var info: String? = nil
     
-    let potentialType = PhysicalPropertyType.energy
+    private var geometry: SKGeometry!
+    private var physics: SKPhysics!
     
-    func prepare(_ net: PopulationFlow) {}
+    func prepare(_ flow: PopulationFlow) {
+        geometry = flow.geometry
+        physics = flow.physics
+    }
+    
+    func potentialAt(m: Int, n: Int) -> Double {
+        return Energy.energy(m, n, geometry, physics)
+    }
     
     func apply(_ node: PFlowNode, _ nbrs: [PFlowNode]) {
         var lowestPotential: Double = node.potential
@@ -155,10 +179,16 @@ class AnyDescentEqualDivision : PFlowRule {
     var name: String = "Any Descent - Equal Division"
     var info: String? = nil
     
-    let potentialType = PhysicalPropertyType.energy
+    private var geometry: SKGeometry!
+    private var physics: SKPhysics!
     
-    func prepare(_ net: PopulationFlow) {
-        debug("AnyDescentEqualDivision", "prepare")
+    func prepare(_ flow: PopulationFlow) {
+        geometry = flow.geometry
+        physics = flow.physics
+    }
+    
+    func potentialAt(m: Int, n: Int) -> Double {
+        return Energy.energy(m, n, geometry, physics)
     }
     
     func apply(_ node: PFlowNode, _ nbrs: [PFlowNode]) {
@@ -199,12 +229,19 @@ class AnyDescentEqualDivision : PFlowRule {
 class ProportionalEnergyDescent : PFlowRule {
     
     let ruleType = PFlowRuleType.proportionalEnergyDescent
-    var name: String = "Propertional Energy Descent"
+    var name: String = "Proportional Energy Descent"
     var info: String? = nil
     
-    let potentialType = PhysicalPropertyType.energy
+    private var geometry: SKGeometry!
+    private var physics: SKPhysics!
     
-    func prepare(_ net: PopulationFlow) {
+    func prepare(_ flow: PopulationFlow) {
+        geometry = flow.geometry
+        physics = flow.physics
+    }
+    
+    func potentialAt(m: Int, n: Int) -> Double {
+        return Energy.energy(m, n, geometry, physics)
     }
     
     func apply(_ node: PFlowNode, _ nbrs: [PFlowNode]) {
@@ -237,50 +274,33 @@ class ProportionalEnergyDescent : PFlowRule {
 }
 
 // ==================================================================
-// PropertionalEnergyDescent
+// MetropolisDescent
 // ==================================================================
 
 /// The node's population is divided among all neighbors
 /// with free ehergy < its own, in proportion to the free energy difference.
 /// If there are no such neighbors the node, then it is divided equally
 /// among nbhd members (aka node & nbrs) that have equal free energy.
-class ProportionalFreeEnergyDescent : PFlowRule {
+class MetropolisDescent : PFlowRule {
     
-    let ruleType = PFlowRuleType.proportionalEnergyDescent
-    var name: String = "Propertional Free Energy Descent"
+    let ruleType = PFlowRuleType.metropolisDescent
+    var name: String = "Metropolis Descent"
     var info: String? = nil
     
-    let potentialType = PhysicalPropertyType.freeEnergy
+    private var geometry: SKGeometry!
+    private var physics: SKPhysics!
     
-    func prepare(_ net: PopulationFlow) {
+    func prepare(_ flow: PopulationFlow) {
+        geometry = flow.geometry
+        physics = flow.physics
+    }
+    
+    func potentialAt(m: Int, n: Int) -> Double {
+        return Energy.energy(m, n, geometry, physics)
     }
     
     func apply(_ node: PFlowNode, _ nbrs: [PFlowNode]) {
-        var favoredNbrs: [PFlowNode] = []
-        var equalNbrs: [PFlowNode] = [node]
-        var sumOverWeights: Double = 0
-        for nbr in nbrs {
-            if (!distinct(nbr.potential, node.potential)) {
-                equalNbrs.append(nbr)
-            }
-            else if (nbr.potential < node.potential) {
-                favoredNbrs.append(nbr)
-                sumOverWeights += (node.potential-nbr.potential)
-            }
-        }
-        if (favoredNbrs.count > 0) {
-            for nbr in favoredNbrs {
-                let weight = (node.potential - nbr.potential) / sumOverWeights
-                let wPortion = node.wCurr + log(weight)
-                nbr.fill(wPortion)
-            }
-        }
-        else {
-            let wPortion = node.wCurr - log(Double(equalNbrs.count))
-            for nbr in equalNbrs {
-                nbr.fill(wPortion)
-            }
-        }
+        // TODO
     }
 }
 

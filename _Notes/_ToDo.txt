@@ -2,16 +2,22 @@
 ToDo.txt
 ==================================================================================
 
-For 1.0.4
+For 1.0.5
+
+[ ] secondary meridians in purple
 
 ABOVE THE LINE
 ----------------------------------------------------------------------------------
 BELOW THE LINE
 
-[ ] vNext options:
-    [?] more: particleFlow
-    [?] better: backgroundCalculation
-    [?] again: macOS version
+[ ] Metropolis PFlow rule
+it has its own param, the target T
+
+
+3 directions:
+[ ] more: particle flow
+[ ] again: macOS
+[ ] better: offload comp-heavy tasks to background thread
 
 [ ] use NSLog not print
     find out about log levels too
