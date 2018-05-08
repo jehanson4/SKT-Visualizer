@@ -9,10 +9,15 @@
 import Foundation
 
 fileprivate var debugEnabled = false
+
 fileprivate func debug(_ cls: String, _ mtd: String, _ msg: String = "") {
     if (debugEnabled) {
         print(cls, mtd, msg)
     }
+}
+
+fileprivate func warn(_ cls: String, _ mtd: String, _ msg: String = "") {
+    print("!!!", cls, mtd, msg)
 }
 
 // ==================================================================
@@ -25,7 +30,7 @@ enum PFlowRuleType: Int {
     case steepestDescentEqualDivision = 2
     case anyDescentEqualDivision = 3
     case proportionalEnergyDescent = 4
-    case metropolisDescent = 5
+    case metropolisFlow = 5
 }
 
 // ==================================================================
@@ -229,7 +234,7 @@ class AnyDescentEqualDivision : PFlowRule {
 class ProportionalEnergyDescent : PFlowRule {
     
     let ruleType = PFlowRuleType.proportionalEnergyDescent
-    var name: String = "Proportional Energy Descent"
+    var name: String = "Proportional Descent"
     var info: String? = nil
     
     private var geometry: SKGeometry!
@@ -274,25 +279,31 @@ class ProportionalEnergyDescent : PFlowRule {
 }
 
 // ==================================================================
-// MetropolisDescent
+// MetropolisFlow
 // ==================================================================
 
-/// The node's population is divided among all neighbors
-/// with free ehergy < its own, in proportion to the free energy difference.
-/// If there are no such neighbors the node, then it is divided equally
-/// among nbhd members (aka node & nbrs) that have equal free energy.
-class MetropolisDescent : PFlowRule {
+/// For each member of SK config ensemble @ a given node, choose neighbor
+/// at random. Measure deltaE := (neighbor's energy - node's energy).
+/// Then 'accept' or 'reject' the move as follows:
+/// 1. If deltaE ~ 0, accept with probability p(accept) = 1/(#equal nbrs)
+/// 2. If deltaE < 0, accept.
+/// 3. If deltaE > 0, accept with probability p(accept) = exp(-deltaE/T).
+class MetropolisFlow : PFlowRule {
     
-    let ruleType = PFlowRuleType.metropolisDescent
-    var name: String = "Metropolis Descent"
+    let cls = "MetropolisFlow"
+
+    let ruleType = PFlowRuleType.metropolisFlow
+    var name: String = "Metropolis Flow"
     var info: String? = nil
     
     private var geometry: SKGeometry!
     private var physics: SKPhysics!
+    private var beta: Double = 0
     
     func prepare(_ flow: PopulationFlow) {
         geometry = flow.geometry
         physics = flow.physics
+        beta = (physics.T > 0) ? 1/physics.T : Double.greatestFiniteMagnitude
     }
     
     func potentialAt(m: Int, n: Int) -> Double {
@@ -300,7 +311,59 @@ class MetropolisDescent : PFlowRule {
     }
     
     func apply(_ node: PFlowNode, _ nbrs: [PFlowNode]) {
-        // TODO
+        let mtd = "apply(\(node.m), \(node.n))"
+        var nbrWeights: [Double] = Array(repeating: 0, count: nbrs.count)
+        let numPortions: Double = Double(nbrs.count + 1)
+        var sumOverNbrWeights: Double = 0
+        for i in 0..<nbrs.count {
+            let nbr = nbrs[i]
+            var nbrWeight: Double = 0
+            if (!distinct(nbr.potential, node.potential)) {
+                // FIXME assumes there will be at most 1 nbr w/ same potential
+                nbrWeight = 0.5
+            }
+            else if (nbr.potential < node.potential) {
+                nbrWeight = 1.0
+            }
+            else if (nbr.potential > node.potential) {
+                nbrWeight = exp(-beta*(nbr.potential-node.potential))
+                // nbrWeight = exp(-beta*(nbr.potential))
+                nbrWeight = clip(nbrWeight, 0, 1)
+                
+            }
+            debug(cls, mtd, "nbrWeight[\(i)]=\(nbrWeight)")
+            nbrWeights[i] = nbrWeight
+            sumOverNbrWeights += nbrWeight
+        }
+
+        /// weight of rejected transitions
+        let nodeWeight = numPortions - sumOverNbrWeights
+        debug(cls, mtd, "nodeWeight  =\(nodeWeight)")
+
+        // SELF TEST
+        // add up the amount filled
+        var totalFilled = Double.nan
+        
+        for i in 0..<nbrs.count {
+            let nbr = nbrs[i]
+            let nbrWeight = nbrWeights[i]
+            if (nbrWeight > 0) {
+                let nbrPortion = node.wCurr + log(nbrWeight/numPortions)
+                nbr.fill(nbrPortion)
+                totalFilled = addLogs(totalFilled, nbrPortion)
+            }
+        }
+        
+        if (nodeWeight > 0) {
+            /// log(deltaP) = log(weight * exp(wCurr))
+            let nodePortion = node.wCurr + log(nodeWeight/numPortions)
+            node.fill(nodePortion)
+            totalFilled = addLogs(totalFilled, nodePortion)
+        }
+        
+        if (distinct(node.wCurr, totalFilled)) {
+            warn(cls, mtd, "Bad math: node.wCurr=\(node.wCurr), totalFilled=\(totalFilled)")
+        }
     }
 }
 

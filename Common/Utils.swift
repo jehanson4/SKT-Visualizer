@@ -53,6 +53,7 @@ func logBinomial(_ a:Int, _ b:Int) -> Double {
 
 /**
  Returns ln(1+e^x) avoiding over/underflow
+ Assumes x is a finite number
  */
 func log1pexp(_ x: Double) -> Double {
     if (x <= -37) {
@@ -65,6 +66,14 @@ func log1pexp(_ x: Double) -> Double {
         return x + exp(-x)
     }
     return x
+}
+
+/**
+ Returns ln(x1 + x2) given w1 = ln(x1) and w2 = ln(x2)
+ Uses convention that ln(x) is NaN iff x is 0
+ */
+func addLogs(_ w1: Double, _ w2: Double) -> Double {
+    return (w1.isNaN) ? w2 : ( (w2.isNaN) ? w1 : w1 + log1pexp(w2-w1) )
 }
 
 // =======================================================================

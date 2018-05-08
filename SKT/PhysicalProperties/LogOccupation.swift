@@ -51,6 +51,10 @@ class LogOccupation : PhysicalProperty {
         return Entropy.entropy(m, n, geometry) - physics.beta * Energy.energy(m, n, geometry, physics)
     }
     
+    static func logOccupation(forT T: Double, _ m: Int, _ n: Int, _ geometry: SKGeometry, _ physics: SKPhysics) -> Double {
+        return Entropy.entropy(m, n, geometry) - 1/T * Energy.energy(m, n, geometry, physics)
+    }
+    
     func ensureFresh() {
         let gnum = geometry.changeNumber
         let pnum = physics.changeNumber

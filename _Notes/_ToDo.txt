@@ -4,7 +4,10 @@ ToDo.txt
 
 For 1.0.5
 
-[ ] secondary meridians in purple
+[x] secondary meridians in purple
+[x] population flow
+[ ] metropolis rule bug
+[ ] pop flow sequencer should pay attention to upper bound
 
 ABOVE THE LINE
 ----------------------------------------------------------------------------------

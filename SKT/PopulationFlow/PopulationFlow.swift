@@ -22,10 +22,12 @@ class PFlowNode {
     /// the flow of population
     var potential: Double
     
-    /// Log (base 10) of the population at this node
+    /// ln(population) at this node
+    /// Uses convention that ln(x) is NaN iff x is 0
     var wCurr: Double
     
     /// Place for accumulation of next step's population
+    /// Uses convention that ln(x) is NaN iff x is 0
     private var wNext: Double
     
     init(_ idx: Int, m: Int, n: Int, _ potential: Double, _ wCurr: Double) {
@@ -34,7 +36,7 @@ class PFlowNode {
         self.n = n
         self.potential = potential
         self.wCurr = wCurr
-        self.wNext = 0
+        self.wNext = Double.nan
         // debug("init(\(m), \(n): exiting. potential=\(potential) wCurr=\(wCurr)")
     }
 
@@ -42,19 +44,14 @@ class PFlowNode {
         // debug("reset(\(m), \(n): entering. potential=\(potential) wCurr=\(wCurr)")
         self.potential = potential
         self.wCurr = wCurr
-        self.wNext = 0
+        self.wNext = Double.nan
     }
     
-    /// w is natural log of the population being added
+    /// w is ln(deltaP) where deltaP = population being added
+    /// Uses convention that ln(x) is NaN iff x is 0
     func fill(_ w: Double) {
         // debug("fill(\(m), \(n): entering. wNext=\(wNext) w=\(w))")
-        if (w > 0) {
-            // New population = exp(wNext) + exp(w)
-            // New wNext = log( exp(wNext) + exp(w) )
-            // = wNext + log( 1 + exp(w)/exp(wNext) )
-            // = wNext + log( 1 + exp(w-wNext) )
-            wNext += log1pexp(w-wNext)
-        }
+        wNext = addLogs(wNext, w)
         // debug("fill(\(m), \(n): exiting. wNext=\(wNext))")
     }
     
@@ -63,9 +60,10 @@ class PFlowNode {
         // debug("advance(\(m), \(n))", "entering: wCurr=\(wCurr) wNext=\(wNext)")
         let changed = distinct(wCurr, wNext)
         wCurr = wNext
-        wNext = 0
+        wNext = Double.nan
         return changed
     }
+    
 }
 
 // ==================================================================
@@ -82,6 +80,10 @@ class PopulationFlow {
         }
     }
     
+    func warn(_ mtd: String, _ msg: String = "") {
+        print("!!!", "PopulationFlow", mtd, msg)
+    }
+    
     var nodes: [PFlowNode]
     var stepNumber: Int
     
@@ -96,9 +98,19 @@ class PopulationFlow {
         get {
             refresh()
             if (_wBounds == nil) {
-                refreshBounds()
+                calculateBounds()
             }
             return _wBounds!
+        }
+    }
+    
+    var wTotal: Double {
+        get {
+            refresh()
+            if (_wTotal == nil) {
+                calculateTotal()
+            }
+            return _wTotal!
         }
     }
     
@@ -120,6 +132,10 @@ class PopulationFlow {
     private var _potentialIsStale: Bool
     private var _populationIsSteadyState: Bool
     private var _wBounds: (min: Double, max:Double)?
+    private var _wTotal: Double?
+    
+    private var defaultIC = EquilibriumPopulation()
+    private var defaultRule = MetropolisFlow()
     
     // =====================================
     // Inializer
@@ -132,13 +148,14 @@ class PopulationFlow {
         self.geometryCC = skt.geometry.changeNumber
         self.physicsCC = skt.physics.changeNumber
         
-        self.ic = (ic != nil) ? ic! : EquilibriumPopulation()
-        self.localRule = (localRule != nil) ? localRule : ProportionalEnergyDescent()
+        self.ic = (ic != nil) ? ic! : defaultIC
+        self.localRule = (localRule != nil) ? localRule : defaultRule
         
         self._nodeArrayIsStale = true
         self._potentialIsStale = true
         self._populationIsSteadyState = false
         self._wBounds = nil
+        self._wTotal = nil
     }
     
     func neighborsOf(_ node: PFlowNode) -> [PFlowNode] {
@@ -216,7 +233,9 @@ class PopulationFlow {
         self._potentialIsStale = false
         self._populationIsSteadyState = false
         self._wBounds = nil
+        self._wTotal = nil
         self.stepNumber = 0
+        debug("buildNodes", "done: wTotal=\(wTotal)")
         debug("buildNodes", "done, firing change")
         fireChange()
     }
@@ -231,7 +250,9 @@ class PopulationFlow {
         self._potentialIsStale = false
         self._populationIsSteadyState = false
         self._wBounds = nil
+        self._wTotal = nil
         self.stepNumber = 0
+        debug("resetNodes", "done, wTotal=\(wTotal)")
         debug("resetNodes", "done, firing change")
         fireChange()
     }
@@ -245,12 +266,23 @@ class PopulationFlow {
         }
         
         debug("applyRule", "advancing nodes")
+        
         var changed = false
         for node in nodes {
             if (node.advance()) {
                 changed = true
             }
         }
+
+        // Sanity test. wTotal should not have changed by much.
+        let oldTotal = _wTotal
+        calculateTotal() // forces recalculation
+        let newTotal = _wTotal
+        if (oldTotal != nil && newTotal != nil && distinct(oldTotal!, newTotal!)) {
+            warn("applyRule", "total poplation has changed. oldTotal=\(oldTotal!) newTotal=\(newTotal!)")
+        }
+        
+        
         if (!changed) {
             debug("applyRule", "done, no change")
             self._populationIsSteadyState = true
@@ -275,8 +307,8 @@ class PopulationFlow {
         }
     }
     
-    private func refreshBounds() {
-        debug("refreshBounds", "entering")
+    private func calculateBounds() {
+        debug("calculateBounds", "entering")
         var min = nodes[0].wCurr
         var max = nodes[0].wCurr
         for node in nodes {
@@ -287,10 +319,21 @@ class PopulationFlow {
                 max = node.wCurr
             }
         }
-        debug("refreshBounds", "done. min=\(min), max=\(max)")
+        debug("calculateBounds", "done. min=\(min), max=\(max)")
         self._wBounds = (min: min, max: max)
     }
+
+    private func calculateTotal() {
+        debug("calculateTotal", "entering")
+        var newTotal = Double.nan
+        for node in nodes {
+            newTotal = addLogs(newTotal, node.wCurr)
+        }
+        debug("calculateTotal", "done. new wTotal=\(newTotal)")
+        self._wTotal = newTotal
+    }
     
+
     // =======================================
     // Change monitoring
     
@@ -302,27 +345,6 @@ class PopulationFlow {
     
     private func fireChange() {
         changeSupport.fire()
-    }
-}
-
-// ==================================================================
-// PFlowRuleRegistry
-// ==================================================================
-
-class PFlowRuleRegistry : Registry<PFlowRule> {
-    
-    override init() {
-        super.init()
-        self.register(SteepestDescentFirstMatch(), true)
-        self.register(SteepestDescentLastMatch(), true)
-        self.register(SteepestDescentEqualDivision(), true)
-    }
-    
-    func register(_ rule: PFlowRule, _ select: Bool) {
-        let entry = super.register(rule, nameHint: rule.name)
-        if (select) {
-            super.select(entry.index)
-        }
     }
 }
 

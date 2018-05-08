@@ -145,12 +145,14 @@ class LogColorMap : ColorMap {
     var description: String? = "Colors follow a logarithmic scale"
     
     private var colors: [GLKVector4]
+    private var under: GLKVector4
     private var over: GLKVector4
     private var thresholds: [Double]
     private var bounds: (min: Double, max: Double)?
     
     init() {
         self.colors = defaultColors1()
+        self.under = self.colors[0]
         self.over = GLKVector4Make(1,1,1,1)
         self.thresholds = []
         self.bounds = nil
@@ -177,6 +179,9 @@ class LogColorMap : ColorMap {
     }
     
     func getColor(_ v: Double) -> GLKVector4 {
+        if (v.isNaN) {
+            return under
+        }
         for i in 0..<thresholds.count {
             if (v <= thresholds[i]) {
                 return colors[i]

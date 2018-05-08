@@ -49,6 +49,10 @@ class EquilibriumPopulation : PFlowInitializer {
     var geometry: SKGeometry!
     var physics: SKPhysics!
     
+    /// TODO expose this as an AdjustableParameter so I can buid
+    /// UI controls for it
+    var T0: Double = 10000
+    
     func prepare(_ net: PopulationFlow) {
         self.geometry = net.geometry
         self.physics = net.physics
@@ -56,7 +60,7 @@ class EquilibriumPopulation : PFlowInitializer {
     
     /// Returns ln(occupation)
     func logPopulationAt(m: Int, n: Int) -> Double {
-        return LogOccupation.logOccupation(m, n, geometry, physics)
+        return LogOccupation.logOccupation(forT: T0, m, n, geometry, physics)
     }
 }
 

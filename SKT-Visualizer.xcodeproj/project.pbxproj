@@ -17,7 +17,7 @@
 		8A35082C209E23B800E36C1F /* PopulationFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A35082B209E23B800E36C1F /* PopulationFlow.swift */; };
 		8A35082E20A092A400E36C1F /* PopulationColorSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A35082D20A092A400E36C1F /* PopulationColorSource.swift */; };
 		8A35083020A0A0C200E36C1F /* PopulationFlowSequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A35082F20A0A0C200E36C1F /* PopulationFlowSequencer.swift */; };
-		8A35083220A0D5C800E36C1F /* Rules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A35083120A0D5C800E36C1F /* Rules.swift */; };
+		8A35083220A0D5C800E36C1F /* PFlowRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A35083120A0D5C800E36C1F /* PFlowRules.swift */; };
 		8A35083420A0E92D00E36C1F /* Initializers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A35083320A0E92D00E36C1F /* Initializers.swift */; };
 		8A3BBBB5208BBB0600669227 /* SKTModel1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BBBB4208BBB0600669227 /* SKTModel1.swift */; };
 		8A3BBBB7208BC28A00669227 /* VisualizationModel1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BBBB6208BC28A00669227 /* VisualizationModel1.swift */; };
@@ -141,7 +141,7 @@
 		8A35082B209E23B800E36C1F /* PopulationFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopulationFlow.swift; sourceTree = "<group>"; };
 		8A35082D20A092A400E36C1F /* PopulationColorSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopulationColorSource.swift; sourceTree = "<group>"; };
 		8A35082F20A0A0C200E36C1F /* PopulationFlowSequencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopulationFlowSequencer.swift; sourceTree = "<group>"; };
-		8A35083120A0D5C800E36C1F /* Rules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rules.swift; sourceTree = "<group>"; };
+		8A35083120A0D5C800E36C1F /* PFlowRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PFlowRules.swift; sourceTree = "<group>"; };
 		8A35083320A0E92D00E36C1F /* Initializers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Initializers.swift; sourceTree = "<group>"; };
 		8A3BBBB4208BBB0600669227 /* SKTModel1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKTModel1.swift; sourceTree = "<group>"; };
 		8A3BBBB6208BC28A00669227 /* VisualizationModel1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualizationModel1.swift; sourceTree = "<group>"; };
@@ -330,7 +330,7 @@
 			isa = PBXGroup;
 			children = (
 				8A35082B209E23B800E36C1F /* PopulationFlow.swift */,
-				8A35083120A0D5C800E36C1F /* Rules.swift */,
+				8A35083120A0D5C800E36C1F /* PFlowRules.swift */,
 				8A35083320A0E92D00E36C1F /* Initializers.swift */,
 			);
 			path = PopulationFlow;
@@ -745,7 +745,7 @@
 				8A741FE820926B9E002A88D0 /* FlowLines.swift in Sources */,
 				8AF59503208AC5B10082C5DE /* VisualizatonModel.swift in Sources */,
 				8AF59500208AC0420082C5DE /* AppModel.swift in Sources */,
-				8A35083220A0D5C800E36C1F /* Rules.swift in Sources */,
+				8A35083220A0D5C800E36C1F /* PFlowRules.swift in Sources */,
 				8A91B0A4209418A900488907 /* NumericParameterSequencer.swift in Sources */,
 				8AAA008E207166C0001A136D /* MasterViewController.swift in Sources */,
 				8AA05A06208E7771009417A6 /* BasinFinder1.swift in Sources */,
