@@ -15,8 +15,13 @@ import OpenGL
 #endif
 
 class Meridians : GLKBaseEffect, Effect {
-
+    
     var debugEnabled = false
+    func debug(_ mtd: String, _ msg: String = "") {
+        if (debugEnabled) {
+            print(name, mtd, msg)
+        }
+    }
     
     let effectType = EffectType.meridians
     var name = "Meridians"
@@ -38,10 +43,11 @@ class Meridians : GLKBaseEffect, Effect {
     // EMPIRICAL
     let caretSize: Double = 0.07
     let segmentCount: Int = 100
-    let lineWidth_primary: GLfloat = 9.0
+    let lineWidth_primary: GLfloat = 5.0
+    let lineColor_primary: GLKVector4 = GLKVector4Make(0.0, 0.0, 1, 1)
     let lineWidth_secondary: GLfloat = 5.0
-    let lineColor: GLKVector4 = GLKVector4Make(0.5, 0.5, 0.5, 1.0)
-   
+    let lineColor_secondary: GLKVector4 = GLKVector4Make(0.5, 0, 0.5, 1)
+    
     var rOffset: Double
     
     var projectionMatrix: GLKMatrix4 {
@@ -65,24 +71,25 @@ class Meridians : GLKBaseEffect, Effect {
     private var geometryChangeNumber: Int
     private var vertices: [GLKVector4] = []
     private var lineStarts: [GLint] = []
-    private var lineWidths: [GLfloat] = []
     private var lineVertexCounts: [GLsizei] = []
+    private var primaryLines: [Int] = []
+    private var secondaryLines: [Int] = []
     private var vertexArray: GLuint = 0
     private var vertexBuffer: GLuint = 0
-
+    
     init(_ geometry: SKGeometry, enabled: Bool = false, rOffset: Double = Meridians.rOffsetDefault) {
         self.geometry = geometry
         self.geometryChangeNumber = geometry.changeNumber - 1
         self.enabled = enabled
         self.rOffset = rOffset
         super.init()
+        super.useConstantColor = 1
     }
     
     private func build() -> Bool {
-        super.useConstantColor = 1
-        super.constantColor = GLKVector4Make(0.0, 0.0, 1.0, 1.0)
-        
-        glGenVertexArrays(1, &vertexArray)
+        if (vertexArray == 0) {
+            glGenVertexArrays(1, &vertexArray)
+        }
         buildVertexData()
         createBuffers()
         return true
@@ -92,7 +99,7 @@ class Meridians : GLKBaseEffect, Effect {
         glDeleteVertexArrays(1, &vertexArray)
         deleteBuffers()
     }
-  
+    
     private func buildVertexData() {
         vertices = []
         lineStarts = []
@@ -105,30 +112,49 @@ class Meridians : GLKBaseEffect, Effect {
         let phi2 = geometry.p2.phi
         let phi3 = 0.5 * (phi1 + phi2)
         let phi4 = phi3 + piOver2
-
-        addCaret(phi1, lineWidth_primary)
-        addCaret(phi2, lineWidth_primary)
-
-        addMeridian(phi1, lineWidth_secondary)
-        addMeridian(phi2, lineWidth_secondary)
-
-        if (_showSecondaries) {
-        addMeridian(phi1 + pi, lineWidth_secondary)
-        addMeridian(phi2 + pi, lineWidth_secondary)
         
-        addMeridian(phi3, lineWidth_secondary)
-        addMeridian(phi3 + pi, lineWidth_secondary)
-
-        addMeridian(phi4, lineWidth_secondary)
-        addMeridian(phi4 + pi, lineWidth_secondary)
+        
+        addCaret(phi1)
+        addPrimaryMeridian(phi1)
+        addPrimaryMeridian(phi1 + pi)
+        
+        addCaret(phi2)
+        addPrimaryMeridian(phi2)
+        addPrimaryMeridian(phi2 + pi)
+        
+        if (_showSecondaries) {
+            addSecondaryMeridian(phi3)
+            addSecondaryMeridian(phi3 + pi)
+            
+            addSecondaryMeridian(phi4)
+            addSecondaryMeridian(phi4 + pi)
         }
     }
+    
+    private func addPrimaryMeridian(_ phi: Double) {
 
-    private func addMeridian(_ phi: Double, _ lineWidth: GLfloat) {
+        primaryLines.append(lineStarts.count)
+
         let r = geometry.r0 + rOffset
         let thetaE_incr = Double.constants.piOver2/(Double(segmentCount))
     
-        lineWidths.append(lineWidth)
+        lineStarts.append(GLint(vertices.count))
+        lineVertexCounts.append(GLsizei(segmentCount+1))
+        var thetaE: Double = 0
+        for _ in 0...segmentCount {
+            let v = geometry.sphericalToCartesian(r, phi, thetaE)
+            vertices.append(GLKVector4Make(Float(v.x), Float(v.y), Float(v.z), 0))
+            thetaE += thetaE_incr
+        }
+    }
+
+    private func addSecondaryMeridian(_ phi: Double) {
+
+        secondaryLines.append(lineStarts.count)
+
+        let r = geometry.r0 + rOffset
+        let thetaE_incr = Double.constants.piOver2/(Double(segmentCount))
+        
         lineStarts.append(GLint(vertices.count))
         lineVertexCounts.append(GLsizei(segmentCount+1))
         var thetaE: Double = 0
@@ -139,10 +165,14 @@ class Meridians : GLKBaseEffect, Effect {
         }
     }
     
-    private func addCaret(_ phi: Double, _ lineWidth: GLfloat) {
+
+    private func addCaret(_ phi: Double) {
+
+        primaryLines.append(lineStarts.count)
+
         let r = geometry.r0 + rOffset
         let thetaE: Double = 0
-
+        
         let dR = caretSize
         let dP = 0.5 * caretSize
         let dT = caretSize
@@ -151,7 +181,6 @@ class Meridians : GLKBaseEffect, Effect {
         let v1 = geometry.sphericalToCartesian(r + dR, phi, thetaE - dT)
         let v2 = geometry.sphericalToCartesian(r + 2*dR, phi + dP, thetaE - 2*dT)
         
-        lineWidths.append(lineWidth)
         lineStarts.append(GLint(vertices.count))
         
         lineVertexCounts.append(GLsizei(4))
@@ -205,13 +234,13 @@ class Meridians : GLKBaseEffect, Effect {
             createBuffers()
             debug("done rebuilding")
         }
-
+        
         glBindVertexArray(vertexArray)
+        
+        super.constantColor = lineColor_primary
+        glLineWidth(lineWidth_primary)
         prepareToDraw()
-
-        let lineCount = lineVertexCounts.count
-        for i in 0..<lineCount {
-            glLineWidth(lineWidths[i])
+        for i in primaryLines {
             glDrawArrays(GLenum(GL_LINE_STRIP), lineStarts[i], lineVertexCounts[i])
             let err = glGetError()
             if (err != 0) {
@@ -219,14 +248,22 @@ class Meridians : GLKBaseEffect, Effect {
                 break
             }
         }
-        glLineWidth(1.0)
+        
+        super.constantColor = lineColor_secondary
+        glLineWidth(lineWidth_secondary)
+        prepareToDraw()
+        for i in secondaryLines {
+            glDrawArrays(GLenum(GL_LINE_STRIP), lineStarts[i], lineVertexCounts[i])
+            let err = glGetError()
+            if (err != 0) {
+                debug(String(format:"draw: glError 0x%x", err))
+                break
+            }
+        }
+        
+        // glLineWidth(1.0)
         glBindVertexArray(0)
-
+        
     }
     
-    func debug(_ mtd: String, _ msg: String = "") {
-        if (debugEnabled) {
-            print(name, mtd, msg)
-        }
-    }
 }
