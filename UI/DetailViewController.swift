@@ -13,14 +13,18 @@ import OpenGLES
 import OpenGL
 #endif
 
-class DetailViewController: GLKViewController, AppModelUser {
+class DetailViewController: GLKViewController, AppModelUser, GraphicsController {
     
     let name: String = "DetailViewController"
     var debugEnabled = false
     
     var appModel: AppModel? = nil
     var context: EAGLContext? = nil
-
+    
+    var snapshot: UIImage {
+        get { return (view as! GLKView).snapshot }
+    }
+    
     // EMPIRICAL
     let pan_phiFactor: Double = 0.005
     let pan_ThetaEFactor: Double = -0.005
@@ -51,7 +55,7 @@ class DetailViewController: GLKViewController, AppModelUser {
         }
         else {
             debug("viewDidLoad", "setting up graphics")
-            appModel!.viz.setupGraphics(context)
+            appModel!.viz.setupGraphics(self, context)
         }
     }
 

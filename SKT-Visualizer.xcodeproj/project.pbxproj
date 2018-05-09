@@ -77,7 +77,7 @@
 		8AA0637D207A89DD00BB68DB /* SKPhysics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA0637C207A89DD00BB68DB /* SKPhysics.swift */; };
 		8AAA008E207166C0001A136D /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAA008C207166C0001A136D /* MasterViewController.swift */; };
 		8AAA008F207166C0001A136D /* MasterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8AAA008D207166C0001A136D /* MasterViewController.xib */; };
-		8AAF6DFF208167A800E4C9BF /* _ToDo.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8AAF6DFE208167A800E4C9BF /* _ToDo.txt */; };
+		8AAF6DFF208167A800E4C9BF /* ToDo.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8AAF6DFE208167A800E4C9BF /* ToDo.txt */; };
 		8ABEEC3B20803A2F008E72F4 /* Surface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ABEEC3A20803A2F008E72F4 /* Surface.swift */; };
 		8ACE788D2072E51800C29875 /* Icosahedron.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACE788C2072E51800C29875 /* Icosahedron.swift */; };
 		8ACE788F2073C57500C29875 /* Effect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACE788E2073C57500C29875 /* Effect.swift */; };
@@ -201,7 +201,7 @@
 		8AA0637C207A89DD00BB68DB /* SKPhysics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKPhysics.swift; sourceTree = "<group>"; };
 		8AAA008C207166C0001A136D /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
 		8AAA008D207166C0001A136D /* MasterViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MasterViewController.xib; sourceTree = "<group>"; };
-		8AAF6DFE208167A800E4C9BF /* _ToDo.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _ToDo.txt; sourceTree = "<group>"; };
+		8AAF6DFE208167A800E4C9BF /* ToDo.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ToDo.txt; sourceTree = "<group>"; };
 		8ABEEC3A20803A2F008E72F4 /* Surface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Surface.swift; sourceTree = "<group>"; };
 		8ACE788C2072E51800C29875 /* Icosahedron.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Icosahedron.swift; sourceTree = "<group>"; };
 		8ACE788E2073C57500C29875 /* Effect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Effect.swift; sourceTree = "<group>"; };
@@ -294,6 +294,7 @@
 			isa = PBXGroup;
 			children = (
 				8AF98FA6207FE9CF0007688E /* README.md */,
+				8AAF6DFE208167A800E4C9BF /* ToDo.txt */,
 				8AE18F982099EC390086F127 /* _Notes */,
 				8A0C09A220716B050017AC4C /* Common */,
 				8AF5320C2088B63E009D1882 /* SKT */,
@@ -497,7 +498,6 @@
 			isa = PBXGroup;
 			children = (
 				8A131C90207160100088F2FC /* _miscNotes.txt */,
-				8AAF6DFE208167A800E4C9BF /* _ToDo.txt */,
 				8AE18F9B2099ED8A0086F127 /* backgroundCalculation.txt */,
 				8AE18FA42099EFF30086F127 /* code.txt */,
 				8AE18F9D2099ED8A0086F127 /* lookAndFeel.txt */,
@@ -683,7 +683,7 @@
 				8A57601220805790002B9951 /* smooth-cool-warm-table-byte-0008.csv in Resources */,
 				8A1CF01B207146520099DD97 /* Main.storyboard in Resources */,
 				8AE18FA12099ED8A0086F127 /* lookAndFeel.txt in Resources */,
-				8AAF6DFF208167A800E4C9BF /* _ToDo.txt in Resources */,
+				8AAF6DFF208167A800E4C9BF /* ToDo.txt in Resources */,
 				8A57600520805790002B9951 /* smooth-cool-warm-table-float-1024.csv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

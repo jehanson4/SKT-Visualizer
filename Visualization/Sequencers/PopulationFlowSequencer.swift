@@ -85,10 +85,18 @@ class PopulationFlowSequencer : GenericSequencer<Int> {
         var changed = false
         var keepGoing = true
         var s: Int = 0
+        var needsReset = false
         while (keepGoing && s < _stepSize) {
             debug(mtd, "s=\(s)")
             if (flow.isSteadyState) {
-                debug(mtd, "flow is steady state")
+                debug(mtd, "flow is at steady state")
+                needsReset = true
+            }
+            else if (flow.stepNumber+1 > _upperBound) {
+                debug(mtd, "next step would cross upper bound")
+                needsReset = true
+            }
+            if (needsReset) {
                 if (self.boundaryCondition == BoundaryCondition.periodic) {
                     debug(mtd, "resetting flow")
                     flow.reset()

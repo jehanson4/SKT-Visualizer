@@ -379,6 +379,12 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
         appModel?.viz.resetPOV()
     }
     
+    @IBAction func saveImage(_ sender: Any) {
+        let image: UIImage? = appModel?.viz.graphicsController?.snapshot
+        if (image != nil) {
+            UIImageWriteToSavedPhotosAlbum(image!, nil, nil, nil)
+        }
+    }
     
     // =======================================================================
     // Animation section

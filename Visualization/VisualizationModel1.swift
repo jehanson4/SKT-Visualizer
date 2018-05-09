@@ -8,11 +8,6 @@
 
 import Foundation
 import GLKit
-#if os(iOS) || os(tvOS)
-import OpenGLES
-#else
-import OpenGL
-#endif
 
 // =============================================================
 // VisualizationModel1
@@ -22,6 +17,8 @@ class VisualizationModel1 : VisualizationModel {
     
     var debugEnabled = false
     
+    private var skt: SKTModel
+
     // EMPIRICAL so that basin boundary nodes are visible
     static let scene_backgroundColorValue: GLfloat = 0.2
     
@@ -33,8 +30,8 @@ class VisualizationModel1 : VisualizationModel {
     // If nff > 0 then then everything seems inside-out
     static let scene_nearFarFactor: GLfloat = -2
     
-
-    private var skt: SKTModel
+    var graphicsController: GraphicsController? = nil
+    
     private var glContext: GLContext? = nil
     
     // ===========================================
@@ -404,13 +401,13 @@ class VisualizationModel1 : VisualizationModel {
     private var graphicsSetupDone: Bool = false
     private var aspectRatio: Float = 1
     
-    
-    func setupGraphics(_ context: GLContext?) {
+    func setupGraphics(_ graphicsController: GraphicsController, _ context: GLContext?) {
         if (graphicsSetupDone) {
             debug("setupGraphics", "already done; returning")
             return
         }
         
+        self.graphicsController = graphicsController
         self.glContext = context        
         configureGL()
         updateProjection()
@@ -479,7 +476,7 @@ class VisualizationModel1 : VisualizationModel {
     }
     
     func draw(_ drawableWidth: Int, _ drawableHeight: Int) {
- 
+        
         let ar2 = Float(drawableWidth)/Float(drawableHeight)
         if (ar2 != self.aspectRatio) {
             debug("setAspectRatio: aspectRatio=" + String(ar2))

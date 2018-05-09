@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 // ============================================================================
 // POV
@@ -50,9 +51,12 @@ protocol VisualizationModel {
     var sequenceRateLimit: Double { get set }
     
     func toggleSequencer()
+
+    var graphicsController: GraphicsController? { get }
     
-    func setupGraphics(_ context: GLContext?)
+    func setupGraphics(_ graphicsController: GraphicsController, _ context: GLContext?)
     
     func draw(_ drawableWidth: Int, _ drawableHeight: Int)
+    
     
 }

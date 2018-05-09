@@ -32,6 +32,8 @@ enum PFlowRuleType: Int {
     case proportionalEnergyDescent = 4
     case metropolisFlow = 5
     case symmetricFlow = 6
+    case empiricalFlow = 7
+    case detailedBalanceFlow = 8
 }
 
 // ==================================================================
@@ -334,9 +336,11 @@ class MetropolisFlow : PFlowRule {
 
             }
             else if (nbr.potential < node.potential) {
+                // downhill
                 nbrWeight = 1.0
             }
             else if (nbr.potential > node.potential) {
+                // uphill
                 nbrWeight = exp(-beta*(nbr.potential-node.potential))
                 nbrWeight = clip(nbrWeight, 0, 1)
                 
@@ -423,10 +427,12 @@ class SymmetricFlow : PFlowRule {
                 nbrWeight = 0.5
             }
             else if (nbr.potential < node.potential) {
+                // downhill
                 nbrWeight = 1 - exp(-beta*(node.potential-nbr.potential))
                 nbrWeight = clip(nbrWeight, 0, 1)
             }
             else if (nbr.potential > node.potential) {
+                // uphill
                 nbrWeight = exp(-beta*(nbr.potential-node.potential))
                 nbrWeight = clip(nbrWeight, 0, 1)
                 
@@ -468,28 +474,27 @@ class SymmetricFlow : PFlowRule {
 }
 
 // ==================================================================
-// SymmetricFlow2
+// EmpiricalFlow
 // ==================================================================
 
 /// Like Metropolis but:
-/// --it does uphill moves with p(accept) = 0.5 * ( exp(-beta*|deltaE|) )
-/// --it does downhill moves with p(accept) = 0.5 * ( 1 - exp(-beta*|deltaE|) )
+/// --it does downhill moves with p(accept) = f_dn
+/// --it does uphill moves with p(accept) = f_up * ( exp(-beta*|deltaE|) )
+/// where f_dn and f_up are EMPIRICAL
 ///
-class SymmetricFlow2 : PFlowRule {
+class EmpiricalFlow : PFlowRule {
     
-    // ===================================================================
-    // NOTES 5/8/2018: this also goes up to the pole for any temp.
-    // ===================================================================
+    let cls = "EmpiricalFlow"
     
-    let cls = "SymmetricFlow"
-    
-    let ruleType = PFlowRuleType.symmetricFlow
-    var name: String = "Symmetric Flow"
+    let ruleType = PFlowRuleType.empiricalFlow
+    var name: String = "Empirical Flow"
     var info: String? = nil
     
     private var geometry: SKGeometry!
     private var physics: SKPhysics!
     private var beta: Double = 0
+    private var f_up: Double = 1
+    private var f_dn: Double = 0.9
     
     func prepare(_ flow: PopulationFlow) {
         geometry = flow.geometry
@@ -514,11 +519,14 @@ class SymmetricFlow2 : PFlowRule {
                 nbrWeight = 0.5
             }
             else if (nbr.potential < node.potential) {
-                nbrWeight = 0.5 * (1 - exp(-beta*(node.potential-nbr.potential)))
+                // downhill
+                nbrWeight = f_dn
+                // nbrWeight = f_dn * (1 - exp(-beta*(node.potential-nbr.potential)))
                 nbrWeight = clip(nbrWeight, 0, 1)
             }
             else if (nbr.potential > node.potential) {
-                nbrWeight = 0.5 * exp(-beta*(nbr.potential-node.potential))
+                // uphill
+                nbrWeight = f_up * exp(-beta*(nbr.potential-node.potential))
                 nbrWeight = clip(nbrWeight, 0, 1)
                 
             }
@@ -557,4 +565,106 @@ class SymmetricFlow2 : PFlowRule {
         }
     }
 }
+
+// ==================================================================
+// DetailedBalanceFlow
+// ==================================================================
+
+class DetailedBalanceFlow : PFlowRule {
+    
+    // ===================================================================
+    // NOTES 5/8/2018: this also goes up to the pole for any temp.
+    // ===================================================================
+    
+    let cls = "DetailedBalanceFlow"
+    
+    let ruleType = PFlowRuleType.detailedBalanceFlow
+    var name: String = "Detailed Balance Flow"
+    var info: String? = nil
+    
+    private var geometry: SKGeometry!
+    private var physics: SKPhysics!
+    
+    func prepare(_ flow: PopulationFlow) {
+        geometry = flow.geometry
+        physics = flow.physics
+    }
+    
+    func potentialAt(m: Int, n: Int) -> Double {
+      
+        // ======================================================
+        // ? Using logOccupation as potential func is cheating.
+        // I need to define the flow solely in terms of
+        // deltaE and T. Its functional form may be derived from
+        // conditions that hold at equilibrium, however.
+        // ======================================================
+
+        // return LogOccupation.logOccupation(m, n, geometry, physics)
+        return Energy.energy(m, n, geometry, physics)
+    }
+    
+    func apply(_ node: PFlowNode, _ nbrs: [PFlowNode]) {
+        
+        // ======================================================
+        // The equailibrium condition is: net flow out of a node
+        // is 0. The detailed balance argument says: therefore
+        // net flow along an edge is 0.
+        // ======================================================
+        
+
+        let mtd = "apply(\(node.m), \(node.n))"
+        var nbrWeights: [Double] = Array(repeating: 0, count: nbrs.count)
+        let numPortions: Double = Double(nbrs.count + 1)
+        var sumOverNbrWeights: Double = 0
+        for i in 0..<nbrs.count {
+            let nbr = nbrs[i]
+            var nbrWeight: Double = 0
+            if (!distinct(nbr.potential, node.potential)) {
+                // nbr's potential is equal to node's
+                // TODO
+            }
+            else if (nbr.potential < node.potential) {
+                // nbr's potential is less than node's
+                // TODO
+            }
+            else if (nbr.potential > node.potential) {
+                // nbr's potential is greater than node's
+                // TODO
+            }
+            debug(cls, mtd, "nbrWeight[\(i)]=\(nbrWeight)")
+            nbrWeights[i] = nbrWeight
+            sumOverNbrWeights += nbrWeight
+        }
+        
+        /// weight of rejected transitions
+        let nodeWeight = numPortions - sumOverNbrWeights
+        debug(cls, mtd, "nodeWeight  =\(nodeWeight)")
+        
+        // SELF TEST
+        // add up the amount filled
+        var totalFilled = Double.nan
+        
+        for i in 0..<nbrs.count {
+            let nbr = nbrs[i]
+            let nbrWeight = nbrWeights[i]
+            if (nbrWeight > 0) {
+                let nbrPortion = node.wCurr + log(nbrWeight/numPortions)
+                nbr.fill(nbrPortion)
+                totalFilled = addLogs(totalFilled, nbrPortion)
+            }
+        }
+        
+        if (nodeWeight > 0) {
+            /// log(deltaP) = log(weight * exp(wCurr))
+            let nodePortion = node.wCurr + log(nodeWeight/numPortions)
+            node.fill(nodePortion)
+            totalFilled = addLogs(totalFilled, nodePortion)
+        }
+        
+        if (distinct(node.wCurr, totalFilled)) {
+            warn(cls, mtd, "Bad math: node.wCurr=\(node.wCurr), totalFilled=\(totalFilled)")
+        }
+    }
+}
+
 

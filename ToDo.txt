@@ -6,21 +6,22 @@ For 1.0.5
 
 [x] secondary meridians in purple
 [x] population flow
-[ ] metropolis rule bug
-[ ] pop flow sequencer should pay attention to upper bound
+[x] pop flow sequencer should pay attention to upper bound
 
 ABOVE THE LINE
 ----------------------------------------------------------------------------------
 BELOW THE LINE
 
-[ ] Metropolis PFlow rule
-it has its own param, the target T
-
-
 3 directions:
 [ ] more: particle flow
 [ ] again: macOS
 [ ] better: offload comp-heavy tasks to background thread
+
+[ ] UI for pop flow rule selection
+
+[ ] Metropolis PFlow rule unexpected behavior
+
+[ ] relaxation flow -- use known equilibrium occupancy
 
 [ ] use NSLog not print
     find out about log levels too
