@@ -9,12 +9,23 @@
 import Foundation
 
 // =======================================================
+// ParameterType
+// =======================================================
+
+enum ParameterType {
+    case discrete
+    case continuous
+    case choice
+}
+
+// =======================================================
 // AdjustableParameter
 // =======================================================
 
 class AdjustableParameter<T : Comparable> : ChangeMonitorEnabled {
     
     var name: String
+    var type: ParameterType
     
     var value: T {
         get {
@@ -33,8 +44,9 @@ class AdjustableParameter<T : Comparable> : ChangeMonitorEnabled {
     
     // =========================================
 
-    init(_ name: String, _ getter: @escaping () -> T, _ setter: @escaping (T) -> ()) {
+    init(_ name: String, _ type: ParameterType, _ getter: @escaping () -> T, _ setter: @escaping (T) -> ()) {
         self.name = name
+        self.type = type
         self.getter = getter
         self.setter = setter
         self._lastValue = getter()
@@ -131,7 +143,7 @@ class DiscreteParameter : AdjustableParameter<Int> {
         self.max = max
         self._setPoint = setPoint ?? (max-min)/2
         self._stepSize = stepSize ?? 1
-        super.init(name, getter, setter)
+        super.init(name, ParameterType.discrete, getter, setter)
         
     }
     
@@ -198,7 +210,7 @@ class ContinuousParameter : AdjustableParameter<Double> {
         self.max = max
         self._setPoint = setPoint ?? (max-min)/2
         self._stepSize = stepSize ?? 1
-        super.init(name, getter, setter)
+        super.init(name, ParameterType.continuous, getter, setter)
         
     }
     
@@ -219,4 +231,29 @@ class ContinuousParameter : AdjustableParameter<Double> {
     override func fromDouble(_ x: Double) -> Double? {
         return x
     }
+}
+
+// =======================================================
+// TextOptionParameter
+// =======================================================
+
+class TextOptionParameter : AdjustableParameter<String> {
+    
+    // ====================================================
+    
+    init(_ name: String, _ getter: @escaping () -> String, _ setter: @escaping (String) -> ()) {
+        super.init(name, ParameterType.choice, getter, setter)
+        
+    }
+    
+    // ====================================================
+    
+    override func toString(_ t: String) -> String {
+        return t
+    }
+    
+    override func fromString(_ s: String) -> String? {
+        return s
+    }
+    
 }
