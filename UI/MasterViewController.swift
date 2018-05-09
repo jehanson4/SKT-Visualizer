@@ -379,12 +379,13 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
         appModel?.viz.resetPOV()
     }
     
-    @IBAction func saveImage(_ sender: Any) {
+    @IBAction func takeSnapshot(_ sender: Any) {
         let image: UIImage? = appModel?.viz.graphicsController?.snapshot
         if (image != nil) {
             UIImageWriteToSavedPhotosAlbum(image!, nil, nil, nil)
         }
     }
+    
     
     // =======================================================================
     // Animation section
@@ -451,6 +452,8 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
         updateSequencerPropertyControls(sequencer)
     }
     
+    @IBOutlet weak var sequencerProgress: UIProgressView!
+
     @IBOutlet weak var ub_text: UITextField!
     
     @IBAction func ub_action(_ sender: UITextField) {
@@ -543,6 +546,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
             ub_text.text = ""
             ub_text.text = ""
             stepSize_text.text = ""
+            sequencerProgress.progress = 0
         }
         else {
             let seq = sequencer!
@@ -557,6 +561,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
             stepSize_text.text = seq.toString(seq.stepSize)
             stepSize_stepper.value = seq.stepSize
             stepSize_stepper.stepValue = getStepSizeIncr(seq)
+            sequencerProgress.progress = Float((seq.value-seq.lowerBound)/(seq.upperBound-seq.lowerBound))
         }
     }
     

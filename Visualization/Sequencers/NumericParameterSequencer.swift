@@ -110,6 +110,7 @@ class NumericParameterSequencer<T: Comparable & Numeric> : GenericSequencer<T> {
     
     override func stepForward() -> Bool {
         let prevDir = _direction
+        let prevVal = param.value
         switch (_boundaryCondition) {
         case .sticky:
             param.value = stickyForwardStep(param.value)
@@ -118,11 +119,12 @@ class NumericParameterSequencer<T: Comparable & Numeric> : GenericSequencer<T> {
         case .periodic:
             param.value = periodicForwardStep(param.value)
         }
-        return (_direction != prevDir)
+        return (_direction != prevDir || param.value != prevVal)
     }
     
     override func stepBackward() -> Bool {
         let prevDir = _direction
+        let prevVal = param.value
         switch (_boundaryCondition) {
         case .sticky:
             param.value = stickyBackwardStep(param.value)
@@ -131,7 +133,7 @@ class NumericParameterSequencer<T: Comparable & Numeric> : GenericSequencer<T> {
         case .periodic:
             param.value = periodicBackwardStep(param.value)
         }
-        return (_direction != prevDir)
+        return (_direction != prevDir || param.value != prevVal)
     }
     
     // =========================================
