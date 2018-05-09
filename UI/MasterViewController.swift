@@ -419,6 +419,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
             var seq = selection!.value
             seq.reset()
             seq.enabled = false
+            seq.direction = Direction.stopped
             
             debug("updateSequencerControls", "updating controls for current sequencer")
             updateSequencerPropertyControls(seq)

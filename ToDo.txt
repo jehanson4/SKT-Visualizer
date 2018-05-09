@@ -4,7 +4,9 @@ ToDo.txt
 
 For 1.0.5
 
+[x] progress bar
 [x] secondary meridians in purple
+[x] player controls get set to step-fwd not pause . . . when change sequencer
 [x] population flow
 [x] pop flow sequencer should pay attention to upper bound
 
