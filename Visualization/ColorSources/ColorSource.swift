@@ -15,7 +15,7 @@ import GLKit
 protocol ColorSource : Named, ChangeMonitorEnabled {
         
     /// Updates this color source's internal state as needed. Should be called
-    /// before each iteration over node indices.
+    /// before start of a pass over node indices.
     /// returns true iff the colors were changed by the update.
     func prepare() -> Bool
     

@@ -16,6 +16,8 @@ protocol SKTModel {
 
     // =================================
 
+    var busy: Bool { get set }
+    
     var geometry: SKGeometry { get }
     var physics: SKPhysics { get }
 

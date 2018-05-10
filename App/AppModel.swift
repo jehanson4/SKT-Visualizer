@@ -31,7 +31,7 @@ protocol AppModelUser {
 // =========================================================
 
 protocol AppModel  {
-    
+
     var skt: SKTModel { get set }
     var viz: VisualizationModel { get set }
 

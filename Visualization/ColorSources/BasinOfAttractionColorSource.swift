@@ -57,6 +57,7 @@ class BasinOfAttractionColorSource : ColorSource {
             self.washoutNorm = newWashoutNorm
         }
         
+        // TODO don't change it here, have it done on BG queue
         if (basinFinder.expandBasins() > 0) {
             changed = true
         }

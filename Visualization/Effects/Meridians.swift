@@ -44,9 +44,9 @@ class Meridians : GLKBaseEffect, Effect {
     let caretSize: Double = 0.07
     let segmentCount: Int = 100
     let lineWidth_primary: GLfloat = 5.0
-    let lineColor_primary: GLKVector4 = GLKVector4Make(0.0, 0.0, 1, 1)
+    let lineColor_primary: GLKVector4 = GLKVector4Make(0.1, 0.0, 1.0, 1)
     let lineWidth_secondary: GLfloat = 5.0
-    let lineColor_secondary: GLKVector4 = GLKVector4Make(0.5, 0, 0.5, 1)
+    let lineColor_secondary: GLKVector4 = GLKVector4Make(0.5, 0, 0.7, 1)
     
     var rOffset: Double
     

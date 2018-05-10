@@ -40,7 +40,7 @@ class PopulationColorSource : ColorSource {
     }
     
     func colorAt(_ nodeIndex: Int) -> GLKVector4 {
-        return colorMap.getColor(flow.nodeAt(nodeIndex).wCurr)
+        return colorMap.getColor(flow.wCurrAt(nodeIndex))
     }
     
     func monitorChanges(_ callback: @escaping (Any) -> ()) -> ChangeMonitor? {

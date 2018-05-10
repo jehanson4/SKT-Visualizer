@@ -60,6 +60,9 @@ class VisualizationModel1 : VisualizationModel {
         }
     }
     
+    private func info(_ mtd: String, _ msg: String = "") {
+        print("VisualizationModel1", mtd, msg)
+    }
     // =================================
     // POV
     // =================================
@@ -477,16 +480,22 @@ class VisualizationModel1 : VisualizationModel {
     
     func draw(_ drawableWidth: Int, _ drawableHeight: Int) {
         
+        let busy = skt.busy
+        if (busy) {
+            info("draw", "busy=\(busy)")
+        }
         let ar2 = Float(drawableWidth)/Float(drawableHeight)
         if (ar2 != self.aspectRatio) {
-            debug("setAspectRatio: aspectRatio=" + String(ar2))
+            debug("draw", "new aspectRatio=" + String(ar2))
             self.aspectRatio = ar2
             updateProjection()
             updateModelview()
         }
         
-        sequencerStep()
-
+        if (!busy) {
+            sequencerStep()
+        }
+        
         glClear(GLbitfield(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
         
         func drawEffect(_ effect: Effect) {

@@ -159,27 +159,8 @@ class PopulationFlow {
         self._wTotal = nil
     }
     
-    func neighborsOf(_ node: PFlowNode) -> [PFlowNode] {
-        var nbrs: [PFlowNode] = []
-        let m = node.m
-        let n = node.n
-        if (n > 0) {
-            nbrs.append(nodes[geometry.skToNodeIndex(m, n-1)])
-        }
-        if (n < geometry.n_max) {
-            nbrs.append(nodes[geometry.skToNodeIndex(m, n+1)])
-        }
-        if (m > 0) {
-            nbrs.append(nodes[geometry.skToNodeIndex(m-1, n)])
-        }
-        if (m < geometry.m_max) {
-            nbrs.append(nodes[geometry.skToNodeIndex(m+1, n)])
-        }
-        return nbrs
-    }
-
-    func nodeAt(_ idx: Int) -> PFlowNode {
-        return nodes[idx]
+    func wCurrAt(_ idx: Int) -> Double {
+        return nodes[idx].wCurr
     }
     
     // =====================================
@@ -297,8 +278,26 @@ class PopulationFlow {
         }
     }
     
-    private func refresh
-        () {
+    private func neighborsOf(_ node: PFlowNode) -> [PFlowNode] {
+        var nbrs: [PFlowNode] = []
+        let m = node.m
+        let n = node.n
+        if (n > 0) {
+            nbrs.append(nodes[geometry.skToNodeIndex(m, n-1)])
+        }
+        if (n < geometry.n_max) {
+            nbrs.append(nodes[geometry.skToNodeIndex(m, n+1)])
+        }
+        if (m > 0) {
+            nbrs.append(nodes[geometry.skToNodeIndex(m-1, n)])
+        }
+        if (m < geometry.m_max) {
+            nbrs.append(nodes[geometry.skToNodeIndex(m+1, n)])
+        }
+        return nbrs
+    }
+    
+    private func refresh() {
         checkFreshness()
         if (self._nodeArrayIsStale) {
             buildNodes()

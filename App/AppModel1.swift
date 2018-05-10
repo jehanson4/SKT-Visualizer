@@ -14,7 +14,6 @@ import Foundation
 
 class AppModel1 : AppModel {
 
-
     var skt: SKTModel
     var viz: VisualizationModel
     
@@ -23,7 +22,7 @@ class AppModel1 : AppModel {
         viz = VisualizationModel1(skt)
         loadUserDefaults()
     }
-    
+
     // ===========================
     // User defaults
     // ===========================

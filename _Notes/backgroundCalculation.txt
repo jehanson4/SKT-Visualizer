@@ -1,8 +1,12 @@
-
-
 ------------------------------------
 Support for long-running calculations
 
+Use GrandCentralDispatch w/ the user-initiated QoS
+
+Can't make PFlowNode a struct b/c I'm passing them all over, making temp arrays of them etc
+it would name copy of the node every time.
+
+------------------------------------
 DESIRED:
 --UI responsive always
 --UI shows non-invasive spinner while any caclulation is in progress

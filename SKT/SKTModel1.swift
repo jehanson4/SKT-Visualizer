@@ -55,6 +55,8 @@ class SKTModel1: SKTModel {
         }
     }
     
+    var busy: Bool = false
+    
     let geometry: SKGeometry
     
     let physics: SKPhysics
