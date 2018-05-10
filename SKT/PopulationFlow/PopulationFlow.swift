@@ -74,17 +74,6 @@ class PopulationFlow {
     
     var debugEnabled = false
     
-    func debug(_ mtd: String, _ msg: String = "") {
-        if (debugEnabled) {
-            print("PopulationFlow", mtd, msg)
-        }
-    }
-    
-    func warn(_ mtd: String, _ msg: String = "") {
-        print("!!!", "PopulationFlow", mtd, msg)
-    }
-    
-    var nodes: [PFlowNode]
     var stepNumber: Int
     
     var isSteadyState: Bool {
@@ -122,12 +111,14 @@ class PopulationFlow {
         get { return skt.physics }
     }
     
-    var ic: PFlowInitializer!
-    var localRule: PFlowRule!
-
     private var geometryCC: Int
     private var physicsCC: Int
     private var skt: SKTModel
+    private var nodes: [PFlowNode]
+    private var ic: PFlowInitializer!
+    private var localRule: PFlowRule!
+    
+
     private var _nodeArrayIsStale: Bool
     private var _potentialIsStale: Bool
     private var _populationIsSteadyState: Bool
@@ -164,7 +155,7 @@ class PopulationFlow {
     }
     
     // =====================================
-    // step & helpers
+    // API methods
     // =====================================
 
     func reset() {
@@ -187,6 +178,9 @@ class PopulationFlow {
         }
         debug("step", "done. stepNumber=\(stepNumber)")
     }
+    
+    // =====================================
+    // step helpers
     
     private func checkFreshness() {
         let gnn = skt.geometry.changeNumber
@@ -332,7 +326,6 @@ class PopulationFlow {
         debug("calculateTotal", "done. new wTotal=\(newTotal)")
         self._wTotal = newTotal
     }
-    
 
     // =======================================
     // Change monitoring
@@ -346,6 +339,21 @@ class PopulationFlow {
     private func fireChange() {
         changeSupport.fire()
     }
+    
+    // =======================================
+    // Debuggubg
+
+    private func debug(_ mtd: String, _ msg: String = "") {
+        if (debugEnabled) {
+            print("PopulationFlow", mtd, msg)
+        }
+    }
+    
+    private func warn(_ mtd: String, _ msg: String = "") {
+        print("!!!", "PopulationFlow", mtd, msg)
+    }
+    
+
 }
 
 
