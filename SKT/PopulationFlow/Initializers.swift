@@ -16,7 +16,7 @@ protocol PFlowInitializer {
     
     /// Refreshes this initializer's internal state in preparation for
     /// calls to logPopulationAt(...)
-    func prepare(_ net: PopulationFlow)
+    func prepare(_ net: PopulationFlowModel)
     
     /// Returns ln(population) at the given node
     func logPopulationAt(m: Int, n: Int) -> Double
@@ -30,7 +30,7 @@ class UniformPopulation : PFlowInitializer {
     
     var geometry: SKGeometry!
     
-    func prepare(_ net: PopulationFlow) {
+    func prepare(_ net: PopulationFlowModel) {
         self.geometry = net.geometry
     }
     
@@ -53,7 +53,7 @@ class EquilibriumPopulation : PFlowInitializer {
     /// UI controls for it
     var T0: Double = 10000
     
-    func prepare(_ net: PopulationFlow) {
+    func prepare(_ net: PopulationFlowModel) {
         self.geometry = net.geometry
         self.physics = net.physics
     }

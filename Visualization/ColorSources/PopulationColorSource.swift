@@ -25,10 +25,10 @@ class PopulationColorSource : ColorSource {
     var name: String = "Population"
     var info: String? = nil
     
-    private var flow: PopulationFlow
+    private var flow: PopulationFlowManager
     private var colorMap: LogColorMap
     
-    init(_ flow: PopulationFlow, _ colorMap: LogColorMap) {
+    init(_ flow: PopulationFlowManager, _ colorMap: LogColorMap) {
         self.flow = flow
         self.colorMap = colorMap
     }

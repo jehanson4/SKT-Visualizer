@@ -9,13 +9,13 @@
 /* Begin PBXBuildFile section */
 		8A0269DD2080B1240054107D /* ColorSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0269DC2080B1240054107D /* ColorSource.swift */; };
 		8A0B39FE20A3A5E200370999 /* WorkQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0B39FD20A3A5E200370999 /* WorkQueue.swift */; };
+		8A0B3A0020A4B71200370999 /* PopulationFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0B39FF20A4B71200370999 /* PopulationFlow.swift */; };
 		8A0C09A620716B670017AC4C /* SKGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0C09A520716B670017AC4C /* SKGeometry.swift */; };
 		8A131C91207160100088F2FC /* _miscNotes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8A131C90207160100088F2FC /* _miscNotes.txt */; };
 		8A1CF016207146510099DD97 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1CF015207146510099DD97 /* AppDelegate.swift */; };
 		8A1CF01B207146520099DD97 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A1CF019207146510099DD97 /* Main.storyboard */; };
 		8A1CF01D207146540099DD97 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A1CF01C207146540099DD97 /* Assets.xcassets */; };
 		8A1CF020207146540099DD97 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A1CF01E207146540099DD97 /* LaunchScreen.storyboard */; };
-		8A35082C209E23B800E36C1F /* PopulationFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A35082B209E23B800E36C1F /* PopulationFlow.swift */; };
 		8A35082E20A092A400E36C1F /* PopulationColorSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A35082D20A092A400E36C1F /* PopulationColorSource.swift */; };
 		8A35083020A0A0C200E36C1F /* PopulationFlowSequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A35082F20A0A0C200E36C1F /* PopulationFlowSequencer.swift */; };
 		8A35083220A0D5C800E36C1F /* PFlowRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A35083120A0D5C800E36C1F /* PFlowRules.swift */; };
@@ -132,6 +132,7 @@
 /* Begin PBXFileReference section */
 		8A0269DC2080B1240054107D /* ColorSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSource.swift; sourceTree = "<group>"; };
 		8A0B39FD20A3A5E200370999 /* WorkQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkQueue.swift; sourceTree = "<group>"; };
+		8A0B39FF20A4B71200370999 /* PopulationFlow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopulationFlow.swift; sourceTree = "<group>"; };
 		8A0C09A520716B670017AC4C /* SKGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKGeometry.swift; sourceTree = "<group>"; };
 		8A131C90207160100088F2FC /* _miscNotes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _miscNotes.txt; sourceTree = "<group>"; };
 		8A1CF012207146510099DD97 /* SKT Visualizer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SKT Visualizer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -140,7 +141,6 @@
 		8A1CF01C207146540099DD97 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8A1CF01F207146540099DD97 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8A1CF021207146540099DD97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8A35082B209E23B800E36C1F /* PopulationFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopulationFlow.swift; sourceTree = "<group>"; };
 		8A35082D20A092A400E36C1F /* PopulationColorSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopulationColorSource.swift; sourceTree = "<group>"; };
 		8A35082F20A0A0C200E36C1F /* PopulationFlowSequencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopulationFlowSequencer.swift; sourceTree = "<group>"; };
 		8A35083120A0D5C800E36C1F /* PFlowRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PFlowRules.swift; sourceTree = "<group>"; };
@@ -333,7 +333,7 @@
 		8A35082A209DF3CF00E36C1F /* PopulationFlow */ = {
 			isa = PBXGroup;
 			children = (
-				8A35082B209E23B800E36C1F /* PopulationFlow.swift */,
+				8A0B39FF20A4B71200370999 /* PopulationFlow.swift */,
 				8A35083120A0D5C800E36C1F /* PFlowRules.swift */,
 				8A35083320A0E92D00E36C1F /* Initializers.swift */,
 			);
@@ -724,6 +724,7 @@
 				8A3C45C42086214D00A1E9CD /* PhysicalPropertyColorSource.swift in Sources */,
 				8ABEEC3B20803A2F008E72F4 /* Surface.swift in Sources */,
 				8ACE788F2073C57500C29875 /* Effect.swift in Sources */,
+				8A0B3A0020A4B71200370999 /* PopulationFlow.swift in Sources */,
 				8A35082E20A092A400E36C1F /* PopulationColorSource.swift in Sources */,
 				8A3C45C62086278900A1E9CD /* UniformColor.swift in Sources */,
 				8A3C45B02086160A00A1E9CD /* Energy.swift in Sources */,
@@ -753,7 +754,6 @@
 				8A91B0A4209418A900488907 /* NumericParameterSequencer.swift in Sources */,
 				8AAA008E207166C0001A136D /* MasterViewController.swift in Sources */,
 				8AA05A06208E7771009417A6 /* BasinFinder1.swift in Sources */,
-				8A35082C209E23B800E36C1F /* PopulationFlow.swift in Sources */,
 				8A91B0AA2094B01400488907 /* GenericSequencer.swift in Sources */,
 				8A40BC0C207ECC7500F2D2EB /* Nodes.swift in Sources */,
 				8AF98FA5207FE8B40007688E /* SettingsViewController.swift in Sources */,

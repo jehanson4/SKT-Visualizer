@@ -46,7 +46,7 @@ protocol PFlowRule : Named {
     
     func potentialAt(m: Int, n: Int) -> Double
     
-    func prepare(_ net: PopulationFlow)
+    func prepare(_ net: PopulationFlowModel)
     func apply(_ node: PFlowNode, _ nbrs: [PFlowNode])
 }
 
@@ -66,7 +66,7 @@ class SteepestDescentFirstMatch : PFlowRule {
     private var geometry: SKGeometry!
     private var physics: SKPhysics!
     
-    func prepare(_ flow: PopulationFlow) {
+    func prepare(_ flow: PopulationFlowModel) {
         geometry = flow.geometry
         physics = flow.physics
     }
@@ -103,7 +103,7 @@ class SteepestDescentLastMatch : PFlowRule {
     private var geometry: SKGeometry!
     private var physics: SKPhysics!
     
-    func prepare(_ flow: PopulationFlow) {
+    func prepare(_ flow: PopulationFlowModel) {
         geometry = flow.geometry
         physics = flow.physics
     }
@@ -140,7 +140,7 @@ class SteepestDescentEqualDivision : PFlowRule {
     private var geometry: SKGeometry!
     private var physics: SKPhysics!
     
-    func prepare(_ flow: PopulationFlow) {
+    func prepare(_ flow: PopulationFlowModel) {
         geometry = flow.geometry
         physics = flow.physics
     }
@@ -190,7 +190,7 @@ class AnyDescentEqualDivision : PFlowRule {
     private var geometry: SKGeometry!
     private var physics: SKPhysics!
     
-    func prepare(_ flow: PopulationFlow) {
+    func prepare(_ flow: PopulationFlowModel) {
         geometry = flow.geometry
         physics = flow.physics
     }
@@ -243,7 +243,7 @@ class ProportionalEnergyDescent : PFlowRule {
     private var geometry: SKGeometry!
     private var physics: SKPhysics!
     
-    func prepare(_ flow: PopulationFlow) {
+    func prepare(_ flow: PopulationFlowModel) {
         geometry = flow.geometry
         physics = flow.physics
     }
@@ -308,7 +308,7 @@ class MetropolisFlow : PFlowRule {
     private var physics: SKPhysics!
     private var beta: Double = 0
     
-    func prepare(_ flow: PopulationFlow) {
+    func prepare(_ flow: PopulationFlowModel) {
         geometry = flow.geometry
         physics = flow.physics
         beta = (physics.T > 0) ? 1/physics.T : Double.greatestFiniteMagnitude
@@ -404,7 +404,7 @@ class SymmetricFlow : PFlowRule {
     private var physics: SKPhysics!
     private var beta: Double = 0
     
-    func prepare(_ flow: PopulationFlow) {
+    func prepare(_ flow: PopulationFlowModel) {
         geometry = flow.geometry
         physics = flow.physics
         beta = (physics.T > 0) ? 1/physics.T : Double.greatestFiniteMagnitude
@@ -496,7 +496,7 @@ class EmpiricalFlow : PFlowRule {
     private var f_up: Double = 1
     private var f_dn: Double = 0.9
     
-    func prepare(_ flow: PopulationFlow) {
+    func prepare(_ flow: PopulationFlowModel) {
         geometry = flow.geometry
         physics = flow.physics
         beta = (physics.T > 0) ? 1/physics.T : Double.greatestFiniteMagnitude
@@ -585,7 +585,7 @@ class DetailedBalanceFlow : PFlowRule {
     private var geometry: SKGeometry!
     private var physics: SKPhysics!
     
-    func prepare(_ flow: PopulationFlow) {
+    func prepare(_ flow: PopulationFlowModel) {
         geometry = flow.geometry
         physics = flow.physics
     }

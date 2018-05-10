@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 // ===============================================================================
 // SKPhysics
 // ===============================================================================
@@ -127,18 +126,6 @@ class SKPhysics : ChangeCounted {
     // Physical properties
     // ============================================
 
-//    var physicalPropertyNames: [String] = []
-//    private var fPhysicalProperties: [String: PhysicalProperty]
-//
-//    func physicalProperty(_ name: String) -> PhysicalProperty? {
-//        return fPhysicalProperties[name]
-//    }
-//
-//    func registerPhysicalProperty(_ p: PhysicalProperty) {
-//        physicalPropertyNames.append(p.name)
-//        fPhysicalProperties[p.name] = p
-//    }
-    
     func findBounds(_ property: PhysicalProperty) -> (min: Double, max: Double) {
         var tmpValue: Double  = property.valueAt(nodeIndex: 0)
         var minValue: Double = tmpValue

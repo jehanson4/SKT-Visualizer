@@ -59,12 +59,12 @@ class PopulationFlowSequencer : GenericSequencer<Int> {
     
     private var _upperBound: Int = 100
     private var _stepSize: Int = 1
-    private var flow: PopulationFlow
+    private var flow: PopulationFlowManager
     
     // ===========================================
     // Initialization
     
-    init(_ flow: PopulationFlow) {
+    init(_ flow: PopulationFlowManager) {
         self.flow = flow
         super.init("Population Flow", false)
     }

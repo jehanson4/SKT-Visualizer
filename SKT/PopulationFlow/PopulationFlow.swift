@@ -67,11 +67,12 @@ class PFlowNode {
 }
 
 // ==================================================================
-// PopulationFlow
+// PopulationFlowModel
 // ==================================================================
 
-class PopulationFlow {
+class PopulationFlowModel {
     
+    let clsName = "PopulationFlowModel"
     var debugEnabled = false
     
     var stepNumber: Int
@@ -345,16 +346,60 @@ class PopulationFlow {
 
     private func debug(_ mtd: String, _ msg: String = "") {
         if (debugEnabled) {
-            print("PopulationFlow", mtd, msg)
+            print(clsName, mtd, msg)
         }
     }
     
     private func warn(_ mtd: String, _ msg: String = "") {
-        print("!!!", "PopulationFlow", mtd, msg)
+        print("!!!", clsName, mtd, msg)
     }
     
 
 }
 
 
+// ========================================================
+// PopulationFlowManager
+// ========================================================
 
+class PopulationFlowManager : ChangeMonitorEnabled {
+    
+    private var workingData: PopulationFlowModel
+    
+    init(_ skt: SKTModel, _ ic: PFlowInitializer? = nil, _ localRule: PFlowRule? = nil) {
+        self.workingData = PopulationFlowModel(skt, ic, localRule)
+    }
+
+    var stepNumber: Int {
+        return workingData.stepNumber
+    }
+    
+    var isSteadyState: Bool {
+        return workingData.isSteadyState
+    }
+    
+    var wBounds: (min: Double, max: Double) {
+        return workingData.wBounds
+    }
+    
+    var wTotal: Double {
+        return workingData.wTotal
+    }
+    
+    func wCurrAt(_ idx: Int) -> Double {
+        return workingData.wCurrAt(idx)
+    }
+    
+    func reset() {
+        workingData.reset()
+    }
+    
+    func step() {
+        workingData.step()
+    }
+    
+    func monitorChanges(_ callback: @escaping (Any) -> ()) -> ChangeMonitor? {
+        return workingData.monitorChanges(callback)
+    }
+
+}
