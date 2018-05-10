@@ -63,7 +63,6 @@ class PFlowNode {
         wNext = Double.nan
         return changed
     }
-    
 }
 
 // ==================================================================
@@ -75,98 +74,67 @@ class PopulationFlowModel {
     let clsName = "PopulationFlowModel"
     var debugEnabled = false
     
-    var stepNumber: Int
-    
-    var isSteadyState: Bool {
+    var modelParams: SKTModelParams {
         get {
             refresh()
-            return _populationIsSteadyState
+            return SKTModelParams(N: geometry.N,
+                                  k0: geometry.k0,
+                                  alpha1: physics.alpha1,
+                                  alpha2: physics.alpha2,
+                                  T: physics.T)
         }
-    }
-    
-    var wBounds: (min: Double, max: Double) {
-        get {
+        set(newValue) {
+            newValue.applyTo(self.geometry)
+            newValue.applyTo(self.physics)
             refresh()
-            if (_wBounds == nil) {
-                calculateBounds()
-            }
-            return _wBounds!
         }
     }
-    
-    var wTotal: Double {
-        get {
-            refresh()
-            if (_wTotal == nil) {
-                calculateTotal()
-            }
-            return _wTotal!
-        }
-    }
-    
-    var geometry: SKGeometry {
-        get { return skt.geometry }
-    }
-    
-    var physics: SKPhysics {
-        get { return skt.physics }
-    }
+
+    var geometry: SKGeometry
+    var physics: SKPhysics
     
     private var geometryCC: Int
     private var physicsCC: Int
-    private var skt: SKTModel
     private var nodes: [PFlowNode]
-    private var ic: PFlowInitializer!
-    private var localRule: PFlowRule!
+    private var ic: PFlowInitializer
+    private var localRule: PFlowRule
     
-
     private var _nodeArrayIsStale: Bool
     private var _potentialIsStale: Bool
-    private var _populationIsSteadyState: Bool
-    private var _wBounds: (min: Double, max:Double)?
-    private var _wTotal: Double?
     
-    private var defaultIC = EquilibriumPopulation()
-    private var defaultRule = SteepestDescentEqualDivision()
-    // private var defaultRule = MetropolisFlow()
-
     // =====================================
     // Inializer
     // =====================================
 
-    init(_ skt: SKTModel, _ ic: PFlowInitializer? = nil, _ localRule: PFlowRule? = nil) {
+    init(_ geometry: SKGeometry, _ physics: SKPhysics, _ ic: PFlowInitializer, _ localRule: PFlowRule) {
         self.nodes = []
-        self.stepNumber = 0
-        self.skt = skt
-        self.geometryCC = skt.geometry.changeNumber
-        self.physicsCC = skt.physics.changeNumber
-        
-        self.ic = (ic != nil) ? ic! : defaultIC
-        self.localRule = (localRule != nil) ? localRule : defaultRule
-        
+        self.geometry = geometry
+        self.physics = physics
+        self.geometryCC = geometry.changeNumber
+        self.physicsCC = physics.changeNumber
+        self.ic = ic
+        self.localRule = localRule
         self._nodeArrayIsStale = true
         self._potentialIsStale = true
-        self._populationIsSteadyState = false
-        self._wBounds = nil
-        self._wTotal = nil
-    }
-    
-    func wCurrAt(_ idx: Int) -> Double {
-        return nodes[idx].wCurr
     }
     
     // =====================================
     // API methods
     // =====================================
 
-    func reset() {
-        // HACK to force reset
-        self._potentialIsStale = true
-        step()
+    func exportWCurr() -> [Double] {
+        refresh()
+        var wCurr: [Double] = []
+        for i in 0..<nodes.count {
+            wCurr.append(nodes[i].wCurr)
+        }
+        return wCurr
     }
     
-    func step() {
-        debug("step", "entering")
+     func reset() {
+        debug("reset", "entering")
+        // HACK to force reset
+        self._potentialIsStale = true
         checkFreshness()
         if (self._nodeArrayIsStale) {
             buildNodes()
@@ -174,22 +142,38 @@ class PopulationFlowModel {
         else if (self._potentialIsStale) {
             resetNodes()
         }
-        else if (!self._populationIsSteadyState) {
-            applyRule()
+        debug("reset", "done")
+    }
+    
+    func step() -> Bool {
+        debug("step", "entering")
+        checkFreshness()
+        var changed = false
+        if (self._nodeArrayIsStale) {
+            buildNodes()
+            changed = true
         }
-        debug("step", "done. stepNumber=\(stepNumber)")
+        else if (self._potentialIsStale) {
+            resetNodes()
+            changed = true
+        }
+        else {
+            changed = applyRule()
+        }
+        debug("step", "done. changed=\(changed)")
+        return changed
     }
     
     // =====================================
     // step helpers
     
     private func checkFreshness() {
-        let gnn = skt.geometry.changeNumber
+        let gnn = geometry.changeNumber
         if (gnn != geometryCC) {
             _nodeArrayIsStale = true
             geometryCC = gnn
         }
-        let pnn = skt.physics.changeNumber
+        let pnn = physics.changeNumber
         if (pnn != physicsCC) {
             _potentialIsStale = true
             physicsCC = pnn
@@ -201,20 +185,17 @@ class PopulationFlowModel {
         ic.prepare(self)
         localRule.prepare(self)
         var nodearray: [PFlowNode] = []
+
+        // debug("buildNodes", "building nodeArray")
         for i in 0..<geometry.nodeCount {
             let (m, n) = geometry.nodeIndexToSK(i)
             nodearray.append(PFlowNode(i, m: m, n: n, localRule.potentialAt(m: m, n: n), ic.logPopulationAt(m: m, n: n)))
         }
+        // debug("buildNodes", "nodeArray built")
         self.nodes = nodearray
         self._nodeArrayIsStale = false
         self._potentialIsStale = false
-        self._populationIsSteadyState = false
-        self._wBounds = nil
-        self._wTotal = nil
-        self.stepNumber = 0
-        debug("buildNodes", "done: wTotal=\(wTotal)")
-        debug("buildNodes", "done, firing change")
-        fireChange()
+        debug("buildNodes", "done")
     }
     
     private func resetNodes() {
@@ -225,16 +206,10 @@ class PopulationFlowModel {
             node.reset(localRule.potentialAt(m: node.m, n: node.n), ic.logPopulationAt(m: node.m, n: node.n))
         }
         self._potentialIsStale = false
-        self._populationIsSteadyState = false
-        self._wBounds = nil
-        self._wTotal = nil
-        self.stepNumber = 0
-        debug("resetNodes", "done, wTotal=\(wTotal)")
-        debug("resetNodes", "done, firing change")
-        fireChange()
+        debug("resetNodes", "done")
     }
 
-    private func applyRule() {
+    private func applyRule() -> Bool {
         debug("applyRule", "entering")
         localRule.prepare(self)
         debug("applyRule", "applying local rule")
@@ -243,34 +218,14 @@ class PopulationFlowModel {
         }
         
         debug("applyRule", "advancing nodes")
-        
         var changed = false
         for node in nodes {
             if (node.advance()) {
                 changed = true
             }
         }
-
-        // Sanity test. wTotal should not have changed by much.
-        let oldTotal = _wTotal
-        calculateTotal() // forces recalculation
-        let newTotal = _wTotal
-        if (oldTotal != nil && newTotal != nil && distinct(oldTotal!, newTotal!)) {
-            warn("applyRule", "total poplation has changed. oldTotal=\(oldTotal!) newTotal=\(newTotal!)")
-        }
-        
-        
-        if (!changed) {
-            debug("applyRule", "done, no change")
-            self._populationIsSteadyState = true
-        }
-        else {
-            self._populationIsSteadyState = false
-            self._wBounds = nil
-            self.stepNumber += 1
-            debug("applyRule", "done, firing change")
-            fireChange()
-        }
+        debug("applyRule", "done, changed=\(changed)")
+        return changed
     }
     
     private func neighborsOf(_ node: PFlowNode) -> [PFlowNode] {
@@ -302,30 +257,160 @@ class PopulationFlowModel {
         }
     }
     
-    private func calculateBounds() {
-        debug("calculateBounds", "entering")
-        var min = nodes[0].wCurr
-        var max = nodes[0].wCurr
-        for node in nodes {
-            if (node.wCurr < min) {
-                min = node.wCurr
-            }
-            if (node.wCurr > max) {
-                max = node.wCurr
-            }
+    // =======================================
+    // Debuggubg
+
+    private func debug(_ mtd: String, _ msg: String = "") {
+        if (debugEnabled) {
+            print(clsName, mtd, msg)
         }
-        debug("calculateBounds", "done. min=\(min), max=\(max)")
-        self._wBounds = (min: min, max: max)
+    }
+    
+    private func warn(_ mtd: String, _ msg: String = "") {
+        print("!!!", clsName, mtd, msg)
+    }
+}
+
+
+// ========================================================
+// PopulationFlowManager
+// ========================================================
+
+class PopulationFlowManager : ChangeMonitorEnabled {
+    
+    private var clsName = "PopulationFlowManager"
+    var debugEnabled = false
+    
+    var wCurr: [Double] {
+        get {
+            updateModel()
+            updateWCurr()
+            return _wCurr
+        }
+    }
+    
+    var wBounds: (min: Double, max: Double) {
+        get {
+            if (_wBounds == nil) {
+                updateDerivedVars()
+            }
+            return _wBounds!
+        }
+    }
+    
+    var wTotal: Double {
+        get {
+            if (_wTotal == nil) {
+                updateDerivedVars()
+            }
+            return _wTotal!
+        }
+    }
+    
+    var stepNumber: Int {
+        return _stepNumber
+    }
+    
+    var isSteadyState: Bool {
+        return _isSteadyState
+    }
+    
+    private var skt: SKTModel
+    private var workingData: PopulationFlowModel
+    private var _wCurr: [Double]
+    private var _wBounds: (min: Double, max: Double)? = nil
+    private var _wTotal: Double? = nil
+    private var _stepNumber : Int = 0
+    private var _isSteadyState: Bool = false
+
+    init(_ skt: SKTModel, _ ic: PFlowInitializer? = nil, _ localRule: PFlowRule? = nil) {
+        self.skt = skt
+        
+        let geometry = SKGeometry()
+        let physics = SKPhysics(geometry)
+        let modelParams = skt.modelParams
+        modelParams.applyTo(geometry)
+        modelParams.applyTo(physics)
+        
+        let ic = EquilibriumPopulation()
+        let rule = SteepestDescentEqualDivision()
+        // let rule = MetropolisFlow()
+        
+        self.workingData = PopulationFlowModel(geometry, physics, ic, rule)
+   
+        self._wCurr = self.workingData.exportWCurr()
     }
 
-    private func calculateTotal() {
-        debug("calculateTotal", "entering")
-        var newTotal = Double.nan
-        for node in nodes {
-            newTotal = addLogs(newTotal, node.wCurr)
+    func reset() {
+
+        self.skt.busy = true
+        DispatchQueue.global(qos: .userInitiated).async {
+            
+            self.updateModel()
+            self.workingData.reset()
+            
+            DispatchQueue.main.async {
+                
+                self.updateWCurr()
+                self._stepNumber = 0
+                self._isSteadyState = false
+                self.skt.busy = false
+                self.fireChange()
+                
+            }
         }
-        debug("calculateTotal", "done. new wTotal=\(newTotal)")
-        self._wTotal = newTotal
+    }
+    
+    
+    func step() {
+        
+        self.skt.busy = true
+        DispatchQueue.global(qos: .userInitiated).async {
+            
+            self.updateModel()
+            let changed = self.workingData.step()
+            
+            DispatchQueue.main.async {
+                
+                self.updateWCurr()
+                self._stepNumber += 1
+                self._isSteadyState = !changed
+                self.skt.busy = false
+                self.fireChange()
+                
+            }
+        }
+    }
+    
+    private func updateModel() {
+            self.workingData.modelParams = skt.modelParams
+    }
+    
+    private func updateWCurr() {
+        if (self.workingData.modelParams == skt.modelParams) {
+            debug("updateWCurr", "exporting working data")
+            self._wCurr = self.workingData.exportWCurr()
+            self._wBounds = nil
+            self._wTotal = nil
+        }
+    }
+    
+    private func updateDerivedVars() {
+        var min = _wCurr[0]
+        var max = _wCurr[0]
+        var tot = addLogs(Double.nan, _wCurr[0])
+        for i in 1..<_wCurr.count {
+            let wCurr = _wCurr[i]
+            if (wCurr < min) {
+                min = wCurr
+            }
+            if (wCurr > max) {
+                max = wCurr
+            }
+            tot = addLogs(tot, wCurr)
+        }
+        self._wBounds = (min: min, max: max)
+        self._wTotal = tot
     }
 
     // =======================================
@@ -342,64 +427,12 @@ class PopulationFlowModel {
     }
     
     // =======================================
-    // Debuggubg
-
+    // Debugging
+    
     private func debug(_ mtd: String, _ msg: String = "") {
         if (debugEnabled) {
             print(clsName, mtd, msg)
         }
     }
     
-    private func warn(_ mtd: String, _ msg: String = "") {
-        print("!!!", clsName, mtd, msg)
-    }
-    
-
-}
-
-
-// ========================================================
-// PopulationFlowManager
-// ========================================================
-
-class PopulationFlowManager : ChangeMonitorEnabled {
-    
-    private var workingData: PopulationFlowModel
-    
-    init(_ skt: SKTModel, _ ic: PFlowInitializer? = nil, _ localRule: PFlowRule? = nil) {
-        self.workingData = PopulationFlowModel(skt, ic, localRule)
-    }
-
-    var stepNumber: Int {
-        return workingData.stepNumber
-    }
-    
-    var isSteadyState: Bool {
-        return workingData.isSteadyState
-    }
-    
-    var wBounds: (min: Double, max: Double) {
-        return workingData.wBounds
-    }
-    
-    var wTotal: Double {
-        return workingData.wTotal
-    }
-    
-    func wCurrAt(_ idx: Int) -> Double {
-        return workingData.wCurrAt(idx)
-    }
-    
-    func reset() {
-        workingData.reset()
-    }
-    
-    func step() {
-        workingData.step()
-    }
-    
-    func monitorChanges(_ callback: @escaping (Any) -> ()) -> ChangeMonitor? {
-        return workingData.monitorChanges(callback)
-    }
-
 }

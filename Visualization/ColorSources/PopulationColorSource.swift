@@ -27,20 +27,23 @@ class PopulationColorSource : ColorSource {
     
     private var flow: PopulationFlowManager
     private var colorMap: LogColorMap
-    
+    private var wCurr: [Double]
+
     init(_ flow: PopulationFlowManager, _ colorMap: LogColorMap) {
         self.flow = flow
         self.colorMap = colorMap
+        self.wCurr = []
     }
     
     func prepare() -> Bool {
         let bounds = flow.wBounds
         debug("prepare", "calibrating color map. bounds=(\(bounds.min), \(bounds.max))")
+        self.wCurr = flow.wCurr
         return colorMap.calibrate(flow.wBounds)
     }
     
     func colorAt(_ nodeIndex: Int) -> GLKVector4 {
-        return colorMap.getColor(flow.wCurrAt(nodeIndex))
+        return colorMap.getColor((nodeIndex < wCurr.count) ? wCurr[nodeIndex] : 0)
     }
     
     func monitorChanges(_ callback: @escaping (Any) -> ()) -> ChangeMonitor? {

@@ -13,8 +13,7 @@ import Foundation
 // ===========================================================
 
 class SKTModel1: SKTModel {
-    
-    
+
     let clsName = "SKTModel1"
     var debugEnabled = false
     
@@ -56,6 +55,20 @@ class SKTModel1: SKTModel {
     }
     
     var busy: Bool = false
+    
+    var modelParams: SKTModelParams {
+        get {
+            return SKTModelParams(N: geometry.N,
+                                      k0: geometry.k0,
+                                      alpha1: physics.alpha1,
+                                      alpha2: physics.alpha2,
+                                      T: physics.T)
+        }
+        set(newValue) {
+            newValue.applyTo(self.geometry)
+            newValue.applyTo(self.physics)
+        }
+    }
     
     let geometry: SKGeometry
     

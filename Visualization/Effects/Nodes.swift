@@ -209,7 +209,7 @@ class Nodes : Effect {
         let colorSourceChanged = cs.prepare()
         if (colorSourceChanged || colorsAreStale) {
             colorsAreStale = false
-            debug("recomputing colors", "colorSource: \(cs.name)")
+            debug("recomputing colors", "colorSource: \(cs.name) colors.count=\(colors.count)")
             for i in 0..<colors.count {
                 colors[i] = cs.colorAt(i)
             }
