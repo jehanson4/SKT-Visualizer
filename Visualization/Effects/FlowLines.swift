@@ -34,6 +34,7 @@ class FlowLines : GLKBaseEffect, Effect {
     }
     
     // EMPIRICAL
+    private static let rOffsetDefault: Double = 0.002
     private let lineWidth: GLfloat = 5.0
     private let minLengthFraction = 0.1
     private let maxLengthFraction = 0.9
@@ -53,7 +54,7 @@ class FlowLines : GLKBaseEffect, Effect {
     private var physicsCC: ChangeCountWrapper!
     
 
-    init(_ geometry: SKGeometry, _ physics: SKPhysics, enabled: Bool = false, rOffset: Double = 0.001) {
+    init(_ geometry: SKGeometry, _ physics: SKPhysics, enabled: Bool = false, rOffset: Double = FlowLines.rOffsetDefault) {
         self.geometry = geometry
         self.physics = physics
         self.enabled = enabled

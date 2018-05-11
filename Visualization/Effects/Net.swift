@@ -23,7 +23,6 @@ class Net : GLKBaseEffect, Effect {
     var name: String = "Net"
     var info: String? = nil
     
-    static let rOffsetDefault = 0.0
     var enabled: Bool
         
     var geometry: SKGeometry
@@ -45,9 +44,14 @@ class Net : GLKBaseEffect, Effect {
             transform.modelviewMatrix = newValue
         }
     }
-    
+
+    // EMPIRICAL
+    static let rOffsetDefault = 0.0
     let lineWidth: GLfloat = 2.0
     let lineColor: GLKVector4 = GLKVector4Make(1.0, 1.0, 1.0, 1.0)
+    
+    
+    
     var vertexArray: GLuint = 0
     var vertexBuffer: GLuint = 0
     var indexBuffer: GLuint = 0

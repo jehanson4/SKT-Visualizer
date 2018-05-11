@@ -20,6 +20,10 @@ For 1.0.5
         reverse()
     but nothing that says, re-derive params
 
+[ ] diff rOffset for meridians
+
+[ ] block the back half of the nodes
+    maybe 2 vertical flat semicircles @ phi=0 & phi=pi/2
 
 ABOVE THE LINE
 ----------------------------------------------------------------------------------

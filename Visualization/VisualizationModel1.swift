@@ -22,9 +22,6 @@ class VisualizationModel1 : VisualizationModel {
     // EMPIRICAL so that basin boundary nodes are visible
     static let scene_backgroundColorValue: GLfloat = 0.2
     
-    // EMPIRICAL so that the surface, nodes, etc don't occlude the net, flow lines, etc
-    static let effect_rOffset: Double = 0.002
-    
     // EMPIRICAL for projection matrix:
     // If nff == 1 then things seem to disappear
     // If nff > 0 then then everything seems inside-out
@@ -218,13 +215,12 @@ class VisualizationModel1 : VisualizationModel {
     }
 
     private func initEffects() {
-        let rOffset = VisualizationModel1.effect_rOffset
         registerEffect(Axes())
-        registerEffect(Meridians(skt.geometry, rOffset: rOffset))
-        registerEffect(Net(skt.geometry, rOffset: rOffset))
+        registerEffect(Meridians(skt.geometry))
+        registerEffect(Net(skt.geometry))
         registerEffect(Surface(skt.geometry, skt.physics, colorSources))
         registerEffect(Nodes(self, skt.geometry, skt.physics, colorSources))
-        registerEffect(FlowLines(skt.geometry, skt.physics, rOffset: rOffset))
+        registerEffect(FlowLines(skt.geometry, skt.physics))
 
         registerEffect(Icosahedron(enabled: false))
         registerEffect(Balls(enabled: false))

@@ -27,8 +27,6 @@ class Meridians : GLKBaseEffect, Effect {
     var name = "Meridians"
     var info: String? = nil
     
-    static let rOffsetDefault = 0.0
-    
     var enabled: Bool
     var showSecondaries: Bool {
         get { return _showSecondaries }
@@ -41,6 +39,8 @@ class Meridians : GLKBaseEffect, Effect {
     }
     
     // EMPIRICAL
+    static let rOffsetDefault = 0.001
+    
     let caretSize: Double = 0.07
     let segmentCount: Int = 100
     let lineWidth_primary: GLfloat = 5.0
