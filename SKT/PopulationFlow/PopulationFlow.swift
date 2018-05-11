@@ -351,7 +351,6 @@ class PopulationFlowManager : ChangeMonitorEnabled {
     }
     
     private var skt: SKTModel
-    private var queue: DispatchQueue
     private var workingData: PopulationFlowModel
     private var _wCurr: [Double]
     private var _wBounds: (min: Double, max: Double)? = nil
@@ -361,7 +360,6 @@ class PopulationFlowManager : ChangeMonitorEnabled {
 
     init(_ skt: SKTModel, _ ic: PFlowInitializer? = nil, _ localRule: PFlowRule? = nil) {
         self.skt = skt
-        self.queue = DispatchQueue(label: "background", qos: .userInitiated)
         let geometry = SKGeometry()
         let physics = SKPhysics(geometry)
         let modelParams = skt.modelParams
@@ -379,7 +377,7 @@ class PopulationFlowManager : ChangeMonitorEnabled {
     func sync() {
         debug("sync", "entering")
         self.skt.busy = true
-        queue.async {
+        self.skt.workQueue.async {
             let populationChanged = self.workingData.setModelParams(self.skt.modelParams)
             let wCurr = (populationChanged) ? self.workingData.exportWCurr() : nil
             DispatchQueue.main.async {
@@ -396,7 +394,7 @@ class PopulationFlowManager : ChangeMonitorEnabled {
     func reset() {
         debug("reset", "entering")
         self.skt.busy = true
-        queue.async {
+        self.skt.workQueue.async {
             var populationChanged = self.workingData.setModelParams(self.skt.modelParams)
             if (!populationChanged) {
                 self.workingData.reset()
@@ -421,7 +419,7 @@ class PopulationFlowManager : ChangeMonitorEnabled {
     func step() {
         debug("step", "entering")
         self.skt.busy = true
-        queue.async {
+        self.skt.workQueue.async {
             let tt = self.bgTaskCounter
             self.bgTaskCounter += 1
             self.debug("BG task[\(tt)]", "Start task in background")

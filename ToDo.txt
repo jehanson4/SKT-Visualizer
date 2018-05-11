@@ -8,7 +8,18 @@ For 1.0.5
 [x] secondary meridians in purple
 [x] player controls get set to step-fwd not pause . . . when change sequencer
 [x] population flow
+[x] dispatch queue for heavy work
 [x] pop flow sequencer should pay attention to upper bound
+
+[ ] N&k0 sequencer doesn't pick up new ratio k/N
+    stop it, change k0, start it again
+
+    sequencer methods:
+        reset() - puts it back to whatever it regards as an initial state
+        step()
+        reverse()
+    but nothing that says, re-derive params
+
 
 ABOVE THE LINE
 ----------------------------------------------------------------------------------

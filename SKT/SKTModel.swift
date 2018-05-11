@@ -50,7 +50,9 @@ protocol SKTModel {
 
     var busy: Bool { get set }
     var modelParams : SKTModelParams { get set }
-
+    
+    var workQueue: DispatchQueue { get }
+    
     // =================================
     
     var geometry: SKGeometry { get }

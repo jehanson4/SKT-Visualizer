@@ -70,6 +70,8 @@ class SKTModel1: SKTModel {
         }
     }
     
+    lazy var workQueue: DispatchQueue = DispatchQueue(label: "SKTModel.workQueue", qos: .userInitiated)
+    
     let geometry: SKGeometry
     
     let physics: SKPhysics
