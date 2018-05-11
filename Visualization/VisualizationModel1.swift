@@ -482,7 +482,7 @@ class VisualizationModel1 : VisualizationModel {
         
         let busy = skt.busy
         if (busy) {
-            info("draw", "busy=\(busy)")
+            debug("draw", "busy=\(busy)")
         }
         let ar2 = Float(drawableWidth)/Float(drawableHeight)
         if (ar2 != self.aspectRatio) {

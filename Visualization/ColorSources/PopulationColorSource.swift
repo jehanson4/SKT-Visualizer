@@ -36,9 +36,10 @@ class PopulationColorSource : ColorSource {
     }
     
     func prepare() -> Bool {
-        let bounds = flow.wBounds
-        debug("prepare", "calibrating color map. bounds=(\(bounds.min), \(bounds.max))")
+        debug("prepare", "getting flow.wCurr")
         self.wCurr = flow.wCurr
+        let bounds = flow.wBounds
+        // debug("prepare", "calibrating color map. bounds=(\(bounds.min), \(bounds.max))")
         return colorMap.calibrate(flow.wBounds)
     }
     
