@@ -40,7 +40,6 @@ class Meridians : GLKBaseEffect, Effect {
     
     // EMPIRICAL
     static let rOffsetDefault = 0.001
-    
     let caretSize: Double = 0.07
     let segmentCount: Int = 100
     let lineWidth_primary: GLfloat = 5.0

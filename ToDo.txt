@@ -10,9 +10,17 @@ For 1.0.5
 [x] population flow
 [x] dispatch queue for heavy work
 [x] pop flow sequencer should pay attention to upper bound
+[x] rOffsets for meridians & flowLines
 
-[ ] N&k0 sequencer doesn't pick up new ratio k/N
-    stop it, change k0, start it again
+
+ABOVE THE LINE
+----------------------------------------------------------------------------------
+BELOW THE LINE
+
+[ ] when zoomed in, relax the clipping on v. short flowlines
+
+[ ] N & k0 sequencer doesn't pick up new ratio k/N
+    if you stop it, change k0, start it again
 
     sequencer methods:
         reset() - puts it back to whatever it regards as an initial state
@@ -20,19 +28,13 @@ For 1.0.5
         reverse()
     but nothing that says, re-derive params
 
-[ ] diff rOffset for meridians
-
 [ ] block the back half of the nodes
-    maybe 2 vertical flat semicircles @ phi=0 & phi=pi/2
-
-ABOVE THE LINE
-----------------------------------------------------------------------------------
-BELOW THE LINE
+    maybe 2 intersecting vertical flat semicircles @ phi=0 & phi=pi/2
 
 3 directions:
 [ ] more: particle flow
 [ ] again: macOS
-[ ] better: offload comp-heavy tasks to background thread
+[ ] better: offload more heavy tasks to background thread
 
 [ ] UI for pop flow rule selection
 

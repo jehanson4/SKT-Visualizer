@@ -36,7 +36,7 @@ class FlowLines : GLKBaseEffect, Effect {
     // EMPIRICAL
     private static let rOffsetDefault: Double = 0.002
     private let lineWidth: GLfloat = 5.0
-    private let minLengthFraction = 0.1
+    private let minLengthFraction = 0.05
     private let maxLengthFraction = 0.9
 
     private var vertices: [GLKVector4] = []
