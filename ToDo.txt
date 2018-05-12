@@ -4,18 +4,27 @@ ToDo.txt
 
 For 1.0.5
 
-[x] progress bar
-[x] secondary meridians in purple
-[x] player controls get set to step-fwd not pause . . . when change sequencer
-[x] population flow
-[x] dispatch queue for heavy work
-[x] pop flow sequencer should pay attention to upper bound
-[x] rOffsets for meridians & flowLines
+UI improvements:
+    [x] progress bar
+    [x] secondary meridians in purple
+
+bug fixes
+    [x] player controls get set to step-fwd not pause . . . when change sequencer
+    [x] rOffsets for meridians & flowLines
+
+new features
+    [x] steepest descent population flow
+    [x] dispatch queue for heavy work
 
 
 ABOVE THE LINE
 ----------------------------------------------------------------------------------
 BELOW THE LINE
+
+
+[ ] 'game mode'
+    this is to get apple to approve it.
+    ? maybe you get to break links?
 
 [ ] when zoomed in, relax the clipping on v. short flowlines
 

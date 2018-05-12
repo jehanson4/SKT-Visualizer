@@ -18,7 +18,10 @@ class PFlowNode {
     let m: Int
     let n: Int
     
-    /// Quantity (e.g., energy) used by the PopRule when calculating
+    /// ln(degeneracy) of this node
+    let entropy: Double
+    
+    /// Scalar quantity (e.g., energy) used by the local rule when calculating
     /// the flow of population
     var potential: Double
     
@@ -30,10 +33,11 @@ class PFlowNode {
     /// Uses convention that ln(x) is NaN iff x is 0
     private var wNext: Double
     
-    init(_ idx: Int, m: Int, n: Int, _ potential: Double, _ wCurr: Double) {
+    init(_ idx: Int, m: Int, n: Int, _ entropy: Double, _ potential: Double, _ wCurr: Double) {
         self.idx = idx
         self.m = m
         self.n = n
+        self.entropy = entropy
         self.potential = potential
         self.wCurr = wCurr
         self.wNext = Double.nan
@@ -47,7 +51,7 @@ class PFlowNode {
         self.wNext = Double.nan
     }
     
-    /// w is ln(deltaP) where deltaP = population being added
+    /// w is ln(deltaP) where deltaP = SK population being added
     /// Uses convention that ln(x) is NaN iff x is 0
     func fill(_ w: Double) {
         // debug("fill(\(m), \(n): entering. wNext=\(wNext) w=\(w))")
@@ -196,7 +200,10 @@ class PopulationFlowModel {
         // debug("buildNodes", "building nodeArray")
         for i in 0..<geometry.nodeCount {
             let (m, n) = geometry.nodeIndexToSK(i)
-            nodearray.append(PFlowNode(i, m: m, n: n, localRule.potentialAt(m: m, n: n), ic.logPopulationAt(m: m, n: n)))
+            nodearray.append(PFlowNode(i, m: m, n: n,
+                                       Entropy.entropy(m, n, geometry),
+                                       localRule.potentialAt(m: m, n: n),
+                                       ic.logPopulationAt(m: m, n: n)))
         }
         // debug("buildNodes", "nodeArray built")
         self.nodes = nodearray
@@ -367,9 +374,12 @@ class PopulationFlowManager : ChangeMonitorEnabled {
         modelParams.applyTo(physics)
         
         let ic = EquilibriumPopulation()
-        let rule = SteepestDescentEqualDivision()
-        // let rule = MetropolisFlow()
-        
+        // let rule = SteepestDescentFirstMatch()
+        // let rule = SteepestDescentLastMatch()
+        // let rule = SteepestDescentEqualDivision()
+        // let rule = AnyDescentEqualDivision()
+        let rule = ProportionalEnergyDescent()
+
         self.workingData = PopulationFlowModel(geometry, physics, ic, rule)
         self._wCurr = self.workingData.exportWCurr()
     }

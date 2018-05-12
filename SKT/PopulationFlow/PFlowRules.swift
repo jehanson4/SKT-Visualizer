@@ -55,7 +55,7 @@ protocol PFlowRule : Named {
 // ==================================================================
 
 /// All the node's population goes to the neighborhood node with lowest
-/// energy (where neighborhood := node & its nearest neighbors). If
+/// energy (where neighborhood = node & its nearest neighbors). If
 /// multiple such nodes exist, the LAST one encountered is chosen.
 class SteepestDescentFirstMatch : PFlowRule {
     
@@ -76,14 +76,15 @@ class SteepestDescentFirstMatch : PFlowRule {
     }
 
     func apply(_ node: PFlowNode, _ nbrs: [PFlowNode]) {
-        var lowestNbr: PFlowNode = node
+        var lowestMember: PFlowNode = node
         for nbr in nbrs {
-            if (nbr.potential < lowestNbr.potential) {
-                lowestNbr = nbr
+            if (nbr.potential < lowestMember.potential) {
+                lowestMember = nbr
             }
         }
-        debug("SteepestDescentFirstMatch", "apply(\(node.m), \(node.n))", "filling neighbor")
-        lowestNbr.fill(node.wCurr)
+        debug("SteepestDescentFirstMatch", "apply(\(node.m), \(node.n))",
+            "filling nbhd member (\(lowestMember.m), \(lowestMember.n))")
+        lowestMember.fill(node.wCurr)
     }
 }
 
@@ -92,7 +93,7 @@ class SteepestDescentFirstMatch : PFlowRule {
 // ==================================================================
 
 /// All the node's population goes to the neighborhood node with lowest
-/// energy (where neighborhood := node & its nearest neighbors). If
+/// energy (where neighborhood = node & its nearest neighbors). If
 /// multiple such nodes exist, the LAST one encountered is chosen.
 class SteepestDescentLastMatch : PFlowRule {
     
@@ -113,14 +114,15 @@ class SteepestDescentLastMatch : PFlowRule {
     }
     
     func apply(_ node: PFlowNode, _ nbrs: [PFlowNode]) {
-        var lowestNbr: PFlowNode = node
+        var lowestMember: PFlowNode = node
         for nbr in nbrs {
-            if (nbr.potential <= lowestNbr.potential) {
-                lowestNbr = nbr
+            if (nbr.potential <= lowestMember.potential) {
+                lowestMember = nbr
             }
         }
-        debug("SteepestDescentLastMatch", "apply(\(node.m), \(node.n))", "filling neighbor")
-        lowestNbr.fill(node.wCurr)
+        debug("SteepestDescentLastMatch", "apply(\(node.m), \(node.n))",
+            "filling nbhd member (\(lowestMember.m), \(lowestMember.n))")
+        lowestMember.fill(node.wCurr)
     }
 }
 
@@ -128,9 +130,10 @@ class SteepestDescentLastMatch : PFlowRule {
 // SteepestDescentEqualDivision
 // ==================================================================
 
-/// All the node's population goes to the neighborhood node with lowest
-/// energy (where neighborhood := node & its nearest neighbors). If
-/// multiple such nodes exist, the population is divided equally among them.
+/// All the node's population goes to the neighborhood member with
+/// lowest energy (where neighborhood := node & its nearest neighbors).
+/// If multiple such nodes exist, the population is divided evenly
+/// among them, correcting for degeneracies.
 class SteepestDescentEqualDivision : PFlowRule {
     
     let ruleType = PFlowRuleType.steepestDescentEqualDivision
@@ -151,23 +154,49 @@ class SteepestDescentEqualDivision : PFlowRule {
     
     func apply(_ node: PFlowNode, _ nbrs: [PFlowNode]) {
         var lowestPotential: Double = node.potential
-        var favoredNbrs: [PFlowNode] = [node]
+        var allowedMembers: [PFlowNode] = [node]
         for nbr in nbrs {
             if (!distinct(nbr.potential, lowestPotential)) {
-                favoredNbrs.append(nbr)
+                allowedMembers.append(nbr)
             }
             else if (nbr.potential < lowestPotential) {
                 lowestPotential = nbr.potential
-                favoredNbrs.removeAll(keepingCapacity: true)
-                favoredNbrs.append(nbr)
+                allowedMembers.removeAll(keepingCapacity: true)
+                allowedMembers.append(nbr)
             }
         }
-        debug("SteepestDescentEqualDivision", "apply(\(node.m), \(node.n))", "filling \(favoredNbrs.count) neighbors")
+        debug("SteepestDescentEqualDivision", "apply(\(node.m), \(node.n))",
+            "filling \(allowedMembers.count) nbhd member(s)")
         
-        // wPortion = log(exp(wCurr)/count) = wCurr - ln(count)
-        let wPortion = node.wCurr - log(Double(favoredNbrs.count))
-        for nbr in favoredNbrs {
-            nbr.fill(wPortion)
+        // =========================================================
+        // Degeneracy correction: for each SK config in the node
+        // there are (N+1) possibile transitions, each of which causes
+        // that config to move into one of the node's nbhd members.
+        //
+        // The number of SK configs originally in the node is given by
+        // exp(node.wCurr)
+        //
+        // The partion of transitions to moves, and hence the weighting
+        // of the transitions. depends on the config.
+        //
+        // GUESSES (requiring validation):
+        // 1. the weighting is the same for all configs in a given
+        //    node
+        // 2. the weighting is a function of the degeneracies of the
+        //    nbhd members
+        // 3. the weight of a transition to a given allowed nbhd member =
+        //    member's degeneracy / sum of allowed-members' degeneracies
+        // =========================================================
+
+        // wTotal = ln(sum of degeneracies of allowed nbhd members)
+        var wTotal: Double = Double.nan
+        for member in allowedMembers {
+            wTotal = addLogs(wTotal, member.entropy)
+        }
+        for member in allowedMembers {
+            // wPortion = log ( exp(wCurr) * exp(wMember) / exp(wTotal) )
+            let wPortion = node.wCurr + member.entropy - wTotal
+            member.fill(wPortion)
         }
     }
 }
@@ -176,11 +205,10 @@ class SteepestDescentEqualDivision : PFlowRule {
 // AnyDescentEqualDivision
 // ==================================================================
 
-/// The node's population is equally divided among all neighbors
-/// with ehergy <= its own. If there are no such neighbors the
-// population is divided equally among nbhd members with energy
-// equal to the node.
-/// retains all its population.
+/// The node's population is divided evenly among all nbhd members
+/// with energy < its own, correcting for degeneracies.
+/// If there are no such neighbors the population is divided evenly
+/// among nbhd members with energy equal to that of node.
 class AnyDescentEqualDivision : PFlowRule {
     
     let ruleType = PFlowRuleType.anyDescentEqualDivision
@@ -200,40 +228,71 @@ class AnyDescentEqualDivision : PFlowRule {
     }
     
     func apply(_ node: PFlowNode, _ nbrs: [PFlowNode]) {
-        var favoredNbrs: [PFlowNode] = []
-        var equalNbrs: [PFlowNode] = [node]
+        var favoredMembers: [PFlowNode] = []
+        var equalMembers: [PFlowNode] = [node]
+        
         for nbr in nbrs {
             if (!distinct(nbr.potential, node.potential)) {
-                equalNbrs.append(nbr)
+                equalMembers.append(nbr)
             }
             else if (nbr.potential < node.potential) {
-                favoredNbrs.append(nbr)
+                favoredMembers.append(nbr)
             }
         }
-        debug("AnyDescentEqualDivision", "apply(\(node.m), \(node.n))", "found \(favoredNbrs.count) neighbors")
-        if (favoredNbrs.count >= 0) {
-            let wPortion = node.wCurr - log(Double(favoredNbrs.count))
-            for nbr in favoredNbrs {
-                nbr.fill(wPortion)
-            }
+        
+        let allowedMembers = (favoredMembers.count > 0) ? favoredMembers : equalMembers
+        if (favoredMembers.count > 0) {
+            debug("AnyDescentEqualDivision", "apply(\(node.m), \(node.n))",
+                "dividing population among \(favoredMembers.count) favored neighbor(s)")
         }
         else {
-            let wPortion = node.wCurr - log(Double(equalNbrs.count))
-            for nbr in equalNbrs {
-                nbr.fill(wPortion)
-            }
+            debug("AnyDescentEqualDivision", "apply(\(node.m), \(node.n))",
+                "dividing population among \(equalMembers.count) equal-energy nbhd member(s)")
+        }
+        
+        // =========================================================
+        // Degeneracy correction: for each SK config in the node
+        // there are (N+1) possibile transitions, each of which causes
+        // that config to move into one of the node's nbhd members.
+        //
+        // The number of SK configs originally in the node is given by
+        // exp(node.wCurr)
+        //
+        // The partion of transitions to moves, and hence the weighting
+        // of the transitions. depends on the config.
+        //
+        // GUESSES (requiring validation):
+        // 1. the weighting is the same for all configs in a given
+        //    node
+        // 2. the weighting is a function of the degeneracies of the
+        //    nbhd members
+        // 3. the weight of a transition to a given allowed nbhd member =
+        //    member's degeneracy / sum of allowed-members' degeneracies
+        // =========================================================
+        
+        // wTotal = ln(sum of degeneracies of allowed nbhd members)
+        var wTotal: Double = Double.nan
+        for member in allowedMembers {
+            wTotal = addLogs(wTotal, member.entropy)
+        }
+        for member in allowedMembers {
+            // wPortion = log ( exp(wCurr) * exp(member.entropy) / exp(sTotal) )
+            let wPortion = node.wCurr + member.entropy - wTotal
+            member.fill(wPortion)
         }
     }
 }
 
 // ==================================================================
-// PropertionalEnergyDescent
+// ProportionalEnergyDescent
 // ==================================================================
 
-/// The node's population is divided among all neighbors
-/// with ehergy < its own, in proportion to the energy difference.
-/// If there are no such neighbors the node, then it is divided equally
-/// among nbhd members (aka node & nbrs) that have equal energy.
+/// The node's population is divided among all nbhd members with
+/// energy < its own, weighted in proportion to the energy differences
+/// and correcting for degeneracies.
+///
+/// If there are no such neighbors, then the population is divided
+/// among nbhd members with energy equal to that of the node.
 class ProportionalEnergyDescent : PFlowRule {
     
     let ruleType = PFlowRuleType.proportionalEnergyDescent
@@ -253,29 +312,90 @@ class ProportionalEnergyDescent : PFlowRule {
     }
     
     func apply(_ node: PFlowNode, _ nbrs: [PFlowNode]) {
-        var favoredNbrs: [PFlowNode] = []
-        var equalNbrs: [PFlowNode] = [node]
-        var sumOverWeights: Double = 0
+        
+        var favoredMembers: [PFlowNode] = []
+        var equalMembers: [PFlowNode] = [node]
         for nbr in nbrs {
             if (!distinct(nbr.potential, node.potential)) {
-                equalNbrs.append(nbr)
+                equalMembers.append(nbr)
             }
             else if (nbr.potential < node.potential) {
-                favoredNbrs.append(nbr)
-                sumOverWeights += (node.potential-nbr.potential)
+                favoredMembers.append(nbr)
             }
         }
-        if (favoredNbrs.count > 0) {
-            for nbr in favoredNbrs {
-                let weight = (node.potential - nbr.potential) / sumOverWeights
-                let wPortion = node.wCurr + log(weight)
-                nbr.fill(wPortion)
+        
+        if (favoredMembers.count == 0) {
+            debug("AnyDescentEqualDivision", "apply(\(node.m), \(node.n))",
+                "dividing population among \(equalMembers.count) equal-energy nbhd member(s)")
+            
+            // =========================================================
+            // Degeneracy correction: for each SK config in the node
+            // there are (N+1) possibile transitions, each of which causes
+            // that config to move into one of the node's nbhd members.
+            //
+            // The number of SK configs originally in the node is given by
+            // exp(node.wCurr)
+            //
+            // The partion of transitions to moves, and hence the weighting
+            // of the transitions. depends on the config.
+            //
+            // GUESSES (requiring validation):
+            // 1. the weighting is the same for all configs in a given
+            //    node
+            // 2. the weighting is a function of the degeneracies of the
+            //    nbhd members
+            // 3. the weight of a transition to a given allowed nbhd member =
+            //    member's degeneracy / sum of allowed-members' degeneracies
+            // =========================================================
+            
+            // wTotal = ln(sum of degeneracies of allowed nbhd members)
+            var wTotal: Double = Double.nan
+            for member in equalMembers {
+                wTotal = addLogs(wTotal, member.entropy)
+            }
+            for member in equalMembers {
+                // wPortion = log ( exp(wCurr) * exp(member.entropy) / exp(wTotal) )
+                let wPortion = node.wCurr + member.entropy - wTotal
+                member.fill(wPortion)
             }
         }
         else {
-            let wPortion = node.wCurr - log(Double(equalNbrs.count))
-            for nbr in equalNbrs {
-                nbr.fill(wPortion)
+            debug("AnyDescentEqualDivision", "apply(\(node.m), \(node.n))",
+                "dividing population among \(favoredMembers.count) favored neighbor(s)")
+            
+            // =========================================================
+            // Degeneracy correction: for each SK config in the node
+            // there are (N+1) possible transitions, each of which causes
+            // that config to move into one of the node's nbhd members.
+            //
+            // The number of SK configs originally in the node is given by
+            // exp(node.wCurr)
+            //
+            // The partion of transitions to moves, and hence the weighting
+            // of the transitions. depends on the config.
+            //
+            // GUESSES (requiring validation):
+            // 1. the weighting is the same for all configs in a given
+            //    node
+            // 2. the weighting is a function of the degeneracies of the
+            //    nbhd members
+            // 3. the weight of a transition to a given allowed nbhd member =
+            //    member's degeneracy / sum of allowed-members' degeneracies
+            //
+            // On top of this weighting due to degeneracy, we also apply
+            // a weighting factor due to energy difference.
+            // =========================================================
+            
+            // wTotal = ln(sum of weights of allowed nbhd members)
+            var wTotal: Double = Double.nan
+            for member in favoredMembers {
+                let wMember = member.entropy + log(node.potential-member.potential)
+                wTotal = addLogs(wTotal, wMember)
+            }
+            for member in favoredMembers {
+                let wMember = member.entropy + log(node.potential-member.potential)
+                let wPortion = node.wCurr + wMember - wTotal
+                member.fill(wPortion)
             }
         }
     }
@@ -285,13 +405,12 @@ class ProportionalEnergyDescent : PFlowRule {
 // MetropolisFlow
 // ==================================================================
 
-/// For each member of SK config ensemble @ a given node, choose neighbor
-/// at random. Measure deltaE := (neighbor's energy - node's energy).
-/// Then 'accept' or 'reject' the move as follows:
-/// 1. If deltaE ~ 0, accept with probability p(accept) = 1/(#equal nbrs)
-/// 2. If deltaE < 0, accept.
-/// 3. If deltaE > 0, accept with probability p(accept) = exp(-deltaE/T).
-///
+/// For each member of SK config in a given node, choose a transition
+// at random, find the neighbor node for that transition, measure its
+// energy difference deltaE = (neighbor's energy - node's energy).
+/// Then 'accept' or 'reject' the transition using a biased coin:
+/// 1. If deltaE <= 0, p(accept) = 1
+/// 2. If deltaE >  0, p(accept) = exp(-deltaE/T)
 class MetropolisFlow : PFlowRule {
 
     // ===================================================================
@@ -363,6 +482,7 @@ class MetropolisFlow : PFlowRule {
             let nbrWeight = nbrWeights[i]
             if (nbrWeight > 0) {
                 let nbrPortion = node.wCurr + log(nbrWeight/numPortions)
+                // FIXME need to include degeneracy correction (d_j/d_i)
                 nbr.fill(nbrPortion)
                 totalFilled = addLogs(totalFilled, nbrPortion)
             }
@@ -371,6 +491,7 @@ class MetropolisFlow : PFlowRule {
         if (nodeWeight > 0) {
             /// log(deltaP) = log(weight * exp(wCurr))
             let nodePortion = node.wCurr + log(nodeWeight/numPortions)
+            // FIXME need to include degeneracy correction (d_j/d_i)
             node.fill(nodePortion)
             totalFilled = addLogs(totalFilled, nodePortion)
         }
@@ -455,6 +576,7 @@ class SymmetricFlow : PFlowRule {
             let nbrWeight = nbrWeights[i]
             if (nbrWeight > 0) {
                 let nbrPortion = node.wCurr + log(nbrWeight/numPortions)
+                // FIXME need to include degeneracy correction (d_j/d_i)
                 nbr.fill(nbrPortion)
                 totalFilled = addLogs(totalFilled, nbrPortion)
             }
@@ -463,6 +585,7 @@ class SymmetricFlow : PFlowRule {
         if (nodeWeight > 0) {
             /// log(deltaP) = log(weight * exp(wCurr))
             let nodePortion = node.wCurr + log(nodeWeight/numPortions)
+            // FIXME need to include degeneracy correction (d_j/d_i)
             node.fill(nodePortion)
             totalFilled = addLogs(totalFilled, nodePortion)
         }
@@ -548,6 +671,7 @@ class EmpiricalFlow : PFlowRule {
             let nbrWeight = nbrWeights[i]
             if (nbrWeight > 0) {
                 let nbrPortion = node.wCurr + log(nbrWeight/numPortions)
+                // FIXME need to include degeneracy correction (d_j/d_i)
                 nbr.fill(nbrPortion)
                 totalFilled = addLogs(totalFilled, nbrPortion)
             }
@@ -556,6 +680,7 @@ class EmpiricalFlow : PFlowRule {
         if (nodeWeight > 0) {
             /// log(deltaP) = log(weight * exp(wCurr))
             let nodePortion = node.wCurr + log(nodeWeight/numPortions)
+            // FIXME need to include degeneracy correction (d_j/d_i)
             node.fill(nodePortion)
             totalFilled = addLogs(totalFilled, nodePortion)
         }
@@ -649,6 +774,7 @@ class DetailedBalanceFlow : PFlowRule {
             let nbrWeight = nbrWeights[i]
             if (nbrWeight > 0) {
                 let nbrPortion = node.wCurr + log(nbrWeight/numPortions)
+                // FIXME need to include degeneracy correction (d_j/d_i)
                 nbr.fill(nbrPortion)
                 totalFilled = addLogs(totalFilled, nbrPortion)
             }
@@ -657,6 +783,7 @@ class DetailedBalanceFlow : PFlowRule {
         if (nodeWeight > 0) {
             /// log(deltaP) = log(weight * exp(wCurr))
             let nodePortion = node.wCurr + log(nodeWeight/numPortions)
+            // FIXME need to include degeneracy correction (d_j/d_i)
             node.fill(nodePortion)
             totalFilled = addLogs(totalFilled, nodePortion)
         }
