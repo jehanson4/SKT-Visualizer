@@ -60,13 +60,23 @@ class PopulationFlowSequencer : GenericSequencer<Int> {
     private var _upperBound: Int = 100
     private var _stepSize: Int = 1
     private var flow: PopulationFlowManager
+    private var rule: PFlowRule? = nil
     
     // ===========================================
     // Initialization
     
-    init(_ flow: PopulationFlowManager) {
+    init(_ name: String, _ flow: PopulationFlowManager, _ rule: PFlowRule? = nil) {
         self.flow = flow
-        super.init("Population Flow", false)
+        self.rule = rule
+        super.init(name, false)
+        super.boundaryCondition = BoundaryCondition.periodic
+    }
+    
+    override func reset() {
+        if (self.rule != nil) {
+            flow.changeRule(rule!)
+        }
+        super.reset()
     }
     
     override func toString(_ x: Double) -> String {

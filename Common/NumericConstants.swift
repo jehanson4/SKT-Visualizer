@@ -38,6 +38,7 @@ class DoubleConstants : NumericConstants<Double> {
     let piOver4 = 0.25 * Double.pi
     let eps = 1e-6
     let goldenRatio = (0.5 * (1.0 + sqrt(5.0)))
+    let log2 = log(2.0)
 }
 
 fileprivate let dConstants = DoubleConstants()

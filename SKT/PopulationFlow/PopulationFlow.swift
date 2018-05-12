@@ -90,12 +90,12 @@ class PopulationFlowModel {
 
     var geometry: SKGeometry
     var physics: SKPhysics
-    
+    var ic: PFlowInitializer
+    var rule: PFlowRule
+
     private var geometryCC: Int
     private var physicsCC: Int
     private var nodes: [PFlowNode]
-    private var ic: PFlowInitializer
-    private var localRule: PFlowRule
     
     private var _nodeArrayIsStale: Bool
     private var _potentialIsStale: Bool
@@ -104,14 +104,14 @@ class PopulationFlowModel {
     // Inializer
     // =====================================
 
-    init(_ geometry: SKGeometry, _ physics: SKPhysics, _ ic: PFlowInitializer, _ localRule: PFlowRule) {
+    init(_ geometry: SKGeometry, _ physics: SKPhysics, _ ic: PFlowInitializer, _ rule: PFlowRule) {
         self.nodes = []
         self.geometry = geometry
         self.physics = physics
         self.geometryCC = geometry.changeNumber
         self.physicsCC = physics.changeNumber
         self.ic = ic
-        self.localRule = localRule
+        self.rule = rule
         self._nodeArrayIsStale = true
         self._potentialIsStale = true
         refresh()
@@ -194,7 +194,7 @@ class PopulationFlowModel {
     private func buildNodes() {
         debug("buildNodes", "entering")
         ic.prepare(self)
-        localRule.prepare(self)
+        rule.prepare(self)
         var nodearray: [PFlowNode] = []
 
         // debug("buildNodes", "building nodeArray")
@@ -202,7 +202,7 @@ class PopulationFlowModel {
             let (m, n) = geometry.nodeIndexToSK(i)
             nodearray.append(PFlowNode(i, m: m, n: n,
                                        Entropy.entropy(m, n, geometry),
-                                       localRule.potentialAt(m: m, n: n),
+                                       rule.potentialAt(m: m, n: n),
                                        ic.logPopulationAt(m: m, n: n)))
         }
         // debug("buildNodes", "nodeArray built")
@@ -215,9 +215,9 @@ class PopulationFlowModel {
     private func resetNodes() {
         debug("resetNodes", "entering")
         ic.prepare(self)
-        localRule.prepare(self)
+        rule.prepare(self)
         for node in nodes {
-            node.reset(localRule.potentialAt(m: node.m, n: node.n), ic.logPopulationAt(m: node.m, n: node.n))
+            node.reset(rule.potentialAt(m: node.m, n: node.n), ic.logPopulationAt(m: node.m, n: node.n))
         }
         self._potentialIsStale = false
         debug("resetNodes", "done")
@@ -241,10 +241,10 @@ class PopulationFlowModel {
         // . . . or else fix the reason why
         // =================================
         
-        localRule.prepare(self)
+        rule.prepare(self)
         debug(mtd, "applying local rule")
         for node in nodes {
-            localRule.apply(node, neighborsOf(node))
+            rule.apply(node, neighborsOf(node))
         }
         
         debug(mtd, "advancing nodes")
@@ -365,7 +365,7 @@ class PopulationFlowManager : ChangeMonitorEnabled {
     private var _stepNumber : Int = 0
     private var _isSteadyState: Bool = false
 
-    init(_ skt: SKTModel, _ ic: PFlowInitializer? = nil, _ localRule: PFlowRule? = nil) {
+    init(_ skt: SKTModel, _ ic: PFlowInitializer? = nil, _ rule: PFlowRule? = nil) {
         self.skt = skt
         let geometry = SKGeometry()
         let physics = SKPhysics(geometry)
@@ -373,14 +373,9 @@ class PopulationFlowManager : ChangeMonitorEnabled {
         modelParams.applyTo(geometry)
         modelParams.applyTo(physics)
         
-        let ic = EquilibriumPopulation()
-        // let rule = SteepestDescentFirstMatch()
-        // let rule = SteepestDescentLastMatch()
-        // let rule = SteepestDescentEqualDivision()
-        // let rule = AnyDescentEqualDivision()
-        let rule = ProportionalEnergyDescent()
-
-        self.workingData = PopulationFlowModel(geometry, physics, ic, rule)
+        let ic2 = (ic != nil) ? ic! : EquilibriumPopulation()
+        let rule2 = (rule != nil) ? rule! : SteepestDescentFirstMatch()
+        self.workingData = PopulationFlowModel(geometry, physics, ic2, rule2)
         self._wCurr = self.workingData.exportWCurr()
     }
 
@@ -399,6 +394,25 @@ class PopulationFlowManager : ChangeMonitorEnabled {
             }
         }
         debug("sync", "done")
+    }
+    
+    func changeRule(_ rule: PFlowRule) {
+        debug("changeRule", "entering")
+        self.skt.busy = true
+        self.skt.workQueue.async {
+            self.workingData.rule = rule
+            self.workingData.reset()
+            let populationChanged = true
+            let wCurr = (populationChanged) ? self.workingData.exportWCurr() : nil
+            DispatchQueue.main.async {
+                if (populationChanged) {
+                    self.updateWCurr(wCurr!)
+                    self.fireChange()
+                }
+                self.skt.busy = false
+            }
+        }
+        debug("changeRule", "done")
     }
     
     func reset() {

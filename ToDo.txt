@@ -13,7 +13,7 @@ bug fixes
     [x] rOffsets for meridians & flowLines
 
 new features
-    [x] steepest descent population flow
+    [x] population flow
     [x] dispatch queue for heavy work
 
 
@@ -21,7 +21,7 @@ ABOVE THE LINE
 ----------------------------------------------------------------------------------
 BELOW THE LINE
 
-
+[ ] pop flow sequencer upper bound not updated in UI
 [ ] 'game mode'
     this is to get apple to approve it.
     ? maybe you get to break links?

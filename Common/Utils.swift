@@ -15,6 +15,7 @@ import Foundation
 fileprivate let eps = Double.constants.eps
 fileprivate let pi = Double.constants.pi
 fileprivate let twoPi = Double.constants.twoPi
+fileprivate let log2 = Double.constants.log2
 
 /// Return true iff the values differ by more than Constants.eps
 func distinct(_ x: Double, _ y: Double) -> Bool {
@@ -48,12 +49,23 @@ func logBinomial(_ a:Int, _ b:Int) -> Double {
     let bb = Double(b)
     let cc = Double(a-b)
     return aa * log(aa) - bb * log(bb) - cc * log(cc)
-            + 0.5 * (log(aa) - log(bb) - log(cc) - log(twoPi))
+        + 0.5 * (log(aa) - log(bb) - log(cc) - log(twoPi))
 }
 
 /**
- Returns ln(1+e^x) avoiding over/underflow
+ Returns ln(1-e^(-x)) for x > 0, avoiding loss of precision
  Assumes x is a finite number
+ From https://cran.r-project.org/web/packages/Rmpfr/vignettes/log1mexp-note.pdf (accessed 5/10/2018)
+ */
+func log1mexp(_ x: Double) -> Double {
+    return (x <= log2) ? log(-expm1(-x)) : log1p(-exp(-x))
+}
+
+
+/**
+ Returns ln(1+e^x) for all x, avoiding loss of precision
+ Assumes x is a finite number
+ From https://cran.r-project.org/web/packages/Rmpfr/vignettes/log1mexp-note.pdf (accessed 5/10/2018)
  */
 func log1pexp(_ x: Double) -> Double {
     if (x <= -37) {
@@ -74,6 +86,19 @@ func log1pexp(_ x: Double) -> Double {
  */
 func addLogs(_ w1: Double, _ w2: Double) -> Double {
     return (w1.isNaN) ? w2 : ( (w2.isNaN) ? w1 : w1 + log1pexp(w2-w1) )
+}
+
+/**
+ Returns ln(x1 - x2) given w1 = ln(x1) and w2 = ln(x2)
+ Uses convention that ln(x) is NaN iff x is 0
+ */
+func subtractLogs(_ w1: Double, _ w2: Double) -> Double {
+    // ln( exp(w1) - exp(w2) ) for w1 finite number and w1 > w2
+    // = ln ( exp(w1) * (1 - exp(w2)/exp(w1) )
+    // = ln(exp(w1)) + ln(1 - exp(w2-w1))
+    // = w1 + ln(1 - exp(-(w1-w2))
+    // = w1 + log1mexp(w1-w2)
+    return (w2.isNaN) ? w1 : w1 + log1mexp(w1-w2)
 }
 
 // =======================================================================

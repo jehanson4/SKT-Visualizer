@@ -316,8 +316,22 @@ class VisualizationModel1 : VisualizationModel {
             stepSize: SKPhysics.T_defaultStepSize
         ), false)
         
-        registerSequencer(PopulationFlowSequencer(skt.populationFlow), false)
+        registerSequencer(PopulationFlowSequencer("Steepest Descent",
+                                                  skt.populationFlow,
+                                                  SteepestDescentFirstMatch()), false)
+
+        registerSequencer(PopulationFlowSequencer("Any descent",
+                                                  skt.populationFlow,
+                                                  AnyDescentEqualDivision()), false)
+
+        registerSequencer(PopulationFlowSequencer("Proportional Descent",
+                                                  skt.populationFlow,
+                                                  ProportionalDescent()), false)
         
+            registerSequencer(PopulationFlowSequencer("Metroplis Flow",
+                                                      skt.populationFlow,
+                                                      MetropolisFlow()), false)
+                
         sequencerChangeMonitor = sequencers.monitorChanges(sequencerSelectionChanged)
     }
     

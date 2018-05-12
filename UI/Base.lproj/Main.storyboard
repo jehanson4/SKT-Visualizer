@@ -1235,7 +1235,7 @@
                         </connections>
                     </tableView>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <value key="contentSizeForViewInPopover" type="size" width="180" height="250"/>
+                    <value key="contentSizeForViewInPopover" type="size" width="200" height="300"/>
                     <size key="freeformSize" width="256" height="400"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iGj-EZ-FRw" userLabel="First Responder" sceneMemberID="firstResponder"/>
