@@ -18,7 +18,7 @@ class VisualizationModel1 : VisualizationModel {
     var debugEnabled = false
     
     private var skt: SKTModel
-
+    
     // EMPIRICAL so that basin boundary nodes are visible
     static let scene_backgroundColorValue: GLfloat = 0.2
     
@@ -34,7 +34,7 @@ class VisualizationModel1 : VisualizationModel {
     // ===========================================
     // Initialization
     // ===========================================
-
+    
     init(_ skt: SKTModel) {
         self.skt = skt
         
@@ -48,7 +48,7 @@ class VisualizationModel1 : VisualizationModel {
         
         // OK to create effects here, tho
         initEffects()
-
+        
     }
     
     private func debug(_ mtd: String, _ msg: String = "") {
@@ -76,9 +76,9 @@ class VisualizationModel1 : VisualizationModel {
             _pov_default = fixPOV(newValue)
         }
     }
-
+    
     private var _pov_default: POV = POV(1,0,0,1) // temp value
-
+    
     var pov: POV {
         get { return _pov }
         set(newValue) {
@@ -86,10 +86,10 @@ class VisualizationModel1 : VisualizationModel {
             updateModelview()
         }
     }
-
+    
     private var _pov: POV = POV(1,0,0,1) // temp value
-
-
+    
+    
     func resetPOV() {
         _pov = _pov_default
         updateModelview()
@@ -160,7 +160,7 @@ class VisualizationModel1 : VisualizationModel {
         if  (entropyPP != nil) {
             let entropyCS = PhysicalPropertyColorSource(entropyPP!, linearColorMap)
             registerColorSource(entropyCS, false)
-
+            
             let degeneracyCS = PhysicalPropertyColorSource(entropyPP!, logColorMap, name: "Degeneracy")
             registerColorSource(degeneracyCS, false)
         }
@@ -175,7 +175,7 @@ class VisualizationModel1 : VisualizationModel {
         if (logOccupationPP != nil) {
             let logOccupationCS = PhysicalPropertyColorSource(logOccupationPP!, linearColorMap)
             registerColorSource(logOccupationCS, false)
-        
+            
             let occupationCS = PhysicalPropertyColorSource(logOccupationPP!, logColorMap, name: "Occupation")
             registerColorSource(occupationCS, true)
         }
@@ -213,7 +213,7 @@ class VisualizationModel1 : VisualizationModel {
         let entry = effects.register(effect, nameHint: effect.name)
         effectNamesByType[effect.effectType] = entry.name
     }
-
+    
     private func initEffects() {
         registerEffect(Axes())
         registerEffect(Meridians(skt.geometry))
@@ -221,7 +221,7 @@ class VisualizationModel1 : VisualizationModel {
         registerEffect(Surface(skt.geometry, skt.physics, colorSources))
         registerEffect(Nodes(self, skt.geometry, skt.physics, colorSources))
         registerEffect(FlowLines(skt.geometry, skt.physics))
-
+        
         registerEffect(Icosahedron(enabled: false))
         registerEffect(Balls(enabled: false))
         
@@ -240,7 +240,7 @@ class VisualizationModel1 : VisualizationModel {
     // ====================================
     // Sequencers
     // ====================================
-
+    
     lazy var sequencers = Registry<Sequencer>()
     
     var sequenceRateLimit: Double {
@@ -273,7 +273,7 @@ class VisualizationModel1 : VisualizationModel {
             upperBound: SKGeometry.N_defaultUpperBound,
             stepSize: SKGeometry.N_defaultStepSize
         ), false)
-
+        
         registerSequencer(NForFixedKOverN(skt), false)
         
         registerSequencer(NumericParameterSequencer(
@@ -285,7 +285,7 @@ class VisualizationModel1 : VisualizationModel {
             upperBound: SKGeometry.k0_defaultUpperBound,
             stepSize: SKGeometry.k0_defaultStepSize
         ), false)
-
+        
         registerSequencer(NumericParameterSequencer(
             skt.alpha1,
             min: SKPhysics.alpha_min,
@@ -319,19 +319,19 @@ class VisualizationModel1 : VisualizationModel {
         registerSequencer(PopulationFlowSequencer("Steepest Descent",
                                                   skt.populationFlow,
                                                   SteepestDescentFirstMatch()), false)
-
+        
         registerSequencer(PopulationFlowSequencer("Any descent",
                                                   skt.populationFlow,
                                                   AnyDescentEqualDivision()), false)
-
-        registerSequencer(PopulationFlowSequencer("Proportional Descent",
+        
+        registerSequencer(PopulationFlowSequencer("\u{0394}E-aware Descent",
                                                   skt.populationFlow,
                                                   ProportionalDescent()), false)
         
-            registerSequencer(PopulationFlowSequencer("Metroplis Flow",
-                                                      skt.populationFlow,
-                                                      MetropolisFlow()), false)
-                
+        registerSequencer(PopulationFlowSequencer("Metropolis Flow",
+                                                  skt.populationFlow,
+                                                  MetropolisFlow()), false)
+        
         sequencerChangeMonitor = sequencers.monitorChanges(sequencerSelectionChanged)
     }
     
@@ -375,7 +375,7 @@ class VisualizationModel1 : VisualizationModel {
             debug(mtd, "No sequencer is selected")
             return
         }
-
+        
         var seq = sequencer!
         if (!seq.enabled) {
             // debug(mtd, "Sequencer is not enabled")

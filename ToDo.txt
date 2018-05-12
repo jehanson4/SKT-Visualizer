@@ -16,11 +16,13 @@ new features
     [x] population flow
     [x] dispatch queue for heavy work
 
-[ ] snapshot doesn't get background color
-
 ABOVE THE LINE
 ----------------------------------------------------------------------------------
 BELOW THE LINE
+
+[ ] snapshot doesn't get background color
+
+[ ] Sequencer Reset button
 
 [ ] pop flow sequencer controls
     [ ] upper bound not updated in UI
