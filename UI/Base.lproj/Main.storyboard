@@ -384,16 +384,16 @@
                                                 <rect key="frame" x="16" y="0.0" width="256" height="315"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="jD1-Ne-V01" userLabel="Sequencer">
-                                                        <rect key="frame" x="0.0" y="0.0" width="256" height="165"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="256" height="167"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sequence:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i8a-Tb-EDP">
-                                                                <rect key="frame" x="0.0" y="0.0" width="97" height="165"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="97" height="167"/>
                                                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="pAw-yA-acQ" userLabel="Sequencer Pop Trigger">
-                                                                <rect key="frame" x="105" y="0.0" width="151" height="165"/>
+                                                                <rect key="frame" x="105" y="0.0" width="151" height="167"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                 <state key="normal" title="&lt;choose&gt;"/>
                                                                 <connections>
@@ -405,7 +405,7 @@
                                                         </subviews>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Fi-UD-YI4" userLabel="BC">
-                                                        <rect key="frame" x="0.0" y="169" width="256" height="28"/>
+                                                        <rect key="frame" x="0.0" y="171" width="256" height="28"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BC:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yxl-jR-Ltl">
                                                                 <rect key="frame" x="0.0" y="0.0" width="32" height="28"/>
@@ -427,7 +427,7 @@
                                                         </subviews>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OWa-NM-ipn" userLabel="LB">
-                                                        <rect key="frame" x="0.0" y="201" width="256" height="30"/>
+                                                        <rect key="frame" x="0.0" y="203" width="256" height="30"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lo:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rhd-I9-6sm" userLabel="Lower bound">
                                                                 <rect key="frame" x="0.0" y="0.0" width="32" height="30"/>
@@ -456,7 +456,7 @@
                                                         </subviews>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YSI-Ak-Hq0" userLabel="UB">
-                                                        <rect key="frame" x="0.0" y="235" width="256" height="30"/>
+                                                        <rect key="frame" x="0.0" y="237" width="256" height="30"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hi:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qBh-JZ-Idg" userLabel="Upper bound">
                                                                 <rect key="frame" x="0.0" y="0.0" width="32" height="30"/>
@@ -482,7 +482,7 @@
                                                         </subviews>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IhQ-fg-nln" userLabel="Step">
-                                                        <rect key="frame" x="0.0" y="269" width="256" height="30"/>
+                                                        <rect key="frame" x="0.0" y="271" width="256" height="30"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Δ:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B24-Bz-66M" userLabel="Step:">
                                                                 <rect key="frame" x="0.0" y="0.0" width="32" height="30"/>
@@ -508,21 +508,21 @@
                                                         </subviews>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yej-fV-4ff" userLabel="Progress">
-                                                        <rect key="frame" x="0.0" y="303" width="256" height="12"/>
+                                                        <rect key="frame" x="0.0" y="305" width="256" height="10"/>
                                                         <subviews>
                                                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="vyI-O2-aGX">
-                                                                <rect key="frame" x="0.0" y="0.0" width="160" height="12"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="192" height="10"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="4" id="BUR-vy-zan"/>
                                                                 </constraints>
                                                             </progressView>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fcd-Z9-iIF">
-                                                                <rect key="frame" x="160" y="0.0" width="96" height="12"/>
+                                                                <rect key="frame" x="192" y="0.0" width="64" height="10"/>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="96" id="1UH-UH-HB0"/>
-                                                                    <constraint firstAttribute="height" constant="12" id="xVK-3F-xT9"/>
+                                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="48" id="1UH-UH-HB0"/>
+                                                                    <constraint firstAttribute="height" constant="10" id="xVK-3F-xT9"/>
                                                                 </constraints>
-                                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
@@ -576,7 +576,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="done" id="FUp-9e-d6R">
                             <button key="customView" opaque="NO" contentMode="right" contentHorizontalAlignment="right" contentVerticalAlignment="fill" buttonType="roundedRect" lineBreakMode="middleTruncation" id="XA9-Ix-gJ4">
-                                <rect key="frame" x="269" y="5.5" width="35" height="33"/>
+                                <rect key="frame" x="269" y="6" width="35" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <state key="normal" title="&gt;&gt;&gt;"/>
@@ -1138,7 +1138,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="done" id="7Y2-PQ-QFA">
                             <button key="customView" opaque="NO" contentMode="right" contentHorizontalAlignment="right" contentVerticalAlignment="fill" buttonType="roundedRect" lineBreakMode="middleTruncation" id="8jX-Zj-hIp">
-                                <rect key="frame" x="269" y="5.5" width="35" height="33"/>
+                                <rect key="frame" x="269" y="6" width="35" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <state key="normal" title="&lt;&lt;&lt;"/>
