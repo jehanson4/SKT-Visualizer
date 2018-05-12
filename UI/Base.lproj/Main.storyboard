@@ -328,7 +328,7 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="xyx-sL-kk5" userLabel="AnimationSection">
-                                <rect key="frame" x="16" y="349.5" width="288" height="402.5"/>
+                                <rect key="frame" x="16" y="361.5" width="288" height="390.5"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PNw-h2-QOj" userLabel="Separator">
                                         <rect key="frame" x="0.0" y="0.0" width="288" height="1"/>
@@ -344,14 +344,14 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vP6-Pt-5d4" userLabel="Spacer1">
-                                        <rect key="frame" x="0.0" y="23.5" width="288" height="8"/>
+                                        <rect key="frame" x="0.0" y="23.5" width="288" height="4"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="8" id="Yo2-BE-sgE"/>
+                                            <constraint firstAttribute="height" constant="4" id="Yo2-BE-sgE"/>
                                         </constraints>
                                     </view>
                                     <segmentedControl opaque="NO" contentMode="center" horizontalHuggingPriority="750" contentHorizontalAlignment="fill" contentVerticalAlignment="center" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="SZ3-82-JQs" userLabel="player">
-                                        <rect key="frame" x="0.0" y="35.5" width="288" height="29"/>
+                                        <rect key="frame" x="0.0" y="31.5" width="288" height="29"/>
                                         <segments>
                                             <segment title="◁"/>
                                             <segment title="||◁"/>
@@ -364,27 +364,14 @@
                                         </connections>
                                     </segmentedControl>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pXi-aA-Yf1" userLabel="Spacer2">
-                                        <rect key="frame" x="0.0" y="67.5" width="288" height="2"/>
+                                        <rect key="frame" x="0.0" y="63.5" width="288" height="8"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="2" id="J1v-Fj-PC1" userLabel="height = 4"/>
-                                        </constraints>
-                                    </view>
-                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="vyI-O2-aGX">
-                                        <rect key="frame" x="0.0" y="73.5" width="288" height="4"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="4" id="BUR-vy-zan"/>
-                                        </constraints>
-                                    </progressView>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TrR-Bf-3vP" userLabel="Spacer2">
-                                        <rect key="frame" x="0.0" y="81.5" width="288" height="2"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="2" id="bEA-N0-qF3" userLabel="height = 4"/>
+                                            <constraint firstAttribute="height" constant="8" id="J1v-Fj-PC1" userLabel="height = 4"/>
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mSm-Mh-PZo" userLabel="Stack">
-                                        <rect key="frame" x="0.0" y="87.5" width="288" height="315"/>
+                                        <rect key="frame" x="0.0" y="75.5" width="288" height="315"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="odu-EN-iY5" userLabel="Left spacer">
                                                 <rect key="frame" x="0.0" y="0.0" width="16" height="315"/>
@@ -397,17 +384,17 @@
                                                 <rect key="frame" x="16" y="0.0" width="256" height="315"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="jD1-Ne-V01" userLabel="Sequencer">
-                                                        <rect key="frame" x="0.0" y="0.0" width="256" height="181"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="256" height="165"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sequence:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i8a-Tb-EDP">
-                                                                <rect key="frame" x="0.0" y="0.0" width="97" height="181"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="97" height="165"/>
                                                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pAw-yA-acQ" userLabel="Sequencer Pop Trigger">
-                                                                <rect key="frame" x="105" y="0.0" width="151" height="181"/>
-                                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="pAw-yA-acQ" userLabel="Sequencer Pop Trigger">
+                                                                <rect key="frame" x="105" y="0.0" width="151" height="165"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                 <state key="normal" title="&lt;choose&gt;"/>
                                                                 <connections>
                                                                     <segue destination="W2e-t1-c6X" kind="popoverPresentation" popoverAnchorView="pAw-yA-acQ" id="mAp-aY-kFR">
@@ -418,7 +405,7 @@
                                                         </subviews>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Fi-UD-YI4" userLabel="BC">
-                                                        <rect key="frame" x="0.0" y="185" width="256" height="28"/>
+                                                        <rect key="frame" x="0.0" y="169" width="256" height="28"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BC:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yxl-jR-Ltl">
                                                                 <rect key="frame" x="0.0" y="0.0" width="32" height="28"/>
@@ -440,7 +427,7 @@
                                                         </subviews>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OWa-NM-ipn" userLabel="LB">
-                                                        <rect key="frame" x="0.0" y="217" width="256" height="30"/>
+                                                        <rect key="frame" x="0.0" y="201" width="256" height="30"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lo:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rhd-I9-6sm" userLabel="Lower bound">
                                                                 <rect key="frame" x="0.0" y="0.0" width="32" height="30"/>
@@ -469,7 +456,7 @@
                                                         </subviews>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YSI-Ak-Hq0" userLabel="UB">
-                                                        <rect key="frame" x="0.0" y="251" width="256" height="30"/>
+                                                        <rect key="frame" x="0.0" y="235" width="256" height="30"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hi:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qBh-JZ-Idg" userLabel="Upper bound">
                                                                 <rect key="frame" x="0.0" y="0.0" width="32" height="30"/>
@@ -495,7 +482,7 @@
                                                         </subviews>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IhQ-fg-nln" userLabel="Step">
-                                                        <rect key="frame" x="0.0" y="285" width="256" height="30"/>
+                                                        <rect key="frame" x="0.0" y="269" width="256" height="30"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Δ:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B24-Bz-66M" userLabel="Step:">
                                                                 <rect key="frame" x="0.0" y="0.0" width="32" height="30"/>
@@ -518,6 +505,27 @@
                                                                     <action selector="stepSize_stepperAction:" destination="3aD-bn-OtG" eventType="valueChanged" id="AfP-A3-zGU"/>
                                                                 </connections>
                                                             </stepper>
+                                                        </subviews>
+                                                    </stackView>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yej-fV-4ff" userLabel="Progress">
+                                                        <rect key="frame" x="0.0" y="303" width="256" height="12"/>
+                                                        <subviews>
+                                                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="vyI-O2-aGX">
+                                                                <rect key="frame" x="0.0" y="0.0" width="160" height="12"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="4" id="BUR-vy-zan"/>
+                                                                </constraints>
+                                                            </progressView>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fcd-Z9-iIF">
+                                                                <rect key="frame" x="160" y="0.0" width="96" height="12"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="96" id="1UH-UH-HB0"/>
+                                                                    <constraint firstAttribute="height" constant="12" id="xVK-3F-xT9"/>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
                                                         </subviews>
                                                     </stackView>
                                                 </subviews>
@@ -568,7 +576,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="done" id="FUp-9e-d6R">
                             <button key="customView" opaque="NO" contentMode="right" contentHorizontalAlignment="right" contentVerticalAlignment="fill" buttonType="roundedRect" lineBreakMode="middleTruncation" id="XA9-Ix-gJ4">
-                                <rect key="frame" x="269" y="6" width="35" height="33"/>
+                                <rect key="frame" x="269" y="5.5" width="35" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <state key="normal" title="&gt;&gt;&gt;"/>
@@ -595,7 +603,8 @@
                         <outlet property="lb_text" destination="12I-P2-pCP" id="VkO-2C-ZNf"/>
                         <outlet property="player_segment" destination="SZ3-82-JQs" id="pOz-JW-RER"/>
                         <outlet property="sequencerDrop" destination="pAw-yA-acQ" id="E1J-cQ-938"/>
-                        <outlet property="sequencerProgress" destination="vyI-O2-aGX" id="EHB-bW-7oP"/>
+                        <outlet property="sequencerProgressBar" destination="vyI-O2-aGX" id="EHB-bW-7oP"/>
+                        <outlet property="sequencerProgressLabel" destination="fcd-Z9-iIF" id="9jK-Qd-Fih"/>
                         <outlet property="stepSize_stepper" destination="CPk-qf-RWq" id="ywi-32-InZ"/>
                         <outlet property="stepSize_text" destination="xVJ-fX-bJn" id="mB3-sU-Zw5"/>
                         <outlet property="ub_stepper" destination="a29-J2-HN0" id="4uM-zK-fHf"/>
@@ -1129,7 +1138,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="done" id="7Y2-PQ-QFA">
                             <button key="customView" opaque="NO" contentMode="right" contentHorizontalAlignment="right" contentVerticalAlignment="fill" buttonType="roundedRect" lineBreakMode="middleTruncation" id="8jX-Zj-hIp">
-                                <rect key="frame" x="269" y="6" width="35" height="33"/>
+                                <rect key="frame" x="269" y="5.5" width="35" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <state key="normal" title="&lt;&lt;&lt;"/>

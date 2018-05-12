@@ -16,12 +16,16 @@ new features
     [x] population flow
     [x] dispatch queue for heavy work
 
+[ ] snapshot doesn't get background color
 
 ABOVE THE LINE
 ----------------------------------------------------------------------------------
 BELOW THE LINE
 
-[ ] pop flow sequencer upper bound not updated in UI
+[ ] pop flow sequencer controls
+    [ ] upper bound not updated in UI
+    [ ] Delta button may not be working; or else update are piling up
+
 [ ] 'game mode'
     this is to get apple to approve it.
     ? maybe you get to break links?
@@ -47,9 +51,8 @@ BELOW THE LINE
 
 [ ] UI for pop flow rule selection
 
-[ ] Metropolis PFlow rule unexpected behavior
-
-[ ] relaxation flow -- use known equilibrium occupancy
+[?] relaxation flow -- use known equilibrium occupancy
+    but isn't that cheating?
 
 [ ] use NSLog not print
     find out about log levels too

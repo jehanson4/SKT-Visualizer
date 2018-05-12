@@ -453,7 +453,9 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
         updateSequencerPropertyControls(sequencer)
     }
     
-    @IBOutlet weak var sequencerProgress: UIProgressView!
+    @IBOutlet weak var sequencerProgressBar: UIProgressView!
+    @IBOutlet weak var sequencerProgressLabel: UILabel!
+    
 
     @IBOutlet weak var ub_text: UITextField!
     
@@ -547,7 +549,8 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
             ub_text.text = ""
             ub_text.text = ""
             stepSize_text.text = ""
-            sequencerProgress.progress = 0
+            sequencerProgressBar.progress = 0
+            sequencerProgressLabel.text = ""
         }
         else {
             let seq = sequencer!
@@ -562,7 +565,8 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
             stepSize_text.text = seq.toString(seq.stepSize)
             stepSize_stepper.value = seq.stepSize
             stepSize_stepper.stepValue = getStepSizeIncr(seq)
-            sequencerProgress.progress = Float((seq.value-seq.lowerBound)/(seq.upperBound-seq.lowerBound))
+            sequencerProgressBar.progress = Float(seq.value-seq.lowerBound)/Float(seq.upperBound-seq.lowerBound)
+            sequencerProgressLabel.text = seq.toString(seq.value)
         }
     }
     
