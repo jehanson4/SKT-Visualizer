@@ -18,5 +18,21 @@
     <li><b>Pinch</b> to zoom</li>
 </ul>
 
+<h4><a anchor="sequencers">Sequencers</h4>
+
+<p><b>Population Flow</b> sequencers operate by applying a <b>local rule</b> to a
+time-varying population of configurations distributed among the nodes. (Node population
+is displayed by the <i>Population</i> Color Source.) The initial distribution is
+chosen to match equilibrium occupancy values at high temperature. Each step of the
+sequencer applies the local rule to all nodes simultaneously.
+</p>
+<p>Local rules:
+<ul>
+    <li><b>Steepest Descent:</b> Find lowest-energy neighbor, move the node's population to that neighbor</li>
+    <li><b>Any Descent:</b> Find all downhill neighbors, move population to them all to them in equal proportions</li>
+    <li><b>&#x0394;E-aware Descent:</b> Move to downhill neighbors in proportion to energy change of the transition</li>
+    <li><b>Metropolis Flow:</b> Apply the Metropolis rule @ T = current system temperature</li>
+</ul>
+</p>
 </body>
 </html>
