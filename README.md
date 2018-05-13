@@ -3,7 +3,7 @@
 ---
 ## Release Notes
 
-### Release Notes -- Version 1.0(5)
+### Release Notes -- Version 1.0.5
 
 Bug fixes
 * Player controls set to PAUSE when change sequencer
@@ -18,7 +18,7 @@ New features
 * Background thread for heavy calculations
 
 
-### Release Notes -- Version 1.0(4)
+### Release Notes -- Version 1.0.4
 
 * Bug fixes:
   * Occupation not getting updated
@@ -27,7 +27,7 @@ New features
 * Improvements to UI
 
 
-### Release Notes -- Version 1.0(3)
+### Release Notes -- Version 1.0.3
 
 * UI cleanup
 * Animation
@@ -35,12 +35,12 @@ New features
 * Basin Boundaries
 
 
-### Release Notes -- Version 1.0(2)
+### Release Notes -- Version 1.0.2
 
 * Animation preview
 
 
-### Release Notes -- Version 1.0(1)
+### Release Notes -- Version 1.0.1
 
 * First working version
 

@@ -4,7 +4,7 @@ ToDo.txt
 
 For 1.0.6
 
-[ ] snapshot crash
+[x] snapshot crash
 
 ABOVE THE LINE
 ----------------------------------------------------------------------------------
@@ -12,16 +12,7 @@ BELOW THE LINE
 
 [ ] verify: sequencers and steppers take step-size from current delta, not default
 
-[ ] basins on BG queue
-
-[ ] automatically select color source = population when sequencer selection changes
-    to a pop-flow sequencer from sth else.
-
-[ ] snapshot doesn't get background color
-
 [ ] verify that all the change monitor guys impl the new protocol
-
-[ ] Sequencer Reset button
 
 [ ] pop flow sequencer controls
     [ ] upper bound not updated in UI
@@ -31,10 +22,20 @@ BELOW THE LINE
     if you stop it, change k0, start it again
 
     sequencer methods:
-        reset() - puts it back to whatever it regards as an initial state
-        step()
-        reverse() -- not sure it's even used
+    reset() - puts it back to whatever it regards as an initial state
+    step()
+    reverse() -- not sure it's even used
     but nothing that says, re-derive params
+
+[ ] basins on BG queue
+
+[ ] automatically select color source = population when sequencer selection changes
+    to a pop-flow sequencer from sth else.
+
+[ ] snapshot doesn't get background color
+
+[ ] Sequencer Reset button
+    ...where?
 
 [ ] block the back half of the nodes
     maybe 2 intersecting vertical flat semicircles @ phi=0 & phi=pi/2
@@ -51,6 +52,8 @@ BELOW THE LINE
 
 [?] relaxation flow -- use known equilibrium occupancy
     but isn't that cheating?
+
+[?] move sequencer controls to page 2
 
 [ ] use NSLog not print
     find out about log levels too

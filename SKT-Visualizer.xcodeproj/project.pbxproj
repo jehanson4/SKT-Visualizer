@@ -112,7 +112,6 @@
 		8AD9DACF2091E7360062457C /* BasinFinder2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AD9DACE2091E7360062457C /* BasinFinder2.swift */; };
 		8AE18F9F2099ED8A0086F127 /* backgroundCalculation.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8AE18F9B2099ED8A0086F127 /* backgroundCalculation.txt */; };
 		8AE18FA12099ED8A0086F127 /* lookAndFeel.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8AE18F9D2099ED8A0086F127 /* lookAndFeel.txt */; };
-		8AE18FA32099EE580086F127 /* stochasticFlow.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8AE18FA22099EE580086F127 /* stochasticFlow.txt */; };
 		8AE18FA52099EFF30086F127 /* code.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8AE18FA42099EFF30086F127 /* code.txt */; };
 		8AE18FA7209A1E220086F127 /* FreeEnergy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE18FA6209A1E220086F127 /* FreeEnergy.swift */; };
 		8AE48BBB2087857C001B5D11 /* GLUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE48BBA2087857C001B5D11 /* GLUtils.swift */; };
@@ -237,7 +236,6 @@
 		8AD9DACE2091E7360062457C /* BasinFinder2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasinFinder2.swift; sourceTree = "<group>"; };
 		8AE18F9B2099ED8A0086F127 /* backgroundCalculation.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = backgroundCalculation.txt; sourceTree = "<group>"; };
 		8AE18F9D2099ED8A0086F127 /* lookAndFeel.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = lookAndFeel.txt; sourceTree = "<group>"; };
-		8AE18FA22099EE580086F127 /* stochasticFlow.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = stochasticFlow.txt; sourceTree = "<group>"; };
 		8AE18FA42099EFF30086F127 /* code.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = code.txt; sourceTree = "<group>"; };
 		8AE18FA6209A1E220086F127 /* FreeEnergy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FreeEnergy.swift; sourceTree = "<group>"; };
 		8AE48BBA2087857C001B5D11 /* GLUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GLUtils.swift; sourceTree = "<group>"; };
@@ -505,7 +503,6 @@
 				8AE18F9B2099ED8A0086F127 /* backgroundCalculation.txt */,
 				8AE18FA42099EFF30086F127 /* code.txt */,
 				8AE18F9D2099ED8A0086F127 /* lookAndFeel.txt */,
-				8AE18FA22099EE580086F127 /* stochasticFlow.txt */,
 			);
 			path = _Notes;
 			sourceTree = "<group>";
@@ -673,7 +670,6 @@
 				8AD81826207C9BD900426C25 /* image1-20@2x.png in Resources */,
 				8AD81820207C9BD900426C25 /* image1-60@2x.png in Resources */,
 				8A57600620805790002B9951 /* smooth-cool-warm-table-byte-0016.csv in Resources */,
-				8AE18FA32099EE580086F127 /* stochasticFlow.txt in Resources */,
 				8A1CF020207146540099DD97 /* LaunchScreen.storyboard in Resources */,
 				8AA05A2320900692009417A6 /* ColorSourceSelectionViewController.xib in Resources */,
 				8A75424A20A8CC5100A2BFAD /* about.html in Resources */,
