@@ -1,4 +1,9 @@
 
+html,body {
+    margin: 0px;
+    padding: 10px;
+}
+
 h3, h3, h4 {
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -21,7 +26,7 @@ h3, h3, h4 {
 .h2-dropcap {
     color: #903;
     float: left;
-    font-family: Arial, Helvetica, sals-serif;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 40px;
     line-height: 30px;
     padding-top: 4px;
@@ -32,7 +37,6 @@ h3, h3, h4 {
 .quicklinks {
     text-align: justify;
     max-width: 600px;
-    margin: auto;
     font-variant: small-caps;
 }
 

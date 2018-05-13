@@ -424,6 +424,7 @@
 		8A9D599B208DFBD20022831B /* App */ = {
 			isa = PBXGroup;
 			children = (
+				8A1CF019207146510099DD97 /* Main.storyboard */,
 				8AF594FF208AC0420082C5DE /* AppModel.swift */,
 				8A1CF01E207146540099DD97 /* LaunchScreen.storyboard */,
 				8A1CF015207146510099DD97 /* AppDelegate.swift */,
@@ -560,7 +561,6 @@
 				8AD817FA207BFA9200426C25 /* InfoViewController.swift */,
 				8AD817FB207BFA9200426C25 /* InfoViewController.xib */,
 				8AA05A18208FFFD4009417A6 /* MagicStrings.swift */,
-				8A1CF019207146510099DD97 /* Main.storyboard */,
 				8AAA008C207166C0001A136D /* MasterViewController.swift */,
 				8AAA008D207166C0001A136D /* MasterViewController.xib */,
 				8AA05A2420901B19009417A6 /* SequencerSelectionViewController.swift */,
