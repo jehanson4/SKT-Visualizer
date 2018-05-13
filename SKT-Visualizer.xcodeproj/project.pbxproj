@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		8A0269DD2080B1240054107D /* ColorSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0269DC2080B1240054107D /* ColorSource.swift */; };
-		8A0B39FE20A3A5E200370999 /* WorkQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0B39FD20A3A5E200370999 /* WorkQueue.swift */; };
 		8A0B3A0020A4B71200370999 /* PopulationFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0B39FF20A4B71200370999 /* PopulationFlow.swift */; };
 		8A0C09A620716B670017AC4C /* SKGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0C09A520716B670017AC4C /* SKGeometry.swift */; };
 		8A131C91207160100088F2FC /* _miscNotes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8A131C90207160100088F2FC /* _miscNotes.txt */; };
@@ -56,7 +55,6 @@
 		8A75424A20A8CC5100A2BFAD /* about.html in Resources */ = {isa = PBXBuildFile; fileRef = 8A75424920A8CC5100A2BFAD /* about.html */; };
 		8A75B690208A317D00EACD13 /* Registry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B68F208A317D00EACD13 /* Registry.swift */; };
 		8A75B694208A771800EACD13 /* SKTModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B693208A771800EACD13 /* SKTModel.swift */; };
-		8A7CB9F42090A427007E3409 /* reset2.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A7CB9F32090A426007E3409 /* reset2.png */; };
 		8A84313820726F0100F06B9B /* Axes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A84313720726F0100F06B9B /* Axes.swift */; };
 		8A91B0982093F8C100488907 /* Parameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A91B0972093F8C100488907 /* Parameters.swift */; };
 		8A91B09C2093F98000488907 /* Sequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A91B09B2093F98000488907 /* Sequencer.swift */; };
@@ -130,7 +128,6 @@
 
 /* Begin PBXFileReference section */
 		8A0269DC2080B1240054107D /* ColorSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSource.swift; sourceTree = "<group>"; };
-		8A0B39FD20A3A5E200370999 /* WorkQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkQueue.swift; sourceTree = "<group>"; };
 		8A0B39FF20A4B71200370999 /* PopulationFlow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopulationFlow.swift; sourceTree = "<group>"; };
 		8A0C09A520716B670017AC4C /* SKGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKGeometry.swift; sourceTree = "<group>"; };
 		8A131C90207160100088F2FC /* _miscNotes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _miscNotes.txt; sourceTree = "<group>"; };
@@ -180,7 +177,6 @@
 		8A75424920A8CC5100A2BFAD /* about.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = about.html; sourceTree = "<group>"; };
 		8A75B68F208A317D00EACD13 /* Registry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registry.swift; sourceTree = "<group>"; };
 		8A75B693208A771800EACD13 /* SKTModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKTModel.swift; sourceTree = "<group>"; };
-		8A7CB9F32090A426007E3409 /* reset2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = reset2.png; sourceTree = "<group>"; };
 		8A84313720726F0100F06B9B /* Axes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Axes.swift; sourceTree = "<group>"; };
 		8A91B0972093F8C100488907 /* Parameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parameters.swift; sourceTree = "<group>"; };
 		8A91B09B2093F98000488907 /* Sequencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sequencer.swift; sourceTree = "<group>"; };
@@ -282,7 +278,6 @@
 			children = (
 				8A91B09D2094163C00488907 /* DummySequencer.swift */,
 				8A91B09F2094164700488907 /* NForFixedKOverN.swift */,
-				8A91B09B2093F98000488907 /* Sequencer.swift */,
 				8A35082F20A0A0C200E36C1F /* PopulationFlowSequencer.swift */,
 				8A91B0A3209418A900488907 /* NumericParameterSequencer.swift */,
 				8A91B0A92094B01400488907 /* GenericSequencer.swift */,
@@ -293,20 +288,20 @@
 		8A1CF009207146510099DD97 = {
 			isa = PBXGroup;
 			children = (
+				8AF98F95207FE7D60007688E /* LICENSE */,
 				8AF98FA6207FE9CF0007688E /* README.md */,
 				8AAF6DFE208167A800E4C9BF /* ToDo.txt */,
 				8AE18F982099EC390086F127 /* _Notes */,
-				8A0C09A220716B050017AC4C /* Common */,
-				8AF5320C2088B63E009D1882 /* SKT */,
-				8AF59501208AC50D0082C5DE /* Visualization */,
-				8AF59504208AC6DB0082C5DE /* UI */,
 				8A9D599B208DFBD20022831B /* App */,
+				8A0C09A220716B050017AC4C /* Common */,
 				8AF138B7207B8966001A88C6 /* Resources */,
-				8A3C45B72086185B00A1E9CD /* Unfinished */,
-				8A1E1C85207D7C64008C1AAF /* Unused */,
-				8AF98F95207FE7D60007688E /* LICENSE */,
+				8AF5320C2088B63E009D1882 /* SKT */,
+				8AF59504208AC6DB0082C5DE /* UI */,
+				8AF59501208AC50D0082C5DE /* Visualization */,
 				8ACE78902073CCDA00C29875 /* Frameworks */,
 				8A1CF013207146510099DD97 /* Products */,
+				8A3C45B72086185B00A1E9CD /* Unfinished */,
+				8A1E1C85207D7C64008C1AAF /* Unused */,
 			);
 			sourceTree = "<group>";
 		};
@@ -321,9 +316,7 @@
 		8A1E1C85207D7C64008C1AAF /* Unused */ = {
 			isa = PBXGroup;
 			children = (
-				8A0B39FD20A3A5E200370999 /* WorkQueue.swift */,
 				8A741FE520925E2D002A88D0 /* SKGraph.swift */,
-				8A7CB9F32090A426007E3409 /* reset2.png */,
 			);
 			path = Unused;
 			sourceTree = "<group>";
@@ -387,6 +380,7 @@
 				8A40BC0D207EEA3D00F2D2EB /* Meridians.swift */,
 				8A5E948D2078EE46003477D3 /* Net.swift */,
 				8A40BC0B207ECC7500F2D2EB /* Nodes.swift */,
+				8A91B09B2093F98000488907 /* Sequencer.swift */,
 				8ABEEC3A20803A2F008E72F4 /* Surface.swift */,
 				8AD9DABF20914E010062457C /* SimpleFragmentShader.glsl */,
 				8AD9DAC220914E010062457C /* PointSpriteVertexShader.glsl */,
@@ -675,7 +669,6 @@
 				8A75424A20A8CC5100A2BFAD /* about.html in Resources */,
 				8AD81824207C9BD900426C25 /* image1-20@3x.png in Resources */,
 				8AD81827207C9BD900426C25 /* Contents.json in Resources */,
-				8A7CB9F42090A427007E3409 /* reset2.png in Resources */,
 				8AD9DAC520914E020062457C /* SimpleFragmentShader.glsl in Resources */,
 				8A1CF01D207146540099DD97 /* Assets.xcassets in Resources */,
 				8AD81819207C9BD900426C25 /* image1-40@2x.png in Resources */,
@@ -695,7 +688,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8A91B0982093F8C100488907 /* Parameters.swift in Sources */,
-				8A0B39FE20A3A5E200370999 /* WorkQueue.swift in Sources */,
 				8AE48BBB2087857C001B5D11 /* GLUtils.swift in Sources */,
 				8A1CF016207146510099DD97 /* AppDelegate.swift in Sources */,
 				8A575FEE20804759002B9951 /* ColorMaps.swift in Sources */,
