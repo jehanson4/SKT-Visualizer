@@ -53,6 +53,7 @@
 		8A5E948E2078EE46003477D3 /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A5E948D2078EE46003477D3 /* Net.swift */; };
 		8A741FE620925E2D002A88D0 /* SKGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A741FE520925E2D002A88D0 /* SKGraph.swift */; };
 		8A741FE820926B9E002A88D0 /* FlowLines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A741FE720926B9E002A88D0 /* FlowLines.swift */; };
+		8A75424A20A8CC5100A2BFAD /* about.html in Resources */ = {isa = PBXBuildFile; fileRef = 8A75424920A8CC5100A2BFAD /* about.html */; };
 		8A75B690208A317D00EACD13 /* Registry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B68F208A317D00EACD13 /* Registry.swift */; };
 		8A75B694208A771800EACD13 /* SKTModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B693208A771800EACD13 /* SKTModel.swift */; };
 		8A7CB9F42090A427007E3409 /* reset2.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A7CB9F32090A426007E3409 /* reset2.png */; };
@@ -121,7 +122,6 @@
 		8AF59503208AC5B10082C5DE /* VisualizatonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF59502208AC5B10082C5DE /* VisualizatonModel.swift */; };
 		8AF98F96207FE7D60007688E /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 8AF98F95207FE7D60007688E /* LICENSE */; };
 		8AF98F9B207FE80E0007688E /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 8AF98F98207FE80D0007688E /* index.html */; };
-		8AF98F9C207FE80E0007688E /* sample.html in Resources */ = {isa = PBXBuildFile; fileRef = 8AF98F99207FE80D0007688E /* sample.html */; };
 		8AF98FA0207FE8350007688E /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8AF98F9E207FE8350007688E /* DetailViewController.xib */; };
 		8AF98FA1207FE8350007688E /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF98F9F207FE8350007688E /* DetailViewController.swift */; };
 		8AF98FA4207FE8B40007688E /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8AF98FA2207FE8B40007688E /* SettingsViewController.xib */; };
@@ -178,6 +178,7 @@
 		8A5E948D2078EE46003477D3 /* Net.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Net.swift; sourceTree = "<group>"; };
 		8A741FE520925E2D002A88D0 /* SKGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKGraph.swift; sourceTree = "<group>"; };
 		8A741FE720926B9E002A88D0 /* FlowLines.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlowLines.swift; sourceTree = "<group>"; };
+		8A75424920A8CC5100A2BFAD /* about.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = about.html; sourceTree = "<group>"; };
 		8A75B68F208A317D00EACD13 /* Registry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registry.swift; sourceTree = "<group>"; };
 		8A75B693208A771800EACD13 /* SKTModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKTModel.swift; sourceTree = "<group>"; };
 		8A7CB9F32090A426007E3409 /* reset2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = reset2.png; sourceTree = "<group>"; };
@@ -246,7 +247,6 @@
 		8AF59502208AC5B10082C5DE /* VisualizatonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualizatonModel.swift; sourceTree = "<group>"; };
 		8AF98F95207FE7D60007688E /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		8AF98F98207FE80D0007688E /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
-		8AF98F99207FE80D0007688E /* sample.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = sample.html; sourceTree = "<group>"; };
 		8AF98F9E207FE8350007688E /* DetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailViewController.xib; sourceTree = "<group>"; };
 		8AF98F9F207FE8350007688E /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		8AF98FA2207FE8B40007688E /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
@@ -460,9 +460,9 @@
 			children = (
 				8AE48BBE2087E639001B5D11 /* background.css */,
 				8AF98F98207FE80D0007688E /* index.html */,
-				8AF98F99207FE80D0007688E /* sample.html */,
 				8A3BBBB8208BC49D00669227 /* science.html */,
 				8A53B2A0208D9B380039C5D7 /* technology.html */,
+				8A75424920A8CC5100A2BFAD /* about.html */,
 			);
 			path = background;
 			sourceTree = "<group>";
@@ -629,7 +629,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8AF98F9C207FE80E0007688E /* sample.html in Resources */,
 				8AE18F9F2099ED8A0086F127 /* backgroundCalculation.txt in Resources */,
 				8A57600B20805790002B9951 /* smooth-cool-warm-table-byte-0512.csv in Resources */,
 				8AD81822207C9BD900426C25 /* image1-29@3x.png in Resources */,
@@ -677,6 +676,7 @@
 				8AE18FA32099EE580086F127 /* stochasticFlow.txt in Resources */,
 				8A1CF020207146540099DD97 /* LaunchScreen.storyboard in Resources */,
 				8AA05A2320900692009417A6 /* ColorSourceSelectionViewController.xib in Resources */,
+				8A75424A20A8CC5100A2BFAD /* about.html in Resources */,
 				8AD81824207C9BD900426C25 /* image1-20@3x.png in Resources */,
 				8AD81827207C9BD900426C25 /* Contents.json in Resources */,
 				8A7CB9F42090A427007E3409 /* reset2.png in Resources */,

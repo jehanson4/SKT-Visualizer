@@ -576,7 +576,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="done" id="FUp-9e-d6R">
                             <button key="customView" opaque="NO" contentMode="right" contentHorizontalAlignment="right" contentVerticalAlignment="fill" buttonType="roundedRect" lineBreakMode="middleTruncation" id="XA9-Ix-gJ4">
-                                <rect key="frame" x="269" y="5.5" width="35" height="33"/>
+                                <rect key="frame" x="269" y="6" width="35" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <state key="normal" title="&gt;&gt;&gt;"/>
@@ -724,7 +724,7 @@
         <!--Info View Controller-->
         <scene sceneID="oJw-QY-OBV">
             <objects>
-                <viewController storyboardIdentifier="InfoViewController" title="Background" id="VQR-9h-kpz" userLabel="Info View Controller" customClass="InfoViewController" customModule="SKT_Visualizer" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="InfoViewController" title="SKT Visualizer" id="VQR-9h-kpz" userLabel="Info View Controller" customClass="InfoViewController" customModule="SKT_Visualizer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5TV-8x-4ZF">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -745,7 +745,7 @@
                         <viewLayoutGuide key="safeArea" id="b8y-Qq-hEr"/>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Background" id="KSK-XL-LGs">
+                    <navigationItem key="navigationItem" title="SKT Visualizer" id="KSK-XL-LGs" userLabel="NAV">
                         <barButtonItem key="leftBarButtonItem" title="&lt;&lt;&lt;" style="done" id="Avy-vA-RmK">
                             <connections>
                                 <segue destination="vDh-sL-m6k" kind="unwind" unwindAction="unwindToMaster:" id="Hh0-Lj-EhI"/>
@@ -1138,7 +1138,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="done" id="7Y2-PQ-QFA">
                             <button key="customView" opaque="NO" contentMode="right" contentHorizontalAlignment="right" contentVerticalAlignment="fill" buttonType="roundedRect" lineBreakMode="middleTruncation" id="8jX-Zj-hIp">
-                                <rect key="frame" x="269" y="5.5" width="35" height="33"/>
+                                <rect key="frame" x="269" y="6" width="35" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <state key="normal" title="&lt;&lt;&lt;"/>
