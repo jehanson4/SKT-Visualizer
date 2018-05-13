@@ -11,7 +11,7 @@ import UIKit
 class InfoViewController: UIViewController {
 
     private var cls = "InfoViewController"
-    var debugEnabled = true
+    var debugEnabled = false
     
     @IBOutlet weak var webView: UIWebView!
     
