@@ -3,6 +3,21 @@ h3, h3, h4 {
     font-family: Arial, Helvetica, sans-serif;
 }
 
+.inset {
+    margin-left: 40px;
+    padding-left: 5px;
+}
+
+
+.text-box {
+    border-style: solid;
+    border-color: lightgray;
+    border-radius: 5px;
+    max-width: 600px;
+    margin-left: 40px;
+    padding-left: 5px;
+}
+
 .h2-dropcap {
     color: #903;
     float: left;
@@ -14,13 +29,16 @@ h3, h3, h4 {
     padding-left: 3px;
 }
 
-.quicklink {
-    text-align: right;
+.quicklinks {
+    text-align: justify;
+    max-width: 600px;
+    margin: auto;
+    font-variant: small-caps;
 }
 
 .faq {
     font-weight: bold;
-    font-size: 115%;
+    font-size: 125%;
 }
 
 .def {

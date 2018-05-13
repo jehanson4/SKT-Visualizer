@@ -2,23 +2,17 @@
 ToDo.txt
 ==================================================================================
 
-For 1.0.5
+For 1.0.6
 
-UI improvements:
-    [x] progress bar
-    [x] secondary meridians in purple
-
-bug fixes
-    [x] player controls get set to step-fwd not pause . . . when change sequencer
-    [x] rOffsets for meridians & flowLines
-
-new features
-    [x] population flow
-    [x] dispatch queue for heavy work
 
 ABOVE THE LINE
 ----------------------------------------------------------------------------------
 BELOW THE LINE
+
+[ ] move that blockquote to main BG page
+
+[ ] automatically select color source = population when sequencer selection changes
+    to a pop-flow sequencer from sth else.
 
 [ ] snapshot doesn't get background color
 
