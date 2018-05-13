@@ -4,12 +4,11 @@ ToDo.txt
 
 For 1.0.6
 
+[ ] snapshot crash
 
 ABOVE THE LINE
 ----------------------------------------------------------------------------------
 BELOW THE LINE
-
-[ ] move that blockquote to main BG page
 
 [ ] automatically select color source = population when sequencer selection changes
     to a pop-flow sequencer from sth else.
