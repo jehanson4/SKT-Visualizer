@@ -10,10 +10,16 @@ ABOVE THE LINE
 ----------------------------------------------------------------------------------
 BELOW THE LINE
 
+[ ] verify: sequencers and steppers take step-size from current delta, not default
+
+[ ] basins on BG queue
+
 [ ] automatically select color source = population when sequencer selection changes
     to a pop-flow sequencer from sth else.
 
 [ ] snapshot doesn't get background color
+
+[ ] verify that all the change monitor guys impl the new protocol
 
 [ ] Sequencer Reset button
 
@@ -21,28 +27,25 @@ BELOW THE LINE
     [ ] upper bound not updated in UI
     [ ] Delta button may not be working; or else update are piling up
 
-[ ] 'game mode'
-    this is to get apple to approve it.
-    ? maybe you get to break links?
-
-[ ] when zoomed in, relax the clipping on v. short flowlines
-
 [ ] N & k0 sequencer doesn't pick up new ratio k/N
     if you stop it, change k0, start it again
 
     sequencer methods:
         reset() - puts it back to whatever it regards as an initial state
         step()
-        reverse()
+        reverse() -- not sure it's even used
     but nothing that says, re-derive params
 
 [ ] block the back half of the nodes
     maybe 2 intersecting vertical flat semicircles @ phi=0 & phi=pi/2
 
-3 directions:
-[ ] more: particle flow
-[ ] again: macOS
-[ ] better: offload more heavy tasks to background thread
+[ ] something to get it past Apple's prohibition of 'niche apps' in the App Store
+    "game mode"?
+    maybe you get to rewire the graph?
+
+[ ] when zoomed in, relax the clipping on v. short flowlines
+
+[ ] macOS version
 
 [ ] UI for pop flow rule selection
 
@@ -55,8 +58,6 @@ BELOW THE LINE
 [ ] only execute a clear-and-redraw when needed
     (actual frame rate is handled by . . . whom? GLKView?)
 
-[ ] verify: sequencers and steppers take step-size from current delta, not default
-
 [ ] control for sequencer step rate
 
 [ ] PhysicalProperty -> DerivedProperty
@@ -67,8 +68,6 @@ BELOW THE LINE
 
 [ ] add texture to the sprites to make them look like balls
 
-[ ] verify that all the change monitor guys impl the new protocol
-
 [ ] scroll & pan: track finger *exactly*. esp at v high zoom & near center
 
 [ ] segue from background to prev, not always back to main
@@ -77,6 +76,4 @@ BELOW THE LINE
 
 [ ] Recursive Embedded Definition
     This idea needs refinement. the definitions are the easy bit.
-
-[ ] button to take screenshot of the currently displayed view
 
