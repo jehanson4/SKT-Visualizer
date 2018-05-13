@@ -10,9 +10,13 @@ import UIKit
 
 class InfoViewController: UIViewController {
 
+    private var cls = "InfoViewController"
+    var debugEnabled = true
+    
     @IBOutlet weak var webView: UIWebView!
     
     override func viewDidLoad() {
+        debug("viewDidLoad")
         super.viewDidLoad()
 
         webView.backgroundColor = UIColor.white
@@ -25,7 +29,7 @@ class InfoViewController: UIViewController {
             guard let filePath = Bundle.main.path(forResource: "index", ofType: "html")
                 else {
                     // File Error
-                    print ("File reading error")
+                    NSLog("File reading error")
                     return
             }
             
@@ -34,13 +38,28 @@ class InfoViewController: UIViewController {
             webView.loadHTMLString(contents as String, baseURL: baseUrl)
         }
         catch {
-            print ("File HTML error")
+            NSLog("File HTML error")
         }
     }
 
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        debug("traitCollectionDidChange")
+        super.traitCollectionDidChange(previousTraitCollection)
+    }
+    
+    override func updateViewConstraints() {
+        debug("updateViewConstraints")
+        super.updateViewConstraints()
+        // webView.reload()
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    private func debug(_ mtd: String, _ msg: String = "") {
+        print(cls, mtd, msg)
     }
     
 //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
