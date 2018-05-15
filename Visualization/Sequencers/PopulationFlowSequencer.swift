@@ -67,10 +67,14 @@ class PopulationFlowSequencer : GenericSequencer<Int> {
     
     init(_ name: String, _ flow: PopulationFlowManager, _ rule: PFlowRule? = nil) {
         self.flow = flow
+        // flow.monitorChanges(syncToFlow)
         self.rule = rule
         super.init(name, false)
         super.boundaryCondition = BoundaryCondition.periodic
     }
+    
+//    func syncToFlow(_ Sender: Any?) {
+//    }
     
     override func reset() {
         if (self.rule != nil) {

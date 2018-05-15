@@ -4,11 +4,16 @@ ToDo.txt
 
 For 1.0.6
 
-[x] snapshot crash
 
 ABOVE THE LINE
 ----------------------------------------------------------------------------------
 BELOW THE LINE
+
+[ ] (semi-)interactive slider instead of progress bar
+    reset only?
+    allow jumps?
+
+[ ] busy spinner
 
 [ ] verify: sequencers and steppers take step-size from current delta, not default
 
@@ -16,7 +21,10 @@ BELOW THE LINE
 
 [ ] pop flow sequencer controls
     [ ] upper bound not updated in UI
-    [ ] Delta button may not be working; or else update are piling up
+    [ ] for Delta to work, loop needs to be inside BG work item
+
+[ ] on change flow sequencer, stepnumber doesn't get reset properly
+    timing thing: ui updates before rule-change completes
 
 [ ] N & k0 sequencer doesn't pick up new ratio k/N
     if you stop it, change k0, start it again
@@ -32,7 +40,7 @@ BELOW THE LINE
 [ ] automatically select color source = population when sequencer selection changes
     to a pop-flow sequencer from sth else.
 
-[ ] snapshot doesn't get background color
+[ ] snapshot doesn't get background color right
 
 [ ] Sequencer Reset button
     ...where?

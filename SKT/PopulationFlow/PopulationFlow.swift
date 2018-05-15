@@ -80,11 +80,7 @@ class PopulationFlowModel {
     
     var modelParams: SKTModelParams {
         get {
-            return SKTModelParams(N: geometry.N,
-                                  k0: geometry.k0,
-                                  alpha1: physics.alpha1,
-                                  alpha2: physics.alpha2,
-                                  T: physics.T)
+            return SKTModelParams(geometry, physics)
         }
     }
 
@@ -92,7 +88,8 @@ class PopulationFlowModel {
     var physics: SKPhysics
     var ic: PFlowInitializer
     var rule: PFlowRule
-
+    var stepNumber: Int
+    
     private var geometryCC: Int
     private var physicsCC: Int
     private var nodes: [PFlowNode]
@@ -112,9 +109,10 @@ class PopulationFlowModel {
         self.physicsCC = physics.changeNumber
         self.ic = ic
         self.rule = rule
+        self.stepNumber = 0
         self._nodeArrayIsStale = true
         self._potentialIsStale = true
-        refresh()
+        _ = refresh()
     }
     
     // =====================================
@@ -123,10 +121,13 @@ class PopulationFlowModel {
 
     func setModelParams(_ params: SKTModelParams) -> Bool {
         debug("setModelParams", "entering")
-        params.applyTo(geometry)
-        params.applyTo(physics)
+        _ = params.applyTo(geometry)
+        _ = params.applyTo(physics)
         let changed = refresh()
         debug("setModelParams", "done. changed=\(changed)")
+        if (changed) {
+            self.stepNumber = 0
+        }
         return changed
     }
     
@@ -140,7 +141,7 @@ class PopulationFlowModel {
         return wCurr
     }
     
-     func reset() {
+     func reset() -> Bool {
         debug("reset", "entering")
         
         // HACK to force resetNodes when geometry has not changed
@@ -153,7 +154,9 @@ class PopulationFlowModel {
         else if (self._potentialIsStale) {
             resetNodes()
         }
+        stepNumber = 0
         debug("reset", "done")
+        return true
     }
     
     func step() -> Bool {
@@ -171,7 +174,8 @@ class PopulationFlowModel {
         else {
             changed = applyRule()
         }
-        debug("step", "done. changed=\(changed)")
+        self.stepNumber += 1
+        debug("step", "done. stepNumber=\(stepNumber) changed=\(changed)")
         return changed
     }
     
@@ -225,7 +229,7 @@ class PopulationFlowModel {
 
     private var applyRuleCount = 0;
     private func applyRule() -> Bool {
-        var rc = applyRuleCount
+        let rc = applyRuleCount
         applyRuleCount += 1
         
         let mtd = "applyRuleCount[\(rc)]"
@@ -289,6 +293,7 @@ class PopulationFlowModel {
             resetNodes()
             changed = true
         }
+        
         debug("refresh", "done. changed=\(changed)")
         return changed
     }
@@ -320,10 +325,16 @@ class PopulationFlowModel {
 class PopulationFlowManager : ChangeMonitorEnabled {
     
     private var clsName = "PopulationFlowManager"
-    var debugEnabled = false
+    var debugEnabled = true
     
     var wCurr: [Double] {
         get {
+            // FIXME this is not going to work.
+            // But I need it in some sort of way else things don't get updated.
+            // At least this moves us in the right direction.
+            //
+            // TODO try it without the sync sometime
+            //
             if (self.skt.modelParams != workingData.modelParams) {
                 sync()
             }
@@ -359,19 +370,22 @@ class PopulationFlowManager : ChangeMonitorEnabled {
     
     private var skt: SKTModel
     private var workingData: PopulationFlowModel
+    
     private var _wCurr: [Double]
     private var _wBounds: (min: Double, max: Double)? = nil
     private var _wTotal: Double? = nil
     private var _stepNumber : Int = 0
     private var _isSteadyState: Bool = false
 
+    private var bgTaskCounter: Int = 0
+
     init(_ skt: SKTModel, _ ic: PFlowInitializer? = nil, _ rule: PFlowRule? = nil) {
         self.skt = skt
         let geometry = SKGeometry()
         let physics = SKPhysics(geometry)
         let modelParams = skt.modelParams
-        modelParams.applyTo(geometry)
-        modelParams.applyTo(physics)
+        _ = modelParams.applyTo(geometry)
+        _ = modelParams.applyTo(physics)
         
         let ic2 = (ic != nil) ? ic! : EquilibriumPopulation()
         let rule2 = (rule != nil) ? rule! : SteepestDescentFirstMatch()
@@ -381,16 +395,12 @@ class PopulationFlowManager : ChangeMonitorEnabled {
 
     func sync() {
         debug("sync", "entering")
-        self.skt.busy = true
         self.skt.workQueue.async {
             let populationChanged = self.workingData.setModelParams(self.skt.modelParams)
             let wCurr = (populationChanged) ? self.workingData.exportWCurr() : nil
-            DispatchQueue.main.async {
-                if (populationChanged) {
-                    self.updateWCurr(wCurr!)
-                    self.fireChange()
-                }
-                self.skt.busy = false
+            let stepNumber = self.workingData.stepNumber
+            DispatchQueue.main.sync {
+                self.updateLiveData(stepNumber, !populationChanged, wCurr)
             }
         }
         debug("sync", "done")
@@ -398,18 +408,16 @@ class PopulationFlowManager : ChangeMonitorEnabled {
     
     func changeRule(_ rule: PFlowRule) {
         debug("changeRule", "entering")
-        self.skt.busy = true
         self.skt.workQueue.async {
             self.workingData.rule = rule
-            self.workingData.reset()
-            let populationChanged = true
+            var populationChanged = self.workingData.setModelParams(self.skt.modelParams)
+            if (!populationChanged) {
+                populationChanged = self.workingData.reset()
+            }
+            let stepNumber = self.workingData.stepNumber
             let wCurr = (populationChanged) ? self.workingData.exportWCurr() : nil
-            DispatchQueue.main.async {
-                if (populationChanged) {
-                    self.updateWCurr(wCurr!)
-                    self.fireChange()
-                }
-                self.skt.busy = false
+            DispatchQueue.main.sync {
+                self.updateLiveData(stepNumber, !populationChanged, wCurr)
             }
         }
         debug("changeRule", "done")
@@ -417,74 +425,57 @@ class PopulationFlowManager : ChangeMonitorEnabled {
     
     func reset() {
         debug("reset", "entering")
-        self.skt.busy = true
         self.skt.workQueue.async {
             var populationChanged = self.workingData.setModelParams(self.skt.modelParams)
             if (!populationChanged) {
-                self.workingData.reset()
-                populationChanged = true
+                populationChanged = self.workingData.reset()
             }
             let wCurr = (populationChanged) ? self.workingData.exportWCurr() : nil
-
-            DispatchQueue.main.async {
-                if (populationChanged) {
-                    self.updateWCurr(wCurr!)
-                    self._stepNumber = 0
-                    self._isSteadyState = false
-                    self.fireChange()
-                }
-                self.skt.busy = false
+            let stepNumber = self.workingData.stepNumber
+            DispatchQueue.main.sync {
+                self.updateLiveData(stepNumber, !populationChanged, wCurr)
             }
         }
         debug("reset", "done")
     }
     
-    var bgTaskCounter: Int = 0
     func step() {
         debug("step", "entering")
-        self.skt.busy = true
         self.skt.workQueue.async {
             let tt = self.bgTaskCounter
             self.bgTaskCounter += 1
-            self.debug("BG task[\(tt)]", "Start task in background")
-            var resetDone = false
-            var stepTaken = false
+            self.debug("step", "BG task[\(tt)] starting")
             var populationChanged = self.workingData.setModelParams(self.skt.modelParams)
-            if (populationChanged) {
-                resetDone = true
-            }
-            else {
+            if (!populationChanged) {
                 populationChanged = self.workingData.step()
-                stepTaken = true
             }
             let wCurr = (populationChanged) ? self.workingData.exportWCurr() : nil
-
-            self.debug("BG task[\(tt)]", "Done with task in background")
-            DispatchQueue.main.async {
-                if (populationChanged) {
-                    self.updateWCurr(wCurr!)
-                    self._isSteadyState = false
-                }
-                if (resetDone) {
-                    self._stepNumber = 0
-                }
-                else if (stepTaken) {
-                    self._stepNumber += 1
-                }
-                if (populationChanged || resetDone || stepTaken) {
-                    self.fireChange()
-                }
-                self.skt.busy = false
+            let stepNumber = self.workingData.stepNumber
+            self.debug("step", "BG task[\(tt)]done")
+            DispatchQueue.main.sync {
+                self.updateLiveData(stepNumber, !populationChanged, wCurr)
             }
         }
         debug("step", "done")
     }
     
-    private func updateWCurr(_ wCurr: [Double]) {
-        debug("updateWCurr", "entering")
-        self._wCurr = wCurr
-        self._wBounds = nil
-        self._wTotal = nil
+    private func updateLiveData(_ stepNumber: Int, _ isSteadyState: Bool, _ wCurr: [Double]?) {
+        debug("updateLiveData", "entering")
+        
+        // ========================================
+        // TODO discard the new wCurr if it's no longer valid
+        // ========================================
+        
+        self._stepNumber = stepNumber
+        self._isSteadyState = isSteadyState
+        if (wCurr != nil) {
+            self._wCurr = wCurr!
+            self._wBounds = nil
+            self._wTotal = nil
+        }
+        debug("updateLiveData", "firing change")
+        self.fireChange()
+        debug("updateLiveData", "exiting")
     }
     
     private func updateDerivedVars() {
@@ -511,11 +502,14 @@ class PopulationFlowManager : ChangeMonitorEnabled {
     private lazy var changeSupport = ChangeMonitorSupport()
     
     func monitorChanges(_ callback: @escaping (Any) -> ()) -> ChangeMonitor? {
+        debug("monitorChanges")
         return changeSupport.monitorChanges(callback, self)
     }
     
     private func fireChange() {
+        debug("fireChange", "entering")
         changeSupport.fire()
+        debug("fireChange", "done")
     }
     
     // =======================================
@@ -524,10 +518,10 @@ class PopulationFlowManager : ChangeMonitorEnabled {
     private func debug(_ mtd: String, _ msg: String = "") {
         if (debugEnabled) {
             if (Thread.current.isMainThread) {
-                print(clsName, "main", mtd, msg)
+                print(clsName, "[main]", mtd, msg)
             }
             else {
-                print(clsName, "   ", mtd, msg)
+                print(clsName, "[????]", mtd, msg)
 
             }
         }

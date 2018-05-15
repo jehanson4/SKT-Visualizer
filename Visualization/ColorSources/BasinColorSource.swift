@@ -9,7 +9,7 @@
 import Foundation
 import GLKit
 
-class BasinOfAttractionColorSource : ColorSource {
+class BasinColorSource : ColorSource {
 
     var debugEnabled = false
 
@@ -58,7 +58,7 @@ class BasinOfAttractionColorSource : ColorSource {
         }
         
         // TODO don't change it here, have it done on BG queue
-        if (basinFinder.expandBasins() > 0) {
+        if (basinFinder.update()) {
             changed = true
         }
         debug("prepare", "done: changed=\(changed)")
@@ -66,8 +66,9 @@ class BasinOfAttractionColorSource : ColorSource {
     }
     
     func colorAt(_ nodeIndex: Int) -> GLKVector4 {
-        let nd = basinFinder.nodeData[nodeIndex]
-        debug("colorAt", "node (\(nd.m),\(nd.n)) " + nd.dumpResettableState())
+        // let nd = basinFinder.nodeData[nodeIndex]
+        let nd = basinFinder.basinData[nodeIndex]
+        // debug("colorAt", "node (\(nd.m),\(nd.n)) " + nd.dumpResettableState())
         if (!nd.isClassified) {
             return unclassified_color
         }
@@ -90,6 +91,8 @@ class BasinOfAttractionColorSource : ColorSource {
     }
     
     func monitorChanges(_ callback: @escaping (Any) -> ()) -> ChangeMonitor? {
+        // We need this so that effects will recompute colors if the
+        // basinFinder state changes
         return basinFinder.monitorChanges(callback)
     }
     

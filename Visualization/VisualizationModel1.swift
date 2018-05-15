@@ -15,7 +15,7 @@ import GLKit
 
 class VisualizationModel1 : VisualizationModel {
     
-    var debugEnabled = false
+    var debugEnabled = true
     
     private var skt: SKTModel
     
@@ -180,7 +180,7 @@ class VisualizationModel1 : VisualizationModel {
             registerColorSource(occupationCS, true)
         }
         
-        let basinCS = BasinOfAttractionColorSource(skt.basinFinder)
+        let basinCS = BasinColorSource(skt.basinFinder)
         registerColorSource(basinCS, false)
         
         let flowCS = PopulationColorSource(skt.populationFlow, LogColorMap())
@@ -393,6 +393,11 @@ class VisualizationModel1 : VisualizationModel {
             return
         }
         
+        if (skt.workQueue.busy) {
+            debug(mtd, "Busy")
+            return
+        }
+
         debug(mtd, "Taking the step!")
         _sequencerLastStepTime = t0
         seq.step()
@@ -490,10 +495,6 @@ class VisualizationModel1 : VisualizationModel {
     
     func draw(_ drawableWidth: Int, _ drawableHeight: Int) {
         
-        let busy = skt.busy
-        if (busy) {
-            debug("draw", "busy=\(busy)")
-        }
         let ar2 = Float(drawableWidth)/Float(drawableHeight)
         if (ar2 != self.aspectRatio) {
             debug("draw", "new aspectRatio=" + String(ar2))
@@ -502,9 +503,7 @@ class VisualizationModel1 : VisualizationModel {
             updateModelview()
         }
         
-        if (!busy) {
-            sequencerStep()
-        }
+        sequencerStep()
         
         glClear(GLbitfield(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
         

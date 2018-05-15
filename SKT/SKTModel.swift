@@ -19,15 +19,29 @@ struct SKTModelParams : Equatable {
     let alpha2: Double
     let T: Double
     
-    func applyTo(_ geometry: SKGeometry) {
-        geometry.N = self.N
-        geometry.k0 = self.k0
+    init(_ geometry: SKGeometry, _ physics: SKPhysics) {
+        self.N = geometry.N
+        self.k0 = geometry.k0
+        self.alpha1 = physics.alpha1
+        self.alpha2 = physics.alpha2
+        self.T = physics.T
     }
     
-    func applyTo(_ physics: SKPhysics) {
+    /// returns true iff the geometry was changed by this method
+    func applyTo(_ geometry: SKGeometry) -> Bool {
+        let n1 = geometry.changeNumber
+        geometry.N = self.N
+        geometry.k0 = self.k0
+        return (geometry.changeNumber != n1)
+    }
+    
+    /// returns true iff the physics was changed by this method
+    func applyTo(_ physics: SKPhysics) -> Bool {
+        let n1 = physics.changeNumber
         physics.alpha1 = self.alpha1
         physics.alpha2 = self.alpha2
         physics.T = self.T
+        return (physics.changeNumber != n1)
     }
     
     public static func == (lhs: SKTModelParams, rhs: SKTModelParams) -> Bool {
@@ -48,10 +62,9 @@ protocol SKTModel {
 
     // =================================
 
-    var busy: Bool { get set }
     var modelParams : SKTModelParams { get set }
     
-    var workQueue: DispatchQueue { get }
+    var workQueue: WorkQueue { get }
     
     // =================================
     

@@ -16,7 +16,13 @@ class SKTModel1: SKTModel {
 
     let clsName = "SKTModel1"
     var debugEnabled = false
-    
+
+    private func debug(_ mtd: String, _ msg: String = "") {
+        if ( debugEnabled) {
+            print(clsName, mtd, msg)
+        }
+    }
+
     init() {
         self.geometry = SKGeometry()
         self.physics = SKPhysics(geometry)
@@ -48,29 +54,19 @@ class SKTModel1: SKTModel {
         N.refresh()
     }
     
-    private func debug(_ mtd: String, _ msg: String = "") {
-        if ( debugEnabled) {
-            print(clsName, mtd, msg)
-        }
-    }
-    
-    var busy: Bool = false
     
     var modelParams: SKTModelParams {
         get {
-            return SKTModelParams(N: geometry.N,
-                                      k0: geometry.k0,
-                                      alpha1: physics.alpha1,
-                                      alpha2: physics.alpha2,
-                                      T: physics.T)
+            return SKTModelParams(geometry, physics)
         }
+        
         set(newValue) {
-            newValue.applyTo(self.geometry)
-            newValue.applyTo(self.physics)
+            _ = newValue.applyTo(self.geometry)
+            _ = newValue.applyTo(self.physics)
         }
     }
     
-    lazy var workQueue: DispatchQueue = DispatchQueue(label: "SKTModel.workQueue", qos: .userInitiated)
+    lazy var workQueue: WorkQueue = WorkQueue()
     
     let geometry: SKGeometry
     

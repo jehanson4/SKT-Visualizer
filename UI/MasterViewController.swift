@@ -11,12 +11,9 @@ import UIKit
 class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser {
     
     let name = "MasterViewController"
-    var debugEnabled = false
+    var debugEnabled = true
     
     var appModel: AppModel? = nil
-    
-    private var sequencerSelectionMonitor: ChangeMonitor? = nil
-    private var sequencerParamsMonitor: ChangeMonitor? = nil
     
     override func viewDidLoad() {
         let mtd = "viewDidLoad"
@@ -54,6 +51,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
             sequencerSelectionMonitor =
                 appModel!.viz.sequencers.monitorChanges(updateSequencerControls)
         }
+        debug(mtd, "done")
     }
     
     override func didReceiveMemoryWarning() {
@@ -394,6 +392,8 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     // =======================================================================
     // Sequencer selection
     
+    private var sequencerSelectionMonitor: ChangeMonitor? = nil
+
     @IBOutlet weak var sequencerDrop: UIButton!
     
     func configureSequencerControls() {
@@ -433,6 +433,8 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     // =====================================================
     // Selected sequencer
     
+    private var sequencerParamsMonitor: ChangeMonitor? = nil
+
     // MAYBE move this into Sequencer
     private enum PlayerState: Int {
         case runBackward = 0
@@ -541,6 +543,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     }
     
     func updateSequencerPropertyControls(_ sender: Any?) {
+        debug("updateSequencerPropertyControls", "entering")
         let sequencer = sender as? Sequencer
         if (sequencer == nil) {
             debug("updateSequencerPropertyControls", "sequencer=nil")
@@ -568,6 +571,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
             sequencerProgressBar.progress = Float(seq.value-seq.lowerBound)/Float(seq.upperBound-seq.lowerBound)
             sequencerProgressLabel.text = seq.toString(seq.value)
         }
+        debug("updateSequencerPropertyControls", "done")
     }
     
     private func getPlayerState(_ seq: Sequencer) -> PlayerState {

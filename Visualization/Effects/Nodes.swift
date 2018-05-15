@@ -199,11 +199,6 @@ class Nodes : Effect {
             return false
         }
         
-        // ==============================
-        // TODO catch colorSource selection change
-        // TODO catch colorSource param change
-        // ==============================
-
         var colorsRecomputed = false
         let cs = colorSource!
         let colorSourceChanged = cs.prepare()

@@ -1,70 +1,36 @@
 ------------------------------------
 Support for long-running calculations
 
-Use GrandCentralDispatch like this
-(from https://learnappmaking.com/grand-central-dispatch-swift/):
-
-    DispatchQueue.global(qos: .userInitiated).async {
-
-        // Perform expensive task
-
-        DispatchQueue.main.async {
-            // Update the UI
-        }
-    }
-
-
-Can't make PFlowNode a struct b/c I'm passing them all over, making temp arrays of them etc
-If struct, it would make copy of the node every time.
-
-How to deal with geometry & physics? They live on the main thread but are accessed EXTENSIVELY
-on the other one.
+1. work items given to BG thread are 100% disconnected from the rest of the app
+2. work item is only modified on the BG thread. Ok to leave it in memory as working
+    data (don't have to create new one every submission) but only MODIFY it on any other
+    thread
+3. live data updated only on the main queue
 
 ------------------------------------
 DESIRED:
 --UI responsive always
 --UI shows non-invasive spinner while any caclulation is in progress
 --Sequencer does not initiate a step until prior calc is done
---Interim results (e.g., partial basins) get displayed ASAP
+--Interim results (e.g., partial basins) get displayed if possible
 --Any UI control-changes during calc are combined into 1
 (User clicks "+" 10 times but only 1 reclc is done)
 --anything can ask for any calc to be done anytime
---If result is no longer wanted when calc finishes, it is silently discarded
 
------------------------------
-DESIGN #1: ad-hoc piecemeal
-advantages: less disruptive; I can see how to impl it
-disadvantages: need to know in advance which things to do in the background
-...which we don't, in general, but we do have a clue in particular cases.
-...but there's an evolutionary path: move things onto BG threads one by one
-until they're all there.
+------------------------------------
+Design:
 
-[ ] appModel state is maintained on the main dispatch thread, same as now
-this includes effects, color sources, everything
+Use custom serial DispatchQueue
+managed by SKTModel instance
+create 'working data' class with clearly defined API to hold a single work item
+export from working data to 'live data' struct which is read & used by the rest of the app
 
-[ ] AppModel API contains a method that takes a work item & a result-callback
-[ ] WorkItem<T>
-callback w/ signature (T)
-methods exec() and cancel()
-[ ] AppModel1 maintains a simple queue
-
-[ ] calc's take place using the global dispatch queue w/ "user-initiated" QoS
-[ ] calc's are 100% isolated from appModel state, and are 100% side-effect free
-so, e.g., they get DUPLICATE physics & geometry
-[ ] calc's are queued
-[ ] calc's are cancelable (at calc-impl's discretion)
-[ ] viz checks on every frame to see if any calc is in progress, skips step if so
-
-[?] what if the thing that's taking so long is setting color data? Do we then have to do
-a 2nd copy? Or can we protect it w a mutex?
-
------------------------------------
-DESIGN #2 all changes in the model & color sources & sequencers occur on a background thread. There's
-a sync point btw the 2 threads that gets hit every frame.
-
-Will it be easier or harder to support 10-clicks-collapsed-to-1-mod? Stepper knows its own value;
-textfield knows its own text.
-
-I think I'll end up passing total state info back & forth, and maintaining 2 copies, one per thread.
-
+workQueue.async {
+    // note the 'async'
+    // do some work
+    DispatchQueue.main.sync {
+        // copy from working data to live data
+        // node that it's 'sync', not 'async'
+    }
+}
 

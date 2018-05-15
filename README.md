@@ -3,20 +3,24 @@
 ---
 ## Release Notes
 
+### Release Notes -- Version 1.0.6
+
+* Bug fixes
+  * Take Snapshot caused app crash in iOS 11
+* Improvements to background info pages
+* Tweaks to UI controls
+
 ### Release Notes -- Version 1.0.5
 
-Bug fixes
-* Player controls set to PAUSE when change sequencer
-* Stagger rOffsets for meridians & flowLines
-
-UI improvements:
-* Progress bar
-* Secondary meridians in purple
-
-New features
-* Population flow
-* Background thread for heavy calculations
-
+* Bug fixes
+  * Player controls set to PAUSE when change sequencer
+  * Stagger rOffsets for meridians & flowLines
+* UI improvements:
+  * Progress bar
+  * Secondary meridians in purple
+* New features
+  * Population flow
+  * Background thread for heavy calculations
 
 ### Release Notes -- Version 1.0.4
 
@@ -26,7 +30,6 @@ New features
 * Restore configuration on app relaunch
 * Improvements to UI
 
-
 ### Release Notes -- Version 1.0.3
 
 * UI cleanup
@@ -34,11 +37,9 @@ New features
 * Flow Lines
 * Basin Boundaries
 
-
 ### Release Notes -- Version 1.0.2
 
 * Animation preview
-
 
 ### Release Notes -- Version 1.0.1
 

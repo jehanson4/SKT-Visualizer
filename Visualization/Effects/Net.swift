@@ -50,8 +50,6 @@ class Net : GLKBaseEffect, Effect {
     let lineWidth: GLfloat = 2.0
     let lineColor: GLKVector4 = GLKVector4Make(1.0, 1.0, 1.0, 1.0)
     
-    
-    
     var vertexArray: GLuint = 0
     var vertexBuffer: GLuint = 0
     var indexBuffer: GLuint = 0

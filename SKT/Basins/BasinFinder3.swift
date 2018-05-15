@@ -1,5 +1,5 @@
 //
-//  BasinFinder2.swift
+//  BasinFinder3.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 4/23/18.
@@ -70,7 +70,8 @@ class BasinFinder3 : BasinFinder {
     // =============================================
     
     var nodeData: [BasinNodeData] = []
-    
+    var basinData: [BasinData] = []
+
     var basins: [Basin] =  []
     
     var expectedMaxDistanceToAttractor: Int { return geometry.N / 2 }
@@ -88,9 +89,11 @@ class BasinFinder3 : BasinFinder {
     private var _iterationDone: Bool
     private var totalClassified: Int
     
-    func reset() {
+    func reset() -> Bool {
         resetGeometry()
         resetPhysics()
+        copyBasinData()
+        return true
     }
     
     func refresh() {
@@ -539,6 +542,22 @@ class BasinFinder3 : BasinFinder {
     // =============================================
     // Expand the basin
     // =============================================
+    
+    private func copyBasinData() {
+        var newData: [BasinData] = []
+        for node in nodeData {
+            newData.append(BasinData(node))
+        }
+        self.basinData = newData
+    }
+    
+    func update() -> Bool {
+        let changed = (expandBasins() > 0)
+        if (changed) {
+            copyBasinData()
+        }
+        return changed
+    }
     
     func expandBasins() -> Int {
         let mtd = "expandBasins"

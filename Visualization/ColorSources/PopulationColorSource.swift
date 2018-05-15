@@ -48,6 +48,7 @@ class PopulationColorSource : ColorSource {
     }
     
     func monitorChanges(_ callback: @escaping (Any) -> ()) -> ChangeMonitor? {
+        // We need this so that effects will recompute colors when the flow changes
         return flow.monitorChanges(callback)
     }
     
