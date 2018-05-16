@@ -7,6 +7,7 @@
 
 * Bug fixes
   * Take Snapshot caused app crash in iOS 11
+* Indicator for calculation-in-progress
 * Improvements to background info pages
 * Tweaks to UI controls
 

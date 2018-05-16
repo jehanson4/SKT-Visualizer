@@ -9,24 +9,18 @@ ABOVE THE LINE
 ----------------------------------------------------------------------------------
 BELOW THE LINE
 
-[ ] (semi-)interactive slider instead of progress bar
-    reset only?
-    allow jumps?
-
-[ ] busy spinner
-
 [ ] verify: sequencers and steppers take step-size from current delta, not default
 
 [ ] verify that all the change monitor guys impl the new protocol
 
-[ ] pop flow sequencer controls
+[ ] reheck: pop flow sequencer controls
     [ ] upper bound not updated in UI
     [ ] for Delta to work, loop needs to be inside BG work item
 
-[ ] on change flow sequencer, stepnumber doesn't get reset properly
-    timing thing: ui updates before rule-change completes
+[ ] recheck: on change flow sequencer, stepnumber doesn't get reset properly
+    timing thing? -- ui updates before rule-change completes
 
-[ ] N & k0 sequencer doesn't pick up new ratio k/N
+[ ] recheck: N & k0 sequencer doesn't pick up new ratio k/N
     if you stop it, change k0, start it again
 
     sequencer methods:
@@ -35,7 +29,8 @@ BELOW THE LINE
     reverse() -- not sure it's even used
     but nothing that says, re-derive params
 
-[ ] basins on BG queue
+[ ] black hemisphere to block the back half of the nodes
+    can't do the  2 intersecting vertical flat semicircles; will see over 'em
 
 [ ] automatically select color source = population when sequencer selection changes
     to a pop-flow sequencer from sth else.
@@ -45,8 +40,9 @@ BELOW THE LINE
 [ ] Sequencer Reset button
     ...where?
 
-[ ] block the back half of the nodes
-    maybe 2 intersecting vertical flat semicircles @ phi=0 & phi=pi/2
+[ ] (semi-)interactive slider instead of progress bar
+    reset only?
+    allow jumps?
 
 [ ] something to get it past Apple's prohibition of 'niche apps' in the App Store
     "game mode"?
