@@ -36,7 +36,7 @@ class BusySpinner : Effect {
     
     // EMPIRICAL
     static let vertices1: [[GLfloat]] = [
-        [-1.15, 1.15, 0.0, 1.0]
+        [-1.1, 1.2, 0.0, 1.0]
     ]
     static let colors1: [[GLfloat]] = [
         [1.0, 1.0, 1.0, 1.0]
