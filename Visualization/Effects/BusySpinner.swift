@@ -68,7 +68,7 @@ class BusySpinner : Effect {
         set(newValue) { /* IGNORE */ }
     }
     
-    var pointSize: GLfloat = 64
+    var pointSize: GLfloat = 48
     
     var vertices: [GLKVector4]
     var colors: [GLKVector4]

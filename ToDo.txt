@@ -13,7 +13,7 @@ BELOW THE LINE
 
 [ ] verify that all the change monitor guys impl the new protocol
 
-[ ] reheck: pop flow sequencer controls
+[ ] recheck: pop flow sequencer controls
     [ ] upper bound not updated in UI
     [ ] for Delta to work, loop needs to be inside BG work item
 

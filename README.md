@@ -8,7 +8,7 @@
 * Bug fixes
   * Take Snapshot caused app crash in iOS 11
 * Indicator for calculation-in-progress
-* Improvements to background info pages
+* Improvements to info pages
 * Tweaks to UI controls
 
 ### Release Notes -- Version 1.0.5
