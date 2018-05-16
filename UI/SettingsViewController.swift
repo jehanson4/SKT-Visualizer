@@ -10,7 +10,7 @@ import UIKit
 class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUser {
     
     let name: String = "SettingsViewController"
-    var debugEnabled: Bool = false
+    var debugEnabled: Bool = true
     
     var appModel: AppModel?
     
@@ -27,6 +27,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
         else {
             configureDeltaControls()
             configureEffectsControls()
+            // configureBusySpinner()
         }
     }
     
@@ -372,4 +373,29 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
         }
     }
     
+//    // =========================
+//    // Busy spinner
+//    // =========================
+//
+//    @IBOutlet weak var busySpinner: UIActivityIndicatorView!
+//
+//    // TODO disconnect this on deinit
+//    var workQueueMonitor: ChangeMonitor? = nil
+//
+//    func configureBusySpinner() {
+//        busySpinner.hidesWhenStopped = true
+//        self.workQueueMonitor = appModel?.skt.workQueue.monitorChanges(updateBusySpinner)
+//    }
+//
+//    func updateBusySpinner(_ sender: Any?) {
+//        let busy = appModel?.skt.workQueue.busy ?? false
+//        debug("updateBusySpinner", "busy=\(busy)")
+//        if (busy) {
+//            busySpinner.startAnimating()
+//        }
+//        else {
+//            busySpinner.stopAnimating()
+//        }
+//    }
+
 }

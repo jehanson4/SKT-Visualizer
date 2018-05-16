@@ -11,7 +11,7 @@ import GLKit
 
 class BasinColorSource : ColorSource {
 
-    var debugEnabled = true
+    var debugEnabled = false
 
     // EMPIRICAL
     var washoutFudgeFactor: GLfloat = 0.5

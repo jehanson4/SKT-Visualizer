@@ -15,7 +15,7 @@ import GLKit
 
 class VisualizationModel1 : VisualizationModel {
     
-    var debugEnabled = true
+    var debugEnabled = false
     
     private var skt: SKTModel
     
@@ -222,6 +222,7 @@ class VisualizationModel1 : VisualizationModel {
         registerEffect(Nodes(self, skt.geometry, skt.physics, colorSources))
         registerEffect(FlowLines(skt.geometry, skt.physics))
         
+        registerEffect(BusySpinner(skt))
         registerEffect(Icosahedron(enabled: false))
         registerEffect(Balls(enabled: false))
         

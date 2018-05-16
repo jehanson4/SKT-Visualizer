@@ -24,6 +24,7 @@ enum EffectType: Int {
     case nodes = 5
     case balls = 6
     case flowLines = 7
+    case busy = 8
 }
 
 // ==============================================================================

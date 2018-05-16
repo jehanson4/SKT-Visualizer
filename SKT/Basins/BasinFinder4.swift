@@ -179,11 +179,11 @@ class BAWorkingData {
     
     func refresh(_ modelParams: SKTModelParams) -> Bool {
         if (self.modelParams == modelParams) {
-            info("refresh", "model params are up to date")
+            debug("refresh", "model params are up to date")
             return false
         }
         
-        info("refresh", "updating model params")
+        debug("refresh", "updating model params")
         self.modelParams = modelParams
         self.rebuildNeeded = modelParams.applyTo(geometry)
         self.resetNeeded = modelParams.applyTo(physics)
@@ -721,7 +721,7 @@ class BAWorkingData {
 
 class BasinFinder4 : BasinFinder {
     
-    var debugEnabled = true
+    var debugEnabled = false
     var infoEnabled = true
     
     var name: String = "BasinFinder4"
@@ -731,10 +731,7 @@ class BasinFinder4 : BasinFinder {
 
     var basinData: [BasinData] {
         get {
-            let liveParams: SKTModelParams = SKTModelParams(geometry, physics)
-            if (liveParams != workingData.modelParams) {
-                sync()
-            }
+            sync()
             return _basinData
         }
     }
@@ -745,6 +742,7 @@ class BasinFinder4 : BasinFinder {
     private var workingData: BAWorkingData
     private var _basinData: [BasinData]
     private var _busy: Bool
+    private var _updatesDone: Bool
     
     // =====================================
     // Initializing
@@ -759,10 +757,87 @@ class BasinFinder4 : BasinFinder {
         self.workingData = BAWorkingData(modelParams)
         self._basinData = self.workingData.exportBasinData()
         self._busy = false
+        self._updatesDone = false
     }
     
-    // =====================================
+    // =============================================
+    // API
+    // =============================================
+    
+    func sync() {
+        if self._busy {
+            debug("sync", "operation in progress: aborting")
+            return
+        }
+        let liveParams = SKTModelParams(geometry, physics)
+        let wdParams = self.workingData.modelParams
+        if (liveParams == wdParams && self._updatesDone) {
+            debug("sync", "no param change, updates are done: returning early")
+            return
+        }
+        
+        debug("sync", "submitting work item")
+        self._busy = true
+        queue.async {
+            let changed = self.workingData.refresh(liveParams)
+            let modelParams = self.workingData.modelParams
+            let newBasinData = (changed) ? self.workingData.exportBasinData() : nil
+            DispatchQueue.main.sync {
+                self.updateLiveData(modelParams, newBasinData)
+                self._busy = false
+            }
+        }
+    }
+    
+    func update() -> Bool {
+        if self._busy {
+            debug("update", "operation in progress: aborting")
+            return false
+        }
+
+        let liveParams = SKTModelParams(geometry, physics)
+        let wdParams = self.workingData.modelParams
+        if (liveParams == wdParams && self._updatesDone) {
+            debug("update", "no param change, updates are done: returning early")
+            return false
+        }
+
+        debug("update", "submitting work item")
+        self._busy = true
+        queue.async {
+            var changed = self.workingData.refresh(liveParams)
+            if (!changed) {
+                changed = self.workingData.step()
+            }
+            let modelParams = self.workingData.modelParams
+            let newBasinData = (changed) ? self.workingData.exportBasinData() : nil
+            DispatchQueue.main.sync {
+                self.updateLiveData(modelParams, newBasinData)
+                self._busy = false
+            }
+        }
+        return true
+    }
+    
+    private func updateLiveData(_ modelParams: SKTModelParams, _ newBasinData: [BasinData]?) {
+        let liveParams = SKTModelParams(geometry, physics)
+        if (liveParams != modelParams) {
+            debug("updateLiveData", "modelParams are stale, so discarding new basin data")
+            return
+        }
+        if (newBasinData != nil) {
+            self._updatesDone = false
+            self._basinData = newBasinData!
+            self.fireChange()
+        }
+        else {
+            self._updatesDone = true
+        }
+    }
+    
+    // =============================================
     // Change monitoring
+    // =============================================
     
     private lazy var changeMonitors = ChangeMonitorSupport()
     
@@ -774,8 +849,9 @@ class BasinFinder4 : BasinFinder {
         changeMonitors.fire()
     }
     
-    // ===========================
+    // =============================================
     // DEBUG
+    // =============================================
     
     private func debug(_ mtd: String, _ msg: String = "") {
         if (debugEnabled) {
@@ -792,91 +868,8 @@ class BasinFinder4 : BasinFinder {
     private func warn(_ mtd: String, _ msg: String = "") {
         print("!!! " + name, mtd, msg)
     }
+    
 
-    // =============================================
-    // Housekeeping
-    // =============================================
-    
-    // var iteration: Int { return _iteration }
-    
-    // var isIterationDone: Bool { return _iterationDone }
-    
-    // private var _iteration: Int
-    // private var _iterationDone: Bool
-    // private var totalClassified: Int
-    
-    func sync() {
-        if self._busy {
-            debug("sync", "operation in progress: aborting")
-            return
-        }
-        
-        self._busy = true
-        let liveParams = SKTModelParams(self.geometry, self.physics)
-        queue.async {
-            let changed = self.workingData.refresh(liveParams)
-            let modelParams = self.workingData.modelParams
-            let newBasinData = (changed) ? self.workingData.exportBasinData() : nil
-            DispatchQueue.main.sync {
-                self.updateLiveData(modelParams, newBasinData)
-                self._busy = false
-            }
-        }
-    }
-    
-//    func reset() -> Bool {
-//        let liveParams = SKTModelParams(self.geometry, self.physics)
-//        queue.async {
-//            var changed = self.workingData.refresh(liveParams)
-//            if (!changed) {
-//                changed = self.workingData.reset()
-//            }
-//            let modelParams = self.workingData.modelParams
-//            let newBasinData = (changed) ? self.workingData.exportBasinData() : nil
-//            DispatchQueue.main.sync {
-//                self.updateLiveData(modelParams, newBasinData)
-//            }
-//        }
-//    }
-// 
-//    func refresh() {
-//            // TODO
-//    }
-
-    func update() -> Bool {
-        if self._busy {
-            debug("update", "operation in progress: aborting")
-            return false
-        }
-
-        self._busy = true
-        let liveParams = SKTModelParams(geometry, physics)
-        queue.async {
-            var changed = self.workingData.refresh(liveParams)
-            if (!changed) {
-                changed = self.workingData.step()
-            }
-            let modelParams = self.workingData.modelParams
-            let newBasinData = (changed) ? self.workingData.exportBasinData() : nil
-            DispatchQueue.main.sync {
-                self.updateLiveData(modelParams, newBasinData)
-                self._busy = false
-            }
-        }
-        return true
-    }
-    
-    func updateLiveData(_ modelParams: SKTModelParams, _ newBasinData: [BasinData]?) {
-        let liveParams = SKTModelParams(geometry, physics)
-        if (liveParams != modelParams) {
-            debug("updateLiveData", "modelParams are stale, so discarding new basin data")
-            return
-        }
-        if (newBasinData != nil) {
-            self._basinData = newBasinData!
-            self.fireChange()
-        }
-    }
 }
 
 

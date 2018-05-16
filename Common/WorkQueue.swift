@@ -25,10 +25,33 @@ class WorkQueue {
     }
     
     func async(work: @escaping () -> Void) {
+        let wasBusy = self.busy
         self._submitCounter += 1
+        if (!wasBusy) {
+            fireChange()
+        }
         _queue.async {
             work()
             self._finishCounter += 1
+            DispatchQueue.main.sync {
+                let stillBusy = self.busy
+                if (!stillBusy) {
+                    self.fireChange()
+                }
+            }
         }
+    }
+    
+    // ============================================
+    // Change monitoring
+    
+    private lazy var changeSupport: ChangeMonitorSupport = ChangeMonitorSupport()
+    
+    private func fireChange() {
+        changeSupport.fire()
+    }
+    
+    func monitorChanges(_ callback: @escaping (_ sender: Any?) -> ()) -> ChangeMonitor? {
+        return changeSupport.monitorChanges(callback, self)
     }
 }

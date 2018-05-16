@@ -325,7 +325,7 @@ class PopulationFlowModel {
 class PopulationFlowManager : ChangeMonitorEnabled {
     
     private var clsName = "PopulationFlowManager"
-    var debugEnabled = true
+    var debugEnabled = false
     
     var wCurr: [Double] {
         get {

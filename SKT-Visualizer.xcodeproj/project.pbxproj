@@ -80,6 +80,7 @@
 		8AAA008F207166C0001A136D /* MasterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8AAA008D207166C0001A136D /* MasterViewController.xib */; };
 		8AAF6DFF208167A800E4C9BF /* ToDo.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8AAF6DFE208167A800E4C9BF /* ToDo.txt */; };
 		8ABEEC3B20803A2F008E72F4 /* Surface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ABEEC3A20803A2F008E72F4 /* Surface.swift */; };
+		8ACB504020AC92DC00878612 /* BusySpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB503F20AC92DC00878612 /* BusySpinner.swift */; };
 		8ACE788D2072E51800C29875 /* Icosahedron.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACE788C2072E51800C29875 /* Icosahedron.swift */; };
 		8ACE788F2073C57500C29875 /* Effect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACE788E2073C57500C29875 /* Effect.swift */; };
 		8ACE78922073CCDA00C29875 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ACE78912073CCDA00C29875 /* GLKit.framework */; };
@@ -202,6 +203,7 @@
 		8AAA008D207166C0001A136D /* MasterViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MasterViewController.xib; sourceTree = "<group>"; };
 		8AAF6DFE208167A800E4C9BF /* ToDo.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ToDo.txt; sourceTree = "<group>"; };
 		8ABEEC3A20803A2F008E72F4 /* Surface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Surface.swift; sourceTree = "<group>"; };
+		8ACB503F20AC92DC00878612 /* BusySpinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusySpinner.swift; sourceTree = "<group>"; };
 		8ACE788C2072E51800C29875 /* Icosahedron.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Icosahedron.swift; sourceTree = "<group>"; };
 		8ACE788E2073C57500C29875 /* Effect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Effect.swift; sourceTree = "<group>"; };
 		8ACE78912073CCDA00C29875 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
@@ -277,6 +279,7 @@
 		8A19CD892082488D00C1EADE /* Sequencers */ = {
 			isa = PBXGroup;
 			children = (
+				8A91B09B2093F98000488907 /* Sequencer.swift */,
 				8A91B09D2094163C00488907 /* DummySequencer.swift */,
 				8A91B09F2094164700488907 /* NForFixedKOverN.swift */,
 				8A35082F20A0A0C200E36C1F /* PopulationFlowSequencer.swift */,
@@ -373,18 +376,18 @@
 		8A5E948A2077D285003477D3 /* Effects */ = {
 			isa = PBXGroup;
 			children = (
-				8A741FE720926B9E002A88D0 /* FlowLines.swift */,
 				8A84313720726F0100F06B9B /* Axes.swift */,
 				8AD9DACA20914E3D0062457C /* Balls.swift */,
+				8ACB503F20AC92DC00878612 /* BusySpinner.swift */,
 				8ACE788E2073C57500C29875 /* Effect.swift */,
+				8A741FE720926B9E002A88D0 /* FlowLines.swift */,
 				8ACE788C2072E51800C29875 /* Icosahedron.swift */,
 				8A40BC0D207EEA3D00F2D2EB /* Meridians.swift */,
 				8A5E948D2078EE46003477D3 /* Net.swift */,
 				8A40BC0B207ECC7500F2D2EB /* Nodes.swift */,
-				8A91B09B2093F98000488907 /* Sequencer.swift */,
-				8ABEEC3A20803A2F008E72F4 /* Surface.swift */,
-				8AD9DABF20914E010062457C /* SimpleFragmentShader.glsl */,
 				8AD9DAC220914E010062457C /* PointSpriteVertexShader.glsl */,
+				8AD9DABF20914E010062457C /* SimpleFragmentShader.glsl */,
+				8ABEEC3A20803A2F008E72F4 /* Surface.swift */,
 				8AD9DAC020914E010062457C /* TexturedFragmentShader.glsl */,
 			);
 			path = Effects;
@@ -417,7 +420,6 @@
 		8A9D599B208DFBD20022831B /* App */ = {
 			isa = PBXGroup;
 			children = (
-				8A1CF019207146510099DD97 /* Main.storyboard */,
 				8AF594FF208AC0420082C5DE /* AppModel.swift */,
 				8A1CF01E207146540099DD97 /* LaunchScreen.storyboard */,
 				8A1CF015207146510099DD97 /* AppDelegate.swift */,
@@ -552,6 +554,7 @@
 				8AD817FA207BFA9200426C25 /* InfoViewController.swift */,
 				8AD817FB207BFA9200426C25 /* InfoViewController.xib */,
 				8AA05A18208FFFD4009417A6 /* MagicStrings.swift */,
+				8A1CF019207146510099DD97 /* Main.storyboard */,
 				8AAA008C207166C0001A136D /* MasterViewController.swift */,
 				8AAA008D207166C0001A136D /* MasterViewController.xib */,
 				8AA05A2420901B19009417A6 /* SequencerSelectionViewController.swift */,
@@ -717,6 +720,7 @@
 				8A35082E20A092A400E36C1F /* PopulationColorSource.swift in Sources */,
 				8A3C45C62086278900A1E9CD /* UniformColor.swift in Sources */,
 				8A3C45B02086160A00A1E9CD /* Energy.swift in Sources */,
+				8ACB504020AC92DC00878612 /* BusySpinner.swift in Sources */,
 				8AA0637D207A89DD00BB68DB /* SKPhysics.swift in Sources */,
 				8AD823B4208E36CB0045F3B1 /* PhysicalProperty.swift in Sources */,
 				8AD9DACB20914E3D0062457C /* Balls.swift in Sources */,
