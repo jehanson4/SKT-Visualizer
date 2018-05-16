@@ -55,6 +55,7 @@ class BusySpinner : Effect {
     
     let vertexShader = "PointSpriteVertexShader.glsl"
     let fragmentShader = "TexturedFragmentShader.glsl"
+    let textureFile = "busy.png"
     
     private var programHandle: GLuint = 0
     private var modelViewMatrixUniform : Int32 = 0
@@ -75,6 +76,8 @@ class BusySpinner : Effect {
     var vertexArray: GLuint = 0
     var vertexBuffer: GLuint = 0
     var colorBuffer: GLuint = 0
+    var texture: GLuint = 0
+    
     var built: Bool = false
     var rotationCounter: Int = 0
     var drawsSinceStateChange: Int = 0
@@ -112,6 +115,7 @@ class BusySpinner : Effect {
     
     private func build() -> Bool {
         
+        loadTexture(textureFile)
         compile(vertexShader, fragmentShader)
         
         glBindVertexArray(vertexArray)
@@ -202,6 +206,19 @@ class BusySpinner : Effect {
     // ========================================
     // Shader
     // ========================================
+    
+    // Copied from Texture
+    func loadTexture(_ filename: String) {
+        
+        let path = Bundle.main.path(forResource: filename, ofType: nil)!
+        let option = [ GLKTextureLoaderOriginBottomLeft: true]
+        do {
+            let info = try GLKTextureLoader.texture(withContentsOfFile: path, options: option as [String : NSNumber]?)
+            self.texture = info.name
+        } catch {
+            debug("loadTexture", "problem getting texture")
+        }
+    }
     
     // Copied from AnimatedCube
     func compile(_ vertexShader: String, _ fragmentShader: String) {

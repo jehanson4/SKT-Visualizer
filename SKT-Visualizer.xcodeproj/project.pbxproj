@@ -81,6 +81,7 @@
 		8AAF6DFF208167A800E4C9BF /* ToDo.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8AAF6DFE208167A800E4C9BF /* ToDo.txt */; };
 		8ABEEC3B20803A2F008E72F4 /* Surface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ABEEC3A20803A2F008E72F4 /* Surface.swift */; };
 		8ACB504020AC92DC00878612 /* BusySpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB503F20AC92DC00878612 /* BusySpinner.swift */; };
+		8ACB504420ACAE4400878612 /* busy.png in Resources */ = {isa = PBXBuildFile; fileRef = 8ACB504320ACAE4300878612 /* busy.png */; };
 		8ACE788D2072E51800C29875 /* Icosahedron.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACE788C2072E51800C29875 /* Icosahedron.swift */; };
 		8ACE788F2073C57500C29875 /* Effect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACE788E2073C57500C29875 /* Effect.swift */; };
 		8ACE78922073CCDA00C29875 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ACE78912073CCDA00C29875 /* GLKit.framework */; };
@@ -204,6 +205,7 @@
 		8AAF6DFE208167A800E4C9BF /* ToDo.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ToDo.txt; sourceTree = "<group>"; };
 		8ABEEC3A20803A2F008E72F4 /* Surface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Surface.swift; sourceTree = "<group>"; };
 		8ACB503F20AC92DC00878612 /* BusySpinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusySpinner.swift; sourceTree = "<group>"; };
+		8ACB504320ACAE4300878612 /* busy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = busy.png; sourceTree = "<group>"; };
 		8ACE788C2072E51800C29875 /* Icosahedron.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Icosahedron.swift; sourceTree = "<group>"; };
 		8ACE788E2073C57500C29875 /* Effect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Effect.swift; sourceTree = "<group>"; };
 		8ACE78912073CCDA00C29875 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
@@ -385,9 +387,9 @@
 				8A40BC0D207EEA3D00F2D2EB /* Meridians.swift */,
 				8A5E948D2078EE46003477D3 /* Net.swift */,
 				8A40BC0B207ECC7500F2D2EB /* Nodes.swift */,
+				8ABEEC3A20803A2F008E72F4 /* Surface.swift */,
 				8AD9DAC220914E010062457C /* PointSpriteVertexShader.glsl */,
 				8AD9DABF20914E010062457C /* SimpleFragmentShader.glsl */,
-				8ABEEC3A20803A2F008E72F4 /* Surface.swift */,
 				8AD9DAC020914E010062457C /* TexturedFragmentShader.glsl */,
 			);
 			path = Effects;
@@ -506,6 +508,7 @@
 		8AF138B7207B8966001A88C6 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				8ACB504320ACAE4300878612 /* busy.png */,
 				8A1CF01C207146540099DD97 /* Assets.xcassets */,
 				8A3BBBBE208BF29A00669227 /* splash.jpg */,
 				8A575FF120805790002B9951 /* colorMaps */,
@@ -633,6 +636,7 @@
 				8AF98FA7207FE9CF0007688E /* README.md in Resources */,
 				8AD8181A207C9BD900426C25 /* image1-76@2x.png in Resources */,
 				8AF98F96207FE7D60007688E /* LICENSE in Resources */,
+				8ACB504420ACAE4400878612 /* busy.png in Resources */,
 				8A57600320805790002B9951 /* smooth-cool-warm-table-float-0128.csv in Resources */,
 				8A57600E20805790002B9951 /* smooth-cool-warm-table-byte-0256.csv in Resources */,
 				8A53B2A1208D9B380039C5D7 /* technology.html in Resources */,
