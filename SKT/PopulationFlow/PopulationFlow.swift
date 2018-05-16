@@ -335,6 +335,8 @@ class PopulationFlowManager : ChangeMonitorEnabled {
             //
             // TODO try it without the sync sometime
             //
+            // This is DANGEROUS: main thread can call it a bazillion times
+            // before the sync finished!
             if (self.skt.modelParams != workingData.modelParams) {
                 sync()
             }
@@ -395,12 +397,18 @@ class PopulationFlowManager : ChangeMonitorEnabled {
 
     func sync() {
         debug("sync", "entering")
+        let liveParams = self.skt.modelParams
         self.skt.workQueue.async {
-            let populationChanged = self.workingData.setModelParams(self.skt.modelParams)
-            let wCurr = (populationChanged) ? self.workingData.exportWCurr() : nil
+            // Last chance abort
+            if (liveParams != self.skt.modelParams) {
+                return
+            }
+            let populationChanged = self.workingData.setModelParams(liveParams)
+            let modelParams = self.workingData.modelParams
             let stepNumber = self.workingData.stepNumber
+            let wCurr = (populationChanged) ? self.workingData.exportWCurr() : nil
             DispatchQueue.main.sync {
-                self.updateLiveData(stepNumber, !populationChanged, wCurr)
+                self.updateLiveData(modelParams, stepNumber, !populationChanged, wCurr)
             }
         }
         debug("sync", "done")
@@ -408,16 +416,18 @@ class PopulationFlowManager : ChangeMonitorEnabled {
     
     func changeRule(_ rule: PFlowRule) {
         debug("changeRule", "entering")
+        let liveParams = self.skt.modelParams
         self.skt.workQueue.async {
             self.workingData.rule = rule
-            var populationChanged = self.workingData.setModelParams(self.skt.modelParams)
+            var populationChanged = self.workingData.setModelParams(liveParams)
             if (!populationChanged) {
                 populationChanged = self.workingData.reset()
             }
+            let modelParams = self.workingData.modelParams
             let stepNumber = self.workingData.stepNumber
             let wCurr = (populationChanged) ? self.workingData.exportWCurr() : nil
             DispatchQueue.main.sync {
-                self.updateLiveData(stepNumber, !populationChanged, wCurr)
+                self.updateLiveData(modelParams, stepNumber, !populationChanged, wCurr)
             }
         }
         debug("changeRule", "done")
@@ -425,15 +435,17 @@ class PopulationFlowManager : ChangeMonitorEnabled {
     
     func reset() {
         debug("reset", "entering")
+        let liveParams = self.skt.modelParams
         self.skt.workQueue.async {
-            var populationChanged = self.workingData.setModelParams(self.skt.modelParams)
+            var populationChanged = self.workingData.setModelParams(liveParams)
             if (!populationChanged) {
                 populationChanged = self.workingData.reset()
             }
-            let wCurr = (populationChanged) ? self.workingData.exportWCurr() : nil
+            let modelParams = self.workingData.modelParams
             let stepNumber = self.workingData.stepNumber
+            let wCurr = (populationChanged) ? self.workingData.exportWCurr() : nil
             DispatchQueue.main.sync {
-                self.updateLiveData(stepNumber, !populationChanged, wCurr)
+                self.updateLiveData(modelParams, stepNumber, !populationChanged, wCurr)
             }
         }
         debug("reset", "done")
@@ -441,30 +453,34 @@ class PopulationFlowManager : ChangeMonitorEnabled {
     
     func step() {
         debug("step", "entering")
+        let liveParams = self.skt.modelParams
         self.skt.workQueue.async {
             let tt = self.bgTaskCounter
             self.bgTaskCounter += 1
             self.debug("step", "BG task[\(tt)] starting")
-            var populationChanged = self.workingData.setModelParams(self.skt.modelParams)
+            // FIXME not threadsafe: what if they're changing when we call this?
+            var populationChanged = self.workingData.setModelParams(liveParams)
             if (!populationChanged) {
                 populationChanged = self.workingData.step()
             }
-            let wCurr = (populationChanged) ? self.workingData.exportWCurr() : nil
+            let modelParams = self.workingData.modelParams
             let stepNumber = self.workingData.stepNumber
+            let wCurr = (populationChanged) ? self.workingData.exportWCurr() : nil
             self.debug("step", "BG task[\(tt)]done")
             DispatchQueue.main.sync {
-                self.updateLiveData(stepNumber, !populationChanged, wCurr)
+                self.updateLiveData(modelParams, stepNumber, !populationChanged, wCurr)
             }
         }
         debug("step", "done")
     }
     
-    private func updateLiveData(_ stepNumber: Int, _ isSteadyState: Bool, _ wCurr: [Double]?) {
+    private func updateLiveData(_ modelParams: SKTModelParams, _ stepNumber: Int, _ isSteadyState: Bool, _ wCurr: [Double]?) {
         debug("updateLiveData", "entering")
         
-        // ========================================
-        // TODO discard the new wCurr if it's no longer valid
-        // ========================================
+        if (self.skt.modelParams != modelParams) {
+            debug("updateLiveData", "modelParams are stale, so discarding them")
+            return
+        }
         
         self._stepNumber = stepNumber
         self._isSteadyState = isSteadyState

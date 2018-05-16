@@ -11,7 +11,7 @@ import GLKit
 
 class BasinColorSource : ColorSource {
 
-    var debugEnabled = false
+    var debugEnabled = true
 
     // EMPIRICAL
     var washoutFudgeFactor: GLfloat = 0.5
@@ -29,7 +29,6 @@ class BasinColorSource : ColorSource {
     
     init(_ basinFinder: BasinFinder, expectedBasinCount: Int = 4) {
         self.basinFinder = basinFinder
-        
         self.unclassified_color = GLKVector4Make(0.5, 0.5, 0.5, 1)
         self.basinBoundary_color = GLKVector4Make(0,0,0,1)
         self.basin_colors = []
@@ -58,15 +57,24 @@ class BasinColorSource : ColorSource {
         }
         
         // TODO don't change it here, have it done on BG queue
-        if (basinFinder.update()) {
-            changed = true
-        }
+        
+        // Return values from these are useless b/c the changes
+        // happen asynchronously.
+        _ = basinFinder.update()
+        
+        changed = true
         debug("prepare", "done: changed=\(changed)")
         return changed
     }
     
     func colorAt(_ nodeIndex: Int) -> GLKVector4 {
         // let nd = basinFinder.nodeData[nodeIndex]
+        let nc = basinFinder.basinData.count
+        if (nodeIndex >= nc) {
+            // debug("colorAt", "Bad node index \(nodeIndex); nodeCount=\(nc)")
+            return unclassified_color
+        }
+
         let nd = basinFinder.basinData[nodeIndex]
         // debug("colorAt", "node (\(nd.m),\(nd.n)) " + nd.dumpResettableState())
         if (!nd.isClassified) {

@@ -156,7 +156,9 @@ class SKTModel1: SKTModel {
     // Other things
     // ======================================
     
-    lazy var basinFinder: BasinFinder! = BasinFinder3(geometry, physics)
+    // lazy var basinFinder: BasinFinder! = BasinFinder3(geometry, physics)
+    lazy var basinFinder: BasinFinder! = BasinFinder4(geometry, physics, workQueue)
+
     lazy var populationFlow: PopulationFlowManager! = PopulationFlowManager(self)
 }
 

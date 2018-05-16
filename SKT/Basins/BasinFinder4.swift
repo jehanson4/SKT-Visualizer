@@ -109,16 +109,18 @@ class BAWorkingData {
     // DEBUG
     
     let cls = "BAWorkingData"
-    var debugEnabled: Bool = true
+    var debugEnabled: Bool = false
     
     private func debug(_ mtd: String, _ msg: String = "") {
         if (debugEnabled) {
-            print(cls, mtd, msg)
+            let threadName = (Thread.current.isMainThread) ? "[main]" : "[bg]"
+            print(cls, threadName, mtd, msg)
         }
     }
     
     private func info(_ mtd: String, _ msg: String = "") {
-        print(cls, mtd, msg)
+        let threadName = (Thread.current.isMainThread) ? "[main]" : "[bg]"
+        print(cls, threadName, mtd, msg)
     }
 
     private func warn(_ mtd: String, _ msg: String = "") {
@@ -129,8 +131,6 @@ class BAWorkingData {
     // Properties
     
     var modelParams: SKTModelParams
-    var nodes: [BANode] = []
-    var attractors: [Int: [BANode]] = [:]
     var attractorsFound: Bool
     var basinsExpanded: Bool
     var boundariesFinished: Bool
@@ -143,6 +143,9 @@ class BAWorkingData {
 
     private var physics: SKPhysics
     private var resetNeeded: Bool
+    
+    private var nodes: [BANode] = []
+    private var attractors: [Int: [BANode]] = [:]
     
     // =======================================
     // Initialization
@@ -164,37 +167,23 @@ class BAWorkingData {
     }
 
     // =======================================
-    // Neighborhood
-    
-    func neighborsOf(_ node: BANode) -> [BANode] {
-        var nbrs: [BANode] = []
-        addNeighborsToArray(node, &nbrs)
-        return nbrs
-    }
-
-    func addNeighborsToArray(_ node: BANode, _ array: inout [BANode]) {
-        if (node.n > 0) {
-            array.append(nodes[geometry.skToNodeIndex(node.m, node.n-1)])
-        }
-        if (node.n < n_max) {
-            array.append(nodes[geometry.skToNodeIndex(node.m, node.n+1)])
-        }
-        if (node.m > 0) {
-            array.append(nodes[geometry.skToNodeIndex(node.m-1, node.n)])
-        }
-        if (node.m < m_max) {
-            array.append(nodes[geometry.skToNodeIndex(node.m+1, node.n)])
-        }
-    }
-    
-    // =======================================
     // Basin-building APIs
+    
+    func exportBasinData() -> [BasinData] {
+        var basinData: [BasinData] = []
+        for node in nodes {
+            basinData.append(BasinData(node))
+        }
+        return basinData
+    }
     
     func refresh(_ modelParams: SKTModelParams) -> Bool {
         if (self.modelParams == modelParams) {
+            info("refresh", "model params are up to date")
             return false
         }
         
+        info("refresh", "updating model params")
         self.modelParams = modelParams
         self.rebuildNeeded = modelParams.applyTo(geometry)
         self.resetNeeded = modelParams.applyTo(physics)
@@ -236,8 +225,30 @@ class BAWorkingData {
 
     // =======================================
     // Basin-building private helpers
-
+    
+    private func neighborsOf(_ node: BANode) -> [BANode] {
+        var nbrs: [BANode] = []
+        addNeighborsToArray(node, &nbrs)
+        return nbrs
+    }
+    
+    private func addNeighborsToArray(_ node: BANode, _ array: inout [BANode]) {
+        if (node.n > 0) {
+            array.append(nodes[geometry.skToNodeIndex(node.m, node.n-1)])
+        }
+        if (node.n < n_max) {
+            array.append(nodes[geometry.skToNodeIndex(node.m, node.n+1)])
+        }
+        if (node.m > 0) {
+            array.append(nodes[geometry.skToNodeIndex(node.m-1, node.n)])
+        }
+        if (node.m < m_max) {
+            array.append(nodes[geometry.skToNodeIndex(node.m+1, node.n)])
+        }
+    }
+    
     private func rebuild() {
+        debug("rebuild", "entering")
         nodes.removeAll()
         for i in 0..<geometry.nodeCount {
             let (m, n) = geometry.nodeIndexToSK(i)
@@ -251,18 +262,21 @@ class BAWorkingData {
         attractorsFound = false
         basinsExpanded = false
         boundariesFinished = false
+        debug("rebuild", "done")
     }
     
     private func reset() {
+        debug("reset", "entering")
         for i in 0..<nodes.count {
             let (m, n) = geometry.nodeIndexToSK(i)
-            nodes[i].energy = Energy.energy(m, n, geometry, physics)
+            nodes[i].reset(Energy.energy(m, n, geometry, physics))
         }
         resetNeeded = false
         attractors.removeAll(keepingCapacity: true)
         attractorsFound = false
         basinsExpanded = false
         boundariesFinished = false
+        debug("reset", "done")
     }
     
     private func findAttractors() {
@@ -705,38 +719,46 @@ class BAWorkingData {
 // BasinFinder4
 // ============================================================================
 
-// =====================================================
-// NOTES
-//
-// BasinNodeData is a class not a struct: by-reference
-// color source calls nodeAt to get BasinNodeData object
-// =====================================================
-
 class BasinFinder4 : BasinFinder {
     
-    var debugEnabled = false
-    var infoEnabled = false
+    var debugEnabled = true
+    var infoEnabled = true
     
     var name: String = "BasinFinder4"
     var info: String? = nil
     
-    var basinData: [BasinData] = []
+    var expectedMaxDistanceToAttractor: Int { return geometry.N / 2 }
+
+    var basinData: [BasinData] {
+        get {
+            let liveParams: SKTModelParams = SKTModelParams(geometry, physics)
+            if (liveParams != workingData.modelParams) {
+                sync()
+            }
+            return _basinData
+        }
+    }
     
-    private let queue: DispatchQueue
+    private var queue: WorkQueue
     private var geometry: SKGeometry
     private var physics: SKPhysics
+    private var workingData: BAWorkingData
+    private var _basinData: [BasinData]
+    private var _busy: Bool
     
     // =====================================
     // Initializing
     // =====================================
     
-    init(_ geometry: SKGeometry, _ physics: SKPhysics, _ queue: DispatchQueue) {
+    init(_ geometry: SKGeometry, _ physics: SKPhysics, _ queue: WorkQueue) {
         self.geometry = geometry
         self.physics = physics
         self.queue = queue
         
         let modelParams = SKTModelParams(geometry, physics)
         self.workingData = BAWorkingData(modelParams)
+        self._basinData = self.workingData.exportBasinData()
+        self._busy = false
     }
     
     // =====================================
@@ -746,6 +768,10 @@ class BasinFinder4 : BasinFinder {
     
     func monitorChanges(_ callback: @escaping (Any) -> ()) -> ChangeMonitor? {
         return changeMonitors.monitorChanges(callback, self)
+    }
+    
+    private func fireChange() {
+        changeMonitors.fire()
     }
     
     // ===========================
@@ -766,25 +792,10 @@ class BasinFinder4 : BasinFinder {
     private func warn(_ mtd: String, _ msg: String = "") {
         print("!!! " + name, mtd, msg)
     }
-    
 
     // =============================================
     // Housekeeping
     // =============================================
-    
-    private var workingData: BAWorkingData
-    
-    private var _nodeData: [BasinNodeData]? = nil
-    
-    // SIC
-    var nodeData: [BasinNodeData] {
-        get {
-            sync()
-            return _nodeData!
-        }
-    }
-    
-    var expectedMaxDistanceToAttractor: Int { return geometry.N / 2 }
     
     // var iteration: Int { return _iteration }
     
@@ -795,209 +806,77 @@ class BasinFinder4 : BasinFinder {
     // private var totalClassified: Int
     
     func sync() {
-        let modelParams = SKTModelParams(geometry, physics)
-        if (_nodeData == nil) {
-            // TODO
+        if self._busy {
+            debug("sync", "operation in progress: aborting")
+            return
         }
-    }
-    
-    func reset() -> Bool {
         
-        let modelParams = SKTModelParams(geometry, physics)
+        self._busy = true
+        let liveParams = SKTModelParams(self.geometry, self.physics)
         queue.async {
-            // TODO
+            let changed = self.workingData.refresh(liveParams)
+            let modelParams = self.workingData.modelParams
+            let newBasinData = (changed) ? self.workingData.exportBasinData() : nil
+            DispatchQueue.main.sync {
+                self.updateLiveData(modelParams, newBasinData)
+                self._busy = false
+            }
         }
-        return true
     }
     
-//    func refresh() {
-//        let modelParams = SKTModelParams(geometry, physics)
+//    func reset() -> Bool {
+//        let liveParams = SKTModelParams(self.geometry, self.physics)
 //        queue.async {
-//            // TODO
+//            var changed = self.workingData.refresh(liveParams)
+//            if (!changed) {
+//                changed = self.workingData.reset()
+//            }
+//            let modelParams = self.workingData.modelParams
+//            let newBasinData = (changed) ? self.workingData.exportBasinData() : nil
+//            DispatchQueue.main.sync {
+//                self.updateLiveData(modelParams, newBasinData)
+//            }
 //        }
+//    }
+// 
+//    func refresh() {
+//            // TODO
 //    }
 
     func update() -> Bool {
-        let modelParams = SKTModelParams(geometry, physics)
-        queue.async {
-            self.workingData.refresh(modelParams)
-            self.workingData.step()
-            // TODO if changed, make new copy of public data
-            // MAIN QUEUE {
-            // get model params again
-            // if model hasn't changed
-            // swap in new public data obj & fireChange
-            //}
+        if self._busy {
+            debug("update", "operation in progress: aborting")
+            return false
         }
-        // TODO take step on the BG queue
+
+        self._busy = true
+        let liveParams = SKTModelParams(geometry, physics)
+        queue.async {
+            var changed = self.workingData.refresh(liveParams)
+            if (!changed) {
+                changed = self.workingData.step()
+            }
+            let modelParams = self.workingData.modelParams
+            let newBasinData = (changed) ? self.workingData.exportBasinData() : nil
+            DispatchQueue.main.sync {
+                self.updateLiveData(modelParams, newBasinData)
+                self._busy = false
+            }
+        }
         return true
     }
     
+    func updateLiveData(_ modelParams: SKTModelParams, _ newBasinData: [BasinData]?) {
+        let liveParams = SKTModelParams(geometry, physics)
+        if (liveParams != modelParams) {
+            debug("updateLiveData", "modelParams are stale, so discarding new basin data")
+            return
+        }
+        if (newBasinData != nil) {
+            self._basinData = newBasinData!
+            self.fireChange()
+        }
+    }
 }
 
 
-//    /// Handles edge case where a node might be in a multi-point boundary.
-//    /// Returns the number of nodes that were classified.
-//    func growPossibleBoundary(_ nd: BasinNodeData) -> Int {
-//        let mtd = "growPossibleBoundary"
-//        debug(mtd, "entering. node=(\(nd.m), \(nd.n))")
-//
-//        // candidateNodes contains nodes that are in same connected
-//        // subgraph as nd. But we won't know until we're done whether it's a
-//        // boundary or not.
-//        var candidateNodes = Set<BasinNodeData>()
-//        candidateNodes.insert(nd)
-//
-//        // nodesToCheck is working list of newly-found candidates, i.e., candidates
-//        // whose neigbors haven't been checked.
-//        var nodesToCheck = Set<BasinNodeData>()
-//        nodesToCheck.insert(nd)
-//
-//        var isBoundary: Bool = false
-//        var firstBasinID: Int? = nil
-//        while (nodesToCheck.count > 0) {
-//
-//            var hotList: [BasinNodeData] = []
-//            hotList.append(contentsOf: nodesToCheck)
-//            nodesToCheck.removeAll()
-//
-//            for hotNode in hotList {
-//                let hotNbrs = neighborsOf(hotNode)
-//                debug(mtd, "Looking at the neighbors of (\(hotNode.m), \(hotNode.n))")
-//                for idx in 0...hotNbrs.count {
-//                    let hotNbr = hotNbrs.neighbor(idx)
-//                    if (hotNbr == nil) {
-//                        continue
-//                    }
-//                    let nbr = hotNbr!
-//
-//                    if (nbr.energy.isNaN) {
-//                        info(mtd, "Energy of neighbor (\(nbr.m), \(nbr.n)) is undefined. ABORT")
-//                        return 0
-//                    }
-//                    let nbsgn = nbrSgn(nd, nbr)
-//                    if (nbsgn > 0) {
-//                        // Uphill neighbor. Nothing to learn.
-//                        debug(mtd, "Found uphill neighbor (\(nbr.m), \(nbr.n)). Ignoring.")
-//                        continue
-//                    }
-//
-//                    if (!nbr.isClassified) {
-//                        // Unclassified equal-energy neighbor. Check whether it's already
-//                        // s candidate. If not, add it.
-//                        if (!candidateNodes.contains(nbr)) {
-//                            debug(mtd, "Found down-or-equal unclassified neighbor (\(nbr.m), \(nbr.n)). BINGO")
-//                            candidateNodes.insert(nbr)
-//                            nodesToCheck.insert(nbr)
-//                        }
-//                        continue
-//                    }
-//
-//                    // Sanity check. If nbr is classified, then its isBoundary field
-//                    // should be set.
-//                    let nbrIsBoundary = nbr.isBoundary!
-//
-//                    if (nbrIsBoundary) {
-//                        // Down-or-equal neighbor is a boundary node, which means that all
-//                        // the candidates are boundary nodes too.
-//                        debug(mtd, "Down-or-equal neighbor (\(nbr.m), \(nbr.n)) is a boundary node. JACKPOT")
-//                        isBoundary = true
-//                        continue
-//                    }
-//
-//                    // Sanity check. If nbr is classified and not a boundary, then its
-//                    // basinID.
-//                    let nbrBasin = nbr.basinID!
-//                    if (firstBasinID == nil) {
-//                        debug(mtd, "Down-or-equal neighbor (\(nbr.m), \(nbr.n)) is in first basin: \(nbrBasin)")
-//                        firstBasinID = nbrBasin
-//                    }
-//                    else if (nbrBasin != firstBasinID) {
-//                        // Two down-or-equal neighbors are in 2 different basins. That means
-//                        // all the candidates are boundary nodes.
-//                        debug(mtd, "Down-or-equal neighbor (\(nbr.m), \(nbr.n)) is in second basin: \(nbrBasin). JACKPOT")
-//                        isBoundary = true
-//                        continue
-//                    }
-//                }
-//            }
-//        }
-//
-//        // Whew. If we got here, then the candidates are on a boundary iff isBoundary is set= true
-//
-//        if (isBoundary) {
-//            for cd in candidateNodes {
-//                cd.assignToBoundary(iteration: _iteration)
-//            }
-//            debug(mtd, "done. Found \(candidateNodes.count) new boundary nodes")
-//            return candidateNodes.count
-//        }
-//        return 0
-//    }
-//
-//    func findFatBoundaries() -> Int {
-//        info("findFatBoundaries","entering")
-//        var numClassified: Int = 0
-//        for nd in nodeData {
-//            if (!nd.isClassified) {
-//                numClassified += growPossibleBoundary(nd)
-//            }
-//        }
-//        return numClassified
-//    }
-//
-//    // =============================================
-//    // Expand the basin
-//    // =============================================
-//
-//    func expandBasins() -> Int {
-//        let mtd = "expandBasins"
-//
-//        refresh()
-//
-//        if (_iterationDone) {
-//            debug(mtd, "iteration is done.")
-//            return 0
-//        }
-//
-//        // FIXME torturous logic
-//        if (_iteration < 0) {
-//            return findAttractors()
-//        }
-//
-//        _iteration += 1
-//        debug(mtd, "iteration \(_iteration): starting pass over nodes")
-//        var numNewlyClassified = 0
-//
-//
-//        numNewlyClassified += visitAllNodes()
-//
-//        totalClassified += numNewlyClassified
-//
-//        info(mtd, "iteration \(_iteration) pass over nodes is done: newlyClassified=\(numNewlyClassified) totalClassified=\(totalClassified) nodeCount=\(geometry.nodeCount)")
-//        debugBasinInfo()
-//
-//        // FIXME torturous logic
-//        if (numNewlyClassified == 0 && totalClassified < geometry.nodeCount) {
-//            numNewlyClassified += findFatBoundaries()
-//        }
-//
-//        if (numNewlyClassified == 0) {
-//            _iterationDone = true
-//        }
-//        if (numNewlyClassified > 0) {
-//            changeMonitors.fire()
-//        }
-//        return numNewlyClassified
-//    }
-//
-//
-//    func debugBasinInfo() {
-//        debug("", "    iteration \(iteration):")
-//    var sum: Int = 0
-//    for i in 0..<basins.count {
-//    debug("", "    basin \(i): \(basins[i].nodeCount) nodes")
-//    sum += basins[i].nodeCount
-//    }
-//    debug("", "    unassigned or boundary: \(geometry.nodeCount - sum) nodes")
-//    }

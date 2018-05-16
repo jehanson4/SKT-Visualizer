@@ -50,7 +50,7 @@ protocol BasinFinder: ChangeMonitorEnabled {
     
     var basinData: [BasinData] { get }
     
-    var nodeData: [BasinNodeData] { get }
+    // var nodeData: [BasinNodeData] { get }
     
     // var basins: [Basin] { get }
     
@@ -63,7 +63,7 @@ protocol BasinFinder: ChangeMonitorEnabled {
     // var isIterationDone: Bool { get }
     
     /// Resets nodeData elems, clears basins, sets iteration to 0. Rebuilds if necessary.
-    func reset() -> Bool
+    // func reset() -> Bool
     
     /// Checks whether nodeData is valid. If not, rebuilds and/or resets as necessary.
     // func refresh()
