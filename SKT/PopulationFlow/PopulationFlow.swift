@@ -20,17 +20,10 @@ class PopulationFlow : ChangeMonitorEnabled {
     
     var wCurr: [Double] {
         get {
-            // FIXME this is not going to work.
-            // But I need it in some sort of way else things don't get updated.
-            // At least this moves us in the right direction.
-            //
-            // TODO try it without the sync sometime
-            //
-            // This is DANGEROUS: main thread can call it a bazillion times
-            // before the sync finished!
-            if (self.skt.modelParams != workingData.modelParams) {
-                sync()
-            }
+            // sync() returns before sync actually happens, so this
+            // getter may return stale data. But at least an update
+            // is in the pipe.
+            sync()
             return _wCurr
         }
     }
@@ -63,6 +56,7 @@ class PopulationFlow : ChangeMonitorEnabled {
     
     private var skt: SKTModel
     private var workingData: PFlowModel
+    private var _busy: Bool = false
     
     private var _wCurr: [Double]
     private var _wBounds: (min: Double, max: Double)? = nil
@@ -74,38 +68,49 @@ class PopulationFlow : ChangeMonitorEnabled {
 
     init(_ skt: SKTModel, _ ic: PFlowInitializer? = nil, _ rule: PFlowRule? = nil) {
         self.skt = skt
+        
         let geometry = SKGeometry()
         let physics = SKPhysics(geometry)
-        let modelParams = skt.modelParams
-        _ = modelParams.applyTo(geometry)
-        _ = modelParams.applyTo(physics)
-        
+        let sktParams = skt.modelParams
+        _ = sktParams.applyTo(geometry)
+        _ = sktParams.applyTo(physics)
         let ic2 = (ic != nil) ? ic! : EquilibriumPopulation()
         let rule2 = (rule != nil) ? rule! : SteepestDescentFirstMatch()
         self.workingData = PFlowModel(geometry, physics, ic2, rule2)
+        
         self._wCurr = self.workingData.exportWCurr()
     }
 
     func sync() {
-        debug("sync", "entering")
+        if self._busy {
+            debug("sync", "operation in progress: aborting")
+            return
+        }
+
         let liveParams = self.skt.modelParams
+        let wdParams = self.workingData.modelParams
+        if (liveParams == wdParams) {
+            debug("sync", "already in sync, returning early")
+            return
+        }
+        
+        debug("sync", "submitting work item")
+        self._busy = true
         self.skt.workQueue.async {
-            // Last chance abort
-            if (liveParams != self.skt.modelParams) {
-                return
-            }
             let populationChanged = self.workingData.setModelParams(liveParams)
             let modelParams = self.workingData.modelParams
             let stepNumber = self.workingData.stepNumber
             let wCurr = (populationChanged) ? self.workingData.exportWCurr() : nil
             DispatchQueue.main.sync {
                 self.updateLiveData(modelParams, stepNumber, !populationChanged, wCurr)
+                self._busy = false
             }
         }
         debug("sync", "done")
     }
     
     func changeRule(_ rule: PFlowRule) {
+        // DO NOT abort if _busy
         debug("changeRule", "entering")
         let liveParams = self.skt.modelParams
         self.skt.workQueue.async {
@@ -125,6 +130,7 @@ class PopulationFlow : ChangeMonitorEnabled {
     }
     
     func reset() {
+        // DO NOT abort if _busy
         debug("reset", "entering")
         let liveParams = self.skt.modelParams
         self.skt.workQueue.async {
@@ -143,6 +149,7 @@ class PopulationFlow : ChangeMonitorEnabled {
     }
     
     func step() {
+        // DO NOT abort if _busy
         debug("step", "entering")
         let liveParams = self.skt.modelParams
         self.skt.workQueue.async {

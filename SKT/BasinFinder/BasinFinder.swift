@@ -30,7 +30,6 @@ struct BasinData {
         self.basinID = node.basinID
         self.distanceToAttractor = node.distanceToAttractor
     }
-    
 }
 
 // ============================================================================
@@ -49,6 +48,9 @@ class BasinFinder {
 
     var basinData: [BasinData] {
         get {
+            // sync() returns before sync actually happens, so this
+            // getter may return stale data. But at least an update
+            // is in the pipe.
             sync()
             return _basinData
         }
@@ -105,6 +107,7 @@ class BasinFinder {
                 self._busy = false
             }
         }
+        debug("sync", "done")
     }
     
     func update() -> Bool {
