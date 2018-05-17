@@ -34,7 +34,7 @@ enum PFlowRuleType: Int {
 }
 
 // ==================================================================
-// PFlowLocalRule
+// PFlowRule
 // ==================================================================
 
 protocol PFlowRule : Named {
@@ -43,7 +43,7 @@ protocol PFlowRule : Named {
     
     func potentialAt(m: Int, n: Int) -> Double
     
-    func prepare(_ net: PopulationFlowModel)
+    func prepare(_ net: PFlowModel)
     func apply(_ node: PFlowNode, _ nbrs: [PFlowNode])
 }
 
@@ -54,6 +54,7 @@ protocol PFlowRule : Named {
 /// All the node's population goes to the neighborhood node with lowest
 /// energy (where neighborhood = node & its nearest neighbors). If
 /// multiple such nodes exist, the LAST one encountered is chosen.
+///
 class SteepestDescentFirstMatch : PFlowRule {
     
     let ruleType = PFlowRuleType.steepestDescentFirstMatch
@@ -63,7 +64,7 @@ class SteepestDescentFirstMatch : PFlowRule {
     private var geometry: SKGeometry!
     private var physics: SKPhysics!
     
-    func prepare(_ flow: PopulationFlowModel) {
+    func prepare(_ flow: PFlowModel) {
         geometry = flow.geometry
         physics = flow.physics
     }
@@ -92,6 +93,7 @@ class SteepestDescentFirstMatch : PFlowRule {
 /// All the node's population goes to the neighborhood node with lowest
 /// energy (where neighborhood = node & its nearest neighbors). If
 /// multiple such nodes exist, the LAST one encountered is chosen.
+///
 class SteepestDescentLastMatch : PFlowRule {
     
     let ruleType = PFlowRuleType.steepestDescentLastMatch
@@ -101,7 +103,7 @@ class SteepestDescentLastMatch : PFlowRule {
     private var geometry: SKGeometry!
     private var physics: SKPhysics!
     
-    func prepare(_ flow: PopulationFlowModel) {
+    func prepare(_ flow: PFlowModel) {
         geometry = flow.geometry
         physics = flow.physics
     }
@@ -131,6 +133,7 @@ class SteepestDescentLastMatch : PFlowRule {
 /// lowest energy (where neighborhood := node & its nearest neighbors).
 /// If multiple such nodes exist, the population is divided evenly
 /// among them, correcting for degeneracies.
+///
 class SteepestDescentEqualDivision : PFlowRule {
     
     let ruleType = PFlowRuleType.steepestDescentEqualDivision
@@ -140,7 +143,7 @@ class SteepestDescentEqualDivision : PFlowRule {
     private var geometry: SKGeometry!
     private var physics: SKPhysics!
     
-    func prepare(_ flow: PopulationFlowModel) {
+    func prepare(_ flow: PFlowModel) {
         geometry = flow.geometry
         physics = flow.physics
     }
@@ -150,21 +153,7 @@ class SteepestDescentEqualDivision : PFlowRule {
     }
     
     func apply(_ node: PFlowNode, _ nbrs: [PFlowNode]) {
-        var lowestPotential: Double = node.potential
-        var allowedMembers: [PFlowNode] = [node]
-        for nbr in nbrs {
-            if (!distinct(nbr.potential, lowestPotential)) {
-                allowedMembers.append(nbr)
-            }
-            else if (nbr.potential < lowestPotential) {
-                lowestPotential = nbr.potential
-                allowedMembers.removeAll(keepingCapacity: true)
-                allowedMembers.append(nbr)
-            }
-        }
-        debug("SteepestDescentEqualDivision", "apply(\(node.m), \(node.n))",
-            "filling \(allowedMembers.count) nbhd member(s)")
-        
+
         // =========================================================
         // Degeneracy correction: for each SK config in the node
         // there are (N+1) possibile transitions, each of which causes
@@ -184,7 +173,22 @@ class SteepestDescentEqualDivision : PFlowRule {
         // 3. the weight of a transition to a given allowed nbhd member =
         //    member's degeneracy / sum of allowed-members' degeneracies
         // =========================================================
-
+        
+        var lowestPotential: Double = node.potential
+        var allowedMembers: [PFlowNode] = [node]
+        for nbr in nbrs {
+            if (!distinct(nbr.potential, lowestPotential)) {
+                allowedMembers.append(nbr)
+            }
+            else if (nbr.potential < lowestPotential) {
+                lowestPotential = nbr.potential
+                allowedMembers.removeAll(keepingCapacity: true)
+                allowedMembers.append(nbr)
+            }
+        }
+        debug("SteepestDescentEqualDivision", "apply(\(node.m), \(node.n))",
+            "filling \(allowedMembers.count) nbhd member(s)")
+        
         // wTotal = ln(sum of degeneracies of allowed nbhd members)
         var wTotal: Double = Double.nan
         for member in allowedMembers {
@@ -206,6 +210,7 @@ class SteepestDescentEqualDivision : PFlowRule {
 /// with energy < its own, correcting for degeneracies.
 /// If there are no such neighbors the population is divided evenly
 /// among nbhd members with energy equal to that of node.
+///
 class AnyDescentEqualDivision : PFlowRule {
     
     let ruleType = PFlowRuleType.anyDescentEqualDivision
@@ -215,7 +220,7 @@ class AnyDescentEqualDivision : PFlowRule {
     private var geometry: SKGeometry!
     private var physics: SKPhysics!
     
-    func prepare(_ flow: PopulationFlowModel) {
+    func prepare(_ flow: PFlowModel) {
         geometry = flow.geometry
         physics = flow.physics
     }
@@ -225,6 +230,29 @@ class AnyDescentEqualDivision : PFlowRule {
     }
     
     func apply(_ node: PFlowNode, _ nbrs: [PFlowNode]) {
+
+        // =========================================================
+        // Degeneracy correction: for each SK config in the node
+        // there are (N+1) possibile transitions, each of which causes
+        // that config to move into one of the node's nbhd members.
+        //
+        // The number of SK configs originally in the node is given by
+        // exp(node.wCurr)
+        //
+        // The partion of transitions to moves, and hence the weighting
+        // of the transitions. depends on the config.
+        //
+        // GUESSES (requiring validation):
+        // 1. the weighting is the same for all configs in a given
+        //    node
+        // 2. the weighting is a function of the degeneracies of the
+        //    nbhd members
+        // 3. the weight of a transition to a given allowed nbhd member =
+        //    member's degeneracy / sum of allowed-members' degeneracies
+        // =========================================================
+        
+
+
         var favoredMembers: [PFlowNode] = []
         var equalMembers: [PFlowNode] = [node]
         
@@ -246,26 +274,6 @@ class AnyDescentEqualDivision : PFlowRule {
             debug("AnyDescentEqualDivision", "apply(\(node.m), \(node.n))",
                 "dividing population among \(equalMembers.count) equal-energy nbhd member(s)")
         }
-        
-        // =========================================================
-        // Degeneracy correction: for each SK config in the node
-        // there are (N+1) possibile transitions, each of which causes
-        // that config to move into one of the node's nbhd members.
-        //
-        // The number of SK configs originally in the node is given by
-        // exp(node.wCurr)
-        //
-        // The partion of transitions to moves, and hence the weighting
-        // of the transitions. depends on the config.
-        //
-        // GUESSES (requiring validation):
-        // 1. the weighting is the same for all configs in a given
-        //    node
-        // 2. the weighting is a function of the degeneracies of the
-        //    nbhd members
-        // 3. the weight of a transition to a given allowed nbhd member =
-        //    member's degeneracy / sum of allowed-members' degeneracies
-        // =========================================================
         
         // wTotal = ln(sum of degeneracies of allowed nbhd members)
         var wTotal: Double = Double.nan
@@ -290,6 +298,7 @@ class AnyDescentEqualDivision : PFlowRule {
 ///
 /// If there are no such neighbors, then the population is divided
 /// among nbhd members with energy equal to that of the node.
+///
 class ProportionalDescent : PFlowRule {
     
     let ruleType = PFlowRuleType.proportionalDescent
@@ -299,7 +308,7 @@ class ProportionalDescent : PFlowRule {
     private var geometry: SKGeometry!
     private var physics: SKPhysics!
     
-    func prepare(_ flow: PopulationFlowModel) {
+    func prepare(_ flow: PFlowModel) {
         geometry = flow.geometry
         physics = flow.physics
     }
@@ -309,6 +318,29 @@ class ProportionalDescent : PFlowRule {
     }
     
     func apply(_ node: PFlowNode, _ nbrs: [PFlowNode]) {
+        
+        // =========================================================
+        // Degeneracy correction: for each SK config in the node
+        // there are (N+1) possible transitions, each of which causes
+        // that config to move into one of the node's nbhd members.
+        //
+        // The number of SK configs originally in the node is given by
+        // exp(node.wCurr)
+        //
+        // The partion of transitions to moves, and hence the weighting
+        // of the transitions. depends on the config.
+        //
+        // GUESSES (requiring validation):
+        // 1. the weighting is the same for all configs in a given
+        //    node
+        // 2. the weighting is a function of the degeneracies of the
+        //    nbhd members
+        // 3. the weight of a transition to a given allowed nbhd member =
+        //    member's degeneracy / sum of allowed-members' degeneracies
+        //
+        // On top of this weighting due to degeneracy, we also apply
+        // a weighting factor due to energy difference.
+        // =========================================================
         
         var favoredMembers: [PFlowNode] = []
         var equalMembers: [PFlowNode] = [node]
@@ -325,26 +357,6 @@ class ProportionalDescent : PFlowRule {
             debug("AnyDescentEqualDivision", "apply(\(node.m), \(node.n))",
                 "dividing population among \(equalMembers.count) equal-energy nbhd member(s)")
             
-            // =========================================================
-            // Degeneracy correction: for each SK config in the node
-            // there are (N+1) possibile transitions, each of which causes
-            // that config to move into one of the node's nbhd members.
-            //
-            // The number of SK configs originally in the node is given by
-            // exp(node.wCurr)
-            //
-            // The partion of transitions to moves, and hence the weighting
-            // of the transitions. depends on the config.
-            //
-            // GUESSES (requiring validation):
-            // 1. the weighting is the same for all configs in a given
-            //    node
-            // 2. the weighting is a function of the degeneracies of the
-            //    nbhd members
-            // 3. the weight of a transition to a given allowed nbhd member =
-            //    member's degeneracy / sum of allowed-members' degeneracies
-            // =========================================================
-            
             // wTotal = ln(sum of degeneracies of allowed nbhd members)
             var wTotal: Double = Double.nan
             for member in equalMembers {
@@ -359,29 +371,6 @@ class ProportionalDescent : PFlowRule {
         else {
             debug("AnyDescentEqualDivision", "apply(\(node.m), \(node.n))",
                 "dividing population among \(favoredMembers.count) favored neighbor(s)")
-            
-            // =========================================================
-            // Degeneracy correction: for each SK config in the node
-            // there are (N+1) possible transitions, each of which causes
-            // that config to move into one of the node's nbhd members.
-            //
-            // The number of SK configs originally in the node is given by
-            // exp(node.wCurr)
-            //
-            // The partion of transitions to moves, and hence the weighting
-            // of the transitions. depends on the config.
-            //
-            // GUESSES (requiring validation):
-            // 1. the weighting is the same for all configs in a given
-            //    node
-            // 2. the weighting is a function of the degeneracies of the
-            //    nbhd members
-            // 3. the weight of a transition to a given allowed nbhd member =
-            //    member's degeneracy / sum of allowed-members' degeneracies
-            //
-            // On top of this weighting due to degeneracy, we also apply
-            // a weighting factor due to energy difference.
-            // =========================================================
             
             // wTotal = ln(sum of weights of allowed nbhd members)
             var wTotal: Double = Double.nan
@@ -406,15 +395,12 @@ class ProportionalDescent : PFlowRule {
 /// at random, find the neighbor node for that transition, measure its
 // energy difference deltaE = (neighbor's energy - node's energy).
 /// Then 'accept' or 'reject' the transition using a biased coin:
-/// 1. If deltaE <= 0, p(accept) = 1
-/// 2. If deltaE >  0, p(accept) = exp(-deltaE/T)
-
+/// 1. If deltaE ~ 0, p(accept) = 0.5
+/// 2. If deltaE < 0, p(accept) = 1
+/// 3. If deltaE > 0, p(accept) = exp(-deltaE/T)
+///
 class MetropolisFlow : PFlowRule {
 
-    // ===================================================================
-    // NOTES 5/8/2018: this flows down to the minimum, regardless of temp.
-    // ===================================================================
-    
     let cls = "MetropolisFlow"
 
     let ruleType = PFlowRuleType.metropolisFlow
@@ -428,7 +414,7 @@ class MetropolisFlow : PFlowRule {
     private var physics: SKPhysics!
     private var beta: Double = 0
     
-    func prepare(_ flow: PopulationFlowModel) {
+    func prepare(_ flow: PFlowModel) {
         geometry = flow.geometry
         physics = flow.physics
         beta = (physics.T > 0) ? 1/physics.T : Double.greatestFiniteMagnitude

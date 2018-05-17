@@ -25,11 +25,11 @@ class PopulationColorSource : ColorSource {
     var name: String = "Population"
     var info: String? = nil
     
-    private var flow: PopulationFlowManager
+    private var flow: PopulationFlow
     private var colorMap: LogColorMap
     private var wCurr: [Double]
 
-    init(_ flow: PopulationFlowManager, _ colorMap: LogColorMap) {
+    init(_ flow: PopulationFlow, _ colorMap: LogColorMap) {
         self.flow = flow
         self.colorMap = colorMap
         self.wCurr = []

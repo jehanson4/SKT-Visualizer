@@ -59,13 +59,13 @@ class PopulationFlowSequencer : GenericSequencer<Int> {
     
     private var _upperBound: Int = 100
     private var _stepSize: Int = 1
-    private var flow: PopulationFlowManager
+    private var flow: PopulationFlow
     private var rule: PFlowRule? = nil
     
     // ===========================================
     // Initialization
     
-    init(_ name: String, _ flow: PopulationFlowManager, _ rule: PFlowRule? = nil) {
+    init(_ name: String, _ flow: PopulationFlow, _ rule: PFlowRule? = nil) {
         self.flow = flow
         // flow.monitorChanges(syncToFlow)
         self.rule = rule

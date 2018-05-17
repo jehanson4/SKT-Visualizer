@@ -15,12 +15,12 @@
 		8A1CF01B207146520099DD97 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A1CF019207146510099DD97 /* Main.storyboard */; };
 		8A1CF01D207146540099DD97 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A1CF01C207146540099DD97 /* Assets.xcassets */; };
 		8A1CF020207146540099DD97 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A1CF01E207146540099DD97 /* LaunchScreen.storyboard */; };
-		8A2A32D520AB1B0A00D4D619 /* BasinFinder4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2A32D420AB1B0A00D4D619 /* BasinFinder4.swift */; };
+		8A2A32D520AB1B0A00D4D619 /* BasinFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2A32D420AB1B0A00D4D619 /* BasinFinder.swift */; };
 		8A2A32D720AB881600D4D619 /* WorkQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2A32D620AB881600D4D619 /* WorkQueue.swift */; };
 		8A35082E20A092A400E36C1F /* PopulationColorSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A35082D20A092A400E36C1F /* PopulationColorSource.swift */; };
 		8A35083020A0A0C200E36C1F /* PopulationFlowSequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A35082F20A0A0C200E36C1F /* PopulationFlowSequencer.swift */; };
 		8A35083220A0D5C800E36C1F /* PFlowRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A35083120A0D5C800E36C1F /* PFlowRules.swift */; };
-		8A35083420A0E92D00E36C1F /* Initializers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A35083320A0E92D00E36C1F /* Initializers.swift */; };
+		8A35083420A0E92D00E36C1F /* PFlowInitializers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A35083320A0E92D00E36C1F /* PFlowInitializers.swift */; };
 		8A3BBBB5208BBB0600669227 /* SKTModel1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BBBB4208BBB0600669227 /* SKTModel1.swift */; };
 		8A3BBBB7208BC28A00669227 /* VisualizationModel1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BBBB6208BC28A00669227 /* VisualizationModel1.swift */; };
 		8A3BBBB9208BC49D00669227 /* science.html in Resources */ = {isa = PBXBuildFile; fileRef = 8A3BBBB8208BC49D00669227 /* science.html */; };
@@ -34,6 +34,10 @@
 		8A40BC0E207EEA3D00F2D2EB /* Meridians.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A40BC0D207EEA3D00F2D2EB /* Meridians.swift */; };
 		8A41A2F2208398E900CDDF28 /* NumericConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A41A2F1208398E900CDDF28 /* NumericConstants.swift */; };
 		8A53B2A1208D9B380039C5D7 /* technology.html in Resources */ = {isa = PBXBuildFile; fileRef = 8A53B2A0208D9B380039C5D7 /* technology.html */; };
+		8A56BE7320ADAD5100C19F4C /* BANode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A56BE7220ADAD5100C19F4C /* BANode.swift */; };
+		8A56BE7520ADADA300C19F4C /* BAModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A56BE7420ADADA300C19F4C /* BAModel.swift */; };
+		8A56BE7920ADB37700C19F4C /* PFlowModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A56BE7820ADB37700C19F4C /* PFlowModel.swift */; };
+		8A56BE7B20ADB3FF00C19F4C /* PFlowNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A56BE7A20ADB3FF00C19F4C /* PFlowNode.swift */; };
 		8A575FEE20804759002B9951 /* ColorMaps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A575FED20804759002B9951 /* ColorMaps.swift */; };
 		8A57600320805790002B9951 /* smooth-cool-warm-table-float-0128.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8A575FF320805790002B9951 /* smooth-cool-warm-table-float-0128.csv */; };
 		8A57600420805790002B9951 /* smooth-cool-warm-table-float-0512.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8A575FF420805790002B9951 /* smooth-cool-warm-table-float-0512.csv */; };
@@ -64,11 +68,9 @@
 		8A91B0A02094164700488907 /* NForFixedKOverN.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A91B09F2094164700488907 /* NForFixedKOverN.swift */; };
 		8A91B0A4209418A900488907 /* NumericParameterSequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A91B0A3209418A900488907 /* NumericParameterSequencer.swift */; };
 		8A91B0AA2094B01400488907 /* GenericSequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A91B0A92094B01400488907 /* GenericSequencer.swift */; };
-		8AA05A0A208E7F4B009417A6 /* BasinFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA05A09208E7F4B009417A6 /* BasinFinder.swift */; };
 		8AA05A11208FC14E009417A6 /* AppModel1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA05A10208FC14E009417A6 /* AppModel1.swift */; };
 		8AA05A13208FCB58009417A6 /* ChangeSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA05A12208FCB58009417A6 /* ChangeSupport.swift */; };
 		8AA05A15208FD56F009417A6 /* SKPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA05A14208FD56F009417A6 /* SKPoint.swift */; };
-		8AA05A17208FE6A9009417A6 /* BasinHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA05A16208FE6A9009417A6 /* BasinHelpers.swift */; };
 		8AA05A19208FFFD4009417A6 /* MagicStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA05A18208FFFD4009417A6 /* MagicStrings.swift */; };
 		8AA05A2220900692009417A6 /* ColorSourceSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA05A2020900692009417A6 /* ColorSourceSelectionViewController.swift */; };
 		8AA05A2320900692009417A6 /* ColorSourceSelectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8AA05A2120900692009417A6 /* ColorSourceSelectionViewController.xib */; };
@@ -138,12 +140,12 @@
 		8A1CF01C207146540099DD97 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8A1CF01F207146540099DD97 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8A1CF021207146540099DD97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8A2A32D420AB1B0A00D4D619 /* BasinFinder4.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasinFinder4.swift; sourceTree = "<group>"; };
+		8A2A32D420AB1B0A00D4D619 /* BasinFinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasinFinder.swift; sourceTree = "<group>"; };
 		8A2A32D620AB881600D4D619 /* WorkQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkQueue.swift; sourceTree = "<group>"; };
 		8A35082D20A092A400E36C1F /* PopulationColorSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopulationColorSource.swift; sourceTree = "<group>"; };
 		8A35082F20A0A0C200E36C1F /* PopulationFlowSequencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopulationFlowSequencer.swift; sourceTree = "<group>"; };
 		8A35083120A0D5C800E36C1F /* PFlowRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PFlowRules.swift; sourceTree = "<group>"; };
-		8A35083320A0E92D00E36C1F /* Initializers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Initializers.swift; sourceTree = "<group>"; };
+		8A35083320A0E92D00E36C1F /* PFlowInitializers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PFlowInitializers.swift; sourceTree = "<group>"; };
 		8A3BBBB4208BBB0600669227 /* SKTModel1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKTModel1.swift; sourceTree = "<group>"; };
 		8A3BBBB6208BC28A00669227 /* VisualizationModel1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualizationModel1.swift; sourceTree = "<group>"; };
 		8A3BBBB8208BC49D00669227 /* science.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = science.html; sourceTree = "<group>"; };
@@ -157,6 +159,10 @@
 		8A40BC0D207EEA3D00F2D2EB /* Meridians.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Meridians.swift; sourceTree = "<group>"; };
 		8A41A2F1208398E900CDDF28 /* NumericConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumericConstants.swift; sourceTree = "<group>"; };
 		8A53B2A0208D9B380039C5D7 /* technology.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = technology.html; sourceTree = "<group>"; };
+		8A56BE7220ADAD5100C19F4C /* BANode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BANode.swift; sourceTree = "<group>"; };
+		8A56BE7420ADADA300C19F4C /* BAModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BAModel.swift; sourceTree = "<group>"; };
+		8A56BE7820ADB37700C19F4C /* PFlowModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PFlowModel.swift; sourceTree = "<group>"; };
+		8A56BE7A20ADB3FF00C19F4C /* PFlowNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PFlowNode.swift; sourceTree = "<group>"; };
 		8A575FED20804759002B9951 /* ColorMaps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorMaps.swift; sourceTree = "<group>"; };
 		8A575FF320805790002B9951 /* smooth-cool-warm-table-float-0128.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "smooth-cool-warm-table-float-0128.csv"; sourceTree = "<group>"; };
 		8A575FF420805790002B9951 /* smooth-cool-warm-table-float-0512.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "smooth-cool-warm-table-float-0512.csv"; sourceTree = "<group>"; };
@@ -187,11 +193,9 @@
 		8A91B09F2094164700488907 /* NForFixedKOverN.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NForFixedKOverN.swift; sourceTree = "<group>"; };
 		8A91B0A3209418A900488907 /* NumericParameterSequencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumericParameterSequencer.swift; sourceTree = "<group>"; };
 		8A91B0A92094B01400488907 /* GenericSequencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericSequencer.swift; sourceTree = "<group>"; };
-		8AA05A09208E7F4B009417A6 /* BasinFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasinFinder.swift; sourceTree = "<group>"; };
 		8AA05A10208FC14E009417A6 /* AppModel1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel1.swift; sourceTree = "<group>"; };
 		8AA05A12208FCB58009417A6 /* ChangeSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSupport.swift; sourceTree = "<group>"; };
 		8AA05A14208FD56F009417A6 /* SKPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKPoint.swift; sourceTree = "<group>"; };
-		8AA05A16208FE6A9009417A6 /* BasinHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasinHelpers.swift; sourceTree = "<group>"; };
 		8AA05A18208FFFD4009417A6 /* MagicStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagicStrings.swift; sourceTree = "<group>"; };
 		8AA05A2020900692009417A6 /* ColorSourceSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSourceSelectionViewController.swift; sourceTree = "<group>"; };
 		8AA05A2120900692009417A6 /* ColorSourceSelectionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ColorSourceSelectionViewController.xib; sourceTree = "<group>"; };
@@ -328,9 +332,11 @@
 		8A35082A209DF3CF00E36C1F /* PopulationFlow */ = {
 			isa = PBXGroup;
 			children = (
-				8A0B39FF20A4B71200370999 /* PopulationFlow.swift */,
+				8A35083320A0E92D00E36C1F /* PFlowInitializers.swift */,
+				8A56BE7820ADB37700C19F4C /* PFlowModel.swift */,
+				8A56BE7A20ADB3FF00C19F4C /* PFlowNode.swift */,
 				8A35083120A0D5C800E36C1F /* PFlowRules.swift */,
-				8A35083320A0E92D00E36C1F /* Initializers.swift */,
+				8A0B39FF20A4B71200370999 /* PopulationFlow.swift */,
 			);
 			path = PopulationFlow;
 			sourceTree = "<group>";
@@ -429,14 +435,14 @@
 			path = App;
 			sourceTree = "<group>";
 		};
-		8AA05A0D208F93B4009417A6 /* Basins */ = {
+		8AA05A0D208F93B4009417A6 /* BasinFinder */ = {
 			isa = PBXGroup;
 			children = (
-				8A2A32D420AB1B0A00D4D619 /* BasinFinder4.swift */,
-				8AA05A09208E7F4B009417A6 /* BasinFinder.swift */,
-				8AA05A16208FE6A9009417A6 /* BasinHelpers.swift */,
+				8A56BE7420ADADA300C19F4C /* BAModel.swift */,
+				8A56BE7220ADAD5100C19F4C /* BANode.swift */,
+				8A2A32D420AB1B0A00D4D619 /* BasinFinder.swift */,
 			);
-			path = Basins;
+			path = BasinFinder;
 			sourceTree = "<group>";
 		};
 		8ACE78902073CCDA00C29875 /* Frameworks */ = {
@@ -518,7 +524,7 @@
 		8AF5320C2088B63E009D1882 /* SKT */ = {
 			isa = PBXGroup;
 			children = (
-				8AA05A0D208F93B4009417A6 /* Basins */,
+				8AA05A0D208F93B4009417A6 /* BasinFinder */,
 				8A35082A209DF3CF00E36C1F /* PopulationFlow */,
 				8A0C09A520716B670017AC4C /* SKGeometry.swift */,
 				8AA05A14208FD56F009417A6 /* SKPoint.swift */,
@@ -695,6 +701,7 @@
 				8AE48BBB2087857C001B5D11 /* GLUtils.swift in Sources */,
 				8A2A32D720AB881600D4D619 /* WorkQueue.swift in Sources */,
 				8A1CF016207146510099DD97 /* AppDelegate.swift in Sources */,
+				8A56BE7520ADADA300C19F4C /* BAModel.swift in Sources */,
 				8A575FEE20804759002B9951 /* ColorMaps.swift in Sources */,
 				8ACE788D2072E51800C29875 /* Icosahedron.swift in Sources */,
 				8A0C09A620716B670017AC4C /* SKGeometry.swift in Sources */,
@@ -709,8 +716,8 @@
 				8A35083020A0A0C200E36C1F /* PopulationFlowSequencer.swift in Sources */,
 				8A91B09C2093F98000488907 /* Sequencer.swift in Sources */,
 				8A3C45B62086167E00A1E9CD /* LogOccupation.swift in Sources */,
+				8A56BE7320ADAD5100C19F4C /* BANode.swift in Sources */,
 				8AA05A13208FCB58009417A6 /* ChangeSupport.swift in Sources */,
-				8AA05A0A208E7F4B009417A6 /* BasinFinder.swift in Sources */,
 				8A84313820726F0100F06B9B /* Axes.swift in Sources */,
 				8A91B09E2094163C00488907 /* DummySequencer.swift in Sources */,
 				8A3C45C42086214D00A1E9CD /* PhysicalPropertyColorSource.swift in Sources */,
@@ -729,15 +736,16 @@
 				8A75B694208A771800EACD13 /* SKTModel.swift in Sources */,
 				8AA05A19208FFFD4009417A6 /* MagicStrings.swift in Sources */,
 				8AF98FA1207FE8350007688E /* DetailViewController.swift in Sources */,
+				8A56BE7920ADB37700C19F4C /* PFlowModel.swift in Sources */,
 				8AE18FA7209A1E220086F127 /* FreeEnergy.swift in Sources */,
-				8A2A32D520AB1B0A00D4D619 /* BasinFinder4.swift in Sources */,
-				8A35083420A0E92D00E36C1F /* Initializers.swift in Sources */,
+				8A2A32D520AB1B0A00D4D619 /* BasinFinder.swift in Sources */,
+				8A35083420A0E92D00E36C1F /* PFlowInitializers.swift in Sources */,
 				8A75B690208A317D00EACD13 /* Registry.swift in Sources */,
 				8ACE789E2073F7A400C29875 /* Utils.swift in Sources */,
 				8A40BC0E207EEA3D00F2D2EB /* Meridians.swift in Sources */,
 				8AF5320920887329009D1882 /* BasinColorSource.swift in Sources */,
 				8AA05A11208FC14E009417A6 /* AppModel1.swift in Sources */,
-				8AA05A17208FE6A9009417A6 /* BasinHelpers.swift in Sources */,
+				8A56BE7B20ADB3FF00C19F4C /* PFlowNode.swift in Sources */,
 				8AA05A2620901B19009417A6 /* SequencerSelectionViewController.swift in Sources */,
 				8AA05A15208FD56F009417A6 /* SKPoint.swift in Sources */,
 				8A741FE820926B9E002A88D0 /* FlowLines.swift in Sources */,

@@ -1,114 +1,26 @@
 //
-//  BasinFinder4.swift
+//  BAWorkingData.swift
 //  SKT Visualizer
 //
-//  Created by James Hanson on 5/15/18.
+//  Created by James Hanson on 5/17/18.
 //  Copyright © 2018 James Hanson. All rights reserved.
 //
 
 import Foundation
 
-
 // ============================================================================
-// BANode
-// ============================================================================
-
-/// Needs to be a class so we can pass around lists of these guys pulled out of
-/// the nodes array, and update them. If it were a struct we'd be updating a copy.
-///
-class BANode : Hashable, Equatable {
-    
-    let idx: Int
-    let m: Int
-    let n: Int
-    
-    /// Our energy, or NaN
-    var energy: Double
-    
-    var isClassified: Bool { return (isBoundary != nil) }
-    
-    var isInAttractor: Bool { return (distanceToAttractor != nil && distanceToAttractor! == 0) }
-    
-    /// Are we on a basin boundary?
-    var isBoundary: Bool?
-    
-    /// Which basin we're in.
-    var basinID: Int?
-    
-    /// Distance to the nearest node in the attracting set of this node's
-    /// basin. Members of the attracting set have distanceToAttractor = 0
-    var distanceToAttractor: Int?
-    
-    // =========================================
-    
-    init(_ idx: Int, _ m: Int, _ n: Int, _ energy: Double = Double.nan) {
-        self.idx = idx
-        self.m = m
-        self.n = n
-        self.energy = energy
-        self.isBoundary = nil
-        self.basinID = nil
-        self.distanceToAttractor = nil
-    }
-    
-    func reset(_ energy: Double = Double.nan) {
-        // print("reset(\(m),\(n))")
-        self.energy = energy
-        self.isBoundary = nil
-        self.basinID = nil
-        self.distanceToAttractor = nil
-    }
-    
-    func assignToBasin(basinID: Int, distanceToAttractor: Int) {
-        self.isBoundary = false
-        self.basinID = basinID
-        self.distanceToAttractor = distanceToAttractor
-        // print("assignToBasin(\(m),\(n)) done: " + dumpResettableState())
-    }
-    
-    func assignToBoundary() {
-        self.isBoundary = true
-        self.basinID = nil
-        self.distanceToAttractor = nil
-        // print("assignToBoundary(\(m),\(n)) done: " + dumpResettableState())
-    }
-    
-    func dumpResettableState() -> String {
-        
-        let boundaryStr = (isBoundary == nil || isBoundary! == false) ? ""
-            : "boundary=" + String(isBoundary!) + " "
-        
-        let basinIDStr = (basinID == nil) ? ""
-            : "basinID=" + String(basinID!) + " "
-        
-        let dToAStr = (distanceToAttractor == nil) ? ""
-            : "dToA=" + String(distanceToAttractor!) + " "
-        
-        return boundaryStr + basinIDStr + dToAStr
-    }
-    
-    // =============================================
-    // So we can go into sets
-    
-    var hashValue: Int { return idx }
-    
-    static func == (lhs: BANode, rhs: BANode) -> Bool {
-        return lhs.idx == rhs.idx
-    }
-}
-
-// ============================================================================
-// BAWorkingData
+// BAModel
 // ============================================================================
 
 /// This is a self-contained object, disconnected from the rest of the app,
 /// on which operations may be safely performed while the app is changing
-class BAWorkingData {
+///
+class BAModel {
     
     // =========================
     // DEBUG
     
-    let cls = "BAWorkingData"
+    let cls = "BAModel"
     var debugEnabled: Bool = false
     
     private func debug(_ mtd: String, _ msg: String = "") {
@@ -122,7 +34,7 @@ class BAWorkingData {
         let threadName = (Thread.current.isMainThread) ? "[main]" : "[bg]"
         print(cls, threadName, mtd, msg)
     }
-
+    
     private func warn(_ mtd: String, _ msg: String = "") {
         print("!!!", cls, mtd, msg)
     }
@@ -140,7 +52,7 @@ class BAWorkingData {
     private var n_max: Int
     private var m_max: Int
     private var rebuildNeeded: Bool
-
+    
     private var physics: SKPhysics
     private var resetNeeded: Bool
     
@@ -165,7 +77,7 @@ class BAWorkingData {
         self.boundariesFinished = false
         self.totalClassified = 0
     }
-
+    
     // =======================================
     // Basin-building APIs
     
@@ -222,7 +134,7 @@ class BAWorkingData {
         }
         return false
     }
-
+    
     // =======================================
     // Basin-building private helpers
     
@@ -290,7 +202,7 @@ class BAWorkingData {
         if (!node2.isClassified && isLocalMinimum(node2)) {
             addNewAttractor(node2)
         }
-
+        
         // Iterate over all nodes looking for single-point local minima
         // and possible multi-point local minima
         // (BANode is a class so it's OK to do "for node in nodes" here)
@@ -300,7 +212,7 @@ class BAWorkingData {
             if (node.isClassified) {
                 continue
             }
-
+            
             var foundLevelNeighbor = false
             var foundDownhillNeighbor = false
             nbrs.removeAll(keepingCapacity: true)
@@ -365,7 +277,7 @@ class BAWorkingData {
         // Newly discovered candidates that haven't yet been examined
         var unchecked = Set<BANode>()
         unchecked.insert(node)
-
+        
         // Reusable list of unchecked nodes
         var hotNodes: [BANode] = []
         
@@ -447,10 +359,10 @@ class BAWorkingData {
     
     private func expandBasins() {
         let mtd = "expandBasins"
-
+        
         var totalClassified: Int = 0
         var newlyClassified: Int = 0
-
+        
         // Visit all nodes in a custom order that finds basins quickly
         // in simple cases
         debug(mtd, "starting pass over nodes")
@@ -492,7 +404,7 @@ class BAWorkingData {
                         }
                     }
                 }
-
+                
                 // #3
                 node = nodeAt(m_max-m,n)
                 if (node != nil) {
@@ -508,7 +420,7 @@ class BAWorkingData {
                         }
                     }
                 }
-
+                
                 // #4
                 node = nodeAt(m_max-m,n_max-n)
                 if (node != nil) {
@@ -712,164 +624,6 @@ class BAWorkingData {
         }
         return 0
     }
-
+    
 }
-
-// ============================================================================
-// BasinFinder4
-// ============================================================================
-
-class BasinFinder4 : BasinFinder {
-    
-    var debugEnabled = false
-    var infoEnabled = true
-    
-    var name: String = "BasinFinder4"
-    var info: String? = nil
-    
-    var expectedMaxDistanceToAttractor: Int { return geometry.N / 2 }
-
-    var basinData: [BasinData] {
-        get {
-            sync()
-            return _basinData
-        }
-    }
-    
-    private var queue: WorkQueue
-    private var geometry: SKGeometry
-    private var physics: SKPhysics
-    private var workingData: BAWorkingData
-    private var _basinData: [BasinData]
-    private var _busy: Bool
-    private var _updatesDone: Bool
-    
-    // =====================================
-    // Initializing
-    // =====================================
-    
-    init(_ geometry: SKGeometry, _ physics: SKPhysics, _ queue: WorkQueue) {
-        self.geometry = geometry
-        self.physics = physics
-        self.queue = queue
-        
-        let modelParams = SKTModelParams(geometry, physics)
-        self.workingData = BAWorkingData(modelParams)
-        self._basinData = self.workingData.exportBasinData()
-        self._busy = false
-        self._updatesDone = false
-    }
-    
-    // =============================================
-    // API
-    // =============================================
-    
-    func sync() {
-        if self._busy {
-            debug("sync", "operation in progress: aborting")
-            return
-        }
-        let liveParams = SKTModelParams(geometry, physics)
-        let wdParams = self.workingData.modelParams
-        if (liveParams == wdParams && self._updatesDone) {
-            debug("sync", "no param change, updates are done: returning early")
-            return
-        }
-        
-        debug("sync", "submitting work item")
-        self._busy = true
-        queue.async {
-            let changed = self.workingData.refresh(liveParams)
-            let modelParams = self.workingData.modelParams
-            let newBasinData = (changed) ? self.workingData.exportBasinData() : nil
-            DispatchQueue.main.sync {
-                self.updateLiveData(modelParams, newBasinData)
-                self._busy = false
-            }
-        }
-    }
-    
-    func update() -> Bool {
-        if self._busy {
-            debug("update", "operation in progress: aborting")
-            return false
-        }
-
-        let liveParams = SKTModelParams(geometry, physics)
-        let wdParams = self.workingData.modelParams
-        if (liveParams == wdParams && self._updatesDone) {
-            debug("update", "no param change, updates are done: returning early")
-            return false
-        }
-
-        debug("update", "submitting work item")
-        self._busy = true
-        queue.async {
-            var changed = self.workingData.refresh(liveParams)
-            if (!changed) {
-                changed = self.workingData.step()
-            }
-            let modelParams = self.workingData.modelParams
-            let newBasinData = (changed) ? self.workingData.exportBasinData() : nil
-            DispatchQueue.main.sync {
-                self.updateLiveData(modelParams, newBasinData)
-                self._busy = false
-            }
-        }
-        return true
-    }
-    
-    private func updateLiveData(_ modelParams: SKTModelParams, _ newBasinData: [BasinData]?) {
-        let liveParams = SKTModelParams(geometry, physics)
-        if (liveParams != modelParams) {
-            debug("updateLiveData", "modelParams are stale, so discarding new basin data")
-            return
-        }
-        if (newBasinData != nil) {
-            self._updatesDone = false
-            self._basinData = newBasinData!
-            self.fireChange()
-        }
-        else {
-            self._updatesDone = true
-        }
-    }
-    
-    // =============================================
-    // Change monitoring
-    // =============================================
-    
-    private lazy var changeMonitors = ChangeMonitorSupport()
-    
-    func monitorChanges(_ callback: @escaping (Any) -> ()) -> ChangeMonitor? {
-        return changeMonitors.monitorChanges(callback, self)
-    }
-    
-    private func fireChange() {
-        changeMonitors.fire()
-    }
-    
-    // =============================================
-    // DEBUG
-    // =============================================
-    
-    private func debug(_ mtd: String, _ msg: String = "") {
-        if (debugEnabled) {
-            print(name, mtd, msg)
-        }
-    }
-    
-    private func info(_ mtd: String, _ msg: String = "") {
-        if (infoEnabled || debugEnabled) {
-            print(name, mtd, msg)
-        }
-    }
-    
-    private func warn(_ mtd: String, _ msg: String = "") {
-        print("!!! " + name, mtd, msg)
-    }
-    
-
-}
-
 
