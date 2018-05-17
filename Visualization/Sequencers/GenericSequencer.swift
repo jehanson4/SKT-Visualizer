@@ -111,6 +111,9 @@ class GenericSequencer<T> : Sequencer {
     var value: Double { return 0 }
     
     /// FOR OVERRIDE: this impl is non-functional
+    var progress: Double { return 0 }
+    
+    /// FOR OVERRIDE: this impl is non-functional
     func toString(_ x: Double) -> String {
         return ""
     }
@@ -134,6 +137,8 @@ class GenericSequencer<T> : Sequencer {
     func reset() {
         self._direction = Direction.forward
         self._enabled = false
+        jumpToSetPoint()
+        fireChange()
     }
     
     func step() {
@@ -150,6 +155,11 @@ class GenericSequencer<T> : Sequencer {
         if (changed) {
             fireChange()
         }
+    }
+
+    // Returns true iff sequencer state changed
+    // FOR OVERRIDE. This method does nothing
+    func jumpToSetPoint() {
     }
     
     // Returns true iff sequencer state changed

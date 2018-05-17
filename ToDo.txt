@@ -4,6 +4,9 @@ ToDo.txt
 
 For 1.0.6
 
+[ ] pop flow progress controls are always 1 step behind
+[ ] force pop flow sequencer delta = 1
+[ ] black hemisphere to block the back nodes
 
 ABOVE THE LINE
 ----------------------------------------------------------------------------------
@@ -23,22 +26,10 @@ BELOW THE LINE
 [ ] recheck: N & k0 sequencer doesn't pick up new ratio k/N
     if you stop it, change k0, start it again
 
-    sequencer methods:
-    reset() - puts it back to whatever it regards as an initial state
-    step()
-    reverse() -- not sure it's even used
-    but nothing that says, re-derive params
-
-[ ] black hemisphere to block the back half of the nodes
-    can't do the  2 intersecting vertical flat semicircles; will see over 'em
-
 [ ] automatically select color source = population when sequencer selection changes
     to a pop-flow sequencer from sth else.
 
 [ ] snapshot doesn't get background color right
-
-[ ] Sequencer Reset button
-    ...where?
 
 [ ] (semi-)interactive slider instead of progress bar
     reset only?

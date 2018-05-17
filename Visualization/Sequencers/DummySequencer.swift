@@ -43,6 +43,8 @@ class DummySequencer: Sequencer {
     
     var value: Double = 0
     
+    var progress: Double = 0
+    
     func reset() { }
     
     func toString(_ x: Double) -> String {

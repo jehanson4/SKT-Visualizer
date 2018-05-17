@@ -58,7 +58,13 @@ class NumericParameterSequencer<T: Comparable & Numeric> : GenericSequencer<T> {
         }
     }
     
-    override var value: Double { return param.toDouble(param.value) }
+    override var value: Double {
+        return param.toDouble(param.value)
+    }
+    
+    override var progress: Double {
+        return (value-lowerBound)/(upperBound-lowerBound)
+    }
     
     override func toString(_ x: Double) -> String {
         let t = param.fromDouble(x)
@@ -107,6 +113,10 @@ class NumericParameterSequencer<T: Comparable & Numeric> : GenericSequencer<T> {
     }
     
     // ===============================================
+    
+    override func jumpToSetPoint() {
+        param.value = _lowerBound
+    }
     
     override func stepForward() -> Bool {
         let prevDir = _direction

@@ -15,18 +15,20 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     
     var appModel: AppModel? = nil
     
+    private var _borderWidth: CGFloat = 1
+    private var _cornerRadius: CGFloat = 5
+    private var _tintColor: UIColor!
+    
     override func viewDidLoad() {
         let mtd = "viewDidLoad"
         debug(mtd, "entering")
         super.viewDidLoad()
-        
+
+        self._tintColor = self.view.tintColor
+
         configureParamsControls()
         configureColorSourceControls()
         configureSequencerControls()
-        
-        ub_text.delegate = self
-        lb_text.delegate = self
-        stepSize_text.delegate = self
         
         if (appModel == nil) {
             debug(mtd, "app Model is nil")
@@ -364,8 +366,9 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     @IBOutlet weak var colorSourceDrop: UIButton!
     
     func configureColorSourceControls() {
-        colorSourceDrop.layer.borderWidth = 1
-        colorSourceDrop.layer.borderColor = UIColor.lightGray.cgColor
+        colorSourceDrop.layer.borderWidth = _borderWidth
+        colorSourceDrop.layer.cornerRadius = _cornerRadius
+        colorSourceDrop.layer.borderColor = _tintColor.cgColor
     }
     
     func updateColorSourceControls(_ sender: Any) {
@@ -397,8 +400,12 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     @IBOutlet weak var sequencerDrop: UIButton!
     
     func configureSequencerControls() {
-        sequencerDrop.layer.borderWidth = 1
-        sequencerDrop.layer.borderColor = UIColor.lightGray.cgColor
+        ub_text.delegate = self
+        lb_text.delegate = self
+        stepSize_text.delegate = self
+        sequencerDrop.layer.borderWidth = _borderWidth
+        sequencerDrop.layer.cornerRadius = _cornerRadius
+        sequencerDrop.layer.borderColor = _tintColor.cgColor
     }
     
     func updateSequencerControls(_ sender: Any) {
@@ -437,11 +444,12 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
 
     // MAYBE move this into Sequencer
     private enum PlayerState: Int {
-        case runBackward = 0
-        case stepBackward = 1
-        case stop = 2
-        case stepForward = 3
-        case runForward = 4
+        case reset = 0
+        case runBackward = 1
+        case stepBackward = 2
+        case stop = 3
+        case stepForward = 4
+        case runForward = 5
     }
     
     @IBOutlet weak var player_segment: UISegmentedControl!
@@ -549,11 +557,11 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
             debug("updateSequencerPropertyControls", "sequencer=nil")
             player_segment.selectedSegmentIndex = -1
             bc_segment.selectedSegmentIndex = -1
-            ub_text.text = ""
+            lb_text.text = ""
             ub_text.text = ""
             stepSize_text.text = ""
             sequencerProgressBar.progress = 0
-            sequencerProgressLabel.text = ""
+            sequencerProgressLabel.text = "---"
         }
         else {
             let seq = sequencer!
@@ -568,7 +576,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
             stepSize_text.text = seq.toString(seq.stepSize)
             stepSize_stepper.value = seq.stepSize
             stepSize_stepper.stepValue = getStepSizeIncr(seq)
-            sequencerProgressBar.progress = Float(seq.value-seq.lowerBound)/Float(seq.upperBound-seq.lowerBound)
+            sequencerProgressBar.progress = Float(seq.progress)
             sequencerProgressLabel.text = seq.toString(seq.value)
         }
         debug("updateSequencerPropertyControls", "done")
@@ -588,6 +596,10 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     private func setPlayerState(_ seq: inout Sequencer, _ state: PlayerState) {
         // There must be a better way....
         switch (state) {
+        case .reset:
+            seq.enabled = false
+            seq.reset()
+            seq.direction = Direction.stopped
         case  .runBackward:
             seq.direction = Direction.reverse
             if (seq.direction == Direction.reverse) {

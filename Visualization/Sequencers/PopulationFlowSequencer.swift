@@ -57,6 +57,10 @@ class PopulationFlowSequencer : GenericSequencer<Int> {
     
     override var value: Double { return Double(flow.stepNumber) }
     
+    override var progress: Double {
+        return value/upperBound
+    }
+    
     private var _upperBound: Int = 100
     private var _stepSize: Int = 1
     private var flow: PopulationFlow
@@ -91,10 +95,13 @@ class PopulationFlowSequencer : GenericSequencer<Int> {
         return Double(s)
     }
 
-    private var _seqStepCounter = 0
+    override func jumpToSetPoint() {
+        flow.reset()
+    }
+    
+    
     override func stepForward() -> Bool {
-        _seqStepCounter += 1
-        let mtd = "stepForward[\(_seqStepCounter)]"
+        let mtd = "stepForward"
         debug(mtd, "entering")
         var changed = false
         var keepGoing = true

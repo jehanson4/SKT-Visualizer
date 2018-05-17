@@ -48,7 +48,8 @@ class SequencerSelectionViewController: UITableViewController, AppModelUser {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let rowCount = registry.entryNames.count
+        // add 1 for "<none>"
+        let rowCount = registry.entryNames.count + 1
         // debug("tableView numberOfRowsInSection", "rowCount=\(rowCount)")
         return rowCount
     }
@@ -71,22 +72,29 @@ class SequencerSelectionViewController: UITableViewController, AppModelUser {
     
     
     func configureButtonForRow(_ button: UIButton, _ row: Int) {
-        button.tag = row
+        // subtract 1 because of the "<none>"
+        button.tag = row-1
         button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
 
-        button.setTitle(registry.entryNames[row], for: .normal)
+        let title = (row > 0) ? registry.entryNames[row-1] : "<none>"
+        button.setTitle(title, for: .normal)
         // button.setTitleColor(UIColor.black, for: .normal)
         // button.layer.borderWidth = 1
         // button.layer.borderColor = UIColor.lightGray.cgColor
         
-        let selectedRow = registry.selection?.index
-        if (selectedRow != nil && selectedRow! == row) {
+        if ( (registry.selection == nil && row == 0) ||
+             (registry.selection != nil && registry.selection!.index == row-1) ) {
             button.isSelected = true
         }
     }
     
     @objc func buttonAction(sender: UIButton!) {
-        registry.select(sender.tag)
+        if (sender.tag >= 0) {
+            registry.select(sender.tag)
+        }
+        else {
+            registry.clearSelection()
+        }
         self.dismiss(animated: true, completion: nil)
     }
 }

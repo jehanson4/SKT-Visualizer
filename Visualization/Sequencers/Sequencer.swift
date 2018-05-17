@@ -64,6 +64,9 @@ protocol Sequencer: ChangeMonitorEnabled {
     
     var value: Double { get }
     
+    /// value as a fraction of the seqment between bounds
+    var progress: Double { get}
+    
     var boundaryCondition: BoundaryCondition { get set }
 
     var direction: Direction { get set }

@@ -25,7 +25,7 @@ class SKPhysics : ChangeCounted {
     static let alpha_max: Double = Double.infinity
     static let alpha_minStepSize: Double = Double.leastNormalMagnitude
     static let alpha_defaultValue: Double = -1.0
-    static let alpha_defaultLowerBound = -2.0
+    static let alpha_defaultLowerBound = -1.0
     static let alpha_defaultUpperBound = 0.0
     static let alpha_defaultStepSize: Double = 0.01
     
