@@ -39,22 +39,6 @@
 		8A56BE7920ADB37700C19F4C /* PFlowModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A56BE7820ADB37700C19F4C /* PFlowModel.swift */; };
 		8A56BE7B20ADB3FF00C19F4C /* PFlowNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A56BE7A20ADB3FF00C19F4C /* PFlowNode.swift */; };
 		8A575FEE20804759002B9951 /* ColorMaps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A575FED20804759002B9951 /* ColorMaps.swift */; };
-		8A57600320805790002B9951 /* smooth-cool-warm-table-float-0128.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8A575FF320805790002B9951 /* smooth-cool-warm-table-float-0128.csv */; };
-		8A57600420805790002B9951 /* smooth-cool-warm-table-float-0512.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8A575FF420805790002B9951 /* smooth-cool-warm-table-float-0512.csv */; };
-		8A57600520805790002B9951 /* smooth-cool-warm-table-float-1024.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8A575FF520805790002B9951 /* smooth-cool-warm-table-float-1024.csv */; };
-		8A57600620805790002B9951 /* smooth-cool-warm-table-byte-0016.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8A575FF620805790002B9951 /* smooth-cool-warm-table-byte-0016.csv */; };
-		8A57600720805790002B9951 /* smooth-cool-warm-table-float-0064.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8A575FF720805790002B9951 /* smooth-cool-warm-table-float-0064.csv */; };
-		8A57600820805790002B9951 /* smooth-cool-warm-table-byte-0064.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8A575FF820805790002B9951 /* smooth-cool-warm-table-byte-0064.csv */; };
-		8A57600920805790002B9951 /* smooth-cool-warm-table-float-0016.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8A575FF920805790002B9951 /* smooth-cool-warm-table-float-0016.csv */; };
-		8A57600A20805790002B9951 /* smooth-cool-warm-table-byte-1024.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8A575FFA20805790002B9951 /* smooth-cool-warm-table-byte-1024.csv */; };
-		8A57600B20805790002B9951 /* smooth-cool-warm-table-byte-0512.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8A575FFB20805790002B9951 /* smooth-cool-warm-table-byte-0512.csv */; };
-		8A57600C20805790002B9951 /* smooth-cool-warm-table-byte-0128.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8A575FFC20805790002B9951 /* smooth-cool-warm-table-byte-0128.csv */; };
-		8A57600D20805790002B9951 /* smooth-cool-warm-table-float-0008.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8A575FFD20805790002B9951 /* smooth-cool-warm-table-float-0008.csv */; };
-		8A57600E20805790002B9951 /* smooth-cool-warm-table-byte-0256.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8A575FFE20805790002B9951 /* smooth-cool-warm-table-byte-0256.csv */; };
-		8A57600F20805790002B9951 /* smooth-cool-warm-table-float-0032.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8A575FFF20805790002B9951 /* smooth-cool-warm-table-float-0032.csv */; };
-		8A57601020805790002B9951 /* smooth-cool-warm-table-byte-0032.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8A57600020805790002B9951 /* smooth-cool-warm-table-byte-0032.csv */; };
-		8A57601120805790002B9951 /* smooth-cool-warm-table-float-0256.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8A57600120805790002B9951 /* smooth-cool-warm-table-float-0256.csv */; };
-		8A57601220805790002B9951 /* smooth-cool-warm-table-byte-0008.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8A57600220805790002B9951 /* smooth-cool-warm-table-byte-0008.csv */; };
 		8A5E948E2078EE46003477D3 /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A5E948D2078EE46003477D3 /* Net.swift */; };
 		8A741FE620925E2D002A88D0 /* SKGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A741FE520925E2D002A88D0 /* SKGraph.swift */; };
 		8A741FE820926B9E002A88D0 /* FlowLines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A741FE720926B9E002A88D0 /* FlowLines.swift */; };
@@ -164,22 +148,6 @@
 		8A56BE7820ADB37700C19F4C /* PFlowModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PFlowModel.swift; sourceTree = "<group>"; };
 		8A56BE7A20ADB3FF00C19F4C /* PFlowNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PFlowNode.swift; sourceTree = "<group>"; };
 		8A575FED20804759002B9951 /* ColorMaps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorMaps.swift; sourceTree = "<group>"; };
-		8A575FF320805790002B9951 /* smooth-cool-warm-table-float-0128.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "smooth-cool-warm-table-float-0128.csv"; sourceTree = "<group>"; };
-		8A575FF420805790002B9951 /* smooth-cool-warm-table-float-0512.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "smooth-cool-warm-table-float-0512.csv"; sourceTree = "<group>"; };
-		8A575FF520805790002B9951 /* smooth-cool-warm-table-float-1024.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "smooth-cool-warm-table-float-1024.csv"; sourceTree = "<group>"; };
-		8A575FF620805790002B9951 /* smooth-cool-warm-table-byte-0016.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "smooth-cool-warm-table-byte-0016.csv"; sourceTree = "<group>"; };
-		8A575FF720805790002B9951 /* smooth-cool-warm-table-float-0064.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "smooth-cool-warm-table-float-0064.csv"; sourceTree = "<group>"; };
-		8A575FF820805790002B9951 /* smooth-cool-warm-table-byte-0064.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "smooth-cool-warm-table-byte-0064.csv"; sourceTree = "<group>"; };
-		8A575FF920805790002B9951 /* smooth-cool-warm-table-float-0016.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "smooth-cool-warm-table-float-0016.csv"; sourceTree = "<group>"; };
-		8A575FFA20805790002B9951 /* smooth-cool-warm-table-byte-1024.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "smooth-cool-warm-table-byte-1024.csv"; sourceTree = "<group>"; };
-		8A575FFB20805790002B9951 /* smooth-cool-warm-table-byte-0512.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "smooth-cool-warm-table-byte-0512.csv"; sourceTree = "<group>"; };
-		8A575FFC20805790002B9951 /* smooth-cool-warm-table-byte-0128.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "smooth-cool-warm-table-byte-0128.csv"; sourceTree = "<group>"; };
-		8A575FFD20805790002B9951 /* smooth-cool-warm-table-float-0008.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "smooth-cool-warm-table-float-0008.csv"; sourceTree = "<group>"; };
-		8A575FFE20805790002B9951 /* smooth-cool-warm-table-byte-0256.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "smooth-cool-warm-table-byte-0256.csv"; sourceTree = "<group>"; };
-		8A575FFF20805790002B9951 /* smooth-cool-warm-table-float-0032.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "smooth-cool-warm-table-float-0032.csv"; sourceTree = "<group>"; };
-		8A57600020805790002B9951 /* smooth-cool-warm-table-byte-0032.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "smooth-cool-warm-table-byte-0032.csv"; sourceTree = "<group>"; };
-		8A57600120805790002B9951 /* smooth-cool-warm-table-float-0256.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "smooth-cool-warm-table-float-0256.csv"; sourceTree = "<group>"; };
-		8A57600220805790002B9951 /* smooth-cool-warm-table-byte-0008.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "smooth-cool-warm-table-byte-0008.csv"; sourceTree = "<group>"; };
 		8A5E948D2078EE46003477D3 /* Net.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Net.swift; sourceTree = "<group>"; };
 		8A741FE520925E2D002A88D0 /* SKGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKGraph.swift; sourceTree = "<group>"; };
 		8A741FE720926B9E002A88D0 /* FlowLines.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlowLines.swift; sourceTree = "<group>"; };
@@ -348,37 +316,6 @@
 			path = Unfinished;
 			sourceTree = "<group>";
 		};
-		8A575FF120805790002B9951 /* colorMaps */ = {
-			isa = PBXGroup;
-			children = (
-				8A575FF220805790002B9951 /* smooth-cool-warm-tables */,
-			);
-			path = colorMaps;
-			sourceTree = "<group>";
-		};
-		8A575FF220805790002B9951 /* smooth-cool-warm-tables */ = {
-			isa = PBXGroup;
-			children = (
-				8A575FF320805790002B9951 /* smooth-cool-warm-table-float-0128.csv */,
-				8A575FF420805790002B9951 /* smooth-cool-warm-table-float-0512.csv */,
-				8A575FF520805790002B9951 /* smooth-cool-warm-table-float-1024.csv */,
-				8A575FF620805790002B9951 /* smooth-cool-warm-table-byte-0016.csv */,
-				8A575FF720805790002B9951 /* smooth-cool-warm-table-float-0064.csv */,
-				8A575FF820805790002B9951 /* smooth-cool-warm-table-byte-0064.csv */,
-				8A575FF920805790002B9951 /* smooth-cool-warm-table-float-0016.csv */,
-				8A575FFA20805790002B9951 /* smooth-cool-warm-table-byte-1024.csv */,
-				8A575FFB20805790002B9951 /* smooth-cool-warm-table-byte-0512.csv */,
-				8A575FFC20805790002B9951 /* smooth-cool-warm-table-byte-0128.csv */,
-				8A575FFD20805790002B9951 /* smooth-cool-warm-table-float-0008.csv */,
-				8A575FFE20805790002B9951 /* smooth-cool-warm-table-byte-0256.csv */,
-				8A575FFF20805790002B9951 /* smooth-cool-warm-table-float-0032.csv */,
-				8A57600020805790002B9951 /* smooth-cool-warm-table-byte-0032.csv */,
-				8A57600120805790002B9951 /* smooth-cool-warm-table-float-0256.csv */,
-				8A57600220805790002B9951 /* smooth-cool-warm-table-byte-0008.csv */,
-			);
-			path = "smooth-cool-warm-tables";
-			sourceTree = "<group>";
-		};
 		8A5E948A2077D285003477D3 /* Effects */ = {
 			isa = PBXGroup;
 			children = (
@@ -514,7 +451,6 @@
 				8ACB504320ACAE4300878612 /* busy.png */,
 				8A1CF01C207146540099DD97 /* Assets.xcassets */,
 				8A3BBBBE208BF29A00669227 /* splash.jpg */,
-				8A575FF120805790002B9951 /* colorMaps */,
 				8AD81806207C9BD900426C25 /* iOS */,
 				8AD817FE207BFD9E00426C25 /* background */,
 			);
@@ -630,50 +566,36 @@
 			buildActionMask = 2147483647;
 			files = (
 				8AE18F9F2099ED8A0086F127 /* backgroundCalculation.txt in Resources */,
-				8A57600B20805790002B9951 /* smooth-cool-warm-table-byte-0512.csv in Resources */,
 				8AD81822207C9BD900426C25 /* image1-29@3x.png in Resources */,
-				8A57601120805790002B9951 /* smooth-cool-warm-table-float-0256.csv in Resources */,
-				8A57600720805790002B9951 /* smooth-cool-warm-table-float-0064.csv in Resources */,
 				8AD8181E207C9BD900426C25 /* image1-29@2x.png in Resources */,
 				8AF98FA0207FE8350007688E /* DetailViewController.xib in Resources */,
 				8AF98FA7207FE9CF0007688E /* README.md in Resources */,
 				8AD8181A207C9BD900426C25 /* image1-76@2x.png in Resources */,
 				8AF98F96207FE7D60007688E /* LICENSE in Resources */,
 				8ACB504420ACAE4400878612 /* busy.png in Resources */,
-				8A57600320805790002B9951 /* smooth-cool-warm-table-float-0128.csv in Resources */,
-				8A57600E20805790002B9951 /* smooth-cool-warm-table-byte-0256.csv in Resources */,
 				8A53B2A1208D9B380039C5D7 /* technology.html in Resources */,
 				8A3BBBBF208BF29A00669227 /* splash.jpg in Resources */,
 				8AD8181D207C9BD900426C25 /* image1-40.png in Resources */,
-				8A57600A20805790002B9951 /* smooth-cool-warm-table-byte-1024.csv in Resources */,
 				8AAA008F207166C0001A136D /* MasterViewController.xib in Resources */,
 				8AD8181C207C9BD900426C25 /* image1-40@3x.png in Resources */,
-				8A57600D20805790002B9951 /* smooth-cool-warm-table-float-0008.csv in Resources */,
 				8AD9DAC820914E020062457C /* PointSpriteVertexShader.glsl in Resources */,
 				8AD9DAC620914E020062457C /* TexturedFragmentShader.glsl in Resources */,
 				8AD8181F207C9BD900426C25 /* image1-60@3x.png in Resources */,
-				8A57600F20805790002B9951 /* smooth-cool-warm-table-float-0032.csv in Resources */,
-				8A57600820805790002B9951 /* smooth-cool-warm-table-byte-0064.csv in Resources */,
 				8AD81823207C9BD900426C25 /* image1-83.5@2x.png in Resources */,
 				8AD817FD207BFA9200426C25 /* InfoViewController.xib in Resources */,
-				8A57600920805790002B9951 /* smooth-cool-warm-table-float-0016.csv in Resources */,
-				8A57600C20805790002B9951 /* smooth-cool-warm-table-byte-0128.csv in Resources */,
 				8AE18FA52099EFF30086F127 /* code.txt in Resources */,
 				8A3BBBB9208BC49D00669227 /* science.html in Resources */,
 				8AD81825207C9BD900426C25 /* image1-76.png in Resources */,
 				8A131C91207160100088F2FC /* _miscNotes.txt in Resources */,
 				8AA05A2720901B19009417A6 /* SequencerSelectionViewController.xib in Resources */,
-				8A57600420805790002B9951 /* smooth-cool-warm-table-float-0512.csv in Resources */,
 				8AD81821207C9BD900426C25 /* image1-1024.png in Resources */,
 				8AF98F9B207FE80E0007688E /* index.html in Resources */,
 				8AE48BBF2087E63A001B5D11 /* background.css in Resources */,
 				8AD8181B207C9BD900426C25 /* image1-20.png in Resources */,
-				8A57601020805790002B9951 /* smooth-cool-warm-table-byte-0032.csv in Resources */,
 				8AF98FA4207FE8B40007688E /* SettingsViewController.xib in Resources */,
 				8AD81828207C9BD900426C25 /* image1-29.png in Resources */,
 				8AD81826207C9BD900426C25 /* image1-20@2x.png in Resources */,
 				8AD81820207C9BD900426C25 /* image1-60@2x.png in Resources */,
-				8A57600620805790002B9951 /* smooth-cool-warm-table-byte-0016.csv in Resources */,
 				8A1CF020207146540099DD97 /* LaunchScreen.storyboard in Resources */,
 				8AA05A2320900692009417A6 /* ColorSourceSelectionViewController.xib in Resources */,
 				8A75424A20A8CC5100A2BFAD /* about.html in Resources */,
@@ -682,11 +604,9 @@
 				8AD9DAC520914E020062457C /* SimpleFragmentShader.glsl in Resources */,
 				8A1CF01D207146540099DD97 /* Assets.xcassets in Resources */,
 				8AD81819207C9BD900426C25 /* image1-40@2x.png in Resources */,
-				8A57601220805790002B9951 /* smooth-cool-warm-table-byte-0008.csv in Resources */,
 				8A1CF01B207146520099DD97 /* Main.storyboard in Resources */,
 				8AE18FA12099ED8A0086F127 /* lookAndFeel.txt in Resources */,
 				8AAF6DFF208167A800E4C9BF /* ToDo.txt in Resources */,
-				8A57600520805790002B9951 /* smooth-cool-warm-table-float-1024.csv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
