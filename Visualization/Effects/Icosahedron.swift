@@ -22,6 +22,8 @@ class Icosahedron : GLKBaseEffect, Effect {
     var info: String? = nil
     var enabled: Bool
     
+    private let enabledDefault: Bool
+    
     var projectionMatrix: GLKMatrix4 {
         get { return transform.projectionMatrix }
         set(newValue) {
@@ -115,8 +117,9 @@ class Icosahedron : GLKBaseEffect, Effect {
     var indexBuffer: GLuint = 0
     var built: Bool = false
 
-    init(enabled: Bool = false) {
+    init(enabled: Bool) {
         self.enabled = enabled
+        self.enabledDefault = enabled
         super.init()
     }
     
@@ -193,6 +196,10 @@ class Icosahedron : GLKBaseEffect, Effect {
         glDeleteBuffers(1, &indexBuffer)
     }
   
+    func reset() {
+        enabled = enabledDefault
+    }
+    
     func draw() {
         if (!enabled) {
             return

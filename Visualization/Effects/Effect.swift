@@ -25,6 +25,7 @@ enum EffectType: Int {
     case balls = 6
     case flowLines = 7
     case busy = 8
+    case backgroundShell = 9
 }
 
 // ==============================================================================
@@ -40,6 +41,8 @@ protocol Effect : Named  {
     var projectionMatrix: GLKMatrix4 { get set }
     var modelviewMatrix: GLKMatrix4 { get set }
 
+    /// resets params to default values
+    func reset()
     func prepareToDraw()
     func draw()
 }

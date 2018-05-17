@@ -41,7 +41,8 @@ protocol VisualizationModel {
     
     var effects: Registry<Effect> { get }
     
-    func setEffectsToDefault()
+    /// Sets all effects to their default states
+    func resetEffects()
     
     func effect(forType: EffectType) -> Effect?
     

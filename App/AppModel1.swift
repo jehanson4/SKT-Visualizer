@@ -174,7 +174,7 @@ class AppModel1 : AppModel {
             }
         }
         if (!foundEnabledEffect) {
-            viz.setEffectsToDefault()
+            viz.resetEffects()
         }
         
     }

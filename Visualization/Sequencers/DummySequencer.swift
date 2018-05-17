@@ -63,6 +63,8 @@ class DummySequencer: Sequencer {
     
     func step() {}
 
+    func jumpToProgress(_ progress: Double) {}
+    
     func monitorChanges(_ callback: @escaping (Any) -> ()) -> ChangeMonitor? {
         return nil
     }

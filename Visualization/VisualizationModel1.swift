@@ -60,6 +60,7 @@ class VisualizationModel1 : VisualizationModel {
     private func info(_ mtd: String, _ msg: String = "") {
         print("VisualizationModel1", mtd, msg)
     }
+    
     // =================================
     // POV
     // =================================
@@ -215,29 +216,29 @@ class VisualizationModel1 : VisualizationModel {
     }
     
     private func initEffects() {
-        registerEffect(Axes())
-        registerEffect(Meridians(skt.geometry))
-        registerEffect(Net(skt.geometry))
-        registerEffect(Surface(skt.geometry, skt.physics, colorSources))
-        registerEffect(Nodes(self, skt.geometry, skt.physics, colorSources))
-        registerEffect(FlowLines(skt.geometry, skt.physics))
+        registerEffect(Axes(enabled: false))
+        registerEffect(Meridians(skt.geometry, enabled: true))
+        registerEffect(Net(skt.geometry, enabled: false))
+        registerEffect(Surface(skt.geometry, skt.physics, colorSources, enabled: false))
+        registerEffect(Nodes(self, skt.geometry, skt.physics, colorSources, enabled: true))
+        registerEffect(FlowLines(skt.geometry, skt.physics, enabled: false))
+        
+        let bg: GLfloat = VisualizationModel1.scene_backgroundColorValue
+        registerEffect(Shell(
+            skt.geometry.r0+Shell.rOffsetDefault,
+            GLKVector4Make(bg, bg, bg, 1),
+            enabled: true))
         
         registerEffect(BusySpinner(skt))
-        registerEffect(Icosahedron(enabled: false))
-        registerEffect(Balls(enabled: false))
-        
-        setEffectsToDefault()
+        // registerEffect(Icosahedron(enabled: false))
+        // registerEffect(Balls(enabled: false))
     }
     
-    func setEffectsToDefault() {
-        // Surface is enabled, all others disabled
-        let surfaceName = effectNamesByType[EffectType.surface]
-        for effectName in effects.entryNames {
-            let enabled = (effectName == surfaceName)
-            effects.entry(effectName)?.value.enabled = enabled
+    func resetEffects() {
+        for eName in effects.entryNames {
+            effects.entry(eName)?.value.reset()
         }
     }
-    
     // ====================================
     // Sequencers
     // ====================================

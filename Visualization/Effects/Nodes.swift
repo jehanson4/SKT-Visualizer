@@ -30,6 +30,8 @@ class Nodes : Effect {
     var name = "Nodes"
     var info: String? = nil
     var enabled: Bool
+    
+    private let enabledDefault: Bool
     private var built: Bool = false
 
     // ==========================
@@ -73,7 +75,7 @@ class Nodes : Effect {
     // Initialization
     // =====================================
 
-    init(_ viz: VisualizationModel, _ geometry: SKGeometry, _ physics: SKPhysics, _ colorSources: Registry<ColorSource>?, enabled: Bool = false) {
+    init(_ viz: VisualizationModel, _ geometry: SKGeometry, _ physics: SKPhysics, _ colorSources: Registry<ColorSource>?, enabled: Bool) {
         self.viz = viz
         self.geometry = geometry
         self.geometryChangeNumber = geometry.changeNumber
@@ -81,6 +83,7 @@ class Nodes : Effect {
         self.physicsChangeNumber = physics.changeNumber
         self.colorSources = colorSources
         self.enabled = enabled
+        self.enabledDefault = enabled
         if (colorSources != nil) {
             colorSourceSelectionMonitor = colorSources!.monitorChanges(colorSourceSelectionChanged)
         }
@@ -217,6 +220,10 @@ class Nodes : Effect {
     // Prepare & Draw
     // =========================================
 
+    func reset() {
+        enabled = enabledDefault
+    }
+    
     func prepareToDraw() {
         glUseProgram(programHandle)
         

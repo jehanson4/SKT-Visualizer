@@ -137,7 +137,6 @@ class GenericSequencer<T> : Sequencer {
     func reset() {
         self._direction = Direction.forward
         self._enabled = false
-        jumpToSetPoint()
         fireChange()
     }
     
@@ -159,8 +158,7 @@ class GenericSequencer<T> : Sequencer {
 
     // Returns true iff sequencer state changed
     // FOR OVERRIDE. This method does nothing
-    func jumpToSetPoint() {
-    }
+    func jumpToProgress(_ progress: Double) {}
     
     // Returns true iff sequencer state changed
     // FOR OVERRIDE. This method does nothing, returns false

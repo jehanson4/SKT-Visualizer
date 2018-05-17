@@ -13,6 +13,8 @@ import Foundation
 // =============================================================================
 
 class NumericParameterSequencer<T: Comparable & Numeric> : GenericSequencer<T> {
+    private var debugEnabled = true
+    private let cls = "NumericParameterSequencer"
     
     override var lowerBound: Double {
         get { return param.toDouble(_lowerBound) }
@@ -114,8 +116,26 @@ class NumericParameterSequencer<T: Comparable & Numeric> : GenericSequencer<T> {
     
     // ===============================================
     
-    override func jumpToSetPoint() {
+    override func reset() {
         param.value = _lowerBound
+        super.reset()
+    }
+    
+    override func jumpToProgress(_ progress: Double) {
+        // Make the new progress consistent with stepSize
+        let p = clip(progress, 0, 1)        
+        let ub = param.toDouble(_upperBound)
+        let lb = param.toDouble(_lowerBound)
+        let sz = param.toDouble(_stepSize)
+        let t2 = sz * floor(p * (ub-lb) / sz) + lb
+        let v2 = param.fromDouble(t2)
+        debug("jumpToProgress", "p=\(p) t2=\(t2) v2=\(v2)")
+   
+        if (v2 == nil) {
+            return
+        }
+        param.value = v2!
+        fireChange()
     }
     
     override func stepForward() -> Bool {
@@ -213,4 +233,12 @@ class NumericParameterSequencer<T: Comparable & Numeric> : GenericSequencer<T> {
         }
         return x2
     }
+    
+    private func debug(_ mtd: String, _ msg: String = "") {
+        if (debugEnabled) {
+            print(cls, mtd, msg)
+        }
+    }
+
 }
+

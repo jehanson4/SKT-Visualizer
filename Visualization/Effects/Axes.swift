@@ -22,7 +22,9 @@ class Axes : GLKBaseEffect, Effect {
     var name = "Axes"
     var info: String? = nil
     var enabled: Bool
-    var built: Bool = false
+
+    private let enabledDefault: Bool
+    private var built: Bool = false
     
     var projectionMatrix: GLKMatrix4 {
         get { return transform.projectionMatrix }
@@ -57,7 +59,8 @@ class Axes : GLKBaseEffect, Effect {
         }
     }
   
-    init(enabled: Bool = false) {
+    init(enabled: Bool) {
+        self.enabledDefault = enabled
         self.enabled = enabled
         super.init()
         // debug("init", "projectionMatrix: " + String(describing: super.transform.projectionMatrix))
@@ -89,6 +92,10 @@ class Axes : GLKBaseEffect, Effect {
         return true
     }
     
+    func reset() {
+        enabled = enabledDefault
+        
+    }
     func draw() {
         if (!enabled) {
             return

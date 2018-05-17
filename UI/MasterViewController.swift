@@ -400,12 +400,14 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     @IBOutlet weak var sequencerDrop: UIButton!
     
     func configureSequencerControls() {
-        ub_text.delegate = self
-        lb_text.delegate = self
-        stepSize_text.delegate = self
         sequencerDrop.layer.borderWidth = _borderWidth
         sequencerDrop.layer.cornerRadius = _cornerRadius
         sequencerDrop.layer.borderColor = _tintColor.cgColor
+
+        ub_text.delegate = self
+        lb_text.delegate = self
+        stepSize_text.delegate = self
+    
     }
     
     func updateSequencerControls(_ sender: Any) {
@@ -463,10 +465,18 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
         updateSequencerPropertyControls(sequencer)
     }
     
-    @IBOutlet weak var sequencerProgressBar: UIProgressView!
+    // @IBOutlet weak var sequencerProgressBar: UIProgressView!
     @IBOutlet weak var sequencerProgressLabel: UILabel!
+    @IBOutlet weak var sequencerProgressBar: UISlider!
     
 
+    @IBAction func sequencerProgressAction(_ sender: UISlider) {
+        let sequencer = appModel?.viz.sequencers.selection?.value
+        if (sequencer != nil) {
+            sequencer!.jumpToProgress(Double(sender.value))
+        }
+    }
+    
     @IBOutlet weak var ub_text: UITextField!
     
     @IBAction func ub_action(_ sender: UITextField) {
@@ -560,7 +570,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
             lb_text.text = ""
             ub_text.text = ""
             stepSize_text.text = ""
-            sequencerProgressBar.progress = 0
+            sequencerProgressBar.value = 0
             sequencerProgressLabel.text = "---"
         }
         else {
@@ -576,7 +586,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
             stepSize_text.text = seq.toString(seq.stepSize)
             stepSize_stepper.value = seq.stepSize
             stepSize_stepper.stepValue = getStepSizeIncr(seq)
-            sequencerProgressBar.progress = Float(seq.progress)
+            sequencerProgressBar.value = Float(seq.progress)
             sequencerProgressLabel.text = seq.toString(seq.value)
         }
         debug("updateSequencerPropertyControls", "done")

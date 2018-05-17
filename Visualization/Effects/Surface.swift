@@ -26,6 +26,7 @@ class Surface : GLKBaseEffect, Effect {
     var info: String? = nil
     var enabled = false
     
+    private let enabledDefault: Bool
     private var built: Bool = false
 
     // ====================================
@@ -76,14 +77,14 @@ class Surface : GLKBaseEffect, Effect {
     // Initiailzers
     // ====================================
 
-    init(_ geometry: SKGeometry, _ physics: SKPhysics, _ colorSources: Registry<ColorSource>?, enabled: Bool = false) {
+    init(_ geometry: SKGeometry, _ physics: SKPhysics, _ colorSources: Registry<ColorSource>?, enabled: Bool) {
         self.geometry = geometry
         self.geometryChangeNumber = geometry.changeNumber
         self.physics = physics
         self.physicsChangeNumber = physics.changeNumber
         self.colorSources = colorSources
         self.enabled = enabled
-        
+        self.enabledDefault = enabled
         super.init()
 
         if (colorSources != nil) {
@@ -274,6 +275,10 @@ class Surface : GLKBaseEffect, Effect {
         glDeleteBuffers(1, &normalBuffer)
         glDeleteBuffers(1, &colorBuffer)
         glDeleteBuffers(1, &indexBuffer)
+    }
+    
+    func reset() {
+        enabled = enabledDefault
     }
     
     var drawCounter = 0

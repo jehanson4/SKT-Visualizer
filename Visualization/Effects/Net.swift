@@ -22,9 +22,10 @@ class Net : GLKBaseEffect, Effect {
     let effectType = EffectType.net
     var name: String = "Net"
     var info: String? = nil
-    
     var enabled: Bool
-        
+    
+    private let enabledDefault: Bool
+    
     var geometry: SKGeometry
     var geometryChangeNumber: Int
     var rOffset: Double
@@ -61,10 +62,11 @@ class Net : GLKBaseEffect, Effect {
     var lineArrayOffsets: [UnsafeRawPointer?] = []
     var built: Bool = false
     
-    init(_ geometry: SKGeometry, enabled: Bool = false, rOffset: Double = Net.rOffsetDefault) {
+    init(_ geometry: SKGeometry, enabled: Bool, rOffset: Double = Net.rOffsetDefault) {
         self.geometry = geometry
         self.geometryChangeNumber = geometry.changeNumber - 1
         self.enabled = enabled
+        self.enabledDefault = enabled
         self.rOffset = rOffset
         super.init()
     }
@@ -196,6 +198,10 @@ class Net : GLKBaseEffect, Effect {
     private func deleteBuffers() {
         glDeleteBuffers(1, &vertexBuffer)
         glDeleteBuffers(1, &indexBuffer)
+    }
+    
+    func reset() {
+        enabled = enabledDefault
     }
     
     func draw() {

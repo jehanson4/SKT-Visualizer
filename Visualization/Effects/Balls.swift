@@ -23,6 +23,8 @@ class Balls : Effect {
     var info: String? = nil
     var enabled: Bool
     
+    private let enabledDefault: Bool
+
     static let c0 = GLfloat(0.0)
     static let c1 = GLfloat(1.0 / sqrt(1.0 + Double.constants.goldenRatio * Double.constants.goldenRatio))
     static let c2 = GLfloat(Double.constants.goldenRatio / sqrt(1.0 + Double.constants.goldenRatio * Double.constants.goldenRatio))
@@ -73,7 +75,8 @@ class Balls : Effect {
     var colorBuffer: GLuint = 0
     var built: Bool = false
     
-    init(enabled: Bool = false) {
+    init(enabled: Bool) {
+        self.enabledDefault = enabled
         self.enabled = enabled
         
         let vv = Balls.vertices2
@@ -139,6 +142,10 @@ class Balls : Effect {
         glDeleteVertexArrays(1, &vertexArray)
         glDeleteBuffers(1, &vertexBuffer)
         glDeleteBuffers(1, &colorBuffer)
+    }
+    
+    func reset() {
+        enabled = enabledDefault
     }
     
     func prepareToDraw() {

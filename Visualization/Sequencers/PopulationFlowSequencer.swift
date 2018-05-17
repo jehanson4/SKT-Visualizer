@@ -14,7 +14,7 @@ import Foundation
 
 class PopulationFlowSequencer : GenericSequencer<Int> {
 
-    var debugEnabled = false
+    var debugEnabled = true
     func debug(_ mtd: String, _ msg: String = "") {
         if (debugEnabled) {
             print("PopulationFlowSequencer", mtd, msg)
@@ -46,13 +46,7 @@ class PopulationFlowSequencer : GenericSequencer<Int> {
     
     override var stepSize: Double {
         get { return Double(_stepSize) }
-        set(newValue) {
-            let v2 = Int(floor(newValue))
-            if (v2 > 0 && v2 != _stepSize) {
-                _stepSize = v2
-                fireChange()
-            }
-        }
+        set(newValue) { /* IGNORE */ }
     }
     
     override var value: Double { return Double(flow.stepNumber) }
@@ -71,14 +65,15 @@ class PopulationFlowSequencer : GenericSequencer<Int> {
     
     init(_ name: String, _ flow: PopulationFlow, _ rule: PFlowRule? = nil) {
         self.flow = flow
-        // flow.monitorChanges(syncToFlow)
         self.rule = rule
         super.init(name, false)
         super.boundaryCondition = BoundaryCondition.periodic
+        _ = flow.monitorChanges(syncToFlow)
     }
     
-//    func syncToFlow(_ Sender: Any?) {
-//    }
+    private func syncToFlow(_ sender: Any?) {
+        super.fireChange()
+    }
     
     override func reset() {
         if (self.rule != nil) {
@@ -95,8 +90,17 @@ class PopulationFlowSequencer : GenericSequencer<Int> {
         return Double(s)
     }
 
-    override func jumpToSetPoint() {
-        flow.reset()
+    override func jumpToProgress(_ progress: Double) {
+        let p2 = Int(floor(Double(_upperBound) * clip(progress, 0, 1)))
+        debug("jumpToProgress", "p2=\(p2)")
+        if (p2 <= 1) {
+            debug("jumpToProgress", "resetting flow")
+            flow.reset()
+        }
+        else {
+            debug("jumpToProgress", "no change, but firing event to cause UI update")
+            fireChange()
+        }
     }
     
     

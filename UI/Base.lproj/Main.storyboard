@@ -328,7 +328,7 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="xyx-sL-kk5" userLabel="AnimationSection">
-                                <rect key="frame" x="16" y="345.5" width="288" height="406.5"/>
+                                <rect key="frame" x="16" y="299.5" width="288" height="452.5"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PNw-h2-QOj" userLabel="Separator">
                                         <rect key="frame" x="0.0" y="0.0" width="288" height="1"/>
@@ -351,19 +351,18 @@
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yej-fV-4ff" userLabel="Progress">
-                                        <rect key="frame" x="0.0" y="31.5" width="288" height="12"/>
+                                        <rect key="frame" x="0.0" y="31.5" width="288" height="50"/>
                                         <subviews>
-                                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="vyI-O2-aGX">
-                                                <rect key="frame" x="0.0" y="0.0" width="224" height="12"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="4" id="BUR-vy-zan"/>
-                                                </constraints>
-                                            </progressView>
+                                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" continuous="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pHq-7i-YaT" userLabel="Sequencer Progress">
+                                                <rect key="frame" x="-2" y="0.0" width="228" height="51"/>
+                                                <connections>
+                                                    <action selector="sequencerProgressAction:" destination="3aD-bn-OtG" eventType="valueChanged" id="sKc-px-ClS"/>
+                                                </connections>
+                                            </slider>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fcd-Z9-iIF">
-                                                <rect key="frame" x="224" y="0.0" width="64" height="12"/>
+                                                <rect key="frame" x="224" y="0.0" width="64" height="50"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="64" id="1UH-UH-HB0"/>
-                                                    <constraint firstAttribute="height" constant="12" id="xVK-3F-xT9"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                 <nil key="textColor"/>
@@ -372,7 +371,7 @@
                                         </subviews>
                                     </stackView>
                                     <segmentedControl opaque="NO" contentMode="center" horizontalHuggingPriority="750" contentHorizontalAlignment="fill" contentVerticalAlignment="center" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="SZ3-82-JQs" userLabel="player">
-                                        <rect key="frame" x="0.0" y="47.5" width="288" height="29"/>
+                                        <rect key="frame" x="0.0" y="85.5" width="288" height="29"/>
                                         <segments>
                                             <segment title="|◁◁"/>
                                             <segment title="◁"/>
@@ -386,14 +385,14 @@
                                         </connections>
                                     </segmentedControl>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pXi-aA-Yf1" userLabel="Spacer2">
-                                        <rect key="frame" x="0.0" y="79.5" width="288" height="8"/>
+                                        <rect key="frame" x="0.0" y="117.5" width="288" height="16"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="8" id="J1v-Fj-PC1" userLabel="height = 4"/>
+                                            <constraint firstAttribute="height" constant="16" id="CrM-v3-m82"/>
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mSm-Mh-PZo" userLabel="Stack">
-                                        <rect key="frame" x="0.0" y="91.5" width="288" height="315"/>
+                                        <rect key="frame" x="0.0" y="137.5" width="288" height="315"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="odu-EN-iY5" userLabel="Left spacer">
                                                 <rect key="frame" x="0.0" y="0.0" width="16" height="315"/>
@@ -577,7 +576,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="done" id="FUp-9e-d6R">
                             <button key="customView" opaque="NO" contentMode="right" contentHorizontalAlignment="right" contentVerticalAlignment="fill" buttonType="roundedRect" lineBreakMode="middleTruncation" id="XA9-Ix-gJ4">
-                                <rect key="frame" x="269" y="6" width="35" height="33"/>
+                                <rect key="frame" x="269" y="5.5" width="35" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <state key="normal" title="&gt;&gt;&gt;"/>
@@ -604,7 +603,7 @@
                         <outlet property="lb_text" destination="12I-P2-pCP" id="VkO-2C-ZNf"/>
                         <outlet property="player_segment" destination="SZ3-82-JQs" id="pOz-JW-RER"/>
                         <outlet property="sequencerDrop" destination="pAw-yA-acQ" id="E1J-cQ-938"/>
-                        <outlet property="sequencerProgressBar" destination="vyI-O2-aGX" id="EHB-bW-7oP"/>
+                        <outlet property="sequencerProgressBar" destination="pHq-7i-YaT" id="3iK-9N-Reg"/>
                         <outlet property="sequencerProgressLabel" destination="fcd-Z9-iIF" id="9jK-Qd-Fih"/>
                         <outlet property="stepSize_stepper" destination="CPk-qf-RWq" id="ywi-32-InZ"/>
                         <outlet property="stepSize_text" destination="xVJ-fX-bJn" id="mB3-sU-Zw5"/>
@@ -979,17 +978,17 @@
                                                 <rect key="frame" x="16" y="0.0" width="256" height="229"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rlc-yN-wno" userLabel="Surface View">
-                                                        <rect key="frame" x="0.0" y="0.0" width="256" height="64"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="256" height="31"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Surface" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6wq-MY-GVn">
-                                                                <rect key="frame" x="0.0" y="0.0" width="207" height="64"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="207" height="31"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                                 <size key="shadowOffset" width="0.0" height="0.0"/>
                                                             </label>
                                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Anr-XZ-MCo">
-                                                                <rect key="frame" x="207" y="0.0" width="51" height="64"/>
+                                                                <rect key="frame" x="207" y="0.0" width="51" height="31"/>
                                                                 <connections>
                                                                     <action selector="surface_action:" destination="vTj-VE-2hE" eventType="valueChanged" id="iJm-su-j2L"/>
                                                                 </connections>
@@ -997,7 +996,7 @@
                                                         </subviews>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P8q-Th-rvN" userLabel="Nodes View">
-                                                        <rect key="frame" x="0.0" y="66" width="256" height="31"/>
+                                                        <rect key="frame" x="0.0" y="33" width="256" height="31"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Nodes" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JqE-Dw-ZYX">
                                                                 <rect key="frame" x="0.0" y="0.0" width="207" height="31"/>
@@ -1015,7 +1014,7 @@
                                                         </subviews>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1jg-eg-wR4" userLabel="Net View">
-                                                        <rect key="frame" x="0.0" y="99" width="256" height="31"/>
+                                                        <rect key="frame" x="0.0" y="66" width="256" height="31"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Net" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3pt-Fy-fwq">
                                                                 <rect key="frame" x="0.0" y="0.0" width="207" height="31"/>
@@ -1032,7 +1031,7 @@
                                                         </subviews>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qhw-k7-jhP" userLabel="FlowLines View">
-                                                        <rect key="frame" x="0.0" y="132" width="256" height="31"/>
+                                                        <rect key="frame" x="0.0" y="99" width="256" height="31"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Flow lines" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R1v-Jx-Vio" userLabel="Streamlines">
                                                                 <rect key="frame" x="0.0" y="0.0" width="207" height="31"/>
@@ -1049,7 +1048,7 @@
                                                         </subviews>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9lL-Vd-YOF" userLabel="Meridians View">
-                                                        <rect key="frame" x="0.0" y="165" width="256" height="31"/>
+                                                        <rect key="frame" x="0.0" y="132" width="256" height="31"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Meridians" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rJA-hE-ZJl">
                                                                 <rect key="frame" x="0.0" y="0.0" width="207" height="31"/>
@@ -1066,7 +1065,7 @@
                                                         </subviews>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fp7-6J-BYN" userLabel="Axes View">
-                                                        <rect key="frame" x="0.0" y="198" width="256" height="31"/>
+                                                        <rect key="frame" x="0.0" y="165" width="256" height="31"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Axes" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9HV-if-tCm">
                                                                 <rect key="frame" x="0.0" y="0.0" width="207" height="31"/>
@@ -1078,6 +1077,23 @@
                                                                 <rect key="frame" x="207" y="0.0" width="51" height="31"/>
                                                                 <connections>
                                                                     <action selector="axes_action:" destination="vTj-VE-2hE" eventType="valueChanged" id="buR-VI-qyP"/>
+                                                                </connections>
+                                                            </switch>
+                                                        </subviews>
+                                                    </stackView>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M9p-NM-sQJ" userLabel="BGShell View">
+                                                        <rect key="frame" x="0.0" y="198" width="256" height="31"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Inner Shell" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hBW-vL-7RL">
+                                                                <rect key="frame" x="0.0" y="0.0" width="207" height="31"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="htk-98-dgu">
+                                                                <rect key="frame" x="207" y="0.0" width="51" height="31"/>
+                                                                <connections>
+                                                                    <action selector="bgShell_action:" destination="vTj-VE-2hE" eventType="valueChanged" id="oPR-sg-lmd"/>
                                                                 </connections>
                                                             </switch>
                                                         </subviews>
@@ -1151,6 +1167,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="axes_switch" destination="iHQ-jo-t1B" id="1Zw-t3-y6V"/>
+                        <outlet property="bgShell_switch" destination="htk-98-dgu" id="dIV-k4-JwA"/>
                         <outlet property="dN_text" destination="7co-70-nuI" id="Wbt-Sx-ZgD"/>
                         <outlet property="dT_text" destination="HmI-N6-3Rr" id="yON-jR-tke"/>
                         <outlet property="da1_text" destination="Fb7-ds-Iy5" id="LnC-QK-AY5"/>
@@ -1254,6 +1271,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="7Fl-47-m6b"/>
+        <segue reference="kW3-lj-dqf"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -64,7 +64,7 @@ protocol Sequencer: ChangeMonitorEnabled {
     
     var value: Double { get }
     
-    /// value as a fraction of the seqment between bounds
+    /// value as a fraction of the inverval between the bounds
     var progress: Double { get}
     
     var boundaryCondition: BoundaryCondition { get set }
@@ -77,6 +77,8 @@ protocol Sequencer: ChangeMonitorEnabled {
 
     func reverse()
 
+    func jumpToProgress(_ progress: Double)
+    
     /// Convert from nominal value to string
     func toString(_ x: Double) -> String
 

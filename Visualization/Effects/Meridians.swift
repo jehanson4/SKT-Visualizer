@@ -26,8 +26,10 @@ class Meridians : GLKBaseEffect, Effect {
     let effectType = EffectType.meridians
     var name = "Meridians"
     var info: String? = nil
-    
     var enabled: Bool
+    
+    private let enabledDefault: Bool
+    
     var showSecondaries: Bool {
         get { return _showSecondaries }
         set(newValue) {
@@ -76,10 +78,11 @@ class Meridians : GLKBaseEffect, Effect {
     private var vertexArray: GLuint = 0
     private var vertexBuffer: GLuint = 0
     
-    init(_ geometry: SKGeometry, enabled: Bool = false, rOffset: Double = Meridians.rOffsetDefault) {
+    init(_ geometry: SKGeometry, enabled: Bool, rOffset: Double = Meridians.rOffsetDefault) {
         self.geometry = geometry
         self.geometryChangeNumber = geometry.changeNumber - 1
         self.enabled = enabled
+        self.enabledDefault = enabled
         self.rOffset = rOffset
         super.init()
         super.useConstantColor = 1
@@ -214,6 +217,10 @@ class Meridians : GLKBaseEffect, Effect {
     
     private func deleteBuffers() {
         glDeleteBuffers(1, &vertexBuffer)
+    }
+    
+    func reset() {
+        enabled = enabledDefault
     }
     
     func draw() {

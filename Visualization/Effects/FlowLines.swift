@@ -20,8 +20,9 @@ class FlowLines : GLKBaseEffect, Effect {
     let effectType: EffectType = .flowLines
     var name: String = "FlowLines"
     var info: String? = nil
+    var enabled: Bool
     
-    var enabled: Bool = false
+    private let defaultEnabled: Bool
     
     var projectionMatrix: GLKMatrix4 {
         get { return super.transform.projectionMatrix }
@@ -54,10 +55,11 @@ class FlowLines : GLKBaseEffect, Effect {
     private var physicsCC: ChangeCountWrapper!
     
 
-    init(_ geometry: SKGeometry, _ physics: SKPhysics, enabled: Bool = false, rOffset: Double = FlowLines.rOffsetDefault) {
+    init(_ geometry: SKGeometry, _ physics: SKPhysics, enabled: Bool, rOffset: Double = FlowLines.rOffsetDefault) {
         self.geometry = geometry
         self.physics = physics
         self.enabled = enabled
+        self.defaultEnabled = enabled
         super.init()
         
         self.geometryCC = ChangeCountWrapper(geometry, self.markForRebuild)
@@ -260,6 +262,10 @@ class FlowLines : GLKBaseEffect, Effect {
     // draw
     // ======================================================
 
+    func reset() {
+        enabled = defaultEnabled
+    }
+    
     func draw() {
         if (!enabled) {
             return

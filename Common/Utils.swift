@@ -113,6 +113,10 @@ func basicString(_ x: Double) -> String {
     return String(format: "%12.6G", x)
 }
 
+func piFraction(_ x: Float) -> String {
+    return piFraction(Double(x))
+}
+
 func piFraction(_ x: Double) -> String {
     let b = 8.0 * x / pi
     let br = round(b)

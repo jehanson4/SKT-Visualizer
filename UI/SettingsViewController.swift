@@ -269,6 +269,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
         surface_switch.isOn   = viz.effect(forType: EffectType.surface)?.enabled ?? false
         nodes_switch.isOn     = viz.effect(forType: EffectType.nodes)?.enabled ?? false
         flowLines_switch.isOn = viz.effect(forType: EffectType.flowLines)?.enabled ?? false
+        bgShell_switch.isOn   = viz.effect(forType: EffectType.backgroundShell)?.enabled ?? false
         
         if (icosahedron_switch != nil) {
             icosahedron_switch.isOn = viz.effect(forType: EffectType.icosahedron)?.enabled ?? false
@@ -352,6 +353,20 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
     
     @IBAction func axes_action(_ sender: UISwitch) {
         let effectOrNil = installedEffect(EffectType.axes)
+        if (effectOrNil != nil) {
+            var effect = effectOrNil!
+            effect.enabled = sender.isOn
+            sender.isOn = effect.enabled
+        }
+    }
+    
+    // =============================
+    // Background Shell
+    
+    @IBOutlet weak var bgShell_switch: UISwitch!
+    
+    @IBAction func bgShell_action(_ sender: UISwitch) {
+        let effectOrNil = installedEffect(EffectType.backgroundShell)
         if (effectOrNil != nil) {
             var effect = effectOrNil!
             effect.enabled = sender.isOn

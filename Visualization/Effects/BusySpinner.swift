@@ -166,6 +166,8 @@ class BusySpinner : Effect {
         glDeleteBuffers(1, &colorBuffer)
     }
     
+    func reset() {}
+    
     func prepareToDraw() {
         glUseProgram(programHandle)
         glUniformMatrix4fv(projectionMatrixUniform, 1, GLboolean(GL_FALSE), projectionMatrix.array)
