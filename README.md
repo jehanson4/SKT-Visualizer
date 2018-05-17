@@ -6,10 +6,12 @@
 ### Release Notes -- Version 1.0.6
 
 * Bug fixes
-  * Take Snapshot caused app crash in iOS 11
+  * Taking snapshot caused app crash in iOS 11
+  * UI unresponsive during basin calculation
+* Inner Shell effect to hide nodes of the far side of the hemisphere   
 * Indicator for calculation-in-progress
 * Improvements to info pages
-* Tweaks to UI controls
+* Improvements to UI controls
 
 ### Release Notes -- Version 1.0.5
 

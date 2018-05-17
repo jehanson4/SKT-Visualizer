@@ -4,10 +4,6 @@ ToDo.txt
 
 For 1.0.6
 
-[ ] pop flow progress controls are always 1 step behind
-[ ] force pop flow sequencer delta = 1
-[ ] black hemisphere to block the back nodes
-
 ABOVE THE LINE
 ----------------------------------------------------------------------------------
 BELOW THE LINE
