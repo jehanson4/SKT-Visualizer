@@ -4,6 +4,7 @@
 
 ## OS X
 .DS_Store
+.picasa.ini
 
 ## Build generated
 build/
