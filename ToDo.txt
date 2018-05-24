@@ -2,7 +2,7 @@
 ToDo.txt
 ==================================================================================
 
-For 1.0.6
+For 1.0.7
 
 ABOVE THE LINE
 ----------------------------------------------------------------------------------
@@ -25,11 +25,9 @@ BELOW THE LINE
 [ ] automatically select color source = population when sequencer selection changes
     to a pop-flow sequencer from sth else.
 
-[ ] snapshot doesn't get background color right
+    This is 1st step in new design that de-emphasises static pictures.
 
-[ ] (semi-)interactive slider instead of progress bar
-    reset only?
-    allow jumps?
+[ ] snapshot doesn't get background color right
 
 [ ] something to get it past Apple's prohibition of 'niche apps' in the App Store
     "game mode"?
@@ -46,15 +44,10 @@ BELOW THE LINE
 
 [?] move sequencer controls to page 2
 
-[ ] use NSLog not print
-    find out about log levels too
-
 [ ] only execute a clear-and-redraw when needed
     (actual frame rate is handled by . . . whom? GLKView?)
 
 [ ] control for sequencer step rate
-
-[ ] PhysicalProperty -> DerivedProperty
 
 [ ] improved pointsize calc
 

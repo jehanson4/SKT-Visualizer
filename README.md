@@ -8,7 +8,7 @@
 * Bug fixes
   * Taking snapshot caused app crash in iOS 11
   * UI unresponsive during basin calculation
-* Inner Shell effect to hide nodes of the far side of the hemisphere   
+* Inner Shell effect to hide nodes on the far side of the hemisphere   
 * Indicator for calculation-in-progress
 * Improvements to info pages
 * Improvements to UI controls
