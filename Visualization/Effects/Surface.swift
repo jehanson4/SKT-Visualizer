@@ -104,7 +104,7 @@ class Surface : GLKBaseEffect, Effect {
     private func colorSourceSelectionChanged(_ sender: Any?) {
         markColorsAsStale()
         colorSourceInstanceMonitor?.disconnect()
-        colorSources?.selection?.value.monitorChanges(colorSourceInstanceChanged)
+        _ = colorSources?.selection?.value.monitorChanges(colorSourceInstanceChanged)
     }
     
 

@@ -129,7 +129,7 @@ class NumericParameterSequencer<T: Comparable & Numeric> : GenericSequencer<T> {
         let sz = param.toDouble(_stepSize)
         let t2 = sz * floor(p * (ub-lb) / sz) + lb
         let v2 = param.fromDouble(t2)
-        debug("jumpToProgress", "p=\(p) t2=\(t2) v2=\(v2)")
+        debug("jumpToProgress", "p=\(p) t2=\(t2) v2=\(String(describing: v2))")
    
         if (v2 == nil) {
             return
