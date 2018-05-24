@@ -22,15 +22,27 @@ Design:
 
 Use custom serial DispatchQueue
 managed by SKTModel instance
-create 'working data' class with clearly defined API to hold a single work item
-export from working data to 'live data' struct which is read & used by the rest of the app
 
+User creates a 'working data' class with clearly defined API to hold a single work item.
+
+Last step on the background queue:
+--call SYNC dispatch on the main queue, to copy from working data to live data
+
+I no longer think it's necessary to copy frome working data to a local var in the BG thread
+then from local var to live data in the main thread. But if the working data is reused then
+it's probably a good idea, if only for code clarity & robustness. (I think it's safe to omit
+IF the main-thread copying is done synchronously AND the BG queue is serial. . . . )
+
+// Note the 'async' here
 workQueue.async {
-    // note the 'async'
-    // do some work
+
+    [do some work]
+
+    // Note that it's 'sync' here, not 'async'
     DispatchQueue.main.sync {
-        // copy from working data to live data
-        // node that it's 'sync', not 'async'
+
+    [ copy from working data to live data ]
+
     }
 }
 

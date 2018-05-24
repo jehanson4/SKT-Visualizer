@@ -6,9 +6,9 @@ L & F
 [/] section title: system light 12.0
 [/] vspace above section body: 8
 [/] spacing above section: 16
-[/] popup button color: default
-[/] popup button border: none
-[/] text field: border: "rounded edges"
+[/] popup button color: default tint
+[/] popup button border: default tint; rounded edges
+[/] text field: border: rounded edges
 [/] text field: clear button: never appears
 [/] all fonts except section titles: 16
 [/] text field: font size: adjust to fit: no
