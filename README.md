@@ -3,6 +3,10 @@
 ---
 ## Release Notes
 
+### Release Notes -- Version 1.0.7
+
+* Various cleanup, tweaks
+
 ### Release Notes -- Version 1.0.6
 
 * Bug fixes
