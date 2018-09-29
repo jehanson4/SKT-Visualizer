@@ -3,6 +3,11 @@
 ---
 ## Release Notes
 
+### Release Notes -- Version 1.0.8
+
+* Bug fix: app crashes when selecting Basins color source after changing model params
+* Have color source track changes in the seqencer, to help keep the backing models in sync
+
 ### Release Notes -- Version 1.0.7
 
 * Various cleanup, tweaks
