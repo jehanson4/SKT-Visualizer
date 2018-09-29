@@ -11,7 +11,7 @@ import UIKit
 class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser {
     
     let name = "MasterViewController"
-    var debugEnabled = false
+    var debugEnabled = true
     
     var appModel: AppModel? = nil
     
@@ -376,6 +376,27 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
         colorSourceDrop.setTitle(selectionName, for: .normal)
     }
     
+    func fixColorSourceForSequencer() {
+        let mtd = "fixColorSourceForSequencer"
+        let sequencers = appModel?.viz.sequencers
+        let colorSources = appModel?.viz.colorSources
+        
+        let sequencerModel = sequencers?.selection?.value.backingModel
+        let colorSourceModel = colorSources?.selection?.value.backingModel
+        if (sequencerModel != nil && colorSourceModel != nil) {
+            if (sequencerModel !== colorSourceModel) {
+                debug(mtd, "sequencer and colorSource do not have the same backingModel")
+                let csNames = colorSources?.entryNames ?? []
+                for csName in csNames {
+                    if (sequencerModel === colorSources?.entry(csName)?.value.backingModel) {
+                        debug(mtd, "found colorSource with same backingModel as sequencer. Selecting it")
+                        colorSources?.select(csName)
+                    }
+                }
+            }
+        }
+    }
+
     @IBAction func resetPOV(_ sender: Any) {
         appModel?.viz.resetPOV()
     }
@@ -432,6 +453,9 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
             
             debug("updateSequencerControls", "updating controls for current sequencer")
             updateSequencerPropertyControls(seq)
+            
+            debug("updateSequencerControls", "fixing color source")
+            fixColorSourceForSequencer()
             
             debug("updateSequencerControls", "starting to monitor the current sequencer")
             sequencerParamsMonitor = seq.monitorChanges(updateSequencerPropertyControls)

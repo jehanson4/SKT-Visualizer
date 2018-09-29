@@ -14,6 +14,7 @@ class UniformColor : ColorSource {
     let alpha: GLfloat = 1.0
     var name: String
     var info: String? = nil
+    var backingModel: AnyObject? { return nil }
     var color: GLKVector4
     
     init(_ name: String, r: GLfloat = 0, g: GLfloat = 0, b: GLfloat = 0) {

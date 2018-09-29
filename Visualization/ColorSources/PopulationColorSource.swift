@@ -24,9 +24,12 @@ class PopulationColorSource : ColorSource {
     
     var name: String = "Population"
     var info: String? = nil
+    var backingModel: AnyObject? { return flow }
     
     private var flow: PopulationFlow
     private var colorMap: LogColorMap
+    
+    // population 'weight' of a node
     private var wCurr: [Double]
 
     init(_ flow: PopulationFlow, _ colorMap: LogColorMap) {

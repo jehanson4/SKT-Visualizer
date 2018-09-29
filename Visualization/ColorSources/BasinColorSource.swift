@@ -18,7 +18,9 @@ class BasinColorSource : ColorSource {
     
     var name: String = "Basins"
     var info: String? = nil
+    var backingModel: AnyObject? { return basinFinder.backingModel }
     
+
     private let basinFinder: BasinFinder
 
     private var unclassified_color: GLKVector4 // gray

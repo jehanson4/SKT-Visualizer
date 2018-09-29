@@ -10,7 +10,7 @@ import UIKit
 class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUser {
     
     let name: String = "SettingsViewController"
-    var debugEnabled: Bool = true
+    var debugEnabled: Bool = false
     
     var appModel: AppModel?
     

@@ -43,6 +43,10 @@ class DummySequencer: Sequencer {
     
     var value: Double = 0
     
+    var backingModel: AnyObject? = nil
+    
+    var progressionType: ProgressionType = ProgressionType.undefined
+    
     var progress: Double = 0
     
     func reset() { }

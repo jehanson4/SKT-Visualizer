@@ -14,7 +14,7 @@ import Foundation
 
 class PopulationFlowSequencer : GenericSequencer<Int> {
 
-    var debugEnabled = true
+    var debugEnabled = false
     func debug(_ mtd: String, _ msg: String = "") {
         if (debugEnabled) {
             print("PopulationFlowSequencer", mtd, msg)
@@ -50,7 +50,11 @@ class PopulationFlowSequencer : GenericSequencer<Int> {
     }
     
     override var value: Double { return Double(flow.stepNumber) }
+
+    override var backingModel: AnyObject? { return flow }
     
+    override var progressionType: ProgressionType  { return ProgressionType.timeseries }
+
     override var progress: Double {
         return value/upperBound
     }

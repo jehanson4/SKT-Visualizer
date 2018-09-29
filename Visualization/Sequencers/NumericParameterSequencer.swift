@@ -13,7 +13,7 @@ import Foundation
 // =============================================================================
 
 class NumericParameterSequencer<T: Comparable & Numeric> : GenericSequencer<T> {
-    private var debugEnabled = true
+    private var debugEnabled = false
     private let cls = "NumericParameterSequencer"
     
     override var lowerBound: Double {
@@ -64,6 +64,12 @@ class NumericParameterSequencer<T: Comparable & Numeric> : GenericSequencer<T> {
         return param.toDouble(param.value)
     }
     
+    override var backingModel: AnyObject? { return param.backingModel }
+    
+    override var progressionType: ProgressionType {
+        return ProgressionType.parameterSweep 
+    }
+
     override var progress: Double {
         return (value-lowerBound)/(upperBound-lowerBound)
     }

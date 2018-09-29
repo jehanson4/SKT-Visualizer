@@ -41,6 +41,22 @@ enum BoundaryCondition: Int {
 private let boundaryConditionNames = ["sticky", "elastic", "periodic"]
 
 // =============================================================================
+// ProgressionType
+// =============================================================================
+
+enum ProgressionType: Int {
+    case parameterSweep = 0
+    case timeseries = 1
+    case undefined = 2
+    
+    static func name(_ pType: ProgressionType) -> String {
+        return progressionTypeNames[pType.rawValue]
+    }
+}
+
+private let progressionTypeNames = ["parameter sweep", "timeseries", "undefined" ]
+
+// =============================================================================
 // Sequencer
 // =============================================================================
 
@@ -63,6 +79,11 @@ protocol Sequencer: ChangeMonitorEnabled {
     var minStepSize: Double { get }
     
     var value: Double { get }
+    
+    /// returns the thing that's being sequenced, if there is one
+    var backingModel: AnyObject? { get }
+    
+    var progressionType: ProgressionType { get }
     
     /// value as a fraction of the inverval between the bounds
     var progress: Double { get}

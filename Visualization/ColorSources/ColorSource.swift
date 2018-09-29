@@ -13,7 +13,10 @@ import GLKit
 // ==============================================================================
 
 protocol ColorSource : Named, ChangeMonitorEnabled {
-        
+
+    /// Returns the thing that provides data to this color source, if any.
+    var backingModel: AnyObject? { get }
+
     /// Updates this color source's internal state as needed. Should be called
     /// before start of a pass over node indices.
     /// returns true iff the colors were changed by the update.

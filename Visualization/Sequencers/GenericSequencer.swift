@@ -13,8 +13,13 @@ import Foundation
 // =============================================================================
 
 class GenericSequencer<T> : Sequencer {
-
+    
     var name: String
+    
+    /// FOR OVERRIDE
+    var backingModel: AnyObject? { return nil }
+    
+    var progressionType: ProgressionType { return ProgressionType.undefined }
     
     // =====================================
     // Enabled
@@ -109,7 +114,7 @@ class GenericSequencer<T> : Sequencer {
     
     /// FOR OVERRIDE: this impl is non-functional
     var value: Double { return 0 }
-    
+        
     /// FOR OVERRIDE: this impl is non-functional
     var progress: Double { return 0 }
     

@@ -17,10 +17,12 @@ class Entropy : PhysicalProperty {
     let physicalPropertyType = PhysicalPropertyType.entropy
     var name: String = "Entropy"
     var info: String? = nil
+    var backingModel: AnyObject? { return model as AnyObject }
     
     var bounds: (min: Double, max: Double) { ensureFresh(); return fBounds }
     // let params: [String: AdjustableParameter1]? = nil
 
+    private let model: SKTModel
     private let geometry: SKGeometry
     private let physics: SKPhysics
     private var geometryChangeNumber: Int
@@ -29,9 +31,10 @@ class Entropy : PhysicalProperty {
 
     private var fBounds: (min: Double, max: Double)
 
-    init(_ geometry: SKGeometry, _ physics: SKPhysics) {
-        self.geometry = geometry
-        self.physics = physics
+    init(_ model: SKTModel) {
+        self.model = model
+        self.geometry = model.geometry
+        self.physics = model.physics
         
         // force refresh next getter
         self.geometryChangeNumber = geometry.changeNumber - 1

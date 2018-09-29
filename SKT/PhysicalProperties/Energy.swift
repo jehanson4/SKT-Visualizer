@@ -17,10 +17,12 @@ class Energy : PhysicalProperty {
     let physicalPropertyType = PhysicalPropertyType.energy
     var name: String = "Energy"
     var info: String? = nil
+    var backingModel: AnyObject? { return model as AnyObject }
     
     var bounds: (min: Double, max: Double) { ensureFresh(); return fBounds }
     // let params: [String: AdjustableParameter1]? = nil
     
+    private let model: SKTModel
     private let geometry: SKGeometry
     private let physics: SKPhysics
     private var geometryChangeNumber: Int
@@ -28,9 +30,10 @@ class Energy : PhysicalProperty {
     
     private var fBounds: (min: Double, max: Double)
 
-    init(_ geometry: SKGeometry, _ physics: SKPhysics) {
-        self.geometry = geometry
-        self.physics = physics
+    init(_ model: SKTModel) {
+        self.model = model
+        self.geometry = model.geometry
+        self.physics = model.physics
         
         // force refresh next getter
         self.geometryChangeNumber = geometry.changeNumber - 1
@@ -38,7 +41,7 @@ class Energy : PhysicalProperty {
         
         self.fBounds = (0,0)
     }
-    
+
     func valueAt(nodeIndex: Int) -> Double {
         let sk = geometry.nodeIndexToSK(nodeIndex)
         return Energy.energy(sk.m, sk.n, geometry, physics)

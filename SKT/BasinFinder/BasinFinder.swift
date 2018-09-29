@@ -40,7 +40,7 @@ class BasinFinder {
     
     var debugEnabled = false
     var infoEnabled = true
-    
+    var backingModel: AnyObject? { return model as AnyObject }
     var name: String = "BasinFinder"
     var info: String? = nil
     
@@ -57,6 +57,7 @@ class BasinFinder {
     }
     
     private var queue: WorkQueue
+    private var model: SKTModel
     private var geometry: SKGeometry
     private var physics: SKPhysics
     private var workingData: BAModel
@@ -68,9 +69,10 @@ class BasinFinder {
     // Initializing
     // =====================================
     
-    init(_ geometry: SKGeometry, _ physics: SKPhysics, _ queue: WorkQueue) {
-        self.geometry = geometry
-        self.physics = physics
+    init(_ model: SKTModel, _ queue: WorkQueue) {
+        self.model = model
+        self.geometry = model.geometry
+        self.physics = model.physics
         self.queue = queue
         
         let modelParams = SKTModelParams(geometry, physics)

@@ -73,6 +73,7 @@ class SKTModel1: SKTModel {
     let physics: SKPhysics
     
     lazy var N = DiscreteParameter("N",
+                                   self,
                                    geometry.getN,
                                    geometry.setN,
                                    min: SKGeometry.N_min,
@@ -82,6 +83,7 @@ class SKTModel1: SKTModel {
     
     
     lazy var k0 = DiscreteParameter("k\u{2080}",
+                                    self,
                                     geometry.getK0,
                                     geometry.setK0,
                                     min: SKGeometry.k0_min,
@@ -90,6 +92,7 @@ class SKTModel1: SKTModel {
                                     stepSize: SKGeometry.k0_defaultStepSize)
     
     lazy var alpha1  = ContinuousParameter("\u{03B1}\u{2081}",
+                                           self,
                                            physics.getAlpha1,
                                            physics.setAlpha1,
                                            min: SKPhysics.alpha_min,
@@ -98,6 +101,7 @@ class SKTModel1: SKTModel {
                                            stepSize: SKPhysics.alpha_defaultStepSize)
     
     lazy var alpha2 = ContinuousParameter("\u{03B1}\u{2082}",
+                                          self,
                                           physics.getAlpha2,
                                           physics.setAlpha2,
                                           min: SKPhysics.alpha_min,
@@ -107,6 +111,7 @@ class SKTModel1: SKTModel {
     
     
     lazy var T = ContinuousParameter("T",
+                                     self,
                                      physics.getT,
                                      physics.setT,
                                      min: SKPhysics.T_min,
@@ -146,17 +151,17 @@ class SKTModel1: SKTModel {
     }
     
     private func initPhysicalProperties() {
-        registerPhysicalProperty(Energy(geometry, physics))
-        registerPhysicalProperty(Entropy(geometry, physics))
-        registerPhysicalProperty(FreeEnergy(geometry, physics))
-        registerPhysicalProperty(LogOccupation(geometry, physics))
+        registerPhysicalProperty(Energy(self))
+        registerPhysicalProperty(Entropy(self))
+        registerPhysicalProperty(FreeEnergy(self))
+        registerPhysicalProperty(LogOccupation(self))
     }
     
     // ======================================
     // Other things
     // ======================================
     
-    lazy var basinFinder: BasinFinder! = BasinFinder(geometry, physics, workQueue)
+    lazy var basinFinder: BasinFinder! = BasinFinder(self, workQueue)
 
     lazy var populationFlow: PopulationFlow! = PopulationFlow(self)
 }

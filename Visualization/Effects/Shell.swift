@@ -19,7 +19,7 @@ import OpenGL
 // ==============================================================
 
 class Shell : GLKBaseEffect, Effect {
-    var debugEnabled = true
+    var debugEnabled = false
     
     let effectType = EffectType.backgroundShell
     var name = "BackgroundShell"

@@ -18,6 +18,7 @@ class PopulationFlow : ChangeMonitorEnabled {
     private var clsName = "PopulationFlow"
     var debugEnabled = false
     
+    // Array of population 'weights' at nodes
     var wCurr: [Double] {
         get {
             // sync() returns before sync actually happens, so this

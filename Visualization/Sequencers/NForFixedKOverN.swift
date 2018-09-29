@@ -13,7 +13,10 @@ import Foundation
 // ==============================================================================
 
 class NForFixedKOverN : NumericParameterSequencer<Int> {
-    private var debugEnabled = true
+    
+    override var backingModel: AnyObject? { return skt as AnyObject }
+    
+    private var debugEnabled = false
     private let cls = "NForFixedKOverN"
 
     private var skt: SKTModel

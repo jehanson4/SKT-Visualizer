@@ -17,19 +17,22 @@ class LogOccupation : PhysicalProperty {
     let physicalPropertyType = PhysicalPropertyType.logOccupation
     var name: String  = "LogOccupation"
     var info: String? = nil
-
+    var backingModel: AnyObject? { return model as AnyObject }
+    
     var bounds: (min: Double, max: Double) { ensureFresh(); return fBounds }
     // var params: [String: AdjustableParameter1]? = nil
 
+    private let model: SKTModel
     private let physics: SKPhysics
     private let geometry: SKGeometry
     private var physicsChangeNumber: Int
     private var geometryChangeNumber: Int
     private var fBounds: (min: Double, max: Double)
 
-    init(_ geometry: SKGeometry, _ physics: SKPhysics) {
-        self.geometry = geometry
-        self.physics = physics
+    init(_ model: SKTModel) {
+        self.model = model
+        self.geometry = model.geometry
+        self.physics = model.physics
         
         // force refresh next getter
         self.physicsChangeNumber = physics.changeNumber - 1

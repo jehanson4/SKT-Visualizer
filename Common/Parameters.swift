@@ -26,6 +26,7 @@ class AdjustableParameter<T : Comparable> : ChangeMonitorEnabled {
     
     var name: String
     var type: ParameterType
+    var backingModel: AnyObject?
     
     var value: T {
         get {
@@ -44,9 +45,10 @@ class AdjustableParameter<T : Comparable> : ChangeMonitorEnabled {
     
     // =========================================
 
-    init(_ name: String, _ type: ParameterType, _ getter: @escaping () -> T, _ setter: @escaping (T) -> ()) {
+    init(_ name: String, _ type: ParameterType, _ model: AnyObject?, _ getter: @escaping () -> T, _ setter: @escaping (T) -> ()) {
         self.name = name
         self.type = type
+        self.backingModel = model
         self.getter = getter
         self.setter = setter
         self._lastValue = getter()
@@ -137,13 +139,13 @@ class DiscreteParameter : AdjustableParameter<Int> {
     
     // ====================================================
     
-    init(_ name: String, _ getter: @escaping () -> Int, _ setter: @escaping (Int) -> (),
+    init(_ name: String, _ model: AnyObject?, _ getter: @escaping () -> Int, _ setter: @escaping (Int) -> (),
          min: Int, max: Int, setPoint: Int? = nil, stepSize: Int? = nil) {
         self.min = min
         self.max = max
         self._setPoint = setPoint ?? (max-min)/2
         self._stepSize = stepSize ?? 1
-        super.init(name, ParameterType.discrete, getter, setter)
+        super.init(name, ParameterType.discrete, model, getter, setter)
         
     }
     
@@ -204,13 +206,13 @@ class ContinuousParameter : AdjustableParameter<Double> {
     
     // ====================================================
     
-    init(_ name: String, _ getter: @escaping () -> Double, _ setter: @escaping (Double) -> (),
+    init(_ name: String, _ model: AnyObject?, _ getter: @escaping () -> Double, _ setter: @escaping (Double) -> (),
          min: Double, max: Double, setPoint: Double? = nil, stepSize: Double? = nil) {
         self.min = min
         self.max = max
         self._setPoint = setPoint ?? (max-min)/2
         self._stepSize = stepSize ?? 1
-        super.init(name, ParameterType.continuous, getter, setter)
+        super.init(name, ParameterType.continuous, model, getter, setter)
         
     }
     
@@ -241,8 +243,8 @@ class TextOptionParameter : AdjustableParameter<String> {
     
     // ====================================================
     
-    init(_ name: String, _ getter: @escaping () -> String, _ setter: @escaping (String) -> ()) {
-        super.init(name, ParameterType.choice, getter, setter)
+    init(_ name: String, _ model: AnyObject?, _ getter: @escaping () -> String, _ setter: @escaping (String) -> ()) {
+        super.init(name, ParameterType.choice, model, getter, setter)
         
     }
     

@@ -31,6 +31,9 @@ enum PhysicalPropertyType: Int {
 
 protocol PhysicalProperty : Named {
     
+    /// Returns the thing this is a property of.
+    var backingModel: AnyObject? { get }
+    
     var physicalPropertyType: PhysicalPropertyType { get }
     // var params: [String: AdjustableParameter1]? { get }
     

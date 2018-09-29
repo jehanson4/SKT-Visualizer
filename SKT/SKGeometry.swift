@@ -481,7 +481,8 @@ class SKGeometry : ChangeCounted {
     
     private func printDebug(_ mtd: String, _ msg: String = "") {
         if (debugEnabled) {
-            print(clsName, mtd, msg)
+            let threadName = (Thread.current.isMainThread) ? "[main]" : "[bg]"
+            print(clsName, threadName, mtd, msg)
         }
     }
 

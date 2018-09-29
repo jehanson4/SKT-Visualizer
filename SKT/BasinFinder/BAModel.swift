@@ -90,24 +90,35 @@ class BAModel {
     }
     
     func refresh(_ modelParams: SKTModelParams) -> Bool {
+        debug("refresh", "entering")
+        
+        // debug("refresh", "arg  modelParams.N=\(modelParams.N)")
+        // debug("refresh", "self.modelParams.N=\(self.modelParams.N)")
+        // debug("refresh", "self.geometry.N=\(self.geometry.N)")
+        // debug("refresh", "self.nodes.count=\(self.nodes.count)")
+        
         if (self.modelParams == modelParams) {
-            debug("refresh", "model params are up to date")
+            debug("refresh", "returning. model params are up to date")
             return false
         }
         
         debug("refresh", "updating model params")
         self.modelParams = modelParams
-        self.rebuildNeeded = modelParams.applyTo(geometry)
-        self.resetNeeded = modelParams.applyTo(physics)
+        self.rebuildNeeded = self.rebuildNeeded || modelParams.applyTo(geometry)
+        self.resetNeeded = self.resetNeeded || modelParams.applyTo(physics)
         
         if (rebuildNeeded) {
+            // rebuilding effectively does a reset
             rebuild()
+            debug("refresh", "returning after rebuild")
             return true
         }
         if (resetNeeded) {
             reset()
+            debug("refresh", "returning after reset")
             return true
         }
+        debug("refresh", "returning w/o making changes")
         return false
     }
     
@@ -160,7 +171,7 @@ class BAModel {
     }
     
     private func rebuild() {
-        debug("rebuild", "entering")
+        debug("rebuild", "entering. geomtry.nodeCount=\(geometry.nodeCount)")
         nodes.removeAll()
         for i in 0..<geometry.nodeCount {
             let (m, n) = geometry.nodeIndexToSK(i)
@@ -178,7 +189,7 @@ class BAModel {
     }
     
     private func reset() {
-        debug("reset", "entering")
+        debug("reset", "entering. nodes.count=\(nodes.count)")
         for i in 0..<nodes.count {
             let (m, n) = geometry.nodeIndexToSK(i)
             nodes[i].reset(Energy.energy(m, n, geometry, physics))
