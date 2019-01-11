@@ -14,14 +14,20 @@ import Foundation
 
 struct SKPoint {
     
-    var nodeIndex: Int
+    // m,n,s1,s2 are the order-dependent variables
+    // m,n are closely related to manhattan coordinates
+    // s1,s2 are the hemisphere-dependent variables
     var m: Int
     var n: Int
     var s1: Double
     var s2: Double
+
+    var nodeIndex: Int
+
     var r: Double
     var phi: Double
     var thetaE: Double
+
     var x: Double
     var y: Double
     var z: Double

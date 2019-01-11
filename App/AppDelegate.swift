@@ -60,12 +60,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func configureControllers(_ controller: UIViewController) {
         guard let splitViewController = controller as? UISplitViewController,
             let leftNavController = splitViewController.viewControllers.first as? UINavigationController,
-            let masterViewController = leftNavController.topViewController as? MasterViewController,
+            let selectorViewController = leftNavController.topViewController as? UISelectorViewController,
             let detailViewController = splitViewController.viewControllers.last as? DetailViewController
             else { fatalError() }
         
-        debug("configureControllers", "setting master view controller's app model")
-        masterViewController.appModel = self.appModel
+        debug("configureControllers", "setting UI selector view controller's app model")
+        selectorViewController.appModel = self.appModel
 
         debug("configureControllers", "setting detail view controller's app model")
         detailViewController.appModel = self.appModel

@@ -36,6 +36,13 @@ For 1.0.7
 	[ ] two variants of basins: ANY or STEEPEST.
 	[ ] degeneracy-aware arrow length
 
+[ ] NEW: support rectangle
+
+[ ] NEW: UI redesign to support new functionality
+    displaying hemisphere & rectangle & cube &c
+    separating animation categories: timeseries vs. parameter sweeps
+    vs. bufurcation diagrams vs. Steve's 'path graph' thingies &c
+
 ABOVE THE LINE
 ----------------------------------------------------------------------------------
 BELOW THE LINE

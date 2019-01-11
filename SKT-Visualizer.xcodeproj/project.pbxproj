@@ -39,6 +39,13 @@
 		8A56BE7920ADB37700C19F4C /* PFlowModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A56BE7820ADB37700C19F4C /* PFlowModel.swift */; };
 		8A56BE7B20ADB3FF00C19F4C /* PFlowNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A56BE7A20ADB3FF00C19F4C /* PFlowNode.swift */; };
 		8A575FEE20804759002B9951 /* ColorMaps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A575FED20804759002B9951 /* ColorMaps.swift */; };
+		8A591B3221E441FB00B802F8 /* S2SweepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A591B3121E441FB00B802F8 /* S2SweepViewController.swift */; };
+		8A591B3421E6902500B802F8 /* ModelSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A591B3321E6902500B802F8 /* ModelSelectorViewController.swift */; };
+		8A591B3921E6D41500B802F8 /* ModelSelectorTableHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A591B3821E6D41500B802F8 /* ModelSelectorTableHandler.swift */; };
+		8A591B3B21E6D6DB00B802F8 /* UISelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A591B3A21E6D6DB00B802F8 /* UISelectorViewController.swift */; };
+		8A591B4021E7A23A00B802F8 /* S2TimeseriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A591B3F21E7A23A00B802F8 /* S2TimeseriesViewController.swift */; };
+		8A591B4221E7A25300B802F8 /* P2SweepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A591B4121E7A25300B802F8 /* P2SweepViewController.swift */; };
+		8A591B4421E7A27100B802F8 /* P2TimeseriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A591B4321E7A27100B802F8 /* P2TimeseriesViewController.swift */; };
 		8A5E948E2078EE46003477D3 /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A5E948D2078EE46003477D3 /* Net.swift */; };
 		8A741FE620925E2D002A88D0 /* SKGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A741FE520925E2D002A88D0 /* SKGraph.swift */; };
 		8A741FE820926B9E002A88D0 /* FlowLines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A741FE720926B9E002A88D0 /* FlowLines.swift */; };
@@ -102,6 +109,7 @@
 		8AE18FA7209A1E220086F127 /* FreeEnergy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE18FA6209A1E220086F127 /* FreeEnergy.swift */; };
 		8AE48BBB2087857C001B5D11 /* GLUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE48BBA2087857C001B5D11 /* GLUtils.swift */; };
 		8AE48BBF2087E63A001B5D11 /* background.css in Resources */ = {isa = PBXBuildFile; fileRef = 8AE48BBE2087E639001B5D11 /* background.css */; };
+		8AE8AADD21C8737E00E90914 /* _newUI.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8AE8AADC21C8737D00E90914 /* _newUI.txt */; };
 		8AF5320920887329009D1882 /* BasinColorSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF5320820887329009D1882 /* BasinColorSource.swift */; };
 		8AF59500208AC0420082C5DE /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF594FF208AC0420082C5DE /* AppModel.swift */; };
 		8AF59503208AC5B10082C5DE /* VisualizatonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF59502208AC5B10082C5DE /* VisualizatonModel.swift */; };
@@ -149,6 +157,13 @@
 		8A56BE7820ADB37700C19F4C /* PFlowModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PFlowModel.swift; sourceTree = "<group>"; };
 		8A56BE7A20ADB3FF00C19F4C /* PFlowNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PFlowNode.swift; sourceTree = "<group>"; };
 		8A575FED20804759002B9951 /* ColorMaps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorMaps.swift; sourceTree = "<group>"; };
+		8A591B3121E441FB00B802F8 /* S2SweepViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = S2SweepViewController.swift; sourceTree = "<group>"; };
+		8A591B3321E6902500B802F8 /* ModelSelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelSelectorViewController.swift; sourceTree = "<group>"; };
+		8A591B3821E6D41500B802F8 /* ModelSelectorTableHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelSelectorTableHandler.swift; sourceTree = "<group>"; };
+		8A591B3A21E6D6DB00B802F8 /* UISelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UISelectorViewController.swift; sourceTree = "<group>"; };
+		8A591B3F21E7A23A00B802F8 /* S2TimeseriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = S2TimeseriesViewController.swift; sourceTree = "<group>"; };
+		8A591B4121E7A25300B802F8 /* P2SweepViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2SweepViewController.swift; sourceTree = "<group>"; };
+		8A591B4321E7A27100B802F8 /* P2TimeseriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2TimeseriesViewController.swift; sourceTree = "<group>"; };
 		8A5E948D2078EE46003477D3 /* Net.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Net.swift; sourceTree = "<group>"; };
 		8A741FE520925E2D002A88D0 /* SKGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKGraph.swift; sourceTree = "<group>"; };
 		8A741FE720926B9E002A88D0 /* FlowLines.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlowLines.swift; sourceTree = "<group>"; };
@@ -212,6 +227,7 @@
 		8AE18FA6209A1E220086F127 /* FreeEnergy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FreeEnergy.swift; sourceTree = "<group>"; };
 		8AE48BBA2087857C001B5D11 /* GLUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GLUtils.swift; sourceTree = "<group>"; };
 		8AE48BBE2087E639001B5D11 /* background.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = background.css; sourceTree = "<group>"; };
+		8AE8AADC21C8737D00E90914 /* _newUI.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _newUI.txt; sourceTree = "<group>"; };
 		8AF5320820887329009D1882 /* BasinColorSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasinColorSource.swift; sourceTree = "<group>"; };
 		8AF594FF208AC0420082C5DE /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
 		8AF59502208AC5B10082C5DE /* VisualizatonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualizatonModel.swift; sourceTree = "<group>"; };
@@ -253,12 +269,6 @@
 		8A19CD892082488D00C1EADE /* Sequencers */ = {
 			isa = PBXGroup;
 			children = (
-				8A91B09B2093F98000488907 /* Sequencer.swift */,
-				8A91B09D2094163C00488907 /* DummySequencer.swift */,
-				8A91B09F2094164700488907 /* NForFixedKOverN.swift */,
-				8A35082F20A0A0C200E36C1F /* PopulationFlowSequencer.swift */,
-				8A91B0A3209418A900488907 /* NumericParameterSequencer.swift */,
-				8A91B0A92094B01400488907 /* GenericSequencer.swift */,
 			);
 			path = Sequencers;
 			sourceTree = "<group>";
@@ -266,18 +276,19 @@
 		8A1CF009207146510099DD97 = {
 			isa = PBXGroup;
 			children = (
-				8AF98F95207FE7D60007688E /* LICENSE */,
-				8AF98FA6207FE9CF0007688E /* README.md */,
 				8AAF6DFE208167A800E4C9BF /* ToDo.txt */,
 				8AE18F982099EC390086F127 /* _Notes */,
-				8A9D599B208DFBD20022831B /* App */,
-				8A0C09A220716B050017AC4C /* Common */,
-				8AF138B7207B8966001A88C6 /* Resources */,
-				8AF5320C2088B63E009D1882 /* SKT */,
-				8AF59504208AC6DB0082C5DE /* UI */,
-				8AF59501208AC50D0082C5DE /* Visualization */,
 				8ACE78902073CCDA00C29875 /* Frameworks */,
+				8AF98F95207FE7D60007688E /* LICENSE */,
 				8A1CF013207146510099DD97 /* Products */,
+				8AF98FA6207FE9CF0007688E /* README.md */,
+				8AF138B7207B8966001A88C6 /* Resources */,
+				8A0C09A220716B050017AC4C /* Common */,
+				8A9D599B208DFBD20022831B /* App */,
+				8AF5320C2088B63E009D1882 /* SKT */,
+				8AF59501208AC50D0082C5DE /* Visualization */,
+				8A7FA8B421DD935A004E68BF /* Animation */,
+				8AF59504208AC6DB0082C5DE /* UI */,
 				8A3C45B72086185B00A1E9CD /* Unfinished */,
 				8A1E1C85207D7C64008C1AAF /* Unused */,
 			);
@@ -316,6 +327,45 @@
 			children = (
 			);
 			path = Unfinished;
+			sourceTree = "<group>";
+		};
+		8A591B3521E690F100B802F8 /* S2Sweep */ = {
+			isa = PBXGroup;
+			children = (
+				8A591B3121E441FB00B802F8 /* S2SweepViewController.swift */,
+			);
+			path = S2Sweep;
+			sourceTree = "<group>";
+		};
+		8A591B3721E6914E00B802F8 /* S2Timeseries */ = {
+			isa = PBXGroup;
+			children = (
+				8A591B3F21E7A23A00B802F8 /* S2TimeseriesViewController.swift */,
+			);
+			path = S2Timeseries;
+			sourceTree = "<group>";
+		};
+		8A591B3C21E6D89500B802F8 /* SKT2 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SKT2;
+			sourceTree = "<group>";
+		};
+		8A591B3D21E7A1EF00B802F8 /* P2Sweep */ = {
+			isa = PBXGroup;
+			children = (
+				8A591B4121E7A25300B802F8 /* P2SweepViewController.swift */,
+			);
+			path = P2Sweep;
+			sourceTree = "<group>";
+		};
+		8A591B3E21E7A1FC00B802F8 /* P2Timeseries */ = {
+			isa = PBXGroup;
+			children = (
+				8A591B4321E7A27100B802F8 /* P2TimeseriesViewController.swift */,
+			);
+			path = P2Timeseries;
 			sourceTree = "<group>";
 		};
 		8A5E948A2077D285003477D3 /* Effects */ = {
@@ -361,6 +411,44 @@
 				8AD823B3208E36CB0045F3B1 /* PhysicalProperty.swift */,
 			);
 			path = PhysicalProperties;
+			sourceTree = "<group>";
+		};
+		8A7FA8B421DD935A004E68BF /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				8A91B09B2093F98000488907 /* Sequencer.swift */,
+				8A91B09D2094163C00488907 /* DummySequencer.swift */,
+				8A91B0A92094B01400488907 /* GenericSequencer.swift */,
+				8A7FA8B621DD9397004E68BF /* ParameterSweep */,
+				8A7FA8B521DD9387004E68BF /* Timeseries */,
+			);
+			path = Animation;
+			sourceTree = "<group>";
+		};
+		8A7FA8B521DD9387004E68BF /* Timeseries */ = {
+			isa = PBXGroup;
+			children = (
+				8A35082F20A0A0C200E36C1F /* PopulationFlowSequencer.swift */,
+			);
+			path = Timeseries;
+			sourceTree = "<group>";
+		};
+		8A7FA8B621DD9397004E68BF /* ParameterSweep */ = {
+			isa = PBXGroup;
+			children = (
+				8A91B09F2094164700488907 /* NForFixedKOverN.swift */,
+				8A91B0A3209418A900488907 /* NumericParameterSequencer.swift */,
+			);
+			path = ParameterSweep;
+			sourceTree = "<group>";
+		};
+		8A7FA8B721DD95E3004E68BF /* ModelSelector */ = {
+			isa = PBXGroup;
+			children = (
+				8A591B3321E6902500B802F8 /* ModelSelectorViewController.swift */,
+				8A591B3821E6D41500B802F8 /* ModelSelectorTableHandler.swift */,
+			);
+			path = ModelSelector;
 			sourceTree = "<group>";
 		};
 		8A9D599B208DFBD20022831B /* App */ = {
@@ -440,6 +528,7 @@
 		8AE18F982099EC390086F127 /* _Notes */ = {
 			isa = PBXGroup;
 			children = (
+				8AE8AADC21C8737D00E90914 /* _newUI.txt */,
 				8A131C90207160100088F2FC /* _miscNotes.txt */,
 				8AE18F9B2099ED8A0086F127 /* backgroundCalculation.txt */,
 				8AE18FA42099EFF30086F127 /* code.txt */,
@@ -463,6 +552,7 @@
 		8AF5320C2088B63E009D1882 /* SKT */ = {
 			isa = PBXGroup;
 			children = (
+				8A591B3C21E6D89500B802F8 /* SKT2 */,
 				8AA05A0D208F93B4009417A6 /* BasinFinder */,
 				8A35082A209DF3CF00E36C1F /* PopulationFlow */,
 				8A0C09A520716B670017AC4C /* SKGeometry.swift */,
@@ -492,6 +582,11 @@
 		8AF59504208AC6DB0082C5DE /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				8A591B3E21E7A1FC00B802F8 /* P2Timeseries */,
+				8A591B3D21E7A1EF00B802F8 /* P2Sweep */,
+				8A591B3721E6914E00B802F8 /* S2Timeseries */,
+				8A591B3521E690F100B802F8 /* S2Sweep */,
+				8A7FA8B721DD95E3004E68BF /* ModelSelector */,
 				8AA05A2020900692009417A6 /* ColorSourceSelectionViewController.swift */,
 				8AA05A2120900692009417A6 /* ColorSourceSelectionViewController.xib */,
 				8AF98F9F207FE8350007688E /* DetailViewController.swift */,
@@ -506,6 +601,7 @@
 				8AA05A2520901B19009417A6 /* SequencerSelectionViewController.xib */,
 				8AF98FA3207FE8B40007688E /* SettingsViewController.swift */,
 				8AF98FA2207FE8B40007688E /* SettingsViewController.xib */,
+				8A591B3A21E6D6DB00B802F8 /* UISelectorViewController.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -580,6 +676,7 @@
 				8A3BBBBF208BF29A00669227 /* splash.jpg in Resources */,
 				8AD8181D207C9BD900426C25 /* image1-40.png in Resources */,
 				8AAA008F207166C0001A136D /* MasterViewController.xib in Resources */,
+				8AE8AADD21C8737E00E90914 /* _newUI.txt in Resources */,
 				8AD8181C207C9BD900426C25 /* image1-40@3x.png in Resources */,
 				8AD9DAC820914E020062457C /* PointSpriteVertexShader.glsl in Resources */,
 				8AD9DAC620914E020062457C /* TexturedFragmentShader.glsl in Resources */,
@@ -621,23 +718,28 @@
 			buildActionMask = 2147483647;
 			files = (
 				8A91B0982093F8C100488907 /* Parameters.swift in Sources */,
+				8A591B4021E7A23A00B802F8 /* S2TimeseriesViewController.swift in Sources */,
 				8AE48BBB2087857C001B5D11 /* GLUtils.swift in Sources */,
 				8A2A32D720AB881600D4D619 /* WorkQueue.swift in Sources */,
 				8A1CF016207146510099DD97 /* AppDelegate.swift in Sources */,
 				8A56BE7520ADADA300C19F4C /* BAModel.swift in Sources */,
 				8A575FEE20804759002B9951 /* ColorMaps.swift in Sources */,
 				8ACE788D2072E51800C29875 /* Icosahedron.swift in Sources */,
+				8A591B3421E6902500B802F8 /* ModelSelectorViewController.swift in Sources */,
 				8A0C09A620716B670017AC4C /* SKGeometry.swift in Sources */,
 				8A0269DD2080B1240054107D /* ColorSource.swift in Sources */,
 				8AA05A2220900692009417A6 /* ColorSourceSelectionViewController.swift in Sources */,
 				8A3C45B42086165500A1E9CD /* Entropy.swift in Sources */,
 				8A91B0A02094164700488907 /* NForFixedKOverN.swift in Sources */,
 				8AD817FC207BFA9200426C25 /* InfoViewController.swift in Sources */,
+				8A591B3221E441FB00B802F8 /* S2SweepViewController.swift in Sources */,
 				8A741FE620925E2D002A88D0 /* SKGraph.swift in Sources */,
 				8A5E948E2078EE46003477D3 /* Net.swift in Sources */,
 				8A41A2F2208398E900CDDF28 /* NumericConstants.swift in Sources */,
+				8A591B3921E6D41500B802F8 /* ModelSelectorTableHandler.swift in Sources */,
 				8A35083020A0A0C200E36C1F /* PopulationFlowSequencer.swift in Sources */,
 				8A91B09C2093F98000488907 /* Sequencer.swift in Sources */,
+				8A591B4421E7A27100B802F8 /* P2TimeseriesViewController.swift in Sources */,
 				8A3C45B62086167E00A1E9CD /* LogOccupation.swift in Sources */,
 				8A56BE7320ADAD5100C19F4C /* BANode.swift in Sources */,
 				8AA05A13208FCB58009417A6 /* ChangeSupport.swift in Sources */,
@@ -671,7 +773,9 @@
 				8A56BE7B20ADB3FF00C19F4C /* PFlowNode.swift in Sources */,
 				8AA05A2620901B19009417A6 /* SequencerSelectionViewController.swift in Sources */,
 				8AA05A15208FD56F009417A6 /* SKPoint.swift in Sources */,
+				8A591B4221E7A25300B802F8 /* P2SweepViewController.swift in Sources */,
 				8A741FE820926B9E002A88D0 /* FlowLines.swift in Sources */,
+				8A591B3B21E6D6DB00B802F8 /* UISelectorViewController.swift in Sources */,
 				8AF59503208AC5B10082C5DE /* VisualizatonModel.swift in Sources */,
 				8AF59500208AC0420082C5DE /* AppModel.swift in Sources */,
 				8A35083220A0D5C800E36C1F /* PFlowRules.swift in Sources */,
