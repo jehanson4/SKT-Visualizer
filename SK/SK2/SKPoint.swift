@@ -15,8 +15,9 @@ import Foundation
 struct SKPoint {
     
     // m,n,s1,s2 are the order-dependent variables
-    // m,n are closely related to manhattan coordinates
-    // s1,s2 are the hemisphere-dependent variables
+    // m,n are the planar node-coordinates, though maybe inverted or something
+    // s1,s2 are the hemisphere node-coordinates
+    
     var m: Int
     var n: Int
     var s1: Double
