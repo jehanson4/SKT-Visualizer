@@ -1,0 +1,26 @@
+==================================================================================
+
+OPTION: first page is menu page
+What are the menu items?
+
+A. 1-pair space, geometry TBD
+    [phase diagram?]
+    [path graph?]
+
+B. 2-pair hemisphere with colors for fitnese
+    1. timeseries movie for given dynamic
+    2. sweep movie for given model param
+
+C. 2-pair rectangle in (x,y) with height and color for fitness
+    1. timeseries movie for given dynamic
+    2. sweep movie for given model param
+
+D. Steve's "path graphs" over a 2-pair sweep: stack of rectangles, cells transparent below fitness threshold or away from peak or etc. A model param varies in Z direction
+    1. static pic for given threshold & values of other model params
+    [sweep movie for 2nd model param?]
+
+E. 3-pair space, geometry TBD, cells transparent below fitness threshold or away from peak or etc.
+    1. timeseries movie for a given dynamic
+    2. sweep movie for a given model param
+
+
