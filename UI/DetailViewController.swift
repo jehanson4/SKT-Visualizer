@@ -82,9 +82,9 @@ class DetailViewController: GLKViewController, AppModelUser, GraphicsController 
         debug("viewWillDisappear")
     }
     
-    override func removeFromParentViewController() {
+    override func removeFromParent() {
         debug("removeFromParentViewController")
-        super.removeFromParentViewController()
+        super.removeFromParent()
     }
     
     override func didReceiveMemoryWarning() {
@@ -111,7 +111,7 @@ class DetailViewController: GLKViewController, AppModelUser, GraphicsController 
         if (appModel == nil) { return }
 
         let pov = appModel!.viz.pov
-        if (sender.state == UIGestureRecognizerState.began) {
+        if (sender.state == UIGestureRecognizer.State.began) {
             pan_initialPhi = pov.phi
             pan_initialThetaE = pov.thetaE
         }
@@ -136,7 +136,7 @@ class DetailViewController: GLKViewController, AppModelUser, GraphicsController 
         if (appModel == nil) { return }
 
         let pov = appModel!.viz.pov
-        if (sender.state == UIGestureRecognizerState.began) {
+        if (sender.state == UIGestureRecognizer.State.began) {
             pinch_initialZoom = pov.zoom
         }
         let newZoom = (pinch_initialZoom * Double(sender.scale))

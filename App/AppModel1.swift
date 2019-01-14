@@ -13,6 +13,9 @@ import Foundation
 // ============================================================
 
 class AppModel1 : AppModel {
+    
+    lazy var psModels: Registry<PhysicalSystemModel>
+            = Registry<PhysicalSystemModel>()
 
     var skt: SKTModel
     var viz: VisualizationModel

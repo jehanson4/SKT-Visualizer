@@ -58,7 +58,7 @@ struct SKTModelParams : Equatable {
 // SKTModel
 // ===========================================================
 
-protocol SKTModel {
+protocol SKTModel: PhysicalSystemModel {
 
     // =================================
 
@@ -77,6 +77,7 @@ protocol SKTModel {
     var alpha2: ContinuousParameter  { get }
     var T: ContinuousParameter { get }
 
+    
     func setGeometryParameters(N: Int, k0: Int)
     func resetAllParameters()
     

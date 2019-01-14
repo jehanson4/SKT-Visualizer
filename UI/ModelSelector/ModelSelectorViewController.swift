@@ -20,6 +20,8 @@ class ModelSelectorViewController : UIViewController, AppModelUser {
     }
     var appModel: AppModel?
     
+    @IBOutlet weak var modelSelectorTableView: UITableView!
+    
     override func viewDidLoad() {
         debug("viewDidLoad")
         super.viewDidLoad()
@@ -57,6 +59,5 @@ class ModelSelectorViewController : UIViewController, AppModelUser {
             debug(mtdName, "destination is not an app model user")
         }
     }
-    
     
 }

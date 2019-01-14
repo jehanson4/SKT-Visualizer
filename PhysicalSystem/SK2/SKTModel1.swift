@@ -13,6 +13,9 @@ import Foundation
 // ===========================================================
 
 class SKTModel1: SKTModel {
+    
+    let embeddingDimension: Int = 2
+    
 
     let clsName = "SKTModel1"
     var debugEnabled = false

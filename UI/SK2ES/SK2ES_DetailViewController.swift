@@ -1,17 +1,22 @@
 //
-//  P2_SweepViewController.swift
+//  SK2ES_DetailViewController.swift
 //  SKT Visualizer
 //
-//  Created by James Hanson on 1/10/19.
+//  Created by James Hanson on 1/13/19.
 //  Copyright © 2019 James Hanson. All rights reserved.
 //
 
 import UIKit
 
-class P2SweepViewController: UIViewController, AppModelUser {
+class SK2ES_DetailViewController: UIViewController, AppModelUser {
     
-    let name = "P2SweepViewController"
+    let name = "SK2ES_DetailViewController"
     var debugEnabled = true
+    func debug(_ mtd: String, _ msg: String = "") {
+        if (debugEnabled)  {
+            print(name, mtd, msg)
+        }
+    }
     
     var appModel: AppModel? = nil
     
@@ -27,16 +32,10 @@ class P2SweepViewController: UIViewController, AppModelUser {
             debug(mtd, "app Model has been set")
         }
     }
-    
-    func debug(_ mtd: String, _ msg: String = "") {
-        if (debugEnabled)  {
-            print(name, mtd, msg)
-        }
+        
+    @IBAction func dismissView(_ sender: Any) {
+        debug("dismissView")
+        self.dismiss(animated: true, completion: nil)
     }
-    
-    @IBAction func unwindToHemisphereSweep(_ sender: UIStoryboardSegue) {
-        debug("unwindToP2Sweep")
-    }
-    
     
 }

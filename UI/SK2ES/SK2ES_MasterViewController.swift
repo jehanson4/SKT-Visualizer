@@ -1,16 +1,16 @@
 //
-//  S2_TimeseriesViewController.swift
+//  S2SweepViewController.swift
 //  SKT Visualizer
 //
-//  Created by James Hanson on 1/10/19.
+//  Created by James Hanson on 1/7/19.
 //  Copyright © 2019 James Hanson. All rights reserved.
 //
 
 import UIKit
 
-class S2TimeseriesViewController: UIViewController, AppModelUser {
+class SK2ES_MasterViewController: UIViewController, AppModelUser {
     
-    let name = "S2TimeseriesViewController"
+    let name = "SK2ES_MasterViewController"
     var debugEnabled = true
     
     var appModel: AppModel? = nil
@@ -34,9 +34,8 @@ class S2TimeseriesViewController: UIViewController, AppModelUser {
         }
     }
     
-    @IBAction func unwindToHemisphereSweep(_ sender: UIStoryboardSegue) {
-        debug("unwindToS2Timeseries")
+    @IBAction func unwindToSK2ES
+        (_ sender: UIStoryboardSegue) {
+        debug("unwindToSK2ES")
     }
-    
-    
 }
