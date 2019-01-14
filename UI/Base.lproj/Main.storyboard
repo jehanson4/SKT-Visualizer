@@ -572,7 +572,7 @@
                     <navigationItem key="navigationItem" title="SKT Visualizer" id="kKo-Hd-Fcu">
                         <barButtonItem key="rightBarButtonItem" style="done" id="FUp-9e-d6R">
                             <button key="customView" opaque="NO" contentMode="right" contentHorizontalAlignment="right" contentVerticalAlignment="fill" buttonType="roundedRect" lineBreakMode="middleTruncation" id="XA9-Ix-gJ4">
-                                <rect key="frame" x="269" y="8.5" width="35" height="33"/>
+                                <rect key="frame" x="269" y="9" width="35" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <state key="normal" title="&gt;&gt;&gt;"/>
@@ -708,7 +708,7 @@
         <!--SK2E Master View Controller-->
         <scene sceneID="nSo-6V-83M">
             <objects>
-                <viewController id="1Ul-i5-KtM" userLabel="SK2E Master View Controller" customClass="SK2ES_MasterViewController" customModule="SKT_Visualizer" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="1Ul-i5-KtM" userLabel="SK2E Master View Controller" customClass="SK2E_MasterViewController" customModule="SKT_Visualizer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3qH-EE-3lb">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="768"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1894,8 +1894,8 @@
         <!--SK2E Details View Controller-->
         <scene sceneID="D6v-rZ-rq8">
             <objects>
-                <viewController modalTransitionStyle="crossDissolve" modalPresentationStyle="currentContext" id="yte-mA-Bo5" userLabel="SK2E Details View Controller" customClass="SK2ES_DetailViewController" customModule="SKT_Visualizer" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" userInteractionEnabled="NO" contentMode="scaleToFill" id="OfG-76-Nhj">
+                <viewController modalTransitionStyle="crossDissolve" modalPresentationStyle="currentContext" id="yte-mA-Bo5" userLabel="SK2E Details View Controller" customClass="SK2E_DetailViewController" customModule="SKT_Visualizer" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="OfG-76-Nhj">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="745"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -1905,23 +1905,17 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3rT-I9-gVo" userLabel="Header">
                                         <rect key="frame" x="0.0" y="0.0" width="584" height="32"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HXm-eJ-xI7">
-                                                <rect key="frame" x="0.0" y="0.0" width="100" height="32"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HXm-eJ-xI7">
+                                                <rect key="frame" x="0.0" y="0.0" width="54" height="32"/>
                                                 <state key="normal" title="Dismiss"/>
                                                 <connections>
-                                                    <action selector="dismissView2:" destination="yte-mA-Bo5" eventType="touchUpInside" id="2ab-49-xsR"/>
+                                                    <segue destination="GN8-aj-3bV" kind="unwind" unwindAction="unwindToSK2E:" id="gTU-lg-Sb0"/>
                                                 </connections>
                                             </button>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6IE-E9-zoj" userLabel="Placeholder">
-                                                <rect key="frame" x="100" y="0.0" width="227.5" height="32"/>
+                                                <rect key="frame" x="54" y="0.0" width="530" height="32"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </view>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="tap anywhere outside this popup to dismiss it" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ft4-vr-Xe8">
-                                                <rect key="frame" x="327.5" y="0.0" width="256.5" height="32"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
                                         </subviews>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="32" id="RUN-Od-jwS"/>
@@ -2346,6 +2340,7 @@
                     <value key="contentSizeForViewInPopover" type="size" width="600" height="750"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Aqd-WB-n9f" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="GN8-aj-3bV" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="4276" y="-4773"/>
         </scene>
@@ -3255,7 +3250,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="done" id="7Y2-PQ-QFA">
                             <button key="customView" opaque="NO" contentMode="right" contentHorizontalAlignment="right" contentVerticalAlignment="fill" buttonType="roundedRect" lineBreakMode="middleTruncation" id="8jX-Zj-hIp">
-                                <rect key="frame" x="269" y="8.5" width="35" height="33"/>
+                                <rect key="frame" x="269" y="9" width="35" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <state key="normal" title="&lt;&lt;&lt;"/>

@@ -16,7 +16,7 @@
 		8A1CF01D207146540099DD97 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A1CF01C207146540099DD97 /* Assets.xcassets */; };
 		8A1CF020207146540099DD97 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A1CF01E207146540099DD97 /* LaunchScreen.storyboard */; };
 		8A2034DC21EB76AC00A4C418 /* ButtonWithImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2034DB21EB76AC00A4C418 /* ButtonWithImage.swift */; };
-		8A2034DE21EB961300A4C418 /* SK2ES_DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2034DD21EB961300A4C418 /* SK2ES_DetailViewController.swift */; };
+		8A2034DE21EB961300A4C418 /* SK2E_DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2034DD21EB961300A4C418 /* SK2E_DetailViewController.swift */; };
 		8A2A32D520AB1B0A00D4D619 /* BasinFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2A32D420AB1B0A00D4D619 /* BasinFinder.swift */; };
 		8A2A32D720AB881600D4D619 /* WorkQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2A32D620AB881600D4D619 /* WorkQueue.swift */; };
 		8A35082E20A092A400E36C1F /* PopulationColorSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A35082D20A092A400E36C1F /* PopulationColorSource.swift */; };
@@ -43,7 +43,7 @@
 		8A56BE7920ADB37700C19F4C /* PFlowModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A56BE7820ADB37700C19F4C /* PFlowModel.swift */; };
 		8A56BE7B20ADB3FF00C19F4C /* PFlowNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A56BE7A20ADB3FF00C19F4C /* PFlowNode.swift */; };
 		8A575FEE20804759002B9951 /* ColorMaps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A575FED20804759002B9951 /* ColorMaps.swift */; };
-		8A591B3221E441FB00B802F8 /* SK2ES_MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A591B3121E441FB00B802F8 /* SK2ES_MasterViewController.swift */; };
+		8A591B3221E441FB00B802F8 /* SK2E_MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A591B3121E441FB00B802F8 /* SK2E_MasterViewController.swift */; };
 		8A591B3421E6902500B802F8 /* ModelSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A591B3321E6902500B802F8 /* ModelSelectorViewController.swift */; };
 		8A591B3B21E6D6DB00B802F8 /* UISelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A591B3A21E6D6DB00B802F8 /* UISelectorViewController.swift */; };
 		8A5E948E2078EE46003477D3 /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A5E948D2078EE46003477D3 /* Net.swift */; };
@@ -134,7 +134,7 @@
 		8A1CF01F207146540099DD97 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8A1CF021207146540099DD97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8A2034DB21EB76AC00A4C418 /* ButtonWithImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonWithImage.swift; sourceTree = "<group>"; };
-		8A2034DD21EB961300A4C418 /* SK2ES_DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2ES_DetailViewController.swift; sourceTree = "<group>"; };
+		8A2034DD21EB961300A4C418 /* SK2E_DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2E_DetailViewController.swift; sourceTree = "<group>"; };
 		8A2A32D420AB1B0A00D4D619 /* BasinFinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasinFinder.swift; sourceTree = "<group>"; };
 		8A2A32D620AB881600D4D619 /* WorkQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkQueue.swift; sourceTree = "<group>"; };
 		8A35082D20A092A400E36C1F /* PopulationColorSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopulationColorSource.swift; sourceTree = "<group>"; };
@@ -161,7 +161,7 @@
 		8A56BE7820ADB37700C19F4C /* PFlowModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PFlowModel.swift; sourceTree = "<group>"; };
 		8A56BE7A20ADB3FF00C19F4C /* PFlowNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PFlowNode.swift; sourceTree = "<group>"; };
 		8A575FED20804759002B9951 /* ColorMaps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorMaps.swift; sourceTree = "<group>"; };
-		8A591B3121E441FB00B802F8 /* SK2ES_MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2ES_MasterViewController.swift; sourceTree = "<group>"; };
+		8A591B3121E441FB00B802F8 /* SK2E_MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2E_MasterViewController.swift; sourceTree = "<group>"; };
 		8A591B3321E6902500B802F8 /* ModelSelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelSelectorViewController.swift; sourceTree = "<group>"; };
 		8A591B3A21E6D6DB00B802F8 /* UISelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UISelectorViewController.swift; sourceTree = "<group>"; };
 		8A5E948D2078EE46003477D3 /* Net.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Net.swift; sourceTree = "<group>"; };
@@ -308,6 +308,13 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
+		8A2034DF21ECEAA700A4C418 /* SK2D */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SK2D;
+			sourceTree = "<group>";
+		};
 		8A35082A209DF3CF00E36C1F /* PopulationFlow */ = {
 			isa = PBXGroup;
 			children = (
@@ -330,13 +337,13 @@
 			path = Scratch;
 			sourceTree = "<group>";
 		};
-		8A591B3521E690F100B802F8 /* SK2ES */ = {
+		8A591B3521E690F100B802F8 /* SK2E */ = {
 			isa = PBXGroup;
 			children = (
-				8A591B3121E441FB00B802F8 /* SK2ES_MasterViewController.swift */,
-				8A2034DD21EB961300A4C418 /* SK2ES_DetailViewController.swift */,
+				8A591B3121E441FB00B802F8 /* SK2E_MasterViewController.swift */,
+				8A2034DD21EB961300A4C418 /* SK2E_DetailViewController.swift */,
 			);
-			path = SK2ES;
+			path = SK2E;
 			sourceTree = "<group>";
 		};
 		8A591B3C21E6D89500B802F8 /* SK2 */ = {
@@ -561,7 +568,8 @@
 			isa = PBXGroup;
 			children = (
 				8A2034DA21EB768100A4C418 /* Utils */,
-				8A591B3521E690F100B802F8 /* SK2ES */,
+				8A2034DF21ECEAA700A4C418 /* SK2D */,
+				8A591B3521E690F100B802F8 /* SK2E */,
 				8A7FA8B721DD95E3004E68BF /* ModelSelector */,
 				8AA05A2020900692009417A6 /* ColorSourceSelectionViewController.swift */,
 				8AA05A2120900692009417A6 /* ColorSourceSelectionViewController.xib */,
@@ -709,12 +717,12 @@
 				8A3C45B42086165500A1E9CD /* Entropy.swift in Sources */,
 				8A91B0A02094164700488907 /* NForFixedKOverN.swift in Sources */,
 				8AD817FC207BFA9200426C25 /* InfoViewController.swift in Sources */,
-				8A591B3221E441FB00B802F8 /* SK2ES_MasterViewController.swift in Sources */,
+				8A591B3221E441FB00B802F8 /* SK2E_MasterViewController.swift in Sources */,
 				8A741FE620925E2D002A88D0 /* SKGraph.swift in Sources */,
 				8A5E948E2078EE46003477D3 /* Net.swift in Sources */,
 				8A41A2F2208398E900CDDF28 /* NumericConstants.swift in Sources */,
 				8A35083020A0A0C200E36C1F /* PopulationFlowSequencer.swift in Sources */,
-				8A2034DE21EB961300A4C418 /* SK2ES_DetailViewController.swift in Sources */,
+				8A2034DE21EB961300A4C418 /* SK2E_DetailViewController.swift in Sources */,
 				8A91B09C2093F98000488907 /* Sequencer.swift in Sources */,
 				8A3C45B62086167E00A1E9CD /* LogOccupation.swift in Sources */,
 				8A56BE7320ADAD5100C19F4C /* BANode.swift in Sources */,

@@ -1,5 +1,5 @@
 //
-//  SK2ES_DetailViewController.swift
+//  SK2E_DetailViewController.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 1/13/19.
@@ -8,9 +8,9 @@
 
 import UIKit
 
-class SK2ES_DetailViewController: UIViewController, AppModelUser {
+class SK2E_DetailViewController: UIViewController, AppModelUser {
     
-    let name = "SK2ES_DetailViewController"
+    let name = "SK2E_DetailViewController"
     var debugEnabled = true
     func debug(_ mtd: String, _ msg: String = "") {
         if (debugEnabled)  {
