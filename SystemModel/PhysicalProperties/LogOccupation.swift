@@ -9,14 +9,13 @@
 import Foundation
 
 // ==============================================================================
-// FreeEnergy
+// LogOccupation
 // ==============================================================================
 
-// Helholtz Free Energy: U - TS
-class FreeEnergy : PhysicalProperty {
+class LogOccupation : PhysicalProperty {
     
-    let physicalPropertyType = PhysicalPropertyType.freeEnergy
-    var name: String  = "FreeEnergy"
+    let physicalPropertyType = PhysicalPropertyType.logOccupation
+    var name: String  = "LogOccupation"
     var info: String? = nil
     var backingModel: AnyObject? { return model as AnyObject }
     
@@ -25,7 +24,7 @@ class FreeEnergy : PhysicalProperty {
 
     private let model: SKTModel
     private let physics: SKPhysics
-    private let geometry: SKGeometry
+    private let geometry: SK2Geometry
     private var physicsChangeNumber: Int
     private var geometryChangeNumber: Int
     private var fBounds: (min: Double, max: Double)
@@ -44,15 +43,19 @@ class FreeEnergy : PhysicalProperty {
     
     func valueAt(nodeIndex: Int) -> Double {
         let sk = geometry.nodeIndexToSK(nodeIndex)
-        return FreeEnergy.freeEnergy(sk.m, sk.n, geometry, physics)
+        return LogOccupation.logOccupation2(sk.m, sk.n, geometry, physics)
     }
     
     func valueAt(m: Int, n: Int) -> Double {
-        return FreeEnergy.freeEnergy(m, n, geometry, physics)
+        return LogOccupation.logOccupation2(m, n, geometry, physics)
     }
     
-    static func freeEnergy(_ m: Int, _ n: Int, _ geometry: SKGeometry, _ physics: SKPhysics) -> Double {
-        return Energy.energy(m, n, geometry, physics) - physics.T * Entropy.entropy(m, n, geometry)
+    static func logOccupation2(_ m: Int, _ n: Int, _ geometry: SK2Geometry, _ physics: SKPhysics) -> Double {
+        return Entropy.entropy2(m, n, geometry) - physics.beta * Energy.energy2(m, n, geometry, physics)
+    }
+    
+    static func logOccupation2(forT T: Double, _ m: Int, _ n: Int, _ geometry: SK2Geometry, _ physics: SKPhysics) -> Double {
+        return Entropy.entropy2(m, n, geometry) - 1/T * Energy.energy2(m, n, geometry, physics)
     }
     
     func ensureFresh() {

@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		8A0269DD2080B1240054107D /* ColorSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0269DC2080B1240054107D /* ColorSource.swift */; };
 		8A0B3A0020A4B71200370999 /* PopulationFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0B39FF20A4B71200370999 /* PopulationFlow.swift */; };
-		8A0C09A620716B670017AC4C /* SKGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0C09A520716B670017AC4C /* SKGeometry.swift */; };
+		8A0C09A620716B670017AC4C /* SK2Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0C09A520716B670017AC4C /* SK2Geometry.swift */; };
 		8A131C91207160100088F2FC /* _miscNotes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8A131C90207160100088F2FC /* _miscNotes.txt */; };
 		8A1CF016207146510099DD97 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1CF015207146510099DD97 /* AppDelegate.swift */; };
 		8A1CF01B207146520099DD97 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A1CF019207146510099DD97 /* Main.storyboard */; };
@@ -17,6 +17,10 @@
 		8A1CF020207146540099DD97 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A1CF01E207146540099DD97 /* LaunchScreen.storyboard */; };
 		8A2034DC21EB76AC00A4C418 /* ButtonWithImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2034DB21EB76AC00A4C418 /* ButtonWithImage.swift */; };
 		8A2034DE21EB961300A4C418 /* SK2E_DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2034DD21EB961300A4C418 /* SK2E_DetailViewController.swift */; };
+		8A2034E221ED0F4E00A4C418 /* SK1Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2034E121ED0F4E00A4C418 /* SK1Model.swift */; };
+		8A2034E721ED2A6000A4C418 /* SK2Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2034E621ED2A6000A4C418 /* SK2Model.swift */; };
+		8A2034E921ED2F8E00A4C418 /* SystemGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2034E821ED2F8E00A4C418 /* SystemGeometry.swift */; };
+		8A2034EB21ED36D300A4C418 /* SK1Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2034EA21ED36D300A4C418 /* SK1Geometry.swift */; };
 		8A2A32D520AB1B0A00D4D619 /* BasinFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2A32D420AB1B0A00D4D619 /* BasinFinder.swift */; };
 		8A2A32D720AB881600D4D619 /* WorkQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2A32D620AB881600D4D619 /* WorkQueue.swift */; };
 		8A35082E20A092A400E36C1F /* PopulationColorSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A35082D20A092A400E36C1F /* PopulationColorSource.swift */; };
@@ -35,7 +39,8 @@
 		8A40BC0C207ECC7500F2D2EB /* Nodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A40BC0B207ECC7500F2D2EB /* Nodes.swift */; };
 		8A40BC0E207EEA3D00F2D2EB /* Meridians.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A40BC0D207EEA3D00F2D2EB /* Meridians.swift */; };
 		8A41A2F2208398E900CDDF28 /* NumericConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A41A2F1208398E900CDDF28 /* NumericConstants.swift */; };
-		8A4654C021E8E38300EE2B26 /* PhysicalSystemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4654BF21E8E38300EE2B26 /* PhysicalSystemModel.swift */; };
+		8A41B09021F0ACA500DE38CB /* Parameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A41B08F21F0ACA500DE38CB /* Parameters.swift */; };
+		8A4654C021E8E38300EE2B26 /* SystemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4654BF21E8E38300EE2B26 /* SystemModel.swift */; };
 		8A4654C221E97A7B00EE2B26 /* Registry2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4654C121E97A7B00EE2B26 /* Registry2.swift */; };
 		8A53B2A1208D9B380039C5D7 /* help.html in Resources */ = {isa = PBXBuildFile; fileRef = 8A53B2A0208D9B380039C5D7 /* help.html */; };
 		8A56BE7320ADAD5100C19F4C /* BANode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A56BE7220ADAD5100C19F4C /* BANode.swift */; };
@@ -50,10 +55,10 @@
 		8A741FE620925E2D002A88D0 /* SKGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A741FE520925E2D002A88D0 /* SKGraph.swift */; };
 		8A741FE820926B9E002A88D0 /* FlowLines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A741FE720926B9E002A88D0 /* FlowLines.swift */; };
 		8A75424A20A8CC5100A2BFAD /* about.html in Resources */ = {isa = PBXBuildFile; fileRef = 8A75424920A8CC5100A2BFAD /* about.html */; };
-		8A75B690208A317D00EACD13 /* Registry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B68F208A317D00EACD13 /* Registry.swift */; };
+		8A75B690208A317D00EACD13 /* RegistryWithSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B68F208A317D00EACD13 /* RegistryWithSelection.swift */; };
 		8A75B694208A771800EACD13 /* SKTModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B693208A771800EACD13 /* SKTModel.swift */; };
 		8A84313820726F0100F06B9B /* Axes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A84313720726F0100F06B9B /* Axes.swift */; };
-		8A91B0982093F8C100488907 /* Parameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A91B0972093F8C100488907 /* Parameters.swift */; };
+		8A91B0982093F8C100488907 /* OLD_Parameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A91B0972093F8C100488907 /* OLD_Parameters.swift */; };
 		8A91B09C2093F98000488907 /* Sequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A91B09B2093F98000488907 /* Sequencer.swift */; };
 		8A91B09E2094163C00488907 /* DummySequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A91B09D2094163C00488907 /* DummySequencer.swift */; };
 		8A91B0A02094164700488907 /* NForFixedKOverN.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A91B09F2094164700488907 /* NForFixedKOverN.swift */; };
@@ -62,7 +67,7 @@
 		8A9BA6B820ADD71F009C39BE /* Shell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9BA6B720ADD71F009C39BE /* Shell.swift */; };
 		8AA05A11208FC14E009417A6 /* AppModel1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA05A10208FC14E009417A6 /* AppModel1.swift */; };
 		8AA05A13208FCB58009417A6 /* ChangeSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA05A12208FCB58009417A6 /* ChangeSupport.swift */; };
-		8AA05A15208FD56F009417A6 /* SKPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA05A14208FD56F009417A6 /* SKPoint.swift */; };
+		8AA05A15208FD56F009417A6 /* SK2Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA05A14208FD56F009417A6 /* SK2Point.swift */; };
 		8AA05A19208FFFD4009417A6 /* MagicStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA05A18208FFFD4009417A6 /* MagicStrings.swift */; };
 		8AA05A2220900692009417A6 /* ColorSourceSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA05A2020900692009417A6 /* ColorSourceSelectionViewController.swift */; };
 		8AA05A2320900692009417A6 /* ColorSourceSelectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8AA05A2120900692009417A6 /* ColorSourceSelectionViewController.xib */; };
@@ -125,7 +130,7 @@
 /* Begin PBXFileReference section */
 		8A0269DC2080B1240054107D /* ColorSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSource.swift; sourceTree = "<group>"; };
 		8A0B39FF20A4B71200370999 /* PopulationFlow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopulationFlow.swift; sourceTree = "<group>"; };
-		8A0C09A520716B670017AC4C /* SKGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKGeometry.swift; sourceTree = "<group>"; };
+		8A0C09A520716B670017AC4C /* SK2Geometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2Geometry.swift; sourceTree = "<group>"; };
 		8A131C90207160100088F2FC /* _miscNotes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _miscNotes.txt; sourceTree = "<group>"; };
 		8A1CF012207146510099DD97 /* SKT Visualizer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SKT Visualizer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A1CF015207146510099DD97 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -135,6 +140,10 @@
 		8A1CF021207146540099DD97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8A2034DB21EB76AC00A4C418 /* ButtonWithImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonWithImage.swift; sourceTree = "<group>"; };
 		8A2034DD21EB961300A4C418 /* SK2E_DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2E_DetailViewController.swift; sourceTree = "<group>"; };
+		8A2034E121ED0F4E00A4C418 /* SK1Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK1Model.swift; sourceTree = "<group>"; };
+		8A2034E621ED2A6000A4C418 /* SK2Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2Model.swift; sourceTree = "<group>"; };
+		8A2034E821ED2F8E00A4C418 /* SystemGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemGeometry.swift; sourceTree = "<group>"; };
+		8A2034EA21ED36D300A4C418 /* SK1Geometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK1Geometry.swift; sourceTree = "<group>"; };
 		8A2A32D420AB1B0A00D4D619 /* BasinFinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasinFinder.swift; sourceTree = "<group>"; };
 		8A2A32D620AB881600D4D619 /* WorkQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkQueue.swift; sourceTree = "<group>"; };
 		8A35082D20A092A400E36C1F /* PopulationColorSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopulationColorSource.swift; sourceTree = "<group>"; };
@@ -153,7 +162,8 @@
 		8A40BC0B207ECC7500F2D2EB /* Nodes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Nodes.swift; sourceTree = "<group>"; };
 		8A40BC0D207EEA3D00F2D2EB /* Meridians.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Meridians.swift; sourceTree = "<group>"; };
 		8A41A2F1208398E900CDDF28 /* NumericConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumericConstants.swift; sourceTree = "<group>"; };
-		8A4654BF21E8E38300EE2B26 /* PhysicalSystemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicalSystemModel.swift; sourceTree = "<group>"; };
+		8A41B08F21F0ACA500DE38CB /* Parameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parameters.swift; sourceTree = "<group>"; };
+		8A4654BF21E8E38300EE2B26 /* SystemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemModel.swift; sourceTree = "<group>"; };
 		8A4654C121E97A7B00EE2B26 /* Registry2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registry2.swift; sourceTree = "<group>"; };
 		8A53B2A0208D9B380039C5D7 /* help.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = help.html; sourceTree = "<group>"; };
 		8A56BE7220ADAD5100C19F4C /* BANode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BANode.swift; sourceTree = "<group>"; };
@@ -168,10 +178,10 @@
 		8A741FE520925E2D002A88D0 /* SKGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKGraph.swift; sourceTree = "<group>"; };
 		8A741FE720926B9E002A88D0 /* FlowLines.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlowLines.swift; sourceTree = "<group>"; };
 		8A75424920A8CC5100A2BFAD /* about.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = about.html; sourceTree = "<group>"; };
-		8A75B68F208A317D00EACD13 /* Registry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registry.swift; sourceTree = "<group>"; };
+		8A75B68F208A317D00EACD13 /* RegistryWithSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistryWithSelection.swift; sourceTree = "<group>"; };
 		8A75B693208A771800EACD13 /* SKTModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKTModel.swift; sourceTree = "<group>"; };
 		8A84313720726F0100F06B9B /* Axes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Axes.swift; sourceTree = "<group>"; };
-		8A91B0972093F8C100488907 /* Parameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parameters.swift; sourceTree = "<group>"; };
+		8A91B0972093F8C100488907 /* OLD_Parameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OLD_Parameters.swift; sourceTree = "<group>"; };
 		8A91B09B2093F98000488907 /* Sequencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sequencer.swift; sourceTree = "<group>"; };
 		8A91B09D2094163C00488907 /* DummySequencer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DummySequencer.swift; sourceTree = "<group>"; };
 		8A91B09F2094164700488907 /* NForFixedKOverN.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NForFixedKOverN.swift; sourceTree = "<group>"; };
@@ -180,7 +190,7 @@
 		8A9BA6B720ADD71F009C39BE /* Shell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shell.swift; sourceTree = "<group>"; };
 		8AA05A10208FC14E009417A6 /* AppModel1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel1.swift; sourceTree = "<group>"; };
 		8AA05A12208FCB58009417A6 /* ChangeSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSupport.swift; sourceTree = "<group>"; };
-		8AA05A14208FD56F009417A6 /* SKPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKPoint.swift; sourceTree = "<group>"; };
+		8AA05A14208FD56F009417A6 /* SK2Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2Point.swift; sourceTree = "<group>"; };
 		8AA05A18208FFFD4009417A6 /* MagicStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagicStrings.swift; sourceTree = "<group>"; };
 		8AA05A2020900692009417A6 /* ColorSourceSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSourceSelectionViewController.swift; sourceTree = "<group>"; };
 		8AA05A2120900692009417A6 /* ColorSourceSelectionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ColorSourceSelectionViewController.xib; sourceTree = "<group>"; };
@@ -257,11 +267,12 @@
 			isa = PBXGroup;
 			children = (
 				8A41A2F1208398E900CDDF28 /* NumericConstants.swift */,
-				8A75B68F208A317D00EACD13 /* Registry.swift */,
+				8A75B68F208A317D00EACD13 /* RegistryWithSelection.swift */,
 				8ACE789D2073F7A400C29875 /* Utils.swift */,
 				8AA05A12208FCB58009417A6 /* ChangeSupport.swift */,
-				8A91B0972093F8C100488907 /* Parameters.swift */,
+				8A91B0972093F8C100488907 /* OLD_Parameters.swift */,
 				8A2A32D620AB881600D4D619 /* WorkQueue.swift */,
+				8A41B08F21F0ACA500DE38CB /* Parameters.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -285,7 +296,7 @@
 				8AF138B7207B8966001A88C6 /* Resources */,
 				8A0C09A220716B050017AC4C /* Utilities */,
 				8A9D599B208DFBD20022831B /* App */,
-				8AF5320C2088B63E009D1882 /* PhysicalSystem */,
+				8AF5320C2088B63E009D1882 /* SystemModel */,
 				8AF59501208AC50D0082C5DE /* Visualization */,
 				8A7FA8B421DD935A004E68BF /* Animation */,
 				8AF59504208AC6DB0082C5DE /* UI */,
@@ -315,6 +326,27 @@
 			path = SK2D;
 			sourceTree = "<group>";
 		};
+		8A2034E021ED0F3400A4C418 /* SK1 */ = {
+			isa = PBXGroup;
+			children = (
+				8A2034E121ED0F4E00A4C418 /* SK1Model.swift */,
+				8A2034EA21ED36D300A4C418 /* SK1Geometry.swift */,
+			);
+			path = SK1;
+			sourceTree = "<group>";
+		};
+		8A2034E521ED29B400A4C418 /* OLD */ = {
+			isa = PBXGroup;
+			children = (
+				8A75B693208A771800EACD13 /* SKTModel.swift */,
+				8AA0637C207A89DD00BB68DB /* SKPhysics.swift */,
+				8A3BBBB4208BBB0600669227 /* SKTModel1.swift */,
+				8A35082A209DF3CF00E36C1F /* PopulationFlow */,
+				8AA05A0D208F93B4009417A6 /* BasinFinder */,
+			);
+			path = OLD;
+			sourceTree = "<group>";
+		};
 		8A35082A209DF3CF00E36C1F /* PopulationFlow */ = {
 			isa = PBXGroup;
 			children = (
@@ -337,6 +369,13 @@
 			path = Scratch;
 			sourceTree = "<group>";
 		};
+		8A41B09121F0BF0300DE38CB /* SK3 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SK3;
+			sourceTree = "<group>";
+		};
 		8A591B3521E690F100B802F8 /* SK2E */ = {
 			isa = PBXGroup;
 			children = (
@@ -349,13 +388,10 @@
 		8A591B3C21E6D89500B802F8 /* SK2 */ = {
 			isa = PBXGroup;
 			children = (
-				8AA05A0D208F93B4009417A6 /* BasinFinder */,
-				8A35082A209DF3CF00E36C1F /* PopulationFlow */,
-				8A0C09A520716B670017AC4C /* SKGeometry.swift */,
-				8AA05A14208FD56F009417A6 /* SKPoint.swift */,
-				8AA0637C207A89DD00BB68DB /* SKPhysics.swift */,
-				8A75B693208A771800EACD13 /* SKTModel.swift */,
-				8A3BBBB4208BBB0600669227 /* SKTModel1.swift */,
+				8AA05A14208FD56F009417A6 /* SK2Point.swift */,
+				8A2034E621ED2A6000A4C418 /* SK2Model.swift */,
+				8A0C09A520716B670017AC4C /* SK2Geometry.swift */,
+				8A2034E521ED29B400A4C418 /* OLD */,
 			);
 			path = SK2;
 			sourceTree = "<group>";
@@ -539,15 +575,18 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		8AF5320C2088B63E009D1882 /* PhysicalSystem */ = {
+		8AF5320C2088B63E009D1882 /* SystemModel */ = {
 			isa = PBXGroup;
 			children = (
-				8A4654BF21E8E38300EE2B26 /* PhysicalSystemModel.swift */,
+				8A2034E821ED2F8E00A4C418 /* SystemGeometry.swift */,
 				8AD823B3208E36CB0045F3B1 /* PhysicalProperty.swift */,
+				8A4654BF21E8E38300EE2B26 /* SystemModel.swift */,
+				8A2034E021ED0F3400A4C418 /* SK1 */,
 				8A591B3C21E6D89500B802F8 /* SK2 */,
+				8A41B09121F0BF0300DE38CB /* SK3 */,
 				8A75B692208A76D100EACD13 /* PhysicalProperties */,
 			);
-			path = PhysicalSystem;
+			path = SystemModel;
 			sourceTree = "<group>";
 		};
 		8AF59501208AC50D0082C5DE /* Visualization */ = {
@@ -702,18 +741,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8A91B0982093F8C100488907 /* Parameters.swift in Sources */,
+				8A91B0982093F8C100488907 /* OLD_Parameters.swift in Sources */,
 				8AE48BBB2087857C001B5D11 /* GLUtils.swift in Sources */,
 				8A2A32D720AB881600D4D619 /* WorkQueue.swift in Sources */,
 				8A1CF016207146510099DD97 /* AppDelegate.swift in Sources */,
+				8A2034E721ED2A6000A4C418 /* SK2Model.swift in Sources */,
 				8A4654C221E97A7B00EE2B26 /* Registry2.swift in Sources */,
 				8A56BE7520ADADA300C19F4C /* BAModel.swift in Sources */,
 				8A575FEE20804759002B9951 /* ColorMaps.swift in Sources */,
 				8ACE788D2072E51800C29875 /* Icosahedron.swift in Sources */,
 				8A591B3421E6902500B802F8 /* ModelSelectorViewController.swift in Sources */,
-				8A0C09A620716B670017AC4C /* SKGeometry.swift in Sources */,
+				8A41B09021F0ACA500DE38CB /* Parameters.swift in Sources */,
+				8A0C09A620716B670017AC4C /* SK2Geometry.swift in Sources */,
 				8A0269DD2080B1240054107D /* ColorSource.swift in Sources */,
 				8AA05A2220900692009417A6 /* ColorSourceSelectionViewController.swift in Sources */,
+				8A2034E921ED2F8E00A4C418 /* SystemGeometry.swift in Sources */,
 				8A3C45B42086165500A1E9CD /* Entropy.swift in Sources */,
 				8A91B0A02094164700488907 /* NForFixedKOverN.swift in Sources */,
 				8AD817FC207BFA9200426C25 /* InfoViewController.swift in Sources */,
@@ -747,18 +789,20 @@
 				8A2034DC21EB76AC00A4C418 /* ButtonWithImage.swift in Sources */,
 				8AF98FA1207FE8350007688E /* DetailViewController.swift in Sources */,
 				8A56BE7920ADB37700C19F4C /* PFlowModel.swift in Sources */,
+				8A2034EB21ED36D300A4C418 /* SK1Geometry.swift in Sources */,
 				8AE18FA7209A1E220086F127 /* FreeEnergy.swift in Sources */,
 				8A2A32D520AB1B0A00D4D619 /* BasinFinder.swift in Sources */,
 				8A35083420A0E92D00E36C1F /* PFlowInitializers.swift in Sources */,
-				8A75B690208A317D00EACD13 /* Registry.swift in Sources */,
+				8A75B690208A317D00EACD13 /* RegistryWithSelection.swift in Sources */,
 				8ACE789E2073F7A400C29875 /* Utils.swift in Sources */,
-				8A4654C021E8E38300EE2B26 /* PhysicalSystemModel.swift in Sources */,
+				8A4654C021E8E38300EE2B26 /* SystemModel.swift in Sources */,
 				8A40BC0E207EEA3D00F2D2EB /* Meridians.swift in Sources */,
 				8AF5320920887329009D1882 /* BasinColorSource.swift in Sources */,
 				8AA05A11208FC14E009417A6 /* AppModel1.swift in Sources */,
 				8A56BE7B20ADB3FF00C19F4C /* PFlowNode.swift in Sources */,
+				8A2034E221ED0F4E00A4C418 /* SK1Model.swift in Sources */,
 				8AA05A2620901B19009417A6 /* SequencerSelectionViewController.swift in Sources */,
-				8AA05A15208FD56F009417A6 /* SKPoint.swift in Sources */,
+				8AA05A15208FD56F009417A6 /* SK2Point.swift in Sources */,
 				8A741FE820926B9E002A88D0 /* FlowLines.swift in Sources */,
 				8A591B3B21E6D6DB00B802F8 /* UISelectorViewController.swift in Sources */,
 				8AF59503208AC5B10082C5DE /* VisualizatonModel.swift in Sources */,

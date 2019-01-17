@@ -139,7 +139,7 @@ class VisualizationModel1 : VisualizationModel {
     // Color Sources
     // ====================================
     
-    lazy var colorSources: Registry<ColorSource> = Registry<ColorSource>()
+    lazy var colorSources: RegistryWithSelection<ColorSource> = RegistryWithSelection<ColorSource>()
     
     private func initColorSources() {
         debug("initColorSources")
@@ -201,7 +201,7 @@ class VisualizationModel1 : VisualizationModel {
     // Effects
     // ====================================
     
-    lazy var effects = Registry<Effect>()
+    lazy var effects = RegistryWithSelection<Effect>()
     
     private lazy var effectNamesByType = [EffectType: String]()
     
@@ -243,7 +243,7 @@ class VisualizationModel1 : VisualizationModel {
     // Sequencers
     // ====================================
     
-    lazy var sequencers = Registry<Sequencer>()
+    lazy var sequencers = RegistryWithSelection<Sequencer>()
     
     var sequenceRateLimit: Double {
         get { return _sequencerRateLimit }
@@ -268,24 +268,24 @@ class VisualizationModel1 : VisualizationModel {
         
         registerSequencer(NumericParameterSequencer(
             skt.N,
-            min: SKGeometry.N_min,
-            max: SKGeometry.N_max,
-            minStepSize: SKGeometry.N_minStepSize,
-            lowerBound: SKGeometry.N_defaultLowerBound,
-            upperBound: SKGeometry.N_defaultUpperBound,
-            stepSize: SKGeometry.N_defaultStepSize
+            min: SK2Geometry.N_min,
+            max: SK2Geometry.N_max,
+            minStepSize: SK2Geometry.N_minStepSize,
+            lowerBound: SK2Geometry.N_defaultLowerBound,
+            upperBound: SK2Geometry.N_defaultUpperBound,
+            stepSize: SK2Geometry.N_defaultStepSize
         ), false)
         
         registerSequencer(NForFixedKOverN(skt), false)
         
         registerSequencer(NumericParameterSequencer(
             skt.k0,
-            min: SKGeometry.k0_min,
-            max: SKGeometry.k0_max,
-            minStepSize: SKGeometry.k0_minStepSize,
-            lowerBound: SKGeometry.k0_defaultLowerBound,
-            upperBound: SKGeometry.k0_defaultUpperBound,
-            stepSize: SKGeometry.k0_defaultStepSize
+            min: SK2Geometry.k0_min,
+            max: SK2Geometry.k0_max,
+            minStepSize: SK2Geometry.k0_minStepSize,
+            lowerBound: SK2Geometry.k0_defaultLowerBound,
+            upperBound: SK2Geometry.k0_defaultUpperBound,
+            stepSize: SK2Geometry.k0_defaultStepSize
         ), false)
         
         registerSequencer(NumericParameterSequencer(

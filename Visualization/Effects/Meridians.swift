@@ -68,7 +68,7 @@ class Meridians : GLKBaseEffect, Effect {
     private var _showSecondaries: Bool = true
     private var _built: Bool = false
     
-    private var geometry: SKGeometry
+    private var geometry: SK2Geometry
     private var geometryChangeNumber: Int
     private var vertices: [GLKVector4] = []
     private var lineStarts: [GLint] = []
@@ -78,7 +78,7 @@ class Meridians : GLKBaseEffect, Effect {
     private var vertexArray: GLuint = 0
     private var vertexBuffer: GLuint = 0
     
-    init(_ geometry: SKGeometry, enabled: Bool, rOffset: Double = Meridians.rOffsetDefault) {
+    init(_ geometry: SK2Geometry, enabled: Bool, rOffset: Double = Meridians.rOffsetDefault) {
         self.geometry = geometry
         self.geometryChangeNumber = geometry.changeNumber - 1
         self.enabled = enabled

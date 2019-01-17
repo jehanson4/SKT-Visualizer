@@ -142,7 +142,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
     var N_monitor: ChangeMonitor!
     
     func N_update(_ sender: Any?) {
-        let param = sender as? DiscreteParameter
+        let param = sender as? OLD_DiscreteParameter
         if (param != nil) {
             dN_text.text = param!.toString(param!.stepSize)
         }
@@ -166,7 +166,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
     var k0_monitor: ChangeMonitor!
     
     func k0_update(_ sender: Any?) {
-        let param = sender as? DiscreteParameter
+        let param = sender as? OLD_DiscreteParameter
         if (param != nil) {
             dk_text.text = param!.toString(param!.stepSize)
         }
@@ -190,7 +190,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
     var a1_monitor: ChangeMonitor!
     
     func a1_update(_ sender: Any?) {
-        let param = sender as? ContinuousParameter
+        let param = sender as? OLD_ContinuousParameter
         if (param != nil) {
             da1_text.text = param!.toString(param!.stepSize)
         }
@@ -214,7 +214,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
     var a2_monitor: ChangeMonitor!
     
     func a2_update(_ sender: Any?) {
-        let param = sender as? ContinuousParameter
+        let param = sender as? OLD_ContinuousParameter
         if (param != nil) {
             da2_text.text = param!.toString(param!.stepSize)
         }
@@ -238,7 +238,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
     var T_monitor: ChangeMonitor!
     
     func T_update(_ sender: Any?) {
-        let param = sender as? ContinuousParameter
+        let param = sender as? OLD_ContinuousParameter
         if (param != nil) {
             dT_text.text = param!.toString(param!.stepSize)
         }
@@ -252,7 +252,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
         return appModel?.viz.effect(forType: type)
     }
     
-    func updateEffectsControls(_ registry: Registry<Effect>) {
+    func updateEffectsControls(_ registry: RegistryWithSelection<Effect>) {
         self.updateEffectsControls()
     }
     

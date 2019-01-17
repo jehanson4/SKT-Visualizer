@@ -20,7 +20,7 @@ class ColorSourceSelectionViewController: UITableViewController, AppModelUser {
     }
     
     var appModel: AppModel? = nil
-    private weak var registry: Registry<ColorSource>!
+    private weak var registry: RegistryWithSelection<ColorSource>!
     
     override func viewDidLoad() {
         debug("viewDidLoad")

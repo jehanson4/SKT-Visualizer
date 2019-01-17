@@ -1,5 +1,5 @@
 //
-//  SKGeometry.swift
+//  SK2Geometry.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 4/1/18.
@@ -9,19 +9,21 @@
 import Foundation
 
 // ==============================================================================
-// SKGeometry
+// SK2Geometry
 // ==============================================================================
 
-class SKGeometry : ChangeCounted {
+class SK2Geometry : SystemGeometry, ChangeCounted {
     
     var debugEnabled: Bool = false
-    var clsName = "SKGeometry"
+    var clsName = "SK2Geometry"
     
+    let embeddingDimension = 2
+
     // =======================================================
     // Constants
     
     static let N_min: Int = 3
-    static let N_max: Int = 10000000 // rather less than sqrt(Int.max)
+    static let N_max: Int = 1000000 // quite a bit less than sqrt(Int.max)
     static let N_minStepSize: Int = 1
     static let N_defaultValue: Int = 100
     static let N_defaultStepSize: Int = 2
@@ -63,7 +65,7 @@ class SKGeometry : ChangeCounted {
     }
     
     func setN(_ newValue: Int) {
-        let v2 = clip(newValue, SKGeometry.N_min, SKGeometry.N_max)
+        let v2 = clip(newValue, SK2Geometry.N_min, SK2Geometry.N_max)
         if (v2 != _N ) {
             _N = v2
             if (_k0 > _N / 2) { _k0 = _N / 2 }
@@ -76,7 +78,7 @@ class SKGeometry : ChangeCounted {
     }
     
     func setK0(_ newValue: Int) {
-        let v2 = clip(newValue, SKGeometry.k0_min, SKGeometry.k0_max)
+        let v2 = clip(newValue, SK2Geometry.k0_min, SK2Geometry.k0_max)
         if (v2 != _k0) {
             _k0 = v2
             if (_k0 > _N / 2) { _N = _k0 * 2 }
@@ -93,23 +95,23 @@ class SKGeometry : ChangeCounted {
 
         var m_distance: Double = 1
         if (m_middle < m_max) {
-            m_distance = SKGeometry.distance(skToCartesian(m_middle, n_middle), skToCartesian(m_middle+1, n_middle))
+            m_distance = SK2Geometry.distance(skToCartesian(m_middle, n_middle), skToCartesian(m_middle+1, n_middle))
         }
 
         var n_distance: Double = 1
         if (n_middle < n_max) {
-            n_distance = SKGeometry.distance(skToCartesian(m_middle, n_middle), skToCartesian(m_middle, n_middle+1))
+            n_distance = SK2Geometry.distance(skToCartesian(m_middle, n_middle), skToCartesian(m_middle, n_middle+1))
         }
         
         return min(m_distance, n_distance)
     }
     
-    var p1: SKPoint {
-        get { return SKPoint(self, 0, 0) }
+    var p1: SK2Point {
+        get { return SK2Point(self, 0, 0) }
     }
     
-    var p2: SKPoint {
-        get { return SKPoint(self, _k0, 0) }
+    var p2: SK2Point {
+        get { return SK2Point(self, _k0, 0) }
     }
     
     var m_max: Int {
@@ -144,8 +146,8 @@ class SKGeometry : ChangeCounted {
     private var problems: [String] = []
     
     init() {
-        _N = SKGeometry.N_defaultValue
-        _k0 = SKGeometry.k0_defaultValue
+        _N = SK2Geometry.N_defaultValue
+        _k0 = SK2Geometry.k0_defaultValue
         calculateDerivedVars()
     }
 
@@ -467,7 +469,7 @@ class SKGeometry : ChangeCounted {
             printDebug("    " + "[N=" + String(_N) + " k0=" + String(_k0) + "]" + path)
 
             if (m >= 0 && n >= 0) {
-                let pt = SKPoint(self, m, n)
+                let pt = SK2Point(self, m, n)
                 printDebug("    " + pt.dump())
             }
             

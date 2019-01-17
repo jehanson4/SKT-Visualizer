@@ -61,12 +61,12 @@ class Nodes : Effect {
     var colorBuffer: GLuint = 0
 
     var viz: VisualizationModel
-    var geometry: SKGeometry
+    var geometry: SK2Geometry
     var geometryChangeNumber: Int
     var physics: SKPhysics
     var physicsChangeNumber: Int
     
-    private var colorSources: Registry<ColorSource>? = nil
+    private var colorSources: RegistryWithSelection<ColorSource>? = nil
     private var colorSourceSelectionMonitor: ChangeMonitor? = nil
     private var colorSourceInstanceMonitor: ChangeMonitor? = nil
     private var colorsAreStale: Bool = false
@@ -75,7 +75,7 @@ class Nodes : Effect {
     // Initialization
     // =====================================
 
-    init(_ viz: VisualizationModel, _ geometry: SKGeometry, _ physics: SKPhysics, _ colorSources: Registry<ColorSource>?, enabled: Bool) {
+    init(_ viz: VisualizationModel, _ geometry: SK2Geometry, _ physics: SKPhysics, _ colorSources: RegistryWithSelection<ColorSource>?, enabled: Bool) {
         self.viz = viz
         self.geometry = geometry
         self.geometryChangeNumber = geometry.changeNumber

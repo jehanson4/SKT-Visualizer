@@ -30,9 +30,9 @@ class NForFixedKOverN : NumericParameterSequencer<Int> {
         super.init(N,
                    min: N.min,
                    max: N.max,
-                   minStepSize: SKGeometry.N_minStepSize,
-                   lowerBound: SKGeometry.N_defaultLowerBound,
-                   upperBound: SKGeometry.N_defaultUpperBound,
+                   minStepSize: SK2Geometry.N_minStepSize,
+                   lowerBound: SK2Geometry.N_defaultLowerBound,
+                   upperBound: SK2Geometry.N_defaultUpperBound,
                    stepSize: N.stepSize)
         super.name = "N (k\u{2080}/N fixed)"
     }

@@ -28,7 +28,7 @@ protocol PFlowInitializer {
 
 class UniformPopulation : PFlowInitializer {
     
-    var geometry: SKGeometry!
+    var geometry: SK2Geometry!
     
     func prepare(_ net: PFlowModel) {
         self.geometry = net.geometry
@@ -36,7 +36,7 @@ class UniformPopulation : PFlowInitializer {
     
     /// Returns ln(degeneracy) -- i.e., entropy
     func logPopulationAt(m: Int, n: Int) -> Double {
-        return Entropy.entropy(m, n, geometry)
+        return Entropy.entropy2(m, n, geometry)
     }
 }
 
@@ -46,7 +46,7 @@ class UniformPopulation : PFlowInitializer {
 
 class EquilibriumPopulation : PFlowInitializer {
     
-    var geometry: SKGeometry!
+    var geometry: SK2Geometry!
     var physics: SKPhysics!
     
     /// TODO expose this as an AdjustableParameter so I can buid
@@ -60,7 +60,7 @@ class EquilibriumPopulation : PFlowInitializer {
     
     /// Returns ln(occupation)
     func logPopulationAt(m: Int, n: Int) -> Double {
-        return LogOccupation.logOccupation(forT: T0, m, n, geometry, physics)
+        return LogOccupation.logOccupation2(forT: T0, m, n, geometry, physics)
     }
 }
 

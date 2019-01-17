@@ -70,7 +70,7 @@ class PopulationFlow : ChangeMonitorEnabled {
     init(_ skt: SKTModel, _ ic: PFlowInitializer? = nil, _ rule: PFlowRule? = nil) {
         self.skt = skt
         
-        let geometry = SKGeometry()
+        let geometry = SK2Geometry()
         let physics = SKPhysics(geometry)
         let sktParams = skt.modelParams
         _ = sktParams.applyTo(geometry)

@@ -87,7 +87,7 @@ class NumericParameterSequencer<T: Comparable & Numeric> : GenericSequencer<T> {
 
     // ================================================
     
-    var param: AdjustableParameter<T>
+    var param: OLD_AdjustableParameter<T>
     
     private var _lowerBound: T
     private var _upperBound: T
@@ -101,7 +101,7 @@ class NumericParameterSequencer<T: Comparable & Numeric> : GenericSequencer<T> {
     private let one: T
     private let minusOne: T
     
-    init(_ param: AdjustableParameter<T>, min: T, max: T, minStepSize: T, lowerBound: T, upperBound: T, stepSize: T) {
+    init(_ param: OLD_AdjustableParameter<T>, min: T, max: T, minStepSize: T, lowerBound: T, upperBound: T, stepSize: T) {
         self.param = param
         self.min = min
         self.max = max

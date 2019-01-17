@@ -37,16 +37,16 @@ protocol VisualizationModel {
     
     func resetPOV()
     
-    var colorSources: Registry<ColorSource> { get }
+    var colorSources: RegistryWithSelection<ColorSource> { get }
     
-    var effects: Registry<Effect> { get }
+    var effects: RegistryWithSelection<Effect> { get }
     
     /// Sets all effects to their default states
     func resetEffects()
     
     func effect(forType: EffectType) -> Effect?
     
-    var sequencers: Registry<Sequencer> { get }
+    var sequencers: RegistryWithSelection<Sequencer> { get }
     
     // max. steps per second
     var sequenceRateLimit: Double { get set }

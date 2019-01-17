@@ -1,89 +1,259 @@
 //
-//  Parameters.swift
+//  Parameters2.swift
 //  SKT Visualizer
 //
-//  Created by James Hanson on 4/27/18.
-//  Copyright © 2018 James Hanson. All rights reserved.
+//  Created by James Hanson on 1/17/19.
+//  Copyright © 2019 James Hanson. All rights reserved.
 //
 
 import Foundation
 
 // =======================================================
-// ParameterType
+// Parameter
 // =======================================================
 
-enum ParameterType {
-    case discrete
-    case continuous
-    case choice
+protocol Parameter: Named2, ChangeMonitorEnabled {
+    
+    var minAsString: String { get }
+    var minAsDouble: Double { get }
+    
+    var maxAsString: String { get }
+    var maxAsDouble: Double { get }
+    
+    var setPointAsString: String { get }
+    var setPointAsDouble: Double { get }
+    func applySetPoint(_: String)
+    func applySetPoint(_: Double)
+    
+    var stepSizeAsString: String { get }
+    var stepSizeAsDouble: Double { get }
+    func applyStepSize(_: String)
+    func applyStepSize(_: Double)
+    
+    var valueAsString: String { get }
+    var valueAsDouble: Double { get }
+    func applyValue(_: String)
+    func applyValue(_: Double)
+    
+    /// checks value and notifies change monitors if it has changed
+    func refresh()
+    
+    /// sets value equal to set point
+    /// notifies change monitors
+    func resetValue()
+    
+    /// increments the value by the given number of steps. If steps < 0, the value is decremented.
+    /// stops at bounds
+    /// notifies change monitors
+    func step(_ steps: Int)
 }
 
 // =======================================================
-// AdjustableParameter
+// DiscreteParameter
 // =======================================================
 
-class AdjustableParameter<T : Comparable> : ChangeMonitorEnabled {
+class DiscreteParameter: Parameter {
     
-    var name: String
-    var type: ParameterType
-    var backingModel: AnyObject?
+    // =========================================
+    // name & info
     
-    var value: T {
+    let name: String
+    
+    var info: String?
+    
+    // =========================================
+    // Bounds
+    
+    let min: Int
+    let max: Int
+    
+    var minAsString: String {
+        return basicString(min)
+    }
+    
+    var minAsDouble: Double {
+        return Double(min)
+    }
+    
+    var maxAsString: String {
+        return basicString(max)
+    }
+    
+    var maxAsDouble: Double {
+        return Double(max)
+    }
+    
+    // =========================================
+    // Set Point
+    
+    private var _setPoint: Int
+    
+    var setPoint: Int {
         get {
-            refresh()
-            return _lastValue
+            return _setPoint
         }
+        
         set(newValue) {
-            setter(newValue)
-            refresh()
+            _setPoint = clip(newValue, min, max);
         }
     }
     
-    private let getter: () -> T
-    private let setter: (T) -> ()
-    private var _lastValue: T
+    var setPointAsString: String {
+        return basicString(_setPoint)
+    }
+    
+    var setPointAsDouble: Double {
+        return Double(_setPoint)
+    }
+    
+    func applySetPoint(_ s: String) {
+        let s2 = fromString(s);
+        if (s2 != nil) {
+            _setPoint = clip(s2!, min, max);
+        }
+    }
+    
+    func applySetPoint(_ s: Double) {
+        let s2 = fromDouble(s);
+        if (s2 != nil) {
+            _setPoint = clip(s2!, min, max);
+        }
+    }
     
     // =========================================
-
-    init(_ name: String, _ type: ParameterType, _ model: AnyObject?, _ getter: @escaping () -> T, _ setter: @escaping (T) -> ()) {
+    // Step Size
+    
+    private var _stepSize: Int
+    
+    var stepSize: Int {
+        get {
+            return _stepSize
+        }
+        
+        set(newValue) {
+            if (newValue > 0) {
+                _stepSize = newValue
+            }
+        }
+    }
+    
+    var stepSizeAsString: String {
+        return basicString(_stepSize)
+    }
+    
+    var stepSizeAsDouble: Double {
+        return Double(_stepSize)
+    }
+    
+    func applyStepSize(_ s: String) {
+        let s2 = fromString(s);
+        if (s2 != nil) {
+            let s3 = s2!
+            if (s3 > 0) {
+                _stepSize = s3
+            }
+        }
+    }
+    
+    func applyStepSize(_ s: Double) {
+        let s2 = fromDouble(s);
+        if (s2 != nil) {
+            let s3 = s2!
+            if (s3 > 0) {
+                _stepSize = s3
+            }
+        }
+    }
+    
+    // =========================================
+    // Value
+    
+    private let _getter: () -> Int
+    private let _setter: (Int) -> ()
+    private var _lastValue: Int
+    
+    var value: Int {
+        get {
+            return _lastValue
+        }
+        
+        set(newValue) {
+            _setter(clip(newValue, min, max))
+            refresh();
+        }
+    }
+    
+    var valueAsString: String {
+        return basicString(_lastValue)
+    }
+    
+    var valueAsDouble: Double {
+        return Double(_lastValue)
+    }
+    
+    func applyValue(_ v: String) {
+        let v2 = fromString(v);
+        if (v2 != nil) {
+            _setter(v2!);
+            refresh();
+        }
+    }
+    
+    func applyValue(_ v: Double) {
+        let v2 = fromDouble(v);
+        if (v2 != nil) {
+            _setter(v2!);
+            refresh();
+        }
+    }
+    
+    /// checks value and notifies change monitors if it has changed
+    func refresh() {
+        let v = _getter();
+        if (v != _lastValue) {
+            _lastValue = v
+            fireChange();
+        }
+    }
+    
+    /// sets value equal to set point
+    /// notifies change monitors
+    func resetValue() {
+        _setter(_setPoint);
+        refresh();
+    }
+    
+    /// increments the value by the given number of steps. If steps < 0, the value is decremented.
+    /// stops at bounds
+    /// notifies change monitors
+    func step(_ steps: Int) {
+        _setter(clip(_lastValue + steps * _setPoint, min, max));
+        refresh();
+    }
+    
+    // =========================================
+    // initializer
+    
+    init(_ name: String,
+         _ getter: @escaping () -> Int,
+         _ setter: @escaping (Int) -> (),
+         min: Int,
+         max: Int,
+         info: String? = nil,
+         setPoint: Int? = nil,
+         stepSize: Int? = nil) {
+        
         self.name = name
-        self.type = type
-        self.backingModel = model
-        self.getter = getter
-        self.setter = setter
+        self.info = info
+        self.min = min
+        self.max = max
+        self._setPoint = setPoint ?? min
+        self._stepSize = stepSize ?? 1
+        self._getter = getter
+        self._setter = setter
         self._lastValue = getter()
     }
     
-    func refresh() {
-        let currValue = getter()
-        if (currValue != _lastValue) {
-            _lastValue = currValue
-            fireChange()
-        }
-    }
-    
-    // =========================================
-
-    /// FOR OVERRIDE: This impl is non-functional
-    func toString(_ t: T) -> String {
-        return ""
-    }
-    
-    /// FOR OVERRIDE: This impl is non-functional
-    func fromString(_ s: String) -> T? {
-        return nil
-    }
-    
-    /// FOR OVERRIDE: This impl is non-functional
-    func toDouble(_ t: T) -> Double {
-        return Double.nan
-    }
-    
-    /// FOR OVERRIDE: This impl is non-functional
-    func fromDouble(_ x: Double) -> T? {
-        return nil
-    }
-
     // =========================================
     // Change monitoring
     
@@ -99,163 +269,236 @@ class AdjustableParameter<T : Comparable> : ChangeMonitorEnabled {
     func fireChange() {
         changeSupport?.fire()
     }
-}
-
-// =======================================================
-// DiscreteParameter
-// =======================================================
-
-class DiscreteParameter : AdjustableParameter<Int> {
     
-    let min: Int
-    let max: Int
+    // =========================================
+    // Private
     
-    // ====================================================
-    
-    var setPoint: Int {
-        get { return _setPoint }
-        set(newValue) {
-            if (newValue == _setPoint || newValue < min || newValue > max) {
-                return
-            }
-            _setPoint = newValue
-            fireChange()
-        }
-    }
-    
-    var stepSize: Int {
-        get { return _stepSize }
-        set(newValue) {
-            if (newValue == _stepSize || newValue <= 0 || newValue >= (max-min)) {
-                return
-            }
-            _stepSize = newValue
-            fireChange()
-        }
-    }
-    
-    private var _setPoint: Int
-    private var _stepSize: Int
-    
-    // ====================================================
-    
-    init(_ name: String, _ model: AnyObject?, _ getter: @escaping () -> Int, _ setter: @escaping (Int) -> (),
-         min: Int, max: Int, setPoint: Int? = nil, stepSize: Int? = nil) {
-        self.min = min
-        self.max = max
-        self._setPoint = setPoint ?? (max-min)/2
-        self._stepSize = stepSize ?? 1
-        super.init(name, ParameterType.discrete, model, getter, setter)
-        
-    }
-    
-    // ====================================================
-    
-    override func toString(_ t: Int) -> String {
-        return basicString(t)
-    }
-    
-    override func fromString(_ s: String) -> Int? {
+    private func fromString(_ s: String) -> Int? {
         return Int(s.trimmingCharacters(in: .whitespacesAndNewlines))
     }
     
-    override func toDouble(_ t: Int) -> Double {
-        return Double(t)
-    }
-    
-    override func fromDouble(_ x: Double) -> Int? {
+    private func fromDouble(_ x: Double) -> Int? {
         return Int(floor(x))
     }
+    
 }
 
 // =======================================================
 // ContinuousParameter
 // =======================================================
 
-class ContinuousParameter : AdjustableParameter<Double> {
+class ContinuousParameter: Parameter {
+    
+    // =========================================
+    // name & info
+    
+    let name: String
+    
+    var info: String?
+    
+    // =========================================
+    // Bounds
     
     let min: Double
     let max: Double
     
-    // ====================================================
-    
-    var setPoint: Double {
-        get { return _setPoint }
-        set(newValue) {
-            if (newValue == _setPoint || newValue < min || newValue > max) {
-                return
-            }
-            _setPoint = newValue
-            fireChange()
-        }
+    var minAsString: String {
+        return basicString(min)
     }
     
-    var stepSize: Double {
-        get { return _stepSize }
-        set(newValue) {
-            if (newValue == _stepSize || newValue <= 0 || newValue >= (max-min)) {
-                return
-            }
-            _stepSize = newValue
-            fireChange()
-        }
+    var minAsDouble: Double {
+        return Double(min)
     }
+    
+    var maxAsString: String {
+        return basicString(max)
+    }
+    
+    var maxAsDouble: Double {
+        return Double(max)
+    }
+    
+    // =========================================
+    // Set Point
     
     private var _setPoint: Double
+    
+    var setPoint: Double {
+        get {
+            return _setPoint
+        }
+        
+        set(newValue) {
+            _setPoint = clip(newValue, min, max);
+        }
+    }
+    
+    var setPointAsString: String {
+        return basicString(_setPoint)
+    }
+    
+    var setPointAsDouble: Double {
+        return Double(_setPoint)
+    }
+    
+    func applySetPoint(_ s: String) {
+        let s2 = fromString(s);
+        if (s2 != nil) {
+            _setPoint = clip(s2!, min, max);
+        }
+    }
+    
+    func applySetPoint(_ s: Double) {
+        _setPoint = clip(s, min, max);
+    }
+    
+    // =========================================
+    // Step Size
+    
     private var _stepSize: Double
     
-    // ====================================================
+    var stepSize: Double {
+        get {
+            return _stepSize
+        }
+        
+        set(newValue) {
+            if (newValue > 0) {
+                _stepSize = newValue
+            }
+        }
+    }
     
-    init(_ name: String, _ model: AnyObject?, _ getter: @escaping () -> Double, _ setter: @escaping (Double) -> (),
-         min: Double, max: Double, setPoint: Double? = nil, stepSize: Double? = nil) {
+    var stepSizeAsString: String {
+        return basicString(_stepSize)
+    }
+    
+    var stepSizeAsDouble: Double {
+        return Double(_stepSize)
+    }
+    
+    func applyStepSize(_ s: String) {
+        let s2 = fromString(s);
+        if (s2 != nil) {
+            let s3 = s2!
+            if (s3 > 0) {
+                _stepSize = s3
+            }
+        }
+    }
+    
+    func applyStepSize(_ s: Double) {
+        if (s > 0) {
+            _stepSize = s
+        }
+    }
+    
+    // =========================================
+    // Value
+    
+    private let _getter: () -> Double
+    private let _setter: (Double) -> ()
+    private var _lastValue: Double
+    
+    var value: Double {
+        get {
+            return _lastValue
+        }
+        
+        set(newValue) {
+            _setter(clip(newValue, min, max))
+            refresh();
+        }
+    }
+    
+    var valueAsString: String {
+        return basicString(_lastValue)
+    }
+    
+    var valueAsDouble: Double {
+        return Double(_lastValue)
+    }
+    
+    func applyValue(_ v: String) {
+        let v2 = fromString(v);
+        if (v2 != nil) {
+            _setter(v2!);
+            refresh();
+        }
+    }
+    
+    func applyValue(_ v: Double) {
+        _setter(v);
+        refresh();
+    }
+    
+    /// checks value and notifies change monitors if it has changed
+    func refresh() {
+        let v = _getter();
+        if (v != _lastValue) {
+            _lastValue = v
+            fireChange();
+        }
+    }
+    
+    /// sets value equal to set point
+    /// notifies change monitors
+    func resetValue() {
+        _setter(_setPoint);
+        refresh();
+    }
+    
+    /// increments the value by the given number of steps. If steps < 0, the value is decremented.
+    /// stops at bounds
+    /// notifies change monitors
+    func step(_ steps: Int) {
+        _setter(clip(_lastValue + Double(steps) * _setPoint, min, max));
+        refresh();
+    }
+    
+    // =========================================
+    // initializer
+    
+    init(_ name: String,
+         _ getter: @escaping () -> Double,
+         _ setter: @escaping (Double) -> (),
+         min: Double,
+         max: Double,
+         info: String? = nil,
+         setPoint: Double? = nil,
+         stepSize: Double? = nil) {
+        
+        self.name = name
+        self.info = info
         self.min = min
         self.max = max
-        self._setPoint = setPoint ?? (max-min)/2
+        self._setPoint = setPoint ?? min
         self._stepSize = stepSize ?? 1
-        super.init(name, ParameterType.continuous, model, getter, setter)
-        
+        self._getter = getter
+        self._setter = setter
+        self._lastValue = getter()
     }
     
-    // ====================================================
+    // =========================================
+    // Change monitoring
     
-    override func toString(_ t: Double) -> String {
-        return basicString(t)
+    private var changeSupport : ChangeMonitorSupport? = nil
+    
+    func monitorChanges(_ callback: @escaping (Any) -> ()) -> ChangeMonitor? {
+        if (changeSupport == nil) {
+            changeSupport = ChangeMonitorSupport()
+        }
+        return changeSupport!.monitorChanges(callback, self)
     }
     
-    override func fromString(_ s: String) -> Double? {
+    func fireChange() {
+        changeSupport?.fire()
+    }
+    
+    // =========================================
+    // Private
+    
+    private func fromString(_ s: String) -> Double? {
         return Double(s.trimmingCharacters(in: .whitespacesAndNewlines))
     }
-    
-    override func toDouble(_ t: Double) -> Double {
-        return t
-    }
-    
-    override func fromDouble(_ x: Double) -> Double? {
-        return x
-    }
-}
-
-// =======================================================
-// TextOptionParameter
-// =======================================================
-
-class TextOptionParameter : AdjustableParameter<String> {
-    
-    // ====================================================
-    
-    init(_ name: String, _ model: AnyObject?, _ getter: @escaping () -> String, _ setter: @escaping (String) -> ()) {
-        super.init(name, ParameterType.choice, model, getter, setter)
-        
-    }
-    
-    // ====================================================
-    
-    override func toString(_ t: String) -> String {
-        return t
-    }
-    
-    override func fromString(_ s: String) -> String? {
-        return s
-    }
-    
 }

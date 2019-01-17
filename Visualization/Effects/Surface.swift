@@ -60,12 +60,12 @@ class Surface : GLKBaseEffect, Effect {
     // ====================================
     // SKT stuff
     
-    var geometry: SKGeometry
+    var geometry: SK2Geometry
     var geometryChangeNumber: Int
     var physics: SKPhysics
     var physicsChangeNumber: Int
     
-    private var colorSources: Registry<ColorSource>? = nil
+    private var colorSources: RegistryWithSelection<ColorSource>? = nil
     private var colorSourceSelectionMonitor: ChangeMonitor? = nil
     private var colorSourceInstanceMonitor: ChangeMonitor? = nil
     private var colorsAreStale: Bool = false
@@ -77,7 +77,7 @@ class Surface : GLKBaseEffect, Effect {
     // Initiailzers
     // ====================================
 
-    init(_ geometry: SKGeometry, _ physics: SKPhysics, _ colorSources: Registry<ColorSource>?, enabled: Bool) {
+    init(_ geometry: SK2Geometry, _ physics: SKPhysics, _ colorSources: RegistryWithSelection<ColorSource>?, enabled: Bool) {
         self.geometry = geometry
         self.geometryChangeNumber = geometry.changeNumber
         self.physics = physics

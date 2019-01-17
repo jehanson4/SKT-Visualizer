@@ -49,13 +49,13 @@ class FlowLines : GLKBaseEffect, Effect {
     private var rebuildNeeded: Bool = true
     private var bufferUpdateNeeded: Bool = true
     
-    private var geometry: SKGeometry
+    private var geometry: SK2Geometry
     private var physics: SKPhysics
     private var geometryCC: ChangeCountWrapper!
     private var physicsCC: ChangeCountWrapper!
     
 
-    init(_ geometry: SKGeometry, _ physics: SKPhysics, enabled: Bool, rOffset: Double = FlowLines.rOffsetDefault) {
+    init(_ geometry: SK2Geometry, _ physics: SKPhysics, enabled: Bool, rOffset: Double = FlowLines.rOffsetDefault) {
         self.geometry = geometry
         self.physics = physics
         self.enabled = enabled
@@ -129,28 +129,28 @@ class FlowLines : GLKBaseEffect, Effect {
         for m0 in 0...m_max {
             for n0 in 0...n_max {
                 
-                let energy0 = Energy.energy(m0, n0, geometry,physics)
+                let energy0 = Energy.energy2(m0, n0, geometry,physics)
                 
                 if (n0 > 0) {
-                    let eDiff = abs(Energy.energy(m0, n0-1, geometry, physics) - energy0)
+                    let eDiff = abs(Energy.energy2(m0, n0-1, geometry, physics) - energy0)
                     if (eDiff > maxDiff) {
                         maxDiff = eDiff
                     }
                 }
                 if (n0 < n_max) {
-                    let eDiff = abs(Energy.energy(m0, n0+1, geometry, physics) - energy0)
+                    let eDiff = abs(Energy.energy2(m0, n0+1, geometry, physics) - energy0)
                     if (eDiff > maxDiff) {
                         maxDiff = eDiff
                     }
                 }
                 if (m0 > 0) {
-                    let eDiff = abs(Energy.energy(m0-1, n0, geometry, physics) - energy0)
+                    let eDiff = abs(Energy.energy2(m0-1, n0, geometry, physics) - energy0)
                     if (eDiff > maxDiff) {
                         maxDiff = eDiff
                     }
                 }
                 if (m0 < m_max) {
-                    let eDiff = abs(Energy.energy(m0+1, n0, geometry, physics) - energy0)
+                    let eDiff = abs(Energy.energy2(m0+1, n0, geometry, physics) - energy0)
                     if (eDiff > maxDiff) {
                         maxDiff = eDiff
                     }
@@ -166,13 +166,13 @@ class FlowLines : GLKBaseEffect, Effect {
         for m0 in 0...m_max {
             for n0 in 0...n_max {
 
-                let energy0 = Energy.energy(m0, n0, geometry,physics)
+                let energy0 = Energy.energy2(m0, n0, geometry,physics)
                 let rpt0 = geometry.skToSpherical(m0, n0)
                 let xyz0 = geometry.sphericalToCartesian(rpt0.r+rOffset, rpt0.phi, rpt0.thetaE)
                 let vertex0 = makeCenterVertex(x0: xyz0.x, y0: xyz0.y, z0: xyz0.z)
                 
                 if (n0 > 0) {
-                    let eDiff = energy0 - Energy.energy(m0, n0-1, geometry, physics)
+                    let eDiff = energy0 - Energy.energy2(m0, n0-1, geometry, physics)
                     if (eDiff > 0) {
                         let offset1 = lineScale * clip(eScale * eDiff, minLengthFraction, maxLengthFraction)
                         let rpt1 = geometry.skToSpherical(m0, n0-1)
@@ -185,7 +185,7 @@ class FlowLines : GLKBaseEffect, Effect {
                     }
                 }
                 if (n0 < n_max) {
-                    let eDiff = energy0 - Energy.energy(m0, n0+1, geometry, physics)
+                    let eDiff = energy0 - Energy.energy2(m0, n0+1, geometry, physics)
                     if (eDiff > 0) {
                         let offset1 = lineScale * clip(eScale * eDiff, minLengthFraction, maxLengthFraction)
                         let rpt1 = geometry.skToSpherical(m0, n0+1)
@@ -198,7 +198,7 @@ class FlowLines : GLKBaseEffect, Effect {
                     }
                 }
                 if (m0 > 0) {
-                    let eDiff = energy0 - Energy.energy(m0-1, n0, geometry, physics)
+                    let eDiff = energy0 - Energy.energy2(m0-1, n0, geometry, physics)
                     if (eDiff > 0) {
                         let offset1 = lineScale * clip(eScale * eDiff, minLengthFraction, maxLengthFraction)
                         let rpt1 = geometry.skToSpherical(m0-1, n0)
@@ -212,7 +212,7 @@ class FlowLines : GLKBaseEffect, Effect {
 
                 }
                 if (m0 < m_max) {
-                    let eDiff = energy0 - Energy.energy(m0+1, n0, geometry, physics)
+                    let eDiff = energy0 - Energy.energy2(m0+1, n0, geometry, physics)
                     if (eDiff > 0) {
                         let offset1 = lineScale * clip(eScale * eDiff, minLengthFraction, maxLengthFraction)
                         let rpt1 = geometry.skToSpherical(m0+1, n0)

@@ -14,22 +14,27 @@ import Foundation
 
 class SKTModel1: SKTModel {
     
-    let embeddingDimension: Int = 2
+    // ================================
+    // Debugging
     
-
     let clsName = "SKTModel1"
     var debugEnabled = false
-
+    
     private func debug(_ mtd: String, _ msg: String = "") {
         if ( debugEnabled) {
             print(clsName, mtd, msg)
         }
     }
-
+    
+    // ================================
+    // Initializer
+    
     init() {
-        self.geometry = SKGeometry()
+        self.info = "SK Hamiltonian with 2 components"
+        self.geometry = SK2Geometry()
         self.physics = SKPhysics(geometry)
         
+        initParameters()
         initPhysicalProperties()
         
         // N and k0 are correlated
@@ -43,6 +48,10 @@ class SKTModel1: SKTModel {
         T_monitor?.disconnect()
         beta_monitor?.disconnect()
     }
+    
+    let name = "SK/2"
+    var info: String?
+    var embeddingDimension: Int = 2
     
     private var N_monitor: ChangeMonitor?
     private var k0_monitor: ChangeMonitor?
@@ -71,30 +80,44 @@ class SKTModel1: SKTModel {
     
     lazy var workQueue: WorkQueue = WorkQueue()
     
-    let geometry: SKGeometry
+    var systemGeometry: SystemGeometry {
+        return geometry;
+    }
+    
+    let geometry: SK2Geometry
     
     let physics: SKPhysics
     
-    lazy var N = DiscreteParameter("N",
+    lazy var parameters = Registry<Parameter>()
+    
+    func initParameters() {
+//        _ = parameters.register(self.N)
+//        _ = parameters.register(self.k0)
+//        _ = parameters.register(self.alpha1)
+//        _ = parameters.register(self.alpha2)
+//        _ = parameters.register(self.T)
+    }
+    
+    lazy var N = OLD_DiscreteParameter("N",
                                    self,
                                    geometry.getN,
                                    geometry.setN,
-                                   min: SKGeometry.N_min,
-                                   max: SKGeometry.N_max,
-                                   setPoint: SKGeometry.N_defaultValue,
-                                   stepSize: SKGeometry.N_defaultStepSize)
+                                   min: SK2Geometry.N_min,
+                                   max: SK2Geometry.N_max,
+                                   setPoint: SK2Geometry.N_defaultValue,
+                                   stepSize: SK2Geometry.N_defaultStepSize)
     
     
-    lazy var k0 = DiscreteParameter("k\u{2080}",
+    lazy var k0 = OLD_DiscreteParameter("k\u{2080}",
                                     self,
                                     geometry.getK0,
                                     geometry.setK0,
-                                    min: SKGeometry.k0_min,
-                                    max: SKGeometry.k0_max,
-                                    setPoint: SKGeometry.k0_defaultValue,
-                                    stepSize: SKGeometry.k0_defaultStepSize)
+                                    min: SK2Geometry.k0_min,
+                                    max: SK2Geometry.k0_max,
+                                    setPoint: SK2Geometry.k0_defaultValue,
+                                    stepSize: SK2Geometry.k0_defaultStepSize)
     
-    lazy var alpha1  = ContinuousParameter("\u{03B1}\u{2081}",
+    lazy var alpha1  = OLD_ContinuousParameter("\u{03B1}\u{2081}",
                                            self,
                                            physics.getAlpha1,
                                            physics.setAlpha1,
@@ -103,7 +126,7 @@ class SKTModel1: SKTModel {
                                            setPoint: SKPhysics.alpha_defaultValue,
                                            stepSize: SKPhysics.alpha_defaultStepSize)
     
-    lazy var alpha2 = ContinuousParameter("\u{03B1}\u{2082}",
+    lazy var alpha2 = OLD_ContinuousParameter("\u{03B1}\u{2082}",
                                           self,
                                           physics.getAlpha2,
                                           physics.setAlpha2,
@@ -113,7 +136,7 @@ class SKTModel1: SKTModel {
                                           stepSize: SKPhysics.alpha_defaultStepSize)
     
     
-    lazy var T = ContinuousParameter("T",
+    lazy var T = OLD_ContinuousParameter("T",
                                      self,
                                      physics.getT,
                                      physics.setT,
@@ -141,6 +164,7 @@ class SKTModel1: SKTModel {
     // ======================================
 
     lazy var physicalProperties = Registry<PhysicalProperty>()
+    
     private lazy var physicalPropertyNamesByType = [PhysicalPropertyType: String]()
 
     func physicalProperty(forType t: PhysicalPropertyType) -> PhysicalProperty? {

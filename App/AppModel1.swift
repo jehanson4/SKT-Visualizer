@@ -14,8 +14,8 @@ import Foundation
 
 class AppModel1 : AppModel {
     
-    lazy var psModels: Registry<PhysicalSystemModel>
-            = Registry<PhysicalSystemModel>()
+    lazy var systemModels: RegistryWithSelection<SystemModel>
+            = RegistryWithSelection<SystemModel>()
 
     var skt: SKTModel
     var viz: VisualizationModel
@@ -23,6 +23,7 @@ class AppModel1 : AppModel {
     init() {
         skt = SKTModel1()
         viz = VisualizationModel1(skt)
+        _ = systemModels.register(skt)
         loadUserDefaults()
     }
 

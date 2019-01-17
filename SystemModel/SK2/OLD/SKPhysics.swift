@@ -147,14 +147,14 @@ class SKPhysics : ChangeCounted {
     // ============================================
     // ============================================
 
-    private var geometry: SKGeometry
+    private var geometry: SK2Geometry
     private var _alpha1: Double
     private var _alpha2: Double
     private var _T: Double
     private var _beta: Double
     private var _changeCount: Int
     
-    init(_ geometry: SKGeometry) {
+    init(_ geometry: SK2Geometry) {
         self.geometry = geometry
         self._alpha1 = SKPhysics.alpha_defaultValue
         self._alpha2 = SKPhysics.alpha_defaultValue

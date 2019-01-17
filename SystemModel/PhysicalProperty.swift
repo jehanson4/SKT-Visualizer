@@ -13,7 +13,7 @@ import Foundation
 // PhysicalPropertyType
 // ===============================================================================
 
-/// Global list of all physical propeties ever defined.
+/// Global list of all physical propeties ever defined for any system model.
 /// A subset of these is installed at runtime.
 /// Raw values are used in lookups so be careful about changing them.
 enum PhysicalPropertyType: Int {
@@ -23,7 +23,6 @@ enum PhysicalPropertyType: Int {
     case basinAssignment = 3
     case freeEnergy = 4
 }
-
 
 // ===============================================================================
 // PhysicalProperty
@@ -35,12 +34,13 @@ protocol PhysicalProperty : Named {
     var backingModel: AnyObject? { get }
     
     var physicalPropertyType: PhysicalPropertyType { get }
-    // var params: [String: AdjustableParameter1]? { get }
     
     var bounds: (min: Double, max: Double) { get }
     
+    // probably wrong-headed.
     func valueAt(nodeIndex: Int) -> Double
     
+    // 2-d specific!
     func valueAt(m: Int, n: Int) -> Double
     
 }

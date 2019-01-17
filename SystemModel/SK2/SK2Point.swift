@@ -1,5 +1,5 @@
 //
-//  SKPoint.swift
+//  SK2Point.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 4/24/18.
@@ -9,10 +9,10 @@
 import Foundation
 
 // ========================================================================================
-// SKPoint
+// SK2Point
 // ========================================================================================
 
-struct SKPoint {
+struct SK2Point: SystemPoint {
     
     // m,n,s1,s2 are the order-dependent variables
     // m,n are the planar node-coordinates, though maybe inverted or something
@@ -33,7 +33,7 @@ struct SKPoint {
     var y: Double
     var z: Double
     
-    init(_ geometry: SKGeometry, _ m: Int, _ n: Int) {
+    init(_ geometry: SK2Geometry, _ m: Int, _ n: Int) {
         
         self.nodeIndex = geometry.skToNodeIndex(m, n)
         self.m = m

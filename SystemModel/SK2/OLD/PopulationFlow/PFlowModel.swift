@@ -26,7 +26,7 @@ class PFlowModel {
         }
     }
     
-    var geometry: SKGeometry
+    var geometry: SK2Geometry
     var physics: SKPhysics
     var ic: PFlowInitializer
     var rule: PFlowRule
@@ -43,7 +43,7 @@ class PFlowModel {
     // Inializer
     // =====================================
     
-    init(_ geometry: SKGeometry, _ physics: SKPhysics, _ ic: PFlowInitializer, _ rule: PFlowRule) {
+    init(_ geometry: SK2Geometry, _ physics: SKPhysics, _ ic: PFlowInitializer, _ rule: PFlowRule) {
         self.nodes = []
         self.geometry = geometry
         self.physics = physics
@@ -147,7 +147,7 @@ class PFlowModel {
         for i in 0..<geometry.nodeCount {
             let (m, n) = geometry.nodeIndexToSK(i)
             nodearray.append(PFlowNode(i, m: m, n: n,
-                                       Entropy.entropy(m, n, geometry),
+                                       Entropy.entropy2(m, n, geometry),
                                        rule.potentialAt(m: m, n: n),
                                        ic.logPopulationAt(m: m, n: n)))
         }

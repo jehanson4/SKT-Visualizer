@@ -1,5 +1,5 @@
 //
-//  Energy.swift
+//  LogOccupation.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 4/17/18.
@@ -9,25 +9,25 @@
 import Foundation
 
 // ==============================================================================
-// Energy
+// FreeEnergy
 // ==============================================================================
 
-class Energy : PhysicalProperty {
+// Helholtz Free Energy: U - TS
+class FreeEnergy : PhysicalProperty {
     
-    let physicalPropertyType = PhysicalPropertyType.energy
-    var name: String = "Energy"
+    let physicalPropertyType = PhysicalPropertyType.freeEnergy
+    var name: String  = "FreeEnergy"
     var info: String? = nil
     var backingModel: AnyObject? { return model as AnyObject }
     
     var bounds: (min: Double, max: Double) { ensureFresh(); return fBounds }
-    // let params: [String: AdjustableParameter1]? = nil
-    
+    // var params: [String: AdjustableParameter1]? = nil
+
     private let model: SKTModel
-    private let geometry: SKGeometry
     private let physics: SKPhysics
-    private var geometryChangeNumber: Int
+    private let geometry: SK2Geometry
     private var physicsChangeNumber: Int
-    
+    private var geometryChangeNumber: Int
     private var fBounds: (min: Double, max: Double)
 
     init(_ model: SKTModel) {
@@ -36,35 +36,34 @@ class Energy : PhysicalProperty {
         self.physics = model.physics
         
         // force refresh next getter
-        self.geometryChangeNumber = geometry.changeNumber - 1
         self.physicsChangeNumber = physics.changeNumber - 1
+        self.geometryChangeNumber = geometry.changeNumber - 1
         
         self.fBounds = (0,0)
     }
-
+    
     func valueAt(nodeIndex: Int) -> Double {
         let sk = geometry.nodeIndexToSK(nodeIndex)
-        return Energy.energy(sk.m, sk.n, geometry, physics)
+        return FreeEnergy.freeEnergy2(sk.m, sk.n, geometry, physics)
     }
     
     func valueAt(m: Int, n: Int) -> Double {
-        return Energy.energy(m, n, geometry, physics)
+        return FreeEnergy.freeEnergy2(m, n, geometry, physics)
     }
     
-    static func energy(_ m: Int, _ n: Int, _ geometry: SKGeometry, _ physics: SKPhysics) -> Double {
-        let d1 = 0.5 * Double(geometry.N) - Double(m + n)
-        let d2 = 0.5 * Double(geometry.N) - Double(geometry.k0 + n - m)
-        return physics.alpha1 * d1 * d1 + physics.alpha2 * d2 * d2
+    static func freeEnergy2(_ m: Int, _ n: Int, _ geometry: SK2Geometry, _ physics: SKPhysics) -> Double {
+        return Energy.energy2(m, n, geometry, physics) - physics.T * Entropy.entropy2(m, n, geometry)
     }
     
-    private func ensureFresh() {
+    func ensureFresh() {
         let gnum = geometry.changeNumber
         let pnum = physics.changeNumber
         if (geometryChangeNumber != gnum || physicsChangeNumber != pnum) {
-            self.fBounds = physics.findBounds(self)
+            fBounds = physics.findBounds(self)
             self.geometryChangeNumber = gnum
             self.physicsChangeNumber = pnum
         }
     }
+    
 }
 

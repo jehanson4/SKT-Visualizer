@@ -55,7 +55,7 @@ protocol Effect : Named  {
  returns array containing x,y,z values of nodes,
  in node index order defined by the given geometry.
  */
-func buildVertexCoordinateArray(_ geometry: SKGeometry, rOffset: Double = 0) -> [GLfloat] {
+func buildVertexCoordinateArray(_ geometry: SK2Geometry, rOffset: Double = 0) -> [GLfloat] {
     let mMax = geometry.m_max
     let nMax = geometry.n_max
     var vertexCoords: [GLfloat] = Array(repeating: 0, count: 3 * geometry.nodeCount)
@@ -89,7 +89,7 @@ func buildVertexCoordinateArray(_ geometry: SKGeometry, rOffset: Double = 0) -> 
     return vertexCoords
 }
 
-func buildVertexArray4(_ geometry: SKGeometry) -> [GLKVector4] {
+func buildVertexArray4(_ geometry: SK2Geometry) -> [GLKVector4] {
     let mMax = geometry.m_max
     let nMax = geometry.n_max
     var vertices: [GLKVector4] = []
@@ -102,7 +102,7 @@ func buildVertexArray4(_ geometry: SKGeometry) -> [GLKVector4] {
     return vertices
 }
 
-func buildPNVertexArray(_ geometry: SKGeometry) -> [PNVertex] {
+func buildPNVertexArray(_ geometry: SK2Geometry) -> [PNVertex] {
     let mMax = geometry.m_max
     let nMax = geometry.n_max
     var vertices: [PNVertex] = []

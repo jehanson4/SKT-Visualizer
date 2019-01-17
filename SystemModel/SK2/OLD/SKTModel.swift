@@ -19,7 +19,7 @@ struct SKTModelParams : Equatable {
     let alpha2: Double
     let T: Double
     
-    init(_ geometry: SKGeometry, _ physics: SKPhysics) {
+    init(_ geometry: SK2Geometry, _ physics: SKPhysics) {
         self.N = geometry.N
         self.k0 = geometry.k0
         self.alpha1 = physics.alpha1
@@ -28,7 +28,7 @@ struct SKTModelParams : Equatable {
     }
     
     /// returns true iff the geometry was changed by this method
-    func applyTo(_ geometry: SKGeometry) -> Bool {
+    func applyTo(_ geometry: SK2Geometry) -> Bool {
         let n1 = geometry.changeNumber
         geometry.N = self.N
         geometry.k0 = self.k0
@@ -58,7 +58,7 @@ struct SKTModelParams : Equatable {
 // SKTModel
 // ===========================================================
 
-protocol SKTModel: PhysicalSystemModel {
+protocol SKTModel: SystemModel {
 
     // =================================
 
@@ -68,14 +68,14 @@ protocol SKTModel: PhysicalSystemModel {
     
     // =================================
     
-    var geometry: SKGeometry { get }
+    var geometry: SK2Geometry { get }
     var physics: SKPhysics { get }
 
-    var N: DiscreteParameter { get }
-    var k0: DiscreteParameter { get }
-    var alpha1: ContinuousParameter { get }
-    var alpha2: ContinuousParameter  { get }
-    var T: ContinuousParameter { get }
+    var N: OLD_DiscreteParameter { get }
+    var k0: OLD_DiscreteParameter { get }
+    var alpha1: OLD_ContinuousParameter { get }
+    var alpha2: OLD_ContinuousParameter  { get }
+    var T: OLD_ContinuousParameter { get }
 
     
     func setGeometryParameters(N: Int, k0: Int)
@@ -83,7 +83,6 @@ protocol SKTModel: PhysicalSystemModel {
     
     // =================================
 
-    var physicalProperties: Registry<PhysicalProperty> { get }
     func physicalProperty(forType: PhysicalPropertyType) -> PhysicalProperty?
     
     var basinFinder: BasinFinder! { get }

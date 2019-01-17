@@ -58,7 +58,7 @@ class BasinFinder {
     
     private var queue: WorkQueue
     private var model: SKTModel
-    private var geometry: SKGeometry
+    private var geometry: SK2Geometry
     private var physics: SKPhysics
     private var workingData: BAModel
     private var _basinData: [BasinData]

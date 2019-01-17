@@ -48,7 +48,7 @@ class BAModel {
     var boundariesFinished: Bool
     var totalClassified: Int
     
-    private var geometry: SKGeometry
+    private var geometry: SK2Geometry
     private var n_max: Int
     private var m_max: Int
     private var rebuildNeeded: Bool
@@ -64,7 +64,7 @@ class BAModel {
     
     init(_ modelParams: SKTModelParams) {
         self.modelParams = modelParams
-        self.geometry = SKGeometry()
+        self.geometry = SK2Geometry()
         _ = modelParams.applyTo(geometry)
         self.n_max = geometry.n_max
         self.m_max = geometry.m_max
@@ -175,7 +175,7 @@ class BAModel {
         nodes.removeAll()
         for i in 0..<geometry.nodeCount {
             let (m, n) = geometry.nodeIndexToSK(i)
-            nodes.append(BANode(i, m, n, Energy.energy(m, n, geometry, physics)))
+            nodes.append(BANode(i, m, n, Energy.energy2(m, n, geometry, physics)))
         }
         n_max = geometry.n_max
         m_max = geometry.m_max
@@ -192,7 +192,7 @@ class BAModel {
         debug("reset", "entering. nodes.count=\(nodes.count)")
         for i in 0..<nodes.count {
             let (m, n) = geometry.nodeIndexToSK(i)
-            nodes[i].reset(Energy.energy(m, n, geometry, physics))
+            nodes[i].reset(Energy.energy2(m, n, geometry, physics))
         }
         resetNeeded = false
         attractors.removeAll(keepingCapacity: true)

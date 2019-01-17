@@ -55,10 +55,10 @@ class SKGraph<T> {
     private var _nodes: [SKNode<T>]
     private var _buildNeeded: Bool
     private var _evalNeeded: Bool
-    private var geometry: SKGeometry
+    private var geometry: SK2Geometry
     private var geometryCC: ChangeCountWrapper!
     
-    init(_ geometry: SKGeometry, _ valueFunc: @escaping (_ m: Int, _ n: Int) -> (T?)) {
+    init(_ geometry: SK2Geometry, _ valueFunc: @escaping (_ m: Int, _ n: Int) -> (T?)) {
         self.valueFunc = valueFunc
         self._nodes = []
         self._buildNeeded = true

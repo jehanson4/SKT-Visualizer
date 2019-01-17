@@ -20,7 +20,7 @@ class SequencerSelectionViewController: UITableViewController, AppModelUser {
     }
     
     var appModel: AppModel? = nil
-    private weak var registry: Registry<Sequencer>!
+    private weak var registry: RegistryWithSelection<Sequencer>!
     
     override func viewDidLoad() {
         debug("viewDidLoad")

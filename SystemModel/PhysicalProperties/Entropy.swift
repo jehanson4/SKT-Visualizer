@@ -23,7 +23,7 @@ class Entropy : PhysicalProperty {
     // let params: [String: AdjustableParameter1]? = nil
 
     private let model: SKTModel
-    private let geometry: SKGeometry
+    private let geometry: SK2Geometry
     private let physics: SKPhysics
     private var geometryChangeNumber: Int
     // (No need to track physics change numbers because entropy
@@ -44,14 +44,14 @@ class Entropy : PhysicalProperty {
     
     func valueAt(nodeIndex: Int) -> Double {
         let sk = geometry.nodeIndexToSK(nodeIndex)
-        return Entropy.entropy(sk.m, sk.n, geometry)
+        return Entropy.entropy2(sk.m, sk.n, geometry)
     }
     
     func valueAt(m: Int, n: Int) -> Double {
-        return Entropy.entropy(m, n, geometry)
+        return Entropy.entropy2(m, n, geometry)
     }
     
-    static func entropy(_ m: Int, _ n: Int, _ geometry: SKGeometry) -> Double {
+    static func entropy2(_ m: Int, _ n: Int, _ geometry: SK2Geometry) -> Double {
         return logBinomial(geometry.k0, m) + logBinomial(geometry.N - geometry.k0, n)
     }
     

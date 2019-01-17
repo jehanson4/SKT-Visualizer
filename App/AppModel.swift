@@ -32,7 +32,7 @@ protocol AppModelUser {
 
 protocol AppModel  {
     
-    var psModels: Registry<PhysicalSystemModel> { get }
+    var systemModels: RegistryWithSelection<SystemModel> { get }
 
     var skt: SKTModel { get set }
     var viz: VisualizationModel { get set }

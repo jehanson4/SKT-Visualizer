@@ -61,7 +61,7 @@ class SteepestDescentFirstMatch : PFlowRule {
     var name: String = "Steepest Descent - First Match"
     var info: String? = nil
     
-    private var geometry: SKGeometry!
+    private var geometry: SK2Geometry!
     private var physics: SKPhysics!
     
     func prepare(_ flow: PFlowModel) {
@@ -70,7 +70,7 @@ class SteepestDescentFirstMatch : PFlowRule {
     }
     
     func potentialAt(m: Int, n: Int) -> Double {
-        return Energy.energy(m, n, geometry, physics)
+        return Energy.energy2(m, n, geometry, physics)
     }
 
     func apply(_ node: PFlowNode, _ nbrs: [PFlowNode]) {
@@ -100,7 +100,7 @@ class SteepestDescentLastMatch : PFlowRule {
     var name: String = "Steepest Descent - Last Match"
     var info: String? = nil
     
-    private var geometry: SKGeometry!
+    private var geometry: SK2Geometry!
     private var physics: SKPhysics!
     
     func prepare(_ flow: PFlowModel) {
@@ -109,7 +109,7 @@ class SteepestDescentLastMatch : PFlowRule {
     }
     
     func potentialAt(m: Int, n: Int) -> Double {
-        return Energy.energy(m, n, geometry, physics)
+        return Energy.energy2(m, n, geometry, physics)
     }
     
     func apply(_ node: PFlowNode, _ nbrs: [PFlowNode]) {
@@ -140,7 +140,7 @@ class SteepestDescentEqualDivision : PFlowRule {
     var name: String = "Steepest Descent - Equal Division"
     var info: String? = nil
     
-    private var geometry: SKGeometry!
+    private var geometry: SK2Geometry!
     private var physics: SKPhysics!
     
     func prepare(_ flow: PFlowModel) {
@@ -149,7 +149,7 @@ class SteepestDescentEqualDivision : PFlowRule {
     }
     
     func potentialAt(m: Int, n: Int) -> Double {
-        return Energy.energy(m, n, geometry, physics)
+        return Energy.energy2(m, n, geometry, physics)
     }
     
     func apply(_ node: PFlowNode, _ nbrs: [PFlowNode]) {
@@ -217,7 +217,7 @@ class AnyDescentEqualDivision : PFlowRule {
     var name: String = "Any Descent - Equal Division"
     var info: String? = nil
     
-    private var geometry: SKGeometry!
+    private var geometry: SK2Geometry!
     private var physics: SKPhysics!
     
     func prepare(_ flow: PFlowModel) {
@@ -226,7 +226,7 @@ class AnyDescentEqualDivision : PFlowRule {
     }
     
     func potentialAt(m: Int, n: Int) -> Double {
-        return Energy.energy(m, n, geometry, physics)
+        return Energy.energy2(m, n, geometry, physics)
     }
     
     func apply(_ node: PFlowNode, _ nbrs: [PFlowNode]) {
@@ -305,7 +305,7 @@ class ProportionalDescent : PFlowRule {
     var name: String = "Proportional Descent"
     var info: String? = nil
     
-    private var geometry: SKGeometry!
+    private var geometry: SK2Geometry!
     private var physics: SKPhysics!
     
     func prepare(_ flow: PFlowModel) {
@@ -314,7 +314,7 @@ class ProportionalDescent : PFlowRule {
     }
     
     func potentialAt(m: Int, n: Int) -> Double {
-        return Energy.energy(m, n, geometry, physics)
+        return Energy.energy2(m, n, geometry, physics)
     }
     
     func apply(_ node: PFlowNode, _ nbrs: [PFlowNode]) {
@@ -410,7 +410,7 @@ class MetropolisFlow : PFlowRule {
     // EMPIRICAL
     let pAccept_equalEnergy: Double = 0.5
     
-    private var geometry: SKGeometry!
+    private var geometry: SK2Geometry!
     private var physics: SKPhysics!
     private var beta: Double = 0
     
@@ -421,7 +421,7 @@ class MetropolisFlow : PFlowRule {
     }
     
     func potentialAt(m: Int, n: Int) -> Double {
-        return Energy.energy(m, n, geometry, physics)
+        return Energy.energy2(m, n, geometry, physics)
     }
     
     func apply(_ node: PFlowNode, _ nbrs: [PFlowNode]) {

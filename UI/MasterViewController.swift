@@ -185,7 +185,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     var N_monitor: ChangeMonitor!
     
     func N_update(_ sender: Any?) {
-        let param = sender as? DiscreteParameter
+        let param = sender as? OLD_DiscreteParameter
         if (param != nil) {
             let p2 = param!
             N_text.text = p2.toString(p2.value)
@@ -226,7 +226,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     var k0_monitor: ChangeMonitor!
     
     func k0_update(_ sender: Any?) {
-        let param = sender as? DiscreteParameter
+        let param = sender as? OLD_DiscreteParameter
         if (param != nil) {
             let p2 = param!
             k_text.text = p2.toString(p2.value)
@@ -266,7 +266,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     var a1_monitor: ChangeMonitor!
     
     func a1_update(_ sender: Any?) {
-        let param = sender as? ContinuousParameter
+        let param = sender as? OLD_ContinuousParameter
         if (param != nil) {
             let p2 = param!
             a1_text.text = p2.toString(p2.value)
@@ -306,7 +306,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     var a2_monitor: ChangeMonitor!
     
     func a2_update(_ sender: Any?) {
-        let param = sender as? ContinuousParameter
+        let param = sender as? OLD_ContinuousParameter
         if (param != nil) {
             let p2 = param!
             a2_text.text = p2.toString(p2.value)
@@ -346,7 +346,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     var T_monitor: ChangeMonitor!
     
     func T_update(_ sender: Any?) {
-        let param = sender as? ContinuousParameter
+        let param = sender as? OLD_ContinuousParameter
         if (param != nil) {
             let p2 = param!
             T_text.text = p2.toString(p2.value)
