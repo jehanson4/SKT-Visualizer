@@ -342,6 +342,7 @@
 		8A2034E521ED29B400A4C418 /* OLD */ = {
 			isa = PBXGroup;
 			children = (
+				8A41B09A21F2517700DE38CB /* UI */,
 				8A41B09321F0CFC600DE38CB /* Utilities */,
 				8A41B09221F0CFB400DE38CB /* SKT */,
 			);
@@ -397,6 +398,25 @@
 				8A91B0972093F8C100488907 /* OLD_Parameters.swift */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		8A41B09A21F2517700DE38CB /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				8AA05A2020900692009417A6 /* ColorSourceSelectionViewController.swift */,
+				8AA05A2120900692009417A6 /* ColorSourceSelectionViewController.xib */,
+				8AF98F9F207FE8350007688E /* DetailViewController.swift */,
+				8AF98F9E207FE8350007688E /* DetailViewController.xib */,
+				8AD817FA207BFA9200426C25 /* InfoViewController.swift */,
+				8AD817FB207BFA9200426C25 /* InfoViewController.xib */,
+				8AAA008C207166C0001A136D /* MasterViewController.swift */,
+				8AAA008D207166C0001A136D /* MasterViewController.xib */,
+				8AA05A2420901B19009417A6 /* SequencerSelectionViewController.swift */,
+				8AA05A2520901B19009417A6 /* SequencerSelectionViewController.xib */,
+				8AF98FA3207FE8B40007688E /* SettingsViewController.swift */,
+				8AF98FA2207FE8B40007688E /* SettingsViewController.xib */,
+			);
+			path = UI;
 			sourceTree = "<group>";
 		};
 		8A591B3521E690F100B802F8 /* SK2E */ = {
@@ -634,18 +654,6 @@
 				8A2034DF21ECEAA700A4C418 /* SK2D */,
 				8A591B3521E690F100B802F8 /* SK2E */,
 				8A7FA8B721DD95E3004E68BF /* ModelSelector */,
-				8AA05A2020900692009417A6 /* ColorSourceSelectionViewController.swift */,
-				8AA05A2120900692009417A6 /* ColorSourceSelectionViewController.xib */,
-				8AF98F9F207FE8350007688E /* DetailViewController.swift */,
-				8AF98F9E207FE8350007688E /* DetailViewController.xib */,
-				8AD817FA207BFA9200426C25 /* InfoViewController.swift */,
-				8AD817FB207BFA9200426C25 /* InfoViewController.xib */,
-				8AAA008C207166C0001A136D /* MasterViewController.swift */,
-				8AAA008D207166C0001A136D /* MasterViewController.xib */,
-				8AA05A2420901B19009417A6 /* SequencerSelectionViewController.swift */,
-				8AA05A2520901B19009417A6 /* SequencerSelectionViewController.xib */,
-				8AF98FA3207FE8B40007688E /* SettingsViewController.swift */,
-				8AF98FA2207FE8B40007688E /* SettingsViewController.xib */,
 				8A591B3A21E6D6DB00B802F8 /* UISelectorViewController.swift */,
 			);
 			path = UI;
