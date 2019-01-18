@@ -17,7 +17,8 @@ class Energy : PhysicalProperty {
     let physicalPropertyType = PhysicalPropertyType.energy
     var name: String = "Energy"
     var info: String? = nil
-    var backingModel: AnyObject? { return model as AnyObject }
+    
+    var backingModel: SystemModel { return model as SystemModel }
     
     var bounds: (min: Double, max: Double) { ensureFresh(); return fBounds }
     // let params: [String: AdjustableParameter1]? = nil

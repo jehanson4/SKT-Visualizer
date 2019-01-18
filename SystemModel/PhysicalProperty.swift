@@ -28,20 +28,16 @@ enum PhysicalPropertyType: Int {
 // PhysicalProperty
 // ===============================================================================
 
-protocol PhysicalProperty : Named {
+protocol PhysicalProperty: Named {
     
     /// Returns the thing this is a property of.
-    var backingModel: AnyObject? { get }
-    
+    var backingModel: SystemModel { get }
+
     var physicalPropertyType: PhysicalPropertyType { get }
     
     var bounds: (min: Double, max: Double) { get }
     
-    // probably wrong-headed.
+    // FIXME DiscreteModel-specific
     func valueAt(nodeIndex: Int) -> Double
     
-    // 2-d specific!
-    func valueAt(m: Int, n: Int) -> Double
-    
 }
-

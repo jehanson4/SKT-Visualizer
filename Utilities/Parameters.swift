@@ -12,7 +12,7 @@ import Foundation
 // Parameter
 // =======================================================
 
-protocol Parameter: Named2, ChangeMonitorEnabled {
+protocol Parameter: Named, ChangeMonitorEnabled {
     
     var minAsString: String { get }
     var minAsDouble: Double { get }
@@ -57,7 +57,7 @@ class DiscreteParameter: Parameter {
     // =========================================
     // name & info
     
-    let name: String
+    var name: String
     
     var info: String?
     
@@ -292,7 +292,7 @@ class ContinuousParameter: Parameter {
     // =========================================
     // name & info
     
-    let name: String
+    var name: String
     
     var info: String?
     

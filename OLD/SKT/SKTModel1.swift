@@ -30,7 +30,6 @@ class SKTModel1: SKTModel {
     // Initializer
     
     init() {
-        self.info = "SK Hamiltonian with 2 components"
         self.geometry = SK2Geometry()
         self.physics = SKPhysics(geometry)
         
@@ -49,8 +48,8 @@ class SKTModel1: SKTModel {
         beta_monitor?.disconnect()
     }
     
-    let name = "SK/2"
-    var info: String?
+    var name: String = "SK/2"
+    var info: String? = "SK Hamiltonian with 2 components"
     var embeddingDimension: Int = 2
     
     private var N_monitor: ChangeMonitor?
@@ -80,8 +79,8 @@ class SKTModel1: SKTModel {
     
     lazy var workQueue: WorkQueue = WorkQueue()
     
-    var systemGeometry: SystemGeometry {
-        return geometry;
+    var nodeCount: Int {
+        return geometry.nodeCount;
     }
     
     let geometry: SK2Geometry

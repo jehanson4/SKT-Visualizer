@@ -14,12 +14,26 @@ import Foundation
 
 class SK2Model: SystemModel {
     
-    let name = "SK/2"
+    // ===================================
+    // Initializer
+    
+    init() {
+        self.geometry = SK2Geometry2(_N, _k)
+    }
+    
+    // ===================================
+    // Basics
+    
+    var name = "SK/2"
     
     var info: String? = "SK Hamiltonian with 2 components"
     
     let embeddingDimension = 2
         
+    var nodeCount: Int {
+        return (_k + 1) * (_N - _k + 1)
+    }
+    
     // ===================================
     // N
     
@@ -40,6 +54,7 @@ class SK2Model: SystemModel {
             _k = _N/2
             k.refresh()
         }
+        geometry.update(_N, _k)
     }
     
     lazy var N = DiscreteParameter(
@@ -73,6 +88,7 @@ class SK2Model: SystemModel {
             _N = 2 * _k
             N.refresh()
         }
+        geometry.update(_N, _k)
     }
     
     lazy var k = DiscreteParameter(
@@ -215,8 +231,24 @@ class SK2Model: SystemModel {
     
     private func _initProperties() -> Registry<PhysicalProperty> {
         let props = Registry<PhysicalProperty>()
+        _ = props.register(SK2Energy(self))
         // TODO
         return props
     }
+
+    func energy(_ m: Int, _ n: Int) -> Double {
+        let d1 = 0.5 * Double(_N) - Double(m + n)
+        let d2 = 0.5 * Double(_N) - Double(_k + n - m)
+        return -(_a1 * d1 * d1  + _a2 * d2 * d2)
+
+    }
     
+    func entropy(_ m: Int, _ n: Int) -> Double {
+        return logBinomial(_k, m) + logBinomial(_N - _k, n)
+    }
+    
+    // ===================================
+    // Geometry helpers
+    
+    let geometry: SK2Geometry2
 }

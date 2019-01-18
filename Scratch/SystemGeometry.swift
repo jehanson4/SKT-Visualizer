@@ -10,24 +10,21 @@ import Foundation
 
 // ================================================================
 // SystemPoint
+//
+// A point at which measurements of system properties may be taken
 // ================================================================
 
-protocol SystemPoint {
-    
-    var nodeIndex: Int { get }
-    
-    var x: Double { get }
-    var y: Double { get }
-    var z: Double { get }
-}
+//protocol SystemPoint {
+//    
+//    var nodeIndex: Int { get }
+//    
+//}
 
 // ================================================================
 // SystemGeometry
-//
-// Topological and geometric properties of the visualized system.
 // ================================================================
 
-protocol SystemGeometry {
-
-    // ?? func getPoint(_ nodeIndex: Int) -> SystemPoint
-}
+//protocol SystemGeometry {
+//
+//
+//}

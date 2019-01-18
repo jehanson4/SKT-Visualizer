@@ -9,20 +9,34 @@
 import Foundation
 
 // ================================================================
-// SystemModel
+// SystemNode
 //
-// The thing being visualized in the app.
+// An abstract point in a system's phase space, at which physical
+// properties may be measured.
 // ================================================================
 
-protocol SystemModel: Named2 {
+protocol SystemNode {
+    var nodeIndex: Int { get }
+}
+
+// ================================================================
+// SystemModel
+//
+// The thing that the app visualizes.
+// ================================================================
+
+protocol SystemModel: Named {
     
     /// Min #dimensions of a continuous space in which tbe system can be embedded
     var embeddingDimension: Int { get }
-    
+
     var parameters: Registry<Parameter> { get }
     
     func resetAllParameters()
 
+    /// Number of nodes in the system
+    var nodeCount: Int { get }
+    
     var physicalProperties: Registry<PhysicalProperty> { get }
      
 }

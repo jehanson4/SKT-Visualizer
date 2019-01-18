@@ -18,7 +18,8 @@ class FreeEnergy : PhysicalProperty {
     let physicalPropertyType = PhysicalPropertyType.freeEnergy
     var name: String  = "FreeEnergy"
     var info: String? = nil
-    var backingModel: AnyObject? { return model as AnyObject }
+
+    var backingModel: SystemModel { return model as SystemModel }
     
     var bounds: (min: Double, max: Double) { ensureFresh(); return fBounds }
     // var params: [String: AdjustableParameter1]? = nil

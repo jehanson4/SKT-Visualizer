@@ -14,11 +14,18 @@ import Foundation
 
 class SK1Model: SystemModel {
 
-    let name = "SK/1"
+    // ==================================
+    // Basics
+    
+    var name = "SK/1"
     
     var info: String? = "SK Hamiltonian with 1 component"
     
     let embeddingDimension = 1
+    
+    var nodeCount: Int {
+        return _N
+    }
     
     // ==================================
     // N
@@ -133,6 +140,7 @@ class SK1Model: SystemModel {
     
     private func initProps() -> Registry<PhysicalProperty> {
         let props = Registry<PhysicalProperty>()
+        _ = props.register(SK1Energy(self))
         // TODO
         return props
     }
