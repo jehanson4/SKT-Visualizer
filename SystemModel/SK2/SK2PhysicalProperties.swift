@@ -45,8 +45,7 @@ class SK2Energy: SK2PhysicalProperty {
         // TODO
     }
     func valueAt(nodeIndex: Int) -> Double {
-        // TODO
-        return 0
+        return _model.energy(nodeIndex)
     }
     
     init(_ model: SK2Model) {

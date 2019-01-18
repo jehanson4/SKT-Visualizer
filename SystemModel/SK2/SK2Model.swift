@@ -18,7 +18,13 @@ class SK2Model: SystemModel {
     // Initializer
     
     init() {
-        self.geometry = SK2Geometry2(_N, _k)
+        self._N = SK2Model.N_defaultSetPoint
+        self._k = SK2Model.k_defaultSetPoint
+        self._nodeIndexModulus = _N - _k + 1
+        self._a1 = SK2Model.a1_defaultSetPoint
+        self._a2 = SK2Model.a2_defaultSetPoint
+        self._T = SK2Model.T_defaultSetPoint
+        self._beta = 1/_T
     }
     
     // ===================================
@@ -28,10 +34,33 @@ class SK2Model: SystemModel {
     
     var info: String? = "SK Hamiltonian with 2 components"
     
+    // ===================================
+    // Nodes
+    
     let embeddingDimension = 2
-        
+    
     var nodeCount: Int {
         return (_k + 1) * (_N - _k + 1)
+    }
+  
+    var m_max: Int {
+        return _k
+    }
+    
+    var n_max: Int {
+        return _N - _k
+    }
+    
+    private var _nodeIndexModulus: Int
+
+    func nodeIndexToSK(_ nodeIndex: Int) -> (m: Int, n: Int) {
+        let m = nodeIndex / _nodeIndexModulus
+        let n = nodeIndex - (m * _nodeIndexModulus)
+        return (m, n)
+    }
+
+    func skToNodeIndex(_ m: Int, _ n: Int) -> Int {
+        return m * _nodeIndexModulus + n
     }
     
     // ===================================
@@ -42,7 +71,7 @@ class SK2Model: SystemModel {
     static let N_defaultSetPoint: Int = 200
     static let N_defaultStepSize: Int = 2
     
-    private var _N : Int = SK2Model.N_defaultSetPoint
+    private var _N : Int
     
     private func _getN() -> Int {
         return _N
@@ -54,7 +83,7 @@ class SK2Model: SystemModel {
             _k = _N/2
             k.refresh()
         }
-        geometry.update(_N, _k)
+        _nodeIndexModulus = _N - _k + 1
     }
     
     lazy var N = DiscreteParameter(
@@ -76,7 +105,7 @@ class SK2Model: SystemModel {
     static let k_defaultSetPoint: Int = SK2Model.N_defaultSetPoint/2
     static let k_defaultStepSize: Int = 1
     
-    private var _k : Int = SK2Model.k_defaultSetPoint
+    private var _k : Int
     
     private func _getK() -> Int {
         return _k
@@ -88,7 +117,7 @@ class SK2Model: SystemModel {
             _N = 2 * _k
             N.refresh()
         }
-        geometry.update(_N, _k)
+        _nodeIndexModulus = _N - _k + 1
     }
     
     lazy var k = DiscreteParameter(
@@ -110,7 +139,7 @@ class SK2Model: SystemModel {
     static let a1_defaultSetPoint: Double = 1
     static let a1_defaultStepSize: Double = 0.01
 
-    private var _a1 : Double = SK2Model.a1_defaultSetPoint
+    private var _a1 : Double
     
     private func _getA1() -> Double {
         return _a1
@@ -139,7 +168,7 @@ class SK2Model: SystemModel {
     static let a2_defaultSetPoint: Double = 1
     static let a2_defaultStepSize: Double = 0.01
     
-    private var _a2 : Double = SK2Model.a2_defaultSetPoint
+    private var _a2 : Double
     
     private func _getA2() -> Double {
         return _a2
@@ -164,19 +193,23 @@ class SK2Model: SystemModel {
     // ===================================
     // T
     
-    static let T_min: Double = 0
+    static let T_min: Double = Double.constants.eps
     static let T_max: Double = 1000000
     static let T_defaultSetPoint: Double = 1000
     static let T_defaultStepSize: Double = 10
     
-    private var _T : Double = SK2Model.T_defaultSetPoint
+    private var _T : Double
+    private var _beta: Double
     
     private func _getT() -> Double {
         return _T
     }
     
     private func _setT(_ T: Double) {
-        _T = T
+        if (T > 0) {
+            _T = T
+            _beta = 1/T
+        }
     }
     
     lazy var T = ContinuousParameter(
@@ -236,19 +269,36 @@ class SK2Model: SystemModel {
         return props
     }
 
+    func energy(_ nodeIndex: Int) -> Double {
+        let m = nodeIndex / _nodeIndexModulus
+        let n = nodeIndex - (m * _nodeIndexModulus)
+        return energy(m, n)
+    }
+    
     func energy(_ m: Int, _ n: Int) -> Double {
         let d1 = 0.5 * Double(_N) - Double(m + n)
         let d2 = 0.5 * Double(_N) - Double(_k + n - m)
         return -(_a1 * d1 * d1  + _a2 * d2 * d2)
-
+    }
+    
+    func entropy(_ nodeIndex: Int) -> Double {
+        let m = nodeIndex / _nodeIndexModulus
+        let n = nodeIndex - (m * _nodeIndexModulus)
+        return entropy(m, n)
     }
     
     func entropy(_ m: Int, _ n: Int) -> Double {
         return logBinomial(_k, m) + logBinomial(_N - _k, n)
     }
     
-    // ===================================
-    // Geometry helpers
+    func logOccupation(_ nodeIndex: Int) -> Double {
+        let m = nodeIndex / _nodeIndexModulus
+        let n = nodeIndex - (m * _nodeIndexModulus)
+        return logOccupation(m, n)
+    }
     
-    let geometry: SK2Geometry2
+    func logOccupation(_ m: Int, _ n: Int) -> Double {
+        return entropy(m, n) - _beta * energy(m, n)
+    }
+    
 }

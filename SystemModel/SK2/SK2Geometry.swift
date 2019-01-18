@@ -9,40 +9,6 @@
 import Foundation
 
 // ==============================================================================
-// SK2Geometry2
-//
-// Convenience class to collect geometrical functions helpers constants etc.
-// This includes stuff to support visualizations both on a sphere and a plane 
-// ==============================================================================
-
-class SK2Geometry2 {
-
-    let r0: Double = 1.0
-    let pi = Double.constants.pi
-    let piOver2 = Double.constants.piOver2
-    let twoPi  = Double.constants.twoPi
-    let eps = Double.constants.eps
-    
-    private var nodeIndexModulus: Int = 0
-    private var n_max: Int = 0
-    private var m_max: Int = 0
-    private var skNorm: Double = 0
-    private var s0: Double = 0
-    private var sin_s0: Double = 0
-    private var cot_s0: Double = 0
-    private var s12_max: Double = 0
-
-    init(_ N: Int, _ k: Int) {
-        self.update(N, k)
-    }
-    
-    func update(_ N: Int, _ k: Int) {
-        // TODO
-    }
-
-}
-
-// ==============================================================================
 // SK2Geometry
 // ==============================================================================
 
