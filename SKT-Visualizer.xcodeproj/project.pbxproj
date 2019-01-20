@@ -42,6 +42,7 @@
 		8A41B09521F1587900DE38CB /* SK3Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A41B09421F1587900DE38CB /* SK3Model.swift */; };
 		8A41B09721F16C7400DE38CB /* SK2PhysicalProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A41B09621F16C7400DE38CB /* SK2PhysicalProperties.swift */; };
 		8A41B09921F186AD00DE38CB /* SK1PhysicalProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A41B09821F186AD00DE38CB /* SK1PhysicalProperties.swift */; };
+		8A41B09C21F357F600DE38CB /* PhysicalPropertySelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A41B09B21F357F600DE38CB /* PhysicalPropertySelectionViewController.swift */; };
 		8A4654C021E8E38300EE2B26 /* SystemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4654BF21E8E38300EE2B26 /* SystemModel.swift */; };
 		8A4654C221E97A7B00EE2B26 /* Registry2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4654C121E97A7B00EE2B26 /* Registry2.swift */; };
 		8A53B2A1208D9B380039C5D7 /* help.html in Resources */ = {isa = PBXBuildFile; fileRef = 8A53B2A0208D9B380039C5D7 /* help.html */; };
@@ -167,6 +168,7 @@
 		8A41B09421F1587900DE38CB /* SK3Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK3Model.swift; sourceTree = "<group>"; };
 		8A41B09621F16C7400DE38CB /* SK2PhysicalProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2PhysicalProperties.swift; sourceTree = "<group>"; };
 		8A41B09821F186AD00DE38CB /* SK1PhysicalProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK1PhysicalProperties.swift; sourceTree = "<group>"; };
+		8A41B09B21F357F600DE38CB /* PhysicalPropertySelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhysicalPropertySelectionViewController.swift; sourceTree = "<group>"; };
 		8A4654BF21E8E38300EE2B26 /* SystemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemModel.swift; sourceTree = "<group>"; };
 		8A4654C121E97A7B00EE2B26 /* Registry2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registry2.swift; sourceTree = "<group>"; };
 		8A53B2A0208D9B380039C5D7 /* help.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = help.html; sourceTree = "<group>"; };
@@ -650,11 +652,12 @@
 		8AF59504208AC6DB0082C5DE /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				8A591B3A21E6D6DB00B802F8 /* UISelectorViewController.swift */,
+				8A41B09B21F357F600DE38CB /* PhysicalPropertySelectionViewController.swift */,
 				8A2034DA21EB768100A4C418 /* Utils */,
 				8A2034DF21ECEAA700A4C418 /* SK2D */,
 				8A591B3521E690F100B802F8 /* SK2E */,
 				8A7FA8B721DD95E3004E68BF /* ModelSelector */,
-				8A591B3A21E6D6DB00B802F8 /* UISelectorViewController.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -774,6 +777,7 @@
 				8A91B0982093F8C100488907 /* OLD_Parameters.swift in Sources */,
 				8AE48BBB2087857C001B5D11 /* GLUtils.swift in Sources */,
 				8A2A32D720AB881600D4D619 /* WorkQueue.swift in Sources */,
+				8A41B09C21F357F600DE38CB /* PhysicalPropertySelectionViewController.swift in Sources */,
 				8A1CF016207146510099DD97 /* AppDelegate.swift in Sources */,
 				8A2034E721ED2A6000A4C418 /* SK2Model.swift in Sources */,
 				8A4654C221E97A7B00EE2B26 /* Registry2.swift in Sources */,

@@ -19,7 +19,7 @@ class SK2E_DetailViewController: UIViewController, AppModelUser {
     }
     
     var appModel: AppModel? = nil
-    
+
     override func viewDidLoad() {
         let mtd = "viewDidLoad"
         debug(mtd, "entering")

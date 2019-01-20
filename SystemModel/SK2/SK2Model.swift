@@ -20,11 +20,11 @@ class SK2Model: SystemModel {
     init() {
         self._N = SK2Model.N_defaultSetPoint
         self._k = SK2Model.k_defaultSetPoint
-        self._nodeIndexModulus = _N - _k + 1
         self._a1 = SK2Model.a1_defaultSetPoint
         self._a2 = SK2Model.a2_defaultSetPoint
         self._T = SK2Model.T_defaultSetPoint
         self._beta = 1/_T
+        self._nodeIndexModulus = _N - _k + 1
     }
     
     // ===================================
@@ -78,20 +78,24 @@ class SK2Model: SystemModel {
     }
     
     private func _setN(_ N: Int) {
+        var kChanged = false
         _N = N
         if (_k > _N/2) {
             _k = _N/2
-            k.refresh()
+            kChanged = true
         }
         _nodeIndexModulus = _N - _k + 1
+        if (kChanged) {
+            k.refresh()
+        }
     }
     
     lazy var N = DiscreteParameter(
         "N",
         _getN,
         _setN,
-        min: SK2Model.N_max,
-        max: SK2Model.N_min,
+        min: SK2Model.N_min,
+        max: SK2Model.N_max,
         info: "Number of spins in the SK system",
         setPoint: SK2Model.N_defaultSetPoint,
         stepSize: SK2Model.N_defaultStepSize
@@ -112,12 +116,16 @@ class SK2Model: SystemModel {
     }
     
     private func _setK(_ k: Int) {
+        var NChanged = false
         _k = k
         if (_N < 2 * _k) {
             _N = 2 * _k
-            N.refresh()
+            NChanged = true
         }
         _nodeIndexModulus = _N - _k + 1
+        if (NChanged) {
+            N.refresh()
+        }
     }
     
     lazy var k = DiscreteParameter(
@@ -247,8 +255,9 @@ class SK2Model: SystemModel {
         if (k2 > N2/2) {
             k2 = N2/2
         }
-        self._N = N2
-        self._k = k2
+        _N = N2
+        _k = k2
+        _nodeIndexModulus = _N - _k + 1
         N.refresh()
         k.refresh()
         

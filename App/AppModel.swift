@@ -32,8 +32,9 @@ protocol AppModelUser {
 
 protocol AppModel  {
     
-    var systemModels: RegistryWithSelection<SystemModel> { get }
-
+    // var systemModels: Registry<SystemModel> { get }
+    var systemSelector: Selector<SystemModel> { get }
+    
     var skt: SKTModel { get set }
     var viz: VisualizationModel { get set }
 

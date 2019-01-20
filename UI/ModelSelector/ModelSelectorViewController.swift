@@ -18,9 +18,8 @@ class ModelSelectorViewController : UIViewController, AppModelUser {
             print(clsName, mtd, msg)
         }
     }
+
     var appModel: AppModel?
-    
-    @IBOutlet weak var modelSelectorTableView: UITableView!
     
     override func viewDidLoad() {
         debug("viewDidLoad")
@@ -32,6 +31,13 @@ class ModelSelectorViewController : UIViewController, AppModelUser {
         else {
             debug("viewDidLoad", "appModel has been set.")
         }
+    }
+    
+    @IBOutlet weak var sk2eButton: UIButton!
+    
+    @IBAction func selectSK2E(_ sender: Any) {
+        debug("selectSK2E")
+        appModel?.systemSelector.select(MagicStrings.sk2ModelRegistryEntryName)
     }
     
     @IBAction func unwindToModelSelector(_ sender: UIStoryboardSegue) {

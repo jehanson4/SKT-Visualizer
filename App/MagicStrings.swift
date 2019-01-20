@@ -16,4 +16,12 @@ struct MagicStrings {
 
     static let sequencerDroplistSegue = "colorSourceDroplistSegue"
     static let sequencerRegistryEntryCell = "sequencerRegistryEntryCell"
+    
+    static let sk1ModelRegistryEntryName = "SK1Model"
+    static let sk2ModelRegistryEntryName = "SK2Model"
+    static let sk3ModelRegistryEntryName = "SK3Model"
+
+    static let physicalPropertyRegistryEntryCell = "physicalPropertyRegistryEntryCell"
+    
+    static let sk2e_seque_showPropertySelector = "sk2e_segue_showPropertySelector"
 }

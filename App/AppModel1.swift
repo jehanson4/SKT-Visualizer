@@ -14,16 +14,37 @@ import Foundation
 
 class AppModel1 : AppModel {
     
-    lazy var systemModels: RegistryWithSelection<SystemModel>
-            = RegistryWithSelection<SystemModel>()
+    // lazy var systemModels: Registry<SystemModel> = _initSystemModels()
+    //
+//    private func _initSystemModels() -> Registry<SystemModel> {
+//        let registry = Registry<SystemModel>()
+//
+//        _ = registry.register(SK1Model(), nameHint: MagicStrings.sk1ModelRegistryEntryName)
+//        _ = registry.register(SK2Model(), nameHint: MagicStrings.sk2ModelRegistryEntryName)
+//        _ = registry.register(SK3Model(), nameHint: MagicStrings.sk3ModelRegistryEntryName)
+//
+//        return registry
+//    }
 
+    lazy var systemSelector: Selector<SystemModel> = _initSystemSelector()
+    
+    private func _initSystemSelector() -> Selector<SystemModel> {
+        let registry = Registry<SystemModel>()
+        
+        _ = registry.register(SK1Model(), nameHint: MagicStrings.sk1ModelRegistryEntryName)
+        _ = registry.register(SK2Model(), nameHint: MagicStrings.sk2ModelRegistryEntryName)
+        _ = registry.register(SK3Model(), nameHint: MagicStrings.sk3ModelRegistryEntryName)
+
+        return Selector<SystemModel>(registry)
+    }
+    
     var skt: SKTModel
     var viz: VisualizationModel
     
     init() {
         skt = SKTModel1()
         viz = VisualizationModel1(skt)
-        _ = systemModels.register(skt)
+        _ = systemSelector.registry.register(skt)
         loadUserDefaults()
     }
 

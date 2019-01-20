@@ -45,7 +45,8 @@ class Registry<T> : ChangeMonitorEnabled {
     }
     
     func register(_ t: T, nameHint: String? = nil) -> RegistryEntry<T> {
-        let name = findUniqueName(nameHint)
+        let hint2 = (t is Named && nameHint == nil) ? (t as! Named).name : nameHint
+        let name = findUniqueName(hint2)
         let index = entryNames.count
         let newEntry = RegistryEntry<T>(index, name, t)
         _entryNames.append(name)
@@ -89,10 +90,10 @@ class Registry<T> : ChangeMonitorEnabled {
 }
 
 // =======================================================================
-// RegistrySelection
+// Selector
 // =======================================================================
 
-class RegistrySelection<T> : ChangeMonitorEnabled {
+class Selector<T> : ChangeMonitorEnabled {
 
     // =============================
     // Registry
@@ -133,7 +134,7 @@ class RegistrySelection<T> : ChangeMonitorEnabled {
     // =================================
     // Initializer
     
-    init(registry: Registry<T>) {
+    init(_ registry: Registry<T>) {
         self.registry = registry
     }
     
