@@ -12,7 +12,7 @@ import Foundation
 // Energy
 // ==============================================================================
 
-class Energy : PhysicalProperty {
+class Energy : TypedPhysicalProperty {
     
     let physicalPropertyType = PhysicalPropertyType.energy
     var name: String = "Energy"

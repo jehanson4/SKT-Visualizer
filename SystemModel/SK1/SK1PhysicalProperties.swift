@@ -12,7 +12,7 @@ import Foundation
 // SK1Energy
 // ========================================================
 
-class SK1Energy: PhysicalProperty {
+class SK1Energy: TypedPhysicalProperty {
     
     var name: String = "Energy"
     

@@ -274,6 +274,7 @@ class SK2Model: SystemModel {
     private func _initProperties() -> Registry<PhysicalProperty> {
         let props = Registry<PhysicalProperty>()
         _ = props.register(SK2Energy(self))
+        _ = props.register(SK2Entropy(self))
         // TODO
         return props
     }

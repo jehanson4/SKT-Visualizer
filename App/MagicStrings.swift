@@ -21,7 +21,7 @@ struct MagicStrings {
     static let sk2ModelRegistryEntryName = "SK2Model"
     static let sk3ModelRegistryEntryName = "SK3Model"
 
-    static let physicalPropertyRegistryEntryCell = "physicalPropertyRegistryEntryCell"
+    static let visualizationSelectorCell = "visualizationSelectorCell"
     
-    static let sk2e_seque_showPropertySelector = "sk2e_segue_showPropertySelector"
+    static let sk2e_showVisualizationSelector = "sk2e_showVisualizationSelector"
 }

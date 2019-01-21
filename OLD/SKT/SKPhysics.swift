@@ -126,7 +126,7 @@ class SKPhysics : ChangeCounted {
     // Physical properties
     // ============================================
 
-    func findBounds(_ property: PhysicalProperty) -> (min: Double, max: Double) {
+    func findBounds(_ property: TypedPhysicalProperty) -> (min: Double, max: Double) {
         var tmpValue: Double  = property.valueAt(nodeIndex: 0)
         var minValue: Double = tmpValue
         var maxValue: Double = tmpValue

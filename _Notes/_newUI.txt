@@ -23,4 +23,46 @@ E. 3-pair space, geometry TBD, cells transparent below fitness threshold or away
     1. timeseries movie for a given dynamic
     2. sweep movie for a given model param
 
+================================
+New folders aka groups
+
+App
+SystemModel
+Graphics
+UI
+Utilities
+
+================================
+AppModel really just has set of systems & load/store defaults
+
+SK2E and SK2D are actually different systems: the 2nd one has nodes etc.
+
+Q: I COULD make it so that they're both the same system but that the nodes
+are only created and/or used when necessary.
+A: BAROQUE!
+
+Q: OR I could always use the nodes and have 2 passes through them w/ each new frame:
+1 pass to set the 'value', 2nd one to read and display it.
+A: INEFFICIENT!
+
+================================
+
+I don't need physical property type
+I can use the name of a physical property
+but the name is a class var not an instance var
+like classname
+but what do I call it? 'type'?
+
+================================
+I *do* need color-source idea. Can't just take a physical property
+and colorize it in some generic way, b/c of basin membership
+
+Can have basin membership func's as physical properties. But
+we want to view them differently.
+
+So the "visualization" is the right abstraction and it comprises both
+quantity being shown and way of showing it.
+
+For each quantity I'm going to pick the way of showing it. So the user
+chooses a quantity.
 

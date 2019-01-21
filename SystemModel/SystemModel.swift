@@ -9,13 +9,13 @@
 import Foundation
 
 // ================================================================
-// SystemNode
+// SystemPoint
 //
 // An abstract point in a system's phase space, at which physical
 // properties may be measured.
 // ================================================================
 
-protocol SystemNode {
+protocol SystemPoint {
     var nodeIndex: Int { get }
 }
 

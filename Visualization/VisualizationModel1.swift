@@ -212,7 +212,10 @@ class VisualizationModel1 : VisualizationModel {
     
     func registerEffect(_ effect: Effect) {
         let entry = effects.register(effect, nameHint: effect.name)
-        effectNamesByType[effect.effectType] = entry.name
+        if (effect is TypedEffect) {
+            let effectType = (effect as! TypedEffect).effectType
+            effectNamesByType[effectType] = entry.name
+        }
     }
     
     private func initEffects() {

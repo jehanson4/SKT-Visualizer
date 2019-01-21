@@ -12,7 +12,7 @@ import Foundation
 // LogOccupation
 // ==============================================================================
 
-class LogOccupation : PhysicalProperty {
+class LogOccupation : TypedPhysicalProperty {
     
     let physicalPropertyType = PhysicalPropertyType.logOccupation
     var name: String  = "LogOccupation"

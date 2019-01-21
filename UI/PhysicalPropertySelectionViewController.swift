@@ -71,7 +71,7 @@ class PhysicalPropertySelectionViewController: UITableViewController, AppModelUs
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: MagicStrings.physicalPropertyRegistryEntryCell, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: MagicStrings.visualizationSelectorCell, for: indexPath)
         // debug("tableView cellForRowAt", "indexPath.row=\(indexPath.row)")
         
         var subviewCounter = 0

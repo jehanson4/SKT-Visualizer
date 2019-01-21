@@ -7,15 +7,6 @@
 //
 
 import Foundation
-import UIKit
-
-// ============================================================================
-// GraphicsController
-// ============================================================================
-
-protocol GraphicsController {
-    var snapshot: UIImage { get }
-}
 
 // ============================================================================
 // AppModelUser
@@ -32,7 +23,6 @@ protocol AppModelUser {
 
 protocol AppModel  {
     
-    // var systemModels: Registry<SystemModel> { get }
     var systemSelector: Selector<SystemModel> { get }
     
     var skt: SKTModel { get set }

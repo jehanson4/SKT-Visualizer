@@ -12,7 +12,7 @@ import Foundation
 // Entropy
 // ==============================================================================
 
-class Entropy : PhysicalProperty {
+class Entropy : TypedPhysicalProperty {
     
     let physicalPropertyType = PhysicalPropertyType.entropy
     var name: String = "Entropy"

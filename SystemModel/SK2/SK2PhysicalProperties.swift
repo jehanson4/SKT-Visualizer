@@ -12,7 +12,7 @@ import Foundation
 // SK2PhysicalProperty
 // ============================================================
 
-protocol SK2PhysicalProperty: PhysicalProperty {
+protocol SK2PhysicalProperty: TypedPhysicalProperty {
     
 }
 
@@ -44,8 +44,83 @@ class SK2Energy: SK2PhysicalProperty {
     func _refreshBounds() {
         // TODO
     }
+    
     func valueAt(nodeIndex: Int) -> Double {
         return _model.energy(nodeIndex)
+    }
+    
+    init(_ model: SK2Model) {
+        self._model = model
+    }
+}
+
+// ============================================================
+// SK2Entropy
+// ============================================================
+
+class SK2Entropy: SK2PhysicalProperty {
+    
+    var name: String = "Entropy"
+    
+    var info: String? = nil
+    
+    var backingModel: SystemModel {
+        return _model as SystemModel
+    }
+    
+    var _model: SK2Model
+    
+    let physicalPropertyType = PhysicalPropertyType.entropy
+    
+    var _bounds: (min: Double, max: Double)? = nil
+    
+    var bounds: (min: Double, max: Double) {
+        _refreshBounds()
+        return _bounds!
+    }
+    
+    func _refreshBounds() {
+        // TODO
+    }
+    func valueAt(nodeIndex: Int) -> Double {
+        return _model.entropy(nodeIndex)
+    }
+    
+    init(_ model: SK2Model) {
+        self._model = model
+    }
+}
+
+// ============================================================
+// SK2LogOccupation
+// ============================================================
+
+class SK2LogOccupation: SK2PhysicalProperty {
+    
+    var name: String = "LogOccupation"
+    
+    var info: String? = nil
+    
+    var backingModel: SystemModel {
+        return _model as SystemModel
+    }
+    
+    var _model: SK2Model
+    
+    let physicalPropertyType = PhysicalPropertyType.entropy
+    
+    var _bounds: (min: Double, max: Double)? = nil
+    
+    var bounds: (min: Double, max: Double) {
+        _refreshBounds()
+        return _bounds!
+    }
+    
+    func _refreshBounds() {
+        // TODO
+    }
+    func valueAt(nodeIndex: Int) -> Double {
+        return _model.logOccupation(nodeIndex)
     }
     
     init(_ model: SK2Model) {

@@ -43,7 +43,7 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
         }
         else {
             debug(mtd, "sk2Model has been set")
-            propertySelector_setup()
+            visualizationSelector_setup()
             N_setup()
             k_setup()
             a1_setup()
@@ -72,10 +72,10 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
         }
         
         // HACK HACK HACK HACK
-        if (segue.identifier == MagicStrings.sk2e_seque_showPropertySelector) {
+        if (segue.identifier == MagicStrings.sk2e_showVisualizationSelector) {
             debug(mtdName, "setting destination's property selector")
             let d3 = segue.destination as! PhysicalPropertySelectionViewController
-            d3.propertySelector = self.propertySelector
+            d3.propertySelector = self.visualizationSelector
         }
     }
     
@@ -85,7 +85,7 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
     }
     
     deinit {
-        propertySelector_teardown()
+        visualizationSelector_teardown()
         N_teardown()
         k_teardown()
         a1_teardown()
@@ -105,46 +105,57 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
 
     // ===========================================
     // Visualization: Property selector
-
-    @IBOutlet weak var propertySelectorTrigger: UIButton!
-
-    var propertySelector: Selector<PhysicalProperty>? = nil
+    // TODO go back to color sources so I can do Occupation and BasinBoundaries
     
-    var propertySelectionMonitor: ChangeMonitor? = nil
+    @IBOutlet weak var visualizationButton: UIButton!
+
+    var visualizationSelector: Selector<PhysicalProperty>? = nil
     
-    func propertySelector_update(_ sender: Any?) {
-        if (propertySelector != nil && propertySelectorTrigger != nil) {
-            let selection = propertySelector!.selection
+    var visualizationMonitor: ChangeMonitor? = nil
+    
+    func visualizationSelector_update(_ sender: Any?) {
+        if (visualizationSelector != nil && visualizationButton != nil) {
+            let selection = visualizationSelector!.selection
             let title = selection?.name ?? "<choose>"
-            propertySelectorTrigger.setTitle(title, for: .normal);
+            visualizationButton.setTitle(title, for: .normal);
         }
     }
     
-    func propertySelector_setup() {
-        if (propertySelectorTrigger != nil) {
-            propertySelectorTrigger.layer.borderWidth = _borderWidth
-            propertySelectorTrigger.layer.cornerRadius = _cornerRadius
-            propertySelectorTrigger.layer.borderColor = self.view.tintColor.cgColor
+    func visualizationSelector_setup() {
+        if (visualizationButton != nil) {
+            visualizationButton.layer.borderWidth = _borderWidth
+            visualizationButton.layer.cornerRadius = _cornerRadius
+            visualizationButton.layer.borderColor = self.view.tintColor.cgColor
         }
         
         if (sk2Model != nil) {
-            propertySelector = Selector<PhysicalProperty>(sk2Model!.physicalProperties)
-            propertySelector_update(propertySelector)
-            propertySelectionMonitor = propertySelector!.monitorChanges(propertySelector_update);
+            visualizationSelector = Selector<PhysicalProperty>(sk2Model!.physicalProperties)
+            visualizationSelector_update(visualizationSelector)
+            visualizationMonitor = visualizationSelector!.monitorChanges(visualizationSelector_update);
         }
     }
     
-    func propertySelector_teardown() {
-        propertySelectionMonitor?.disconnect()
+    func visualizationSelector_teardown() {
+        visualizationMonitor?.disconnect()
     }
     
     // ===========================================
     // Visualization: Geometry
     
+    private enum Geometry: Int {
+        case plane = 0
+        case sphere = 1
+    }
+    
     @IBOutlet weak var geometrySelector: UISegmentedControl!
     
     @IBAction func geometrySelector_changed(_ sender: Any) {
         debug("geometrySelector_changed")
+        let segIdx = geometrySelector.selectedSegmentIndex
+        let segTitle = geometrySelector.titleForSegment(at: segIdx)
+        let gtype = Geometry(rawValue: segIdx)
+        debug("geometrySelector_changed: selected \(segIdx) : \(String(describing: segTitle)) : \(String(describing: gtype))")
+        
     }
 
     func geometrySelector_setup() {

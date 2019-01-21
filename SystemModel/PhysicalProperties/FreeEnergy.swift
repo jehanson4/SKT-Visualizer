@@ -13,7 +13,7 @@ import Foundation
 // ==============================================================================
 
 // Helholtz Free Energy: U - TS
-class FreeEnergy : PhysicalProperty {
+class FreeEnergy : TypedPhysicalProperty {
     
     let physicalPropertyType = PhysicalPropertyType.freeEnergy
     var name: String  = "FreeEnergy"

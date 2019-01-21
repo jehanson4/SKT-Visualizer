@@ -8,6 +8,21 @@
 
 import Foundation
 
+// ===============================================================================
+// PhysicalProperty
+// ===============================================================================
+
+protocol PhysicalProperty : Named {
+    
+    /// Returns the thing this is a property of.
+    var backingModel: SystemModel { get }
+    
+    /// Returns the min, max values found across all nodes of the backing model
+    var bounds: (min: Double, max: Double) { get }
+    
+    func valueAt(nodeIndex: Int) -> Double
+    
+}
 
 // ===============================================================================
 // PhysicalPropertyType
@@ -25,19 +40,11 @@ enum PhysicalPropertyType: Int {
 }
 
 // ===============================================================================
-// PhysicalProperty
+// TypedPhysicalProperty
 // ===============================================================================
 
-protocol PhysicalProperty: Named {
+protocol TypedPhysicalProperty: PhysicalProperty {
     
-    /// Returns the thing this is a property of.
-    var backingModel: SystemModel { get }
-
     var physicalPropertyType: PhysicalPropertyType { get }
-    
-    var bounds: (min: Double, max: Double) { get }
-    
-    // FIXME DiscreteModel-specific
-    func valueAt(nodeIndex: Int) -> Double
     
 }

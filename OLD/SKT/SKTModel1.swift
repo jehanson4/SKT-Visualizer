@@ -173,7 +173,10 @@ class SKTModel1: SKTModel {
     
     func registerPhysicalProperty(_ pp: PhysicalProperty) {
         let entry = physicalProperties.register(pp, nameHint: pp.name)
-        physicalPropertyNamesByType[pp.physicalPropertyType] = entry.name
+        if (pp is TypedPhysicalProperty) {
+            let ptype = (pp as! TypedPhysicalProperty).physicalPropertyType
+            physicalPropertyNamesByType[ptype] = entry.name
+        }
     }
     
     private func initPhysicalProperties() {
