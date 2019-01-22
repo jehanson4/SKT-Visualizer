@@ -26,8 +26,8 @@ class SK2Energy: SK2PhysicalProperty {
 
     var info: String? = nil
     
-    var backingModel: SystemModel {
-        return _model as SystemModel
+    var backingModel: PhysicalSystem2 {
+        return _model as PhysicalSystem2
     }
 
     var _model: SK2Model
@@ -64,8 +64,8 @@ class SK2Entropy: SK2PhysicalProperty {
     
     var info: String? = nil
     
-    var backingModel: SystemModel {
-        return _model as SystemModel
+    var backingModel: PhysicalSystem2 {
+        return _model as PhysicalSystem2
     }
     
     var _model: SK2Model
@@ -101,8 +101,8 @@ class SK2LogOccupation: SK2PhysicalProperty {
     
     var info: String? = nil
     
-    var backingModel: SystemModel {
-        return _model as SystemModel
+    var backingModel: PhysicalSystem2 {
+        return _model as PhysicalSystem2
     }
     
     var _model: SK2Model

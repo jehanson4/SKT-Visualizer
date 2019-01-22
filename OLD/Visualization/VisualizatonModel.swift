@@ -31,6 +31,30 @@ struct POV {
 // VisualizationModel
 // ========================================================
 
+// Do we keep this or what?
+// Have multiples of them, per system?
+// NO to both
+// POV and GraphicsController belongs in "Graphics"
+// registry of {datasource+colormap} thingies belongs per system.
+//
+// Are the {datasource+colormap} thingies separate from effects? No.
+// separated: (energy + colormap) + node-sprites-on-hemisphere,
+// not separated: energy + colored surface + peak-height-over-rectangle
+//
+// Therefore it's the combo physical-property + color + effect?
+// Not quite. I want to be able to turn 'surface' vs 'nodes' on & off
+// and color+height vs color-only vs. height-only
+// and meridians on or off
+// ...all via parameters. It's more like:
+// physical-property + composite-effect-with-parameters
+//
+// physical-property + composite-effect-with-parameters is a Figure or a Drawing
+// Maybe the Effect API is adequate?
+
+
+// where energy is bundle with datasource and colormap
+// REASON: basins
+
 protocol VisualizationModel {
     
     var pov: POV { get set }

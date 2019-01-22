@@ -35,14 +35,14 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
         }
         else {
             debug(mtd, "appModel has been set")
-            sk2Model = appModel!.systemSelector.registry.entry(MagicStrings.sk2ModelRegistryEntryName)?.value as? SK2Model
+            sk2e = appModel!.systemSelector.registry.entry(SK2E_System.type)?.value as? SK2Model
         }
         
-        if (sk2Model == nil) {
-            debug(mtd, "sk2Model is nil")
+        if (sk2e == nil) {
+            debug(mtd, "sk2e is nil")
         }
         else {
-            debug(mtd, "sk2Model has been set")
+            debug(mtd, "sk2e has been set")
             visualizationSelector_setup()
             N_setup()
             k_setup()
@@ -71,12 +71,6 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
             debug(mtdName, "destination is not an AppModelUser")
         }
         
-        // HACK HACK HACK HACK
-        if (segue.identifier == MagicStrings.sk2e_showVisualizationSelector) {
-            debug(mtdName, "setting destination's property selector")
-            let d3 = segue.destination as! PhysicalPropertySelectionViewController
-            d3.propertySelector = self.visualizationSelector
-        }
     }
     
     @IBAction func unwindToSK2E
@@ -97,7 +91,7 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
     // Models & misc
     
     var appModel: AppModel? = nil
-    var sk2Model: SK2Model? = nil
+    var sk2e: SK2Model? = nil
 
     private var _borderWidth: CGFloat = 1
     private var _cornerRadius: CGFloat = 5
@@ -128,8 +122,8 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
             visualizationButton.layer.borderColor = self.view.tintColor.cgColor
         }
         
-        if (sk2Model != nil) {
-            visualizationSelector = Selector<PhysicalProperty>(sk2Model!.physicalProperties)
+        if (sk2e != nil) {
+            visualizationSelector = Selector<PhysicalProperty>(sk2e!.physicalProperties)
             visualizationSelector_update(visualizationSelector)
             visualizationMonitor = visualizationSelector!.monitorChanges(visualizationSelector_update);
         }
@@ -193,15 +187,15 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
     
     @IBAction func N_edited(_ sender: UITextField) {
         debug("N_edited")
-        if (sk2Model != nil && sender.text != nil) {
-            sk2Model!.N.applyValue(sender.text!)
+        if (sk2e != nil && sender.text != nil) {
+            sk2e!.N.applyValue(sender.text!)
         }
     }
     
     @IBAction func N_step(_ sender: UIStepper) {
         debug("N_step")
-        if (sk2Model != nil) {
-            sk2Model!.N.applyValue(sender.value)
+        if (sk2e != nil) {
+            sk2e!.N.applyValue(sender.value)
         }
     }
     
@@ -220,9 +214,9 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
     func N_setup() {
         debug("N_setup")
         N_text.delegate = self
-        if (sk2Model != nil) {
-            self.N_update(sk2Model!.N)
-            N_monitor = sk2Model!.N.monitorChanges(N_update)
+        if (sk2e != nil) {
+            self.N_update(sk2e!.N)
+            N_monitor = sk2e!.N.monitorChanges(N_update)
         }
     }
     
@@ -241,15 +235,15 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
 
     @IBAction func k_edited(_ sender: UITextField) {
         debug("k_edited")
-        if (sk2Model != nil && sender.text != nil) {
-            sk2Model!.k.applyValue(sender.text!)
+        if (sk2e != nil && sender.text != nil) {
+            sk2e!.k.applyValue(sender.text!)
         }
     }
     
     @IBAction func k_step(_ sender: UIStepper) {
         debug("k_step")
-        if (sk2Model != nil) {
-            sk2Model!.k.applyValue(sender.value)
+        if (sk2e != nil) {
+            sk2e!.k.applyValue(sender.value)
         }
     }
     
@@ -268,9 +262,9 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
     func k_setup() {
         debug("k_setup")
         k_text.delegate = self
-        if (sk2Model != nil) {
-            self.k_update(sk2Model!.k)
-            k_monitor = sk2Model!.k.monitorChanges(k_update)
+        if (sk2e != nil) {
+            self.k_update(sk2e!.k)
+            k_monitor = sk2e!.k.monitorChanges(k_update)
         }
     }
     
@@ -289,15 +283,15 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
 
     @IBAction func a1_edited(_ sender: UITextField) {
         debug("a1_edited")
-        if (sk2Model != nil && sender.text != nil) {
-            sk2Model!.a1.applyValue(sender.text!)
+        if (sk2e != nil && sender.text != nil) {
+            sk2e!.a1.applyValue(sender.text!)
         }
     }
     
     @IBAction func a1_step(_ sender: UIStepper) {
         debug("a1_step")
-        if (sk2Model != nil) {
-            sk2Model!.a1.applyValue(sender.value)
+        if (sk2e != nil) {
+            sk2e!.a1.applyValue(sender.value)
         }
     }
 
@@ -316,9 +310,9 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
     func a1_setup() {
         debug("a1_setup")
         a1_text.delegate = self
-        if (sk2Model != nil) {
-            self.a1_update(sk2Model!.a1)
-            a1_monitor = sk2Model!.a1.monitorChanges(a1_update)
+        if (sk2e != nil) {
+            self.a1_update(sk2e!.a1)
+            a1_monitor = sk2e!.a1.monitorChanges(a1_update)
         }
     }
     
@@ -337,15 +331,15 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
 
     @IBAction func a2_edited(_ sender: UITextField) {
         debug("a1_edited")
-        if (sk2Model != nil && sender.text != nil) {
-            sk2Model!.a2.applyValue(sender.text!)
+        if (sk2e != nil && sender.text != nil) {
+            sk2e!.a2.applyValue(sender.text!)
         }
     }
     
     @IBAction func a2_step(_ sender: UIStepper) {
         debug("a1_step")
-        if (sk2Model != nil) {
-            sk2Model!.a2.applyValue(sender.value)
+        if (sk2e != nil) {
+            sk2e!.a2.applyValue(sender.value)
         }
     }
     
@@ -364,9 +358,9 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
     func a2_setup() {
         debug("a2_setup")
         a2_text.delegate = self
-        if (sk2Model != nil) {
-            self.a2_update(sk2Model!.a2)
-            a2_monitor = sk2Model!.a2.monitorChanges(a2_update)
+        if (sk2e != nil) {
+            self.a2_update(sk2e!.a2)
+            a2_monitor = sk2e!.a2.monitorChanges(a2_update)
         }
     }
     
@@ -385,15 +379,15 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
 
     @IBAction func T_edited(_ sender: UITextField) {
         debug("T_edited")
-        if (sk2Model != nil && sender.text != nil) {
-            sk2Model!.T.applyValue(sender.text!)
+        if (sk2e != nil && sender.text != nil) {
+            sk2e!.T.applyValue(sender.text!)
         }
     }
     
     @IBAction func T_step(_ sender: UIStepper) {
         debug("T_step")
-        if (sk2Model != nil) {
-            sk2Model!.T.applyValue(sender.value)
+        if (sk2e != nil) {
+            sk2e!.T.applyValue(sender.value)
         }
     }
     
@@ -412,9 +406,9 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
     func T_setup() {
         debug("T_setup")
         T_text.delegate = self
-        if (sk2Model != nil) {
-            self.T_update(sk2Model!.T)
-            T_monitor = sk2Model!.T.monitorChanges(T_update)
+        if (sk2e != nil) {
+            self.T_update(sk2e!.T)
+            T_monitor = sk2e!.T.monitorChanges(T_update)
         }
     }
     
@@ -427,8 +421,8 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
     
     @IBAction func resetModelParams(_ sender: Any) {
         debug("resetModelParams")
-        if (sk2Model != nil) {
-            sk2Model!.resetAllParameters()
+        if (sk2e != nil) {
+            sk2e!.resetAllParameters()
         }
     }
     

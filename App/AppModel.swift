@@ -18,15 +18,27 @@ protocol AppModelUser {
 }
 
 // =========================================================
+// AppModel2
+// =========================================================
+
+protocol AppModelV2 {
+    
+    /// select a system to visualize
+    var systemSelector: Selector<PhysicalSystem2> { get }
+    
+    /// select a figure to show, given the selected system
+    var figureSelector: Selector<Figure>? { get }
+    
+    func saveUserDefaults()
+}
+
+// =========================================================
 // AppModel
 // =========================================================
 
-protocol AppModel  {
-    
-    var systemSelector: Selector<SystemModel> { get }
+protocol AppModel: AppModelV2  {
     
     var skt: SKTModel { get set }
     var viz: VisualizationModel { get set }
 
-    func saveUserDefaults()
 }

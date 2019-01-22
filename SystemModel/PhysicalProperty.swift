@@ -9,18 +9,26 @@
 import Foundation
 
 // ===============================================================================
+// PhysicalProperty2
+// ===============================================================================
+
+protocol PhysicalProperty2: Named {
+    
+    /// Returns the thing this is a property of.
+    var backingModel: PhysicalSystem2 { get }
+    
+}
+
+// ===============================================================================
 // PhysicalProperty
 // ===============================================================================
 
-protocol PhysicalProperty : Named {
+protocol PhysicalProperty : PhysicalProperty2 {
     
-    /// Returns the thing this is a property of.
-    var backingModel: SystemModel { get }
+    func valueAt(nodeIndex: Int) -> Double
     
     /// Returns the min, max values found across all nodes of the backing model
     var bounds: (min: Double, max: Double) { get }
-    
-    func valueAt(nodeIndex: Int) -> Double
     
 }
 

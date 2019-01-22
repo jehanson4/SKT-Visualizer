@@ -20,10 +20,10 @@ class SK1Energy: TypedPhysicalProperty {
     
     let physicalPropertyType = PhysicalPropertyType.energy
 
-    var _model: SK1Model
+    var _model: SK1_System
     
-    var backingModel: SystemModel {
-        return _model as SystemModel
+    var backingModel: PhysicalSystem2 {
+        return _model as PhysicalSystem2
     }
     
     var _bounds: (min: Double, max: Double)? = nil
@@ -42,7 +42,7 @@ class SK1Energy: TypedPhysicalProperty {
         return 0
     }
     
-    init(_ model: SK1Model) {
+    init(_ model: SK1_System) {
         self._model = model
     }
 }

@@ -12,7 +12,7 @@ import Foundation
 // SK2Model
 // ==============================================================
 
-class SK2Model: SystemModel {
+class SK2Model: PhysicalSystem {
     
     // ===================================
     // Initializer

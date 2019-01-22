@@ -12,7 +12,7 @@ import Foundation
 // SK3Model
 // =====================================================
 
-class SK3Model: SystemModel {
+class SK3Model: PhysicalSystem {
 
     // ===========================================
     // Basics
@@ -36,7 +36,7 @@ class SK3Model: SystemModel {
     static let N_defaultSetPoint: Int = 1000
     static let N_defaultStepSize: Int = 10
     
-    private var _N : Int = SK1Model.N_defaultSetPoint
+    private var _N : Int = SK1_System.N_defaultSetPoint
     
     private func _getN() -> Int {
         return _N
@@ -51,11 +51,11 @@ class SK3Model: SystemModel {
         "N",
         _getN,
         _setN,
-        min: SK1Model.N_max,
-        max: SK1Model.N_min,
+        min: SK1_System.N_max,
+        max: SK1_System.N_min,
         info: "Number of spins in the SK system",
-        setPoint: SK1Model.N_defaultSetPoint,
-        stepSize: SK1Model.N_defaultStepSize
+        setPoint: SK1_System.N_defaultSetPoint,
+        stepSize: SK1_System.N_defaultStepSize
     )
     
     // ===================================

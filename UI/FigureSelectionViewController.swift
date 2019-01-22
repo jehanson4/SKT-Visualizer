@@ -8,12 +8,12 @@
 
 import UIKit
 
-class PhysicalPropertySelectionViewController: UITableViewController, AppModelUser {
+class FigureSelectionViewController: UITableViewController, AppModelUser {
 
     // =====================================
     // Debug
     
-    private var clsName = "PhysicalPropertySelectionViewController"
+    private var clsName = "FigureSelectionViewController"
     private var debugEnabled = true
     
     private func debug(_ mtd: String, _ msg: String = "") {
@@ -23,10 +23,10 @@ class PhysicalPropertySelectionViewController: UITableViewController, AppModelUs
     }
 
     // =====================================
-    // Models
+    // Model
     
     var appModel: AppModel? = nil
-    var propertySelector: Selector<PhysicalProperty>? = nil
+    var figureSelector: Selector<Figure>? = nil
     
     // =====================================
     // Lifecycle
@@ -40,13 +40,14 @@ class PhysicalPropertySelectionViewController: UITableViewController, AppModelUs
         }
         else {
             debug("viewDidLoad", "appModel has been set")
+            figureSelector = appModel!.figureSelector
         }
         
-        if (propertySelector == nil) {
-            debug("viewDidLoad", "propertySelector is nil")
+        if (figureSelector == nil) {
+            debug("viewDidLoad", "figureSelector is nil")
         }
         else {
-            debug("viewDidLoad", "propertySelector has been set")
+            debug("viewDidLoad", "figureSelector has been set")
         }
     }
     
@@ -63,8 +64,8 @@ class PhysicalPropertySelectionViewController: UITableViewController, AppModelUs
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // If we got here, propertySelector *should* be non-nil
-        let rowCount = (propertySelector == nil) ? 0 :  propertySelector!.registry.entryNames.count
+        // If we got here, figureSelector *should* be non-nil
+        let rowCount = (figureSelector == nil) ? 0 :  figureSelector!.registry.entryNames.count
         debug("tableView numberOfRowsInSection", "rowCount=\(rowCount)")
         return rowCount
     }
@@ -81,9 +82,9 @@ class PhysicalPropertySelectionViewController: UITableViewController, AppModelUs
             if (subview is UIButton) {
                 configureButtonForRow(subview as! UIButton, indexPath.row)
             }
-            else if (subview is UILabel) {
-                configureLabelForRow(subview as! UILabel, indexPath.row)
-            }
+//            else if (subview is UILabel) {
+//                configureLabelForRow(subview as! UILabel, indexPath.row)
+//            }
         }
         return cell
     }
@@ -92,28 +93,29 @@ class PhysicalPropertySelectionViewController: UITableViewController, AppModelUs
         // If we got here, propertySelector *should* be non-nil
         button.tag = row
         button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+        button.setTitle(figureSelector!.registry.entryNames[row], for: .normal)
         // button.setTitleColor(UIColor.black, for: .normal)
         // button.layer.borderWidth = 1
         // button.layer.borderColor = UIColor.lightGray.cgColor
 
-//        let selectedRow = propertySelector!.selection?.index
-//        if (selectedRow != nil && selectedRow! == row) {
-//            button.isSelected = true
-//            // button.layer.backgroundColor = UIColor.lightGray.cgColor
-//        }
+        let selectedRow = figureSelector!.selection?.index
+        if (selectedRow != nil && selectedRow! == row) {
+            button.isSelected = true
+            // button.layer.backgroundColor = UIColor.lightGray.cgColor
+        }
     }
     
-    func configureLabelForRow(_ label: UILabel, _ row: Int) {
-        // If we got here, propertySelector *should* be non-nil
-        let entryName = propertySelector!.registry.entryNames[row]
-        debug("configureLabelForRow", "row \(row): \(entryName)")
-        label.text = entryName
-    }
+//    func configureLabelForRow(_ label: UILabel, _ row: Int) {
+//        // If we got here, propertySelector *should* be non-nil
+//        let entryName = figureSelector!.registry.entryNames[row]
+//        debug("configureLabelForRow", "row \(row): \(entryName)")
+//        label.text = entryName
+//    }
     
     @objc func buttonAction(sender: UIButton!) {
-        if (propertySelector != nil) {
+        if (figureSelector != nil) {
             debug("buttonAction", "selecting \(sender.tag)")
-            propertySelector!.select(sender.tag)
+            figureSelector!.select(sender.tag)
         }
         self.dismiss(animated: true, completion: nil)
     }

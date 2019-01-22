@@ -58,7 +58,7 @@ struct SKTModelParams : Equatable {
 // SKTModel
 // ===========================================================
 
-protocol SKTModel: SystemModel {
+protocol SKTModel: PhysicalSystem {
 
     // =================================
 

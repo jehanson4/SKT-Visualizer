@@ -37,7 +37,7 @@ class ModelSelectorViewController : UIViewController, AppModelUser {
     
     @IBAction func selectSK2E(_ sender: Any) {
         debug("selectSK2E")
-        appModel?.systemSelector.select(MagicStrings.sk2ModelRegistryEntryName)
+        appModel?.systemSelector.select(SK2E_System.type)
     }
     
     @IBAction func unwindToModelSelector(_ sender: UIStoryboardSegue) {

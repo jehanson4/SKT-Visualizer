@@ -43,7 +43,20 @@ class Registry<T> : ChangeMonitorEnabled {
     func entry(_ index: Int) -> RegistryEntry<T>? {
         return _entries[entryNames[index]]
     }
+
+    func register(_ t: T, name: String) -> RegistryEntry<T>? {
+        if (_entries[name] != nil) {
+            return nil
+        }
+        let index = entryNames.count
+        let newEntry = RegistryEntry<T>(index, name, t)
+        _entryNames.append(name)
+        _entries[name] = newEntry
+        changeMonitorSupport.fire()
+        return newEntry
+    }
     
+
     func register(_ t: T, nameHint: String? = nil) -> RegistryEntry<T> {
         let hint2 = (t is Named && nameHint == nil) ? (t as! Named).name : nameHint
         let name = findUniqueName(hint2)
