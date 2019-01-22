@@ -52,8 +52,19 @@ class FigureSelectionViewController: UITableViewController, AppModelUser {
     }
     
     override func didReceiveMemoryWarning() {
+        debug("didReceiveMemoryWarning")
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        debug("viewWillDisappear")
+        
+        // OK here
+        appModel = nil
+        figureSelector = nil
+        
+        super.viewWillDisappear(animated)
     }
     
     // =====================================

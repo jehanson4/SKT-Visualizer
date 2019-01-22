@@ -15,6 +15,8 @@ import Foundation
 class SK2E_Figures: Registry<Figure> {
     
     init(_ system: SK2E_System) {
-        // TODO
+        super.init()
+        _ = register(SK2E_SampleFigure())
+        // TOO
     }
 }

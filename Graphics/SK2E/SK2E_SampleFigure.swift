@@ -9,37 +9,41 @@
 import Foundation
 
 // ==============================================================
-// SK2E_PhysicalPropertyOnSphere
+// SK2E_SampleFigure
 // ==============================================================
 
-// physical property is a parameter
-// as is colormap
-// as is set of effects
+class SK2E_SampleFigure : Figure {
 
-class SK2E_PhysicalPropertyOnSphere : Figure {
+    let clsName = "SK2E_SampleFigure"
+    let debugEnabled = true
+    func debug(_ mtd: String, _ msg: String = "") {
+        if (debugEnabled) {
+            print(clsName, mtd, msg)
+        }
+    }
     
+    var name: String = "Sample Figure"
+    
+    var info: String? = nil
+
     var effects: Registry<Effect>
     
     func resetPOV() {
-        // TODO
-        
+        debug("resetPOV")
     }
     
     func calibrate() {
-        // TODO
+        debug("calibrate")
         
     }
     
     func draw() {
-        // TODO
+        debug("draw")
+        
     }
     
-    var name: String
     
-    var info: String?
-    
-    init(_ name: String) {
-        self.name = name
+    init() {
         self.effects = Registry<Effect>()
     }
 }

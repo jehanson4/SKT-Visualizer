@@ -35,7 +35,10 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
         }
         else {
             debug(mtd, "appModel has been set")
-            sk2e = appModel!.systemSelector.registry.entry(SK2E_System.type)?.value as? SK2Model
+            appModel?.systemSelector.select(SK2E_System.type)
+            debug(mtd, "selected system model. selection = \(String(describing: appModel!.systemSelector.selection?.name))")
+            sk2e = appModel?.systemSelector.selection?.value as? SK2E_System
+            figureSelector = appModel!.figureSelector
         }
         
         if (sk2e == nil) {
@@ -43,7 +46,7 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
         }
         else {
             debug(mtd, "sk2e has been set")
-            visualizationSelector_setup()
+            figureSelector_setup()
             N_setup()
             k_setup()
             a1_setup()
@@ -62,6 +65,9 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
             if (d2.appModel != nil) {
                 debug(mtdName, "destination's appModel is already set")
             }
+            else if (self.appModel == nil) {
+                debug(mtdName, "cannot set destination's appModel since ours is nil")
+            }
             else {
                 debug(mtdName, "setting destination's appModel")
                 d2.appModel = self.appModel
@@ -73,106 +79,122 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
         
     }
     
+    override func didReceiveMemoryWarning() {
+        debug("didReceiveMemoryWarning")
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        debug("viewWillDisappear")
+        
+        figureSelector_teardown()
+        N_teardown()
+        k_teardown()
+        a1_teardown()
+        a2_teardown()
+        T_teardown()
+        figureSelector = nil
+        sk2e = nil
+        // appModel = nil
+
+        super.viewWillDisappear(animated)
+    }
+    
     @IBAction func unwindToSK2E
         (_ sender: UIStoryboardSegue) {
         debug("unwindToSK2E")
     }
     
     deinit {
-        visualizationSelector_teardown()
-        N_teardown()
-        k_teardown()
-        a1_teardown()
-        a2_teardown()
-        T_teardown()
     }
     
     // ===========================================
     // Models & misc
     
     var appModel: AppModel? = nil
-    var sk2e: SK2Model? = nil
-
+    var sk2e: SK2E_System? = nil
+    
     private var _borderWidth: CGFloat = 1
     private var _cornerRadius: CGFloat = 5
     
 
     // ===========================================
-    // Visualization: Property selector
-    // TODO go back to color sources so I can do Occupation and BasinBoundaries
+    // Visualization: Figure selector
     
-    @IBOutlet weak var visualizationButton: UIButton!
+    @IBOutlet weak var figureSelectorButton: UIButton!
 
-    var visualizationSelector: Selector<PhysicalProperty>? = nil
+    weak var figureSelector: Selector<Figure>? = nil
     
-    var visualizationMonitor: ChangeMonitor? = nil
+    var figureSelectionMonitor: ChangeMonitor? = nil
     
-    func visualizationSelector_update(_ sender: Any?) {
-        if (visualizationSelector != nil && visualizationButton != nil) {
-            let selection = visualizationSelector!.selection
+    func figureSelector_update(_ sender: Any?) {
+        debug("figureSelector_update")
+        if (figureSelector != nil && figureSelectorButton != nil) {
+            let selection = figureSelector!.selection
             let title = selection?.name ?? "<choose>"
-            visualizationButton.setTitle(title, for: .normal);
+            figureSelectorButton.setTitle(title, for: .normal);
         }
     }
     
-    func visualizationSelector_setup() {
-        if (visualizationButton != nil) {
-            visualizationButton.layer.borderWidth = _borderWidth
-            visualizationButton.layer.cornerRadius = _cornerRadius
-            visualizationButton.layer.borderColor = self.view.tintColor.cgColor
+    func figureSelector_setup() {
+        debug("figureSelector_setup")
+        if (figureSelectorButton != nil) {
+            figureSelectorButton.layer.borderWidth = _borderWidth
+            figureSelectorButton.layer.cornerRadius = _cornerRadius
+            figureSelectorButton.layer.borderColor = self.view.tintColor.cgColor
         }
-        
-        if (sk2e != nil) {
-            visualizationSelector = Selector<PhysicalProperty>(sk2e!.physicalProperties)
-            visualizationSelector_update(visualizationSelector)
-            visualizationMonitor = visualizationSelector!.monitorChanges(visualizationSelector_update);
-        }
+        figureSelector_update(figureSelector)
+        figureSelectionMonitor = figureSelector!.monitorChanges(figureSelector_update);
     }
     
-    func visualizationSelector_teardown() {
-        visualizationMonitor?.disconnect()
+    func figureSelector_teardown() {
+        debug("figureSelector_teardown")
+        figureSelectionMonitor?.disconnect()
     }
     
-    // ===========================================
-    // Visualization: Geometry
-    
-    private enum Geometry: Int {
-        case plane = 0
-        case sphere = 1
-    }
-    
-    @IBOutlet weak var geometrySelector: UISegmentedControl!
-    
-    @IBAction func geometrySelector_changed(_ sender: Any) {
-        debug("geometrySelector_changed")
-        let segIdx = geometrySelector.selectedSegmentIndex
-        let segTitle = geometrySelector.titleForSegment(at: segIdx)
-        let gtype = Geometry(rawValue: segIdx)
-        debug("geometrySelector_changed: selected \(segIdx) : \(String(describing: segTitle)) : \(String(describing: gtype))")
-        
-    }
-
-    func geometrySelector_setup() {
-        debug("geometrySelector_setup")
-    }
-    
-    func geometrySelector_teardown() {
-        debug("geometrySelector_teardown")
-    }
+//    // ===========================================
+//    // Visualization: Geometry
+//
+//    private enum Geometry: Int {
+//        case plane = 0
+//        case sphere = 1
+//    }
+//
+//    @IBOutlet weak var geometrySelector: UISegmentedControl!
+//
+//    @IBAction func geometrySelector_changed(_ sender: Any) {
+//        debug("geometrySelector_changed")
+//        let segIdx = geometrySelector.selectedSegmentIndex
+//        let segTitle = geometrySelector.titleForSegment(at: segIdx)
+//        let gtype = Geometry(rawValue: segIdx)
+//        debug("geometrySelector_changed: selected \(segIdx) : \(String(describing: segTitle)) : \(String(describing: gtype))")
+//
+//    }
+//
+//    func geometrySelector_setup() {
+//        debug("geometrySelector_setup")
+//    }
+//
+//    func geometrySelector_teardown() {
+//        debug("geometrySelector_teardown")
+//    }
     
     // ===========================================
     // Visualization: buttons
 
-    @IBAction func recalibrateColors(_ sender: Any) {
-        debug("recalibrateColors", "NOT IMPLEMENTED")
+    @IBAction func calibrate(_ sender: Any) {
+        debug("calibrate")
+        figureSelector?.selection?.value.calibrate()
     }
     
     @IBAction func resetPOV(_ sender: Any) {
-        debug("resetPOV", "NOT IMPLEMENTED")
+        debug("resetPOV")
+        figureSelector?.selection?.value.resetPOV()
     }
     
     @IBAction func takeScreenshot(_ sender: Any) {
-        debug("takeScreenshot", "NOT IMPLEMENTED")
+        debug("takeScreenshot")
     }
 
     // ===========================================
@@ -221,6 +243,7 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
     }
     
     func N_teardown() {
+        debug("N_teardown")
         N_monitor?.disconnect()
     }
     
@@ -269,6 +292,7 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
     }
     
     func k_teardown() {
+        debug("k_teardown")
         k_monitor?.disconnect()
     }
     
@@ -317,6 +341,7 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
     }
     
     func a1_teardown() {
+        debug("a1_teardown")
         a1_monitor?.disconnect()
     }
     
@@ -330,14 +355,14 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
     var a2_monitor: ChangeMonitor!
 
     @IBAction func a2_edited(_ sender: UITextField) {
-        debug("a1_edited")
+        debug("a2_edited")
         if (sk2e != nil && sender.text != nil) {
             sk2e!.a2.applyValue(sender.text!)
         }
     }
     
     @IBAction func a2_step(_ sender: UIStepper) {
-        debug("a1_step")
+        debug("a2_step")
         if (sk2e != nil) {
             sk2e!.a2.applyValue(sender.value)
         }
@@ -365,6 +390,7 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
     }
     
     func a2_teardown() {
+        debug("a2_teardown")
         a2_monitor?.disconnect()
     }
     
@@ -413,6 +439,7 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
     }
     
     func T_teardown() {
+        debug("T_teardown")
         T_monitor?.disconnect()
     }
     

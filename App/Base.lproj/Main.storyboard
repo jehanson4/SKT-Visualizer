@@ -768,7 +768,7 @@
                                                                 <rect key="frame" x="0.0" y="0.0" width="77" height="32"/>
                                                                 <state key="normal" title="Recalibrate"/>
                                                                 <connections>
-                                                                    <action selector="recalibrateColors:" destination="1Ul-i5-KtM" eventType="touchUpInside" id="F4q-go-qqL"/>
+                                                                    <action selector="calibrate:" destination="1Ul-i5-KtM" eventType="touchUpInside" id="F4q-go-qqL"/>
                                                                 </connections>
                                                             </button>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l0N-Ae-IOl">
@@ -1282,9 +1282,9 @@
                         <outlet property="a1_text" destination="dGa-Ix-rWA" id="P9Y-0v-iru"/>
                         <outlet property="a2_stepper" destination="yKm-Go-gmY" id="Fr8-fr-av8"/>
                         <outlet property="a2_text" destination="kDt-Gj-ldN" id="7JR-6X-gDX"/>
+                        <outlet property="figureSelectorButton" destination="aDJ-qV-Xi8" id="bW5-5U-sS6"/>
                         <outlet property="k_stepper" destination="ExS-VI-VxA" id="UcX-gP-i41"/>
                         <outlet property="k_text" destination="pPz-tb-NiU" id="1YW-IJ-LuR"/>
-                        <outlet property="visualizationButton" destination="aDJ-qV-Xi8" id="bW5-5U-sS6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hrt-wi-jPe" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2201,7 +2201,6 @@
                                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                                 <state key="normal" title="SK/2 Equilibrium"/>
                                                                                 <connections>
-                                                                                    <action selector="selectSK2E:" destination="bVF-Kc-23a" eventType="touchUpInside" id="vbx-pt-3AX"/>
                                                                                     <segue destination="1Ul-i5-KtM" kind="show" identifier="sequeToSK2E" id="Eh7-cP-QOM"/>
                                                                                 </connections>
                                                                             </button>
@@ -2383,9 +2382,6 @@
                         <viewLayoutGuide key="safeArea" id="llR-u1-7rx"/>
                     </view>
                     <navigationItem key="navigationItem" title="Models" id="1AI-u4-KIa"/>
-                    <connections>
-                        <outlet property="sk2eButton" destination="rca-ER-4OT" id="gcb-N3-e2o"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J32-6H-LNw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

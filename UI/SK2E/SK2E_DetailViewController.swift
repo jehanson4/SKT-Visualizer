@@ -19,7 +19,9 @@ class SK2E_DetailViewController: UIViewController, AppModelUser {
     }
     
     var appModel: AppModel? = nil
-
+    var sk2e: SK2E_System? = nil
+    var figure: Figure? = nil
+    
     override func viewDidLoad() {
         let mtd = "viewDidLoad"
         debug(mtd, "entering")
@@ -30,9 +32,31 @@ class SK2E_DetailViewController: UIViewController, AppModelUser {
         }
         else {
             debug(mtd, "app Model has been set")
+            debug(mtd, "selecting SK2E system model")
+            appModel?.systemSelector.select(SK2E_System.type)
+            
+            debug(mtd, "selected system = \(String(describing: appModel?.systemSelector.selection?.name))")
+            debug(mtd, "selected figure = \(String(describing: appModel?.figureSelector?.selection?.name))")
+            
+            sk2e = appModel?.systemSelector.selection?.value as? SK2E_System
+            figure = appModel?.figureSelector?.selection?.value
         }
     }
         
+    override func didReceiveMemoryWarning() {
+        debug("didReceiveMemoryWarning")
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        debug("viewWillDisappear")
+        
+        appModel = nil
+        
+        super.viewWillDisappear(animated)
+    }
+    
     @IBAction func dismissView(_ sender: Any) {
         debug("dismissView")
         self.dismiss(animated: true, completion: nil)

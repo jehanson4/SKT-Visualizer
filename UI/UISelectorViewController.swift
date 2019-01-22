@@ -32,6 +32,20 @@ class UISelectorViewController : UIViewController, AppModelUser {
         }
     }
     
+    override func didReceiveMemoryWarning() {
+        debug("didReceiveMemoryWarning")
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        debug("viewWillDisappear")
+        
+        // appModel = nil
+        
+        super.viewWillDisappear(animated)
+    }
+    
     @IBAction func unwindToModelSelector(_ sender: UIStoryboardSegue) {
         debug("unwindToModelSelector")
     }
@@ -40,13 +54,13 @@ class UISelectorViewController : UIViewController, AppModelUser {
         let mtdName = "prepare for segue"
         debug(mtdName, "destination: \(segue.destination.title ?? "(no title)")")
         
-        // TODO what about disconnecting monitors?
-        // NOT HERE: do it in 'delete' phase.
-        
         if (segue.destination is AppModelUser) {
             var d2 = segue.destination as! AppModelUser
             if (d2.appModel != nil) {
                 debug(mtdName, "destination's appModel is already set")
+            }
+            else if (self.appModel == nil) {
+                debug(mtdName, "cannot set destination's appModel since ours is nil")
             }
             else {
                 debug(mtdName, "setting destination's appModel")

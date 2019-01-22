@@ -33,12 +33,24 @@ class ModelSelectorViewController : UIViewController, AppModelUser {
         }
     }
     
-    @IBOutlet weak var sk2eButton: UIButton!
-    
-    @IBAction func selectSK2E(_ sender: Any) {
-        debug("selectSK2E")
-        appModel?.systemSelector.select(SK2E_System.type)
+    override func didReceiveMemoryWarning() {
+        debug("didReceiveMemoryWarning")
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        debug("viewWillDisappear")
+        // appModel = nil
+        super.viewWillDisappear(animated)
+    }
+    
+//    @IBOutlet weak var sk2eButton: UIButton!
+//
+//    @IBAction func selectSK2E(_ sender: Any) {
+//        debug("selectSK2E")
+//        // appModel?.systemSelector.select(SK2E_System.type)
+//    }
     
     @IBAction func unwindToModelSelector(_ sender: UIStoryboardSegue) {
         debug("unwindToModelSelector")
@@ -55,6 +67,9 @@ class ModelSelectorViewController : UIViewController, AppModelUser {
             var d2 = segue.destination as! AppModelUser
             if (d2.appModel != nil) {
                 debug(mtdName, "destination's appModel is already set")
+            }
+            else if (self.appModel == nil) {
+                debug(mtdName, "cannot set destination's appModel since ours is nil")
             }
             else {
                 debug(mtdName, "setting destination's appModel")
