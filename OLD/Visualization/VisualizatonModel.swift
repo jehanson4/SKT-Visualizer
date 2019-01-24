@@ -55,7 +55,7 @@ struct POV {
 // where energy is bundle with datasource and colormap
 // REASON: basins
 
-protocol VisualizationModel {
+protocol VisualizationModel: Graphics {
     
     var pov: POV { get set }
     
@@ -63,7 +63,7 @@ protocol VisualizationModel {
     
     var colorSources: RegistryWithSelection<ColorSource> { get }
     
-    var effects: RegistryWithSelection<Effect> { get }
+    var effects: Registry<Effect>? { get }
     
     /// Sets all effects to their default states
     func resetEffects()
@@ -77,9 +77,9 @@ protocol VisualizationModel {
     
     func toggleSequencer()
 
-    var graphicsController: GraphicsController? { get }
+    // var graphicsController: GraphicsController? { get }
     
-    func setupGraphics(_ graphicsController: GraphicsController, _ context: GLContext?)
+    // func setupGraphics(_ graphicsController: GraphicsController, _ context: GLContext?)
     
     func draw(_ drawableWidth: Int, _ drawableHeight: Int)
     

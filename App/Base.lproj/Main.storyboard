@@ -1315,10 +1315,10 @@
             </objects>
             <point key="canvasLocation" x="2355" y="-3748"/>
         </scene>
-        <!--SK2E Visualization Selector Pop-->
+        <!--SK2E Figure Selector Pop-->
         <scene sceneID="iUy-u6-KrA">
             <objects>
-                <tableViewController id="22o-zh-LZs" userLabel="SK2E Visualization Selector Pop" customClass="FigureSelectionViewController" customModule="SKT_Visualizer" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="22o-zh-LZs" userLabel="SK2E Figure Selector Pop" customClass="FigureSelectionViewController" customModule="SKT_Visualizer" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="hIe-5b-6mF">
                         <rect key="frame" x="0.0" y="0.0" width="200" height="360"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1360,7 +1360,7 @@
         <!--SK2E Details View Controller-->
         <scene sceneID="D6v-rZ-rq8">
             <objects>
-                <viewController modalTransitionStyle="crossDissolve" modalPresentationStyle="currentContext" id="yte-mA-Bo5" userLabel="SK2E Details View Controller" customClass="SK2E_DetailViewController" customModule="SKT_Visualizer" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="SK2E Details" modalTransitionStyle="crossDissolve" modalPresentationStyle="currentContext" id="yte-mA-Bo5" userLabel="SK2E Details View Controller" customClass="SK2E_DetailViewController" customModule="SKT_Visualizer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="OfG-76-Nhj">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="745"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

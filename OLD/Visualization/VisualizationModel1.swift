@@ -13,7 +13,59 @@ import GLKit
 // VisualizationModel1
 // =============================================================
 
-class VisualizationModel1 : VisualizationModel {
+class VisualizationModel1 : VisualizationModel, Figure {
+    
+    // EMPIRICAL
+    let pan_phiFactor: Double = 0.005
+    let pan_ThetaEFactor: Double = -0.005
+    
+    var pan_initialPhi: Double = 0
+    var pan_initialThetaE: Double = 0
+    var pinch_initialZoom: Double = 1
+    
+    func handlePan(_ sender: UIPanGestureRecognizer) {
+        // OLD
+        // let pov = appModel!.viz.pov
+        if (sender.state == UIGestureRecognizer.State.began) {
+            pan_initialPhi = pov.phi
+            pan_initialThetaE = pov.thetaE
+        }
+        let delta = sender.translation(in: sender.view)
+        
+        // EMPIRICAL reversed the signs on these to make the response seem more natural
+        let phi2 = pan_initialPhi - Double(delta.x) * pan_phiFactor / pov.zoom
+        let thetaE2 = pan_initialThetaE - Double(delta.y) * pan_ThetaEFactor / pov.zoom
+        
+        debug("handlePan", "pan_initialThetaE=\(pan_initialThetaE), thetaE2=\(thetaE2)")
+        // OLD
+        // appModel!.viz.pov = POV(pov.r, phi2, thetaE2, pov.zoom)
+        // NEW
+        pov = POV(pov.r, phi2, thetaE2, pov.zoom)
+        debug("handlePan", "new thetaE=\(pov.thetaE)")
+    }
+    
+    func handlePinch(_ sender: UIPinchGestureRecognizer) {
+        // OLD
+        // let pov = appModel!.viz.pov
+        if (sender.state == UIGestureRecognizer.State.began) {
+            pinch_initialZoom = pov.zoom
+        }
+        let newZoom = (pinch_initialZoom * Double(sender.scale))
+        // OLD
+        // appModel!.viz.pov = POV(pov.r, pov.phi, pov.thetaE, newZoom)
+        // NEW
+        pov = POV(pov.r, pov.phi, pov.thetaE, newZoom)
+
+    }
+    
+    
+    func calibrate() {
+        // TODO
+    }
+    
+    
+    var name = "VisualizationModel1"
+    var info: String? = nil
     
     var debugEnabled = false
     
@@ -31,6 +83,12 @@ class VisualizationModel1 : VisualizationModel {
     
     private var glContext: GLContext? = nil
     
+    var figure: Figure {
+        get { return self as Figure}
+        set(newValue) {
+            // IGNORE
+        }
+    }
     // ===========================================
     // Initialization
     // ===========================================
@@ -201,17 +259,18 @@ class VisualizationModel1 : VisualizationModel {
     // Effects
     // ====================================
     
-    lazy var effects = RegistryWithSelection<Effect>()
+    // var effects: Registry<Effect>
+    lazy var effects: Registry<Effect>? = Registry<Effect>()
     
     private lazy var effectNamesByType = [EffectType: String]()
     
     func effect(forType t: EffectType) -> Effect? {
         let name = effectNamesByType[t]
-        return (name == nil) ? nil : effects.entry(name!)?.value
+        return (name == nil) ? nil : effects!.entry(name!)?.value
     }
     
     func registerEffect(_ effect: Effect) {
-        let entry = effects.register(effect, nameHint: effect.name)
+        let entry = effects!.register(effect, nameHint: effect.name)
         if (effect is TypedEffect) {
             let effectType = (effect as! TypedEffect).effectType
             effectNamesByType[effectType] = entry.name
@@ -238,8 +297,8 @@ class VisualizationModel1 : VisualizationModel {
     }
     
     func resetEffects() {
-        for eName in effects.entryNames {
-            effects.entry(eName)?.value.reset()
+        for eName in effects!.entryNames {
+            effects!.entry(eName)?.value.reset()
         }
     }
     // ====================================
@@ -475,7 +534,7 @@ class VisualizationModel1 : VisualizationModel {
             // debug("applyProjectionMatrix", "effect:" + effect.name)
             effect.projectionMatrix = newMatrix
         }
-        effects.apply(applyProjectionMatrix)
+        effects!.apply(applyProjectionMatrix)
     }
     
     private func updateModelview() {
@@ -495,7 +554,7 @@ class VisualizationModel1 : VisualizationModel {
             // debug("applyModelviewMatrix", "effect:" + effect.name)
             effect.modelviewMatrix = newMatrix
         }
-        effects.apply(applyModelviewMatrix)
+        effects!.apply(applyModelviewMatrix)
     }
     
     func draw(_ drawableWidth: Int, _ drawableHeight: Int) {
@@ -515,6 +574,6 @@ class VisualizationModel1 : VisualizationModel {
         func drawEffect(_ effect: Effect) {
             effect.draw()
         }
-        effects.visit(drawEffect)
+        effects!.visit(drawEffect)
     }
 }

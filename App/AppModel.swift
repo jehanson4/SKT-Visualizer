@@ -18,7 +18,7 @@ protocol AppModelUser {
 }
 
 // =========================================================
-// AppModel2
+// AppModelV2
 // =========================================================
 
 protocol AppModelV2 {
@@ -28,6 +28,8 @@ protocol AppModelV2 {
     
     /// select a figure to show, given the selected system
     var figureSelector: Selector<Figure>? { get }
+    
+    var graphics: Graphics { get set }
     
     func saveUserDefaults()
 }

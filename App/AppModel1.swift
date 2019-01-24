@@ -22,7 +22,7 @@ class AppModel1 : AppModel {
         return (systemName == nil) ? nil : _figureSelectorsBySystemName[systemName!]
     }
     
-    
+    var graphics: Graphics
     var skt: SKTModel
     var viz: VisualizationModel
     
@@ -40,7 +40,8 @@ class AppModel1 : AppModel {
         
         skt = SKTModel1()
         viz = VisualizationModel1(skt)
-
+        graphics = viz as Graphics
+        
         loadUserDefaults()
     }
 
@@ -95,13 +96,15 @@ class AppModel1 : AppModel {
         let colorSourceName = viz.colorSources.selection?.name ?? noSelection
         defaults.set(colorSourceName, forKey: colorSource_name_key)
         
-        for effectName in viz.effects.entryNames {
-            let eEntry = viz.effects.entry(effectName)
-            if (eEntry != nil) {
-                let effect = eEntry!.value
-                defaults.set(effect.enabled, forKey: makeEffectEnabledKey(effect))
-            }
-        }
+//        if (graphics.effects != nil) {
+//            for effectName in graphics.effects!.entryNames {
+//                let eEntry = graphics.effects!.entry(effectName)
+//                if (eEntry != nil) {
+//                    let effect = eEntry!.value
+//                    defaults.set(effect.enabled, forKey: makeEffectEnabledKey(effect))
+//                }
+//            }
+//        }
     }
 
     func loadUserDefaults() {
@@ -183,8 +186,10 @@ class AppModel1 : AppModel {
         }
 
         var foundEnabledEffect = false
-        for effectName in viz.effects.entryNames {
-            let eEntry = viz.effects.entry(effectName)
+        if (viz.effects != nil) {
+            let effs = viz.effects!
+        for effectName in effs.entryNames {
+            let eEntry = effs.entry(effectName)
             if (eEntry != nil) {
                 var effect = eEntry!.value
                 let enabled = defaults.bool(forKey: makeEffectEnabledKey(effect))
@@ -194,10 +199,10 @@ class AppModel1 : AppModel {
                 effect.enabled = enabled
             }
         }
+        }
         if (!foundEnabledEffect) {
             viz.resetEffects()
         }
-        
     }
     
     private func makeEffectEnabledKey(_ effect: Effect) -> String {

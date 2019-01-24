@@ -1,5 +1,5 @@
 //
-//  SK2Model.swift
+//  SK2_System.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 1/14/19.
@@ -9,20 +9,37 @@
 import Foundation
 
 // ==============================================================
-// SK2Model
+// SK2_Node
 // ==============================================================
 
-class SK2Model: PhysicalSystem {
+struct SK2_Node {
+    var nodeIndex: Int
+    var m: Int
+    var n: Int
+
+    init(_ nodeIndex: Int, _ m: Int, _ n: Int) {
+        self.nodeIndex = nodeIndex
+        self.m = m
+        self.n = n
+    }
+}
+// ==============================================================
+// SK2_System
+// ==============================================================
+
+class SK2_System: PhysicalSystem2 {
     
     // ===================================
     // Initializer
     
-    init() {
-        self._N = SK2Model.N_defaultSetPoint
-        self._k = SK2Model.k_defaultSetPoint
-        self._a1 = SK2Model.a1_defaultSetPoint
-        self._a2 = SK2Model.a2_defaultSetPoint
-        self._T = SK2Model.T_defaultSetPoint
+    init(_ name: String, _ info: String? = nil) {
+        self.name = name
+        self.info = info
+        self._N = SK2_System.N_defaultSetPoint
+        self._k = SK2_System.k_defaultSetPoint
+        self._a1 = SK2_System.a1_defaultSetPoint
+        self._a2 = SK2_System.a2_defaultSetPoint
+        self._T = SK2_System.T_defaultSetPoint
         self._beta = 1/_T
         self._nodeIndexModulus = _N - _k + 1
     }
@@ -30,15 +47,13 @@ class SK2Model: PhysicalSystem {
     // ===================================
     // Basics
     
-    var name = "SK/2"
+    var name: String
     
-    var info: String? = "SK Hamiltonian with 2 components"
+    var info: String?
     
     // ===================================
     // Nodes
-    
-    let embeddingDimension = 2
-    
+        
     var nodeCount: Int {
         return (_k + 1) * (_N - _k + 1)
     }
@@ -51,7 +66,7 @@ class SK2Model: PhysicalSystem {
         return _N - _k
     }
     
-    private var _nodeIndexModulus: Int
+    var _nodeIndexModulus: Int
 
     func nodeIndexToSK(_ nodeIndex: Int) -> (m: Int, n: Int) {
         let m = nodeIndex / _nodeIndexModulus
@@ -71,7 +86,7 @@ class SK2Model: PhysicalSystem {
     static let N_defaultSetPoint: Int = 200
     static let N_defaultStepSize: Int = 2
     
-    private var _N : Int
+    var _N : Int
     
     private func _getN() -> Int {
         return _N
@@ -94,22 +109,22 @@ class SK2Model: PhysicalSystem {
         "N",
         _getN,
         _setN,
-        min: SK2Model.N_min,
-        max: SK2Model.N_max,
+        min: SK2_System.N_min,
+        max: SK2_System.N_max,
         info: "Number of spins in the SK system",
-        setPoint: SK2Model.N_defaultSetPoint,
-        stepSize: SK2Model.N_defaultStepSize
+        setPoint: SK2_System.N_defaultSetPoint,
+        stepSize: SK2_System.N_defaultStepSize
     )
     
     // ===================================
     // k
     
     static let k_min: Int = 1
-    static let k_max: Int = SK2Model.N_max/2
-    static let k_defaultSetPoint: Int = SK2Model.N_defaultSetPoint/2
+    static let k_max: Int = SK2_System.N_max/2
+    static let k_defaultSetPoint: Int = SK2_System.N_defaultSetPoint/2
     static let k_defaultStepSize: Int = 1
     
-    private var _k : Int
+    var _k : Int
     
     private func _getK() -> Int {
         return _k
@@ -132,11 +147,11 @@ class SK2Model: PhysicalSystem {
         "k",
         _getK,
         _setK,
-        min: SK2Model.k_min,
-        max: SK2Model.k_max,
+        min: SK2_System.k_min,
+        max: SK2_System.k_max,
         info: "Distance between energy minima",
-        setPoint: SK2Model.k_defaultSetPoint,
-        stepSize: SK2Model.k_defaultStepSize
+        setPoint: SK2_System.k_defaultSetPoint,
+        stepSize: SK2_System.k_defaultStepSize
     )
     
     // ===================================
@@ -147,7 +162,7 @@ class SK2Model: PhysicalSystem {
     static let a1_defaultSetPoint: Double = 1
     static let a1_defaultStepSize: Double = 0.01
 
-    private var _a1 : Double
+    var _a1 : Double
     
     private func _getA1() -> Double {
         return _a1
@@ -161,11 +176,11 @@ class SK2Model: PhysicalSystem {
         "a\u{2081}",
         self._getA1,
         self._setA1,
-        min: SK2Model.a1_min,
-        max: SK2Model.a1_max,
+        min: SK2_System.a1_min,
+        max: SK2_System.a1_max,
         info: "Depth of energy well #1",
-        setPoint: SK2Model.a1_defaultSetPoint,
-        stepSize: SK2Model.a1_defaultStepSize
+        setPoint: SK2_System.a1_defaultSetPoint,
+        stepSize: SK2_System.a1_defaultStepSize
     )
     
     // ===================================
@@ -176,7 +191,7 @@ class SK2Model: PhysicalSystem {
     static let a2_defaultSetPoint: Double = 1
     static let a2_defaultStepSize: Double = 0.01
     
-    private var _a2 : Double
+    var _a2 : Double
     
     private func _getA2() -> Double {
         return _a2
@@ -190,11 +205,11 @@ class SK2Model: PhysicalSystem {
         "a\u{2082}",
         self._getA2,
         self._setA2,
-        min: SK2Model.a2_min,
-        max: SK2Model.a2_max,
+        min: SK2_System.a2_min,
+        max: SK2_System.a2_max,
         info: "Depth of energy well #1",
-        setPoint: SK2Model.a2_defaultSetPoint,
-        stepSize: SK2Model.a2_defaultStepSize
+        setPoint: SK2_System.a2_defaultSetPoint,
+        stepSize: SK2_System.a2_defaultStepSize
     )
     
     
@@ -206,8 +221,8 @@ class SK2Model: PhysicalSystem {
     static let T_defaultSetPoint: Double = 1000
     static let T_defaultStepSize: Double = 10
     
-    private var _T : Double
-    private var _beta: Double
+    var _T : Double
+    var _beta: Double
     
     private func _getT() -> Double {
         return _T
@@ -224,11 +239,11 @@ class SK2Model: PhysicalSystem {
         "T",
         _getT,
         _setT,
-        min: SK2Model.T_min,
-        max: SK2Model.T_max,
+        min: SK2_System.T_min,
+        max: SK2_System.T_max,
         info: "Temperature",
-        setPoint: SK2Model.T_defaultSetPoint,
-        stepSize: SK2Model.T_defaultStepSize
+        setPoint: SK2_System.T_defaultSetPoint,
+        stepSize: SK2_System.T_defaultStepSize
     )
     
     // ===================================
@@ -264,51 +279,6 @@ class SK2Model: PhysicalSystem {
         a1.resetValue()
         a2.resetValue()
         T.resetValue()
-    }
-    
-    // ===================================
-    // Physical properties
-    
-    lazy var physicalProperties = _initProperties()
-    
-    private func _initProperties() -> Registry<PhysicalProperty> {
-        let props = Registry<PhysicalProperty>()
-        _ = props.register(SK2Energy(self))
-        _ = props.register(SK2Entropy(self))
-        // TODO
-        return props
-    }
-
-    func energy(_ nodeIndex: Int) -> Double {
-        let m = nodeIndex / _nodeIndexModulus
-        let n = nodeIndex - (m * _nodeIndexModulus)
-        return energy(m, n)
-    }
-    
-    func energy(_ m: Int, _ n: Int) -> Double {
-        let d1 = 0.5 * Double(_N) - Double(m + n)
-        let d2 = 0.5 * Double(_N) - Double(_k + n - m)
-        return -(_a1 * d1 * d1  + _a2 * d2 * d2)
-    }
-    
-    func entropy(_ nodeIndex: Int) -> Double {
-        let m = nodeIndex / _nodeIndexModulus
-        let n = nodeIndex - (m * _nodeIndexModulus)
-        return entropy(m, n)
-    }
-    
-    func entropy(_ m: Int, _ n: Int) -> Double {
-        return logBinomial(_k, m) + logBinomial(_N - _k, n)
-    }
-    
-    func logOccupation(_ nodeIndex: Int) -> Double {
-        let m = nodeIndex / _nodeIndexModulus
-        let n = nodeIndex - (m * _nodeIndexModulus)
-        return logOccupation(m, n)
-    }
-    
-    func logOccupation(_ m: Int, _ n: Int) -> Double {
-        return entropy(m, n) - _beta * energy(m, n)
     }
     
 }

@@ -55,7 +55,11 @@ class DetailViewController: GLKViewController, AppModelUser, GraphicsController 
         }
         else {
             debug("viewDidLoad", "setting up graphics")
-            appModel!.viz.setupGraphics(self, context)
+            
+            // OLD
+            // appModel!.viz.setupGraphics(self, context)
+            // NEW
+            appModel!.graphics.setupGraphics(self, context)
         }
     }
 
@@ -103,27 +107,35 @@ class DetailViewController: GLKViewController, AppModelUser, GraphicsController 
     
     override func glkView(_ view: GLKView, drawIn rect: CGRect) {
         // print("DetailViewController.glkView")
-        appModel?.viz.draw(view.drawableWidth, view.drawableHeight)
+        
+        // OLD
+        // appModel?.viz.draw(view.drawableWidth, view.drawableHeight)
+        // NEW
+        appModel?.graphics.figure.draw(view.drawableWidth, view.drawableHeight)
     }
     
     @IBAction func handlePan(_ sender: UIPanGestureRecognizer) {
         // print("DetailViewController.handlePan", "sender.state:", sender.state)
         if (appModel == nil) { return }
 
-        let pov = appModel!.viz.pov
-        if (sender.state == UIGestureRecognizer.State.began) {
-            pan_initialPhi = pov.phi
-            pan_initialThetaE = pov.thetaE
-        }
-        let delta = sender.translation(in: sender.view)
-        
-        // EMPIRICAL reversed the signs on these to make the response seem more natural
-        let phi2 = pan_initialPhi - Double(delta.x) * pan_phiFactor / pov.zoom
-        let thetaE2 = pan_initialThetaE - Double(delta.y) * pan_ThetaEFactor / pov.zoom
-        
-        debug("handlePan", "pan_initialThetaE=\(pan_initialThetaE), thetaE2=\(thetaE2)")
-        appModel!.viz.pov = POV(pov.r, phi2, thetaE2, pov.zoom)
-        debug("handlePan", "new thetaE=\(pov.thetaE)")
+        // OLD
+//        let pov = appModel!.viz.pov
+//        if (sender.state == UIGestureRecognizer.State.began) {
+//            pan_initialPhi = pov.phi
+//            pan_initialThetaE = pov.thetaE
+//        }
+//        let delta = sender.translation(in: sender.view)
+//        
+//        // EMPIRICAL reversed the signs on these to make the response seem more natural
+//        let phi2 = pan_initialPhi - Double(delta.x) * pan_phiFactor / pov.zoom
+//        let thetaE2 = pan_initialThetaE - Double(delta.y) * pan_ThetaEFactor / pov.zoom
+//        
+//        debug("handlePan", "pan_initialThetaE=\(pan_initialThetaE), thetaE2=\(thetaE2)")
+//        appModel!.viz.pov = POV(pov.r, phi2, thetaE2, pov.zoom)
+//        debug("handlePan", "new thetaE=\(pov.thetaE)")
+//
+        // NEW
+        appModel!.graphics.figure.handlePan(sender)
     }
     
     @IBAction func handleTap(_ sender: UITapGestureRecognizer) {
@@ -135,12 +147,17 @@ class DetailViewController: GLKViewController, AppModelUser, GraphicsController 
         // print("DetailViewController.handlePinch", "sender.state:", sender.state)
         if (appModel == nil) { return }
 
-        let pov = appModel!.viz.pov
-        if (sender.state == UIGestureRecognizer.State.began) {
-            pinch_initialZoom = pov.zoom
-        }
-        let newZoom = (pinch_initialZoom * Double(sender.scale))
-        appModel!.viz.pov = POV(pov.r, pov.phi, pov.thetaE, newZoom)
+        // OLD
+//        let pov = appModel!.viz.pov
+//        if (sender.state == UIGestureRecognizer.State.began) {
+//            pinch_initialZoom = pov.zoom
+//        }
+//        let newZoom = (pinch_initialZoom * Double(sender.scale))
+//        appModel!.viz.pov = POV(pov.r, pov.phi, pov.thetaE, newZoom)
+//
+        // NEW
+        appModel!.graphics.figure.handlePinch(sender)
+
     }
     
     private func debug(_ mtd: String, _ msg: String = "") {

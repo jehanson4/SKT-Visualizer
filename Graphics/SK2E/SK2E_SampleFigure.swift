@@ -12,7 +12,7 @@ import Foundation
 // SK2E_SampleFigure
 // ==============================================================
 
-class SK2E_SampleFigure : Figure {
+class SK2E_SampleFigure : BaseFigure {
 
     let clsName = "SK2E_SampleFigure"
     let debugEnabled = true
@@ -22,17 +22,16 @@ class SK2E_SampleFigure : Figure {
         }
     }
     
-    var name: String = "Sample Figure"
+    init() {
+        super.init("SK2E Sample Figure")
+        super.effects = _initEffects()
+    }
     
-    var info: String? = nil
-
-    var effects: Registry<Effect>
-    
-    func resetPOV() {
+    override func resetPOV() {
         debug("resetPOV")
     }
     
-    func calibrate() {
+    override func calibrate() {
         debug("calibrate")
         
     }
@@ -42,8 +41,10 @@ class SK2E_SampleFigure : Figure {
         
     }
     
-    
-    init() {
-        self.effects = Registry<Effect>()
+    func _initEffects() -> Registry<Effect> {
+        let reg = Registry<Effect>()
+        _ = reg.register(Icosahedron(enabled: true))
+        return reg
     }
+
 }

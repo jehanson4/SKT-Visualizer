@@ -16,3 +16,15 @@ import UIKit
 protocol GraphicsController {
     var snapshot: UIImage { get }
 }
+
+// ============================================================================
+// Graphics
+// ============================================================================
+
+protocol Graphics {
+    
+    var graphicsController: GraphicsController? { get }
+    var figure: Figure { get set }
+    
+    func setupGraphics(_ graphicsController: GraphicsController, _ context: GLContext?)
+}

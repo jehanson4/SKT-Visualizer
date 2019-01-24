@@ -12,7 +12,7 @@ import Foundation
 // SK3Model
 // =====================================================
 
-class SK3Model: PhysicalSystem {
+class SK3Model: PhysicalSystem2 {
 
     // ===========================================
     // Basics

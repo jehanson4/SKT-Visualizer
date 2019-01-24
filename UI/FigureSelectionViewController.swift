@@ -127,6 +127,12 @@ class FigureSelectionViewController: UITableViewController, AppModelUser {
         if (figureSelector != nil) {
             debug("buttonAction", "selecting \(sender.tag)")
             figureSelector!.select(sender.tag)
+            
+            let selectedFigure = figureSelector!.selection?.value
+            if (selectedFigure != nil) {
+                debug("Swapping in figure \(selectedFigure!.name)")
+                appModel!.graphics.figure = selectedFigure!
+            }
         }
         self.dismiss(animated: true, completion: nil)
     }
