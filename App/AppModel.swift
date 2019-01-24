@@ -15,6 +15,7 @@ import Foundation
 protocol AppModelUser {
     
     var appModel: AppModel? { get set }
+
 }
 
 // =========================================================
@@ -23,10 +24,10 @@ protocol AppModelUser {
 
 protocol AppModel {
     
-    /// select a system to visualize
+    /// selects a system to visualize
     var systemSelector: Selector<PhysicalSystem2> { get }
     
-    /// select a figure to show, given the selected system
+    /// selects a figure to show, given the currently selected system
     var figureSelector: Selector<Figure>? { get }
     
     var graphics: Graphics { get set }

@@ -16,8 +16,15 @@ import OpenGL
 class DetailViewController: GLKViewController, AppModelUser, GraphicsController {
     
     let name: String = "DetailViewController"
+
     var debugEnabled = false
-    
+
+    private func debug(_ mtd: String, _ msg: String = "") {
+        if (debugEnabled) {
+            print(name, mtd, msg)
+        }
+    }
+
     var appModel: AppModel? = nil
     var context: EAGLContext? = nil
     
@@ -25,13 +32,13 @@ class DetailViewController: GLKViewController, AppModelUser, GraphicsController 
         get { return (view as! GLKView).snapshot }
     }
     
-    // EMPIRICAL
-    let pan_phiFactor: Double = 0.005
-    let pan_ThetaEFactor: Double = -0.005
-    
-    var pan_initialPhi: Double = 0
-    var pan_initialThetaE: Double = 0
-    var pinch_initialZoom: Double = 1
+//    // EMPIRICAL
+//    let pan_phiFactor: Double = 0.005
+//    let pan_ThetaEFactor: Double = -0.005
+//
+//    var pan_initialPhi: Double = 0
+//    var pan_initialThetaE: Double = 0
+//    var pinch_initialZoom: Double = 1
 
     deinit {
             print("DetailViewController.deinit")
@@ -165,9 +172,4 @@ class DetailViewController: GLKViewController, AppModelUser, GraphicsController 
 
     }
     
-    private func debug(_ mtd: String, _ msg: String = "") {
-        if (debugEnabled) {
-            print(name, mtd, msg)
-        }
-    }
 }

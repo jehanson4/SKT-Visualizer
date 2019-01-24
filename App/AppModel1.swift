@@ -32,11 +32,18 @@ class AppModel1 : AppModel {
         self.systemSelector = Selector<PhysicalSystem2>(systemRegistry)
         self._figureSelectorsBySystemName = [String: Selector<Figure>]()
   
+        // SK2E
+        
         let sk2e_name = SK2E_System.type
         let sk2e_system = SK2E_System()
         _ = systemRegistry.register(sk2e_system, name: sk2e_name)
         let sk2e_figures = SK2E_Figures(sk2e_system)
         _figureSelectorsBySystemName[sk2e_name] = Selector<Figure>(sk2e_figures)
+        
+        // SK2D
+        // TODO
+        
+        // OLD
         
         skt = SKTModel1()
         viz = VisualizationModel1(skt)
