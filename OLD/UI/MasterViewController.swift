@@ -14,6 +14,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     var debugEnabled = true
     
     var appModel: AppModel? = nil
+    var old_AppModel: AppModel1? = nil
     
     private var _borderWidth: CGFloat = 1
     private var _cornerRadius: CGFloat = 5
@@ -26,32 +27,36 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
 
         self._tintColor = self.view.tintColor
 
-        configureParamsControls()
-        configureColorSourceControls()
-        configureSequencerControls()
-        
         if (appModel == nil) {
-            debug(mtd, "app Model is nil")
+            debug(mtd, "appModel is nil")
         }
         else {
-            
+            debug(mtd, "appModel has been set")
+        }
+        
+        if (appModel is AppModel1) {
+            self.old_AppModel = appModel as? AppModel1
+
+            configureParamsControls()
+            configureColorSourceControls()
+            configureSequencerControls()
             
             debug(mtd, "Updating color source controls")
-            updateColorSourceControls(appModel!.viz.colorSources)
+            updateColorSourceControls(old_AppModel?.viz.colorSources as Any)
             
             debug(mtd, "Starting to monitor color source selection changes")
             colorSourceSelectionMonitor =
-                appModel!.viz.colorSources.monitorChanges(updateColorSourceControls)
+                old_AppModel?.viz.colorSources.monitorChanges(updateColorSourceControls)
             
             // debug(mtd, "Updating effects controls")
             // updateEffectsControls(appModel!.viz.effects)
             
             debug(mtd, "Updating sequencer controls")
-            updateSequencerControls(appModel!.viz.sequencers)
+            updateSequencerControls(old_AppModel?.viz.sequencers as Any)
             
             debug(mtd, "Starting to monitor sequencer selection changes")
             sequencerSelectionMonitor =
-                appModel!.viz.sequencers.monitorChanges(updateSequencerControls)
+                old_AppModel?.viz.sequencers.monitorChanges(updateSequencerControls)
         }
         debug(mtd, "done")
     }
@@ -70,16 +75,19 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
         
         if (segue.destination is AppModelUser) {
             var d2 = segue.destination as! AppModelUser
-            if (d2.appModel != nil) {
-                debug(mtdName, "destination's app'smodel is already set")
+            if (self.appModel == nil) {
+                debug(mtdName, "our own appModel is nil")
+            }
+            else if (d2.appModel != nil) {
+                debug(mtdName, "destination's appModel is already set")
             }
             else {
-                debug(mtdName, "setting destination's model")
+                debug(mtdName, "setting destination's appModel")
                 d2.appModel = self.appModel
             }
         }
         else {
-            debug(mtdName, "destination is not an app model user")
+            debug(mtdName, "destination is not an AppModelUser")
         }
     }
     
@@ -132,7 +140,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
         a2_text.delegate = self
         T_text.delegate = self
         
-        let skt = appModel!.skt
+        let skt = old_AppModel!.skt
         
         N_update(skt.N)
         N_monitor = skt.N.monitorChanges(N_update)
@@ -152,7 +160,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     
     
     @IBAction func resetControlParameters(_ sender: Any) {
-        appModel?.skt.resetAllParameters()
+        old_AppModel?.skt.resetAllParameters()
     }
     
     // ==================================
@@ -163,7 +171,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     @IBOutlet weak var N_stepper: UIStepper!
     
     @IBAction func N_textAction(_ sender: UITextField) {
-        let param = appModel?.skt.N
+        let param = old_AppModel?.skt.N
         if (param != nil && sender.text != nil) {
             let v2 = param!.fromString(sender.text!)
             if (v2 != nil) {
@@ -173,7 +181,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     }
     
     @IBAction func N_stepperAction(_ sender: UIStepper) {
-        let param = appModel?.skt.N
+        let param = old_AppModel?.skt.N
         if (param != nil) {
             let v2 = param!.fromDouble(sender.value)
             if (v2 != nil) {
@@ -204,7 +212,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     @IBOutlet weak var k_stepper: UIStepper!
     
     @IBAction func k_textAction(_ sender: UITextField) {
-        let param = appModel?.skt.k0
+        let param = old_AppModel?.skt.k0
         if (param != nil && sender.text != nil) {
             let v2 = param!.fromString(sender.text!)
             if (v2 != nil) {
@@ -214,7 +222,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     }
     
     @IBAction func k_stepperAction(_ sender: UIStepper) {
-        let param = appModel?.skt.k0
+        let param = old_AppModel?.skt.k0
         if (param != nil) {
             let v2 = param!.fromDouble(sender.value)
             if (v2 != nil) {
@@ -244,7 +252,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     @IBOutlet weak var a1_stepper: UIStepper!
     
     @IBAction func a1_textAction(_ sender: UITextField) {
-        let param = appModel?.skt.alpha1
+        let param = old_AppModel?.skt.alpha1
         if (param != nil && sender.text != nil) {
             let v2 = param!.fromString(sender.text!)
             if (v2 != nil) {
@@ -254,7 +262,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     }
     
     @IBAction func a1_stepperAction(_ sender: UIStepper) {
-        let param = appModel?.skt.alpha1
+        let param = old_AppModel?.skt.alpha1
         if (param != nil) {
             let v2 = param!.fromDouble(sender.value)
             if (v2 != nil) {
@@ -284,7 +292,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     @IBOutlet weak var a2_stepper: UIStepper!
     
     @IBAction func a2_textAction(_ sender: UITextField) {
-        let param = appModel?.skt.alpha2
+        let param = old_AppModel?.skt.alpha2
         if (param != nil && sender.text != nil) {
             let v2 = param!.fromString(sender.text!)
             if (v2 != nil) {
@@ -294,7 +302,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     }
     
     @IBAction func a2_stepperAction(_ sender: UIStepper) {
-        let param = appModel?.skt.alpha2
+        let param = old_AppModel?.skt.alpha2
         if (param != nil) {
             let v2 = param!.fromDouble(sender.value)
             if (v2 != nil) {
@@ -324,7 +332,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     @IBOutlet weak var T_stepper: UIStepper!
     
     @IBAction func T_textAction(_ sender: UITextField) {
-        let param = appModel?.skt.T
+        let param = old_AppModel?.skt.T
         if (param != nil && sender.text != nil) {
             let v2 = param!.fromString(sender.text!)
             if (v2 != nil) {
@@ -334,7 +342,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     }
     
     @IBAction func T_stepperAction(_ sender: UIStepper) {
-        let param = appModel?.skt.T
+        let param = old_AppModel?.skt.T
         if (param != nil) {
             let v2 = param!.fromDouble(sender.value)
             if (v2 != nil) {
@@ -372,14 +380,14 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     }
     
     func updateColorSourceControls(_ sender: Any) {
-        let selectionName = appModel?.viz.colorSources.selection?.name ?? "<choose>"
+        let selectionName = old_AppModel?.viz.colorSources.selection?.name ?? "<choose>"
         colorSourceDrop.setTitle(selectionName, for: .normal)
     }
     
     func fixColorSourceForSequencer() {
         let mtd = "fixColorSourceForSequencer"
-        let sequencers = appModel?.viz.sequencers
-        let colorSources = appModel?.viz.colorSources
+        let sequencers = old_AppModel?.viz.sequencers
+        let colorSources = old_AppModel?.viz.colorSources
         
         let sequencerModel = sequencers?.selection?.value.backingModel
         let colorSourceModel = colorSources?.selection?.value.backingModel
@@ -398,11 +406,11 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     }
 
     @IBAction func resetPOV(_ sender: Any) {
-        appModel?.viz.resetPOV()
+        old_AppModel?.viz.resetPOV()
     }
     
     @IBAction func takeSnapshot(_ sender: Any) {
-        let image: UIImage? = appModel?.viz.graphicsController?.snapshot
+        let image: UIImage? = old_AppModel?.viz.graphicsController?.snapshot
         if (image != nil) {
             UIImageWriteToSavedPhotosAlbum(image!, nil, nil, nil)
         }
@@ -432,7 +440,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     }
     
     func updateSequencerControls(_ sender: Any) {
-        let selectionName = appModel?.viz.sequencers.selection?.name ?? "<none>"
+        let selectionName = old_AppModel?.viz.sequencers.selection?.name ?? "<none>"
         sequencerDrop.setTitle(selectionName, for: .normal)
         
         if (sequencerParamsMonitor != nil) {
@@ -440,7 +448,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
             debug("updateSequencerControls", "stopped monitoring the old sequencer")
         }
         
-        let selection = appModel?.viz.sequencers.selection
+        let selection = old_AppModel?.viz.sequencers.selection
         if (selection == nil) {
             debug("updateSequencerControls", "No sequencer is selected")
             updateSequencerPropertyControls(nil)
@@ -481,7 +489,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     @IBOutlet weak var player_segment: UISegmentedControl!
     
     @IBAction func player_action(_ sender: UISegmentedControl) {
-        var sequencer = appModel?.viz.sequencers.selection?.value
+        var sequencer = old_AppModel?.viz.sequencers.selection?.value
         let playerState = getPlayerState(sender.selectedSegmentIndex)
         if (sequencer != nil && playerState != nil) {
             setPlayerState(&sequencer!, playerState!)
@@ -495,7 +503,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     
 
     @IBAction func sequencerProgressAction(_ sender: UISlider) {
-        let sequencer = appModel?.viz.sequencers.selection?.value
+        let sequencer = old_AppModel?.viz.sequencers.selection?.value
         if (sequencer != nil) {
             sequencer!.jumpToProgress(Double(sender.value))
         }
@@ -504,7 +512,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     @IBOutlet weak var ub_text: UITextField!
     
     @IBAction func ub_action(_ sender: UITextField) {
-        var sequencer = appModel?.viz.sequencers.selection?.value
+        var sequencer = old_AppModel?.viz.sequencers.selection?.value
         if (sequencer != nil) {
             if (sender.text != nil) {
                 let v2 = sequencer!.fromString(sender.text!)
@@ -518,7 +526,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     @IBOutlet weak var ub_stepper: UIStepper!
     
     @IBAction func ub_stepperAction(_ sender: UIStepper) {
-        var sequencer = appModel?.viz.sequencers.selection?.value
+        var sequencer = old_AppModel?.viz.sequencers.selection?.value
         if (sequencer != nil) {
             sequencer!.upperBound = sender.value
         }
@@ -527,7 +535,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     @IBOutlet weak var lb_text: UITextField!
     
     @IBAction func lb_action(_ sender: UITextField) {
-        var sequencer = appModel?.viz.sequencers.selection?.value
+        var sequencer = old_AppModel?.viz.sequencers.selection?.value
         if (sequencer != nil) {
             if (sender.text != nil) {
                 let v2 = sequencer!.fromString(sender.text!)
@@ -541,7 +549,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     @IBOutlet weak var lb_stepper: UIStepper!
     
     @IBAction func lb_stepperAction(_ sender: UIStepper) {
-        var sequencer = appModel?.viz.sequencers.selection?.value
+        var sequencer = old_AppModel?.viz.sequencers.selection?.value
         if (sequencer != nil) {
             sequencer!.lowerBound = sender.value
         }
@@ -550,7 +558,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     @IBOutlet weak var stepSize_text: UITextField!
     
     @IBAction func stepSize_action(_ sender: UITextField) {
-        var sequencer = appModel?.viz.sequencers.selection?.value
+        var sequencer = old_AppModel?.viz.sequencers.selection?.value
         if (sequencer != nil) {
             if (sender.text != nil) {
                 let v2 = sequencer!.fromString(sender.text!)
@@ -564,7 +572,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     @IBOutlet weak var stepSize_stepper: UIStepper!
     
     @IBAction func stepSize_stepperAction(_ sender: UIStepper) {
-        var sequencer = appModel?.viz.sequencers.selection?.value
+        var sequencer = old_AppModel?.viz.sequencers.selection?.value
         if (sequencer != nil) {
             sequencer!.stepSize = sender.value
         }
@@ -574,7 +582,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     
     @IBAction func bc_action(_ sender: UISegmentedControl) {
         // debug("bc_action", "selectedSegmentIndex=" + String(sender.selectedSegmentIndex))
-        var sequencer = appModel?.viz.sequencers.selection?.value
+        var sequencer = old_AppModel?.viz.sequencers.selection?.value
         if (sequencer != nil) {
             let newBC = BoundaryCondition(rawValue: sender.selectedSegmentIndex)
             if (newBC != nil) {

@@ -19,7 +19,7 @@ class SequencerSelectionViewController: UITableViewController, AppModelUser {
         }
     }
     
-    var appModel: AppModel? = nil
+    var appModel: AppModel?
     private weak var registry: RegistryWithSelection<Sequencer>!
     
     override func viewDidLoad() {
@@ -31,8 +31,12 @@ class SequencerSelectionViewController: UITableViewController, AppModelUser {
         }
         else {
             debug("viewDidLoad", "appModel has been set.")
+        }
+        
+        if (appModel is AppModel1) {
             debug("viewDidLoad", "setting registry.")
-            registry = appModel?.viz.sequencers
+            let old_AppModel = appModel as? AppModel1
+            registry = old_AppModel?.viz.sequencers
         }
     }
     

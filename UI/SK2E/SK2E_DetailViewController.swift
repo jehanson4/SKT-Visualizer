@@ -32,6 +32,7 @@ class SK2E_DetailViewController: UIViewController, AppModelUser {
         }
         else {
             debug(mtd, "app Model has been set")
+            
             debug(mtd, "selecting SK2E system model")
             appModel?.systemSelector.select(SK2E_System.type)
             
@@ -52,6 +53,7 @@ class SK2E_DetailViewController: UIViewController, AppModelUser {
     override func viewWillDisappear(_ animated: Bool) {
         debug("viewWillDisappear")
         
+        // OK here
         appModel = nil
         
         super.viewWillDisappear(animated)

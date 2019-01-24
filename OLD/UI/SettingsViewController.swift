@@ -13,6 +13,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
     var debugEnabled: Bool = false
     
     var appModel: AppModel?
+    var old_AppModel: AppModel1? = nil
     
     override func viewDidLoad() {
         debug("viewDidLoad", "entering")
@@ -22,9 +23,14 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
         
         
         if (appModel == nil) {
-            debug("viewDidLoad", "app model is nil")
+            debug("viewDidLoad", "appModel is nil")
         }
         else {
+            debug("viewDidLoad", "appModel has been set")
+        }
+        
+        if (appModel is AppModel1) {
+            old_AppModel = appModel as? AppModel1
             configureDeltaControls()
             configureEffectsControls()
             // configureBusySpinner()
@@ -62,16 +68,19 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
         
         if (segue.destination is AppModelUser) {
             var d2 = segue.destination as! AppModelUser
-            if (d2.appModel != nil) {
-                debug(mtdName, "destination's app model is already set")
+            if (self.appModel == nil) {
+                debug(mtdName, "our own appModel is nil")
+            }
+            else if (d2.appModel != nil) {
+                debug(mtdName, "destination's appModel is already set")
             }
             else {
-                debug(mtdName, "setting destination's app model")
+                debug(mtdName, "setting destination's appModel")
                 d2.appModel = self.appModel
             }
         }
         else {
-            debug(mtdName, "destination is not an app model user")
+            debug(mtdName, "destination is not an AppModelUser")
         }
     }
     
@@ -104,7 +113,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
         dT_text.delegate = self
         
         
-        let skt = appModel!.skt
+        let skt = old_AppModel!.skt
         
         N_update(skt.N)
         N_monitor = skt.N.monitorChanges(N_update)
@@ -130,7 +139,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
     @IBOutlet weak var dN_text: UITextField!
     
     @IBAction func dN_textAction(_ sender: UITextField) {
-        let param = appModel?.skt.N
+        let param = old_AppModel?.skt.N
         if (param != nil && sender.text != nil) {
             let v2 = param!.fromString(sender.text!)
             if (v2 != nil) {
@@ -154,7 +163,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
     @IBOutlet weak var dk_text: UITextField!
     
     @IBAction func dk_textAction(_ sender: UITextField) {
-        let param = appModel?.skt.k0
+        let param = old_AppModel?.skt.k0
         if (param != nil && sender.text != nil) {
             let v2 = param!.fromString(sender.text!)
             if (v2 != nil) {
@@ -178,7 +187,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
     @IBOutlet weak var da1_text: UITextField!
     
     @IBAction func da1_textAction(_ sender: UITextField) {
-        let param = appModel?.skt.alpha1
+        let param = old_AppModel?.skt.alpha1
         if (param != nil && sender.text != nil) {
             let v2 = param!.fromString(sender.text!)
             if (v2 != nil) {
@@ -202,7 +211,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
     @IBOutlet weak var da2_text: UITextField!
     
     @IBAction func da2_textAction(_ sender: UITextField) {
-        let param = appModel?.skt.alpha2
+        let param = old_AppModel?.skt.alpha2
         if (param != nil && sender.text != nil) {
             let v2 = param!.fromString(sender.text!)
             if (v2 != nil) {
@@ -226,7 +235,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
     @IBOutlet weak var dT_text: UITextField!
     
     @IBAction func dT_textAction(_ sender: UITextField) {
-        let param = appModel?.skt.T
+        let param = old_AppModel?.skt.T
         if (param != nil && sender.text != nil) {
             let v2 = param!.fromString(sender.text!)
             if (v2 != nil) {
@@ -249,7 +258,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
     // ====================================================================
     
     func installedEffect(_ type: EffectType) -> Effect? {
-        return appModel?.viz.effect(forType: type)
+        return old_AppModel?.viz.effect(forType: type)
     }
     
     func updateEffectsControls(_ registry: RegistryWithSelection<Effect>) {
@@ -262,7 +271,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
     
     func updateEffectsControls() {
         debug("updateEffectsControls")
-        let viz = appModel!.viz
+        let viz = old_AppModel!.viz
         axes_switch.isOn      = viz.effect(forType: EffectType.axes)?.enabled ?? false
         meridians_switch.isOn = viz.effect(forType: EffectType.meridians)?.enabled ?? false
         net_switch.isOn       = viz.effect(forType: EffectType.net)?.enabled ?? false

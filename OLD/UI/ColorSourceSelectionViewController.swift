@@ -31,11 +31,11 @@ class ColorSourceSelectionViewController: UITableViewController, AppModelUser {
         }
         else {
             debug("viewDidLoad", "appModel has been set.")
-            debug("viewDidLoad", "setting registry.")
-            registry = appModel?.viz.colorSources
+            if (appModel is AppModel1) {
+                debug("viewDidLoad", "setting registry.")
+                registry = (appModel! as! AppModel1).viz.colorSources
+            }
         }
-        
-
     }
     
     override func didReceiveMemoryWarning() {

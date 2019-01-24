@@ -56,11 +56,11 @@ class UISelectorViewController : UIViewController, AppModelUser {
         
         if (segue.destination is AppModelUser) {
             var d2 = segue.destination as! AppModelUser
-            if (d2.appModel != nil) {
-                debug(mtdName, "destination's appModel is already set")
+            if (self.appModel == nil) {
+                debug(mtdName, "our own appModel is nil")
             }
-            else if (self.appModel == nil) {
-                debug(mtdName, "cannot set destination's appModel since ours is nil")
+            else if (d2.appModel != nil) {
+                debug(mtdName, "destination's appModel is already set")
             }
             else {
                 debug(mtdName, "setting destination's appModel")
@@ -68,7 +68,7 @@ class UISelectorViewController : UIViewController, AppModelUser {
             }
         }
         else {
-            debug(mtdName, "destination is not an app model user")
+            debug(mtdName, "destination is not an AppModelUser")
         }
     }
     

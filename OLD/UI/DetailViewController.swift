@@ -54,8 +54,9 @@ class DetailViewController: GLKViewController, AppModelUser, GraphicsController 
             debug("viewDidLoad", "appModel is nil")
         }
         else {
-            debug("viewDidLoad", "setting up graphics")
+            debug("viewDidLoad", "appModel has been set")
             
+            debug("viewDidLoad", "setting up graphics")
             // OLD
             // appModel!.viz.setupGraphics(self, context)
             // NEW
@@ -140,7 +141,11 @@ class DetailViewController: GLKViewController, AppModelUser, GraphicsController 
     
     @IBAction func handleTap(_ sender: UITapGestureRecognizer) {
         if (appModel == nil) { return }
-        appModel!.viz.toggleSequencer()
+        
+        // OLD
+        // appModel!.viz.toggleSequencer()
+        // NEW
+        // TODO
     }
     
     @IBAction func handlePinch(_ sender: UIPinchGestureRecognizer) {

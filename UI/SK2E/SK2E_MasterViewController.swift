@@ -62,11 +62,11 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
         // HACK HACK HACK HACK
         if (segue.destination is AppModelUser) {
             var d2 = segue.destination as! AppModelUser
-            if (d2.appModel != nil) {
-                debug(mtdName, "destination's appModel is already set")
+            if (self.appModel == nil) {
+                debug(mtdName, "our own appModel is nil")
             }
-            else if (self.appModel == nil) {
-                debug(mtdName, "cannot set destination's appModel since ours is nil")
+            else if (d2.appModel != nil) {
+                debug(mtdName, "destination's appModel is already set")
             }
             else {
                 debug(mtdName, "setting destination's appModel")

@@ -29,6 +29,7 @@ class GraphicsV1: Graphics {
     init() {
         self.figure = BaseFigure()
     }
+    
     // ========================================
     // Graphics Controller
 
