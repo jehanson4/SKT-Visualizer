@@ -22,7 +22,7 @@ class SK2E_SampleFigure : BaseFigure {
         }
     }
     
-    init() {
+    init(_ system: SK2E_System) {
         super.init("SK2E Sample Figure")
         super.effects = _initEffects()
     }

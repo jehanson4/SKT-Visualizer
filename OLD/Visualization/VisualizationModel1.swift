@@ -305,7 +305,7 @@ class VisualizationModel1 : VisualizationModel, Figure {
     // Sequencers
     // ====================================
     
-    lazy var sequencers = RegistryWithSelection<Sequencer>()
+    lazy var sequencers = RegistryWithSelection<OLD_Sequencer>()
     
     var sequenceRateLimit: Double {
         get { return _sequencerRateLimit }
@@ -403,7 +403,7 @@ class VisualizationModel1 : VisualizationModel, Figure {
         // TODO: verify that there's nothing to do here
     }
     
-    private func registerSequencer(_ sequencer: Sequencer, _ select: Bool) {
+    private func registerSequencer(_ sequencer: OLD_Sequencer, _ select: Bool) {
         let newEntry = sequencers.register(sequencer, nameHint: sequencer.name)
         if (select) {
             sequencers.select(newEntry.index)

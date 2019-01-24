@@ -34,8 +34,7 @@ class SK2E_DetailViewController: UIViewController, AppModelUser {
             debug(mtd, "app Model has been set")
             
             debug(mtd, "selecting SK2E system model")
-            appModel?.systemSelector.select(SK2E_System.type)
-            
+            appModel?.systemSelector.select(SK2E.name)
             debug(mtd, "selected system = \(String(describing: appModel?.systemSelector.selection?.name))")
             debug(mtd, "selected figure = \(String(describing: appModel?.figureSelector?.selection?.name))")
             

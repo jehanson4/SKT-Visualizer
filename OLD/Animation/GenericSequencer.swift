@@ -12,9 +12,10 @@ import Foundation
 // GenericSequencer
 // =============================================================================
 
-class GenericSequencer<T> : Sequencer {
+class GenericSequencer<T> : OLD_Sequencer {
     
     var name: String
+    var info: String? = nil
     
     /// FOR OVERRIDE
     var backingModel: AnyObject? { return nil }

@@ -66,3 +66,11 @@ quantity being shown and way of showing it.
 For each quantity I'm going to pick the way of showing it. So the user
 chooses a quantity.
 
+================================
+There's a unity about this:
+
+protocol AppPart {
+    system: PhysicalSystem { get }
+    figures: Selector<Figure> { get }
+    sequencers: Selector<Sequencer> { get }
+}

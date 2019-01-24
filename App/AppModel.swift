@@ -19,6 +19,18 @@ protocol AppModelUser {
 }
 
 // =========================================================
+// PartFactory
+// =========================================================
+
+protocol PartFactory {
+    associatedtype System: PhysicalSystem2
+    static var name: String { get }
+    func makeSystem() -> System
+    func makeFigures(_ system: System) -> Registry<Figure>?
+    func makeSequencers(_ system: System) -> Registry<Sequencer>?
+}
+
+// =========================================================
 // AppModel
 // =========================================================
 
@@ -30,19 +42,11 @@ protocol AppModel {
     /// selects a figure to show, given the currently selected system
     var figureSelector: Selector<Figure>? { get }
     
+    /// selects a sequencer to use, given currently selected system
+    // var sequencerSelector: Selector<Sequencer>? { get }
+    
     var graphics: Graphics { get set }
     
     func saveUserDefaults()
     
 }
-
-//// =========================================================
-//// AppModel
-//// =========================================================
-//
-//protocol OLD_AppModel: AppModel  {
-//    
-//    var skt: SKTModel { get set }
-//    var viz: VisualizationModel { get set }
-//
-//}

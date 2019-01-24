@@ -12,9 +12,10 @@ import Foundation
 // DummySequencer
 // ======================================================================
 
-class DummySequencer: Sequencer {
+class DummySequencer: OLD_Sequencer {
     
     var name: String
+    var info: String?
     
     var enabled: Bool {
         get { return false }

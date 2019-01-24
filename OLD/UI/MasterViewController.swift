@@ -594,7 +594,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     
     func updateSequencerPropertyControls(_ sender: Any?) {
         debug("updateSequencerPropertyControls", "entering")
-        let sequencer = sender as? Sequencer
+        let sequencer = sender as? OLD_Sequencer
         if (sequencer == nil) {
             debug("updateSequencerPropertyControls", "sequencer=nil")
             player_segment.selectedSegmentIndex = -1
@@ -624,7 +624,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
         debug("updateSequencerPropertyControls", "done")
     }
     
-    private func getPlayerState(_ seq: Sequencer) -> PlayerState {
+    private func getPlayerState(_ seq: OLD_Sequencer) -> PlayerState {
         switch (seq.direction) {
         case .reverse:
             return (seq.enabled) ? .runBackward : .stepBackward
@@ -635,7 +635,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
         }
     }
     
-    private func setPlayerState(_ seq: inout Sequencer, _ state: PlayerState) {
+    private func setPlayerState(_ seq: inout OLD_Sequencer, _ state: PlayerState) {
         // There must be a better way....
         switch (state) {
         case .reset:
@@ -676,7 +676,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
         return PlayerState(rawValue: s)
     }
     
-    private func getStepSizeIncr(_ seq: Sequencer) -> Double {
+    private func getStepSizeIncr(_ seq: OLD_Sequencer) -> Double {
         let min1 = seq.minStepSize
         let min2 = seq.defaultStepSize / 10
         return max(min1, min2)

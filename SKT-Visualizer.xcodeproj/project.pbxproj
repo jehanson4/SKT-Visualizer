@@ -60,7 +60,7 @@
 		8A75B694208A771800EACD13 /* SKTModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B693208A771800EACD13 /* SKTModel.swift */; };
 		8A84313820726F0100F06B9B /* Axes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A84313720726F0100F06B9B /* Axes.swift */; };
 		8A91B0982093F8C100488907 /* OLD_Parameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A91B0972093F8C100488907 /* OLD_Parameters.swift */; };
-		8A91B09C2093F98000488907 /* Sequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A91B09B2093F98000488907 /* Sequencer.swift */; };
+		8A91B09C2093F98000488907 /* OLD_Sequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A91B09B2093F98000488907 /* OLD_Sequencer.swift */; };
 		8A91B09E2094163C00488907 /* DummySequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A91B09D2094163C00488907 /* DummySequencer.swift */; };
 		8A91B0A02094164700488907 /* NForFixedKOverN.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A91B09F2094164700488907 /* NForFixedKOverN.swift */; };
 		8A91B0A4209418A900488907 /* NumericParameterSequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A91B0A3209418A900488907 /* NumericParameterSequencer.swift */; };
@@ -84,10 +84,12 @@
 		8AC82CD421F61D4D00A75595 /* SK1E_System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CD321F61D4D00A75595 /* SK1E_System.swift */; };
 		8AC82CD621F6646300A75595 /* Figure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CD521F6646300A75595 /* Figure.swift */; };
 		8AC82CD921F6668000A75595 /* SK2E_SampleFigure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CD821F6668000A75595 /* SK2E_SampleFigure.swift */; };
-		8AC82CDB21F66C3C00A75595 /* SK2E_Figures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CDA21F66C3C00A75595 /* SK2E_Figures.swift */; };
 		8AC82CDD21F66CA200A75595 /* SK2E_System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CDC21F66CA200A75595 /* SK2E_System.swift */; };
 		8AC82CDF21F747BB00A75595 /* SK2D_System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CDE21F747BB00A75595 /* SK2D_System.swift */; };
 		8AC82CE121F8874200A75595 /* GraphicsV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CE021F8874200A75595 /* GraphicsV1.swift */; };
+		8AC82CEA21F9DB5000A75595 /* SK2E.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CE921F9DB5000A75595 /* SK2E.swift */; };
+		8AC82CEC21F9E36700A75595 /* Sequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CEB21F9E36700A75595 /* Sequencer.swift */; };
+		8AC82CEF21F9F57200A75595 /* SK2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CEE21F9F57200A75595 /* SK2D.swift */; };
 		8ACB504020AC92DC00878612 /* BusySpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB503F20AC92DC00878612 /* BusySpinner.swift */; };
 		8ACB504420ACAE4400878612 /* busy.png in Resources */ = {isa = PBXBuildFile; fileRef = 8ACB504320ACAE4300878612 /* busy.png */; };
 		8ACE788D2072E51800C29875 /* Icosahedron.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACE788C2072E51800C29875 /* Icosahedron.swift */; };
@@ -192,7 +194,7 @@
 		8A75B693208A771800EACD13 /* SKTModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKTModel.swift; sourceTree = "<group>"; };
 		8A84313720726F0100F06B9B /* Axes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Axes.swift; sourceTree = "<group>"; };
 		8A91B0972093F8C100488907 /* OLD_Parameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OLD_Parameters.swift; sourceTree = "<group>"; };
-		8A91B09B2093F98000488907 /* Sequencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sequencer.swift; sourceTree = "<group>"; };
+		8A91B09B2093F98000488907 /* OLD_Sequencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OLD_Sequencer.swift; sourceTree = "<group>"; };
 		8A91B09D2094163C00488907 /* DummySequencer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DummySequencer.swift; sourceTree = "<group>"; };
 		8A91B09F2094164700488907 /* NForFixedKOverN.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NForFixedKOverN.swift; sourceTree = "<group>"; };
 		8A91B0A3209418A900488907 /* NumericParameterSequencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumericParameterSequencer.swift; sourceTree = "<group>"; };
@@ -216,10 +218,12 @@
 		8AC82CD321F61D4D00A75595 /* SK1E_System.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK1E_System.swift; sourceTree = "<group>"; };
 		8AC82CD521F6646300A75595 /* Figure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Figure.swift; sourceTree = "<group>"; };
 		8AC82CD821F6668000A75595 /* SK2E_SampleFigure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2E_SampleFigure.swift; sourceTree = "<group>"; };
-		8AC82CDA21F66C3C00A75595 /* SK2E_Figures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2E_Figures.swift; sourceTree = "<group>"; };
 		8AC82CDC21F66CA200A75595 /* SK2E_System.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2E_System.swift; sourceTree = "<group>"; };
 		8AC82CDE21F747BB00A75595 /* SK2D_System.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2D_System.swift; sourceTree = "<group>"; };
 		8AC82CE021F8874200A75595 /* GraphicsV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphicsV1.swift; sourceTree = "<group>"; };
+		8AC82CE921F9DB5000A75595 /* SK2E.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2E.swift; sourceTree = "<group>"; };
+		8AC82CEB21F9E36700A75595 /* Sequencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sequencer.swift; sourceTree = "<group>"; };
+		8AC82CEE21F9F57200A75595 /* SK2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2D.swift; sourceTree = "<group>"; };
 		8ACB503F20AC92DC00878612 /* BusySpinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusySpinner.swift; sourceTree = "<group>"; };
 		8ACB504320ACAE4300878612 /* busy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = busy.png; sourceTree = "<group>"; };
 		8ACE788C2072E51800C29875 /* Icosahedron.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Icosahedron.swift; sourceTree = "<group>"; };
@@ -294,13 +298,6 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
-		8A19CD892082488D00C1EADE /* Sequencers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Sequencers;
-			sourceTree = "<group>";
-		};
 		8A1CF009207146510099DD97 = {
 			isa = PBXGroup;
 			children = (
@@ -314,9 +311,12 @@
 				8A2034E521ED29B400A4C418 /* OLD */,
 				8A0C09A220716B050017AC4C /* Utilities */,
 				8A9D599B208DFBD20022831B /* App */,
+				8AC82CED21F9E41A00A75595 /* Animation */,
 				8AC82CC221F5C8B700A75595 /* Graphics */,
 				8AF5320C2088B63E009D1882 /* PhysicalSystem */,
 				8AF59504208AC6DB0082C5DE /* UI */,
+				8AC82CE521F9D9CB00A75595 /* SK2D */,
+				8AC82CE421F9D9A900A75595 /* SK2E */,
 				8A3C45B72086185B00A1E9CD /* Scratch */,
 			);
 			sourceTree = "<group>";
@@ -341,8 +341,10 @@
 		8A2034E521ED29B400A4C418 /* OLD */ = {
 			isa = PBXGroup;
 			children = (
-				8A7FA8B421DD935A004E68BF /* Animation */,
+				8AC82CC521F5D5D100A75595 /* SKT */,
+				8A75B692208A76D100EACD13 /* PhysicalProperties */,
 				8AF59501208AC50D0082C5DE /* Visualization */,
+				8A7FA8B421DD935A004E68BF /* Animation */,
 				8A41B09A21F2517700DE38CB /* UI */,
 				8A41B09321F0CFC600DE38CB /* Utilities */,
 				8A41B09221F0CFB400DE38CB /* SKT */,
@@ -420,21 +422,10 @@
 			path = UI;
 			sourceTree = "<group>";
 		};
-		8A591B3521E690F100B802F8 /* SK2E */ = {
-			isa = PBXGroup;
-			children = (
-				8A591B3121E441FB00B802F8 /* SK2E_MasterViewController.swift */,
-				8A2034DD21EB961300A4C418 /* SK2E_DetailViewController.swift */,
-			);
-			path = SK2E;
-			sourceTree = "<group>";
-		};
 		8A591B3C21E6D89500B802F8 /* SK2 */ = {
 			isa = PBXGroup;
 			children = (
 				8A2034E621ED2A6000A4C418 /* SK2_System.swift */,
-				8AC82CDC21F66CA200A75595 /* SK2E_System.swift */,
-				8AC82CDE21F747BB00A75595 /* SK2D_System.swift */,
 			);
 			path = SK2;
 			sourceTree = "<group>";
@@ -474,7 +465,7 @@
 		8A7FA8B421DD935A004E68BF /* Animation */ = {
 			isa = PBXGroup;
 			children = (
-				8A91B09B2093F98000488907 /* Sequencer.swift */,
+				8A91B09B2093F98000488907 /* OLD_Sequencer.swift */,
 				8A91B09D2094163C00488907 /* DummySequencer.swift */,
 				8A91B0A92094B01400488907 /* GenericSequencer.swift */,
 				8A7FA8B621DD9397004E68BF /* ParameterSweep */,
@@ -527,8 +518,6 @@
 		8AC82CC221F5C8B700A75595 /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
-				8AC82CD721F665FE00A75595 /* SK2E */,
-				8AC82CC521F5D5D100A75595 /* SKT */,
 				8AE48BBA2087857C001B5D11 /* GLUtils.swift */,
 				8ACE788E2073C57500C29875 /* Effect.swift */,
 				8A0269DC2080B1240054107D /* ColorSource.swift */,
@@ -546,7 +535,8 @@
 				8AC82CC921F5D78D00A75595 /* Effects */,
 				8AC82CC621F5D60400A75595 /* SK2SphereUtils.swift */,
 			);
-			path = SKT;
+			name = SKT;
+			path = ../Graphics/SKT;
 			sourceTree = "<group>";
 		};
 		8AC82CC921F5D78D00A75595 /* Effects */ = {
@@ -566,13 +556,73 @@
 			path = Effects;
 			sourceTree = "<group>";
 		};
-		8AC82CD721F665FE00A75595 /* SK2E */ = {
+		8AC82CE421F9D9A900A75595 /* SK2E */ = {
+			isa = PBXGroup;
+			children = (
+				8AC82CE921F9DB5000A75595 /* SK2E.swift */,
+				8AC82CF221F9F59900A75595 /* PhysicalSystem */,
+				8AC82CE821F9DA7900A75595 /* Animation */,
+				8AC82CE721F9DA4000A75595 /* UI */,
+				8AC82CE621F9DA2D00A75595 /* Figures */,
+			);
+			path = SK2E;
+			sourceTree = "<group>";
+		};
+		8AC82CE521F9D9CB00A75595 /* SK2D */ = {
+			isa = PBXGroup;
+			children = (
+				8AC82CF321F9F5BC00A75595 /* PhysicalSystem */,
+				8AC82CEE21F9F57200A75595 /* SK2D.swift */,
+			);
+			path = SK2D;
+			sourceTree = "<group>";
+		};
+		8AC82CE621F9DA2D00A75595 /* Figures */ = {
 			isa = PBXGroup;
 			children = (
 				8AC82CD821F6668000A75595 /* SK2E_SampleFigure.swift */,
-				8AC82CDA21F66C3C00A75595 /* SK2E_Figures.swift */,
 			);
-			path = SK2E;
+			path = Figures;
+			sourceTree = "<group>";
+		};
+		8AC82CE721F9DA4000A75595 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				8A591B3121E441FB00B802F8 /* SK2E_MasterViewController.swift */,
+				8A2034DD21EB961300A4C418 /* SK2E_DetailViewController.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		8AC82CE821F9DA7900A75595 /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Animation;
+			sourceTree = "<group>";
+		};
+		8AC82CED21F9E41A00A75595 /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				8AC82CEB21F9E36700A75595 /* Sequencer.swift */,
+			);
+			path = Animation;
+			sourceTree = "<group>";
+		};
+		8AC82CF221F9F59900A75595 /* PhysicalSystem */ = {
+			isa = PBXGroup;
+			children = (
+				8AC82CDC21F66CA200A75595 /* SK2E_System.swift */,
+			);
+			path = PhysicalSystem;
+			sourceTree = "<group>";
+		};
+		8AC82CF321F9F5BC00A75595 /* PhysicalSystem */ = {
+			isa = PBXGroup;
+			children = (
+				8AC82CDE21F747BB00A75595 /* SK2D_System.swift */,
+			);
+			path = PhysicalSystem;
 			sourceTree = "<group>";
 		};
 		8ACE78902073CCDA00C29875 /* Frameworks */ = {
@@ -659,7 +709,6 @@
 				8A2034E021ED0F3400A4C418 /* SK1 */,
 				8A591B3C21E6D89500B802F8 /* SK2 */,
 				8A41B09121F0BF0300DE38CB /* SK3 */,
-				8A75B692208A76D100EACD13 /* PhysicalProperties */,
 			);
 			name = PhysicalSystem;
 			path = SystemModel;
@@ -668,11 +717,10 @@
 		8AF59501208AC50D0082C5DE /* Visualization */ = {
 			isa = PBXGroup;
 			children = (
-				8AF59502208AC5B10082C5DE /* VisualizatonModel.swift */,
 				8A3BBBB6208BC28A00669227 /* VisualizationModel1.swift */,
+				8AF59502208AC5B10082C5DE /* VisualizatonModel.swift */,
 				8A75B691208A768100EACD13 /* ColorSources */,
 				8A5E948A2077D285003477D3 /* Effects */,
-				8A19CD892082488D00C1EADE /* Sequencers */,
 			);
 			path = Visualization;
 			sourceTree = "<group>";
@@ -684,7 +732,6 @@
 				8A591B3321E6902500B802F8 /* ModelSelectorViewController.swift */,
 				8A591B3A21E6D6DB00B802F8 /* UISelectorViewController.swift */,
 				8A41B09B21F357F600DE38CB /* FigureSelectionViewController.swift */,
-				8A591B3521E690F100B802F8 /* SK2E */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -802,16 +849,17 @@
 			files = (
 				8A91B0982093F8C100488907 /* OLD_Parameters.swift in Sources */,
 				8AE48BBB2087857C001B5D11 /* GLUtils.swift in Sources */,
+				8AC82CEA21F9DB5000A75595 /* SK2E.swift in Sources */,
 				8A2A32D720AB881600D4D619 /* WorkQueue.swift in Sources */,
 				8A41B09C21F357F600DE38CB /* FigureSelectionViewController.swift in Sources */,
 				8A1CF016207146510099DD97 /* AppDelegate.swift in Sources */,
 				8A2034E721ED2A6000A4C418 /* SK2_System.swift in Sources */,
+				8AC82CEC21F9E36700A75595 /* Sequencer.swift in Sources */,
 				8A4654C221E97A7B00EE2B26 /* Registry2.swift in Sources */,
 				8A56BE7520ADADA300C19F4C /* BAModel.swift in Sources */,
 				8A575FEE20804759002B9951 /* ColorMaps.swift in Sources */,
 				8ACE788D2072E51800C29875 /* Icosahedron.swift in Sources */,
 				8AC82CDD21F66CA200A75595 /* SK2E_System.swift in Sources */,
-				8AC82CDB21F66C3C00A75595 /* SK2E_Figures.swift in Sources */,
 				8A591B3421E6902500B802F8 /* ModelSelectorViewController.swift in Sources */,
 				8A41B09021F0ACA500DE38CB /* Parameters.swift in Sources */,
 				8A0C09A620716B670017AC4C /* SK2Geometry.swift in Sources */,
@@ -830,7 +878,7 @@
 				8A41A2F2208398E900CDDF28 /* NumericConstants.swift in Sources */,
 				8A35083020A0A0C200E36C1F /* PopulationFlowSequencer.swift in Sources */,
 				8A2034DE21EB961300A4C418 /* SK2E_DetailViewController.swift in Sources */,
-				8A91B09C2093F98000488907 /* Sequencer.swift in Sources */,
+				8A91B09C2093F98000488907 /* OLD_Sequencer.swift in Sources */,
 				8A3C45B62086167E00A1E9CD /* LogOccupation.swift in Sources */,
 				8A56BE7320ADAD5100C19F4C /* BANode.swift in Sources */,
 				8AA05A13208FCB58009417A6 /* ChangeSupport.swift in Sources */,
@@ -871,6 +919,7 @@
 				8AA05A2620901B19009417A6 /* SequencerSelectionViewController.swift in Sources */,
 				8AA05A15208FD56F009417A6 /* SK2Point.swift in Sources */,
 				8A741FE820926B9E002A88D0 /* FlowLines.swift in Sources */,
+				8AC82CEF21F9F57200A75595 /* SK2D.swift in Sources */,
 				8A591B3B21E6D6DB00B802F8 /* UISelectorViewController.swift in Sources */,
 				8AF59503208AC5B10082C5DE /* VisualizatonModel.swift in Sources */,
 				8AF59500208AC0420082C5DE /* AppModel.swift in Sources */,

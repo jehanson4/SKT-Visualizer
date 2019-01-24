@@ -55,6 +55,10 @@ struct POV {
 // where energy is bundle with datasource and colormap
 // REASON: basins
 
+// ========================================================
+// OLD
+// ========================================================
+
 protocol VisualizationModel: Graphics {
     
     var pov: POV { get set }
@@ -70,7 +74,7 @@ protocol VisualizationModel: Graphics {
     
     func effect(forType: EffectType) -> Effect?
     
-    var sequencers: RegistryWithSelection<Sequencer> { get }
+    var sequencers: RegistryWithSelection<OLD_Sequencer> { get }
     
     // max. steps per second
     var sequenceRateLimit: Double { get set }

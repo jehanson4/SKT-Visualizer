@@ -35,7 +35,7 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
         }
         else {
             debug(mtd, "appModel has been set")
-            appModel?.systemSelector.select(SK2E_System.type)
+            appModel?.systemSelector.select(SK2E.name)
             debug(mtd, "selected system model. selection = \(String(describing: appModel!.systemSelector.selection?.name))")
             sk2e = appModel?.systemSelector.selection?.value as? SK2E_System
             figureSelector = appModel!.figureSelector

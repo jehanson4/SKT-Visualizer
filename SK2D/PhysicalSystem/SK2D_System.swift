@@ -14,7 +14,7 @@ import Foundation
 
 class SK2D_System: SK2_System {
     
-    init() {
-        super.init("SK/2 Dynamics")
+    init(_ name: String) {
+        super.init(name)
     }
 }

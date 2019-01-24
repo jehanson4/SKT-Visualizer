@@ -15,15 +15,28 @@ import Foundation
 class AppModel1 : AppModel {
     
     let systemSelector: Selector<PhysicalSystem2>
+
     var _figureSelectorsBySystemName: [String: Selector<Figure>]
     
     var figureSelector: Selector<Figure>? {
         let systemName = systemSelector.selection?.name
         return (systemName == nil) ? nil : _figureSelectorsBySystemName[systemName!]
     }
+
+    var _sequencerSelectorsBySystemName: [String: Selector<Sequencer>]
     
+    var sequencerSelector: Selector<Sequencer>? {
+        let systemName = systemSelector.selection?.name
+        return (systemName == nil) ? nil : _sequencerSelectorsBySystemName[systemName!]
+    }
+    
+
     var graphics: Graphics
+    
+    // OLD
     var skt: SKTModel
+    
+    // OLD
     var viz: VisualizationModel
     
     init() {
@@ -31,27 +44,37 @@ class AppModel1 : AppModel {
         let systemRegistry = Registry<PhysicalSystem2>()
         self.systemSelector = Selector<PhysicalSystem2>(systemRegistry)
         self._figureSelectorsBySystemName = [String: Selector<Figure>]()
-  
-        // SK2E
-        
-        let sk2e_name = SK2E_System.type
-        let sk2e_system = SK2E_System()
-        _ = systemRegistry.register(sk2e_system, name: sk2e_name)
-        let sk2e_figures = SK2E_Figures(sk2e_system)
-        _figureSelectorsBySystemName[sk2e_name] = Selector<Figure>(sk2e_figures)
-        
-        // SK2D
-        // TODO
+        self._sequencerSelectorsBySystemName = [String: Selector<Sequencer>]()
         
         // OLD
-        
         skt = SKTModel1()
         viz = VisualizationModel1(skt)
         graphics = viz as Graphics
-        
+
+        self._install(SK2E());
+        self._install(SK2D());
+
         loadUserDefaults()
+
     }
 
+    func _install<T: PartFactory>(_ factory: T) {
+        let name = T.name
+        let system = factory.makeSystem()
+        let figures = factory.makeFigures(system)
+        let sequencers = factory.makeSequencers(system)
+
+        _ = systemSelector.registry.register(system, name: name)
+
+        if (figures != nil) {
+            _figureSelectorsBySystemName[name] = Selector<Figure>(figures!)
+        }
+
+        if (sequencers != nil) {
+            _sequencerSelectorsBySystemName[name] = Selector<Sequencer>(sequencers!)
+        }
+    }
+    
     // ===========================
     // User defaults
     // ===========================

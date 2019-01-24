@@ -13,11 +13,9 @@ import Foundation
 // ======================================================================
 
 class SK2E_System: SK2_System {
-    
-    static let type = "SK2E_System"
-    
-    init() {
-        super.init("SK/2 Equilibrium")
+        
+    init(_ name: String) {
+        super.init(name)
     }
     
     func energy(_ nodeIndex: Int) -> Double {
