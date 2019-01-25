@@ -17,7 +17,9 @@ class SK2D : PartFactory {
     }
     
     func makeFigures(_ system: SK2D_System) -> Registry<Figure>? {
-        return nil
+        let reg = Registry<Figure>()
+        _ = reg.register(SampleFigure())
+        return reg
     }
     
     func makeSequencers(_ system: SK2D_System) -> Registry<Sequencer>? {

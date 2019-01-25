@@ -83,7 +83,7 @@
 		8AC82CC721F5D60400A75595 /* SK2SphereUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CC621F5D60400A75595 /* SK2SphereUtils.swift */; };
 		8AC82CD421F61D4D00A75595 /* SK1E_System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CD321F61D4D00A75595 /* SK1E_System.swift */; };
 		8AC82CD621F6646300A75595 /* Figure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CD521F6646300A75595 /* Figure.swift */; };
-		8AC82CD921F6668000A75595 /* SK2E_SampleFigure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CD821F6668000A75595 /* SK2E_SampleFigure.swift */; };
+		8AC82CD921F6668000A75595 /* SampleFigure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CD821F6668000A75595 /* SampleFigure.swift */; };
 		8AC82CDD21F66CA200A75595 /* SK2E_System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CDC21F66CA200A75595 /* SK2E_System.swift */; };
 		8AC82CDF21F747BB00A75595 /* SK2D_System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CDE21F747BB00A75595 /* SK2D_System.swift */; };
 		8AC82CE121F8874200A75595 /* GraphicsV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CE021F8874200A75595 /* GraphicsV1.swift */; };
@@ -217,7 +217,7 @@
 		8AC82CC621F5D60400A75595 /* SK2SphereUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2SphereUtils.swift; sourceTree = "<group>"; };
 		8AC82CD321F61D4D00A75595 /* SK1E_System.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK1E_System.swift; sourceTree = "<group>"; };
 		8AC82CD521F6646300A75595 /* Figure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Figure.swift; sourceTree = "<group>"; };
-		8AC82CD821F6668000A75595 /* SK2E_SampleFigure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2E_SampleFigure.swift; sourceTree = "<group>"; };
+		8AC82CD821F6668000A75595 /* SampleFigure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleFigure.swift; sourceTree = "<group>"; };
 		8AC82CDC21F66CA200A75595 /* SK2E_System.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2E_System.swift; sourceTree = "<group>"; };
 		8AC82CDE21F747BB00A75595 /* SK2D_System.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2D_System.swift; sourceTree = "<group>"; };
 		8AC82CE021F8874200A75595 /* GraphicsV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphicsV1.swift; sourceTree = "<group>"; };
@@ -524,6 +524,7 @@
 				8A575FED20804759002B9951 /* ColorMaps.swift */,
 				8AC82CC321F5D00E00A75595 /* Graphics.swift */,
 				8AC82CD521F6646300A75595 /* Figure.swift */,
+				8AC82CD821F6668000A75595 /* SampleFigure.swift */,
 				8AC82CE021F8874200A75595 /* GraphicsV1.swift */,
 			);
 			path = Graphics;
@@ -580,7 +581,6 @@
 		8AC82CE621F9DA2D00A75595 /* Figures */ = {
 			isa = PBXGroup;
 			children = (
-				8AC82CD821F6668000A75595 /* SK2E_SampleFigure.swift */,
 			);
 			path = Figures;
 			sourceTree = "<group>";
@@ -874,7 +874,7 @@
 				8A591B3221E441FB00B802F8 /* SK2E_MasterViewController.swift in Sources */,
 				8A741FE620925E2D002A88D0 /* SKGraph.swift in Sources */,
 				8A5E948E2078EE46003477D3 /* Net.swift in Sources */,
-				8AC82CD921F6668000A75595 /* SK2E_SampleFigure.swift in Sources */,
+				8AC82CD921F6668000A75595 /* SampleFigure.swift in Sources */,
 				8A41A2F2208398E900CDDF28 /* NumericConstants.swift in Sources */,
 				8A35083020A0A0C200E36C1F /* PopulationFlowSequencer.swift in Sources */,
 				8A2034DE21EB961300A4C418 /* SK2E_DetailViewController.swift in Sources */,

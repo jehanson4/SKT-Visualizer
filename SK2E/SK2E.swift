@@ -18,7 +18,7 @@ class SK2E : PartFactory {
     
     func makeFigures(_ system: SK2E_System) -> Registry<Figure>? {
         let reg = Registry<Figure>()
-        _ = reg.register(SK2E_SampleFigure(system))
+        _ = reg.register(SampleFigure())
         return reg
     }
     

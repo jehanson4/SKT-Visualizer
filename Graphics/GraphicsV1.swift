@@ -27,7 +27,7 @@ class GraphicsV1: Graphics {
     // Initializer
     
     init() {
-        self.figure = BaseFigure()
+        self.figure = SampleFigure()
     }
     
     // ========================================
@@ -74,9 +74,10 @@ class GraphicsV1: Graphics {
         glDepthFunc(GLenum(GL_LEQUAL))
         // ?? glDepthFunc(GLenum(GL_GEQUAL))
 
-//        updateProjection()
-//        updateModelview()
-//
+        // TODO
+        // updateProjection()
+        // updateModelview()
+
     }
     
     // ========================================
@@ -84,63 +85,4 @@ class GraphicsV1: Graphics {
     
     var figure: Figure
     
-    // ========================================
-    // Drawing
-//
-//    var aspectRatio: Float = 1
-//
-//    private func updateProjection() {
-//        debug("updateProjection")
-//        // PROBLEM with this is that it uses POV
-//
-//        // Docco sez args are: left, right, bottom, top, near, far "in eye coordinates"
-//        let nff = GraphicsV1.scene_nearFarFactor
-//        let d = GLfloat(VisualizationModel1.pov_rFactor * skt.geometry.r0)
-//        let newMatrix = GLKMatrix4MakeOrtho(-d, d, -d/aspectRatio, d/aspectRatio, nff*d, -nff*d)
-//
-//        func applyProjectionMatrix(_ effect: inout Effect) {
-//            // debug("applyProjectionMatrix", "effect:" + effect.name)
-//            effect.projectionMatrix = newMatrix
-//        }
-//        effects?.apply(applyProjectionMatrix)
-//    }
-//
-//    private func updateModelview() {
-//        debug("updateModelview")
-//
-//        // PROBLEM with this is that it uses POV
-//        // EMPIRICAL pretty much everything in here
-//
-//        let povR2: Double = (_pov.r - skt.geometry.r0)/_pov.zoom + skt.geometry.r0
-//        let povXYZ = skt.geometry.sphericalToCartesian(povR2, _pov.phi, _pov.thetaE) // povR, povPhi, povThetaE)
-//        let lookatMatrix = GLKMatrix4MakeLookAt(Float(povXYZ.x), Float(povXYZ.y), Float(povXYZ.z), 0, 0, 0, 0, 0, 1)
-//
-//        let zz = GLfloat(_pov.zoom)
-//        let scaleMatrix = GLKMatrix4MakeScale(zz, zz, zz)
-//        let newMatrix = GLKMatrix4Multiply(scaleMatrix, lookatMatrix)
-//
-//        func applyModelviewMatrix(_ effect: inout Effect) {
-//            // debug("applyModelviewMatrix", "effect:" + effect.name)
-//            effect.modelviewMatrix = newMatrix
-//        }
-//        effects?.apply(applyModelviewMatrix)
-//    }
-//
-//    func draw(_ drawableWidth: Int, _ drawableHeight: Int) {
-//
-//        let ar2 = Float(drawableWidth)/Float(drawableHeight)
-//        if (ar2 != self.aspectRatio) {
-//            debug("draw", "new aspectRatio=" + String(ar2))
-//            self.aspectRatio = ar2
-//            updateProjection()
-//        }
-//
-//        glClear(GLbitfield(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
-//
-//        func drawEffect(_ effect: Effect) {
-//            effect.draw()
-//        }
-//        effects?.visit(drawEffect)
-//
-//    }
 }

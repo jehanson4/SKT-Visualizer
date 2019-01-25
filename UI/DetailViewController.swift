@@ -15,16 +15,22 @@ import OpenGL
 
 class DetailViewController: GLKViewController, AppModelUser, GraphicsController {
     
-    let name: String = "DetailViewController"
+    // ============================================
+    // Debugging
+    
+    let clsName: String = "DetailViewController"
 
     var debugEnabled = false
 
     private func debug(_ mtd: String, _ msg: String = "") {
         if (debugEnabled) {
-            print(name, mtd, msg)
+            print(clsName, mtd, msg)
         }
     }
 
+    // ============================================
+    // AppModel etc
+    
     var appModel: AppModel? = nil
     var context: EAGLContext? = nil
     
@@ -40,10 +46,9 @@ class DetailViewController: GLKViewController, AppModelUser, GraphicsController 
 //    var pan_initialThetaE: Double = 0
 //    var pinch_initialZoom: Double = 1
 
-    deinit {
-            print("DetailViewController.deinit")
-    }
-    
+    // ============================================
+    // Lifecycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -112,6 +117,12 @@ class DetailViewController: GLKViewController, AppModelUser, GraphicsController 
         }
     }
 
+    deinit {
+        debug("deinit")
+    }
+    
+    // ============================================
+    // GL stuff
     
     override func glkView(_ view: GLKView, drawIn rect: CGRect) {
         // print("DetailViewController.glkView")
@@ -121,6 +132,9 @@ class DetailViewController: GLKViewController, AppModelUser, GraphicsController 
         // NEW
         appModel?.graphics.figure.draw(view.drawableWidth, view.drawableHeight)
     }
+
+    // ============================================
+    // Gestures
     
     @IBAction func handlePan(_ sender: UIPanGestureRecognizer) {
         // print("DetailViewController.handlePan", "sender.state:", sender.state)

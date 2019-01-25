@@ -31,37 +31,3 @@ protocol Figure: Named {
     func handlePinch(_ sender: UIPinchGestureRecognizer)
 }
 
-// ===========================================================================
-// BaseFigure
-// ===========================================================================
-
-class BaseFigure: Figure {
-
-    var name: String
-    var info: String? = nil
-    var effects: Registry<Effect>? = nil
-    
-    init(_ name: String = "Figure") {
-        self.name = name
-    }
-    
-    func resetPOV() {
-        // TODO
-    }
-    
-    func calibrate() {
-        // TODO
-    }
-    
-    func handlePinch(_ sender: UIPinchGestureRecognizer) {
-        // TODO
-    }
-    
-    func handlePan(_ sender: UIPanGestureRecognizer) {
-        // TODO
-    }
-    
-    func draw(_ drawableWidth: Int, _ drawableHeight: Int) {
-        // TODO
-    }
-}
