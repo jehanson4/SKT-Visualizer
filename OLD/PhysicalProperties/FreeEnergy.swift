@@ -19,7 +19,7 @@ class FreeEnergy : TypedPhysicalProperty {
     var name: String  = "FreeEnergy"
     var info: String? = nil
 
-    var backingModel: PhysicalSystem2 { return model as PhysicalSystem2 }
+    var backingModel: PhysicalSystem { return model as PhysicalSystem }
     
     var bounds: (min: Double, max: Double) { ensureFresh(); return fBounds }
     // var params: [String: AdjustableParameter1]? = nil
@@ -43,7 +43,7 @@ class FreeEnergy : TypedPhysicalProperty {
         self.fBounds = (0,0)
     }
     
-    func reset() {}
+    func clean() {}
     
     func valueAt(nodeIndex: Int) -> Double {
         let sk = geometry.nodeIndexToSK(nodeIndex)

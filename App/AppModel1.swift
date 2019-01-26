@@ -30,7 +30,7 @@ class AppModel1 : AppModel {
     // ================================================
     // Systems
     
-    let systemSelector: Selector<PhysicalSystem2>
+    let systemSelector: Selector<PhysicalSystem>
     
     private var systemChangeMonitor: ChangeMonitor?
     
@@ -114,7 +114,7 @@ class AppModel1 : AppModel {
     
     init() {
         
-        systemSelector = Selector<PhysicalSystem2>()
+        systemSelector = Selector<PhysicalSystem>()
         _figureSelectors = [String: Selector<Figure>]()
         _sequencerSelectors = [String: Selector<Sequencer>]()
         
@@ -141,7 +141,7 @@ class AppModel1 : AppModel {
 
     private static func _install<T: PartFactory>(
         _ factory: T,
-        _ systemSelector: Selector<PhysicalSystem2>,
+        _ systemSelector: Selector<PhysicalSystem>,
         _ figureSelectors: inout [String: Selector<Figure>],
         _ sequencerSelectors: inout [String: Selector<Sequencer>]) {
         

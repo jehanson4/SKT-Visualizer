@@ -13,14 +13,34 @@ import Foundation
 // ============================================================
 
 class SK2D_System: SK2_System {
-    
+
+    // ===============================================
+    // Initializer
+
     override init(_ name: String, _ info: String? = nil) {
         super.init(name, info)
+        N_monitor = super.N.monitorChanges(updateFlowModel)
+        k_monitor = super.k.monitorChanges(updateFlowModel)
     }
 
     // ===============================================
-    // Dynamic
+    // Basics
+    
+    override func clean() {
+        // TODO: discard population stuff
+    }
     
     // ===============================================
-    // Population
+    // Population flow
+    
+    var N_monitor: ChangeMonitor? = nil
+    var k_monitor: ChangeMonitor? = nil
+    
+    func discardFlowModel() {
+        // TODO
+    }
+    
+    func updateFlowModel(_ sender: Any?) {
+        // TODO
+    }
 }

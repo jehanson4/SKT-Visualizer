@@ -12,7 +12,7 @@ import Foundation
 // SK1_System
 // ==============================================================
 
-class SK1_System: PhysicalSystem2 {
+class SK1_System: PhysicalSystem {
     
 
     // ==================================
@@ -25,6 +25,8 @@ class SK1_System: PhysicalSystem2 {
     var info: String? = "SK Hamiltonian with 1 component"
     
     var busy: Bool = false
+    
+    func clean() {}
     
     // ==================================
     // Parameter: N

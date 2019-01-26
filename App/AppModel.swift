@@ -23,7 +23,7 @@ protocol AppModelUser {
 // =========================================================
 
 protocol PartFactory {
-    associatedtype System: PhysicalSystem2
+    associatedtype System: PhysicalSystem
     static var name: String { get }
     func makeSystem() -> System
     func makeFigures(_ system: System) -> Registry<Figure>?
@@ -37,7 +37,7 @@ protocol PartFactory {
 protocol AppModel {
     
     /// lets you select a system to visualize
-    var systemSelector: Selector<PhysicalSystem2> { get }
+    var systemSelector: Selector<PhysicalSystem> { get }
     
     /// lets you select a figure for the currently selected system
     var figureSelector: Selector<Figure>? { get }

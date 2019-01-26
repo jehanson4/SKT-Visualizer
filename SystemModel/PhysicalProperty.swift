@@ -15,10 +15,10 @@ import Foundation
 protocol PhysicalProperty2: Named {
     
     /// Returns the system this is a property of.
-    var backingModel: PhysicalSystem2 { get }
+    var backingModel: PhysicalSystem { get }
  
-    /// Clears any cached data
-    func reset()
+    /// Disposes of any resources that can be recreated.
+    func clean()
 }
 
 // ===============================================================================

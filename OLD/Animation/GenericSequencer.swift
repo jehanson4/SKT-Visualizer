@@ -17,7 +17,7 @@ class GenericSequencer<T> : OLD_Sequencer {
     var name: String
     var info: String? = nil
     
-    var backingSystem: PhysicalSystem2
+    var backingSystem: PhysicalSystem
     
     /// FOR OVERRIDE
     var backingModel: AnyObject? { return nil }
@@ -134,7 +134,7 @@ class GenericSequencer<T> : OLD_Sequencer {
     // =========================================
     // Initialization
     
-    init(_ name: String, _ system: PhysicalSystem2, _ reversible: Bool) {
+    init(_ name: String, _ system: PhysicalSystem, _ reversible: Bool) {
         self.name = name
         self.backingSystem = system
         self.reversible = reversible

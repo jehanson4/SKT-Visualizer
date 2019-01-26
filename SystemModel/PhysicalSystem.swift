@@ -9,10 +9,10 @@
 import Foundation
 
 // ================================================================
-// PhysicalSystem2
+// PhysicalSystem
 // ================================================================
 
-protocol PhysicalSystem2: Named {
+protocol PhysicalSystem: Named {
     
     /// Indicates that a state change is under way, i.e., the system's state
     /// variables and/or properties are being updated on another thread.
@@ -24,26 +24,30 @@ protocol PhysicalSystem2: Named {
     
     // DEFER until needed
     // var properties: Registry<PhysicalProperty> { get }
+    
+    /// Disposes of any resources that can be recreated.
+    func clean()
+
 }
 
-// ================================================================
-// SystemPoint
+//// ================================================================
+//// SystemPoint
+////
+//// An abstract point in a system's phase space, at which physical
+//// properties may be measured.
+//// ================================================================
 //
-// An abstract point in a system's phase space, at which physical
-// properties may be measured.
-// ================================================================
-
-protocol SystemPoint {
-    var nodeIndex: Int { get }
-}
+//protocol SystemPoint {
+//    var nodeIndex: Int { get }
+//}
 
 // ================================================================
-// PhysicalSystem
+// OLD_PhysicalSystem
 //
 // The thing that the app visualizes.
 // ================================================================
 
-protocol PhysicalSystem: PhysicalSystem2 {
+protocol OLD_PhysicalSystem: PhysicalSystem {
     
     /// Min #dimensions of a continuous space in which tbe system can be embedded
     var embeddingDimension: Int { get }

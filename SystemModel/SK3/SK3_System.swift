@@ -1,5 +1,5 @@
 //
-//  SK3Model.swift
+//  SK3_System.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 1/17/19.
@@ -9,10 +9,10 @@
 import Foundation
 
 // =====================================================
-// SK3Model
+// SK3_System
 // =====================================================
 
-class SK3Model: PhysicalSystem2 {
+class SK3_System: PhysicalSystem {
 
     // ===========================================
     // Basics
@@ -23,6 +23,8 @@ class SK3Model: PhysicalSystem2 {
     
     let embeddingDimension = 3
 
+    func clean() {}
+    
     // ===========================================
     // Nodes
     
@@ -86,7 +88,7 @@ class SK3Model: PhysicalSystem2 {
     static let a1_defaultSetPoint: Double = 1
     static let a1_defaultStepSize: Double = 0.01
     
-    private var _a1 : Double = SK3Model.a1_defaultSetPoint
+    private var _a1 : Double = SK3_System.a1_defaultSetPoint
     
     private func _getA1() -> Double {
         return _a1
@@ -100,11 +102,11 @@ class SK3Model: PhysicalSystem2 {
         "a\u{2081}",
         self._getA1,
         self._setA1,
-        min: SK3Model.a1_min,
-        max: SK3Model.a1_max,
+        min: SK3_System.a1_min,
+        max: SK3_System.a1_max,
         info: "Depth of energy well #1",
-        setPoint: SK3Model.a1_defaultSetPoint,
-        stepSize: SK3Model.a1_defaultStepSize
+        setPoint: SK3_System.a1_defaultSetPoint,
+        stepSize: SK3_System.a1_defaultStepSize
     )
     
     // ===================================
@@ -115,7 +117,7 @@ class SK3Model: PhysicalSystem2 {
     static let a2_defaultSetPoint: Double = 1
     static let a2_defaultStepSize: Double = 0.01
     
-    private var _a2 : Double = SK3Model.a2_defaultSetPoint
+    private var _a2 : Double = SK3_System.a2_defaultSetPoint
     
     private func _getA2() -> Double {
         return _a2
@@ -129,11 +131,11 @@ class SK3Model: PhysicalSystem2 {
         "a\u{2082}",
         self._getA2,
         self._setA2,
-        min: SK3Model.a2_min,
-        max: SK3Model.a2_max,
+        min: SK3_System.a2_min,
+        max: SK3_System.a2_max,
         info: "Depth of energy well #1",
-        setPoint: SK3Model.a2_defaultSetPoint,
-        stepSize: SK3Model.a2_defaultStepSize
+        setPoint: SK3_System.a2_defaultSetPoint,
+        stepSize: SK3_System.a2_defaultStepSize
     )
     
     // ===================================
@@ -144,7 +146,7 @@ class SK3Model: PhysicalSystem2 {
     static let a3_defaultSetPoint: Double = 1
     static let a3_defaultStepSize: Double = 0.01
     
-    private var _a3 : Double = SK3Model.a3_defaultSetPoint
+    private var _a3 : Double = SK3_System.a3_defaultSetPoint
     
     private func _geta3() -> Double {
         return _a3
@@ -158,11 +160,11 @@ class SK3Model: PhysicalSystem2 {
         "a\u{2083}",
         self._geta3,
         self._seta3,
-        min: SK3Model.a3_min,
-        max: SK3Model.a3_max,
+        min: SK3_System.a3_min,
+        max: SK3_System.a3_max,
         info: "Depth of energy well #1",
-        setPoint: SK3Model.a3_defaultSetPoint,
-        stepSize: SK3Model.a3_defaultStepSize
+        setPoint: SK3_System.a3_defaultSetPoint,
+        stepSize: SK3_System.a3_defaultStepSize
     )
     
 
@@ -174,7 +176,7 @@ class SK3Model: PhysicalSystem2 {
     static let T_defaultSetPoint: Double = 1000
     static let T_defaultStepSize: Double = 10
     
-    private var _T : Double = SK3Model.T_defaultSetPoint
+    private var _T : Double = SK3_System.T_defaultSetPoint
     
     private func _getT() -> Double {
         return _T
@@ -188,11 +190,11 @@ class SK3Model: PhysicalSystem2 {
         "T",
         _getT,
         _setT,
-        min: SK3Model.T_min,
-        max: SK3Model.T_max,
+        min: SK3_System.T_min,
+        max: SK3_System.T_max,
         info: "Temperature",
-        setPoint: SK3Model.T_defaultSetPoint,
-        stepSize: SK3Model.T_defaultStepSize
+        setPoint: SK3_System.T_defaultSetPoint,
+        stepSize: SK3_System.T_defaultStepSize
     )
     
     // ===========================================

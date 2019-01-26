@@ -39,7 +39,6 @@
 		8A40BC0E207EEA3D00F2D2EB /* Meridians.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A40BC0D207EEA3D00F2D2EB /* Meridians.swift */; };
 		8A41A2F2208398E900CDDF28 /* NumericConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A41A2F1208398E900CDDF28 /* NumericConstants.swift */; };
 		8A41B09021F0ACA500DE38CB /* Parameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A41B08F21F0ACA500DE38CB /* Parameters.swift */; };
-		8A41B09521F1587900DE38CB /* SK3Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A41B09421F1587900DE38CB /* SK3Model.swift */; };
 		8A41B09C21F357F600DE38CB /* FigureSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A41B09B21F357F600DE38CB /* FigureSelectionViewController.swift */; };
 		8A4654C021E8E38300EE2B26 /* PhysicalSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4654BF21E8E38300EE2B26 /* PhysicalSystem.swift */; };
 		8A4654C221E97A7B00EE2B26 /* Registry2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4654C121E97A7B00EE2B26 /* Registry2.swift */; };
@@ -78,10 +77,14 @@
 		8AAA008E207166C0001A136D /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAA008C207166C0001A136D /* MasterViewController.swift */; };
 		8AAA008F207166C0001A136D /* MasterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8AAA008D207166C0001A136D /* MasterViewController.xib */; };
 		8AAF6DFF208167A800E4C9BF /* ToDo.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8AAF6DFE208167A800E4C9BF /* ToDo.txt */; };
+		8AB2A62C21FCE0D500A46316 /* SK3_System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2A62B21FCE0D500A46316 /* SK3_System.swift */; };
+		8AB2A62F21FCE1C100A46316 /* SK2_BANode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2A62E21FCE1C100A46316 /* SK2_BANode.swift */; };
+		8AB2A63121FCE40E00A46316 /* SK2_BAModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2A63021FCE40E00A46316 /* SK2_BAModel.swift */; };
+		8AB2A63321FCE92F00A46316 /* SK2_Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2A63221FCE92F00A46316 /* SK2_Geometry.swift */; };
+		8AB2A63521FCEB5800A46316 /* SK2_BAFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2A63421FCEB5800A46316 /* SK2_BAFinder.swift */; };
 		8ABEEC3B20803A2F008E72F4 /* Surface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ABEEC3A20803A2F008E72F4 /* Surface.swift */; };
 		8AC82CC421F5D00E00A75595 /* Graphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CC321F5D00E00A75595 /* Graphics.swift */; };
 		8AC82CC721F5D60400A75595 /* SK2SphereUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CC621F5D60400A75595 /* SK2SphereUtils.swift */; };
-		8AC82CD421F61D4D00A75595 /* SK1E_System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CD321F61D4D00A75595 /* SK1E_System.swift */; };
 		8AC82CD621F6646300A75595 /* Figure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CD521F6646300A75595 /* Figure.swift */; };
 		8AC82CD921F6668000A75595 /* SampleFigure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CD821F6668000A75595 /* SampleFigure.swift */; };
 		8AC82CDD21F66CA200A75595 /* SK2E_System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CDC21F66CA200A75595 /* SK2E_System.swift */; };
@@ -174,7 +177,6 @@
 		8A40BC0D207EEA3D00F2D2EB /* Meridians.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Meridians.swift; sourceTree = "<group>"; };
 		8A41A2F1208398E900CDDF28 /* NumericConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumericConstants.swift; sourceTree = "<group>"; };
 		8A41B08F21F0ACA500DE38CB /* Parameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parameters.swift; sourceTree = "<group>"; };
-		8A41B09421F1587900DE38CB /* SK3Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK3Model.swift; sourceTree = "<group>"; };
 		8A41B09B21F357F600DE38CB /* FigureSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FigureSelectionViewController.swift; sourceTree = "<group>"; };
 		8A4654BF21E8E38300EE2B26 /* PhysicalSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicalSystem.swift; sourceTree = "<group>"; };
 		8A4654C121E97A7B00EE2B26 /* Registry2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registry2.swift; sourceTree = "<group>"; };
@@ -213,10 +215,14 @@
 		8AAA008C207166C0001A136D /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
 		8AAA008D207166C0001A136D /* MasterViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MasterViewController.xib; sourceTree = "<group>"; };
 		8AAF6DFE208167A800E4C9BF /* ToDo.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ToDo.txt; sourceTree = "<group>"; };
+		8AB2A62B21FCE0D500A46316 /* SK3_System.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK3_System.swift; sourceTree = "<group>"; };
+		8AB2A62E21FCE1C100A46316 /* SK2_BANode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_BANode.swift; sourceTree = "<group>"; };
+		8AB2A63021FCE40E00A46316 /* SK2_BAModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_BAModel.swift; sourceTree = "<group>"; };
+		8AB2A63221FCE92F00A46316 /* SK2_Geometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_Geometry.swift; sourceTree = "<group>"; };
+		8AB2A63421FCEB5800A46316 /* SK2_BAFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_BAFinder.swift; sourceTree = "<group>"; };
 		8ABEEC3A20803A2F008E72F4 /* Surface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Surface.swift; sourceTree = "<group>"; };
 		8AC82CC321F5D00E00A75595 /* Graphics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Graphics.swift; sourceTree = "<group>"; };
 		8AC82CC621F5D60400A75595 /* SK2SphereUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2SphereUtils.swift; sourceTree = "<group>"; };
-		8AC82CD321F61D4D00A75595 /* SK1E_System.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK1E_System.swift; sourceTree = "<group>"; };
 		8AC82CD521F6646300A75595 /* Figure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Figure.swift; sourceTree = "<group>"; };
 		8AC82CD821F6668000A75595 /* SampleFigure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleFigure.swift; sourceTree = "<group>"; };
 		8AC82CDC21F66CA200A75595 /* SK2E_System.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2E_System.swift; sourceTree = "<group>"; };
@@ -335,7 +341,6 @@
 			isa = PBXGroup;
 			children = (
 				8A2034E121ED0F4E00A4C418 /* SK1_System.swift */,
-				8AC82CD321F61D4D00A75595 /* SK1E_System.swift */,
 			);
 			path = SK1;
 			sourceTree = "<group>";
@@ -380,7 +385,7 @@
 		8A41B09121F0BF0300DE38CB /* SK3 */ = {
 			isa = PBXGroup;
 			children = (
-				8A41B09421F1587900DE38CB /* SK3Model.swift */,
+				8AB2A62B21FCE0D500A46316 /* SK3_System.swift */,
 			);
 			path = SK3;
 			sourceTree = "<group>";
@@ -427,9 +432,11 @@
 		8A591B3C21E6D89500B802F8 /* SK2 */ = {
 			isa = PBXGroup;
 			children = (
+				8AB2A62D21FCE1AA00A46316 /* Basins */,
 				8A2034E621ED2A6000A4C418 /* SK2_System.swift */,
 				8AC82CDE21F747BB00A75595 /* SK2D_System.swift */,
 				8AC82CDC21F66CA200A75595 /* SK2E_System.swift */,
+				8AB2A63221FCE92F00A46316 /* SK2_Geometry.swift */,
 			);
 			path = SK2;
 			sourceTree = "<group>";
@@ -519,6 +526,16 @@
 			path = BasinFinder;
 			sourceTree = "<group>";
 		};
+		8AB2A62D21FCE1AA00A46316 /* Basins */ = {
+			isa = PBXGroup;
+			children = (
+				8AB2A62E21FCE1C100A46316 /* SK2_BANode.swift */,
+				8AB2A63021FCE40E00A46316 /* SK2_BAModel.swift */,
+				8AB2A63421FCEB5800A46316 /* SK2_BAFinder.swift */,
+			);
+			path = Basins;
+			sourceTree = "<group>";
+		};
 		8AC82CC221F5C8B700A75595 /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
@@ -565,9 +582,7 @@
 			isa = PBXGroup;
 			children = (
 				8AC82CE921F9DB5000A75595 /* SK2E.swift */,
-				8AC82CE821F9DA7900A75595 /* Sequencers */,
 				8AC82CE721F9DA4000A75595 /* UI */,
-				8AC82CE621F9DA2D00A75595 /* Figures */,
 			);
 			path = SK2E;
 			sourceTree = "<group>";
@@ -580,13 +595,6 @@
 			path = SK2D;
 			sourceTree = "<group>";
 		};
-		8AC82CE621F9DA2D00A75595 /* Figures */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Figures;
-			sourceTree = "<group>";
-		};
 		8AC82CE721F9DA4000A75595 /* UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -594,13 +602,6 @@
 				8A2034DD21EB961300A4C418 /* SK2E_DetailViewController.swift */,
 			);
 			path = UI;
-			sourceTree = "<group>";
-		};
-		8AC82CE821F9DA7900A75595 /* Sequencers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Sequencers;
 			sourceTree = "<group>";
 		};
 		8AC82CED21F9E41A00A75595 /* Animation */ = {
@@ -853,20 +854,21 @@
 				8A0269DD2080B1240054107D /* ColorSource.swift in Sources */,
 				8AA05A2220900692009417A6 /* ColorSourceSelectionViewController.swift in Sources */,
 				8A2034E921ED2F8E00A4C418 /* SystemGeometry.swift in Sources */,
-				8A41B09521F1587900DE38CB /* SK3Model.swift in Sources */,
 				8A3C45B42086165500A1E9CD /* Entropy.swift in Sources */,
 				8A91B0A02094164700488907 /* NForFixedKOverN.swift in Sources */,
 				8AD817FC207BFA9200426C25 /* InfoViewController.swift in Sources */,
-				8AC82CD421F61D4D00A75595 /* SK1E_System.swift in Sources */,
 				8A591B3221E441FB00B802F8 /* SK2E_MasterViewController.swift in Sources */,
 				8A741FE620925E2D002A88D0 /* SKGraph.swift in Sources */,
+				8AB2A63521FCEB5800A46316 /* SK2_BAFinder.swift in Sources */,
 				8A5E948E2078EE46003477D3 /* Net.swift in Sources */,
 				8AC82CD921F6668000A75595 /* SampleFigure.swift in Sources */,
 				8A41A2F2208398E900CDDF28 /* NumericConstants.swift in Sources */,
 				8A35083020A0A0C200E36C1F /* PopulationFlowSequencer.swift in Sources */,
+				8AB2A62C21FCE0D500A46316 /* SK3_System.swift in Sources */,
 				8A2034DE21EB961300A4C418 /* SK2E_DetailViewController.swift in Sources */,
 				8A91B09C2093F98000488907 /* OLD_Sequencer.swift in Sources */,
 				8A3C45B62086167E00A1E9CD /* LogOccupation.swift in Sources */,
+				8AB2A63321FCE92F00A46316 /* SK2_Geometry.swift in Sources */,
 				8A56BE7320ADAD5100C19F4C /* BANode.swift in Sources */,
 				8AA05A13208FCB58009417A6 /* ChangeSupport.swift in Sources */,
 				8A84313820726F0100F06B9B /* Axes.swift in Sources */,
@@ -879,6 +881,7 @@
 				8A35082E20A092A400E36C1F /* PopulationColorSource.swift in Sources */,
 				8A3C45C62086278900A1E9CD /* UniformColor.swift in Sources */,
 				8AC82CE121F8874200A75595 /* GraphicsV1.swift in Sources */,
+				8AB2A62F21FCE1C100A46316 /* SK2_BANode.swift in Sources */,
 				8A3C45B02086160A00A1E9CD /* Energy.swift in Sources */,
 				8ACB504020AC92DC00878612 /* BusySpinner.swift in Sources */,
 				8AA0637D207A89DD00BB68DB /* SKPhysics.swift in Sources */,
@@ -903,6 +906,7 @@
 				8AF5320920887329009D1882 /* BasinColorSource.swift in Sources */,
 				8AA05A11208FC14E009417A6 /* AppModel1.swift in Sources */,
 				8A56BE7B20ADB3FF00C19F4C /* PFlowNode.swift in Sources */,
+				8AB2A63121FCE40E00A46316 /* SK2_BAModel.swift in Sources */,
 				8A2034E221ED0F4E00A4C418 /* SK1_System.swift in Sources */,
 				8AA05A2620901B19009417A6 /* SequencerSelectionViewController.swift in Sources */,
 				8AA05A15208FD56F009417A6 /* SK2Point.swift in Sources */,

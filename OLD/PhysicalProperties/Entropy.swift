@@ -18,7 +18,7 @@ class Entropy : TypedPhysicalProperty {
     var name: String = "Entropy"
     var info: String? = nil
 
-    var backingModel: PhysicalSystem2 { return model as PhysicalSystem2 }
+    var backingModel: PhysicalSystem { return model as PhysicalSystem }
     
     var bounds: (min: Double, max: Double) { ensureFresh(); return fBounds }
     // let params: [String: AdjustableParameter1]? = nil
@@ -43,7 +43,7 @@ class Entropy : TypedPhysicalProperty {
         self.fBounds = (0,0)
     }
     
-    func reset() {}
+    func clean() {}
     
     func valueAt(nodeIndex: Int) -> Double {
         let sk = geometry.nodeIndexToSK(nodeIndex)

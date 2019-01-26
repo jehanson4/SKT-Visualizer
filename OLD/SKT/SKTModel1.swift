@@ -25,7 +25,16 @@ class SKTModel1: SKTModel {
             print(clsName, mtd, msg)
         }
     }
+
+    // ================================
+    // Basics
+
+    var name: String = "SK/2"
+    var info: String? = "SK Hamiltonian with 2 components"
+    var embeddingDimension: Int = 2
     
+    func clean() {}
+
     // ================================
     // Initializer
     
@@ -47,10 +56,6 @@ class SKTModel1: SKTModel {
         T_monitor?.disconnect()
         beta_monitor?.disconnect()
     }
-    
-    var name: String = "SK/2"
-    var info: String? = "SK Hamiltonian with 2 components"
-    var embeddingDimension: Int = 2
     
     private var N_monitor: ChangeMonitor?
     private var k0_monitor: ChangeMonitor?

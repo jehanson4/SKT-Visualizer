@@ -12,7 +12,7 @@ import Foundation
 // SK2Point
 // ========================================================================================
 
-struct SK2Point: SystemPoint {
+struct SK2Point {
     
     // m,n,s1,s2 are the order-dependent variables
     // m,n are the planar node-coordinates, though maybe inverted or something

@@ -12,7 +12,8 @@ import Foundation
 // SK2_Node
 // ==============================================================
 
-struct SK2_Node {
+class SK2_Node: Hashable, Equatable {
+    
     var nodeIndex: Int
     var m: Int
     var n: Int
@@ -22,12 +23,47 @@ struct SK2_Node {
         self.m = m
         self.n = n
     }
+    
+    var hashValue: Int { return nodeIndex }
+    
+    static func == (lhs: SK2_Node, rhs: SK2_Node) -> Bool {
+        return lhs.nodeIndex == rhs.nodeIndex
+    }
 }
+
+// ==============================================================
+// SK2_Descriptor
+// ==============================================================
+
+struct SK2_Descriptor: Equatable {
+    let N: Int
+    let k: Int
+    let a1: Double
+    let a2: Double
+    let T: Double
+    
+    init() {
+        self.N = SK2_System.N_defaultSetPoint
+        self.k = SK2_System.k_defaultSetPoint
+        self.a1 = SK2_System.a1_defaultSetPoint
+        self.a2 = SK2_System.a2_defaultSetPoint
+        self.T = SK2_System.T_defaultSetPoint
+    }
+    
+    init(_ system: SK2_System) {
+        self.N = system.N.value
+        self.k = system.k.value
+        self.a1 = system.a1.value
+        self.a2 = system.a2.value
+        self.T = system.T.value
+    }
+}
+
 // ==============================================================
 // SK2_System
 // ==============================================================
 
-class SK2_System: PhysicalSystem2 {
+class SK2_System: PhysicalSystem {
     
     // ===================================
     // Initializer
@@ -51,6 +87,22 @@ class SK2_System: PhysicalSystem2 {
     
     var info: String?
 
+    func clean() {}
+
+    func apply(_ desc: SK2_Descriptor) {
+        // Special handling of N and k so that they get modified
+        // together. Gotta make sure the derived var's get set.
+        _N = desc.N
+        _k = desc.k
+        _nodeIndexModulus = _N - _k + 1
+        N.refresh()
+        k.refresh()
+        
+        a1.value = desc.a1
+        a2.value = desc.a2
+        T.value = desc.T
+    }
+    
     // ===================================
     // Nodes
         
@@ -283,9 +335,8 @@ class SK2_System: PhysicalSystem2 {
     func resetAllParameters() {
         
         // Special handling of N and k so that they get modified
-        // together and so the derived var's get set.
-
-        // FIDDLY: set points may be incompatible with each other
+        // together. Gotta make sure the derived var's get set.
+        // Also note: set points may be incompatible with each other
         let N2 = N.setPoint
         var k2 = k.setPoint
         if (k2 > N2/2) {

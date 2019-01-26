@@ -14,7 +14,7 @@ import Foundation
 
 class DummySequencer: OLD_Sequencer {
     
-    init(_ name: String, _ system: PhysicalSystem2) {
+    init(_ name: String, _ system: PhysicalSystem) {
         self.name = name
         backingSystem = system
     }
@@ -51,7 +51,7 @@ class DummySequencer: OLD_Sequencer {
     
     var backingModel: AnyObject? = nil
     
-    var backingSystem: PhysicalSystem2
+    var backingSystem: PhysicalSystem
     
     var progressionType: ProgressionType = ProgressionType.undefined
     
