@@ -46,6 +46,10 @@ private let boundaryConditionNames = ["sticky", "elastic", "periodic"]
 
 protocol Sequencer : Named, ChangeMonitorEnabled {
     
+    var backingSystem: PhysicalSystem2 { get }
+
+    var enabled: Bool { get set }
+    
     var boundaryCondition: BoundaryCondition { get set }
     
     var direction: Direction { get set }
@@ -56,6 +60,7 @@ protocol Sequencer : Named, ChangeMonitorEnabled {
     
     func reverse()
     
+    // TODO refactor jumpTo(progress: Double)
     func jumpToProgress(_ progress: Double)
     
 }

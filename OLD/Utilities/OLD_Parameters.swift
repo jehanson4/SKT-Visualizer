@@ -26,6 +26,7 @@ class OLD_AdjustableParameter<T : Comparable> : ChangeMonitorEnabled {
     
     var name: String
     var type: OLD_ParameterType
+    var backingSystem: PhysicalSystem2
     var backingModel: AnyObject?
     
     var value: T {
@@ -48,6 +49,7 @@ class OLD_AdjustableParameter<T : Comparable> : ChangeMonitorEnabled {
     init(_ name: String, _ type: OLD_ParameterType, _ model: AnyObject?, _ getter: @escaping () -> T, _ setter: @escaping (T) -> ()) {
         self.name = name
         self.type = type
+        self.backingSystem = model as! PhysicalSystem2
         self.backingModel = model
         self.getter = getter
         self.setter = setter

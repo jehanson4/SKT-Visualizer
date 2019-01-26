@@ -13,24 +13,94 @@ import Foundation
 // ============================================================
 
 class AppModel1 : AppModel {
+
+    // ========================================
+    // Debugging
+    
+    private let cls = "AppModel1"
+    
+    let debugEnabled = true
+    
+    private func debug(_ mtd: String, _ msg: String = "") {
+        if (debugEnabled) {
+            print(cls, mtd, ":", msg)
+        }
+    }
+    
+    // ================================================
+    // Systems
     
     let systemSelector: Selector<PhysicalSystem2>
-
-    var _figureSelectorsBySystemName: [String: Selector<Figure>]
+    
+    private var systemChangeMonitor: ChangeMonitor?
+    
+    private func systemChanged(_ sender: Any?) {
+        debug("systemChanged")
+        updateFigureChangeMonitor()
+        updateSequencerChangeMonitor()
+    }
+    
+    // ================================================
+    // Figures
+    
+    /// key is system name
+    private var _figureSelectors: [String: Selector<Figure>]
     
     var figureSelector: Selector<Figure>? {
         let systemName = systemSelector.selection?.name
-        return (systemName == nil) ? nil : _figureSelectorsBySystemName[systemName!]
+        return (systemName == nil) ? nil : _figureSelectors[systemName!]
     }
 
-    var _sequencerSelectorsBySystemName: [String: Selector<Sequencer>]
+    private var figureChangeMonitor: ChangeMonitor? = nil
+    
+    private func updateFigureChangeMonitor() {
+        debug("updateFigureChangeMonitor")
+        if (figureChangeMonitor != nil) {
+            figureChangeMonitor?.disconnect()
+        }
+        figureChanged(self)
+        figureChangeMonitor = figureSelector?.monitorChanges(figureChanged)
+    }
+    
+    private func figureChanged(_ sender: Any?) {
+        debug("figureChanged")
+        graphics.figure = figureSelector?.selection?.value
+    }
+    
+    // ================================================
+    // Sequencers
+    
+    /// key is system name
+    private var _sequencerSelectors: [String: Selector<Sequencer>]
     
     var sequencerSelector: Selector<Sequencer>? {
         let systemName = systemSelector.selection?.name
-        return (systemName == nil) ? nil : _sequencerSelectorsBySystemName[systemName!]
+        return (systemName == nil) ? nil : _sequencerSelectors[systemName!]
     }
     
-
+    private var sequencerChangeMonitor: ChangeMonitor? = nil
+    
+    private func updateSequencerChangeMonitor() {
+        debug("updateSequencerChangeMonitor")
+        if (sequencerChangeMonitor != nil) {
+            sequencerChangeMonitor?.disconnect()
+        }
+        sequencerChanged(self)
+        sequencerChangeMonitor = sequencerSelector?.monitorChanges(sequencerChanged)
+    }
+    
+    private func sequencerChanged(_ sender: Any?) {
+        debug("sequencerChanged")
+        sequenceController.sequencer = sequencerSelector?.selection?.value
+    }
+    
+    // ================================================
+    // SequencerController
+    // We need to update the controller's sequence whenever
+    // the selected system or the selected sequencer changes.
+    
+    var sequenceController: SequenceController
+    
     var graphics: Graphics
     
     // OLD
@@ -39,26 +109,42 @@ class AppModel1 : AppModel {
     // OLD
     var viz: VisualizationModel
     
+    // ================================================
+    // Initializer
+    
     init() {
         
-        let systemRegistry = Registry<PhysicalSystem2>()
-        self.systemSelector = Selector<PhysicalSystem2>(systemRegistry)
-        self._figureSelectorsBySystemName = [String: Selector<Figure>]()
-        self._sequencerSelectorsBySystemName = [String: Selector<Sequencer>]()
+        systemSelector = Selector<PhysicalSystem2>()
+        _figureSelectors = [String: Selector<Figure>]()
+        _sequencerSelectors = [String: Selector<Sequencer>]()
         
-        // OLD
+        AppModel1._install(SK2E(), systemSelector, &_figureSelectors, &_sequencerSelectors);
+        AppModel1._install(SK2D(), systemSelector, &_figureSelectors, &_sequencerSelectors);
+        
+        sequenceController = SequenceController()
+        
+        // OLD: delete
         skt = SKTModel1()
         viz = VisualizationModel1(skt)
+
+        // OLD: replace
         graphics = viz as Graphics
 
-        self._install(SK2E());
-        self._install(SK2D());
-
+        // OLD: rewrite
         loadUserDefaults()
+
+        // Do this last
+        systemChanged(self)
+        self.systemChangeMonitor = self.systemSelector.monitorChanges(systemChanged)
 
     }
 
-    func _install<T: PartFactory>(_ factory: T) {
+    private static func _install<T: PartFactory>(
+        _ factory: T,
+        _ systemSelector: Selector<PhysicalSystem2>,
+        _ figureSelectors: inout [String: Selector<Figure>],
+        _ sequencerSelectors: inout [String: Selector<Sequencer>]) {
+        
         let name = T.name
         let system = factory.makeSystem()
         let figures = factory.makeFigures(system)
@@ -67,11 +153,11 @@ class AppModel1 : AppModel {
         _ = systemSelector.registry.register(system, name: name)
 
         if (figures != nil) {
-            _figureSelectorsBySystemName[name] = Selector<Figure>(figures!)
+            figureSelectors[name] = Selector<Figure>(figures!)
         }
 
         if (sequencers != nil) {
-            _sequencerSelectorsBySystemName[name] = Selector<Sequencer>(sequencers!)
+            sequencerSelectors[name] = Selector<Sequencer>(sequencers!)
         }
     }
     

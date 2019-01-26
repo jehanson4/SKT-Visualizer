@@ -19,3 +19,17 @@ A: markStale and a func to take a value as part of setting new bounds. Weird & i
 ==================================================================================
 
 UI/Main.storyboard
+
+==================================================================================
+
+// timeseries sequencers change the system's state
+// can take a long time to calculate
+//
+// sweep sequencers change the system's params
+// usually pretty quick
+//
+// basins are hybrid case:
+// "equilibrium" system-state
+// depend on a chosen dynamic
+// take a long time to calculate
+

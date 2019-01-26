@@ -22,14 +22,34 @@ class SK3Model: PhysicalSystem2 {
     var info: String? = "SK Hamiltonian with 3 components"
     
     let embeddingDimension = 3
+
+    // ===========================================
+    // Nodes
     
     var nodeCount: Int {
         // TODO
         return 0
     }
     
+    // ===========================================
+    // Work queue
+    
+    private var _workQueue: WorkQueue? = nil
+    
+    // Don't make this lazy b/c we don't want 'busy' property getter to create it
+    var workQueue: WorkQueue {
+        if (_workQueue == nil) {
+            _workQueue = WorkQueue()
+        }
+        return _workQueue!
+    }
+    
+    var busy: Bool {
+        return (_workQueue == nil) ? false : _workQueue!.busy
+    }
+    
     // ==================================
-    // N
+    // Parameter: N
     
     static let N_max: Int = 1000
     static let N_min: Int = 1

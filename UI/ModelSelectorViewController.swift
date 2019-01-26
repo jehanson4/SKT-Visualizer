@@ -8,6 +8,7 @@
 
 import UIKit
 
+// TODO reanme ModelSelectionViewController
 class ModelSelectorViewController : UIViewController, AppModelUser {
     
     private var clsName = "ModelSelectorViewController"

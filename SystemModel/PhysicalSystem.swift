@@ -14,10 +14,16 @@ import Foundation
 
 protocol PhysicalSystem2: Named {
     
+    /// Indicates that a state change is under way, i.e., the system's state
+    /// variables and/or properties are being updated on another thread.
+    var busy: Bool { get }
+    
     var parameters: Registry<Parameter> { get }
     
     func resetAllParameters()
     
+    // DEFER until needed
+    // var properties: Registry<PhysicalProperty> { get }
 }
 
 // ================================================================

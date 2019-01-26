@@ -13,10 +13,16 @@ import Foundation
 // ======================================================================
 
 class SK2E_System: SK2_System {
-        
-    init(_ name: String) {
-        super.init(name)
+    
+    // ======================================
+    // Initializer
+    
+    override init(_ name: String, _ info: String? = nil) {
+        super.init(name, info)
     }
+
+    // ======================================
+    // Functions for physical properties
     
     func energy(_ nodeIndex: Int) -> Double {
         let m = nodeIndex / _nodeIndexModulus
@@ -50,5 +56,8 @@ class SK2E_System: SK2_System {
         return entropy(m, n) - _beta * energy(m, n)
     }
     
-
+    // ========================================================
+    // Basins
+    
+    // TODO
 }

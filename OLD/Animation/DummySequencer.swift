@@ -14,8 +14,13 @@ import Foundation
 
 class DummySequencer: OLD_Sequencer {
     
+    init(_ name: String, _ system: PhysicalSystem2) {
+        self.name = name
+        backingSystem = system
+    }
+    
     var name: String
-    var info: String?
+    var info: String? = nil
     
     var enabled: Bool {
         get { return false }
@@ -46,6 +51,8 @@ class DummySequencer: OLD_Sequencer {
     
     var backingModel: AnyObject? = nil
     
+    var backingSystem: PhysicalSystem2
+    
     var progressionType: ProgressionType = ProgressionType.undefined
     
     var progress: Double = 0
@@ -58,10 +65,6 @@ class DummySequencer: OLD_Sequencer {
     
     func fromString(_ s: String) -> Double? {
         return nil
-    }
-    
-    init(_ name: String) {
-        self.name = name
     }
     
     func reverse() {}

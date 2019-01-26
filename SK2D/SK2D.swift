@@ -11,9 +11,10 @@ import Foundation
 class SK2D : PartFactory {
     
     static let name = "SK/2 Dynamics"
+    static let info = "Simulated population flow in the 2-component SK model"
     
     func makeSystem() -> SK2D_System {
-        return SK2D_System(SK2D.name)
+        return SK2D_System(SK2D.name, SK2D.info)
     }
     
     func makeFigures(_ system: SK2D_System) -> Registry<Figure>? {
@@ -23,7 +24,11 @@ class SK2D : PartFactory {
     }
     
     func makeSequencers(_ system: SK2D_System) -> Registry<Sequencer>? {
-        return nil
+        let reg = Registry<Sequencer>()
+        
+        // TODO
+        
+        return reg
     }
     
 }

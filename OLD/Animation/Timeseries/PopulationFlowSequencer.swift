@@ -70,7 +70,7 @@ class PopulationFlowSequencer : GenericSequencer<Int> {
     init(_ name: String, _ flow: PopulationFlow, _ rule: PFlowRule? = nil) {
         self.flow = flow
         self.rule = rule
-        super.init(name, false)
+        super.init(name, flow.skt, false)
         super.boundaryCondition = BoundaryCondition.periodic
         _ = flow.monitorChanges(syncToFlow)
     }

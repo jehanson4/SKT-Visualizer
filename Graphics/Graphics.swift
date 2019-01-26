@@ -21,12 +21,16 @@ protocol GraphicsController {
 // Graphics
 // ============================================================================
 
+// ?? rename -- it's got sequencer stuff
+// ?? merge into AppModel -- but it's got a 'draw' method
 protocol Graphics {
     
     var graphicsController: GraphicsController? { get }
+    
+    // ?? move into graphicsController
+    var figure: Figure? { get set }
 
     func setupGraphics(_ graphicsController: GraphicsController, _ context: GLContext?)
-
-    var figure: Figure { get set }
-
+    
+    func draw(_ drawableWidth: Int, _ drawableHeight: Int)
 }

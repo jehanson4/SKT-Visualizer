@@ -55,7 +55,7 @@ class PopulationFlow : ChangeMonitorEnabled {
         return _isSteadyState
     }
     
-    private var skt: SKTModel
+    var skt: SKTModel
     private var workingData: PFlowModel
     private var _busy: Bool = false
     

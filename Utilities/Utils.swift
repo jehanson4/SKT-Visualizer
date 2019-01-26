@@ -14,8 +14,21 @@ import Foundation
 
 fileprivate let eps = Double.constants.eps
 fileprivate let pi = Double.constants.pi
+fileprivate let piOver2 = Double.constants.piOver2
 fileprivate let twoPi = Double.constants.twoPi
 fileprivate let log2 = Double.constants.log2
+
+func magnitude(_ p0: (x: Double, y: Double, z: Double)) -> Double {
+    return sqrt(p0.x*p0.x + p0.y*p0.y + p0.z*p0.z)
+}
+
+func distance(_ p0: (x: Double, y: Double, z: Double),
+                     _ p1: (x: Double, y: Double, z: Double)) -> Double {
+    let dx = p1.x-p0.x
+    let dy = p1.y-p0.y
+    let dz=p1.z-p0.z
+    return sqrt( dx*dx + dy*dy + dz*dz)
+}
 
 /// Return true iff the values differ by more than Constants.eps
 func distinct(_ x: Double, _ y: Double) -> Bool {
@@ -99,6 +112,18 @@ func subtractLogs(_ w1: Double, _ w2: Double) -> Double {
     // = w1 + ln(1 - exp(-(w1-w2))
     // = w1 + log1mexp(w1-w2)
     return (w2.isNaN) ? w1 : w1 + log1mexp(w1-w2)
+}
+
+// =======================================================================
+// Geometric conversions
+// =======================================================================
+
+func sphericalToCartesian(r: Double, phi: Double, thetaE: Double) -> (x: Double, y: Double, z: Double) {
+    let theta = piOver2 - thetaE
+    let x = r * sin(theta) * cos(phi)
+    let y = r * sin(theta) * sin(phi)
+    let z = r * cos(theta)
+    return (x, y, z)
 }
 
 // =======================================================================

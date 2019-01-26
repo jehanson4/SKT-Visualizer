@@ -108,6 +108,17 @@ class Registry<T> : ChangeMonitorEnabled {
 
 class Selector<T> : ChangeMonitorEnabled {
 
+    // =================================
+    // Initializers
+    
+    init() {
+        self.registry = Registry<T>()
+    }
+    
+    init(_ registry: Registry<T>) {
+        self.registry = registry
+    }
+    
     // =============================
     // Registry
     
@@ -144,13 +155,6 @@ class Selector<T> : ChangeMonitorEnabled {
         }
     }
 
-    // =================================
-    // Initializer
-    
-    init(_ registry: Registry<T>) {
-        self.registry = registry
-    }
-    
     // =================================
     // Change monitoring
     

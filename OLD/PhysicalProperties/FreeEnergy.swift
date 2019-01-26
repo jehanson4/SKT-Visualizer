@@ -43,6 +43,8 @@ class FreeEnergy : TypedPhysicalProperty {
         self.fBounds = (0,0)
     }
     
+    func reset() {}
+    
     func valueAt(nodeIndex: Int) -> Double {
         let sk = geometry.nodeIndexToSK(nodeIndex)
         return FreeEnergy.freeEnergy2(sk.m, sk.n, geometry, physics)

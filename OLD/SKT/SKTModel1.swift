@@ -79,6 +79,10 @@ class SKTModel1: SKTModel {
     
     lazy var workQueue: WorkQueue = WorkQueue()
     
+    var busy: Bool {
+        return workQueue.busy
+    }
+    
     var nodeCount: Int {
         return geometry.nodeCount;
     }

@@ -393,7 +393,7 @@ class BAModel {
                     else {
                         nbrs.removeAll(keepingCapacity: true)
                         addNeighborsToArray(node!, &nbrs)
-                        if classify(node!, nbrs) {
+                        if classify_steepestDescent(node!, nbrs) {
                             totalClassified += 1
                             newlyClassified += 1
                         }
@@ -409,7 +409,7 @@ class BAModel {
                     else {
                         nbrs.removeAll(keepingCapacity: true)
                         addNeighborsToArray(node!, &nbrs)
-                        if classify(node!, nbrs) {
+                        if classify_steepestDescent(node!, nbrs) {
                             totalClassified += 1
                             newlyClassified += 1
                         }
@@ -425,7 +425,7 @@ class BAModel {
                     else {
                         nbrs.removeAll(keepingCapacity: true)
                         addNeighborsToArray(node!, &nbrs)
-                        if classify(node!, nbrs) {
+                        if classify_steepestDescent(node!, nbrs) {
                             totalClassified += 1
                             newlyClassified += 1
                         }
@@ -441,7 +441,7 @@ class BAModel {
                     else {
                         nbrs.removeAll(keepingCapacity: true)
                         addNeighborsToArray(node!, &nbrs)
-                        if classify(node!, nbrs) {
+                        if classify_steepestDescent(node!, nbrs) {
                             totalClassified += 1
                             newlyClassified += 1
                         }
@@ -463,6 +463,35 @@ class BAModel {
     private func nodeAt(_ m: Int, _ n: Int) -> BANode? {
         return (m >= 0 && m <= m_max && n >= 0 && n <= n_max) ? nodes[geometry.skToNodeIndex(m,n)] : nil
     }
+    
+    // TODO: use a PFlowRule to do this. Need to augment PFlowRule API with something
+    // that does the actual work of this method: "find the neigbors that get ANY flow"
+    // Unless that's too slow. . . .
+    //
+    private func classify_steepestDescent(_ nd: BANode, _ nbrs: [BANode]) -> Bool {
+//        let mtd = "classify(\(nd.m),\(nd.n))"
+//        var nbrBasin0: Int? = nil
+//        var nbrDtoA0: Int? = nil
+        
+        var lowestEnergy: Double? = nil
+        for nbr in nbrs {
+            if (lowestEnergy == nil || nbr.energy < lowestEnergy!) {
+                lowestEnergy = nbr.energy
+            }
+        }
+        
+        var lowestNbrs = [BANode]()
+        for nbr in nbrs {
+            if (nbr.energy == lowestEnergy!) {
+                lowestNbrs.append(nbr)
+            }
+        }
+        return classify(nd, lowestNbrs);
+    }
+
+//    private func classify_anyDescent(_ nd: BANode, _ nbrs: [BANode]) -> Bool {
+//        return classify(nd, nbrs)
+//    }
     
     private func classify(_ nd: BANode, _ nbrs: [BANode]) -> Bool {
         let mtd = "classify(\(nd.m),\(nd.n))"
@@ -523,12 +552,12 @@ class BAModel {
             return false
         }
         
-        debug(mtd, "All non-uphill neighbors are in basin \(nbrBasin0!) --> node is in basin \(nbrBasin0!)")
+        debug(mtd, "All accessible neighbors are in basin \(nbrBasin0!) --> node is in basin \(nbrBasin0!)")
         nd.assignToBasin(basinID: nbrBasin0!, distanceToAttractor: nbrDtoA0! + 1)
         debug(mtd, "    " + nd.dumpResettableState())
         return true
     }
-    
+
     private func finishBoundaries() {
         let mtd = "finishBoundaries"
         debug(mtd, "starting pass over nodes")

@@ -90,6 +90,7 @@
 		8AC82CEA21F9DB5000A75595 /* SK2E.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CE921F9DB5000A75595 /* SK2E.swift */; };
 		8AC82CEC21F9E36700A75595 /* Sequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CEB21F9E36700A75595 /* Sequencer.swift */; };
 		8AC82CEF21F9F57200A75595 /* SK2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CEE21F9F57200A75595 /* SK2D.swift */; };
+		8AC82CF521FC9AED00A75595 /* SequenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CF421FC9AED00A75595 /* SequenceController.swift */; };
 		8ACB504020AC92DC00878612 /* BusySpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB503F20AC92DC00878612 /* BusySpinner.swift */; };
 		8ACB504420ACAE4400878612 /* busy.png in Resources */ = {isa = PBXBuildFile; fileRef = 8ACB504320ACAE4300878612 /* busy.png */; };
 		8ACE788D2072E51800C29875 /* Icosahedron.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACE788C2072E51800C29875 /* Icosahedron.swift */; };
@@ -224,6 +225,7 @@
 		8AC82CE921F9DB5000A75595 /* SK2E.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2E.swift; sourceTree = "<group>"; };
 		8AC82CEB21F9E36700A75595 /* Sequencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sequencer.swift; sourceTree = "<group>"; };
 		8AC82CEE21F9F57200A75595 /* SK2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2D.swift; sourceTree = "<group>"; };
+		8AC82CF421FC9AED00A75595 /* SequenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceController.swift; sourceTree = "<group>"; };
 		8ACB503F20AC92DC00878612 /* BusySpinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusySpinner.swift; sourceTree = "<group>"; };
 		8ACB504320ACAE4300878612 /* busy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = busy.png; sourceTree = "<group>"; };
 		8ACE788C2072E51800C29875 /* Icosahedron.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Icosahedron.swift; sourceTree = "<group>"; };
@@ -426,6 +428,8 @@
 			isa = PBXGroup;
 			children = (
 				8A2034E621ED2A6000A4C418 /* SK2_System.swift */,
+				8AC82CDE21F747BB00A75595 /* SK2D_System.swift */,
+				8AC82CDC21F66CA200A75595 /* SK2E_System.swift */,
 			);
 			path = SK2;
 			sourceTree = "<group>";
@@ -561,8 +565,7 @@
 			isa = PBXGroup;
 			children = (
 				8AC82CE921F9DB5000A75595 /* SK2E.swift */,
-				8AC82CF221F9F59900A75595 /* PhysicalSystem */,
-				8AC82CE821F9DA7900A75595 /* Animation */,
+				8AC82CE821F9DA7900A75595 /* Sequencers */,
 				8AC82CE721F9DA4000A75595 /* UI */,
 				8AC82CE621F9DA2D00A75595 /* Figures */,
 			);
@@ -572,7 +575,6 @@
 		8AC82CE521F9D9CB00A75595 /* SK2D */ = {
 			isa = PBXGroup;
 			children = (
-				8AC82CF321F9F5BC00A75595 /* PhysicalSystem */,
 				8AC82CEE21F9F57200A75595 /* SK2D.swift */,
 			);
 			path = SK2D;
@@ -594,35 +596,20 @@
 			path = UI;
 			sourceTree = "<group>";
 		};
-		8AC82CE821F9DA7900A75595 /* Animation */ = {
+		8AC82CE821F9DA7900A75595 /* Sequencers */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			path = Animation;
+			path = Sequencers;
 			sourceTree = "<group>";
 		};
 		8AC82CED21F9E41A00A75595 /* Animation */ = {
 			isa = PBXGroup;
 			children = (
 				8AC82CEB21F9E36700A75595 /* Sequencer.swift */,
+				8AC82CF421FC9AED00A75595 /* SequenceController.swift */,
 			);
 			path = Animation;
-			sourceTree = "<group>";
-		};
-		8AC82CF221F9F59900A75595 /* PhysicalSystem */ = {
-			isa = PBXGroup;
-			children = (
-				8AC82CDC21F66CA200A75595 /* SK2E_System.swift */,
-			);
-			path = PhysicalSystem;
-			sourceTree = "<group>";
-		};
-		8AC82CF321F9F5BC00A75595 /* PhysicalSystem */ = {
-			isa = PBXGroup;
-			children = (
-				8AC82CDE21F747BB00A75595 /* SK2D_System.swift */,
-			);
-			path = PhysicalSystem;
 			sourceTree = "<group>";
 		};
 		8ACE78902073CCDA00C29875 /* Frameworks */ = {
@@ -887,6 +874,7 @@
 				8A3C45C42086214D00A1E9CD /* PhysicalPropertyColorSource.swift in Sources */,
 				8ABEEC3B20803A2F008E72F4 /* Surface.swift in Sources */,
 				8ACE788F2073C57500C29875 /* Effect.swift in Sources */,
+				8AC82CF521FC9AED00A75595 /* SequenceController.swift in Sources */,
 				8A0B3A0020A4B71200370999 /* PopulationFlow.swift in Sources */,
 				8A35082E20A092A400E36C1F /* PopulationColorSource.swift in Sources */,
 				8A3C45C62086278900A1E9CD /* UniformColor.swift in Sources */,

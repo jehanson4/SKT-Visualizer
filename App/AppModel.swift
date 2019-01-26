@@ -36,14 +36,17 @@ protocol PartFactory {
 
 protocol AppModel {
     
-    /// selects a system to visualize
+    /// lets you select a system to visualize
     var systemSelector: Selector<PhysicalSystem2> { get }
     
-    /// selects a figure to show, given the currently selected system
+    /// lets you select a figure for the currently selected system
     var figureSelector: Selector<Figure>? { get }
     
-    /// selects a sequencer to use, given currently selected system
-    // var sequencerSelector: Selector<Sequencer>? { get }
+    /// lets you select a sequencer for the currently selected system
+    var sequencerSelector: Selector<Sequencer>? { get }
+    
+    /// controls the currently selected sequencer
+    var sequenceController: SequenceController { get }
     
     var graphics: Graphics { get set }
     

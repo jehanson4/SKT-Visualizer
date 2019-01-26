@@ -9,24 +9,6 @@
 import Foundation
 import UIKit
 
-// ============================================================================
-// POV
-// ============================================================================
-
-struct POV {
-    var r: Double
-    var phi: Double
-    var thetaE: Double
-    var zoom: Double
-    
-    init(_ r: Double, _ phi: Double, _ thetaE: Double, _ zoom: Double) {
-        self.r = r
-        self.phi = phi
-        self.thetaE = thetaE
-        self.zoom = zoom
-    }
-}
-
 // ========================================================
 // VisualizationModel
 // ========================================================

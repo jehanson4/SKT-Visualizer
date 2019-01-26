@@ -83,7 +83,7 @@ class VisualizationModel1 : VisualizationModel, Figure {
     
     private var glContext: GLContext? = nil
     
-    var figure: Figure {
+    var figure: Figure? {
         get { return self as Figure}
         set(newValue) {
             // IGNORE
@@ -559,6 +559,8 @@ class VisualizationModel1 : VisualizationModel, Figure {
     
     func draw(_ drawableWidth: Int, _ drawableHeight: Int) {
         
+        sequencerStep()
+        
         let ar2 = Float(drawableWidth)/Float(drawableHeight)
         if (ar2 != self.aspectRatio) {
             debug("draw", "new aspectRatio=" + String(ar2))
@@ -566,8 +568,6 @@ class VisualizationModel1 : VisualizationModel, Figure {
             updateProjection()
             updateModelview()
         }
-        
-        sequencerStep()
         
         glClear(GLbitfield(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
         

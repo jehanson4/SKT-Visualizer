@@ -27,13 +27,28 @@ class GraphicsV1: Graphics {
     // Initializer
     
     init() {
-        self.figure = SampleFigure()
     }
+
+    // ===============================================
+    // Figure
+    
+    var figure: Figure? {
+        get { return _figure }
+        set(newValue) {
+            _figure = newValue
+            
+            // TODO
+            // _figure.updateProjection()
+            // _figure.updateModelview()
+        }
+        
+    }
+    var _figure: Figure? = nil
     
     // ========================================
     // Graphics Controller
 
-    // EMPIRICAL so that basin boundary nodes are visible
+    // EMPIRICAL so that true black is noticeable
     static let backgroundColorValue: GLfloat = 0.2
     
     // EMPIRICAL for projection matrix:
@@ -44,6 +59,7 @@ class GraphicsV1: Graphics {
     private var _setupDone: Bool = false
     
     var graphicsController: GraphicsController? = nil
+    
     var glContext: GLContext? = nil
     
     func setupGraphics(_ graphicsController: GraphicsController, _ context: GLContext?) {
@@ -74,15 +90,13 @@ class GraphicsV1: Graphics {
         glDepthFunc(GLenum(GL_LEQUAL))
         // ?? glDepthFunc(GLenum(GL_GEQUAL))
 
-        // TODO
-        // updateProjection()
-        // updateModelview()
-
     }
+
+    // ===========================================
+    // drawing
     
-    // ========================================
-    // Figure
-    
-    var figure: Figure
-    
+    func draw(_ drawableWidth: Int, _ drawableHeight: Int) {
+        glClear(GLbitfield(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
+        _figure?.draw(drawableWidth, drawableHeight)
+    }
 }

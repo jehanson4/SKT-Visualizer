@@ -8,6 +8,7 @@
 
 import UIKit
 
+// TODO rename UISelectionViewController
 class UISelectorViewController : UIViewController, AppModelUser {
     
     private var clsName = "UISelectorViewController"

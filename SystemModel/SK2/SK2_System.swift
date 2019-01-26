@@ -50,7 +50,7 @@ class SK2_System: PhysicalSystem2 {
     var name: String
     
     var info: String?
-    
+
     // ===================================
     // Nodes
         
@@ -68,18 +68,37 @@ class SK2_System: PhysicalSystem2 {
     
     var _nodeIndexModulus: Int
 
+    // TODO rename after all the dust has settled
     func nodeIndexToSK(_ nodeIndex: Int) -> (m: Int, n: Int) {
         let m = nodeIndex / _nodeIndexModulus
         let n = nodeIndex - (m * _nodeIndexModulus)
         return (m, n)
     }
 
+    // TODO rename after all the dust has settled
     func skToNodeIndex(_ m: Int, _ n: Int) -> Int {
         return m * _nodeIndexModulus + n
     }
     
+    // ===========================================
+    // Work queue
+    
+    private var _workQueue: WorkQueue? = nil
+    
+    // Not a lazy stored property b/c we don't want 'busy' getter to create it
+    var workQueue: WorkQueue {
+        if (_workQueue == nil) {
+            _workQueue = WorkQueue()
+        }
+        return _workQueue!
+    }
+    
+    var busy: Bool {
+        return (_workQueue == nil) ? false : _workQueue!.busy
+    }
+    
     // ===================================
-    // N
+    // Parameter: N
     
     static let N_max: Int = 2000
     static let N_min: Int = 2
@@ -117,7 +136,7 @@ class SK2_System: PhysicalSystem2 {
     )
     
     // ===================================
-    // k
+    // Parameter: k
     
     static let k_min: Int = 1
     static let k_max: Int = SK2_System.N_max/2
@@ -155,7 +174,7 @@ class SK2_System: PhysicalSystem2 {
     )
     
     // ===================================
-    // a1
+    // Parameter: a1
     
     static let a1_min: Double = 0
     static let a1_max: Double = 1
@@ -184,7 +203,7 @@ class SK2_System: PhysicalSystem2 {
     )
     
     // ===================================
-    // a2
+    // Parameter: a2
     
     static let a2_min: Double = 0
     static let a2_max: Double = 1
@@ -214,7 +233,7 @@ class SK2_System: PhysicalSystem2 {
     
     
     // ===================================
-    // T
+    // Parameter: T
     
     static let T_min: Double = Double.constants.eps
     static let T_max: Double = 1000000
@@ -263,8 +282,10 @@ class SK2_System: PhysicalSystem2 {
     
     func resetAllParameters() {
         
-        // Special handling of N and k so that they only get modified once.
-        // FIDDLY: set points may be incompatible
+        // Special handling of N and k so that they get modified
+        // together and so the derived var's get set.
+
+        // FIDDLY: set points may be incompatible with each other
         let N2 = N.setPoint
         var k2 = k.setPoint
         if (k2 > N2/2) {

@@ -14,7 +14,13 @@ import Foundation
 
 class SK2D_System: SK2_System {
     
-    init(_ name: String) {
-        super.init(name)
+    override init(_ name: String, _ info: String? = nil) {
+        super.init(name, info)
     }
+
+    // ===============================================
+    // Dynamic
+    
+    // ===============================================
+    // Population
 }

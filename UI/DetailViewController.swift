@@ -13,12 +13,13 @@ import OpenGLES
 import OpenGL
 #endif
 
+// TODO rename GraphicsViewController
 class DetailViewController: GLKViewController, AppModelUser, GraphicsController {
     
     // ============================================
     // Debugging
     
-    let clsName: String = "DetailViewController"
+    let clsName: String = "GraphicsViewController"
 
     var debugEnabled = false
 
@@ -127,10 +128,14 @@ class DetailViewController: GLKViewController, AppModelUser, GraphicsController 
     override func glkView(_ view: GLKView, drawIn rect: CGRect) {
         // print("DetailViewController.glkView")
         
-        // OLD
-        // appModel?.viz.draw(view.drawableWidth, view.drawableHeight)
-        // NEW
-        appModel?.graphics.figure.draw(view.drawableWidth, view.drawableHeight)
+        // =======================================================
+        // This is the method called by OpenGL when it wants to
+        // update the picture. I'm using it to trigger sequencer
+        // updates as well so that the sequencer and the picture
+        // stay in sync.
+        // =======================================================
+        appModel?.sequenceController.update()
+        appModel?.graphics.draw(view.drawableWidth, view.drawableHeight)
     }
 
     // ============================================
@@ -157,7 +162,7 @@ class DetailViewController: GLKViewController, AppModelUser, GraphicsController 
 //        debug("handlePan", "new thetaE=\(pov.thetaE)")
 //
         // NEW
-        appModel!.graphics.figure.handlePan(sender)
+        appModel!.graphics.figure?.handlePan(sender)
     }
     
     @IBAction func handleTap(_ sender: UITapGestureRecognizer) {
@@ -182,7 +187,7 @@ class DetailViewController: GLKViewController, AppModelUser, GraphicsController 
 //        appModel!.viz.pov = POV(pov.r, pov.phi, pov.thetaE, newZoom)
 //
         // NEW
-        appModel!.graphics.figure.handlePinch(sender)
+        appModel!.graphics.figure?.handlePinch(sender)
 
     }
     

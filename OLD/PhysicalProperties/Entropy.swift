@@ -43,6 +43,8 @@ class Entropy : TypedPhysicalProperty {
         self.fBounds = (0,0)
     }
     
+    func reset() {}
+    
     func valueAt(nodeIndex: Int) -> Double {
         let sk = geometry.nodeIndexToSK(nodeIndex)
         return Entropy.entropy2(sk.m, sk.n, geometry)
