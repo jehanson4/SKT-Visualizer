@@ -1,5 +1,5 @@
 //
-//  ModelSelectorViewController.swift
+//  ModelSelectionViewController.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 1/9/19.
@@ -8,10 +8,9 @@
 
 import UIKit
 
-// TODO reanme ModelSelectionViewController
-class ModelSelectorViewController : UIViewController, AppModelUser {
+class ModelSelectionViewController : UIViewController, AppModelUser {
     
-    private var clsName = "ModelSelectorViewController"
+    private var clsName = "ModelSelectionViewController"
     private var debugEnabled = true
     
     private func debug(_ mtd: String, _ msg: String = "") {

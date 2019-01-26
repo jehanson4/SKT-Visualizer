@@ -10,27 +10,30 @@ import Foundation
 import UIKit
 
 // ============================================================================
-// GraphicsController
-// ============================================================================
-
-protocol GraphicsController {
-    var snapshot: UIImage { get }
-}
-
-// ============================================================================
 // Graphics
 // ============================================================================
 
-// ?? rename -- it's got sequencer stuff
-// ?? merge into AppModel -- but it's got a 'draw' method
 protocol Graphics {
+    var snapshot: UIImage { get }
+    // var context: GLContext? { get }
+}
+
+// ============================================================================
+// GraphicsController
+// ============================================================================
+
+// ?? merge into AppModel -- but it's got a 'draw' method
+// ?? merge into GraphicsController
+// ?? make this a 'FigureController'?
+// ?? If I rename GraphicsController I could use it here.
+// ?? expose POV here
+protocol GraphicsController {
     
-    var graphicsController: GraphicsController? { get }
+    var graphics: Graphics? { get }
     
-    // ?? move into graphicsController
     var figure: Figure? { get set }
 
-    func setupGraphics(_ graphicsController: GraphicsController, _ context: GLContext?)
+    func setupGraphics(_ graphics: Graphics)
     
     func draw(_ drawableWidth: Int, _ drawableHeight: Int)
 }

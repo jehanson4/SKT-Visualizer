@@ -9,7 +9,7 @@
 import Foundation
 import GLKit
 
-class GraphicsV1: Graphics {
+class GraphicsV1: GraphicsController {
 
     // ========================================
     // Debugging
@@ -58,19 +58,19 @@ class GraphicsV1: Graphics {
     
     private var _setupDone: Bool = false
     
-    var graphicsController: GraphicsController? = nil
+    var graphics: Graphics? = nil
     
-    var glContext: GLContext? = nil
+    // var glContext: GLContext? = nil
     
-    func setupGraphics(_ graphicsController: GraphicsController, _ context: GLContext?) {
+    func setupGraphics(_ graphics: Graphics) {
         if (_setupDone) {
             debug("setupGraphics", "already done; returning")
             return
         }
         
         self._setupDone = true
-        self.graphicsController = graphicsController
-        self.glContext = context
+        self.graphics = graphics
+        // self.glContext = context
 
         let bg = GraphicsV1.backgroundColorValue
         glClearColor(bg, bg, bg, bg)

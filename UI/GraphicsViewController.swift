@@ -1,5 +1,5 @@
 //
-//  DetailViewController.swift
+//  GraphicsViewController.swift
 //  
 //
 //  Created by James Hanson on 4/1/18.
@@ -13,8 +13,11 @@ import OpenGLES
 import OpenGL
 #endif
 
-// TODO rename GraphicsViewController
-class DetailViewController: GLKViewController, AppModelUser, GraphicsController {
+// ==========================================================
+// GraphicsViewController
+// ==========================================================
+
+class GraphicsViewController: GLKViewController, AppModelUser, Graphics {
     
     // ============================================
     // Debugging
@@ -33,7 +36,7 @@ class DetailViewController: GLKViewController, AppModelUser, GraphicsController 
     // AppModel etc
     
     var appModel: AppModel? = nil
-    var context: EAGLContext? = nil
+    var context: GLContext? = nil
     
     var snapshot: UIImage {
         get { return (view as! GLKView).snapshot }
@@ -73,7 +76,7 @@ class DetailViewController: GLKViewController, AppModelUser, GraphicsController 
             // OLD
             // appModel!.viz.setupGraphics(self, context)
             // NEW
-            appModel!.graphics.setupGraphics(self, context)
+            appModel!.graphicsController.setupGraphics(self)
         }
     }
 
@@ -135,7 +138,7 @@ class DetailViewController: GLKViewController, AppModelUser, GraphicsController 
         // stay in sync.
         // =======================================================
         appModel?.sequenceController.update()
-        appModel?.graphics.draw(view.drawableWidth, view.drawableHeight)
+        appModel?.graphicsController.draw(view.drawableWidth, view.drawableHeight)
     }
 
     // ============================================
@@ -162,7 +165,7 @@ class DetailViewController: GLKViewController, AppModelUser, GraphicsController 
 //        debug("handlePan", "new thetaE=\(pov.thetaE)")
 //
         // NEW
-        appModel!.graphics.figure?.handlePan(sender)
+        appModel!.graphicsController.figure?.handlePan(sender)
     }
     
     @IBAction func handleTap(_ sender: UITapGestureRecognizer) {
@@ -187,7 +190,7 @@ class DetailViewController: GLKViewController, AppModelUser, GraphicsController 
 //        appModel!.viz.pov = POV(pov.r, pov.phi, pov.thetaE, newZoom)
 //
         // NEW
-        appModel!.graphics.figure?.handlePinch(sender)
+        appModel!.graphicsController.figure?.handlePinch(sender)
 
     }
     

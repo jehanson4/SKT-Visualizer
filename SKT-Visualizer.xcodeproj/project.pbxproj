@@ -49,8 +49,8 @@
 		8A56BE7B20ADB3FF00C19F4C /* PFlowNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A56BE7A20ADB3FF00C19F4C /* PFlowNode.swift */; };
 		8A575FEE20804759002B9951 /* ColorMaps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A575FED20804759002B9951 /* ColorMaps.swift */; };
 		8A591B3221E441FB00B802F8 /* SK2E_MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A591B3121E441FB00B802F8 /* SK2E_MasterViewController.swift */; };
-		8A591B3421E6902500B802F8 /* ModelSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A591B3321E6902500B802F8 /* ModelSelectorViewController.swift */; };
-		8A591B3B21E6D6DB00B802F8 /* UISelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A591B3A21E6D6DB00B802F8 /* UISelectorViewController.swift */; };
+		8A591B3421E6902500B802F8 /* ModelSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A591B3321E6902500B802F8 /* ModelSelectionViewController.swift */; };
+		8A591B3B21E6D6DB00B802F8 /* UISelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A591B3A21E6D6DB00B802F8 /* UISelectionViewController.swift */; };
 		8A5E948E2078EE46003477D3 /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A5E948D2078EE46003477D3 /* Net.swift */; };
 		8A741FE620925E2D002A88D0 /* SKGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A741FE520925E2D002A88D0 /* SKGraph.swift */; };
 		8A741FE820926B9E002A88D0 /* FlowLines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A741FE720926B9E002A88D0 /* FlowLines.swift */; };
@@ -136,7 +136,7 @@
 		8AF59503208AC5B10082C5DE /* VisualizatonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF59502208AC5B10082C5DE /* VisualizatonModel.swift */; };
 		8AF98F96207FE7D60007688E /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 8AF98F95207FE7D60007688E /* LICENSE */; };
 		8AF98F9B207FE80E0007688E /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 8AF98F98207FE80D0007688E /* index.html */; };
-		8AF98FA1207FE8350007688E /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF98F9F207FE8350007688E /* DetailViewController.swift */; };
+		8AF98FA1207FE8350007688E /* GraphicsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF98F9F207FE8350007688E /* GraphicsViewController.swift */; };
 		8AF98FA4207FE8B40007688E /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8AF98FA2207FE8B40007688E /* SettingsViewController.xib */; };
 		8AF98FA5207FE8B40007688E /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF98FA3207FE8B40007688E /* SettingsViewController.swift */; };
 		8AF98FA7207FE9CF0007688E /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 8AF98FA6207FE9CF0007688E /* README.md */; };
@@ -187,8 +187,8 @@
 		8A56BE7A20ADB3FF00C19F4C /* PFlowNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PFlowNode.swift; sourceTree = "<group>"; };
 		8A575FED20804759002B9951 /* ColorMaps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorMaps.swift; sourceTree = "<group>"; };
 		8A591B3121E441FB00B802F8 /* SK2E_MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2E_MasterViewController.swift; sourceTree = "<group>"; };
-		8A591B3321E6902500B802F8 /* ModelSelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelSelectorViewController.swift; sourceTree = "<group>"; };
-		8A591B3A21E6D6DB00B802F8 /* UISelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UISelectorViewController.swift; sourceTree = "<group>"; };
+		8A591B3321E6902500B802F8 /* ModelSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelSelectionViewController.swift; sourceTree = "<group>"; };
+		8A591B3A21E6D6DB00B802F8 /* UISelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UISelectionViewController.swift; sourceTree = "<group>"; };
 		8A5E948D2078EE46003477D3 /* Net.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Net.swift; sourceTree = "<group>"; };
 		8A741FE520925E2D002A88D0 /* SKGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKGraph.swift; sourceTree = "<group>"; };
 		8A741FE720926B9E002A88D0 /* FlowLines.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlowLines.swift; sourceTree = "<group>"; };
@@ -274,7 +274,7 @@
 		8AF59502208AC5B10082C5DE /* VisualizatonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualizatonModel.swift; sourceTree = "<group>"; };
 		8AF98F95207FE7D60007688E /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		8AF98F98207FE80D0007688E /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
-		8AF98F9F207FE8350007688E /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		8AF98F9F207FE8350007688E /* GraphicsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphicsViewController.swift; sourceTree = "<group>"; };
 		8AF98FA2207FE8B40007688E /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
 		8AF98FA3207FE8B40007688E /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		8AF98FA6207FE9CF0007688E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -716,9 +716,9 @@
 		8AF59504208AC6DB0082C5DE /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				8AF98F9F207FE8350007688E /* DetailViewController.swift */,
-				8A591B3321E6902500B802F8 /* ModelSelectorViewController.swift */,
-				8A591B3A21E6D6DB00B802F8 /* UISelectorViewController.swift */,
+				8AF98F9F207FE8350007688E /* GraphicsViewController.swift */,
+				8A591B3321E6902500B802F8 /* ModelSelectionViewController.swift */,
+				8A591B3A21E6D6DB00B802F8 /* UISelectionViewController.swift */,
 				8A41B09B21F357F600DE38CB /* FigureSelectionViewController.swift */,
 			);
 			path = UI;
@@ -848,7 +848,7 @@
 				8A575FEE20804759002B9951 /* ColorMaps.swift in Sources */,
 				8ACE788D2072E51800C29875 /* Icosahedron.swift in Sources */,
 				8AC82CDD21F66CA200A75595 /* SK2E_System.swift in Sources */,
-				8A591B3421E6902500B802F8 /* ModelSelectorViewController.swift in Sources */,
+				8A591B3421E6902500B802F8 /* ModelSelectionViewController.swift in Sources */,
 				8A41B09021F0ACA500DE38CB /* Parameters.swift in Sources */,
 				8A0C09A620716B670017AC4C /* SK2Geometry.swift in Sources */,
 				8A0269DD2080B1240054107D /* ColorSource.swift in Sources */,
@@ -894,7 +894,7 @@
 				8AA05A19208FFFD4009417A6 /* MagicStrings.swift in Sources */,
 				8AC82CDF21F747BB00A75595 /* SK2D_System.swift in Sources */,
 				8A2034DC21EB76AC00A4C418 /* ButtonWithImage.swift in Sources */,
-				8AF98FA1207FE8350007688E /* DetailViewController.swift in Sources */,
+				8AF98FA1207FE8350007688E /* GraphicsViewController.swift in Sources */,
 				8A56BE7920ADB37700C19F4C /* PFlowModel.swift in Sources */,
 				8AE18FA7209A1E220086F127 /* FreeEnergy.swift in Sources */,
 				8A2A32D520AB1B0A00D4D619 /* BasinFinder.swift in Sources */,
@@ -912,7 +912,7 @@
 				8AA05A15208FD56F009417A6 /* SK2Point.swift in Sources */,
 				8A741FE820926B9E002A88D0 /* FlowLines.swift in Sources */,
 				8AC82CEF21F9F57200A75595 /* SK2D.swift in Sources */,
-				8A591B3B21E6D6DB00B802F8 /* UISelectorViewController.swift in Sources */,
+				8A591B3B21E6D6DB00B802F8 /* UISelectionViewController.swift in Sources */,
 				8AF59503208AC5B10082C5DE /* VisualizatonModel.swift in Sources */,
 				8AF59500208AC0420082C5DE /* AppModel.swift in Sources */,
 				8A35083220A0D5C800E36C1F /* PFlowRules.swift in Sources */,

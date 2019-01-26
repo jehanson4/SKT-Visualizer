@@ -410,7 +410,7 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
     }
     
     @IBAction func takeSnapshot(_ sender: Any) {
-        let image: UIImage? = old_AppModel?.viz.graphicsController?.snapshot
+        let image: UIImage? = old_AppModel?.viz.graphics?.snapshot
         if (image != nil) {
             UIImageWriteToSavedPhotosAlbum(image!, nil, nil, nil)
         }

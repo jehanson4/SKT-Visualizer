@@ -64,7 +64,7 @@ class AppModel1 : AppModel {
     
     private func figureChanged(_ sender: Any?) {
         debug("figureChanged")
-        graphics.figure = figureSelector?.selection?.value
+        graphicsController.figure = figureSelector?.selection?.value
     }
     
     // ================================================
@@ -101,7 +101,7 @@ class AppModel1 : AppModel {
     
     var sequenceController: SequenceController
     
-    var graphics: Graphics
+    var graphicsController: GraphicsController
     
     // OLD
     var skt: SKTModel
@@ -128,7 +128,7 @@ class AppModel1 : AppModel {
         viz = VisualizationModel1(skt)
 
         // OLD: replace
-        graphics = viz as Graphics
+        graphicsController = viz as GraphicsController
 
         // OLD: rewrite
         loadUserDefaults()
@@ -160,7 +160,14 @@ class AppModel1 : AppModel {
             sequencerSelectors[name] = Selector<Sequencer>(sequencers!)
         }
     }
+
+    // ===========================
+    // Lifecycle
     
+    func clean() {
+        // TODO call clean on the currently selected system
+    }
+
     // ===========================
     // User defaults
     // ===========================

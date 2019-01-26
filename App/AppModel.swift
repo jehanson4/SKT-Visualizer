@@ -48,8 +48,11 @@ protocol AppModel {
     /// controls the currently selected sequencer
     var sequenceController: SequenceController { get }
     
-    var graphics: Graphics { get set }
+    var graphicsController: GraphicsController { get set }
     
     func saveUserDefaults()
+    
+    /// Dispose of resources that can be recreated
+    func clean()
     
 }

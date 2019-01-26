@@ -35,10 +35,22 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
         }
         else {
             debug(mtd, "appModel has been set")
-            appModel?.systemSelector.select(SK2E.name)
-            debug(mtd, "selected system model. selection = \(String(describing: appModel!.systemSelector.selection?.name))")
+            
+            let oldSelection = appModel?.systemSelector.selection
+            if (oldSelection == nil) {
+                appModel?.systemSelector.select(SK2E.name)
+                debug(mtd, "selected system model. selection = \(String(describing: appModel!.systemSelector.selection?.name))")
+            }
+            else if (oldSelection!.name != SK2E.name) {
+                debug(mtd, "cleaning previous selection")
+                oldSelection!.value.clean()
+                appModel?.systemSelector.select(SK2E.name)
+                debug(mtd, "replaced system model. selection = \(String(describing: appModel!.systemSelector.selection?.name))")
+            }
+            else {
+                debug(mtd, SK2E.name + " was already selected");
+            }
             sk2e = appModel?.systemSelector.selection?.value as? SK2E_System
-            figureSelector = appModel!.figureSelector
         }
         
         if (sk2e == nil) {
@@ -94,7 +106,6 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
         a1_teardown()
         a2_teardown()
         T_teardown()
-        figureSelector = nil
         sk2e = nil
         // appModel = nil
 
@@ -120,16 +131,17 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
     
 
     // ===========================================
-    // Visualization: Figure selector
+    // Visualization: figure selector
     
     @IBOutlet weak var figureSelectorButton: UIButton!
 
-    weak var figureSelector: Selector<Figure>? = nil
+    // weak var figureSelector: Selector<Figure>? = nil
     
     var figureSelectionMonitor: ChangeMonitor? = nil
     
     func figureSelector_update(_ sender: Any?) {
         debug("figureSelector_update")
+        let figureSelector = appModel!.figureSelector
         if (figureSelector != nil && figureSelectorButton != nil) {
             let selection = figureSelector!.selection
             let title = selection?.name ?? "<choose>"
@@ -144,6 +156,7 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
             figureSelectorButton.layer.cornerRadius = _cornerRadius
             figureSelectorButton.layer.borderColor = self.view.tintColor.cgColor
         }
+        let figureSelector = appModel!.figureSelector
         figureSelector_update(figureSelector)
         figureSelectionMonitor = figureSelector!.monitorChanges(figureSelector_update);
     }
@@ -153,44 +166,17 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
         figureSelectionMonitor?.disconnect()
     }
     
-//    // ===========================================
-//    // Visualization: Geometry
-//
-//    private enum Geometry: Int {
-//        case plane = 0
-//        case sphere = 1
-//    }
-//
-//    @IBOutlet weak var geometrySelector: UISegmentedControl!
-//
-//    @IBAction func geometrySelector_changed(_ sender: Any) {
-//        debug("geometrySelector_changed")
-//        let segIdx = geometrySelector.selectedSegmentIndex
-//        let segTitle = geometrySelector.titleForSegment(at: segIdx)
-//        let gtype = Geometry(rawValue: segIdx)
-//        debug("geometrySelector_changed: selected \(segIdx) : \(String(describing: segTitle)) : \(String(describing: gtype))")
-//
-//    }
-//
-//    func geometrySelector_setup() {
-//        debug("geometrySelector_setup")
-//    }
-//
-//    func geometrySelector_teardown() {
-//        debug("geometrySelector_teardown")
-//    }
-    
     // ===========================================
     // Visualization: buttons
 
     @IBAction func calibrate(_ sender: Any) {
         debug("calibrate")
-        figureSelector?.selection?.value.calibrate()
+        appModel!.figureSelector?.selection?.value.calibrate()
     }
     
     @IBAction func resetPOV(_ sender: Any) {
         debug("resetPOV")
-        figureSelector?.selection?.value.resetPOV()
+        appModel!.figureSelector?.selection?.value.resetPOV()
     }
     
     @IBAction func takeScreenshot(_ sender: Any) {
@@ -199,7 +185,6 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
 
     // ===========================================
     // Parameters: N
-    // TODO need to disconnect N_monitor somewhere!
 
     @IBOutlet weak var N_text: UITextField!
     
@@ -454,32 +439,34 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
     }
     
     // ===========================================
-    // Sweep: variable selector
+    // Sweep: selector
 
     func sweepSelector_setup() {
         debug("sweepSelector_setup")
+        // TODO
     }
     
     func sweepSelector_teardown() {
         debug("sweepSelector_teardown")
+        // TODO
     }
     
     // ===========================================
-    // Sweep: Lo
+    // TODO Sweep: Lo
     
     // ===========================================
-    // Sweep: Hi
+    // TODO Sweep: Hi
 
     // ===========================================
-    // Sweep: Delta
+    // TODO Sweep: Delta
 
     // ===========================================
-    // Sweep: BC
+    // TODO Sweep: BC
 
     // ===========================================
-    // Sweep: player
+    // TODO Sweep: player
     
     // ===========================================
-    // Sweep: progress
+    // TODO Sweep: progress
 
 }

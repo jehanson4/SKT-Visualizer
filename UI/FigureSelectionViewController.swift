@@ -131,7 +131,7 @@ class FigureSelectionViewController: UITableViewController, AppModelUser {
             let selectedFigure = figureSelector!.selection?.value
             if (selectedFigure != nil) {
                 debug("Swapping in figure \(selectedFigure!.name)")
-                appModel!.graphics.figure = selectedFigure!
+                appModel!.graphicsController.figure = selectedFigure!
             }
         }
         self.dismiss(animated: true, completion: nil)

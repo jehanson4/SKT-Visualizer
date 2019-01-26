@@ -1,5 +1,5 @@
 //
-//  UISelectorViewController.swift
+//  UISelectionViewController.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 1/9/19.
@@ -8,10 +8,9 @@
 
 import UIKit
 
-// TODO rename UISelectionViewController
 class UISelectorViewController : UIViewController, AppModelUser {
     
-    private var clsName = "UISelectorViewController"
+    private var clsName = "UISelectionViewController"
     private var debugEnabled = true
     
     private func debug(_ mtd: String, _ msg: String = "") {

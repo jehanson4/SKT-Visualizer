@@ -79,9 +79,9 @@ class VisualizationModel1 : VisualizationModel, Figure {
     // If nff > 0 then then everything seems inside-out
     static let scene_nearFarFactor: GLfloat = -2
     
-    var graphicsController: GraphicsController? = nil
+    var graphics: Graphics? = nil
     
-    private var glContext: GLContext? = nil
+    // private var glContext: GLContext? = nil
     
     var figure: Figure? {
         get { return self as Figure}
@@ -483,14 +483,14 @@ class VisualizationModel1 : VisualizationModel, Figure {
     private var graphicsSetupDone: Bool = false
     private var aspectRatio: Float = 1
     
-    func setupGraphics(_ graphicsController: GraphicsController, _ context: GLContext?) {
+    func setupGraphics(_ graphicsController: Graphics) {
         if (graphicsSetupDone) {
             debug("setupGraphics", "already done; returning")
             return
         }
         
-        self.graphicsController = graphicsController
-        self.glContext = context        
+        self.graphics = graphicsController
+        // self.glContext = context
         configureGL()
         updateProjection()
         updateModelview()

@@ -21,8 +21,6 @@ class SK3_System: PhysicalSystem {
     
     var info: String? = "SK Hamiltonian with 3 components"
     
-    let embeddingDimension = 3
-
     func clean() {}
     
     // ===========================================
@@ -218,17 +216,5 @@ class SK3_System: PhysicalSystem {
     func resetAllParameters() {
         // TODO
     }
-    
-    // ===========================================
-    // Physical properties
-    
-    lazy var physicalProperties: Registry<PhysicalProperty> = _initProps()
-    
-    private func _initProps() -> Registry<PhysicalProperty> {
-        let props = Registry<PhysicalProperty>()
-        // TODO
-        return props
-    }
-    
     
 }

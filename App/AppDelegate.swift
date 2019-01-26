@@ -12,7 +12,13 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var debugEnabled: Bool = false
-    
+
+    private func debug(_ mtd: String, _ msg: String = "") {
+        if (debugEnabled) {
+            print("AppDelegate", mtd, msg)
+        }
+    }
+
     var window: UIWindow?
     var appModel: AppModel?
     
@@ -60,21 +66,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func configureControllers(_ controller: UIViewController) {
         guard let splitViewController = controller as? UISplitViewController,
             let leftNavController = splitViewController.viewControllers.first as? UINavigationController,
-            let selectorViewController = leftNavController.topViewController as? UISelectorViewController,
-            let detailViewController = splitViewController.viewControllers.last as? DetailViewController
+            var masterViewController = leftNavController.topViewController as? AppModelUser,
+            var detailViewController = splitViewController.viewControllers.last as? AppModelUser
             else { fatalError() }
         
-        debug("configureControllers", "setting UI selector view controller's app model")
-        selectorViewController.appModel = self.appModel
+        debug("configureControllers", "setting master view controller's app model")
+        masterViewController.appModel = self.appModel
 
         debug("configureControllers", "setting detail view controller's app model")
         detailViewController.appModel = self.appModel
     }
 
-    private func debug(_ mtd: String, _ msg: String = "") {
-        if (debugEnabled) {
-            print("AppDelegate", mtd, msg)
-        }
-    }
 }
 
