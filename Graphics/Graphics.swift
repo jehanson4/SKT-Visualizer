@@ -15,7 +15,7 @@ import UIKit
 
 protocol Graphics {
     var snapshot: UIImage { get }
-    // var context: GLContext? { get }
+    var context: GLContext? { get }
 }
 
 // ============================================================================

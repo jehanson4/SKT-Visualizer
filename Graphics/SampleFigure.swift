@@ -61,10 +61,12 @@ class SampleFigure : Figure {
     }
     
     func handlePan(_ sender: UIPanGestureRecognizer) {
+        debug("handlePan")
         // TODO
     }
     
     func handlePinch(_ sender: UIPinchGestureRecognizer) {
+        debug("handlePinch")
         // TODO
     }
 

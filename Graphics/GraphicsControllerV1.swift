@@ -1,5 +1,5 @@
 //
-//  GraphicsV1.swift
+//  GraphicsConrollerV1.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 1/23/19.
@@ -9,12 +9,12 @@
 import Foundation
 import GLKit
 
-class GraphicsV1: GraphicsController {
+class GraphicsControllerV1: GraphicsController {
 
     // ========================================
     // Debugging
     
-    let clsName = "GraphicsV1"
+    let clsName = "GraphicsControllerV1"
     let debugEnabled = true
     
     private func debug(_ mtd: String, _ msg: String = "") {
@@ -46,7 +46,7 @@ class GraphicsV1: GraphicsController {
     var _figure: Figure? = nil
     
     // ========================================
-    // Graphics Controller
+    // Graphics
 
     // EMPIRICAL so that true black is noticeable
     static let backgroundColorValue: GLfloat = 0.2
@@ -60,8 +60,6 @@ class GraphicsV1: GraphicsController {
     
     var graphics: Graphics? = nil
     
-    // var glContext: GLContext? = nil
-    
     func setupGraphics(_ graphics: Graphics) {
         if (_setupDone) {
             debug("setupGraphics", "already done; returning")
@@ -70,9 +68,8 @@ class GraphicsV1: GraphicsController {
         
         self._setupDone = true
         self.graphics = graphics
-        // self.glContext = context
 
-        let bg = GraphicsV1.backgroundColorValue
+        let bg = GraphicsControllerV1.backgroundColorValue
         glClearColor(bg, bg, bg, bg)
         glClearDepthf(1.0)
         

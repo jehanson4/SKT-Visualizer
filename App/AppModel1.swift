@@ -107,7 +107,7 @@ class AppModel1 : AppModel {
     var skt: SKTModel
     
     // OLD
-    var viz: VisualizationModel
+    var viz: VisualizationModel1
     
     // ================================================
     // Initializer
@@ -127,9 +127,11 @@ class AppModel1 : AppModel {
         skt = SKTModel1()
         viz = VisualizationModel1(skt)
 
-        // OLD: replace
-        graphicsController = viz as GraphicsController
-
+        // OLD
+        // graphicsController = viz as GraphicsController
+        // NEW
+        graphicsController = GraphicsControllerV1()
+        
         // OLD: rewrite
         loadUserDefaults()
 

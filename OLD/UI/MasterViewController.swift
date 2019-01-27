@@ -36,7 +36,8 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
         
         if (appModel is AppModel1) {
             self.old_AppModel = appModel as? AppModel1
-
+            appModel?.graphicsController.figure = old_AppModel?.viz
+            
             configureParamsControls()
             configureColorSourceControls()
             configureSequencerControls()

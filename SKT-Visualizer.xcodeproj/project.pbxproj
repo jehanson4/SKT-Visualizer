@@ -89,7 +89,7 @@
 		8AC82CD921F6668000A75595 /* SampleFigure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CD821F6668000A75595 /* SampleFigure.swift */; };
 		8AC82CDD21F66CA200A75595 /* SK2E_System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CDC21F66CA200A75595 /* SK2E_System.swift */; };
 		8AC82CDF21F747BB00A75595 /* SK2D_System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CDE21F747BB00A75595 /* SK2D_System.swift */; };
-		8AC82CE121F8874200A75595 /* GraphicsV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CE021F8874200A75595 /* GraphicsV1.swift */; };
+		8AC82CE121F8874200A75595 /* GraphicsControllerV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CE021F8874200A75595 /* GraphicsControllerV1.swift */; };
 		8AC82CEA21F9DB5000A75595 /* SK2E.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CE921F9DB5000A75595 /* SK2E.swift */; };
 		8AC82CEC21F9E36700A75595 /* Sequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CEB21F9E36700A75595 /* Sequencer.swift */; };
 		8AC82CEF21F9F57200A75595 /* SK2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CEE21F9F57200A75595 /* SK2D.swift */; };
@@ -227,7 +227,7 @@
 		8AC82CD821F6668000A75595 /* SampleFigure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleFigure.swift; sourceTree = "<group>"; };
 		8AC82CDC21F66CA200A75595 /* SK2E_System.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2E_System.swift; sourceTree = "<group>"; };
 		8AC82CDE21F747BB00A75595 /* SK2D_System.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2D_System.swift; sourceTree = "<group>"; };
-		8AC82CE021F8874200A75595 /* GraphicsV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphicsV1.swift; sourceTree = "<group>"; };
+		8AC82CE021F8874200A75595 /* GraphicsControllerV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphicsControllerV1.swift; sourceTree = "<group>"; };
 		8AC82CE921F9DB5000A75595 /* SK2E.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2E.swift; sourceTree = "<group>"; };
 		8AC82CEB21F9E36700A75595 /* Sequencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sequencer.swift; sourceTree = "<group>"; };
 		8AC82CEE21F9F57200A75595 /* SK2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2D.swift; sourceTree = "<group>"; };
@@ -546,7 +546,7 @@
 				8AC82CC321F5D00E00A75595 /* Graphics.swift */,
 				8AC82CD521F6646300A75595 /* Figure.swift */,
 				8AC82CD821F6668000A75595 /* SampleFigure.swift */,
-				8AC82CE021F8874200A75595 /* GraphicsV1.swift */,
+				8AC82CE021F8874200A75595 /* GraphicsControllerV1.swift */,
 			);
 			path = Graphics;
 			sourceTree = "<group>";
@@ -880,7 +880,7 @@
 				8A0B3A0020A4B71200370999 /* PopulationFlow.swift in Sources */,
 				8A35082E20A092A400E36C1F /* PopulationColorSource.swift in Sources */,
 				8A3C45C62086278900A1E9CD /* UniformColor.swift in Sources */,
-				8AC82CE121F8874200A75595 /* GraphicsV1.swift in Sources */,
+				8AC82CE121F8874200A75595 /* GraphicsControllerV1.swift in Sources */,
 				8AB2A62F21FCE1C100A46316 /* SK2_BANode.swift in Sources */,
 				8A3C45B02086160A00A1E9CD /* Energy.swift in Sources */,
 				8ACB504020AC92DC00878612 /* BusySpinner.swift in Sources */,
