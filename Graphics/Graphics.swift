@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import UIKit
+import GLKit
 
 // ============================================================================
 // Graphics
@@ -18,22 +18,62 @@ protocol Graphics {
     var context: GLContext? { get }
 }
 
-// ============================================================================
-// GraphicsController
-// ============================================================================
+// ===========================================================================
+// Figure
+// ===========================================================================
 
-// ?? merge into AppModel -- but it's got a 'draw' method
-// ?? merge into GraphicsController
-// ?? make this a 'FigureController'?
-// ?? If I rename GraphicsController I could use it here.
-// ?? expose POV here
-protocol GraphicsController {
+protocol Figure: Named {
     
-    var graphics: Graphics? { get }
+    // DEFER but I'm sure I'll want it eventually
+    // MAYBE optional
+    // var parameters: Registry<Parameter> { get }
     
-    var figure: Figure? { get set }
-
-    func setupGraphics(_ graphics: Graphics)
+    var effects: Registry<Effect>? { get }
+    
+    func resetPOV()
+    
+    func calibrate()
     
     func draw(_ drawableWidth: Int, _ drawableHeight: Int)
+    
+    func handlePan(_ sender: UIPanGestureRecognizer)
+    func handlePinch(_ sender: UIPinchGestureRecognizer)
 }
+
+// ==============================================================================
+// Effect
+// ==============================================================================
+
+protocol Effect: Named {
+    
+    var enabled: Bool { get set }
+    
+    var projectionMatrix: GLKMatrix4 { get set }
+    var modelviewMatrix: GLKMatrix4 { get set }
+    
+    /// resets params to default values
+    func reset()
+        
+    func prepareToDraw()
+    func draw()
+    
+}
+
+// ==============================================================================
+// ColorSource
+// ==============================================================================
+
+protocol ColorSource : Named, ChangeMonitorEnabled {
+    
+    /// Returns the thing that provides data to this color source, if any.
+    var backingModel: AnyObject? { get }
+    
+    /// Updates this color source's internal state as needed. Should be called
+    /// before start of a pass over node indices.
+    /// returns true iff the colors were changed by the update.
+    func prepare() -> Bool
+    
+    /// Returns the color assigned to the node at the given index
+    func colorAt(_ nodeIndex: Int) -> GLKVector4
+}
+

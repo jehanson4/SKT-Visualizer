@@ -9,6 +9,25 @@
 import Foundation
 import GLKit
 
+// ============================================================================
+// GraphicsController
+// ============================================================================
+
+protocol GraphicsController {
+    
+    var graphics: Graphics? { get }
+    
+    var figure: Figure? { get set }
+    
+    func setupGraphics(_ graphics: Graphics)
+    
+    func draw(_ drawableWidth: Int, _ drawableHeight: Int)
+}
+
+// ============================================================================
+// GraphicsConrollerV1
+// ============================================================================
+
 class GraphicsControllerV1: GraphicsController {
 
     // ========================================

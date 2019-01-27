@@ -12,11 +12,11 @@ import Foundation
 // SK2_Node
 // ==============================================================
 
-class SK2_Node: Hashable, Equatable {
+class SK2_Node: DS_Node {
     
-    var nodeIndex: Int
-    var m: Int
-    var n: Int
+    let nodeIndex: Int
+    let m: Int
+    let n: Int
 
     init(_ nodeIndex: Int, _ m: Int, _ n: Int) {
         self.nodeIndex = nodeIndex

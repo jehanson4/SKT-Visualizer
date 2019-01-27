@@ -40,7 +40,7 @@ class VisualizationModel1 : VisualizationModel, Figure {
         // OLD
         // appModel!.viz.pov = POV(pov.r, phi2, thetaE2, pov.zoom)
         // NEW
-        pov = POV(pov.r, phi2, thetaE2, pov.zoom)
+        pov = ShellPOV(pov.r, phi2, thetaE2, pov.zoom)
         debug("handlePan", "new thetaE=\(pov.thetaE)")
     }
     
@@ -54,7 +54,7 @@ class VisualizationModel1 : VisualizationModel, Figure {
         // OLD
         // appModel!.viz.pov = POV(pov.r, pov.phi, pov.thetaE, newZoom)
         // NEW
-        pov = POV(pov.r, pov.phi, pov.thetaE, newZoom)
+        pov = ShellPOV(pov.r, pov.phi, pov.thetaE, newZoom)
 
     }
     
@@ -129,16 +129,16 @@ class VisualizationModel1 : VisualizationModel, Figure {
     static let pov_defaultThetaE = Double.constants.piOver4
     static let pov_defaultZoom = 1.0
     
-    var pov_default: POV {
+    var pov_default: ShellPOV {
         get { return _pov_default }
         set(newValue) {
             _pov_default = fixPOV(newValue)
         }
     }
     
-    private var _pov_default: POV = POV(1,0,0,1) // temp value
+    private var _pov_default: ShellPOV = ShellPOV(1,0,0,1) // temp value
     
-    var pov: POV {
+    var pov: ShellPOV {
         get { return _pov }
         set(newValue) {
             _pov = fixPOV(newValue)
@@ -146,7 +146,7 @@ class VisualizationModel1 : VisualizationModel, Figure {
         }
     }
     
-    private var _pov: POV = POV(1,0,0,1) // temp value
+    private var _pov: ShellPOV = ShellPOV(1,0,0,1) // temp value
     
     
     func resetPOV() {
@@ -155,12 +155,12 @@ class VisualizationModel1 : VisualizationModel, Figure {
     }
     
     private func initPOV() {
-        _pov_default = POV(VisualizationModel1.pov_rFactor * skt.geometry.r0, VisualizationModel1.pov_defaultPhi, VisualizationModel1.pov_defaultThetaE, VisualizationModel1.pov_defaultZoom)
+        _pov_default = ShellPOV(VisualizationModel1.pov_rFactor * skt.geometry.r0, VisualizationModel1.pov_defaultPhi, VisualizationModel1.pov_defaultThetaE, VisualizationModel1.pov_defaultZoom)
         _pov = pov_default
         // NO updateModelview()
     }
     
-    private func fixPOV(_ pov: POV) -> POV {
+    private func fixPOV(_ pov: ShellPOV) -> ShellPOV {
         var r2 = pov.r
         var phi2 = pov.phi
         var thetaE2 = pov.thetaE
@@ -190,7 +190,7 @@ class VisualizationModel1 : VisualizationModel, Figure {
             zoom2 = 1.0
         }
         
-        return POV(r2, phi2, thetaE2, zoom2)
+        return ShellPOV(r2, phi2, thetaE2, zoom2)
     }
     
     // ====================================
@@ -301,6 +301,7 @@ class VisualizationModel1 : VisualizationModel, Figure {
             effects!.entry(eName)?.value.reset()
         }
     }
+    
     // ====================================
     // Sequencers
     // ====================================

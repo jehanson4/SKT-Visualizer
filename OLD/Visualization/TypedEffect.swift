@@ -10,24 +10,6 @@ import Foundation
 import GLKit
 
 // ==============================================================================
-// Effect
-// ==============================================================================
-
-protocol Effect: Named {
-
-    var enabled: Bool { get set }
-    
-    var projectionMatrix: GLKMatrix4 { get set }
-    var modelviewMatrix: GLKMatrix4 { get set }
-    
-    /// resets params to default values
-    func reset()
-    func prepareToDraw()
-    func draw()
-
-}
-
-// ==============================================================================
 // EffectType
 // ==============================================================================
 

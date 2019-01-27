@@ -17,7 +17,7 @@ struct MagicStrings {
     static let sequencerDroplistSegue = "colorSourceDroplistSegue"
     static let sequencerRegistryEntryCell = "sequencerRegistryEntryCell"
     
-    static let visualizationSelectorCell = "visualizationSelectorCell"
+    static let FigureSelectorCell = "FigureSelectorCell"
     
-    static let sk2e_showVisualizationSelector = "sk2e_showVisualizationSelector"
+    static let SK2E_ShowFigureSelector = "SK2E_ShowFigureSelector"
 }

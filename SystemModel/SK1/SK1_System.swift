@@ -12,7 +12,7 @@ import Foundation
 // SK1_System
 // ==============================================================
 
-class SK1_System: PhysicalSystem {
+class SK1_System: DiscreteSystem {
     
 
     // ==================================
@@ -23,6 +23,10 @@ class SK1_System: PhysicalSystem {
     var name = SK1_System.type
     
     var info: String? = "SK Hamiltonian with 1 component"
+    
+    var nodeCount: Int {
+        return _N
+    }
     
     var busy: Bool = false
     

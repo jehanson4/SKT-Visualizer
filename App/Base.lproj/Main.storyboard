@@ -751,7 +751,7 @@
                                                                 <rect key="frame" x="0.0" y="0.0" width="256" height="32"/>
                                                                 <state key="normal" title="&lt;choose figure&gt;"/>
                                                                 <connections>
-                                                                    <segue destination="22o-zh-LZs" kind="popoverPresentation" identifier="sk2e_showVisualizationSelector" popoverAnchorView="aDJ-qV-Xi8" id="M1K-xq-F8r">
+                                                                    <segue destination="22o-zh-LZs" kind="popoverPresentation" identifier="SK2E_ShowFigureSelector" popoverAnchorView="aDJ-qV-Xi8" id="M1K-xq-F8r">
                                                                         <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                                                                     </segue>
                                                                 </connections>
@@ -1320,7 +1320,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="visualizationSelectorCell" rowHeight="64" id="KKC-2X-sDl">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="FigureSelectorCell" rowHeight="64" id="KKC-2X-sDl" userLabel="FigureSelectorCell">
                                 <rect key="frame" x="0.0" y="28" width="200" height="64"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="KKC-2X-sDl" id="heC-0E-tCO">

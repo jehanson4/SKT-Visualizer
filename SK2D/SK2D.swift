@@ -19,7 +19,11 @@ class SK2D : PartFactory {
     
     func makeFigures(_ system: SK2D_System) -> Registry<Figure>? {
         let reg = Registry<Figure>()
-        _ = reg.register(SampleFigure())
+
+        let sampleFigure = ShellFigure("Sample Figure")
+        _ = sampleFigure.effects?.register(Icosahedron(enabled: true))
+        _ = reg.register(sampleFigure)
+        
         return reg
     }
     

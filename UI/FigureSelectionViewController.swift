@@ -83,7 +83,7 @@ class FigureSelectionViewController: UITableViewController, AppModelUser {
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: MagicStrings.visualizationSelectorCell, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: MagicStrings.FigureSelectorCell, for: indexPath)
         // debug("tableView cellForRowAt", "indexPath.row=\(indexPath.row)")
         
         var subviewCounter = 0

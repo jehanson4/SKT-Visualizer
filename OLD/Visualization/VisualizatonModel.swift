@@ -43,7 +43,7 @@ import UIKit
 
 protocol VisualizationModel: GraphicsController {
     
-    var pov: POV { get set }
+    var pov: ShellPOV { get set }
     
     func resetPOV()
     
