@@ -333,14 +333,16 @@
 				8A1CF013207146510099DD97 /* Products */,
 				8AF98FA6207FE9CF0007688E /* README.md */,
 				8AF138B7207B8966001A88C6 /* Resources */,
-				8A2034E521ED29B400A4C418 /* OLD */,
 				8A0C09A220716B050017AC4C /* Utilities */,
 				8A9D599B208DFBD20022831B /* App */,
 				8AC82CED21F9E41A00A75595 /* Animation */,
 				8AC82CC221F5C8B700A75595 /* Graphics */,
 				8AF5320C2088B63E009D1882 /* PhysicalSystem */,
 				8AF59504208AC6DB0082C5DE /* UI */,
+				8A2034E021ED0F3400A4C418 /* SK1 */,
 				8AC82CE421F9D9A900A75595 /* SK2 */,
+				8A41B09121F0BF0300DE38CB /* SK3 */,
+				8A2034E521ED29B400A4C418 /* OLD */,
 				8A3C45B72086185B00A1E9CD /* Scratch */,
 			);
 			sourceTree = "<group>";
@@ -442,13 +444,6 @@
 				8AF98FA2207FE8B40007688E /* SettingsViewController.xib */,
 			);
 			path = UI;
-			sourceTree = "<group>";
-		};
-		8A591B3C21E6D89500B802F8 /* SK2 */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = SK2;
 			sourceTree = "<group>";
 		};
 		8A5E948A2077D285003477D3 /* Effects */ = {
@@ -739,9 +734,6 @@
 				8AD823B3208E36CB0045F3B1 /* PhysicalProperty.swift */,
 				8A4654BF21E8E38300EE2B26 /* PhysicalSystem.swift */,
 				8AB2A63621FDEDEC00A46316 /* DiscreteSystem.swift */,
-				8A2034E021ED0F3400A4C418 /* SK1 */,
-				8A591B3C21E6D89500B802F8 /* SK2 */,
-				8A41B09121F0BF0300DE38CB /* SK3 */,
 			);
 			name = PhysicalSystem;
 			path = SystemModel;
