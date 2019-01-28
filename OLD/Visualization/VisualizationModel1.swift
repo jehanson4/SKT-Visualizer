@@ -268,6 +268,7 @@ class VisualizationModel1 : VisualizationModel, Figure {
     
     func registerEffect<T: Effect> (_ effect: T) {
         do {
+            debug("registering effect w/ key \(T.key)")
             _ = try effects!.register(effect, nameHint: effect.name, key: T.key)
         }
         catch {
@@ -284,8 +285,8 @@ class VisualizationModel1 : VisualizationModel, Figure {
         registerEffect(FlowLines(skt.geometry, skt.physics, enabled: false))
         
         let bg: GLfloat = VisualizationModel1.scene_backgroundColorValue
-        registerEffect(Shell(
-            skt.geometry.r0+Shell.rOffsetDefault,
+        registerEffect(BackgroundShell(
+            skt.geometry.r0+BackgroundShell.rOffsetDefault,
             GLKVector4Make(bg, bg, bg, 1),
             enabled: true))
         

@@ -8,6 +8,9 @@
 
 import Foundation
 
+fileprivate let pi = Double.constants.pi
+fileprivate let twoPi = Double.constants.twoPi
+
 // ==============================================================
 // SK2_Node
 // ==============================================================
@@ -77,7 +80,7 @@ class SK2_System: PhysicalSystem {
         self._a2 = SK2_System.a2_defaultSetPoint
         self._T = SK2_System.T_defaultSetPoint
         self._beta = 1/_T
-        self._nodeIndexModulus = _N - _k + 1
+        updateDerivedVariables()
     }
     
     // ===================================
@@ -89,20 +92,6 @@ class SK2_System: PhysicalSystem {
 
     func clean() {}
 
-    func apply(_ desc: SK2_Descriptor) {
-        // Special handling of N and k so that they get modified
-        // together. Gotta make sure the derived var's get set.
-        _N = desc.N
-        _k = desc.k
-        _nodeIndexModulus = _N - _k + 1
-        N.refresh()
-        k.refresh()
-        
-        a1.value = desc.a1
-        a2.value = desc.a2
-        T.value = desc.T
-    }
-    
     // ===================================
     // Nodes
         
@@ -118,18 +107,36 @@ class SK2_System: PhysicalSystem {
         return _N - _k
     }
     
-    var _nodeIndexModulus: Int
-
     // TODO rename after all the dust has settled
     func nodeIndexToSK(_ nodeIndex: Int) -> (m: Int, n: Int) {
-        let m = nodeIndex / _nodeIndexModulus
-        let n = nodeIndex - (m * _nodeIndexModulus)
+        let m = nodeIndex / nodeIndexModulus
+        let n = nodeIndex - (m * nodeIndexModulus)
         return (m, n)
     }
-
+    
     // TODO rename after all the dust has settled
     func skToNodeIndex(_ m: Int, _ n: Int) -> Int {
-        return m * _nodeIndexModulus + n
+        return m * nodeIndexModulus + n
+    }
+    
+    // =========================================
+    // Derived variables. Some are only useful
+    // on the shell. See SK2_ShellGeometry
+    
+    var nodeIndexModulus: Int = 0
+    var skNorm: Double = 0
+    var s0: Double = 0
+    var sin_s0: Double = 0
+    var cot_s0: Double = 0
+    var s12_max: Double = 0
+    
+    private func updateDerivedVariables() {
+        nodeIndexModulus = _N - _k + 1
+        skNorm = pi / Double(_N)
+        s0 = pi * Double(_k) / Double(_N)
+        sin_s0 = sin(s0)
+        cot_s0 = 1.0/tan(s0)
+        s12_max = twoPi - s0
     }
     
     // ===========================================
@@ -170,7 +177,7 @@ class SK2_System: PhysicalSystem {
             _k = _N/2
             kChanged = true
         }
-        _nodeIndexModulus = _N - _k + 1
+        updateDerivedVariables()
         if (kChanged) {
             k.refresh()
         }
@@ -208,7 +215,7 @@ class SK2_System: PhysicalSystem {
             _N = 2 * _k
             NChanged = true
         }
-        _nodeIndexModulus = _N - _k + 1
+        updateDerivedVariables()
         if (NChanged) {
             N.refresh()
         }
@@ -332,8 +339,21 @@ class SK2_System: PhysicalSystem {
         return params
     }
     
-    func resetAllParameters() {
+    func apply(_ desc: SK2_Descriptor) {
+        // Special handling of N and k so that they get modified
+        // together. Gotta make sure the derived var's get set.
+        _N = desc.N
+        _k = desc.k
+        updateDerivedVariables()
+        N.refresh()
+        k.refresh()
         
+        a1.value = desc.a1
+        a2.value = desc.a2
+        T.value = desc.T
+    }
+    
+    func resetAllParameters() {
         // Special handling of N and k so that they get modified
         // together. Gotta make sure the derived var's get set.
         // Also note: set points may be incompatible with each other
@@ -344,7 +364,7 @@ class SK2_System: PhysicalSystem {
         }
         _N = N2
         _k = k2
-        _nodeIndexModulus = _N - _k + 1
+        updateDerivedVariables()
         N.refresh()
         k.refresh()
         

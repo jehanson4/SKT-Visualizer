@@ -18,7 +18,7 @@ import OpenGL
 // Shell
 // ==============================================================
 
-class Shell : GLKBaseEffect, Effect {
+class BackgroundShell : GLKBaseEffect, Effect {
     var debugEnabled = false
     
     static let key = "BackgroundShell"

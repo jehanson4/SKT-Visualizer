@@ -33,16 +33,16 @@ enum EffectType: Int {
 }
 
 private let effectKeys = [
-    "axes",
-    "meridians",
-    "icosahedron",
-    "net",
-    "surface",
-    "nodes",
-    "balls",
-    "flowLines",
-    "busy",
-    "backgroundShell"
+    Axes.key,
+    Meridians.key,
+    Icosahedron.key,
+    Net.key,
+    Surface.key,
+    Nodes.key,
+    Balls.key,
+    FlowLines.key,
+    BusySpinner.key,
+    BackgroundShell.key
 ]
 
 

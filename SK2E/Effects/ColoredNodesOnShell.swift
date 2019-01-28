@@ -1,29 +1,24 @@
 //
-//  Nodes.swift
+//  ColoredNodesOnShell.swift
 //  SKT Visualizer
 //
-//  Created by James Hanson on 4/7/18.
-//  Copyright © 2018 James Hanson. All rights reserved.
+//  Created by James Hanson on 1/27/19.
+//  Copyright © 2019 James Hanson. All rights reserved.
 //
 
 import Foundation
 import GLKit
-#if os(iOS) || os(tvOS)
-import OpenGLES
-#else
-import OpenGL
-#endif
 
-// ==============================================================
-// Nodes
-// ==============================================================
+// =========================================================
+// ColoredNodesOnShell
+// =========================================================
 
-class Nodes : Effect {
+class ColoredNodesOnShell: Effect {
     
     // ============================================
     // Debugging
     
-    let cls = "Nodes"
+    let cls = "ColordNodesOnShell"
     
     var debugEnabled = false
     
@@ -33,11 +28,32 @@ class Nodes : Effect {
         }
     }
     
-
+    // ============================================
+    // Lifecycle
     
-    // EMPIRICAL
-    let pointSizeMax: GLfloat = 32
-    let pointSizeScaleFactor: GLfloat = 350
+    init(_ system: SK2E_System, _ figure: ShellFigure, _ colorSource: ColorSource, enabled: Bool) {
+        self.geometry = SK2_ShellGeometry(system)
+        self.figure = figure
+        self.colorSource = colorSource
+        self.enabled = enabled
+        self.enabledDefault = enabled
+
+        self.N_monitor = system.N.monitorChanges(updateGeometry)
+        self.k_monitor = system.k.monitorChanges(updateGeometry)
+        self.colorSourceMonitor = colorSource.monitorChanges(updateColors)
+    }
+    
+    deinit {
+        N_monitor?.disconnect()
+        k_monitor?.disconnect()
+        colorSourceMonitor?.disconnect()
+        glDeleteProgram(programHandle)
+        glDeleteVertexArrays(1, &vertexArray)
+        deleteBuffers()
+    }
+    
+    // ============================================
+    // Basics
     
     static let key = "Nodes"
     var name = "Nodes"
@@ -47,6 +63,29 @@ class Nodes : Effect {
     private let enabledDefault: Bool
     private var built: Bool = false
 
+    private var geometry: SK2_ShellGeometry
+    private var figure: ShellFigure
+    
+    private var N_monitor: ChangeMonitor?
+    private var k_monitor: ChangeMonitor?
+    
+    func updateGeometry(_ sender: Any?) {
+        built = false
+    }
+    
+    // ==========================
+    // Colors
+    
+    private var colorSource: ColorSource
+
+    private var colorsAreStale = true
+
+    private var colorSourceMonitor: ChangeMonitor?
+    
+    func updateColors(_ sender: Any?) {
+        colorsAreStale = true
+    }
+    
     // ==========================
     // GL stuff
     
@@ -66,6 +105,8 @@ class Nodes : Effect {
     var projectionMatrix: GLKMatrix4 = GLKMatrix4Identity
     var modelviewMatrix: GLKMatrix4 = GLKMatrix4Identity
     
+    private var verticesAreStale = true
+    
     var vertices: [GLKVector4] = []
     var colors: [GLKVector4] = []
     
@@ -73,46 +114,6 @@ class Nodes : Effect {
     var vertexBuffer: GLuint = 0
     var colorBuffer: GLuint = 0
 
-    var viz: VisualizationModel
-    var geometry: SK2Geometry
-    var geometryChangeNumber: Int
-    var physics: SKPhysics
-    var physicsChangeNumber: Int
-    
-    private var colorSources: RegistryWithSelection<ColorSource>? = nil
-    private var colorSourceSelectionMonitor: ChangeMonitor? = nil
-    private var colorSourceInstanceMonitor: ChangeMonitor? = nil
-    private var colorsAreStale: Bool = false
-    
-    // =====================================
-    // Initialization
-    // =====================================
-
-    init(_ viz: VisualizationModel, _ geometry: SK2Geometry, _ physics: SKPhysics, _ colorSources: RegistryWithSelection<ColorSource>?, enabled: Bool) {
-        self.viz = viz
-        self.geometry = geometry
-        self.geometryChangeNumber = geometry.changeNumber
-        self.physics = physics
-        self.physicsChangeNumber = physics.changeNumber
-        self.colorSources = colorSources
-        self.enabled = enabled
-        self.enabledDefault = enabled
-        if (colorSources != nil) {
-            colorSourceSelectionMonitor = colorSources!.monitorChanges(colorSourceSelectionChanged)
-        }
-        let sel = colorSources?.selection?.value
-        if (sel != nil) {
-            colorSourceInstanceMonitor = sel!.monitorChanges(colorSourceInstanceChanged
-            )
-        }
-    }
-
-    deinit {
-        glDeleteProgram(programHandle)
-        glDeleteVertexArrays(1, &vertexArray)
-        deleteBuffers()
-    }
-    
     private func deleteBuffers() {
         glDeleteBuffers(1, &vertexBuffer)
         glDeleteBuffers(1, &colorBuffer)
@@ -128,17 +129,17 @@ class Nodes : Effect {
     
     private func buildVertexAndColorData() {
         
-       self.vertices = buildVertexArray4(geometry)
-
+        self.vertices = geometry.buildVertexArray4()
+        
         // Fill colors array with black, then set flag to force an update
         
         let black = GLKVector4Make(0, 0, 0, 0)
         self.colors = Array(repeating: black, count: vertices.count)
         self.colorsAreStale = true
     }
-
+    
     private func createBuffers() {
-
+        
         glBindVertexArray(vertexArray)
         
         // vertex buffer
@@ -179,164 +180,25 @@ class Nodes : Effect {
         }
         
     }
-
-    func colorSourceSelectionChanged(_ sender: Any?) {
-        markColorsStale()
-        colorSourceInstanceMonitor?.disconnect()
-        let sel = colorSources?.selection?.value
-        if (sel != nil) {
-            colorSourceInstanceMonitor = sel!.monitorChanges(colorSourceInstanceChanged)
-        }
-    }
     
-    func colorSourceInstanceChanged(_ sender: Any?) {
-        markColorsStale()
-    }
+    // ========================================
+    // Point size
     
-    func markColorsStale() {
-        colorsAreStale = true
-    }
-    
-    private func ensureColorsAreFresh() -> Bool {
-        if (colorSources == nil) {
-            debug("cannot refresh colors: colorSources is nil")
-            return false
-        }
-        
-        let colorSource = colorSources?.selection?.value
-        if (colorSource == nil) {
-            debug("cannot refresh colors: colorSource is nil")
-            return false
-        }
-        
-        var colorsRecomputed = false
-        let cs = colorSource!
-        let colorSourceChanged = cs.prepare()
-        if (colorSourceChanged || colorsAreStale) {
-            colorsAreStale = false
-            debug("recomputing colors", "colorSource: \(cs.name) colors.count=\(colors.count)")
-            for i in 0..<colors.count {
-                colors[i] = cs.colorAt(i)
-            }
-            colorsRecomputed = true
-        }
-        return colorsRecomputed
-    }
-    
-    // =========================================
-    // Prepare & Draw
-    // =========================================
-
-    func reset() {
-        enabled = enabledDefault
-    }
-    
-    func prepareToDraw() {
-        glUseProgram(programHandle)
-        
-        glUniformMatrix4fv(projectionMatrixUniform, 1, GLboolean(GL_FALSE), projectionMatrix.array)
-        glUniformMatrix4fv(modelViewMatrixUniform, 1, GLboolean(GL_FALSE), modelviewMatrix.array)
-
-        let pointSize = calculatePointSize()
-        glUniform1f(pointSizeUniform, pointSize)
-    }
-    
-    var drawCounter: Int = 0
-    func draw() {
-        let mtd = "draw[\(drawCounter)]"
-        
-        if (!enabled) {
-            return
-        }
-        
-        drawCounter += 1
-
-        let err0 = glGetError()
-        if (err0 != 0) {
-            debug(mtd, String(format:"entering: glError 0x%x", err0))
-        }
-        
-        if (!built) {
-            built = build()
-        }
-
-        let geometryChange = geometry.changeNumber
-        let physicsChange = physics.changeNumber
-        if (geometryChange != geometryChangeNumber) {
-            debug(mtd, "geometry has changed. Rebuilding.")
-            self.geometryChangeNumber = geometryChange
-            self.physicsChangeNumber = physicsChange
-            
-            // IMPORTANT
-            self.colorsAreStale = true
-            
-            deleteBuffers()
-            buildVertexAndColorData()
-            
-            // INEFFICIENT redundant copy colors to color buffer
-            createBuffers()
-            
-            debug(mtd, "done rebuilding")
-        }
-        else if (physicsChange != physicsChangeNumber) {
-            debug(mtd, "physics has changed. Rebuilding.")
-            self.physicsChangeNumber = physicsChange
-
-            // IMPORTANT
-            self.colorsAreStale = true
-            
-            debug(mtd, "done rebuilding.")
-        }
-        
-        // DEBUG
-        let err1 = glGetError()
-        if (err1 != 0) {
-            debug(mtd, String(format:"glError 0x%x", err0))
-        }
-        
-        let needsColorBufferUpdate = ensureColorsAreFresh()
-        
-        glBindVertexArray(vertexArray)
-
-        if (needsColorBufferUpdate) {
-            debug(mtd, "copying colors into GL color buffer")
-            let cbSize = MemoryLayout<GLKVector4>.stride
-            glBindBuffer(GLenum(GL_ARRAY_BUFFER), colorBuffer)
-            glBufferSubData(GLenum(GL_ARRAY_BUFFER), 0, cbSize * colors.count, colors)
-        }
-        
-        prepareToDraw()
-        
-        // DEBUG
-        let err2 = glGetError()
-        if (err2 != 0) {
-            debug(mtd, String(format:"glError 0x%x", err0))
-        }
-        
-        debug(mtd, "drawing points")
-        glDrawArrays(GLenum(GL_POINTS), 0, GLsizei(vertices.count))
-
-        // DEBUG
-        let err3 = glGetError()
-        if (err3 != 0) {
-            debug(mtd, String(format:"glError 0x%x", err0))
-        }
-        
-        glBindVertexArray(0)
-        glBindBuffer(GLenum(GL_ARRAY_BUFFER), 0)
-   }
+    // EMPIRICAL
+    let pointSizeMax: GLfloat = 32
+    let pointSizeScaleFactor: GLfloat = 350
     
     func calculatePointSize() -> GLfloat {
         
-        let pts = pointSizeScaleFactor * GLfloat(viz.pov.zoom * geometry.neighborDistance)
-        debug("calculatePointSize", "zoom=\(viz.pov.zoom)")
+        let pts = pointSizeScaleFactor * GLfloat(figure.pov.zoom * geometry.neighborDistance)
+        debug("calculatePointSize", "zoom=\(figure.pov.zoom)")
         debug("calculatePointSize", "pts=\(pts)")
         return clip(pts, 1, pointSizeMax)
     }
     
+
     // ========================================
     // Shader
-    // ========================================
     
     // Copied from AnimatedCube
     func compile(_ vertexShader: String, _ fragmentShader: String) {
@@ -357,7 +219,7 @@ class Nodes : Effect {
         self.modelViewMatrixUniform  = glGetUniformLocation(self.programHandle, "u_ModelViewMatrix")
         self.projectionMatrixUniform = glGetUniformLocation(self.programHandle, "u_ProjectionMatrix")
         self.pointSizeUniform        = glGetUniformLocation(self.programHandle, "u_PointSize")
-
+        
         var linkStatus : GLint = 0
         glGetProgramiv(self.programHandle, GLenum(GL_LINK_STATUS), &linkStatus)
         if linkStatus == GL_FALSE {
@@ -413,5 +275,30 @@ class Nodes : Effect {
             exit(1)
         }
     }
+
+    // ===================================================
+    // Actual work
+    
+    func reset() {
+        enabled = enabledDefault
+    }
+    
+    func prepareToDraw() {
+        glUseProgram(programHandle)
+        
+        glUniformMatrix4fv(projectionMatrixUniform, 1, GLboolean(GL_FALSE), projectionMatrix.array)
+        glUniformMatrix4fv(modelViewMatrixUniform, 1, GLboolean(GL_FALSE), modelviewMatrix.array)
+        
+        let pointSize = calculatePointSize()
+        glUniform1f(pointSizeUniform, pointSize)
+    }
+    
+
+    func draw() {
+        // TODO
+        
+    }
+    
+    
 
 }

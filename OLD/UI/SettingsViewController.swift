@@ -10,7 +10,7 @@ import UIKit
 class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUser {
     
     let name: String = "OLD SettingsViewController"
-    var debugEnabled: Bool = false
+    var debugEnabled: Bool = true
     
     var appModel: AppModel?
     var old_AppModel: AppModel1? = nil
@@ -291,6 +291,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
     @IBOutlet weak var surface_switch: UISwitch!
     
     @IBAction func surface_action(_ sender: UISwitch) {
+        debug("surface_action")
         let effectOrNil = installedEffect(EffectType.surface)
         if (effectOrNil != nil) {
             var effect = effectOrNil!
@@ -305,6 +306,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
     @IBOutlet weak var nodes_switch: UISwitch!
     
     @IBAction func nodes_action(_ sender: UISwitch) {
+        debug("nodes_action")
         let effectOrNil = installedEffect(EffectType.nodes)
         if (effectOrNil != nil) {
             var effect = effectOrNil!
@@ -319,6 +321,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
     @IBOutlet weak var net_switch: UISwitch!
     
     @IBAction func net_action(_ sender: UISwitch) {
+        debug("net_action")
         let effectOrNil = installedEffect(EffectType.net)
         if (effectOrNil != nil) {
             var effect = effectOrNil!
@@ -333,6 +336,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
     @IBOutlet weak var flowLines_switch: UISwitch!
     
     @IBAction func flowLines_action(_ sender: UISwitch) {
+        debug("flowlines_action")
         let effectOrNil = installedEffect(EffectType.flowLines)
         if (effectOrNil != nil) {
             var effect = effectOrNil!
@@ -347,6 +351,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
     @IBOutlet weak var meridians_switch: UISwitch!
     
     @IBAction func meridians_action(_ sender: UISwitch) {
+        debug("meridians_action")
         let effectOrNil  = installedEffect(EffectType.meridians)
         if (effectOrNil != nil) {
             var effect = effectOrNil!
@@ -361,6 +366,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
     @IBOutlet weak var axes_switch: UISwitch!
     
     @IBAction func axes_action(_ sender: UISwitch) {
+        debug("axes_action")
         let effectOrNil = installedEffect(EffectType.axes)
         if (effectOrNil != nil) {
             var effect = effectOrNil!
@@ -375,6 +381,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
     @IBOutlet weak var bgShell_switch: UISwitch!
     
     @IBAction func bgShell_action(_ sender: UISwitch) {
+        debug("bgShell_action")
         let effectOrNil = installedEffect(EffectType.backgroundShell)
         if (effectOrNil != nil) {
             var effect = effectOrNil!
@@ -389,6 +396,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUse
     @IBOutlet weak var icosahedron_switch: UISwitch!
     
     @IBAction func icosahedron_action(_ sender: UISwitch) {
+        debug("icosahedron_action")
         let effectOrNil = installedEffect(EffectType.icosahedron)
         if (effectOrNil != nil) {
             var effect = effectOrNil!

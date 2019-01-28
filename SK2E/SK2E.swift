@@ -33,11 +33,12 @@ class SK2E : PartFactory {
         let reg = Registry<Figure>()
         
         let sample1 = ShellFigure("Sample Figure 1")
-        _ = sample1.effects?.register(Icosahedron(enabled: true))
+        _ = sample1.effects?.register(Axes(enabled: true))
+        _ = sample1.effects?.register(Balls(enabled: true))
         _ = reg.register(sample1)
         
         let sample2 = ShellFigure("Sample Figure 2")
-        _ = sample2.effects?.register(Axes(enabled: true))
+        _ = sample2.effects?.register(Icosahedron(enabled: true))
         _ = reg.register(sample2)
         
         return reg

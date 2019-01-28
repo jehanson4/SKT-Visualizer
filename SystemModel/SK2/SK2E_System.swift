@@ -51,8 +51,8 @@ class SK2E_System: SK2_System {
     // Functions for physical properties
     
     func energy(_ nodeIndex: Int) -> Double {
-        let m = nodeIndex / super._nodeIndexModulus
-        let n = nodeIndex - (m * super._nodeIndexModulus)
+        let m = nodeIndex / super.nodeIndexModulus
+        let n = nodeIndex - (m * super.nodeIndexModulus)
         return energy(m, n)
     }
     
@@ -63,8 +63,8 @@ class SK2E_System: SK2_System {
     }
     
     func entropy(_ nodeIndex: Int) -> Double {
-        let m = nodeIndex / super._nodeIndexModulus
-        let n = nodeIndex - (m * super._nodeIndexModulus)
+        let m = nodeIndex / super.nodeIndexModulus
+        let n = nodeIndex - (m * super.nodeIndexModulus)
         return entropy(m, n)
     }
     
@@ -73,8 +73,8 @@ class SK2E_System: SK2_System {
     }
     
     func logOccupation(_ nodeIndex: Int) -> Double {
-        let m = nodeIndex / super._nodeIndexModulus
-        let n = nodeIndex - (m * super._nodeIndexModulus)
+        let m = nodeIndex / super.nodeIndexModulus
+        let n = nodeIndex - (m * super.nodeIndexModulus)
         return logOccupation(m, n)
     }
     

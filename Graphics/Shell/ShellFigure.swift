@@ -246,7 +246,7 @@ class ShellFigure : Figure {
         // EMPIRICAL pretty much everything in here
         
         let povR2: Double = (pov.r - r0)/pov.zoom + r0
-        let povXYZ = sphericalToCartesian(r: povR2, phi: pov.phi, thetaE: pov.thetaE)
+        let povXYZ = Geometry.sphericalToCartesian(r: povR2, phi: pov.phi, thetaE: pov.thetaE)
         let lookatMatrix = GLKMatrix4MakeLookAt(Float(povXYZ.x), Float(povXYZ.y), Float(povXYZ.z), 0, 0, 0, 0, 0, 1)
         
         let zz = GLfloat(pov.zoom)
