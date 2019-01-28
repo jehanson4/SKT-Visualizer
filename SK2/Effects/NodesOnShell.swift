@@ -18,7 +18,7 @@ class NodesOnShell: ColorizedEffect {
     // ============================================
     // Debugging
     
-    let cls = "ColordNodesOnShell"
+    let cls = "NodesOnShell"
     
     var debugEnabled = false
     
@@ -292,6 +292,10 @@ class NodesOnShell: ColorizedEffect {
 
     private func ensureColorsAreFresh() -> Bool {
         var colorsRecomputed = false
+        
+        // TODO: Do not call _colorSource.prepare() at all
+        // Instead call colorSource.calibrate() IFF colorsAreStale
+        // Q: who sets them to be stale?
         let colorSourceChanged = _colorSource.prepare()
         if (colorSourceChanged || colorsAreStale) {
             colorsAreStale = false
@@ -313,7 +317,9 @@ class NodesOnShell: ColorizedEffect {
 
     func prepareToShow() {
         debug("prepareToShow")
-        // TODO
+        _ = colorSource.prepare()
+        // Do this regardless of color source
+        colorsAreStale = true
     }
     
     func prepareToDraw() {

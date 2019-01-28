@@ -89,6 +89,8 @@
 		8AB2A64721FEBF0800A46316 /* ColorSources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2A64621FEBF0800A46316 /* ColorSources.swift */; };
 		8AB2A64D21FF178700A46316 /* DelegatedFigure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2A64C21FF178700A46316 /* DelegatedFigure.swift */; };
 		8AB2A64F21FF199700A46316 /* ColorizedFigure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2A64E21FF199700A46316 /* ColorizedFigure.swift */; };
+		8AB2A65121FF8C8C00A46316 /* NetOnShell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2A65021FF8C8C00A46316 /* NetOnShell.swift */; };
+		8AB2A65321FF9A1400A46316 /* MeridiansOnShell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2A65221FF9A1400A46316 /* MeridiansOnShell.swift */; };
 		8ABEEC3B20803A2F008E72F4 /* Surface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ABEEC3A20803A2F008E72F4 /* Surface.swift */; };
 		8AC82CC421F5D00E00A75595 /* Graphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CC321F5D00E00A75595 /* Graphics.swift */; };
 		8AC82CC721F5D60400A75595 /* SK2SphereUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CC621F5D60400A75595 /* SK2SphereUtils.swift */; };
@@ -233,6 +235,8 @@
 		8AB2A64621FEBF0800A46316 /* ColorSources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSources.swift; sourceTree = "<group>"; };
 		8AB2A64C21FF178700A46316 /* DelegatedFigure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DelegatedFigure.swift; sourceTree = "<group>"; };
 		8AB2A64E21FF199700A46316 /* ColorizedFigure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorizedFigure.swift; sourceTree = "<group>"; };
+		8AB2A65021FF8C8C00A46316 /* NetOnShell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetOnShell.swift; sourceTree = "<group>"; };
+		8AB2A65221FF9A1400A46316 /* MeridiansOnShell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeridiansOnShell.swift; sourceTree = "<group>"; };
 		8ABEEC3A20803A2F008E72F4 /* Surface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Surface.swift; sourceTree = "<group>"; };
 		8AC82CC321F5D00E00A75595 /* Graphics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Graphics.swift; sourceTree = "<group>"; };
 		8AC82CC621F5D60400A75595 /* SK2SphereUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2SphereUtils.swift; sourceTree = "<group>"; };
@@ -336,8 +340,7 @@
 				8AC82CC221F5C8B700A75595 /* Graphics */,
 				8AF5320C2088B63E009D1882 /* PhysicalSystem */,
 				8AF59504208AC6DB0082C5DE /* UI */,
-				8AC82CE521F9D9CB00A75595 /* SK2D */,
-				8AC82CE421F9D9A900A75595 /* SK2E */,
+				8AC82CE421F9D9A900A75595 /* SK2 */,
 				8A3C45B72086185B00A1E9CD /* Scratch */,
 			);
 			sourceTree = "<group>";
@@ -444,12 +447,6 @@
 		8A591B3C21E6D89500B802F8 /* SK2 */ = {
 			isa = PBXGroup;
 			children = (
-				8AB2A63921FE4F4500A46316 /* Flow */,
-				8AB2A62D21FCE1AA00A46316 /* Basins */,
-				8A2034E621ED2A6000A4C418 /* SK2_System.swift */,
-				8AC82CDE21F747BB00A75595 /* SK2D_System.swift */,
-				8AC82CDC21F66CA200A75595 /* SK2E_System.swift */,
-				8AB2A63221FCE92F00A46316 /* SK2_ShellGeometry.swift */,
 			);
 			path = SK2;
 			sourceTree = "<group>";
@@ -571,6 +568,8 @@
 			children = (
 				8AB2A64621FEBF0800A46316 /* ColorSources.swift */,
 				8AB2A64121FEA8BF00A46316 /* NodesOnShell.swift */,
+				8AB2A65021FF8C8C00A46316 /* NetOnShell.swift */,
+				8AB2A65221FF9A1400A46316 /* MeridiansOnShell.swift */,
 			);
 			path = Effects;
 			sourceTree = "<group>";
@@ -623,22 +622,21 @@
 			path = Effects;
 			sourceTree = "<group>";
 		};
-		8AC82CE421F9D9A900A75595 /* SK2E */ = {
+		8AC82CE421F9D9A900A75595 /* SK2 */ = {
 			isa = PBXGroup;
 			children = (
-				8AB2A64021FEA84300A46316 /* Effects */,
+				8A2034E621ED2A6000A4C418 /* SK2_System.swift */,
+				8AC82CDE21F747BB00A75595 /* SK2D_System.swift */,
+				8AC82CDC21F66CA200A75595 /* SK2E_System.swift */,
+				8AB2A63221FCE92F00A46316 /* SK2_ShellGeometry.swift */,
+				8AC82CEE21F9F57200A75595 /* SK2D.swift */,
 				8AC82CE921F9DB5000A75595 /* SK2E.swift */,
+				8AB2A63921FE4F4500A46316 /* Flow */,
+				8AB2A62D21FCE1AA00A46316 /* Basins */,
+				8AB2A64021FEA84300A46316 /* Effects */,
 				8AC82CE721F9DA4000A75595 /* UI */,
 			);
-			path = SK2E;
-			sourceTree = "<group>";
-		};
-		8AC82CE521F9D9CB00A75595 /* SK2D */ = {
-			isa = PBXGroup;
-			children = (
-				8AC82CEE21F9F57200A75595 /* SK2D.swift */,
-			);
-			path = SK2D;
+			path = SK2;
 			sourceTree = "<group>";
 		};
 		8AC82CE721F9DA4000A75595 /* UI */ = {
@@ -897,6 +895,7 @@
 				8A4654C221E97A7B00EE2B26 /* Registry2.swift in Sources */,
 				8A56BE7520ADADA300C19F4C /* BAModel.swift in Sources */,
 				8A575FEE20804759002B9951 /* ColorMaps.swift in Sources */,
+				8AB2A65321FF9A1400A46316 /* MeridiansOnShell.swift in Sources */,
 				8ACE788D2072E51800C29875 /* Icosahedron.swift in Sources */,
 				8AC82CDD21F66CA200A75595 /* SK2E_System.swift in Sources */,
 				8A591B3421E6902500B802F8 /* ModelSelectionViewController.swift in Sources */,
@@ -955,6 +954,7 @@
 				8AE18FA7209A1E220086F127 /* FreeEnergy.swift in Sources */,
 				8A2A32D520AB1B0A00D4D619 /* BasinFinder.swift in Sources */,
 				8A35083420A0E92D00E36C1F /* PFlowInitializers.swift in Sources */,
+				8AB2A65121FF8C8C00A46316 /* NetOnShell.swift in Sources */,
 				8A75B690208A317D00EACD13 /* Registry.swift in Sources */,
 				8ACE789E2073F7A400C29875 /* Utils.swift in Sources */,
 				8A4654C021E8E38300EE2B26 /* PhysicalSystem.swift in Sources */,

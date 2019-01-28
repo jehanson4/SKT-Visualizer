@@ -15,6 +15,24 @@ fileprivate let piOver2 = Double.constants.piOver2
 fileprivate let eps = Double.constants.eps
 
 // ======================================================
+// SK2_ShellPoint
+// ======================================================
+
+class SK2_ShellPoint : SK2_Node {
+    
+    let r: Double
+    let phi: Double
+    let thetaE: Double
+    
+    init(_ nodeIndex: Int, _ m: Int, _ n: Int, r: Double, phi: Double, thetaE: Double) {
+        self.r = r
+        self.phi = phi
+        self.thetaE = thetaE
+        super.init(nodeIndex, m, n);
+    }
+    
+}
+// ======================================================
 // SK2_ShellGeometry
 // ======================================================
 
@@ -29,16 +47,37 @@ class SK2_ShellGeometry {
     
     let radius: Double
     
+    var p1: SK2_ShellPoint {
+        let m: Int = 0
+        let n: Int = 0
+        let nodeIndex = sk2.skToNodeIndex(m, n)
+        let sph = skToSpherical(m, n)
+        return SK2_ShellPoint(nodeIndex, m, n, r: sph.r, phi: sph.phi, thetaE: sph.thetaE)
+    }
+    
+    var p2: SK2_ShellPoint {
+        let m: Int = 0
+        let n: Int = sk2.k.value
+        let nodeIndex = sk2.skToNodeIndex(m, n)
+        let sph = skToSpherical(m, n)
+        return SK2_ShellPoint(nodeIndex, m, n, r: sph.r, phi: sph.phi, thetaE: sph.thetaE)
+
+    }
+    
     // =====================================
     // Transforms
     
     func skToCartesian(_ m: Int, _ n: Int) -> (x: Double, y: Double, z: Double) {
         let t1 = skToTwoPoint(m, n)
         let sph = twoPointToSpherical(t1.s1, t1.s2)
-        let xyz = Geometry.sphericalToCartesian(r: sph.r, phi: sph.phi, thetaE: sph.thetaE)
-        return xyz
+        return Geometry.sphericalToCartesian(r: sph.r, phi: sph.phi, thetaE: sph.thetaE)
     }
 
+    func skToSpherical(_ m: Int, _ n: Int) -> (r: Double, phi: Double, thetaE: Double) {
+        let t1 = skToTwoPoint(m, n)
+        return twoPointToSpherical(t1.s1, t1.s2)
+    }
+    
     func skToTwoPoint(_ m: Int, _ n: Int) -> (s1: Double, s2: Double) {
         let s1 = sk2.skNorm * Double(n + m)
         let s2 = sk2.skNorm * Double(sk2._k + n - m)
@@ -167,6 +206,60 @@ class SK2_ShellGeometry {
         return (radius, phi, thetaE)
     }
 
+    // =====================================================
+    // GL stuff
+    
+    /**
+     returns array containing x,y,z values of nodes,
+     in node index order defined by the given geometry.
+     */
+    func buildVertexCoordinateArray(rOffset: Double = 0) -> [GLfloat] {
+        let mMax = sk2.m_max
+        let nMax = sk2.n_max
+        var vertexCoords: [GLfloat] = Array(repeating: 0, count: 3 * sk2.nodeCount)
+        var nextVertex: Int = 0
+        
+        // HACK HACK HACK HACK retrofit optional rOffset
+        if (rOffset == 0) {
+            for m in 0...mMax {
+                for n in 0...nMax {
+                    let v = skToCartesian(m, n)
+                    vertexCoords[3*nextVertex] = GLfloat(v.x)
+                    vertexCoords[3*nextVertex+1] = GLfloat(v.y)
+                    vertexCoords[3*nextVertex+2] = GLfloat(v.z)
+                    nextVertex += 1
+                }
+            }
+        }
+        else {
+            for m in 0...mMax {
+                for n in 0...nMax {
+                    let sph = skToSpherical(m, n)
+                    let v = Geometry.sphericalToCartesian(r: sph.r + rOffset, phi: sph.phi, thetaE: sph.thetaE)
+                    vertexCoords[3*nextVertex] = GLfloat(v.x)
+                    vertexCoords[3*nextVertex+1] = GLfloat(v.y)
+                    vertexCoords[3*nextVertex+2] = GLfloat(v.z)
+                    nextVertex += 1
+                }
+            }
+            
+        }
+        return vertexCoords
+    }
+    
+    func buildVertexArray4() -> [GLKVector4] {
+        let mMax = sk2.m_max
+        let nMax = sk2.n_max
+        var vertices: [GLKVector4] = []
+        for m in 0...mMax {
+            for n in 0...nMax {
+                let v = skToCartesian(m, n)
+                vertices.append(GLKVector4Make(Float(v.x), Float(v.y), Float(v.z), 0))
+            }
+        }
+        return vertices
+    }
+    
     // =====================================
     // Other stuff
     
@@ -185,19 +278,6 @@ class SK2_ShellGeometry {
         }
         
         return min(m_distance, n_distance)
-    }
-
-    func buildVertexArray4() -> [GLKVector4] {
-        let mMax = sk2.m_max
-        let nMax = sk2.n_max
-        var vertices: [GLKVector4] = []
-        for m in 0...mMax {
-            for n in 0...nMax {
-                let v = skToCartesian(m, n)
-                vertices.append(GLKVector4Make(Float(v.x), Float(v.y), Float(v.z), 0))
-            }
-        }
-        return vertices
     }
     
 }

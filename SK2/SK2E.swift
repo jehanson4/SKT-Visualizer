@@ -60,6 +60,9 @@ class SK2E : PartFactory {
         let bgShell = BackgroundShell(r0, bgColor, enabled: true)
         _ = baseFigure.effects?.register(bgShell)
 
+        _ = baseFigure.effects?.register(NetOnShell(system, enabled: true, radius: r0))
+        _ = baseFigure.effects?.register(MeridiansOnShell(system, enabled: true, radius: r0))
+        
         let baseColorSource = UniformColor("Gray", r: 0.5, g: 0.5, b: 0.5)
         let baseNodes = NodesOnShell(system, baseFigure, baseColorSource, enabled: true)
         _ = baseFigure.effects?.register(baseNodes)

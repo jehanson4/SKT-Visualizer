@@ -122,9 +122,9 @@ class GraphicsControllerV1: GraphicsController {
     func draw(_ drawableWidth: Int, _ drawableHeight: Int) {
         glClear(GLbitfield(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
         
-        if (_figure == nil) {
-            debug("draw", "figure is nil")
-        }
+        // if (_figure == nil) {
+        //    debug("draw", "figure is nil")
+        // }
 
         _figure?.draw(drawableWidth, drawableHeight)
     }
