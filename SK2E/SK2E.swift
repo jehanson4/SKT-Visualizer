@@ -10,11 +10,23 @@ import Foundation
 
 class SK2E : PartFactory {
     
-    static let name = "SK/2 Equilibrium"
-    static let info = "Equilibrium properties of the 2-component SK model"
+    
+    static let key = "sk2e"
+    
+    var group  = "SK/2"
+    
+    var name = "SK/2 Equilibrium"
+    
+    var info = "Equilibrium properties of the 2-component SK model"
+    
+    var userDefaults: UserDefaults?
+    
+    init(_ userDefaults: UserDefaults?) {
+        self.userDefaults = userDefaults
+    }
     
     func makeSystem() -> SK2E_System {
-        return SK2E_System(SK2E.name, SK2E.info)
+        return SK2E_System(name, info)
     }
     
     func makeFigures(_ system: SK2E_System) -> Registry<Figure>? {

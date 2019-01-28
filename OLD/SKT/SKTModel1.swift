@@ -173,18 +173,21 @@ class SKTModel1: SKTModel {
 
     lazy var physicalProperties = Registry<PhysicalProperty>()
     
-    private lazy var physicalPropertyNamesByType = [PhysicalPropertyType: String]()
-
     func physicalProperty(forType t: PhysicalPropertyType) -> PhysicalProperty? {
-        let name = physicalPropertyNamesByType[t]
-        return (name == nil) ? nil : physicalProperties.entry(name!)?.value
+        let pKey = PhysicalPropertyType.key(t)
+        return physicalProperties.entry(key: pKey)?.value
     }
     
     func registerPhysicalProperty(_ pp: PhysicalProperty) {
-        let entry = physicalProperties.register(pp, nameHint: pp.name)
         if (pp is TypedPhysicalProperty) {
-            let ptype = (pp as! TypedPhysicalProperty).physicalPropertyType
-            physicalPropertyNamesByType[ptype] = entry.name
+            let pType = (pp as! TypedPhysicalProperty).physicalPropertyType
+            let pKey = PhysicalPropertyType.key(pType)
+            do {
+                _ = try physicalProperties.register(pp, nameHint: pp.name, key: pKey)
+            }
+            catch {
+                debug("registerPhysicalProperty", "Unexpected error: \(error)")
+            }
         }
     }
     

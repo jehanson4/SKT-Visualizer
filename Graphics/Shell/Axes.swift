@@ -18,7 +18,8 @@ class Axes : GLKBaseEffect, Effect {
     
     var debugEnabled = false
     
-    let effectType = EffectType.axes
+    static let key = "Axes"
+    
     var name = "Axes"
     var info: String? = nil
     var enabled: Bool

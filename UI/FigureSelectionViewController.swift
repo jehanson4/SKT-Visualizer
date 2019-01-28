@@ -104,7 +104,10 @@ class FigureSelectionViewController: UITableViewController, AppModelUser {
         // If we got here, propertySelector *should* be non-nil
         button.tag = row
         button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
-        button.setTitle(figureSelector!.registry.entryNames[row], for: .normal)
+        
+        let entryKey = figureSelector!.registry.entryKeys[row]
+        let entryName = figureSelector!.registry.entry(key: entryKey)!.name
+        button.setTitle(entryName, for: .normal)
         // button.setTitleColor(UIColor.black, for: .normal)
         // button.layer.borderWidth = 1
         // button.layer.borderColor = UIColor.lightGray.cgColor
@@ -126,11 +129,11 @@ class FigureSelectionViewController: UITableViewController, AppModelUser {
     @objc func buttonAction(sender: UIButton!) {
         if (figureSelector != nil) {
             debug("buttonAction", "selecting \(sender.tag)")
-            figureSelector!.select(sender.tag)
+            figureSelector!.select(index: sender.tag)
             
             let selectedFigure = figureSelector!.selection?.value
             if (selectedFigure != nil) {
-                debug("Swapping in figure \(selectedFigure!.name)")
+                debug("Swapping in selected figure \(selectedFigure!.name)")
                 appModel!.graphicsController.figure = selectedFigure!
             }
         }

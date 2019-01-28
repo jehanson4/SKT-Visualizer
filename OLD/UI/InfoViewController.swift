@@ -10,7 +10,7 @@ import UIKit
 
 class InfoViewController: UIViewController {
 
-    private var cls = "InfoViewController"
+    private var cls = "OLD InfoViewController"
     var debugEnabled = false
     
     @IBOutlet weak var webView: UIWebView!

@@ -10,7 +10,7 @@ import UIKit
 
 class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser {
     
-    let name = "MasterViewController"
+    let name = "OLD MasterViewController"
     var debugEnabled = true
     
     var appModel: AppModel? = nil
@@ -36,7 +36,15 @@ class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser 
         
         if (appModel is AppModel1) {
             self.old_AppModel = appModel as? AppModel1
-            appModel?.graphicsController.figure = old_AppModel?.viz
+            
+            let old_viz: Figure? = old_AppModel?.viz
+            if (old_viz == nil) {
+                debug(mtd, "old viz is nil")
+            }
+            else {
+                debug(mtd, "Passing old viz as Figure to graphicsController")
+                appModel?.graphicsController.figure = old_viz
+            }
             
             configureParamsControls()
             configureColorSourceControls()

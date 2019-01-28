@@ -69,13 +69,7 @@ class ShellFigure : Figure {
     // =================================================
     // Effects
     
-    lazy var effects: Registry<Effect>? = _initEffects()
-
-    private func _initEffects() -> Registry<Effect> {
-        let reg = Registry<Effect>()
-        _ = reg.register(Icosahedron(enabled: true))
-        return reg
-    }
+    lazy var effects: Registry<Effect>? =  Registry<Effect>()
     
     // ===================================================
     // POV
@@ -87,8 +81,6 @@ class ShellFigure : Figure {
     var pan_initialPhi: Double = 0
     var pan_initialThetaE: Double = 0
     var pinch_initialZoom: Double = 1
-    
-    var aspectRatio: Float = 1
     
     /// pov's r = rFactor * r0
     static let pov_rFactor = 1.25
@@ -196,7 +188,34 @@ class ShellFigure : Figure {
     }
 
     // ===================================================
-    // Coordinates
+    // Graphics, a/k/k GL coordinate transforms
+    
+    private var _aspectRatio: Float = 0
+    
+    var aspectRatio: Float {
+        get { return _aspectRatio }
+        set(newValue) {
+            if (newValue != _aspectRatio) {
+                graphicsStale = true;
+                _aspectRatio = newValue
+            }
+        }
+    }
+
+    private var graphicsStale: Bool = true
+
+    func markGraphicsStale() {
+        graphicsStale = true
+    }
+    
+    private func updateGraphics() {
+        if (!self.graphicsStale) {
+            return
+        }
+        updateProjection()
+        updateModelview()
+        self.graphicsStale = false
+    }
     
     // EMPIRICAL for projection matrix:
     // If nff == 1 then things seem to disappear
@@ -214,7 +233,7 @@ class ShellFigure : Figure {
         let newMatrix = GLKMatrix4MakeOrtho(-d, d, -d/aspectRatio, d/aspectRatio, nff*d, -nff*d)
         
         func applyProjectionMatrix(_ effect: inout Effect) {
-            // debug("applyProjectionMatrix", "effect:" + effect.name)
+            debug("updateProjection", "applyProjectionMatrix to effect:" + effect.name)
             effect.projectionMatrix = newMatrix
         }
         effects!.apply(applyProjectionMatrix)
@@ -223,6 +242,7 @@ class ShellFigure : Figure {
     private func updateModelview() {
         debug("updateModelview")
         
+        // Q: do we ever do this without also calling updateProjection?
         // EMPIRICAL pretty much everything in here
         
         let povR2: Double = (pov.r - r0)/pov.zoom + r0
@@ -234,7 +254,7 @@ class ShellFigure : Figure {
         let newMatrix = GLKMatrix4Multiply(scaleMatrix, lookatMatrix)
         
         func applyModelviewMatrix(_ effect: inout Effect) {
-            // debug("applyModelviewMatrix", "effect:" + effect.name)
+            debug("updateModelview", "applyModelviewMatrix to effect:" + effect.name)
             effect.modelviewMatrix = newMatrix
         }
         effects!.apply(applyModelviewMatrix)
@@ -246,16 +266,10 @@ class ShellFigure : Figure {
     func calibrate() {
         debug("calibrate")
     }
-    
+
     func draw(_ drawableWidth: Int, _ drawableHeight: Int) {
-        
-        let ar2 = Float(drawableWidth)/Float(drawableHeight)
-        if (ar2 != self.aspectRatio) {
-            debug("draw", "new aspectRatio=" + String(ar2))
-            self.aspectRatio = ar2
-            updateProjection()
-            updateModelview()
-        }
+        aspectRatio = (drawableHeight > 0) ? Float(drawableWidth)/Float(drawableHeight) : 0
+        updateGraphics()
         
         func drawEffect(_ effect: Effect) {
             effect.draw()

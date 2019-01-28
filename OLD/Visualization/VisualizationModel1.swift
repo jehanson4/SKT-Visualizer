@@ -67,7 +67,7 @@ class VisualizationModel1 : VisualizationModel, Figure {
     var name = "VisualizationModel1"
     var info: String? = nil
     
-    var debugEnabled = false
+    var debugEnabled = true
     
     private var skt: SKTModel
     
@@ -259,21 +259,19 @@ class VisualizationModel1 : VisualizationModel, Figure {
     // Effects
     // ====================================
     
-    // var effects: Registry<Effect>
     lazy var effects: Registry<Effect>? = Registry<Effect>()
-    
-    private lazy var effectNamesByType = [EffectType: String]()
-    
+        
     func effect(forType t: EffectType) -> Effect? {
-        let name = effectNamesByType[t]
-        return (name == nil) ? nil : effects!.entry(name!)?.value
+        let effectKey = EffectType.key(t)
+        return effects!.entry(key: effectKey)?.value
     }
     
-    func registerEffect(_ effect: Effect) {
-        let entry = effects!.register(effect, nameHint: effect.name)
-        if (effect is TypedEffect) {
-            let effectType = (effect as! TypedEffect).effectType
-            effectNamesByType[effectType] = entry.name
+    func registerEffect<T: Effect> (_ effect: T) {
+        do {
+            _ = try effects!.register(effect, nameHint: effect.name, key: T.key)
+        }
+        catch {
+            info("registerEffect", "Unexpected error: \(error)")
         }
     }
     
@@ -297,9 +295,8 @@ class VisualizationModel1 : VisualizationModel, Figure {
     }
     
     func resetEffects() {
-        for eName in effects!.entryNames {
-            effects!.entry(eName)?.value.reset()
-        }
+        func visitor(effect: Effect) { effect.reset() }
+        effects!.visit(visitor);
     }
     
     // ====================================
@@ -482,45 +479,57 @@ class VisualizationModel1 : VisualizationModel, Figure {
     // ======================================================
     
     private var graphicsSetupDone: Bool = false
+    private var graphicsStale: Bool = true
     private var aspectRatio: Float = 1
     
-    func setupGraphics(_ graphicsController: Graphics) {
-        if (graphicsSetupDone) {
-            debug("setupGraphics", "already done; returning")
-            return
-        }
-        
-        self.graphics = graphicsController
-        // self.glContext = context
-        configureGL()
-        updateProjection()
-        updateModelview()
-        
-        graphicsSetupDone = true
+    func markGraphicsStale() {
+        self.graphicsStale = true
     }
     
-    func configureGL() {
-        debug("configureGL")
-        
-        let bg = VisualizationModel1.scene_backgroundColorValue
-        glClearColor(bg, bg, bg, bg)
-        glClearDepthf(1.0)
-        
-        glEnable(GLenum(GL_CULL_FACE))
-        glFrontFace(GLenum(GL_CCW))
-        // ?? glFrontFace(GLenum(GL_CW))
-        glCullFace(GLenum(GL_BACK))
-        
-        // For transparent objects
-        glEnable(GLenum(GL_BLEND))
-        glBlendFunc(GLenum(GL_SRC_ALPHA), GLenum(GL_ONE_MINUS_SRC_ALPHA))
-        
-        glEnable(GLenum(GL_DEPTH_TEST))
-        
-        glDepthFunc(GLenum(GL_LEQUAL))
-        // ?? glDepthFunc(GLenum(GL_GEQUAL))
-        
-        // (No lighting set up here; it's done by the effects.)
+//    func setupGraphics(_ graphicsController: Graphics) {
+//        if (graphicsSetupDone) {
+//            debug("setupGraphics", "already done; returning")
+//            return
+//        }
+//
+//        self.graphics = graphicsController
+//        // self.glContext = context
+//        configureGL()
+//        updateProjection()
+//        updateModelview()
+//
+//        graphicsSetupDone = true
+//    }
+//
+//    func configureGL() {
+//        debug("configureGL")
+//
+//        let bg = VisualizationModel1.scene_backgroundColorValue
+//        glClearColor(bg, bg, bg, bg)
+//        glClearDepthf(1.0)
+//
+//        glEnable(GLenum(GL_CULL_FACE))
+//        glFrontFace(GLenum(GL_CCW))
+//        // ?? glFrontFace(GLenum(GL_CW))
+//        glCullFace(GLenum(GL_BACK))
+//
+//        // For transparent objects
+//        glEnable(GLenum(GL_BLEND))
+//        glBlendFunc(GLenum(GL_SRC_ALPHA), GLenum(GL_ONE_MINUS_SRC_ALPHA))
+//
+//        glEnable(GLenum(GL_DEPTH_TEST))
+//
+//        glDepthFunc(GLenum(GL_LEQUAL))
+//        // ?? glDepthFunc(GLenum(GL_GEQUAL))
+//
+//        // (No lighting set up here; it's done by the effects.)
+//    }
+    
+    private func updateGraphics(aspectRatio: Float) {
+        self.aspectRatio = aspectRatio
+        self.graphicsStale = false
+        updateProjection()
+        updateModelview()
     }
     
     private func updateProjection() {
@@ -558,20 +567,28 @@ class VisualizationModel1 : VisualizationModel, Figure {
         effects!.apply(applyModelviewMatrix)
     }
     
+    func updateGraphics(_ drawableWidth: Int, _ drawableHeight: Int) {
+        updateGraphics(aspectRatio: (drawableHeight > 0) ? Float(drawableWidth)/Float(drawableHeight) : 1)
+    }
+    
     func draw(_ drawableWidth: Int, _ drawableHeight: Int) {
         
         sequencerStep()
         
         let ar2 = Float(drawableWidth)/Float(drawableHeight)
-        if (ar2 != self.aspectRatio) {
+        if (graphicsStale) {
+            debug("draw", "graphicsStale=\(graphicsStale)")
+            self.updateGraphics(aspectRatio: ar2)
+        }
+        else if (ar2 != self.aspectRatio) {
             debug("draw", "new aspectRatio=" + String(ar2))
-            self.aspectRatio = ar2
-            updateProjection()
-            updateModelview()
+            self.updateGraphics(aspectRatio: ar2)
+        }
+        else {
+            debug("draw", "graphics not stale, aspectRatio unchanged: " + String(ar2))
         }
         
-        glClear(GLbitfield(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
-        
+        debug("draw", "we have \(effects!.entryKeys.count) effects to draw")
         func drawEffect(_ effect: Effect) {
             effect.draw()
         }

@@ -41,7 +41,7 @@ import UIKit
 // OLD
 // ========================================================
 
-protocol VisualizationModel: GraphicsController {
+protocol VisualizationModel { // : GraphicsController {
     
     var pov: ShellPOV { get set }
     

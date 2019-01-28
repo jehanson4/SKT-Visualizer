@@ -34,11 +34,12 @@ class SK2E_DetailViewController: UIViewController, AppModelUser {
             debug(mtd, "app Model has been set")
             
             debug(mtd, "selecting SK2E system model")
-            appModel?.systemSelector.select(SK2E.name)
+            appModel?.systemSelector.select(key: SK2E.key)
+
             debug(mtd, "selected system = \(String(describing: appModel?.systemSelector.selection?.name))")
-            debug(mtd, "selected figure = \(String(describing: appModel?.figureSelector?.selection?.name))")
-            
             sk2e = appModel?.systemSelector.selection?.value as? SK2E_System
+
+            debug(mtd, "selected figure = \(String(describing: appModel?.figureSelector?.selection?.name))")
             figure = appModel?.figureSelector?.selection?.value
         }
     }

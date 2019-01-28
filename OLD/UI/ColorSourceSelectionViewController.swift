@@ -10,7 +10,7 @@ import UIKit
 
 class ColorSourceSelectionViewController: UITableViewController, AppModelUser {
 
-    private var clsName = "ColorSourceSelectionViewController"
+    private var clsName = "OLD ColorSourceSelectionViewController"
     private var debugEnabled = false
     
     private func debug(_ mtd: String, _ msg: String = "") {

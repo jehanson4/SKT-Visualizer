@@ -9,7 +9,7 @@ import UIKit
 
 class SettingsViewController: UIViewController, UITextFieldDelegate, AppModelUser {
     
-    let name: String = "SettingsViewController"
+    let name: String = "OLD SettingsViewController"
     var debugEnabled: Bool = false
     
     var appModel: AppModel?

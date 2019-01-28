@@ -38,17 +38,17 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
             
             let oldSelection = appModel?.systemSelector.selection
             if (oldSelection == nil) {
-                appModel?.systemSelector.select(SK2E.name)
+                appModel?.systemSelector.select(key: SK2E.key)
                 debug(mtd, "selected system model. selection = \(String(describing: appModel!.systemSelector.selection?.name))")
             }
-            else if (oldSelection!.name != SK2E.name) {
+            else if (oldSelection!.key != SK2E.key) {
                 debug(mtd, "cleaning previous selection")
                 oldSelection!.value.clean()
-                appModel?.systemSelector.select(SK2E.name)
+                appModel?.systemSelector.select(key: SK2E.key)
                 debug(mtd, "replaced system model. selection = \(String(describing: appModel!.systemSelector.selection?.name))")
             }
             else {
-                debug(mtd, SK2E.name + " was already selected");
+                debug(mtd, SK2E.key + " was already selected");
             }
             sk2e = appModel?.systemSelector.selection?.value as? SK2E_System
         }
@@ -121,7 +121,7 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
     }
     
     // ===========================================
-    // Models & misc
+    // Basics
     
     var appModel: AppModel? = nil
     var sk2e: SK2E_System? = nil
@@ -179,12 +179,16 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
         appModel!.figureSelector?.selection?.value.resetPOV()
     }
     
-    @IBAction func takeScreenshot(_ sender: Any) {
-        debug("takeScreenshot")
+    @IBAction func takeSnapshot(_ sender: Any) {
+        debug("takeSnapshot")
+        let image: UIImage? = appModel?.graphicsController.graphics?.snapshot
+        if (image != nil) {
+            UIImageWriteToSavedPhotosAlbum(image!, nil, nil, nil)
+        }
     }
 
     // ===========================================
-    // Parameters: N
+    // Model Parameters: N
 
     @IBOutlet weak var N_text: UITextField!
     
@@ -233,7 +237,7 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
     }
     
     // ===========================================
-    // Parameters: k
+    // Model Parameters: k
     
     @IBOutlet weak var k_text: UITextField!
     
@@ -282,7 +286,7 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
     }
     
     // ===========================================
-    // Parameters: a1
+    // Model Parameters: a1
     
     @IBOutlet weak var a1_text: UITextField!
     
@@ -331,7 +335,7 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
     }
     
     // ===========================================
-    // Parameters: a2
+    // Model Parameters: a2
     
     @IBOutlet weak var a2_text: UITextField!
     
@@ -380,7 +384,7 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
     }
     
     // ===========================================
-    // Parameters: T
+    // Model Parameters: T
     
     @IBOutlet weak var T_text: UITextField!
     
@@ -429,7 +433,7 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
     }
     
     // ===========================================
-    // Parameters: buttons
+    // Model Parameters: buttons
     
     @IBAction func resetModelParams(_ sender: Any) {
         debug("resetModelParams")
@@ -439,7 +443,7 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
     }
     
     // ===========================================
-    // Sweep: selector
+    // Animation: sweep selector
 
     func sweepSelector_setup() {
         debug("sweepSelector_setup")

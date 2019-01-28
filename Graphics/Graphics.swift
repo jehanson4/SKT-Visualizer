@@ -32,7 +32,15 @@ protocol Figure: Named {
     
     func resetPOV()
     
+    /// Calibrates the figure to fix the DATA being shown. Assumes the
+    /// graphics environent is already set up correctly.
     func calibrate()
+    
+    /// Tells the figure that it needs to configure the graphics environment
+    /// (OpenGL coordinate transforms etc) before drawing anything.
+    /// This method should be called whenever this figure is swapped into
+    /// the graphics controller
+    func markGraphicsStale()
     
     func draw(_ drawableWidth: Int, _ drawableHeight: Int)
     
@@ -45,6 +53,8 @@ protocol Figure: Named {
 // ==============================================================================
 
 protocol Effect: Named {
+    
+    static var key: String { get } 
     
     var enabled: Bool { get set }
     

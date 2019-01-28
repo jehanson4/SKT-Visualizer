@@ -82,6 +82,8 @@
 		8AB2A63321FCE92F00A46316 /* SK2_Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2A63221FCE92F00A46316 /* SK2_Geometry.swift */; };
 		8AB2A63521FCEB5800A46316 /* SK2_BAFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2A63421FCEB5800A46316 /* SK2_BAFinder.swift */; };
 		8AB2A63721FDEDEC00A46316 /* DiscreteSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2A63621FDEDEC00A46316 /* DiscreteSystem.swift */; };
+		8AB2A63B21FE4F5C00A46316 /* SK2_PFNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2A63A21FE4F5C00A46316 /* SK2_PFNode.swift */; };
+		8AB2A63D21FE4F6B00A46316 /* SK2_PFModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2A63C21FE4F6B00A46316 /* SK2_PFModel.swift */; };
 		8ABEEC3B20803A2F008E72F4 /* Surface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ABEEC3A20803A2F008E72F4 /* Surface.swift */; };
 		8AC82CC421F5D00E00A75595 /* Graphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CC321F5D00E00A75595 /* Graphics.swift */; };
 		8AC82CC721F5D60400A75595 /* SK2SphereUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CC621F5D60400A75595 /* SK2SphereUtils.swift */; };
@@ -219,6 +221,8 @@
 		8AB2A63221FCE92F00A46316 /* SK2_Geometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_Geometry.swift; sourceTree = "<group>"; };
 		8AB2A63421FCEB5800A46316 /* SK2_BAFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_BAFinder.swift; sourceTree = "<group>"; };
 		8AB2A63621FDEDEC00A46316 /* DiscreteSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscreteSystem.swift; sourceTree = "<group>"; };
+		8AB2A63A21FE4F5C00A46316 /* SK2_PFNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_PFNode.swift; sourceTree = "<group>"; };
+		8AB2A63C21FE4F6B00A46316 /* SK2_PFModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_PFModel.swift; sourceTree = "<group>"; };
 		8ABEEC3A20803A2F008E72F4 /* Surface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Surface.swift; sourceTree = "<group>"; };
 		8AC82CC321F5D00E00A75595 /* Graphics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Graphics.swift; sourceTree = "<group>"; };
 		8AC82CC621F5D60400A75595 /* SK2SphereUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2SphereUtils.swift; sourceTree = "<group>"; };
@@ -346,7 +350,6 @@
 		8A2034E521ED29B400A4C418 /* OLD */ = {
 			isa = PBXGroup;
 			children = (
-				8AC82CC521F5D5D100A75595 /* SKT */,
 				8A75B692208A76D100EACD13 /* PhysicalProperties */,
 				8AF59501208AC50D0082C5DE /* Visualization */,
 				8A7FA8B421DD935A004E68BF /* Animation */,
@@ -430,6 +433,7 @@
 		8A591B3C21E6D89500B802F8 /* SK2 */ = {
 			isa = PBXGroup;
 			children = (
+				8AB2A63921FE4F4500A46316 /* Flow */,
 				8AB2A62D21FCE1AA00A46316 /* Basins */,
 				8A2034E621ED2A6000A4C418 /* SK2_System.swift */,
 				8AC82CDE21F747BB00A75595 /* SK2D_System.swift */,
@@ -545,6 +549,15 @@
 			path = Shell;
 			sourceTree = "<group>";
 		};
+		8AB2A63921FE4F4500A46316 /* Flow */ = {
+			isa = PBXGroup;
+			children = (
+				8AB2A63A21FE4F5C00A46316 /* SK2_PFNode.swift */,
+				8AB2A63C21FE4F6B00A46316 /* SK2_PFModel.swift */,
+			);
+			path = Flow;
+			sourceTree = "<group>";
+		};
 		8AC82CC221F5C8B700A75595 /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
@@ -563,8 +576,7 @@
 				8AC82CC921F5D78D00A75595 /* Effects */,
 				8AC82CC621F5D60400A75595 /* SK2SphereUtils.swift */,
 			);
-			name = SKT;
-			path = ../Graphics/SKT;
+			path = SKT;
 			sourceTree = "<group>";
 		};
 		8AC82CC921F5D78D00A75595 /* Effects */ = {
@@ -709,6 +721,7 @@
 		8AF59501208AC50D0082C5DE /* Visualization */ = {
 			isa = PBXGroup;
 			children = (
+				8AC82CC521F5D5D100A75595 /* SKT */,
 				8ACE788E2073C57500C29875 /* TypedEffect.swift */,
 				8A3BBBB6208BC28A00669227 /* VisualizationModel1.swift */,
 				8AF59502208AC5B10082C5DE /* VisualizatonModel.swift */,
@@ -840,6 +853,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8AB2A63D21FE4F6B00A46316 /* SK2_PFModel.swift in Sources */,
 				8A91B0982093F8C100488907 /* OLD_Parameters.swift in Sources */,
 				8AE48BBB2087857C001B5D11 /* GLUtils.swift in Sources */,
 				8AC82CEA21F9DB5000A75595 /* SK2E.swift in Sources */,
@@ -868,6 +882,7 @@
 				8A5E948E2078EE46003477D3 /* Net.swift in Sources */,
 				8AC82CD921F6668000A75595 /* ShellFigure.swift in Sources */,
 				8A41A2F2208398E900CDDF28 /* NumericConstants.swift in Sources */,
+				8AB2A63B21FE4F5C00A46316 /* SK2_PFNode.swift in Sources */,
 				8A35083020A0A0C200E36C1F /* PopulationFlowSequencer.swift in Sources */,
 				8AB2A62C21FCE0D500A46316 /* SK3_System.swift in Sources */,
 				8A2034DE21EB961300A4C418 /* SK2E_DetailViewController.swift in Sources */,

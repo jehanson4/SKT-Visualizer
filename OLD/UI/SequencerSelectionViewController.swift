@@ -10,7 +10,7 @@ import UIKit
 
 class SequencerSelectionViewController: UITableViewController, AppModelUser {
 
-    private var clsName = "SequencerSelectionViewController"
+    private var clsName = "OLD SequencerSelectionViewController"
     private var debugEnabled = false
     
     private func debug(_ mtd: String, _ msg: String = "") {

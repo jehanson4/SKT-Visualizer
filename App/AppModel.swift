@@ -24,9 +24,17 @@ protocol AppModelUser {
 
 protocol PartFactory {
     associatedtype System: PhysicalSystem
-    static var name: String { get }
+    
+    static var key: String { get }
+    
+    var group: String { get }
+
+    var userDefaults: UserDefaults? { get set }
+    
     func makeSystem() -> System
+    
     func makeFigures(_ system: System) -> Registry<Figure>?
+    
     func makeSequencers(_ system: System) -> Registry<Sequencer>?
 }
 
@@ -35,6 +43,14 @@ protocol PartFactory {
 // =========================================================
 
 protocol AppModel {
+    
+    /// Groups of systems. Only 1 level of grouping is supported
+    /// systemGroupNames is in group-creation order
+    var systemGroupNames: [String] { get }
+
+    /// systemGroups map has key = group name; value = list of selector
+    /// keys of systems in that group
+    var systemGroups: [String: [String]] { get }
     
     /// lets you select a system to visualize
     var systemSelector: Selector<PhysicalSystem> { get }

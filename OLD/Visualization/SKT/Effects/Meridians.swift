@@ -23,7 +23,7 @@ class Meridians : GLKBaseEffect, Effect {
         }
     }
     
-    let effectType = EffectType.meridians
+    static let key = "Meridians"
     var name = "Meridians"
     var info: String? = nil
     var enabled: Bool

@@ -21,7 +21,8 @@ import OpenGL
 class Shell : GLKBaseEffect, Effect {
     var debugEnabled = false
     
-    let effectType = EffectType.backgroundShell
+    static let key = "BackgroundShell"
+    
     var name = "BackgroundShell"
     var info: String? = nil
     var enabled: Bool

@@ -19,9 +19,11 @@ import OpenGL
 // ==============================================================
 
 class Surface : GLKBaseEffect, Effect {
+    
     var debugEnabled = false
     
-    let effectType = EffectType.surface
+    static let key = "Surface"
+    
     var name = "Surface"
     var info: String? = nil
     var enabled = false

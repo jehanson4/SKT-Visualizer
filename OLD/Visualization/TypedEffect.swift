@@ -26,7 +26,25 @@ enum EffectType: Int {
     case flowLines = 7
     case busy = 8
     case backgroundShell = 9
+
+    static func key(_ eType: EffectType) -> String {
+        return effectKeys[eType.rawValue]
+    }
 }
+
+private let effectKeys = [
+    "axes",
+    "meridians",
+    "icosahedron",
+    "net",
+    "surface",
+    "nodes",
+    "balls",
+    "flowLines",
+    "busy",
+    "backgroundShell"
+]
+
 
 // ==============================================================================
 // Effect

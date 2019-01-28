@@ -17,7 +17,7 @@ class FlowLines : GLKBaseEffect, Effect {
     
     var debugEnabled = false
     
-    let effectType: EffectType = .flowLines
+    static let key = "FlowLines"
     var name: String = "FlowLines"
     var info: String? = nil
     var enabled: Bool

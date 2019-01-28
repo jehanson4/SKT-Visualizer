@@ -54,11 +54,16 @@ class GraphicsControllerV1: GraphicsController {
     var figure: Figure? {
         get { return _figure }
         set(newValue) {
+            debug("figure property setter", "entering. New figure = \(String(describing: newValue?.name))")
+            // MAYBE
+            // if (_figure != nil) {
+            // _figure!.clean()
+            // }
             _figure = newValue
-            
-            // TODO
-            // _figure.updateProjection()
-            // _figure.updateModelview()
+            if (_figure != nil) {
+                _figure!.markGraphicsStale()
+                // DO NOT calibrate
+            }
         }
         
     }
@@ -113,6 +118,11 @@ class GraphicsControllerV1: GraphicsController {
     
     func draw(_ drawableWidth: Int, _ drawableHeight: Int) {
         glClear(GLbitfield(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
+        
+        if (_figure == nil) {
+            debug("draw", "figure is nil")
+        }
+
         _figure?.draw(drawableWidth, drawableHeight)
     }
 }

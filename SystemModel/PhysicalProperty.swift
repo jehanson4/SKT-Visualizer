@@ -47,7 +47,19 @@ enum PhysicalPropertyType: Int {
     case logOccupation = 2
     case basinAssignment = 3
     case freeEnergy = 4
+    
+    static func key(_ type: PhysicalPropertyType) -> String {
+        return physicalPropertyKeys[type.rawValue]
+    }
 }
+
+private let physicalPropertyKeys = [
+    "energy",
+    "entropy",
+    "logOccupation",
+    "basinAssignment",
+    "freeEnergy"
+]
 
 // ===============================================================================
 // TypedPhysicalProperty

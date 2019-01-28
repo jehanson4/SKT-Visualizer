@@ -14,19 +14,36 @@ import Foundation
 
 class SK2E_System: SK2_System {
     
+    // ==========================================
+    // Debug
+    
+    let cls = "SK2E_System"
+    var debugEnabled = true
+    
+    func debug(_ mtd: String, _ msg: String = "") {
+        if (debugEnabled)  {
+            print(cls, mtd, msg)
+        }
+    }
+    
     // ======================================
     // Initializer
     
     override init(_ name: String, _ info: String? = nil) {
         super.init(name, info)
-        N_monitor = super.N.monitorChanges(updateBasinModel)
-        k_monitor = super.k.monitorChanges(updateBasinModel)
+        setupBasinModel()
     }
 
+    deinit {
+        teardownBasinModel()
+    }
+
+    
     // ======================================
     // Basics
 
     override func clean() {
+        debug("clean")
         discardBasinModel()
     }
     
@@ -66,17 +83,34 @@ class SK2E_System: SK2_System {
     }
     
     // ========================================================
-    // Basins
+    // Basin model
+    //
+    // MAYBE move all this into the Figure? The counterargument
+    // is that maybe someday there'll be 2 figures that use it.
     
     var N_monitor: ChangeMonitor? = nil
     var k_monitor: ChangeMonitor? = nil
     
-    func discardBasinModel() {
-        // TODO
+    func setupBasinModel() {
+        N_monitor = super.N.monitorChanges(updateBasinModel)
+        k_monitor = super.N.monitorChanges(updateBasinModel)
+    }
+    
+    func teardownBasinModel() {
+        N_monitor?.disconnect()
+        k_monitor?.disconnect()
+        // ?? discardBasinModel()
     }
     
     func updateBasinModel(_ sender: Any?) {
+        debug("updateBasinModel: discarding it!")
+        discardBasinModel()
+    }
+
+    func discardBasinModel() {
+        debug("discardBasinModel")
         // TODO
     }
     
+
 }

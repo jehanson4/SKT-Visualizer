@@ -17,7 +17,8 @@ import OpenGL
 class Icosahedron : GLKBaseEffect, Effect {
     var debugEnabled = false
     
-    let effectType = EffectType.icosahedron
+    static let key = "Icosahedron"
+    
     var name = "Icosahedron"
     var info: String? = nil
     var enabled: Bool

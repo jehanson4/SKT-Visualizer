@@ -10,11 +10,22 @@ import Foundation
 
 class SK2D : PartFactory {
     
-    static let name = "SK/2 Dynamics"
-    static let info = "Simulated population flow in the 2-component SK model"
+    static let key = "sk2d"
+    
+    var group = "SK/2"
+
+    var name = "SK/2 Dynamics"
+    
+    var info = "Simulated population flow in the 2-component SK model"
+    
+    var userDefaults: UserDefaults?
+    
+    init(_ userDefaults: UserDefaults?) {
+        self.userDefaults = userDefaults
+    }
     
     func makeSystem() -> SK2D_System {
-        return SK2D_System(SK2D.name, SK2D.info)
+        return SK2D_System(name, info)
     }
     
     func makeFigures(_ system: SK2D_System) -> Registry<Figure>? {

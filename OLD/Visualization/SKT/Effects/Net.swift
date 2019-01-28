@@ -16,10 +16,9 @@ import OpenGL
 
 class Net : GLKBaseEffect, Effect {
     
-    
     var debugEnabled = false
 
-    let effectType = EffectType.net
+    static let key = "Net"
     var name: String = "Net"
     var info: String? = nil
     var enabled: Bool
