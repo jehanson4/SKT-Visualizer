@@ -50,7 +50,7 @@ class ShellFigure : Figure {
     // ================================================
     // Lifecycle
     
-    init(_ name: String, _ info: String? = nil, _ radius: Double = 1.0) {
+    init(_ name: String, _ info: String? = nil, radius: Double = 1) {
         self.name = name
         self.info = info
         self.r0 = radius
@@ -270,8 +270,16 @@ class ShellFigure : Figure {
     
     func calibrate() {
         debug("calibrate")
+        // TODO calibrate the effects
     }
 
+    func prepareToShow() {
+        debug("prepareToShow")
+        func prepareEffect(_ effect: Effect) {
+            effect.prepareToShow()
+        }
+    }
+    
     func draw(_ drawableWidth: Int, _ drawableHeight: Int) {
         aspectRatio = (drawableHeight > 0) ? Float(drawableWidth)/Float(drawableHeight) : 0
         updateGraphics()

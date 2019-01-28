@@ -287,7 +287,13 @@ class Surface : GLKBaseEffect, Effect {
         enabled = enabledDefault
     }
     
+    func prepareToShow() {
+        debug("prepareToShow")
+        // TODO
+    }
+    
     var drawCounter = 0
+    
     func draw() {
         let mtd = "draw[\(drawCounter)]"
 

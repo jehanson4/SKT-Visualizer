@@ -233,6 +233,11 @@ class Nodes : Effect {
         enabled = enabledDefault
     }
     
+    func prepareToShow() {
+        debug("prepareToShow")
+        // TODO
+    }
+    
     func prepareToDraw() {
         glUseProgram(programHandle)
         

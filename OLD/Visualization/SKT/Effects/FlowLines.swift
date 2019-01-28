@@ -270,6 +270,11 @@ class FlowLines : GLKBaseEffect, Effect {
         enabled = defaultEnabled
     }
     
+    func prepareToShow() {
+        debug("prepareToShow")
+        // TODO
+    }
+    
     func draw() {
         if (!enabled) {
             return

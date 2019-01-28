@@ -172,6 +172,11 @@ class BusySpinner : Effect {
     
     func reset() {}
     
+    func prepareToShow() {
+        debug("prepareToShow")
+        // TODO
+    }
+    
     func prepareToDraw() {
         glUseProgram(programHandle)
         glUniformMatrix4fv(projectionMatrixUniform, 1, GLboolean(GL_FALSE), projectionMatrix.array)

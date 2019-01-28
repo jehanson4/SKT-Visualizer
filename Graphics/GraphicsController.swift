@@ -56,13 +56,11 @@ class GraphicsControllerV1: GraphicsController {
     var figure: Figure? {
         get { return _figure }
         set(newValue) {
-            if (_figure != nil) {
-                _figure!.releaseOptionalResources()
-             }
+            // MAYBE old figure 'withdraw' or something
+            // DEFER until we need it.
             _figure = newValue
             if (_figure != nil) {
-                _figure!.markGraphicsStale()
-                // DO NOT calibrate
+                _figure!.prepareToShow()
             }
         }
         

@@ -226,7 +226,13 @@ class Meridians : GLKBaseEffect, Effect {
     func reset() {
         enabled = enabledDefault
     }
+
+    func prepareToShow() {
+        debug("prepareToShow")
+        // TODO
+    }
     
+
     func draw() {
         if (!enabled) {
             return

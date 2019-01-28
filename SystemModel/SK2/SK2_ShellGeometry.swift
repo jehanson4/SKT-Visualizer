@@ -20,13 +20,14 @@ fileprivate let eps = Double.constants.eps
 
 class SK2_ShellGeometry {
 
-    init(_ sk2: SK2_System) {
+    init(_ sk2: SK2_System, radius: Double = 1) {
         self.sk2 = sk2
+        self.radius = radius
     }
     
-    private let sk2: SK2_System
+    let sk2: SK2_System
     
-    var radius: Double = 1
+    let radius: Double
     
     // =====================================
     // Transforms

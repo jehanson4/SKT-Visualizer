@@ -207,6 +207,11 @@ class Net : GLKBaseEffect, Effect {
         enabled = enabledDefault
     }
     
+    func prepareToShow() {
+        debug("prepareToShow")
+        // TODO
+    }
+    
     func draw() {
         if (!enabled) {
             return

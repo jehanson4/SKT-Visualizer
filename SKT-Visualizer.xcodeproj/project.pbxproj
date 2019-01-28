@@ -84,9 +84,11 @@
 		8AB2A63721FDEDEC00A46316 /* DiscreteSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2A63621FDEDEC00A46316 /* DiscreteSystem.swift */; };
 		8AB2A63B21FE4F5C00A46316 /* SK2_PFNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2A63A21FE4F5C00A46316 /* SK2_PFNode.swift */; };
 		8AB2A63D21FE4F6B00A46316 /* SK2_PFModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2A63C21FE4F6B00A46316 /* SK2_PFModel.swift */; };
-		8AB2A64221FEA8BF00A46316 /* ColoredNodesOnShell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2A64121FEA8BF00A46316 /* ColoredNodesOnShell.swift */; };
+		8AB2A64221FEA8BF00A46316 /* NodesOnShell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2A64121FEA8BF00A46316 /* NodesOnShell.swift */; };
 		8AB2A64521FEB24900A46316 /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2A64421FEB24900A46316 /* Geometry.swift */; };
 		8AB2A64721FEBF0800A46316 /* ColorSources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2A64621FEBF0800A46316 /* ColorSources.swift */; };
+		8AB2A64D21FF178700A46316 /* DelegatedFigure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2A64C21FF178700A46316 /* DelegatedFigure.swift */; };
+		8AB2A64F21FF199700A46316 /* ColorizedFigure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2A64E21FF199700A46316 /* ColorizedFigure.swift */; };
 		8ABEEC3B20803A2F008E72F4 /* Surface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ABEEC3A20803A2F008E72F4 /* Surface.swift */; };
 		8AC82CC421F5D00E00A75595 /* Graphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CC321F5D00E00A75595 /* Graphics.swift */; };
 		8AC82CC721F5D60400A75595 /* SK2SphereUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CC621F5D60400A75595 /* SK2SphereUtils.swift */; };
@@ -226,9 +228,11 @@
 		8AB2A63621FDEDEC00A46316 /* DiscreteSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscreteSystem.swift; sourceTree = "<group>"; };
 		8AB2A63A21FE4F5C00A46316 /* SK2_PFNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_PFNode.swift; sourceTree = "<group>"; };
 		8AB2A63C21FE4F6B00A46316 /* SK2_PFModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_PFModel.swift; sourceTree = "<group>"; };
-		8AB2A64121FEA8BF00A46316 /* ColoredNodesOnShell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColoredNodesOnShell.swift; sourceTree = "<group>"; };
+		8AB2A64121FEA8BF00A46316 /* NodesOnShell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodesOnShell.swift; sourceTree = "<group>"; };
 		8AB2A64421FEB24900A46316 /* Geometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geometry.swift; sourceTree = "<group>"; };
 		8AB2A64621FEBF0800A46316 /* ColorSources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSources.swift; sourceTree = "<group>"; };
+		8AB2A64C21FF178700A46316 /* DelegatedFigure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DelegatedFigure.swift; sourceTree = "<group>"; };
+		8AB2A64E21FF199700A46316 /* ColorizedFigure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorizedFigure.swift; sourceTree = "<group>"; };
 		8ABEEC3A20803A2F008E72F4 /* Surface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Surface.swift; sourceTree = "<group>"; };
 		8AC82CC321F5D00E00A75595 /* Graphics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Graphics.swift; sourceTree = "<group>"; };
 		8AC82CC621F5D60400A75595 /* SK2SphereUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2SphereUtils.swift; sourceTree = "<group>"; };
@@ -566,7 +570,7 @@
 			isa = PBXGroup;
 			children = (
 				8AB2A64621FEBF0800A46316 /* ColorSources.swift */,
-				8AB2A64121FEA8BF00A46316 /* ColoredNodesOnShell.swift */,
+				8AB2A64121FEA8BF00A46316 /* NodesOnShell.swift */,
 			);
 			path = Effects;
 			sourceTree = "<group>";
@@ -589,6 +593,8 @@
 				8AE48BBA2087857C001B5D11 /* GLUtils.swift */,
 				8A575FED20804759002B9951 /* ColorMaps.swift */,
 				8AC82CC321F5D00E00A75595 /* Graphics.swift */,
+				8AB2A64C21FF178700A46316 /* DelegatedFigure.swift */,
+				8AB2A64E21FF199700A46316 /* ColorizedFigure.swift */,
 				8AC82CE021F8874200A75595 /* GraphicsController.swift */,
 				8A3C45C52086278900A1E9CD /* UniformColor.swift */,
 			);
@@ -914,7 +920,7 @@
 				8AB2A62C21FCE0D500A46316 /* SK3_System.swift in Sources */,
 				8A2034DE21EB961300A4C418 /* SK2E_DetailViewController.swift in Sources */,
 				8A91B09C2093F98000488907 /* OLD_Sequencer.swift in Sources */,
-				8AB2A64221FEA8BF00A46316 /* ColoredNodesOnShell.swift in Sources */,
+				8AB2A64221FEA8BF00A46316 /* NodesOnShell.swift in Sources */,
 				8A3C45B62086167E00A1E9CD /* LogOccupation.swift in Sources */,
 				8AB2A63321FCE92F00A46316 /* SK2_ShellGeometry.swift in Sources */,
 				8A56BE7320ADAD5100C19F4C /* BANode.swift in Sources */,
@@ -926,6 +932,8 @@
 				8ACE788F2073C57500C29875 /* TypedEffect.swift in Sources */,
 				8AC82CF521FC9AED00A75595 /* SequenceController.swift in Sources */,
 				8A0B3A0020A4B71200370999 /* PopulationFlow.swift in Sources */,
+				8AB2A64D21FF178700A46316 /* DelegatedFigure.swift in Sources */,
+				8AB2A64F21FF199700A46316 /* ColorizedFigure.swift in Sources */,
 				8A35082E20A092A400E36C1F /* PopulationColorSource.swift in Sources */,
 				8A3C45C62086278900A1E9CD /* UniformColor.swift in Sources */,
 				8AC82CE121F8874200A75595 /* GraphicsController.swift in Sources */,

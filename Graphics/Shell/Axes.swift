@@ -97,6 +97,11 @@ class Axes : GLKBaseEffect, Effect {
         enabled = enabledDefault
     }
     
+    func prepareToShow() {
+        debug("prepareToShow")
+        // TODO
+    }
+    
     func releaseOptionalResources() {
         // TODO
     }

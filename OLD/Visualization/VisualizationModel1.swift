@@ -93,6 +93,13 @@ class VisualizationModel1 : VisualizationModel, Figure {
             // IGNORE
         }
     }
+
+    func prepareToShow() {
+        debug("prepareToShow")
+        func prepareEffect(_ effect: Effect) { effect.prepareToShow() }
+        effects?.visit(prepareEffect)
+    }
+    
     // ===========================================
     // Initialization
     // ===========================================
@@ -290,7 +297,7 @@ class VisualizationModel1 : VisualizationModel, Figure {
         
         let bg: GLfloat = VisualizationModel1.scene_backgroundColorValue
         registerEffect(BackgroundShell(
-            skt.geometry.r0+BackgroundShell.rOffsetDefault,
+            skt.geometry.r0,
             GLKVector4Make(bg, bg, bg, 1),
             enabled: true))
         

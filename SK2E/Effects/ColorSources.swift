@@ -10,17 +10,22 @@ import Foundation
 import GLKit
 
 // ====================================================
-// SK2E_EnergyColors
+// SK2E_SimpleColors
 // ====================================================
 
-class SK2E_EnergyColors: ColorSource {
+class SK2E_SimpleColors: ColorSource {
 
-    init(_ system: SK2E_System) {
+    init(_ name: String, _ info: String? = nil, _ system: SK2E_System,
+         _ getter: @escaping (_ m: Int, _ n: Int) -> Double) {
+        self.name = name
+        self.info = info
         self.system = system
+        self.getter = getter
         self.colorMap = LinearColorMap()
     }
     
     var system: SK2E_System
+    var getter: (_ m: Int, _ n: Int) -> Double
     var colorMap: ColorMap
 
     var name: String = "Energy"
@@ -36,7 +41,8 @@ class SK2E_EnergyColors: ColorSource {
     }
     
     func colorAt(_ nodeIndex: Int) -> GLKVector4 {
-        return colorMap.getColor(system.energy(nodeIndex))
+        let mn = system.nodeIndexToSK(nodeIndex)
+        return colorMap.getColor(getter(mn.m, mn.n))
     }
     
     func findBounds() -> (min: Double, max: Double) {
@@ -45,7 +51,7 @@ class SK2E_EnergyColors: ColorSource {
         var maxValue: Double = tmpValue
         for m in 0..<system.m_max {
             for n in 0..<system.n_max {
-                tmpValue = system.energy(m,n)
+                tmpValue = getter(m,n)
                 if (tmpValue < minValue) {
                     minValue = tmpValue
                 }
@@ -72,7 +78,38 @@ class SK2E_EnergyColors: ColorSource {
     func fireChange() {
         changeSupport?.fire()
     }
-    
+}
 
+// ====================================================
+// SK2E_EnergyColors
+// ====================================================
+
+class SK2E_EnergyColors : SK2E_SimpleColors {
     
+    init(_ system: SK2E_System) {
+        super.init("Energy", nil, system, system.energy)
+    }
+}
+
+// ====================================================
+// SK2E_EntropyColors
+// ====================================================
+
+class SK2E_EntropyColors : SK2E_SimpleColors {
+    
+    init(_ system: SK2E_System) {
+        super.init("Entropy", nil, system, system.entropy)
+    }
+}
+
+// ====================================================
+// SK2E_OccupationColors
+// ====================================================
+
+class SK2E_OccupationColors : SK2E_SimpleColors {
+    
+    init(_ system: SK2E_System) {
+        super.init("Occupation", nil, system, system.logOccupation)
+        super.colorMap = LogColorMap()
+    }
 }

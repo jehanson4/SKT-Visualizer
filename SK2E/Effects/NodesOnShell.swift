@@ -1,5 +1,5 @@
 //
-//  ColoredNodesOnShell.swift
+//  NodesOnShell.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 1/27/19.
@@ -10,10 +10,10 @@ import Foundation
 import GLKit
 
 // =========================================================
-// ColoredNodesOnShell
+// NodesOnShell
 // =========================================================
 
-class ColoredNodesOnShell: Effect {
+class NodesOnShell: ColorizedEffect {
     
     // ============================================
     // Debugging
@@ -32,9 +32,9 @@ class ColoredNodesOnShell: Effect {
     // Lifecycle
     
     init(_ system: SK2E_System, _ figure: ShellFigure, _ colorSource: ColorSource, enabled: Bool) {
-        self.geometry = SK2_ShellGeometry(system)
+        self.geometry = SK2_ShellGeometry(system, radius: figure.r0)
         self.figure = figure
-        self.colorSource = colorSource
+        self._colorSource = colorSource
         self.enabled = enabled
         self.enabledDefault = enabled
 
@@ -83,7 +83,14 @@ class ColoredNodesOnShell: Effect {
     // ==========================
     // Colors
     
-    private var colorSource: ColorSource
+    var colorSource: ColorSource {
+        get { return _colorSource }
+        set(newValue) {
+            _colorSource = newValue
+            colorsAreStale = true
+        }
+    }
+    private var _colorSource: ColorSource
 
     private var colorsAreStale = true
 
@@ -285,12 +292,12 @@ class ColoredNodesOnShell: Effect {
 
     private func ensureColorsAreFresh() -> Bool {
         var colorsRecomputed = false
-        let colorSourceChanged = colorSource.prepare()
+        let colorSourceChanged = _colorSource.prepare()
         if (colorSourceChanged || colorsAreStale) {
             colorsAreStale = false
-            debug("recomputing colors", "colorSource: \(colorSource.name) colors.count=\(colors.count)")
+            debug("recomputing colors", "colorSource: \(_colorSource.name) colors.count=\(colors.count)")
             for i in 0..<colors.count {
-                colors[i] = colorSource.colorAt(i)
+                colors[i] = _colorSource.colorAt(i)
             }
             colorsRecomputed = true
         }
@@ -302,6 +309,11 @@ class ColoredNodesOnShell: Effect {
     
     func reset() {
         enabled = enabledDefault
+    }
+
+    func prepareToShow() {
+        debug("prepareToShow")
+        // TODO
     }
     
     func prepareToDraw() {

@@ -40,11 +40,18 @@ class AppModel1 : AppModel {
     let systemSelector: Selector<PhysicalSystem>
     
     private var systemChangeMonitor: ChangeMonitor? = nil
+    private var _currSystemKey: String? = nil
     
     private func systemChanged(_ sender: Any?) {
         AppModel1.debug("systemChanged")
+        let _prevSystemKey = _currSystemKey
+        _currSystemKey = systemSelector.selection?.key
+        
         updateFigureChangeMonitor()
         updateSequencerChangeMonitor()
+        if (_prevSystemKey != nil) {
+            releaseOptionalResourcesForSystem(_prevSystemKey!)
+        }
     }
     
     // ================================================
@@ -192,6 +199,13 @@ class AppModel1 : AppModel {
         }
     }
 
+    func releaseOptionalResourcesForSystem(_ systemKey: String) {
+        systemSelector.registry.entry(key: systemKey)?.value.releaseOptionalResources()
+        
+        func figureRelease(_ f: Figure) { f.releaseOptionalResources() }
+        _figureSelectors[systemKey]?.registry.visit(figureRelease)
+    }
+    
     // ===========================
     // User defaults
     // ===========================

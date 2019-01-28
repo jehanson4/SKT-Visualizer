@@ -155,6 +155,10 @@ class Balls : Effect {
         enabled = enabledDefault
     }
     
+    func prepareToShow() {
+        // TODO
+    }
+    
     func prepareToDraw() {
         glUseProgram(programHandle)
         glUniformMatrix4fv(projectionMatrixUniform, 1, GLboolean(GL_FALSE), projectionMatrix.array)

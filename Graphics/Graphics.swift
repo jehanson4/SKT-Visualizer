@@ -36,6 +36,8 @@ protocol Figure: Named, ResourceAware {
     /// graphics environent is already set up correctly.
     func calibrate()
     
+    func prepareToShow()
+    
     /// Tells the figure that it needs to configure the graphics environment
     /// (OpenGL coordinate transforms etc) before drawing anything.
     /// This method should be called whenever this figure is swapped into
@@ -55,7 +57,7 @@ protocol Figure: Named, ResourceAware {
 
 protocol Effect: Named, ResourceAware {
     
-    static var key: String { get } 
+    static var key: String { get }
     
     var enabled: Bool { get set }
     
@@ -64,7 +66,12 @@ protocol Effect: Named, ResourceAware {
     
     /// resets params to default values
     func reset()
-        
+    
+    /// initializes or reinitializes effect's internal state.
+    /// Should be called when the effect is enabled or when
+    /// we prepare to show its figure
+    func prepareToShow()
+    
     func prepareToDraw()
     func draw()
     
@@ -81,10 +88,17 @@ protocol ColorSource : Named, ChangeMonitorEnabled {
     
     /// Updates this color source's internal state as needed. Should be called
     /// before start of a pass over node indices.
-    /// returns true iff the colors were changed by the update.
+    /// returns true iff the colors were changed.
     func prepare() -> Bool
     
     /// Returns the color assigned to the node at the given index
     func colorAt(_ nodeIndex: Int) -> GLKVector4
 }
 
+// =============================================================
+// ColorizedEffect
+// =============================================================
+
+protocol ColorizedEffect: Effect {
+    var colorSource: ColorSource { get set }
+}

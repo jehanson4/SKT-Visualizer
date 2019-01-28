@@ -15,12 +15,24 @@ import OpenGL
 #endif
 
 // ==============================================================
-// Shell
+// BackgroundShell
 // ==============================================================
 
 class BackgroundShell : GLKBaseEffect, Effect {
-    var debugEnabled = false
+
+    // =================================================
+    // Debugging
     
+    let cls = "BackgroundShell"
+    var debugEnabled = false
+    func debug(_ mtd: String, _ msg: String = "") {
+        if (debugEnabled) {
+            print(cls, mtd, msg)
+        }
+    }
+    
+    // ================================================
+    // Identifiers
     static let key = "BackgroundShell"
     
     var name = "BackgroundShell"
@@ -63,8 +75,9 @@ class BackgroundShell : GLKBaseEffect, Effect {
     // Initiailzers
     // ====================================
 
-    init(_ r : Double, _ color: GLKVector4, enabled: Bool) {
-        self.r = r
+    /// r0 = radius of the shell we're "background" of, not our own radius
+    init(_ r0 : Double, _ color: GLKVector4, enabled: Bool) {
+        self.r = r0 + BackgroundShell.rOffsetDefault
         self.enabled = enabled
         self.enabledDefault = enabled
         
@@ -186,6 +199,11 @@ class BackgroundShell : GLKBaseEffect, Effect {
         enabled = enabledDefault
     }
     
+    func prepareToShow() {
+        debug("prepareToShow")
+        // TODO
+    }
+    
     func releaseOptionalResources() {
         // TODO
     }
@@ -213,12 +231,6 @@ class BackgroundShell : GLKBaseEffect, Effect {
 
     }
     
-    func debug(_ mtd: String, _ msg: String = "") {
-        if (debugEnabled) {
-            print(name, mtd, msg)
-        }
-    }
-
     func vstr(_ v: GLKVector4) -> String {
         return "(\(v[0]), \(v[1]), \(v[2]))"
     }
