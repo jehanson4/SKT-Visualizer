@@ -334,7 +334,7 @@
 				8AF98FA6207FE9CF0007688E /* README.md */,
 				8AF138B7207B8966001A88C6 /* Resources */,
 				8A0C09A220716B050017AC4C /* Utilities */,
-				8A9D599B208DFBD20022831B /* App */,
+				8A9D599B208DFBD20022831B /* Main */,
 				8AC82CED21F9E41A00A75595 /* Animation */,
 				8AC82CC221F5C8B700A75595 /* Graphics */,
 				8AF5320C2088B63E009D1882 /* PhysicalSystem */,
@@ -503,7 +503,7 @@
 			path = ParameterSweep;
 			sourceTree = "<group>";
 		};
-		8A9D599B208DFBD20022831B /* App */ = {
+		8A9D599B208DFBD20022831B /* Main */ = {
 			isa = PBXGroup;
 			children = (
 				8AF594FF208AC0420082C5DE /* AppModel.swift */,
@@ -514,7 +514,7 @@
 				8A1CF021207146540099DD97 /* Info.plist */,
 				8AA05A10208FC14E009417A6 /* AppModel1.swift */,
 			);
-			path = App;
+			path = Main;
 			sourceTree = "<group>";
 		};
 		8AA05A0D208F93B4009417A6 /* BasinFinder */ = {
@@ -1117,7 +1117,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = L4ZL5MDU6B;
-				INFOPLIST_FILE = "$(SRCROOT)/App/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Main/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1137,7 +1137,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = L4ZL5MDU6B;
-				INFOPLIST_FILE = "$(SRCROOT)/App/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Main/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

@@ -132,8 +132,6 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
     // Visualization: figure selector
     
     @IBOutlet weak var figureSelectorButton: UIButton!
-
-    // weak var figureSelector: Selector<Figure>? = nil
     
     var figureSelectionMonitor: ChangeMonitor? = nil
     
@@ -142,7 +140,7 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
         let figureSelector = appModel!.figureSelector
         if (figureSelector != nil && figureSelectorButton != nil) {
             let selection = figureSelector!.selection
-            let title = selection?.name ?? "<choose>"
+            let title = selection?.name ?? "<choose figure>"
             figureSelectorButton.setTitle(title, for: .normal);
         }
     }
@@ -443,6 +441,11 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
     // ===========================================
     // Animation: sweep selector
 
+    @IBOutlet weak var sequencerSelectorButton: UIButton!
+    
+    @IBAction func sequencerSelectorAction(_ sender: Any) {
+    }
+    
     func sweepSelector_setup() {
         debug("sweepSelector_setup")
         // TODO
@@ -454,21 +457,62 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
     }
     
     // ===========================================
-    // TODO Sweep: Lo
+    // Animation: Lo
+    
+    @IBOutlet weak var lbText: UITextField!
+    
+    @IBAction func lbTextEdited(_ sender: UITextField) {
+    }
+
+    @IBOutlet weak var lbStepper: UIStepper!
+    
+    @IBAction func lbStep(_ sender: UIStepper) {
+    }
     
     // ===========================================
-    // TODO Sweep: Hi
+    // Animation: Hi
 
-    // ===========================================
-    // TODO Sweep: Delta
-
-    // ===========================================
-    // TODO Sweep: BC
-
-    // ===========================================
-    // TODO Sweep: player
+    @IBOutlet weak var ubText: UITextField!
+    
+    @IBAction func ubTextEdited(_ sender: UITextField) {
+    }
+    
+    @IBOutlet weak var ubStepper: UIStepper!
+    
+    @IBAction func ubStep(_ sender: UIStepper) {
+    }
     
     // ===========================================
-    // TODO Sweep: progress
+    // Animation: Delta
 
+    @IBOutlet weak var deltaText: UITextField!
+    
+    @IBAction func deltaTextEdited(_ sender: UITextField) {
+    }
+    
+    @IBOutlet weak var deltaStepper: UIStepper!
+    
+    @IBAction func deltaStep(_ sender: UIStepper) {
+    }
+    
+    // ===========================================
+    // Animation: BC
+    
+    @IBOutlet weak var bcSelector: UISegmentedControl!
+    
+    @IBAction func bcSelected(_ sender: UISegmentedControl) {
+    }
+    
+    // ===========================================
+    // Animation: Player
+    
+    @IBOutlet weak var playerSelector: UISegmentedControl!
+    
+    @IBAction func playerSelected(_ sender: UISegmentedControl) {
+    }
+    
+    // ===========================================
+    // Animation: Progress
+
+    @IBOutlet weak var progressLabel: UILabel!
 }

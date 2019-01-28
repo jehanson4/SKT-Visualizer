@@ -298,7 +298,7 @@
                                                         <rect key="frame" x="0.0" y="150" width="256" height="128"/>
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gxw-0r-3Tz">
-                                                                <rect key="frame" x="0.0" y="0.0" width="0.0" height="128"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="107" height="128"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <state key="normal" title="Take Snapshot"/>
                                                                 <connections>
@@ -306,11 +306,11 @@
                                                                 </connections>
                                                             </button>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ggS-Vg-wjy" userLabel="Placeholder">
-                                                                <rect key="frame" x="0.0" y="0.0" width="256" height="128"/>
+                                                                <rect key="frame" x="107" y="0.0" width="71" height="128"/>
                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             </view>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hCa-Ck-0lp">
-                                                                <rect key="frame" x="256" y="0.0" width="0.0" height="128"/>
+                                                                <rect key="frame" x="178" y="0.0" width="78" height="128"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <state key="normal" title="Reset POV"/>
                                                                 <connections>
@@ -787,8 +787,8 @@
                                                         <rect key="frame" x="0.0" y="64" width="256" height="32"/>
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K8e-dM-aCD">
-                                                                <rect key="frame" x="0.0" y="0.0" width="113" height="32"/>
-                                                                <state key="normal" title="Take screenshot"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="99" height="32"/>
+                                                                <state key="normal" title="Take snapshot"/>
                                                                 <connections>
                                                                     <action selector="takeSnapshot:" destination="1Ul-i5-KtM" eventType="touchUpInside" id="gLG-MP-Hku"/>
                                                                 </connections>
@@ -1068,6 +1068,9 @@
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="flB-OF-ZXE" userLabel="Sweep Selector Pop Trigger">
                                                                 <rect key="frame" x="0.0" y="0.0" width="256" height="32"/>
                                                                 <state key="normal" title="&lt;choose sequence&gt;"/>
+                                                                <connections>
+                                                                    <action selector="sequencerSelectorAction:" destination="1Ul-i5-KtM" eventType="touchUpInside" id="Qyh-Gs-kZP"/>
+                                                                </connections>
                                                             </button>
                                                         </subviews>
                                                         <constraints>
@@ -1092,13 +1095,13 @@
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                                 <connections>
-                                                                    <action selector="N_textAction:" destination="3aD-bn-OtG" eventType="editingDidEnd" id="auP-yD-88j"/>
+                                                                    <action selector="lbTextEdited:" destination="1Ul-i5-KtM" eventType="editingDidEnd" id="Q5a-OQ-uTY"/>
                                                                 </connections>
                                                             </textField>
                                                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="6Dj-bX-Xeh">
                                                                 <rect key="frame" x="162" y="0.0" width="94" height="29"/>
                                                                 <connections>
-                                                                    <action selector="N_stepperAction:" destination="3aD-bn-OtG" eventType="valueChanged" id="IiC-JH-mn6"/>
+                                                                    <action selector="lbStep:" destination="1Ul-i5-KtM" eventType="valueChanged" id="Q9P-Xr-sLM"/>
                                                                 </connections>
                                                             </stepper>
                                                         </subviews>
@@ -1121,13 +1124,13 @@
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                                 <connections>
-                                                                    <action selector="N_textAction:" destination="3aD-bn-OtG" eventType="editingDidEnd" id="bGF-8i-9IB"/>
+                                                                    <action selector="ubTextEdited:" destination="1Ul-i5-KtM" eventType="editingDidEnd" id="COx-Lv-oN8"/>
                                                                 </connections>
                                                             </textField>
                                                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="H4o-Kq-Fql">
                                                                 <rect key="frame" x="162" y="0.0" width="94" height="29"/>
                                                                 <connections>
-                                                                    <action selector="N_stepperAction:" destination="3aD-bn-OtG" eventType="valueChanged" id="dAl-w0-Pin"/>
+                                                                    <action selector="ubStep:" destination="1Ul-i5-KtM" eventType="valueChanged" id="Kgw-Is-mu3"/>
                                                                 </connections>
                                                             </stepper>
                                                         </subviews>
@@ -1150,13 +1153,13 @@
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                                 <connections>
-                                                                    <action selector="N_textAction:" destination="3aD-bn-OtG" eventType="editingDidEnd" id="Xe3-6u-cPh"/>
+                                                                    <action selector="deltaTextEdited:" destination="1Ul-i5-KtM" eventType="editingDidEnd" id="okX-iU-EUC"/>
                                                                 </connections>
                                                             </textField>
                                                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="iPb-xT-o65">
                                                                 <rect key="frame" x="162" y="0.0" width="94" height="29"/>
                                                                 <connections>
-                                                                    <action selector="N_stepperAction:" destination="3aD-bn-OtG" eventType="valueChanged" id="beP-u2-voC"/>
+                                                                    <action selector="deltaStep:" destination="1Ul-i5-KtM" eventType="valueChanged" id="5l2-n4-UcM"/>
                                                                 </connections>
                                                             </stepper>
                                                         </subviews>
@@ -1181,7 +1184,7 @@
                                                                     <segment title="periodic"/>
                                                                 </segments>
                                                                 <connections>
-                                                                    <action selector="bc_action:" destination="3aD-bn-OtG" eventType="valueChanged" id="l81-lC-zZl"/>
+                                                                    <action selector="bcSelected:" destination="1Ul-i5-KtM" eventType="valueChanged" id="D2u-r1-X58"/>
                                                                 </connections>
                                                             </segmentedControl>
                                                         </subviews>
@@ -1209,7 +1212,7 @@
                                                             <segment title="▷"/>
                                                         </segments>
                                                         <connections>
-                                                            <action selector="player_action:" destination="3aD-bn-OtG" eventType="valueChanged" id="m0r-vs-JKf"/>
+                                                            <action selector="playerSelected:" destination="1Ul-i5-KtM" eventType="valueChanged" id="bMS-ay-NSB"/>
                                                         </connections>
                                                     </segmentedControl>
                                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="oKk-yY-KT6" userLabel="Progress">
@@ -1276,9 +1279,19 @@
                         <outlet property="a1_text" destination="dGa-Ix-rWA" id="P9Y-0v-iru"/>
                         <outlet property="a2_stepper" destination="yKm-Go-gmY" id="Fr8-fr-av8"/>
                         <outlet property="a2_text" destination="kDt-Gj-ldN" id="7JR-6X-gDX"/>
+                        <outlet property="bcSelector" destination="qOJ-1R-dAz" id="fVZ-Lz-NJc"/>
+                        <outlet property="deltaStepper" destination="iPb-xT-o65" id="CFm-wq-uHm"/>
+                        <outlet property="deltaText" destination="JS0-19-oSI" id="wkL-7s-yqK"/>
                         <outlet property="figureSelectorButton" destination="aDJ-qV-Xi8" id="bW5-5U-sS6"/>
                         <outlet property="k_stepper" destination="ExS-VI-VxA" id="UcX-gP-i41"/>
                         <outlet property="k_text" destination="pPz-tb-NiU" id="1YW-IJ-LuR"/>
+                        <outlet property="lbStepper" destination="6Dj-bX-Xeh" id="HZ9-dd-7XM"/>
+                        <outlet property="lbText" destination="qKI-UR-443" id="g9T-KC-wFt"/>
+                        <outlet property="playerSelector" destination="o7I-x5-9yq" id="MMo-zl-Ton"/>
+                        <outlet property="progressLabel" destination="vbo-sS-CDZ" id="Urb-un-DhD"/>
+                        <outlet property="sequencerSelectorButton" destination="flB-OF-ZXE" id="lam-Nq-3kh"/>
+                        <outlet property="ubStepper" destination="H4o-Kq-Fql" id="GLm-g7-MHR"/>
+                        <outlet property="ubText" destination="E5Z-e2-lrs" id="KwH-Be-cQJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hrt-wi-jPe" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2058,14 +2071,13 @@
         <!--Model Selector View Controller-->
         <scene sceneID="gB4-eu-exo">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="J32-6H-LNw" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController title="Models" id="bVF-Kc-23a" userLabel="Model Selector View Controller" customClass="ModelSelectionViewController" customModule="SKT_Visualizer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="D7q-bZ-zv1" userLabel="Model Selector View">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Qsd-gs-hVo">
-                                <rect key="frame" x="16" y="102" width="288" height="664"/>
+                                <rect key="frame" x="16" y="102" width="288" height="494"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eMA-y0-9bt" userLabel="Separator">
                                         <rect key="frame" x="0.0" y="0.0" width="288" height="1"/>
@@ -2252,62 +2264,6 @@
                                             </view>
                                         </subviews>
                                     </stackView>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x2B-Z8-TZ4" userLabel="Vertical Spacer">
-                                        <rect key="frame" x="0.0" y="494" width="288" height="16"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="16" id="gmK-aJ-Sep"/>
-                                        </constraints>
-                                    </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HoR-Yi-1xC" userLabel="Separator">
-                                        <rect key="frame" x="0.0" y="510" width="288" height="1"/>
-                                        <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="1" id="pUa-Db-GHW"/>
-                                        </constraints>
-                                    </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CONTINUOUS MODEL / 2 COMPONENTS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uKK-B5-YaB" userLabel="C2 Section Title">
-                                        <rect key="frame" x="0.0" y="511" width="288" height="17"/>
-                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pz0-4E-OMO" userLabel="Vertical Spacer">
-                                        <rect key="frame" x="0.0" y="528" width="288" height="8"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="8" id="3vQ-hI-EOA"/>
-                                        </constraints>
-                                    </view>
-                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mYx-Ds-F27" userLabel="C2 Section View">
-                                        <rect key="frame" x="0.0" y="536" width="288" height="128"/>
-                                        <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ox2-k1-hx5" userLabel="Left spacer">
-                                                <rect key="frame" x="0.0" y="0.0" width="16" height="128"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <color key="tintColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="16" id="0Wa-DF-jgl"/>
-                                                </constraints>
-                                            </view>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Q5b-e2-lzS">
-                                                <rect key="frame" x="16" y="0.0" width="256" height="128"/>
-                                                <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hx5-IV-jxZ">
-                                                        <rect key="frame" x="0.0" y="0.0" width="256" height="128"/>
-                                                        <state key="normal" title="C/2 Equilibrium"/>
-                                                    </button>
-                                                </subviews>
-                                            </stackView>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P4Q-PZ-EbS" userLabel="Right spacer">
-                                                <rect key="frame" x="272" y="0.0" width="16" height="128"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="16" id="zSk-ev-mQn"/>
-                                                </constraints>
-                                            </view>
-                                        </subviews>
-                                    </stackView>
                                 </subviews>
                             </stackView>
                         </subviews>
@@ -2321,6 +2277,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Models" id="1AI-u4-KIa"/>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="J32-6H-LNw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1327.1484375" y="-2617.96875"/>
         </scene>
