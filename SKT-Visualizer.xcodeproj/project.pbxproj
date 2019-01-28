@@ -86,6 +86,7 @@
 		8AB2A63D21FE4F6B00A46316 /* SK2_PFModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2A63C21FE4F6B00A46316 /* SK2_PFModel.swift */; };
 		8AB2A64221FEA8BF00A46316 /* ColoredNodesOnShell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2A64121FEA8BF00A46316 /* ColoredNodesOnShell.swift */; };
 		8AB2A64521FEB24900A46316 /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2A64421FEB24900A46316 /* Geometry.swift */; };
+		8AB2A64721FEBF0800A46316 /* ColorSources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2A64621FEBF0800A46316 /* ColorSources.swift */; };
 		8ABEEC3B20803A2F008E72F4 /* Surface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ABEEC3A20803A2F008E72F4 /* Surface.swift */; };
 		8AC82CC421F5D00E00A75595 /* Graphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CC321F5D00E00A75595 /* Graphics.swift */; };
 		8AC82CC721F5D60400A75595 /* SK2SphereUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CC621F5D60400A75595 /* SK2SphereUtils.swift */; };
@@ -227,6 +228,7 @@
 		8AB2A63C21FE4F6B00A46316 /* SK2_PFModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_PFModel.swift; sourceTree = "<group>"; };
 		8AB2A64121FEA8BF00A46316 /* ColoredNodesOnShell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColoredNodesOnShell.swift; sourceTree = "<group>"; };
 		8AB2A64421FEB24900A46316 /* Geometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geometry.swift; sourceTree = "<group>"; };
+		8AB2A64621FEBF0800A46316 /* ColorSources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSources.swift; sourceTree = "<group>"; };
 		8ABEEC3A20803A2F008E72F4 /* Surface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Surface.swift; sourceTree = "<group>"; };
 		8AC82CC321F5D00E00A75595 /* Graphics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Graphics.swift; sourceTree = "<group>"; };
 		8AC82CC621F5D60400A75595 /* SK2SphereUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2SphereUtils.swift; sourceTree = "<group>"; };
@@ -460,7 +462,6 @@
 			children = (
 				8AF5320820887329009D1882 /* BasinColorSource.swift */,
 				8A35082D20A092A400E36C1F /* PopulationColorSource.swift */,
-				8A3C45C52086278900A1E9CD /* UniformColor.swift */,
 				8A3C45C32086214D00A1E9CD /* PhysicalPropertyColorSource.swift */,
 			);
 			path = ColorSources;
@@ -564,6 +565,7 @@
 		8AB2A64021FEA84300A46316 /* Effects */ = {
 			isa = PBXGroup;
 			children = (
+				8AB2A64621FEBF0800A46316 /* ColorSources.swift */,
 				8AB2A64121FEA8BF00A46316 /* ColoredNodesOnShell.swift */,
 			);
 			path = Effects;
@@ -588,6 +590,7 @@
 				8A575FED20804759002B9951 /* ColorMaps.swift */,
 				8AC82CC321F5D00E00A75595 /* Graphics.swift */,
 				8AC82CE021F8874200A75595 /* GraphicsController.swift */,
+				8A3C45C52086278900A1E9CD /* UniformColor.swift */,
 			);
 			path = Graphics;
 			sourceTree = "<group>";
@@ -880,6 +883,7 @@
 				8AE48BBB2087857C001B5D11 /* GLUtils.swift in Sources */,
 				8AC82CEA21F9DB5000A75595 /* SK2E.swift in Sources */,
 				8A2A32D720AB881600D4D619 /* WorkQueue.swift in Sources */,
+				8AB2A64721FEBF0800A46316 /* ColorSources.swift in Sources */,
 				8A41B09C21F357F600DE38CB /* FigureSelectionViewController.swift in Sources */,
 				8A1CF016207146510099DD97 /* AppDelegate.swift in Sources */,
 				8A2034E721ED2A6000A4C418 /* SK2_System.swift in Sources */,

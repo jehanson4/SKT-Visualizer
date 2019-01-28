@@ -33,7 +33,7 @@ protocol PartFactory {
     
     func makeSystem() -> System
     
-    func makeFigures(_ system: System) -> Registry<Figure>?
+    func makeFigures(_ system: System, _ graphicsController: GraphicsController) -> Registry<Figure>?
     
     func makeSequencers(_ system: System) -> Registry<Sequencer>?
 }

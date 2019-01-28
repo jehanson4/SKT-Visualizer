@@ -69,8 +69,10 @@ class ColoredNodesOnShell: Effect {
     private var N_monitor: ChangeMonitor?
     private var k_monitor: ChangeMonitor?
     
+    private var geometryIsStale: Bool = true
+
     func updateGeometry(_ sender: Any?) {
-        built = false
+        geometryIsStale = true
     }
     
     // ==========================
@@ -276,6 +278,20 @@ class ColoredNodesOnShell: Effect {
         }
     }
 
+    private func ensureColorsAreFresh() -> Bool {
+        var colorsRecomputed = false
+        let colorSourceChanged = colorSource.prepare()
+        if (colorSourceChanged || colorsAreStale) {
+            colorsAreStale = false
+            debug("recomputing colors", "colorSource: \(colorSource.name) colors.count=\(colors.count)")
+            for i in 0..<colors.count {
+                colors[i] = colorSource.colorAt(i)
+            }
+            colorsRecomputed = true
+        }
+        return colorsRecomputed
+    }
+    
     // ===================================================
     // Actual work
     
@@ -294,11 +310,75 @@ class ColoredNodesOnShell: Effect {
     }
     
 
+    var drawCounter: Int = 0
     func draw() {
-        // TODO
+        let mtd = "draw[\(drawCounter)]"
         
+        if (!enabled) {
+            return
+        }
+        
+        drawCounter += 1
+        
+        let err0 = glGetError()
+        if (err0 != 0) {
+            debug(mtd, String(format:"entering: glError 0x%x", err0))
+        }
+        
+        if (!built) {
+            built = build()
+        }
+
+        if (geometryIsStale) {
+            
+            // IMPORTANT
+            self.colorsAreStale = true
+            
+            deleteBuffers()
+            buildVertexAndColorData()
+            
+            // INEFFICIENT redundant copy colors to color buffer
+            createBuffers()
+            
+            debug(mtd, "done rebuilding")
+        }
+        
+        // DEBUG
+        let err1 = glGetError()
+        if (err1 != 0) {
+            debug(mtd, String(format:"glError 0x%x", err0))
+        }
+        
+        let needsColorBufferUpdate = ensureColorsAreFresh()
+        
+        glBindVertexArray(vertexArray)
+        
+        if (needsColorBufferUpdate) {
+            debug(mtd, "copying colors into GL color buffer")
+            let cbSize = MemoryLayout<GLKVector4>.stride
+            glBindBuffer(GLenum(GL_ARRAY_BUFFER), colorBuffer)
+            glBufferSubData(GLenum(GL_ARRAY_BUFFER), 0, cbSize * colors.count, colors)
+        }
+        
+        prepareToDraw()
+        
+        // DEBUG
+        let err2 = glGetError()
+        if (err2 != 0) {
+            debug(mtd, String(format:"glError 0x%x", err0))
+        }
+        
+        debug(mtd, "drawing points")
+        glDrawArrays(GLenum(GL_POINTS), 0, GLsizei(vertices.count))
+        
+        // DEBUG
+        let err3 = glGetError()
+        if (err3 != 0) {
+            debug(mtd, String(format:"glError 0x%x", err0))
+        }
+        
+        glBindVertexArray(0)
+        glBindBuffer(GLenum(GL_ARRAY_BUFFER), 0)
     }
-    
-    
 
 }

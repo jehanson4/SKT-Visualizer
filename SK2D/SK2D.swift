@@ -28,7 +28,7 @@ class SK2D : PartFactory {
         return SK2D_System(name, info)
     }
     
-    func makeFigures(_ system: SK2D_System) -> Registry<Figure>? {
+    func makeFigures(_ system: SK2D_System, _ graphicsController: GraphicsController) -> Registry<Figure>? {
         let reg = Registry<Figure>()
 
         let sampleFigure = ShellFigure("Sample Figure")

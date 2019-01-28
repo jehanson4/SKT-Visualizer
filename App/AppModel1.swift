@@ -39,7 +39,7 @@ class AppModel1 : AppModel {
     
     let systemSelector: Selector<PhysicalSystem>
     
-    private var systemChangeMonitor: ChangeMonitor?
+    private var systemChangeMonitor: ChangeMonitor? = nil
     
     private func systemChanged(_ sender: Any?) {
         AppModel1.debug("systemChanged")
@@ -123,15 +123,6 @@ class AppModel1 : AppModel {
         _figureSelectors = [String: Selector<Figure>]()
         _sequencerSelectors = [String: Selector<Sequencer>]()
         
-        let stdDefaults = UserDefaults.standard
-        let defaultsSaved = stdDefaults.bool(forKey: defaultsSaved_key)
-        let savedDefaults: UserDefaults? = (defaultsSaved) ? stdDefaults : nil
-
-        AppModel1.installPart(SK2E(savedDefaults),
-                           systemSelector, &systemGroupNames, &systemGroups, &_figureSelectors, &_sequencerSelectors);
-        AppModel1.installPart(SK2D(savedDefaults),
-                           systemSelector, &systemGroupNames, &systemGroups, &_figureSelectors, &_sequencerSelectors);
-        
         sequenceController = SequenceController()
         graphicsController = GraphicsControllerV1()
 
@@ -139,16 +130,66 @@ class AppModel1 : AppModel {
         skt = SKTModel1()
         viz = VisualizationModel1(skt)
         OLD_loadUserDefaults()
+        
+        let stdDefaults = UserDefaults.standard
+        let defaultsSaved = stdDefaults.bool(forKey: defaultsSaved_key)
+        let savedDefaults: UserDefaults? = (defaultsSaved) ? stdDefaults : nil
 
+        // Eww, ick: it's because I can't use 'self' until after I set systemChangeMonitor
+        // TODO: give it a default value, then make the method non-statis
+        //
+//        AppModel1.installPart(SK2E(savedDefaults),
+//                           systemSelector, graphicsController, &systemGroupNames, &systemGroups, &_figureSelectors, &_sequencerSelectors);
+//        AppModel1.installPart(SK2D(savedDefaults),
+//                           systemSelector, graphicsController, &systemGroupNames, &systemGroups, &_figureSelectors, &_sequencerSelectors);
+        installPart(SK2E(savedDefaults));
+        installPart(SK2D(savedDefaults));
+        
         // Do this last
         systemChanged(self)
         self.systemChangeMonitor = self.systemSelector.monitorChanges(systemChanged)
 
     }
 
+    private func installPart<T: PartFactory>(_ factory: T) {
+        let key = T.key
+        if (systemSelector.registry.keyInUse(key)) {
+            AppModel1.debug("installPart", "part already installed: key=\(key)")
+            return
+        }
+        
+        do {
+            let group = factory.group
+            var systemsInGroup = systemGroups[group]
+            if (systemsInGroup == nil) {
+                systemGroupNames.append(group)
+                systemGroups[group] = [key]
+            }
+            else {
+                systemsInGroup!.append(key)
+            }
+            
+            let system = factory.makeSystem()
+            _ = try systemSelector.registry.register(system, nameHint: system.name, key: key)
+            
+            let figures = factory.makeFigures(system, graphicsController)
+            if (figures != nil) {
+                _figureSelectors[key] = Selector<Figure>(figures!)
+            }
+            
+            let sequencers = factory.makeSequencers(system)
+            if (sequencers != nil) {
+                _sequencerSelectors[key] = Selector<Sequencer>(sequencers!)
+            }
+        } catch {
+            AppModel1.info("installPart", "Unexpected error: \(error)")
+        }
+    }
+    
     private static func installPart<T: PartFactory>(
         _ factory: T,
         _ systemSelector: Selector<PhysicalSystem>,
+        _ graphicsController: GraphicsController,
         _ systemGroupNames: inout [String],
         _ systemGroups: inout [String: [String]],
         _ figureSelectors: inout [String: Selector<Figure>],
@@ -174,7 +215,7 @@ class AppModel1 : AppModel {
             let system = factory.makeSystem()
             _ = try systemSelector.registry.register(system, nameHint: system.name, key: key)
 
-            let figures = factory.makeFigures(system)
+            let figures = factory.makeFigures(system, graphicsController)
             if (figures != nil) {
                 figureSelectors[key] = Selector<Figure>(figures!)
             }

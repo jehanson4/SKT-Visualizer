@@ -15,6 +15,8 @@ import GLKit
 
 protocol GraphicsController {
     
+    var backgroundColor: GLKVector4 { get }
+        
     var graphics: Graphics? { get }
     
     var figure: Figure? { get set }
@@ -72,6 +74,11 @@ class GraphicsControllerV1: GraphicsController {
     // ========================================
     // Graphics
 
+    var backgroundColor: GLKVector4 {
+        let bg = GraphicsControllerV1.backgroundColorValue
+        return GLKVector4Make(bg, bg, bg, 1)
+    }
+    
     // EMPIRICAL so that true black is noticeable
     static let backgroundColorValue: GLfloat = 0.2
     

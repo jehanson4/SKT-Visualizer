@@ -26,6 +26,8 @@ class SK2_ShellGeometry {
     
     private let sk2: SK2_System
     
+    var radius: Double = 1
+    
     // =====================================
     // Transforms
     
@@ -109,7 +111,7 @@ class SK2_ShellGeometry {
         // acos(x) returns principal value, in [0, pi] but we're ok here
         thetaE = acos(cos_theta)
         
-        return (1, phi, thetaE)
+        return (radius, phi, thetaE)
         
     }
     
@@ -161,7 +163,7 @@ class SK2_ShellGeometry {
         // acos(x) returns principal value, in [0, pi], but that OK here
         thetaE = acos(cos_thetaE)
         
-        return (1, phi, thetaE)
+        return (radius, phi, thetaE)
     }
 
     // =====================================
