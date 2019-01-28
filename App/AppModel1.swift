@@ -135,13 +135,6 @@ class AppModel1 : AppModel {
         let defaultsSaved = stdDefaults.bool(forKey: defaultsSaved_key)
         let savedDefaults: UserDefaults? = (defaultsSaved) ? stdDefaults : nil
 
-        // Eww, ick: it's because I can't use 'self' until after I set systemChangeMonitor
-        // TODO: give it a default value, then make the method non-statis
-        //
-//        AppModel1.installPart(SK2E(savedDefaults),
-//                           systemSelector, graphicsController, &systemGroupNames, &systemGroups, &_figureSelectors, &_sequencerSelectors);
-//        AppModel1.installPart(SK2D(savedDefaults),
-//                           systemSelector, graphicsController, &systemGroupNames, &systemGroups, &_figureSelectors, &_sequencerSelectors);
         installPart(SK2E(savedDefaults));
         installPart(SK2D(savedDefaults));
         
