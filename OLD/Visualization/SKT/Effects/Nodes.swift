@@ -33,8 +33,6 @@ class Nodes : Effect {
         }
     }
     
-
-    
     // EMPIRICAL
     let pointSizeMax: GLfloat = 32
     let pointSizeScaleFactor: GLfloat = 350
@@ -111,6 +109,10 @@ class Nodes : Effect {
         glDeleteProgram(programHandle)
         glDeleteVertexArrays(1, &vertexArray)
         deleteBuffers()
+    }
+    
+    func releaseOptionalResources() {
+        // TODO
     }
     
     private func deleteBuffers() {

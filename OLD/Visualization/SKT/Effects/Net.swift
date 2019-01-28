@@ -77,6 +77,10 @@ class Net : GLKBaseEffect, Effect {
         }
     }
     
+    func releaseOptionalResources() {
+        // TODO
+    }
+    
     private func build() -> Bool {
         super.useConstantColor = 1
         super.constantColor = lineColor

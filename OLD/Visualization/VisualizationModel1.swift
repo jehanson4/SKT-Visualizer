@@ -63,7 +63,11 @@ class VisualizationModel1 : VisualizationModel, Figure {
         // TODO
     }
     
+    func releaseOptionalResources() {
+        // TODO
+    }
     
+
     var name = "VisualizationModel1"
     var info: String? = nil
     

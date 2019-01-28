@@ -52,6 +52,11 @@ class ColoredNodesOnShell: Effect {
         deleteBuffers()
     }
     
+    func releaseOptionalResources() {
+        // TODO
+    }
+    
+
     // ============================================
     // Basics
     

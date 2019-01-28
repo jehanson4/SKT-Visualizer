@@ -16,8 +16,15 @@ import OpenGL
 
 class Balls : Effect {
     
+    static let cls = "Balls"
     var debugEnabled = false
+    func debug(_ mtd: String, _ msg: String = "") {
+        if (debugEnabled) {
+            print(Balls.cls, mtd, msg)
+        }
+    }
     
+
     static let key = "Balls"
     var name = "Balls"
     var info: String? = nil
@@ -156,6 +163,10 @@ class Balls : Effect {
         
     }
     
+    func releaseOptionalResources() {
+        // TODO
+    }
+    
     var drawCounter: Int = 0
     func draw() {
         if (!enabled) {
@@ -176,12 +187,6 @@ class Balls : Effect {
         let err = glGetError()
         if (err != 0) {
             debug(String(format: "draw glError: 0x%x", err))
-        }
-    }
-    
-    func debug(_ mtd: String, _ msg: String = "") {
-        if (debugEnabled) {
-            print(name, mtd, msg)
         }
     }
     

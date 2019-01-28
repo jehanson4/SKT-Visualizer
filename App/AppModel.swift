@@ -42,7 +42,7 @@ protocol PartFactory {
 // AppModel
 // =========================================================
 
-protocol AppModel {
+protocol AppModel : ResourceAware {
     
     /// Groups of systems. Only 1 level of grouping is supported
     /// systemGroupNames is in group-creation order
@@ -67,8 +67,5 @@ protocol AppModel {
     var graphicsController: GraphicsController { get set }
     
     func saveUserDefaults()
-    
-    /// Dispose of resources that can be recreated
-    func clean()
     
 }

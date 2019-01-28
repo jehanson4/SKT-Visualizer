@@ -77,5 +77,5 @@ class DummySequencer: OLD_Sequencer {
         return nil
     }
     
-    
+
 }

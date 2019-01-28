@@ -78,6 +78,10 @@ class FlowLines : GLKBaseEffect, Effect {
         }
     }
     
+    func releaseOptionalResources() {
+        // TODO
+    }
+    
     func debug(_ mtd: String, _ msg: String = "") {
         if (debugEnabled) {
             print(name, mtd, msg)

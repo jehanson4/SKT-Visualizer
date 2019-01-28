@@ -90,7 +90,7 @@ class SK2_System: PhysicalSystem {
     
     var info: String?
 
-    func clean() {}
+    func releaseOptionalResources() {}
 
     // ===================================
     // Nodes

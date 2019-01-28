@@ -33,7 +33,9 @@ class SKTModel1: SKTModel {
     var info: String? = "SK Hamiltonian with 2 components"
     var embeddingDimension: Int = 2
     
-    func clean() {}
+    func releaseOptionalResources() {
+    }
+    
 
     // ================================
     // Initializer

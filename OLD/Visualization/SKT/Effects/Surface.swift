@@ -98,6 +98,10 @@ class Surface : GLKBaseEffect, Effect {
         }
     }
     
+    func releaseOptionalResources() {
+        // TODO
+    }
+    
     deinit {
         glDeleteVertexArrays(1, &vertexArray)
         deleteBuffers()

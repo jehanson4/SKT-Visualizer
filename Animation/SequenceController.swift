@@ -113,5 +113,4 @@ class SequenceController {
         return NSDate().timeIntervalSince1970
     }
     
-
 }

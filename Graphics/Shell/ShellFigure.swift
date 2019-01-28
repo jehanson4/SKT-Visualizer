@@ -48,7 +48,7 @@ class ShellFigure : Figure {
     }
 
     // ================================================
-    // Initializer
+    // Lifecycle
     
     init(_ name: String, _ info: String? = nil, _ radius: Double = 1.0) {
         self.name = name
@@ -56,6 +56,11 @@ class ShellFigure : Figure {
         self.r0 = radius
     }
 
+    func releaseOptionalResources() {
+        func eRelease(_ effect: Effect) { effect.releaseOptionalResources() }
+        effects!.visit(eRelease)
+    }
+    
     // ================================================
     // Basics
     

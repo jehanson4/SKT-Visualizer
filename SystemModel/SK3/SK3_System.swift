@@ -21,8 +21,9 @@ class SK3_System: DiscreteSystem {
     
     var info: String? = "SK Hamiltonian with 3 components"
     
-    func clean() {}
-    
+    func releaseOptionalResources() {
+    }    
+
     // ===========================================
     // Nodes
     

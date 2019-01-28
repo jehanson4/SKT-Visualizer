@@ -201,6 +201,10 @@ class Icosahedron : GLKBaseEffect, Effect {
         enabled = enabledDefault
     }
     
+    func releaseOptionalResources() {
+        // TODO
+    }
+    
     func draw() {
         if (!enabled) {
             return

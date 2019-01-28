@@ -95,8 +95,12 @@ class Axes : GLKBaseEffect, Effect {
     
     func reset() {
         enabled = enabledDefault
-        
     }
+    
+    func releaseOptionalResources() {
+        // TODO
+    }
+    
     func draw() {
         if (!enabled) {
             return

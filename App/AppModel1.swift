@@ -179,54 +179,17 @@ class AppModel1 : AppModel {
         }
     }
     
-    private static func installPart<T: PartFactory>(
-        _ factory: T,
-        _ systemSelector: Selector<PhysicalSystem>,
-        _ graphicsController: GraphicsController,
-        _ systemGroupNames: inout [String],
-        _ systemGroups: inout [String: [String]],
-        _ figureSelectors: inout [String: Selector<Figure>],
-        _ sequencerSelectors: inout [String: Selector<Sequencer>]) {
-        
-        let key = T.key
-        if (systemSelector.registry.keyInUse(key)) {
-            AppModel1.debug("installPart", "part already installed: key=\(key)")
-            return
-        }
-
-        do {
-            let group = factory.group
-            var systemsInGroup = systemGroups[group]
-            if (systemsInGroup == nil) {
-                systemGroupNames.append(group)
-                systemGroups[group] = [key]
-            }
-            else {
-                systemsInGroup!.append(key)
-            }
-            
-            let system = factory.makeSystem()
-            _ = try systemSelector.registry.register(system, nameHint: system.name, key: key)
-
-            let figures = factory.makeFigures(system, graphicsController)
-            if (figures != nil) {
-                figureSelectors[key] = Selector<Figure>(figures!)
-            }
-
-            let sequencers = factory.makeSequencers(system)
-            if (sequencers != nil) {
-                sequencerSelectors[key] = Selector<Sequencer>(sequencers!)
-            }
-        } catch {
-            info("installPart", "Unexpected error: \(error)")
-        }
-    }
-
     // ===========================
     // Lifecycle
     
-    func clean() {
-        // TODO call clean on the currently selected system
+    func releaseOptionalResources() {
+        func systemRelease(_ s: PhysicalSystem) { s.releaseOptionalResources() }
+        systemSelector.registry.visit(systemRelease)
+        
+        func figureRelease(_ f: Figure) { f.releaseOptionalResources() }
+        for fEntry in _figureSelectors {
+            fEntry.value.registry.visit(figureRelease)
+        }
     }
 
     // ===========================
@@ -236,9 +199,6 @@ class AppModel1 : AppModel {
     let defaultsSaved_key = "defaultsSaved"
     let sk2e_key = "sk2e"
     let sk2d_key = "sk2d"
-    
-    
-    
     
     let N_value_key = "N.value"
     let N_stepSize_key = "N.stepSize"

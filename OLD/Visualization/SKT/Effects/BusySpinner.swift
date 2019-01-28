@@ -166,6 +166,10 @@ class BusySpinner : Effect {
         glDeleteBuffers(1, &colorBuffer)
     }
     
+    func releaseOptionalResources() {
+        // TODO
+    }
+    
     func reset() {}
     
     func prepareToDraw() {

@@ -12,7 +12,7 @@ import Foundation
 // PhysicalSystem
 // ================================================================
 
-protocol PhysicalSystem: Named {
+protocol PhysicalSystem: Named, ResourceAware {
     
     /// Indicates that a state change is under way, i.e., the system's state
     /// variables and/or properties are being updated on another thread.
@@ -25,9 +25,6 @@ protocol PhysicalSystem: Named {
     // DEFER until needed
     // var properties: Registry<PhysicalProperty> { get }
     
-    /// Disposes of any resources that can be recreated.
-    func clean()
-
 }
 
 //// ================================================================

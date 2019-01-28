@@ -22,7 +22,7 @@ protocol Graphics {
 // Figure
 // ===========================================================================
 
-protocol Figure: Named {
+protocol Figure: Named, ResourceAware {
     
     // DEFER but I'm sure I'll want it eventually
     // MAYBE optional
@@ -46,13 +46,14 @@ protocol Figure: Named {
     
     func handlePan(_ sender: UIPanGestureRecognizer)
     func handlePinch(_ sender: UIPinchGestureRecognizer)
+    
 }
 
 // ==============================================================================
 // Effect
 // ==============================================================================
 
-protocol Effect: Named {
+protocol Effect: Named, ResourceAware {
     
     static var key: String { get } 
     

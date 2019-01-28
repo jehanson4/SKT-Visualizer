@@ -43,7 +43,7 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
             }
             else if (oldSelection!.key != SK2E.key) {
                 debug(mtd, "cleaning previous selection")
-                oldSelection!.value.clean()
+                oldSelection!.value.releaseOptionalResources()
                 appModel?.systemSelector.select(key: SK2E.key)
                 debug(mtd, "replaced system model. selection = \(String(describing: appModel!.systemSelector.selection?.name))")
             }

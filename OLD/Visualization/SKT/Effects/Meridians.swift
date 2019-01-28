@@ -88,6 +88,10 @@ class Meridians : GLKBaseEffect, Effect {
         super.useConstantColor = 1
     }
     
+    func releaseOptionalResources() {
+        // TODO
+    }
+    
     private func build() -> Bool {
         if (vertexArray == 0) {
             glGenVertexArrays(1, &vertexArray)

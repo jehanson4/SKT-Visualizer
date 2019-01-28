@@ -30,7 +30,7 @@ class SK1_System: DiscreteSystem {
     
     var busy: Bool = false
     
-    func clean() {}
+    func releaseOptionalResources() {}
     
     // ==================================
     // Parameter: N

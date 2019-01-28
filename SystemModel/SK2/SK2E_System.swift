@@ -42,9 +42,10 @@ class SK2E_System: SK2_System {
     // ======================================
     // Basics
 
-    override func clean() {
-        debug("clean")
+    override func releaseOptionalResources() {
+        debug("releaseOptionalResources")
         discardBasinModel()
+        super.releaseOptionalResources()
     }
     
     // ======================================

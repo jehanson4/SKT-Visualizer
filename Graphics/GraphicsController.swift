@@ -56,11 +56,9 @@ class GraphicsControllerV1: GraphicsController {
     var figure: Figure? {
         get { return _figure }
         set(newValue) {
-            debug("figure property setter", "entering. New figure = \(String(describing: newValue?.name))")
-            // MAYBE
-            // if (_figure != nil) {
-            // _figure!.clean()
-            // }
+            if (_figure != nil) {
+                _figure!.releaseOptionalResources()
+             }
             _figure = newValue
             if (_figure != nil) {
                 _figure!.markGraphicsStale()

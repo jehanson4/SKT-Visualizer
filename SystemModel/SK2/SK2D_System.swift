@@ -41,8 +41,9 @@ class SK2D_System: SK2_System {
     // ===============================================
     // Basics
     
-    override func clean() {
+    override func releaseOptionalResources() {
         discardFlowModel()
+        super.releaseOptionalResources()
     }
     
     // ===============================================
