@@ -19,10 +19,18 @@ protocol AppModelUser {
 }
 
 // =========================================================
+// UserDefaultsProvider
+// =========================================================
+
+protocol UserDefaultsContributor {
+    func contributeTo(_ userDefaults: UserDefaults, namespace: String)
+}
+
+// =========================================================
 // PartFactory
 // =========================================================
 
-protocol PartFactory {
+protocol PartFactory: UserDefaultsContributor {
     associatedtype System: PhysicalSystem
     
     static var key: String { get }
@@ -61,8 +69,7 @@ protocol AppModel : ResourceAware {
     /// lets you select a sequencer for the currently selected system
     var sequencerSelector: Selector<Sequencer>? { get }
     
-    /// controls the currently selected sequencer
-    var sequenceController: SequenceController { get }
+    var animationController: AnimationController { get }
     
     var graphicsController: GraphicsController { get set }
     

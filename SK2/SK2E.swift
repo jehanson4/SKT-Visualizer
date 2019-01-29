@@ -96,4 +96,13 @@ class SK2E : PartFactory {
         return reg
     }
 
+    // ================================================================
+    // User defaults
+    
+    func contributeTo(_ userDefaults: UserDefaults, namespace: String) {
+        // TODO
+    }
+    
+    
+
 }

@@ -60,6 +60,7 @@ class GraphicsControllerV1: GraphicsController {
             // DEFER until we need it.
             _figure = newValue
             if (_figure != nil) {
+                debug("installing figure \(_figure!.name)")
                 _figure!.prepareToShow()
             }
         }

@@ -138,7 +138,7 @@ class GraphicsViewController: GLKViewController, AppModelUser, Graphics {
         // stay in sync.
         // =======================================================
         
-        appModel?.sequenceController.update()
+        appModel?.animationController.update()
         appModel?.graphicsController.draw(view.drawableWidth, view.drawableHeight)
     }
 
@@ -175,7 +175,7 @@ class GraphicsViewController: GLKViewController, AppModelUser, Graphics {
         // OLD
         // appModel!.viz.toggleSequencer()
         // NEW
-        appModel?.sequenceController.toggleSequencer()
+        appModel?.animationController.toggleSequencer()
     }
     
     @IBAction func handlePinch(_ sender: UIPinchGestureRecognizer) {

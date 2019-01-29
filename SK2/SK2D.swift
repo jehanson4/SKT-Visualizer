@@ -46,4 +46,11 @@ class SK2D : PartFactory {
         return reg
     }
     
+    // ================================================================
+    // User defaults
+    
+    func contributeTo(_ userDefaults: UserDefaults, namespace: String) {
+        // TODO
+    }
+    
 }

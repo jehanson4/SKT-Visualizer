@@ -1,5 +1,5 @@
 //
-//  SequenceController.swift
+//  AnimationController.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 1/26/19.
@@ -9,15 +9,15 @@
 import Foundation
 
 // ===============================================================
-// SequenceController
+// AnimationController
 // ===============================================================
 
-class SequenceController {
+class AnimationController {
     
     // ========================================
     // Debugging
     
-    private let cls = "SequenceController"
+    private let cls = "AnimationController"
     
     let debugEnabled = true
     
@@ -30,7 +30,20 @@ class SequenceController {
     // ========================================
     // Sequencer
     
-    var sequencer: Sequencer? = nil
+    var sequencer: Sequencer? {
+        get { return _sequencer }
+        set(newValue) {
+            _sequencer = newValue
+            if (_sequencer == nil) {
+                debug("removed sequencer")
+            }
+            else {
+                debug("installed sequencer \(_sequencer!.name)")
+            }
+        }
+    }
+    
+    private var _sequencer: Sequencer? = nil
     
     // ========================================
     // Step rate
@@ -52,11 +65,11 @@ class SequenceController {
     /// Cycle: fwd, stopped, rev, stopped
     func toggleSequencer() {
         let mtd = "toggleSequencer"
-        if (sequencer == nil) {
+        if (_sequencer == nil) {
             debug(mtd, "sequencer is nil")
             return
         }
-        var seq = sequencer!
+        var seq = _sequencer!
         
         debug(mtd, "before: enabled=\(seq.enabled) direction=\(Direction.name(seq.direction))")
         if (seq.enabled) {
@@ -72,12 +85,12 @@ class SequenceController {
     func update() {
         let mtd = "update"
         
-        if (sequencer == nil) {
+        if (_sequencer == nil) {
             // debug(mtd, "Sequencer is nil")
             return
         }
         
-        var seq = sequencer!
+        var seq = _sequencer!
         if (!seq.enabled) {
             // debug(mtd, "Sequencer is not enabled")
             return

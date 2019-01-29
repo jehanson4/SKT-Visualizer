@@ -44,14 +44,19 @@ class AppModel1 : AppModel {
     
     private func systemChanged(_ sender: Any?) {
         AppModel1.debug("systemChanged")
+        
         let _prevSystemKey = _currSystemKey
         _currSystemKey = systemSelector.selection?.key
-        
-        updateFigureChangeMonitor()
-        updateSequencerChangeMonitor()
         if (_prevSystemKey != nil) {
             releaseOptionalResourcesForSystem(_prevSystemKey!)
         }
+        
+        graphicsController.figure = figureSelector?.selection?.value
+        updateFigureChangeMonitor()
+
+        animationController.sequencer = sequencerSelector?.selection?.value
+        updateSequencerChangeMonitor()
+
     }
     
     // ================================================
@@ -69,9 +74,7 @@ class AppModel1 : AppModel {
     
     private func updateFigureChangeMonitor() {
         AppModel1.debug("updateFigureChangeMonitor")
-        if (figureChangeMonitor != nil) {
-            figureChangeMonitor?.disconnect()
-        }
+        figureChangeMonitor?.disconnect()
         figureChanged(self)
         figureChangeMonitor = figureSelector?.monitorChanges(figureChanged)
     }
@@ -105,13 +108,13 @@ class AppModel1 : AppModel {
     
     private func sequencerChanged(_ sender: Any?) {
         AppModel1.debug("sequencerChanged")
-        sequenceController.sequencer = sequencerSelector?.selection?.value
+        animationController.sequencer = sequencerSelector?.selection?.value
     }
     
     // ================================================
     // Other controllers
     
-    var sequenceController: SequenceController
+    var animationController: AnimationController
     
     var graphicsController: GraphicsController
     
@@ -130,7 +133,7 @@ class AppModel1 : AppModel {
         _figureSelectors = [String: Selector<Figure>]()
         _sequencerSelectors = [String: Selector<Sequencer>]()
         
-        sequenceController = SequenceController()
+        animationController = AnimationController()
         graphicsController = GraphicsControllerV1()
 
         // OLD: delete
@@ -181,6 +184,9 @@ class AppModel1 : AppModel {
             if (sequencers != nil) {
                 _sequencerSelectors[key] = Selector<Sequencer>(sequencers!)
             }
+            
+            userDefaultsContributors[key] = factory
+            
         } catch {
             AppModel1.info("installPart", "Unexpected error: \(error)")
         }
@@ -206,13 +212,27 @@ class AppModel1 : AppModel {
         _figureSelectors[systemKey]?.registry.visit(figureRelease)
     }
     
-    // ===========================
+    // ================================================
     // User defaults
-    // ===========================
     
+    lazy var userDefaultsContributors = [String: UserDefaultsContributor]()
+    
+    func saveUserDefaults() {
+        print("saving user defaults")
+        let userDefaults = UserDefaults.standard
+        userDefaults.set(true, forKey: defaultsSaved_key)
+        
+        for entry in userDefaultsContributors {
+            entry.value.contributeTo(userDefaults, namespace: entry.key)
+        }
+        
+        OLD_saveUserDefaults(userDefaults)
+    }
+    
+
     let defaultsSaved_key = "defaultsSaved"
-    let sk2e_key = "sk2e"
-    let sk2d_key = "sk2d"
+    let sk2e_key = SK2E.key
+    let sk2d_key = SK2D.key
     
     let N_value_key = "N.value"
     let N_stepSize_key = "N.stepSize"
@@ -234,14 +254,6 @@ class AppModel1 : AppModel {
     
     let effect_prefix = "effect"
     let effect_enabled_suffix = "enabled"
-    
-    func saveUserDefaults() {
-        print("saving user defaults")
-        let defaults = UserDefaults.standard
-        defaults.set(true, forKey: defaultsSaved_key)
-
-        OLD_saveUserDefaults(defaults)
-    }
     
     func OLD_saveUserDefaults(_ defaults: UserDefaults) {
         

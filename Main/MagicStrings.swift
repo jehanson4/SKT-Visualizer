@@ -18,6 +18,7 @@ struct MagicStrings {
     static let sequencerRegistryEntryCell = "sequencerRegistryEntryCell"
     
     static let FigureSelectorCell = "FigureSelectorCell"
-    
+    static let SequencerSelectorCell = "SequencerSelectorCell"
+
     static let SK2E_ShowFigureSelector = "SK2E_ShowFigureSelector"
 }
