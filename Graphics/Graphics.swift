@@ -22,7 +22,7 @@ protocol Graphics {
 // Figure
 // ===========================================================================
 
-protocol Figure: Named, ResourceAware {
+protocol Figure: Named, UserDefaultsContributor, ResourceAware {
     
     // DEFER but I'm sure I'll want it eventually
     // MAYBE optional

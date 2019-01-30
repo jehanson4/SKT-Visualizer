@@ -54,6 +54,9 @@ class UISelectorViewController : UIViewController, AppModelUser {
         let mtdName = "prepare for segue"
         debug(mtdName, "destination: \(segue.destination.title ?? "(no title)")")
         
+        appModel?.figureSelector?.clearSelection()
+        appModel?.sequencerSelector?.clearSelection()
+        
         if (segue.destination is AppModelUser) {
             var d2 = segue.destination as! AppModelUser
             if (self.appModel == nil) {

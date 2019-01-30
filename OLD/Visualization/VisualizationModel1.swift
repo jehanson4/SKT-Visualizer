@@ -15,6 +15,15 @@ import GLKit
 
 class VisualizationModel1 : VisualizationModel, Figure {
     
+    func contributeTo(userDefaults: UserDefaults, namespace: String) {
+        // TODO . . . or not
+    }
+    
+    func apply(userDefaults: UserDefaults, namespace: String) {
+        // TODO . . . or not
+    }
+    
+    
     // EMPIRICAL
     let pan_phiFactor: Double = 0.005
     let pan_ThetaEFactor: Double = -0.005
@@ -71,7 +80,7 @@ class VisualizationModel1 : VisualizationModel, Figure {
     var name = "VisualizationModel1"
     var info: String? = nil
     
-    var debugEnabled = true
+    var debugEnabled = false
     
     private var skt: SKTModel
     
@@ -597,10 +606,10 @@ class VisualizationModel1 : VisualizationModel, Figure {
             self.updateGraphics(aspectRatio: ar2)
         }
         else {
-            debug("draw", "graphics not stale, aspectRatio unchanged: " + String(ar2))
+            // debug("draw", "graphics not stale, aspectRatio unchanged: " + String(ar2))
         }
         
-        debug("draw", "we have \(effects!.entryKeys.count) effects to draw")
+        // debug("draw", "we have \(effects!.entryKeys.count) effects to draw")
         func drawEffect(_ effect: Effect) {
             effect.draw()
         }

@@ -136,17 +136,28 @@ class AppModel1 : AppModel {
         animationController = AnimationController()
         graphicsController = GraphicsControllerV1()
 
-        // OLD: delete
+        // OLD: delete when no longer needed
         skt = SKTModel1()
         viz = VisualizationModel1(skt)
         OLD_loadUserDefaults()
         
         let stdDefaults = UserDefaults.standard
-        let defaultsSaved = stdDefaults.bool(forKey: defaultsSaved_key)
+        let defaultsSaved = stdDefaults.bool(forKey: ud_defaultsSaved)
         let savedDefaults: UserDefaults? = (defaultsSaved) ? stdDefaults : nil
 
         installPart(SK2E(), savedDefaults);
         installPart(SK2D(), savedDefaults);
+        
+        // Do this after all the parts are installed.
+        if (savedDefaults != nil) {
+            // Should look like:
+            // system.selection = sk2e
+            let ssKey = extendNamespace(ud_systems, ud_selection)
+            let ssValue = savedDefaults!.string(forKey: ssKey)
+            if (ssValue != nil) {
+                systemSelector.select(key: ssValue!)
+            }
+        }
         
         // Do this last
         systemChanged(self)
@@ -154,56 +165,6 @@ class AppModel1 : AppModel {
 
     }
 
-    private func installPart<T: PartFactory>(_ factory: T, _ userDefaults: UserDefaults?) {
-        let key = T.key
-        if (systemSelector.registry.keyInUse(key)) {
-            AppModel1.debug("installPart", "part already installed: key=\(key)")
-            return
-        }
-        
-        do {
-            let system = factory.makeSystem()
-            if (userDefaults != nil) {
-                system.apply(userDefaults: userDefaults!, namespace: key)
-            }
-            
-            _ = try systemSelector.registry.register(system, nameHint: system.name, key: key)
-            
-            let figures = factory.makeFigures(system, graphicsController)
-            if (figures != nil) {
-                _figureSelectors[key] = Selector<Figure>(figures!)
-                
-                // TODO user defaults
-
-            }
-            
-            let sequencers = factory.makeSequencers(system)
-            if (sequencers != nil) {
-                _sequencerSelectors[key] = Selector<Sequencer>(sequencers!)
-                
-                // TODO user defaults
-                
-            }
-            
-            let group = (system.group == nil) ? "" : system.group!
-            var systemsInGroup = systemGroups[group]
-            if (systemsInGroup == nil) {
-                systemGroupNames.append(group)
-                systemGroups[group] = [key]
-            }
-            else {
-                systemsInGroup!.append(key)
-            }
-            
-            // TODO
-            // MAYBE?
-            // userDefaultsContributors[key] = factory
-            
-        } catch {
-            AppModel1.info("installPart", "Unexpected error: \(error)")
-        }
-    }
-    
     // ===========================
     // Lifecycle
     
@@ -227,33 +188,74 @@ class AppModel1 : AppModel {
     // ================================================
     // User defaults
     
+    let ud_defaultsSaved = "defaultsSaved"
+    
+    let ud_systems = "systems"
+    let ud_figures = "figures"
+    let ud_sequencers = "sequencers"
+    let ud_selection = "selection"
+    
     func saveUserDefaults() {
         print("saving user defaults")
         let userDefaults = UserDefaults.standard
-        userDefaults.set(true, forKey: defaultsSaved_key)
+        userDefaults.set(true, forKey: ud_defaultsSaved)
         
-        // MAYBE save for each system in the registry
+        // FOR NOW only do the currently selected system
         
+        var systemKey: String? = nil
         if (systemSelector.selection != nil) {
-            let kk = extendNamespace(namespace: "system", ext: "key")
-            userDefaults.set(systemSelector.selection!.key, forKey: kk)
             
-            let ns = extendNamespace(namespace: "system", ext: "params")
-            systemSelector.selection!.value.contributeTo(userDefaults: userDefaults, namespace: ns)
+            // Should look like:
+            // systems.selection = sk2e
+            // systems.sk2e.N = 100
+            
+            systemKey = systemSelector.selection!.key
+            let skKey = extendNamespace(ud_systems, ud_selection)
+            let ssNS = extendNamespace(ud_systems, systemKey!)
+            userDefaults.set(systemKey, forKey: skKey)
+            systemSelector.selection!.value.contributeTo(userDefaults: userDefaults, namespace: ssNS)
         }
         
-        // TODO save figure selection
-        // TODO save sequencer selection
-        
+        // FOR NOW only do the currently selected figure
+
+        let fSelection = figureSelector?.selection
+        if (fSelection != nil && systemKey != nil) {
+            
+            // Should look like this:
+            // figures.sk2e.selection = "energyOnSphere"
+            // figures.sk2e.energyOnSphere.autoCalibrate = true
+
+            let ns1 = extendNamespace(ud_figures, systemKey!)
+            let fsKey = extendNamespace(ns1, ud_selection)
+            let fsValue = fSelection!.key
+            userDefaults.set(fsValue, forKey: fsKey)
+            
+            let ns2 = extendNamespace(ns1, fsValue)
+            fSelection!.value.apply(userDefaults: userDefaults, namespace: ns2)
+        }
+
+        // FOR NOW only do the currently selected sequencer
+
+        let qSelection = sequencerSelector?.selection
+        if (qSelection != nil && systemKey != nil) {
+            
+            // Should look like this:
+            // sequencers.sk2e.selection = "N_fixedKOverN"
+            // sequencers.sk2e.N_fixedKOverN.ratio = 0.4
+
+            let ns1 = extendNamespace(ud_sequencers, systemKey!)
+            let qsKey = extendNamespace(ns1, ud_selection)
+            let qsValue = qSelection!.key
+            userDefaults.set(qsValue, forKey: qsKey)
+            
+            let ns2 = extendNamespace(ns1, qsValue)
+            qSelection!.value.apply(userDefaults: userDefaults, namespace: ns2)
+        }
         
         OLD_saveUserDefaults(userDefaults)
     }
     
 
-    let defaultsSaved_key = "defaultsSaved"
-    let sk2e_key = SK2E.key
-    let sk2d_key = SK2D.key
-    
     let N_value_key = "N.value"
     let N_stepSize_key = "N.stepSize"
     let k0_value_key = "k0.value"
@@ -308,9 +310,9 @@ class AppModel1 : AppModel {
     }
 
     func OLD_loadUserDefaults() {
-        AppModel1.debug("loadUserDefaults", "entering")
+        AppModel1.debug("OLD_loadUserDefaults", "entering")
         let defaults = UserDefaults.standard
-        if (!defaults.bool(forKey: defaultsSaved_key)) {
+        if (!defaults.bool(forKey: ud_defaultsSaved)) {
             AppModel1.debug("loadUserDefaults", "returning early because defaults weren't saved")
             return
         }
@@ -408,6 +410,97 @@ class AppModel1 : AppModel {
         }
     }
     
+    // ==============================================================
+    // Installing parts
+    
+    private func installPart<T: PartFactory>(_ factory: T, _ userDefaults: UserDefaults?) {
+        let systemKey = T.key
+        if (systemSelector.registry.keyInUse(systemKey)) {
+            AppModel1.debug("installPart", "part already installed: key=\(systemKey)")
+            return
+        }
+        
+        do {
+            let system = factory.makeSystem()
+            if (userDefaults != nil) {
+                // Should look like:
+                // systems.sk2e.N = 100
+                // systems.sk2e.k = 50
+                let ns: String = extendNamespace(ud_systems, systemKey)
+                system.apply(userDefaults: userDefaults!, namespace: ns)
+            }
+            
+            _ = try systemSelector.registry.register(system, nameHint: system.name, key: systemKey)
+            
+            let figures = factory.makeFigures(system, graphicsController)
+            if (figures != nil) {
+                let figureSelector = Selector<Figure>(figures!)
+                _figureSelectors[systemKey] = figureSelector
+                
+                if (userDefaults != nil) {
+                    // Should look like:
+                    // figures.sk2e.selection  = energyOnSphere
+                    // figures.sk2e.energyOnSphere.autoCalibrate = true
+                    
+                    let ns1 = extendNamespace(ud_figures, systemKey)
+                    let fsKey = extendNamespace(ns1, ud_selection)
+                    let fsValue = userDefaults!.string(forKey: fsKey)
+                    if (fsValue != nil) {
+                        figureSelector.select(key: fsValue!)
+                    }
+                    // FUTURE PROOFING: do all the figures, not just the selected on
+                    for fKey in figures!.entryKeys {
+                        let fEntry = figures!.entry(key: fKey)
+                        if (fEntry != nil) {
+                            let ns2 = extendNamespace(ns1, fKey)
+                            fEntry!.value.apply(userDefaults: userDefaults!, namespace: ns2)
+                        }
+                    }
+                }
+            }
+            
+            let sequencers = factory.makeSequencers(system)
+            if (sequencers != nil) {
+                let sequencerSelector = Selector<Sequencer>(sequencers!)
+                _sequencerSelectors[systemKey] = sequencerSelector
+                
+                if (userDefaults != nil) {
+                    // Should look like:
+                    // sequencers.sk2e.selection = N_fixedKOverN
+                    // sequencers.sk2e.N_fixedKOverN.ratio = 0.4
+                    let ns1 = extendNamespace(ud_sequencers, systemKey)
+                    let qsKey = extendNamespace(ns1, ud_selection)
+                    let qsValue = userDefaults!.string(forKey: qsKey)
+                    if (qsValue != nil) {
+                        sequencerSelector.select(key: qsValue!)
+                    }
+                    // FUTURE PROOFING: do all the sequencers, not just the selected on
+                    for qKey in sequencers!.entryKeys {
+                        let qEntry = sequencers!.entry(key: qKey)
+                        if (qEntry != nil) {
+                            let ns2 = extendNamespace(ns1, qKey)
+                            qEntry!.value.apply(userDefaults: userDefaults!, namespace: ns2)
+                        }
+                    }
+                }
+            }
+            
+            let group = (system.group == nil) ? "" : system.group!
+            var systemsInGroup = systemGroups[group]
+            if (systemsInGroup == nil) {
+                systemGroupNames.append(group)
+                systemGroups[group] = [systemKey]
+            }
+            else {
+                systemsInGroup!.append(systemKey)
+            }
+            
+        } catch {
+            AppModel1.info("installPart", "Unexpected error. key=\(systemKey) error: \(error)")
+        }
+        
+    }
+        
     private func makeEffectEnabledKey(_ effectKey: String) -> String {
         return effect_prefix + "." + effectKey + "." + effect_enabled_suffix
     }

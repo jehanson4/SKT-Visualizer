@@ -151,7 +151,7 @@ protocol Named {
 }
 
 /// appends ext to namespace
-func extendNamespace(namespace: String, ext: String) -> String {
+func extendNamespace(_ namespace: String, _ ext: String) -> String {
         return namespace + "." + ext
 }
 

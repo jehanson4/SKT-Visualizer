@@ -13,6 +13,7 @@ import UIKit
 // DelegatedFigure
 // =============================================================
 
+// TODO rename. This is not 'delegated' is 'delegating'
 class DelegatedFigure: Figure {
     
     init(_ name: String, _ info: String? = nil, delegate: Figure) {
@@ -63,5 +64,23 @@ class DelegatedFigure: Figure {
         delegate.releaseOptionalResources()
     }
     
+    // ==================================================
+    // User defaults
     
+    func contributeTo(userDefaults: UserDefaults, namespace: String) {
+        
+        // TODO get the namespace right. I'll be setting delegate's properties
+        // over and over if it shared among multiple instances of this class.
+        
+        delegate.contributeTo(userDefaults: userDefaults, namespace: namespace)
+    }
+    
+    func apply(userDefaults: UserDefaults, namespace: String) {
+        
+        // TODO get the namespace right. I'll be setting delegate's properties
+        // over and over if it shared among multiple instances of this class.
+        
+        delegate.apply(userDefaults: userDefaults, namespace: namespace)
+    }
+
 }

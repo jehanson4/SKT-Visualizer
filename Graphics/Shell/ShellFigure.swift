@@ -35,6 +35,7 @@ struct ShellPOV {
 // ==============================================================
 
 class ShellFigure : Figure {
+    
 
     // =================================================
     // Debugging
@@ -290,4 +291,14 @@ class ShellFigure : Figure {
         effects!.visit(drawEffect)
     }
 
+    // ==================================================
+    // User defaults
+    func contributeTo(userDefaults: UserDefaults, namespace: String) {
+        // TODO
+    }
+    
+    func apply(userDefaults: UserDefaults, namespace: String) {
+        // TODO
+    }
+    
 }
