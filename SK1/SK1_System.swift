@@ -22,6 +22,8 @@ class SK1_System: DiscreteSystem {
     
     var name = SK1_System.type
     
+    var group: String? = "SK/1"
+    
     var info: String? = "SK Hamiltonian with 1 component"
     
     var nodeCount: Int {
@@ -137,5 +139,22 @@ class SK1_System: DiscreteSystem {
         a.resetValue()
         T.resetValue()
     }
+    
+    // ======================================================
+    // User defaults
+    
+    func contributeTo(userDefaults: UserDefaults, namespace: String) {
+        
+        // TODO
+        
+    }
+    
+    func apply(userDefaults: UserDefaults, namespace: String) {
+        
+        // TODO
+        
+    }
+    
+    
     
 }

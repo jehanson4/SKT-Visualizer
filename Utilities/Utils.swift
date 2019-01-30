@@ -142,12 +142,17 @@ func piFraction(_ x: Double) -> String {
 }
 
 // =======================================================================
-// Named
+// Names
 // =======================================================================
 
 protocol Named {
     var name: String { get set }
     var info: String? { get set }
+}
+
+/// appends ext to namespace
+func extendNamespace(namespace: String, ext: String) -> String {
+        return namespace + "." + ext
 }
 
 // =======================================================================

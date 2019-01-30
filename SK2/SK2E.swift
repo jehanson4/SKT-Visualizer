@@ -20,12 +20,6 @@ class SK2E : PartFactory {
     
     var info = "Equilibrium properties of the 2-component SK model"
     
-    var userDefaults: UserDefaults?
-    
-    init(_ userDefaults: UserDefaults?) {
-        self.userDefaults = userDefaults
-    }
-    
     func makeSystem() -> SK2E_System {
         return SK2E_System(name, info)
     }
@@ -95,14 +89,5 @@ class SK2E : PartFactory {
         
         return reg
     }
-
-    // ================================================================
-    // User defaults
-    
-    func contributeTo(_ userDefaults: UserDefaults, namespace: String) {
-        // TODO
-    }
-    
-    
 
 }

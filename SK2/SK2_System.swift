@@ -88,7 +88,8 @@ class SK2_System: PhysicalSystem {
     
     var name: String
     
-    var info: String?
+    var group: String? = "SK/2"
+    var info: String? = nil
 
     func releaseOptionalResources() {}
 
@@ -372,5 +373,22 @@ class SK2_System: PhysicalSystem {
         a2.resetValue()
         T.resetValue()
     }
+
+    // ======================================================
+    // User defaults
     
+    func contributeTo(userDefaults: UserDefaults, namespace: String) {
+        
+        // TODO
+        
+    }
+    
+    func apply(userDefaults: UserDefaults, namespace: String) {
+        
+        // TODO
+        
+    }
+    
+    
+
 }

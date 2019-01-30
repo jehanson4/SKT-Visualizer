@@ -13,6 +13,14 @@ import Foundation
 // =============================================================================
 
 class GenericSequencer<T> : OLD_Sequencer {
+    func contributeTo(userDefaults: UserDefaults, namespace: String) {
+        // TODO
+    }
+    
+    func apply(userDefaults: UserDefaults, namespace: String) {
+        // TODO
+    }
+    
     
     var name: String
     var info: String? = nil

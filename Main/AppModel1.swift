@@ -145,8 +145,8 @@ class AppModel1 : AppModel {
         let defaultsSaved = stdDefaults.bool(forKey: defaultsSaved_key)
         let savedDefaults: UserDefaults? = (defaultsSaved) ? stdDefaults : nil
 
-        installPart(SK2E(savedDefaults));
-        installPart(SK2D(savedDefaults));
+        installPart(SK2E(), savedDefaults);
+        installPart(SK2D(), savedDefaults);
         
         // Do this last
         systemChanged(self)
@@ -154,7 +154,7 @@ class AppModel1 : AppModel {
 
     }
 
-    private func installPart<T: PartFactory>(_ factory: T) {
+    private func installPart<T: PartFactory>(_ factory: T, _ userDefaults: UserDefaults?) {
         let key = T.key
         if (systemSelector.registry.keyInUse(key)) {
             AppModel1.debug("installPart", "part already installed: key=\(key)")
@@ -162,7 +162,30 @@ class AppModel1 : AppModel {
         }
         
         do {
-            let group = factory.group
+            let system = factory.makeSystem()
+            if (userDefaults != nil) {
+                system.apply(userDefaults: userDefaults!, namespace: key)
+            }
+            
+            _ = try systemSelector.registry.register(system, nameHint: system.name, key: key)
+            
+            let figures = factory.makeFigures(system, graphicsController)
+            if (figures != nil) {
+                _figureSelectors[key] = Selector<Figure>(figures!)
+                
+                // TODO user defaults
+
+            }
+            
+            let sequencers = factory.makeSequencers(system)
+            if (sequencers != nil) {
+                _sequencerSelectors[key] = Selector<Sequencer>(sequencers!)
+                
+                // TODO user defaults
+                
+            }
+            
+            let group = (system.group == nil) ? "" : system.group!
             var systemsInGroup = systemGroups[group]
             if (systemsInGroup == nil) {
                 systemGroupNames.append(group)
@@ -172,20 +195,9 @@ class AppModel1 : AppModel {
                 systemsInGroup!.append(key)
             }
             
-            let system = factory.makeSystem()
-            _ = try systemSelector.registry.register(system, nameHint: system.name, key: key)
-            
-            let figures = factory.makeFigures(system, graphicsController)
-            if (figures != nil) {
-                _figureSelectors[key] = Selector<Figure>(figures!)
-            }
-            
-            let sequencers = factory.makeSequencers(system)
-            if (sequencers != nil) {
-                _sequencerSelectors[key] = Selector<Sequencer>(sequencers!)
-            }
-            
-            userDefaultsContributors[key] = factory
+            // TODO
+            // MAYBE?
+            // userDefaultsContributors[key] = factory
             
         } catch {
             AppModel1.info("installPart", "Unexpected error: \(error)")
@@ -215,16 +227,24 @@ class AppModel1 : AppModel {
     // ================================================
     // User defaults
     
-    lazy var userDefaultsContributors = [String: UserDefaultsContributor]()
-    
     func saveUserDefaults() {
         print("saving user defaults")
         let userDefaults = UserDefaults.standard
         userDefaults.set(true, forKey: defaultsSaved_key)
         
-        for entry in userDefaultsContributors {
-            entry.value.contributeTo(userDefaults, namespace: entry.key)
+        // MAYBE save for each system in the registry
+        
+        if (systemSelector.selection != nil) {
+            let kk = extendNamespace(namespace: "system", ext: "key")
+            userDefaults.set(systemSelector.selection!.key, forKey: kk)
+            
+            let ns = extendNamespace(namespace: "system", ext: "params")
+            systemSelector.selection!.value.contributeTo(userDefaults: userDefaults, namespace: ns)
         }
+        
+        // TODO save figure selection
+        // TODO save sequencer selection
+        
         
         OLD_saveUserDefaults(userDefaults)
     }

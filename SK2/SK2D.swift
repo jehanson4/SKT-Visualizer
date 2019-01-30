@@ -18,12 +18,6 @@ class SK2D : PartFactory {
     
     var info = "Simulated population flow in the 2-component SK model"
     
-    var userDefaults: UserDefaults?
-    
-    init(_ userDefaults: UserDefaults?) {
-        self.userDefaults = userDefaults
-    }
-    
     func makeSystem() -> SK2D_System {
         return SK2D_System(name, info)
     }
@@ -44,13 +38,6 @@ class SK2D : PartFactory {
         // TODO
         
         return reg
-    }
-    
-    // ================================================================
-    // User defaults
-    
-    func contributeTo(_ userDefaults: UserDefaults, namespace: String) {
-        // TODO
     }
     
 }

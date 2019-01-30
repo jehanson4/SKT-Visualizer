@@ -19,6 +19,8 @@ class SK3_System: DiscreteSystem {
     
     var name = "SK/3"
     
+    var group: String? = "SK/3"
+    
     var info: String? = "SK Hamiltonian with 3 components"
     
     func releaseOptionalResources() {
@@ -217,5 +219,22 @@ class SK3_System: DiscreteSystem {
     func resetAllParameters() {
         // TODO
     }
+    
+    // ======================================================
+    // User defaults
+    
+    func contributeTo(userDefaults: UserDefaults, namespace: String) {
+        
+        // TODO
+        
+    }
+    
+    func apply(userDefaults: UserDefaults, namespace: String) {
+        
+        // TODO
+        
+    }
+    
+    
     
 }

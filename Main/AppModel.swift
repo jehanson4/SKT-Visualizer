@@ -23,22 +23,20 @@ protocol AppModelUser {
 // =========================================================
 
 protocol UserDefaultsContributor {
-    func contributeTo(_ userDefaults: UserDefaults, namespace: String)
+    func contributeTo(userDefaults: UserDefaults, namespace: String)
+    func apply(userDefaults: UserDefaults, namespace: String)
+    
 }
 
 // =========================================================
 // PartFactory
 // =========================================================
 
-protocol PartFactory: UserDefaultsContributor {
+protocol PartFactory {
     associatedtype System: PhysicalSystem
     
     static var key: String { get }
-    
-    var group: String { get }
-
-    var userDefaults: UserDefaults? { get set }
-    
+        
     func makeSystem() -> System
     
     func makeFigures(_ system: System, _ graphicsController: GraphicsController) -> Registry<Figure>?

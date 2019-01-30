@@ -12,7 +12,10 @@ import Foundation
 // PhysicalSystem
 // ================================================================
 
-protocol PhysicalSystem: Named, ResourceAware {
+protocol PhysicalSystem: Named, UserDefaultsContributor, ResourceAware {
+
+    /// Name of the "group" this system is a member of
+    var group: String? { get set }
     
     /// Indicates that a state change is under way, i.e., the system's state
     /// variables and/or properties are being updated on another thread.

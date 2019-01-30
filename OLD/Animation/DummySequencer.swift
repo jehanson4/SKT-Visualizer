@@ -77,5 +77,22 @@ class DummySequencer: OLD_Sequencer {
         return nil
     }
     
+    // ======================================================
+    // User defaults
+    
+    func contributeTo(userDefaults: UserDefaults, namespace: String) {
+        
+        // TODO
+        
+    }
+    
+    func apply(userDefaults: UserDefaults, namespace: String) {
+        
+        // TODO
+        
+    }
+    
+    
+    
 
 }

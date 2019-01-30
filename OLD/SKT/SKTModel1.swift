@@ -29,7 +29,8 @@ class SKTModel1: SKTModel {
     // ================================
     // Basics
 
-    var name: String = "SK/2"
+    var name: String = "SKT"
+    var group: String? = "SK/2"
     var info: String? = "SK Hamiltonian with 2 components"
     var embeddingDimension: Int = 2
     
@@ -199,6 +200,23 @@ class SKTModel1: SKTModel {
         registerPhysicalProperty(FreeEnergy(self))
         registerPhysicalProperty(LogOccupation(self))
     }
+    
+    // ======================================================
+    // User defaults
+    
+    func contributeTo(userDefaults: UserDefaults, namespace: String) {
+        
+        // TODO
+        
+    }
+    
+    func apply(userDefaults: UserDefaults, namespace: String) {
+        
+        // TODO
+        
+    }
+    
+    
     
     // ======================================
     // Other things

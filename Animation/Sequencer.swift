@@ -44,7 +44,7 @@ private let boundaryConditionNames = ["sticky", "elastic", "periodic"]
 // Sequencer
 // =============================================================================
 
-protocol Sequencer : Named, ChangeMonitorEnabled {
+protocol Sequencer : Named, ChangeMonitorEnabled, UserDefaultsContributor {
     
     var backingSystem: PhysicalSystem { get }
 
