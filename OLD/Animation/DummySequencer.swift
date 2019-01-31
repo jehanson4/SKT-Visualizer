@@ -80,7 +80,7 @@ class DummySequencer: OLD_Sequencer {
     // ======================================================
     // User defaults
     
-    func contributeTo(userDefaults: UserDefaults, namespace: String) {
+    func contributeTo(userDefaults: inout UserDefaults, namespace: String) {
         
         // TODO
         

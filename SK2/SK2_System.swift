@@ -377,16 +377,21 @@ class SK2_System: PhysicalSystem {
     // ======================================================
     // User defaults
     
-    func contributeTo(userDefaults: UserDefaults, namespace: String) {
-        
-        // TODO
-        
+    func apply(userDefaults: UserDefaults, namespace: String) {
+        func pApply(_ p: inout Parameter) {
+            let pNS = extendNamespace(namespace, p.name)
+            p.apply(userDefaults: userDefaults, namespace: pNS)
+        }
+        parameters.apply(pApply)
     }
     
-    func apply(userDefaults: UserDefaults, namespace: String) {
-        
-        // TODO
-        
+    func contributeTo(userDefaults: inout UserDefaults, namespace: String) {
+        var d2 = userDefaults
+        func pContribute(_ p: Parameter) {
+            let pNS = extendNamespace(namespace, p.name)
+            p.contributeTo(userDefaults: &d2, namespace: pNS)
+        }
+        parameters.visit(pContribute)
     }
     
     

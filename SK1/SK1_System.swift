@@ -143,7 +143,7 @@ class SK1_System: DiscreteSystem {
     // ======================================================
     // User defaults
     
-    func contributeTo(userDefaults: UserDefaults, namespace: String) {
+    func contributeTo(userDefaults: inout UserDefaults, namespace: String) {
         
         // TODO
         

@@ -15,7 +15,7 @@ import GLKit
 
 class VisualizationModel1 : VisualizationModel, Figure {
     
-    func contributeTo(userDefaults: UserDefaults, namespace: String) {
+    func contributeTo(userDefaults: inout UserDefaults, namespace: String) {
         // TODO . . . or not
     }
     

@@ -12,7 +12,7 @@ import Foundation
 // Parameter
 // =======================================================
 
-protocol Parameter: Named, ChangeMonitorEnabled {
+protocol Parameter: Named, UserDefaultsContributor, ChangeMonitorEnabled {
     
     var minAsString: String { get }
     var minAsDouble: Double { get }
@@ -270,6 +270,25 @@ class DiscreteParameter: Parameter {
         changeSupport?.fire()
     }
     
+    // ==========================================
+    // UserDefaults
+    
+    func apply(userDefaults: UserDefaults, namespace: String) {
+        let v = userDefaults.integer(forKey: extendNamespace(namespace, "value"))
+        if (v >= min && v <= max) {
+            value = v
+        }
+        let ss = userDefaults.integer(forKey: extendNamespace(namespace, "stepSize"))
+        if (ss > 0) {
+            stepSize = ss
+        }
+    }
+    
+    func contributeTo(userDefaults: inout UserDefaults, namespace: String) {
+        userDefaults.set(value, forKey: extendNamespace(namespace, "value"))
+        userDefaults.set(stepSize, forKey: extendNamespace(namespace, "stepSize"))
+    }
+    
     // =========================================
     // Private
     
@@ -493,6 +512,25 @@ class ContinuousParameter: Parameter {
     
     func fireChange() {
         changeSupport?.fire()
+    }
+    
+    // ==========================================
+    // UserDefaults
+    
+    func apply(userDefaults: UserDefaults, namespace: String) {
+        let v = userDefaults.double(forKey: extendNamespace(namespace, "value"))
+        if (v >= min && v <= max) {
+            value = v
+        }
+        let ss = userDefaults.double(forKey: extendNamespace(namespace, "stepSize"))
+        if (ss > 0) {
+            stepSize = ss
+        }
+    }
+    
+    func contributeTo(userDefaults: inout UserDefaults, namespace: String) {
+        userDefaults.set(value, forKey: extendNamespace(namespace, "value"))
+        userDefaults.set(stepSize, forKey: extendNamespace(namespace, "stepSize"))
     }
     
     // =========================================

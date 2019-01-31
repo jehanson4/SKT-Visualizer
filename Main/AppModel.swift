@@ -23,9 +23,11 @@ protocol AppModelUser {
 // =========================================================
 
 protocol UserDefaultsContributor {
-    func contributeTo(userDefaults: UserDefaults, namespace: String)
+
     func apply(userDefaults: UserDefaults, namespace: String)
-    
+
+    func contributeTo(userDefaults: inout UserDefaults, namespace: String)
+
 }
 
 // =========================================================

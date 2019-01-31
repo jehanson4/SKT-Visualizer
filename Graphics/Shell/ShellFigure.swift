@@ -293,7 +293,7 @@ class ShellFigure : Figure {
 
     // ==================================================
     // User defaults
-    func contributeTo(userDefaults: UserDefaults, namespace: String) {
+    func contributeTo(userDefaults: inout UserDefaults, namespace: String) {
         // TODO
     }
     

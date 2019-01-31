@@ -67,12 +67,12 @@ class DelegatedFigure: Figure {
     // ==================================================
     // User defaults
     
-    func contributeTo(userDefaults: UserDefaults, namespace: String) {
+    func contributeTo(userDefaults: inout UserDefaults, namespace: String) {
         
         // TODO get the namespace right. I'll be setting delegate's properties
         // over and over if it shared among multiple instances of this class.
         
-        delegate.contributeTo(userDefaults: userDefaults, namespace: namespace)
+        delegate.contributeTo(userDefaults: &userDefaults, namespace: namespace)
     }
     
     func apply(userDefaults: UserDefaults, namespace: String) {

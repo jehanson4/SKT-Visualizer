@@ -197,7 +197,7 @@ class AppModel1 : AppModel {
     
     func saveUserDefaults() {
         print("saving user defaults")
-        let userDefaults = UserDefaults.standard
+        var userDefaults = UserDefaults.standard
         userDefaults.set(true, forKey: ud_defaultsSaved)
         
         // FOR NOW only do the currently selected system
@@ -213,7 +213,7 @@ class AppModel1 : AppModel {
             let skKey = extendNamespace(ud_systems, ud_selection)
             let ssNS = extendNamespace(ud_systems, systemKey!)
             userDefaults.set(systemKey, forKey: skKey)
-            systemSelector.selection!.value.contributeTo(userDefaults: userDefaults, namespace: ssNS)
+            systemSelector.selection!.value.contributeTo(userDefaults: &userDefaults, namespace: ssNS)
         }
         
         // FOR NOW only do the currently selected figure
