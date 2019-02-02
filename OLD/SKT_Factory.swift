@@ -22,14 +22,12 @@ struct SKT {
 class SKT_Factory: AppPartFactory, PreferenceSupport {
     
     var namespace: String
-    var skt: SKTModel1
-    var viz: VisualizationModel1
+    var skt: SKTModel1!
+    var viz: VisualizationModel1!
     
 
     init(_ namespace: String) {
         self.namespace = namespace
-        skt = SKTModel1()
-        viz = VisualizationModel1(skt)
     }
     
     func makePartsAndPrefs(_ graphicsController: GraphicsController) -> (parts: [AppPart], preferences: [(String, PreferenceSupport)]) {
@@ -38,6 +36,11 @@ class SKT_Factory: AppPartFactory, PreferenceSupport {
         var prefs: [(String, PreferenceSupport)] = []
 
         SKT.key = extendNamespace(namespace, "skt")
+
+        skt = SKTModel1()
+        viz = VisualizationModel1(skt)
+        loadPreferences(namespace: namespace)
+
         let part = AppPart(key: SKT.key, name: "SKT", system: skt)
         parts.append(part)
         
@@ -48,10 +51,6 @@ class SKT_Factory: AppPartFactory, PreferenceSupport {
     // =============================================
     // Preferences
 
-//    func getPreferencesUsers() -> [(String, PreferenceSupport)] {
-//        return [(namespace, self)]
-//    }
-    
     let N_value_key = "skt.N.value"
     let N_stepSize_key = "skt.N.stepSize"
     let k0_value_key = "skt.k0.value"

@@ -124,7 +124,9 @@ class SK2_Factory: AppPartFactory {
         var prefs: [(String, PreferenceSupport)] = []
 
         let system = SK2_System()
-        prefs.append( (extendNamespace(namespace, "system"), system) )
+        let systemNS = extendNamespace(namespace, "system")
+        system.loadPreferences(namespace: systemNS)
+        prefs.append( (systemNS, system) )
 
         // =========================
         // SK2E parts and prefs
@@ -165,32 +167,4 @@ class SK2_Factory: AppPartFactory {
         return (parts, prefs)
     }
     
-    
-
-//
-//    func createParts(_ graphicsController: GraphicsController) -> [AppPart] {
-//
-//        SK2E.key = extendNamespace(namespace, "sk2e")
-//        makeEquilibriumFigures(graphicsController)
-//        makeEquilibriumSequencers()
-//
-//        let sk2eName = system.name + " Equilibrium"
-//        var sk2ePart = AppPart(key: SK2E.key, name: sk2eName, system: system)
-//        sk2ePart.info = "Equilibrium properties of the 2-component SK model"
-//        sk2ePart.group = group
-//        sk2ePart.figures = sk2eFigures
-//
-//        sk2e.sequencers = makeEquilibriumSequencers(system, defaults)
-//
-//        SK2D.key = extendNamespace(namespace, "sk2e")
-//
-//        var sk2d = AppPart(key: SK2D.key, name: "SK/2 Dynamics", system: system)
-//        sk2e.info = "Simulated population flow in the 2-component SK model"
-//        sk2d.group = group
-//        sk2d.figures = makeTimeseriesFigures(system, defaults, graphicsController)
-//        sk2d.sequencers = makeTimeseriesSequencers(system, defaults)
-//
-//        return [sk2e, sk2d]
-//    }
-
 }

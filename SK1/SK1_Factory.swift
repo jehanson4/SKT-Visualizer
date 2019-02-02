@@ -9,18 +9,10 @@
 import Foundation
 
 // =============================================================
-// SK1E
+// SK1
 // =============================================================
 
-struct SK1E {
-    static var key = ""
-}
-
-// =============================================================
-// SK1D
-// =============================================================
-
-struct SK1D {
+struct SK1 {
     static var key = ""
 }
 
@@ -36,19 +28,25 @@ class SK1_Factory: AppPartFactory {
 
     init(_ namespace: String) {
         self.namespace = namespace
-        SK1E.key = extendNamespace(namespace, "sk1e")
     }
     
     func makePartsAndPrefs(_ graphicsController: GraphicsController) -> (parts: [AppPart], preferences: [(String, PreferenceSupport)]) {
         var parts: [AppPart] = []
         var prefs: [(String, PreferenceSupport)] = []
 
+        // system
+        
         let system =  SK1_System()
-        prefs.append( (extendNamespace(namespace, "system"), system) )
+        let systemNS = extendNamespace(namespace, "system")
+        system.loadPreferences(namespace: systemNS)
+        prefs.append( (systemNS, system) )
 
-        var sk1ePart = AppPart(key: SK1E.key, name: "SK/1 Equilibrium", system: system)
-        sk1ePart.group = group
-        parts.append(sk1ePart)
+        
+        SK1.key = extendNamespace(namespace, "sk1")
+
+        var sk1Part = AppPart(key: SK1.key, name: "SK/1", system: system)
+        sk1Part.group = group
+        parts.append(sk1Part)
 
         return (parts, prefs)
     }
