@@ -25,7 +25,7 @@ class SK2E_SecondaryViewController: UIViewController, AppModelUser {
     // Basics
 
     var appModel: AppModel? = nil
-    weak var sk2e: SK2_System!
+    weak var system: SK2_System!
     var figure: Figure? = nil
     
     override func viewDidLoad() {
@@ -39,13 +39,13 @@ class SK2E_SecondaryViewController: UIViewController, AppModelUser {
         else {
             debug(mtd, "app Model has been set")
             
-            debug(mtd, "selecting SK2E system model")
+            debug(mtd, "selecting \(SK2E.key) system")
             appModel?.systemSelector.select(key: SK2E.key)
 
-            debug(mtd, "selected system = \(String(describing: appModel?.systemSelector.selection?.name))")
-            sk2e = appModel?.systemSelector.selection?.value as? SK2_System
+            debug(mtd, "currently selected system = \(String(describing: appModel?.systemSelector.selection?.name))")
+            system = appModel?.systemSelector.selection?.value as? SK2_System
 
-            debug(mtd, "selected figure = \(String(describing: appModel?.figureSelector?.selection?.name))")
+            debug(mtd, "currently selected figure = \(String(describing: appModel?.figureSelector?.selection?.name))")
             figure = appModel?.figureSelector?.selection?.value
             
             updateEffects(self)
@@ -76,39 +76,75 @@ class SK2E_SecondaryViewController: UIViewController, AppModelUser {
    // ======================================================
     // Effects
     
-    @IBOutlet weak var meridiansSwitch: UISwitch!
+    @IBOutlet weak var nodesSwitch: UISwitch!
     
-    @IBAction func meridiansChanged(_ sender: UISwitch) {
+    @IBAction func nodesSwitchFlipped(_ sender: UISwitch) {
+        let mtd = "nodesSwitchFlipped"
+        debug(mtd, "entering. sender.tag=\(sender.tag)")
         if (figure == nil) {
+            debug(mtd, "figure is nil")
             return
         }
         let effects = figure!.effects
-        var meridians = effects?.entry(key: Meridians.key)?.value
-        if (meridians != nil) {
-            meridians!.enabled = meridiansSwitch.isOn
+        var nodes = effects?.entry(key: NodesOnShell.key)?.value
+        if (nodes == nil) {
+            debug(mtd, "No \(NodesOnShell.key) in effects registry")
+            debug(mtd, "effects registry entry keys: \(String(describing: effects?.entryKeys))")
         }
-
-    }
-    
-    @IBOutlet weak var bgShellSwitch: UISwitch!
-    
-    @IBAction func bgShellChanged(_ sender: UISwitch) {
-    }
-    
-    @IBOutlet weak var nodesSwitch: UISwitch!
-    
-    @IBAction func nodesAction(_ sender: UISwitch) {
+        else {
+            nodes!.enabled = nodesSwitch.isOn
+        }
     }
     
     @IBOutlet weak var netSwitch: UISwitch!
     
-    @IBAction func netAction(_ sender: UISwitch) {
+    @IBAction func netSwitchFlipped(_ sender: UISwitch) {
+        let mtd = "netSwitchFlipped"
+        debug(mtd, "entering. sender.tag=\(sender.tag)")
+        if (figure == nil) {
+            debug(mtd, "figure is nil")
+            return
+        }
+        let effects = figure!.effects
+        var net = effects?.entry(key: NetOnShell.key)?.value
+        if (net == nil) {
+            debug(mtd, "No \(NetOnShell.key) in effects registry")
+            debug(mtd, "effects registry entry keys: \(String(describing: effects?.entryKeys))")
+        }
+        else {
+            net!.enabled = netSwitch.isOn
+        }
+    }
+    
+    @IBOutlet weak var meridiansSwitch: UISwitch!
+    
+    @IBAction func meridiansSwitchFlipped(_ sender: UISwitch) {
+        let mtd = "meridiansSwitchFlipped"
+        debug(mtd, "entering. sender.tag=\(sender.tag)")
+        if (figure == nil) {
+            debug(mtd, "figure is nil")
+            return
+        }
+        let effects = figure!.effects
+        var meridians = effects?.entry(key: Meridians.key)?.value
+        if (meridians == nil) {
+            debug(mtd, "No \(Meridians.key) in effects registry")
+            debug(mtd, "effects registry entry keys: \(String(describing: effects?.entryKeys))")
+        }
+        else {
+            meridians!.enabled = meridiansSwitch.isOn
+        }
+    }
+    
+    @IBOutlet weak var innerShellSwitch: UISwitch!
+    
+    @IBAction func innerShellSwitchFlipped(_ sender: UISwitch) {
     }
     
     func updateEffects(_ sender: Any?) {
         if (figure == nil) {
             meridiansSwitch.isOn = false
-            bgShellSwitch.isOn = false
+            // innerShellSwitch.isOn = false
             nodesSwitch.isOn = false
             netSwitch.isOn = false
             return

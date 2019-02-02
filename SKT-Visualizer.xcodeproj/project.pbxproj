@@ -68,13 +68,10 @@
 		8AA05A13208FCB58009417A6 /* ChangeSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA05A12208FCB58009417A6 /* ChangeSupport.swift */; };
 		8AA05A15208FD56F009417A6 /* SK2Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA05A14208FD56F009417A6 /* SK2Point.swift */; };
 		8AA05A19208FFFD4009417A6 /* MagicStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA05A18208FFFD4009417A6 /* MagicStrings.swift */; };
-		8AA05A2220900692009417A6 /* ColorSourceSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA05A2020900692009417A6 /* ColorSourceSelectionViewController.swift */; };
-		8AA05A2320900692009417A6 /* ColorSourceSelectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8AA05A2120900692009417A6 /* ColorSourceSelectionViewController.xib */; };
+		8AA05A2220900692009417A6 /* OLD_ColorSourceSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA05A2020900692009417A6 /* OLD_ColorSourceSelectionViewController.swift */; };
 		8AA05A2620901B19009417A6 /* OLD_SequencerSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA05A2420901B19009417A6 /* OLD_SequencerSelectionViewController.swift */; };
-		8AA05A2720901B19009417A6 /* OLD_SequencerSelectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8AA05A2520901B19009417A6 /* OLD_SequencerSelectionViewController.xib */; };
 		8AA0637D207A89DD00BB68DB /* SKPhysics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA0637C207A89DD00BB68DB /* SKPhysics.swift */; };
-		8AAA008E207166C0001A136D /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAA008C207166C0001A136D /* MasterViewController.swift */; };
-		8AAA008F207166C0001A136D /* MasterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8AAA008D207166C0001A136D /* MasterViewController.xib */; };
+		8AAA008E207166C0001A136D /* OLD_MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAA008C207166C0001A136D /* OLD_MasterViewController.swift */; };
 		8AAF6DFF208167A800E4C9BF /* ToDo.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8AAF6DFE208167A800E4C9BF /* ToDo.txt */; };
 		8AB2A62C21FCE0D500A46316 /* SK3_System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2A62B21FCE0D500A46316 /* SK3_System.swift */; };
 		8AB2A62F21FCE1C100A46316 /* SK2_BANode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2A62E21FCE1C100A46316 /* SK2_BANode.swift */; };
@@ -106,7 +103,6 @@
 		8ACE78942073CCE500C29875 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ACE78932073CCE400C29875 /* OpenGLES.framework */; };
 		8ACE789E2073F7A400C29875 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACE789D2073F7A400C29875 /* Utils.swift */; };
 		8AD817FC207BFA9200426C25 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AD817FA207BFA9200426C25 /* InfoViewController.swift */; };
-		8AD817FD207BFA9200426C25 /* InfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8AD817FB207BFA9200426C25 /* InfoViewController.xib */; };
 		8AD81819207C9BD900426C25 /* image1-40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8AD81808207C9BD900426C25 /* image1-40@2x.png */; };
 		8AD8181A207C9BD900426C25 /* image1-76@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8AD81809207C9BD900426C25 /* image1-76@2x.png */; };
 		8AD8181B207C9BD900426C25 /* image1-20.png in Resources */ = {isa = PBXBuildFile; fileRef = 8AD8180A207C9BD900426C25 /* image1-20.png */; };
@@ -145,8 +141,7 @@
 		8AF98F96207FE7D60007688E /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 8AF98F95207FE7D60007688E /* LICENSE */; };
 		8AF98F9B207FE80E0007688E /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 8AF98F98207FE80D0007688E /* index.html */; };
 		8AF98FA1207FE8350007688E /* GraphicsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF98F9F207FE8350007688E /* GraphicsViewController.swift */; };
-		8AF98FA4207FE8B40007688E /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8AF98FA2207FE8B40007688E /* SettingsViewController.xib */; };
-		8AF98FA5207FE8B40007688E /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF98FA3207FE8B40007688E /* SettingsViewController.swift */; };
+		8AF98FA5207FE8B40007688E /* OLD_SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF98FA3207FE8B40007688E /* OLD_SettingsViewController.swift */; };
 		8AF98FA7207FE9CF0007688E /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 8AF98FA6207FE9CF0007688E /* README.md */; };
 /* End PBXBuildFile section */
 
@@ -214,13 +209,10 @@
 		8AA05A12208FCB58009417A6 /* ChangeSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSupport.swift; sourceTree = "<group>"; };
 		8AA05A14208FD56F009417A6 /* SK2Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2Point.swift; sourceTree = "<group>"; };
 		8AA05A18208FFFD4009417A6 /* MagicStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagicStrings.swift; sourceTree = "<group>"; };
-		8AA05A2020900692009417A6 /* ColorSourceSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSourceSelectionViewController.swift; sourceTree = "<group>"; };
-		8AA05A2120900692009417A6 /* ColorSourceSelectionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ColorSourceSelectionViewController.xib; sourceTree = "<group>"; };
+		8AA05A2020900692009417A6 /* OLD_ColorSourceSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OLD_ColorSourceSelectionViewController.swift; sourceTree = "<group>"; };
 		8AA05A2420901B19009417A6 /* OLD_SequencerSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OLD_SequencerSelectionViewController.swift; sourceTree = "<group>"; };
-		8AA05A2520901B19009417A6 /* OLD_SequencerSelectionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OLD_SequencerSelectionViewController.xib; sourceTree = "<group>"; };
 		8AA0637C207A89DD00BB68DB /* SKPhysics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKPhysics.swift; sourceTree = "<group>"; };
-		8AAA008C207166C0001A136D /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
-		8AAA008D207166C0001A136D /* MasterViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MasterViewController.xib; sourceTree = "<group>"; };
+		8AAA008C207166C0001A136D /* OLD_MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OLD_MasterViewController.swift; sourceTree = "<group>"; };
 		8AAF6DFE208167A800E4C9BF /* ToDo.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ToDo.txt; sourceTree = "<group>"; };
 		8AB2A62B21FCE0D500A46316 /* SK3_System.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK3_System.swift; sourceTree = "<group>"; };
 		8AB2A62E21FCE1C100A46316 /* SK2_BANode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_BANode.swift; sourceTree = "<group>"; };
@@ -252,7 +244,6 @@
 		8ACE78932073CCE400C29875 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		8ACE789D2073F7A400C29875 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		8AD817FA207BFA9200426C25 /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
-		8AD817FB207BFA9200426C25 /* InfoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InfoViewController.xib; sourceTree = "<group>"; };
 		8AD81808207C9BD900426C25 /* image1-40@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "image1-40@2x.png"; sourceTree = "<group>"; };
 		8AD81809207C9BD900426C25 /* image1-76@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "image1-76@2x.png"; sourceTree = "<group>"; };
 		8AD8180A207C9BD900426C25 /* image1-20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "image1-20.png"; sourceTree = "<group>"; };
@@ -291,8 +282,7 @@
 		8AF98F95207FE7D60007688E /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		8AF98F98207FE80D0007688E /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		8AF98F9F207FE8350007688E /* GraphicsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphicsViewController.swift; sourceTree = "<group>"; };
-		8AF98FA2207FE8B40007688E /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
-		8AF98FA3207FE8B40007688E /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		8AF98FA3207FE8B40007688E /* OLD_SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OLD_SettingsViewController.swift; sourceTree = "<group>"; };
 		8AF98FA6207FE9CF0007688E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -434,16 +424,11 @@
 		8A41B09A21F2517700DE38CB /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				8AA05A2020900692009417A6 /* ColorSourceSelectionViewController.swift */,
-				8AA05A2120900692009417A6 /* ColorSourceSelectionViewController.xib */,
+				8AA05A2020900692009417A6 /* OLD_ColorSourceSelectionViewController.swift */,
 				8AD817FA207BFA9200426C25 /* InfoViewController.swift */,
-				8AD817FB207BFA9200426C25 /* InfoViewController.xib */,
-				8AAA008C207166C0001A136D /* MasterViewController.swift */,
-				8AAA008D207166C0001A136D /* MasterViewController.xib */,
+				8AAA008C207166C0001A136D /* OLD_MasterViewController.swift */,
 				8AA05A2420901B19009417A6 /* OLD_SequencerSelectionViewController.swift */,
-				8AA05A2520901B19009417A6 /* OLD_SequencerSelectionViewController.xib */,
-				8AF98FA3207FE8B40007688E /* SettingsViewController.swift */,
-				8AF98FA2207FE8B40007688E /* SettingsViewController.xib */,
+				8AF98FA3207FE8B40007688E /* OLD_SettingsViewController.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -832,29 +817,24 @@
 				8A53B2A1208D9B380039C5D7 /* help.html in Resources */,
 				8A3BBBBF208BF29A00669227 /* splash.jpg in Resources */,
 				8AD8181D207C9BD900426C25 /* image1-40.png in Resources */,
-				8AAA008F207166C0001A136D /* MasterViewController.xib in Resources */,
 				8AE8AADD21C8737E00E90914 /* _newUI.txt in Resources */,
 				8AD8181C207C9BD900426C25 /* image1-40@3x.png in Resources */,
 				8AD9DAC820914E020062457C /* PointSpriteVertexShader.glsl in Resources */,
 				8AD9DAC620914E020062457C /* TexturedFragmentShader.glsl in Resources */,
 				8AD8181F207C9BD900426C25 /* image1-60@3x.png in Resources */,
 				8AD81823207C9BD900426C25 /* image1-83.5@2x.png in Resources */,
-				8AD817FD207BFA9200426C25 /* InfoViewController.xib in Resources */,
 				8AE18FA52099EFF30086F127 /* code.txt in Resources */,
 				8A3BBBB9208BC49D00669227 /* science.html in Resources */,
 				8AD81825207C9BD900426C25 /* image1-76.png in Resources */,
 				8A131C91207160100088F2FC /* _miscNotes.txt in Resources */,
-				8AA05A2720901B19009417A6 /* OLD_SequencerSelectionViewController.xib in Resources */,
 				8AD81821207C9BD900426C25 /* image1-1024.png in Resources */,
 				8AF98F9B207FE80E0007688E /* index.html in Resources */,
 				8AE48BBF2087E63A001B5D11 /* background.css in Resources */,
 				8AD8181B207C9BD900426C25 /* image1-20.png in Resources */,
-				8AF98FA4207FE8B40007688E /* SettingsViewController.xib in Resources */,
 				8AD81828207C9BD900426C25 /* image1-29.png in Resources */,
 				8AD81826207C9BD900426C25 /* image1-20@2x.png in Resources */,
 				8AD81820207C9BD900426C25 /* image1-60@2x.png in Resources */,
 				8A1CF020207146540099DD97 /* LaunchScreen.storyboard in Resources */,
-				8AA05A2320900692009417A6 /* ColorSourceSelectionViewController.xib in Resources */,
 				8A75424A20A8CC5100A2BFAD /* about.html in Resources */,
 				8AD81824207C9BD900426C25 /* image1-20@3x.png in Resources */,
 				8AD81827207C9BD900426C25 /* Contents.json in Resources */,
@@ -894,7 +874,7 @@
 				8A41B09021F0ACA500DE38CB /* Parameters.swift in Sources */,
 				8AB2A63721FDEDEC00A46316 /* DiscreteSystem.swift in Sources */,
 				8A0C09A620716B670017AC4C /* SK2Geometry.swift in Sources */,
-				8AA05A2220900692009417A6 /* ColorSourceSelectionViewController.swift in Sources */,
+				8AA05A2220900692009417A6 /* OLD_ColorSourceSelectionViewController.swift in Sources */,
 				8A2034E921ED2F8E00A4C418 /* SystemGeometry.swift in Sources */,
 				8A3C45B42086165500A1E9CD /* Entropy.swift in Sources */,
 				8A91B0A02094164700488907 /* NForFixedKOverN.swift in Sources */,
@@ -967,10 +947,10 @@
 				8A9BA6B820ADD71F009C39BE /* BackgroundShell.swift in Sources */,
 				8A91B0A4209418A900488907 /* NumericParameterSequencer.swift in Sources */,
 				8AC82CC721F5D60400A75595 /* SK2SphereUtils.swift in Sources */,
-				8AAA008E207166C0001A136D /* MasterViewController.swift in Sources */,
+				8AAA008E207166C0001A136D /* OLD_MasterViewController.swift in Sources */,
 				8A91B0AA2094B01400488907 /* GenericSequencer.swift in Sources */,
 				8A40BC0C207ECC7500F2D2EB /* Nodes.swift in Sources */,
-				8AF98FA5207FE8B40007688E /* SettingsViewController.swift in Sources */,
+				8AF98FA5207FE8B40007688E /* OLD_SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

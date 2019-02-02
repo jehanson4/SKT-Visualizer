@@ -13,7 +13,7 @@
         <!--OLD Master View Controller-->
         <scene sceneID="gnI-zr-OoZ">
             <objects>
-                <viewController storyboardIdentifier="MasterViewController" title="Master View Controller" id="3aD-bn-OtG" userLabel="OLD Master View Controller" customClass="MasterViewController" customModule="SKT_Visualizer" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MasterViewController" title="Master View Controller" id="3aD-bn-OtG" userLabel="OLD Master View Controller" customClass="OLD_MasterViewController" customModule="SKT_Visualizer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dAd-dw-2KB" userLabel="Master View">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -572,7 +572,7 @@
                     <navigationItem key="navigationItem" title="SKT Visualizer" id="kKo-Hd-Fcu">
                         <barButtonItem key="rightBarButtonItem" style="done" id="FUp-9e-d6R">
                             <button key="customView" opaque="NO" contentMode="right" contentHorizontalAlignment="right" contentVerticalAlignment="fill" buttonType="roundedRect" lineBreakMode="middleTruncation" id="XA9-Ix-gJ4">
-                                <rect key="frame" x="269" y="8.5" width="35" height="33"/>
+                                <rect key="frame" x="269" y="9" width="35" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <state key="normal" title="&gt;&gt;&gt;"/>
@@ -1299,10 +1299,10 @@
             </objects>
             <point key="canvasLocation" x="2354.8828125" y="-4773.4375"/>
         </scene>
-        <!--SK2D Master View Controller-->
+        <!--SK2D Primary View Controller-->
         <scene sceneID="AQG-WY-2yS">
             <objects>
-                <viewController id="1GN-8N-uBz" userLabel="SK2D Master View Controller" sceneMemberID="viewController">
+                <viewController id="1GN-8N-uBz" userLabel="SK2D Primary View Controller" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Hjr-JB-jTp">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1310,7 +1310,7 @@
                         <viewLayoutGuide key="safeArea" id="JAS-jB-BpC"/>
                     </view>
                     <navigationItem key="navigationItem" title="SK/2 Dynamics" id="6bW-O7-8ZW">
-                        <barButtonItem key="rightBarButtonItem" title="More" id="oC3-S9-vEk"/>
+                        <barButtonItem key="rightBarButtonItem" title="More 〉" id="oC3-S9-vEk"/>
                     </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tAa-yL-mTq" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1404,7 +1404,7 @@
         <!--SK2E Secondary View Controller-->
         <scene sceneID="JYU-uO-ZSB">
             <objects>
-                <viewController title="SK/2E" id="deL-8s-Yda" userLabel="SK2E Secondary View Controller" sceneMemberID="viewController">
+                <viewController title="SK/2E" id="deL-8s-Yda" userLabel="SK2E Secondary View Controller" customClass="SK2E_SecondaryViewController" customModule="SKT_Visualizer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fzg-eX-jAQ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1627,24 +1627,24 @@
                                                 <rect key="frame" x="16" y="0.0" width="256" height="248"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ew9-SB-o99" userLabel="Net View">
-                                                        <rect key="frame" x="0.0" y="0.0" width="256" height="93"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="256" height="124"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Net" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xDh-vT-Lq1">
-                                                                <rect key="frame" x="0.0" y="0.0" width="207" height="93"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="207" height="124"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WLn-CJ-tx4">
-                                                                <rect key="frame" x="207" y="0.0" width="51" height="93"/>
+                                                                <rect key="frame" x="207" y="0.0" width="51" height="124"/>
                                                                 <connections>
-                                                                    <action selector="net_action:" destination="vTj-VE-2hE" eventType="valueChanged" id="pvL-dG-nCi"/>
+                                                                    <action selector="netSwitchFlipped:" destination="deL-8s-Yda" eventType="valueChanged" id="BGF-Pf-WkG"/>
                                                                 </connections>
                                                             </switch>
                                                         </subviews>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NpH-EU-Naa" userLabel="Nodes View">
-                                                        <rect key="frame" x="0.0" y="93" width="256" height="31"/>
+                                                        <rect key="frame" x="0.0" y="124" width="256" height="31"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Nodes" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kac-tK-Zfa">
                                                                 <rect key="frame" x="0.0" y="0.0" width="207" height="31"/>
@@ -1656,13 +1656,13 @@
                                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bAy-8v-AAp">
                                                                 <rect key="frame" x="207" y="0.0" width="51" height="31"/>
                                                                 <connections>
-                                                                    <action selector="nodes_action:" destination="vTj-VE-2hE" eventType="valueChanged" id="aVW-h8-d42"/>
+                                                                    <action selector="nodesSwitchFlipped:" destination="deL-8s-Yda" eventType="valueChanged" id="u0W-Kf-k41"/>
                                                                 </connections>
                                                             </switch>
                                                         </subviews>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R5P-VW-rKy" userLabel="Meridians View">
-                                                        <rect key="frame" x="0.0" y="124" width="256" height="31"/>
+                                                        <rect key="frame" x="0.0" y="155" width="256" height="31"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Meridians" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xdp-zH-OvA">
                                                                 <rect key="frame" x="0.0" y="0.0" width="207" height="31"/>
@@ -1673,24 +1673,7 @@
                                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mj7-lY-mfu">
                                                                 <rect key="frame" x="207" y="0.0" width="51" height="31"/>
                                                                 <connections>
-                                                                    <action selector="meridians_action:" destination="vTj-VE-2hE" eventType="valueChanged" id="MpR-Ih-CHa"/>
-                                                                </connections>
-                                                            </switch>
-                                                        </subviews>
-                                                    </stackView>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3sP-5p-hLe" userLabel="Inner Shell View">
-                                                        <rect key="frame" x="0.0" y="155" width="256" height="31"/>
-                                                        <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Inner Shell" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="buz-Sy-K3Z">
-                                                                <rect key="frame" x="0.0" y="0.0" width="207" height="31"/>
-                                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                                <nil key="textColor"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
-                                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CHs-QD-ces">
-                                                                <rect key="frame" x="207" y="0.0" width="51" height="31"/>
-                                                                <connections>
-                                                                    <action selector="bgShell_action:" destination="vTj-VE-2hE" eventType="valueChanged" id="7gh-uk-9Zc"/>
+                                                                    <action selector="meridiansSwitchFlipped:" destination="deL-8s-Yda" eventType="valueChanged" id="9Rk-t7-gV8"/>
                                                                 </connections>
                                                             </switch>
                                                         </subviews>
@@ -1706,9 +1689,6 @@
                                                             </label>
                                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zUx-Ul-pvN">
                                                                 <rect key="frame" x="207" y="0.0" width="51" height="31"/>
-                                                                <connections>
-                                                                    <action selector="flowLines_action:" destination="vTj-VE-2hE" eventType="valueChanged" id="8gh-e0-quO"/>
-                                                                </connections>
                                                             </switch>
                                                         </subviews>
                                                     </stackView>
@@ -1724,9 +1704,6 @@
                                                             </label>
                                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ue3-Zz-tIZ">
                                                                 <rect key="frame" x="207" y="0.0" width="51" height="31"/>
-                                                                <connections>
-                                                                    <action selector="surface_action:" destination="vTj-VE-2hE" eventType="valueChanged" id="NHV-Cz-5Or"/>
-                                                                </connections>
                                                             </switch>
                                                         </subviews>
                                                     </stackView>
@@ -1753,7 +1730,7 @@
                         <viewLayoutGuide key="safeArea" id="ttV-bu-eZf"/>
                     </view>
                     <navigationItem key="navigationItem" title="SK/2 Equilibrium" id="j4D-dT-E6l">
-                        <barButtonItem key="leftBarButtonItem" title="Prev" id="x8o-gU-d0i">
+                        <barButtonItem key="leftBarButtonItem" title="⟨ Prev" style="done" id="x8o-gU-d0i">
                             <connections>
                                 <segue destination="grC-3w-1Se" kind="unwind" unwindAction="unwindToSK2E_Primary:" id="Q4i-Kh-Dve"/>
                             </connections>
@@ -1764,6 +1741,11 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="meridiansSwitch" destination="mj7-lY-mfu" id="d16-VV-ECT"/>
+                        <outlet property="netSwitch" destination="WLn-CJ-tx4" id="A5w-FA-CPB"/>
+                        <outlet property="nodesSwitch" destination="bAy-8v-AAp" id="4w0-OR-mDE"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f47-hA-Kyo" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="grC-3w-1Se" userLabel="Exit" sceneMemberID="exit"/>
@@ -1781,9 +1763,9 @@
                         <viewLayoutGuide key="safeArea" id="OWy-8h-VGg"/>
                     </view>
                     <navigationItem key="navigationItem" title="SK/2 Equilibrium" id="zgT-ys-iov">
-                        <barButtonItem key="leftBarButtonItem" title="Prev" id="IOS-uh-QWl">
+                        <barButtonItem key="leftBarButtonItem" title="⟨ Prev" id="IOS-uh-QWl">
                             <connections>
-                                <segue destination="R0e-fm-6AI" kind="unwind" unwindAction="unwindToSK2E_Secondary:" id="Mp0-Pi-Dit"/>
+                                <segue destination="R0e-fm-6AI" kind="unwind" unwindAction="unwindToSK2E_Secondary:" id="0gF-3x-ano"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -1839,7 +1821,7 @@
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EOK-iU-lHo" userLabel="SK/1">
                                                         <rect key="frame" x="0.0" y="0.0" width="256" height="128"/>
-                                                        <state key="normal" title="SK/1"/>
+                                                        <state key="normal" title="SK/1    〉"/>
                                                     </button>
                                                 </subviews>
                                             </stackView>
@@ -1895,21 +1877,21 @@
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rca-ER-4OT">
                                                         <rect key="frame" x="0.0" y="0.0" width="256" height="68"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                        <state key="normal" title="SK/2 Equilibrium"/>
+                                                        <state key="normal" title="SK/2 Equilibrium    〉"/>
                                                         <connections>
                                                             <segue destination="1Ul-i5-KtM" kind="show" identifier="sequeToSK2E" id="Eh7-cP-QOM"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RUD-NF-Y2T">
                                                         <rect key="frame" x="0.0" y="68" width="256" height="30"/>
-                                                        <state key="normal" title="SK/2 Dynamics"/>
+                                                        <state key="normal" title="SK/2 Dynamics    〉"/>
                                                         <connections>
                                                             <segue destination="1GN-8N-uBz" kind="show" id="LNa-nI-yDf"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zyd-iM-ZCR">
                                                         <rect key="frame" x="0.0" y="98" width="256" height="30"/>
-                                                        <state key="normal" title="SK/2 Bifurcations"/>
+                                                        <state key="normal" title="SK/2 Bifurcations    〉"/>
                                                     </button>
                                                 </subviews>
                                             </stackView>
@@ -1964,7 +1946,7 @@
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Vc-yg-dsa">
                                                         <rect key="frame" x="0.0" y="0.0" width="256" height="98"/>
-                                                        <state key="normal" title="SK/3 Equilibrium"/>
+                                                        <state key="normal" title="SK/3 Equilibrium    〉"/>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ozY-A3-mDJ">
                                                         <rect key="frame" x="0.0" y="98" width="256" height="30"/>
@@ -2095,7 +2077,7 @@
         <!--OLD Secondary Controls-->
         <scene sceneID="4u8-ir-dWX">
             <objects>
-                <viewController storyboardIdentifier="SettingsViewController" id="vTj-VE-2hE" userLabel="OLD Secondary Controls" customClass="SettingsViewController" customModule="SKT_Visualizer" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SettingsViewController" id="vTj-VE-2hE" userLabel="OLD Secondary Controls" customClass="OLD_SettingsViewController" customModule="SKT_Visualizer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="rqU-KK-1bC">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2484,7 +2466,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="done" id="7Y2-PQ-QFA">
                             <button key="customView" opaque="NO" contentMode="right" contentHorizontalAlignment="right" contentVerticalAlignment="fill" buttonType="roundedRect" lineBreakMode="middleTruncation" id="8jX-Zj-hIp">
-                                <rect key="frame" x="269" y="8.5" width="35" height="33"/>
+                                <rect key="frame" x="269" y="9" width="35" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <state key="normal" title="&lt;&lt;&lt;"/>

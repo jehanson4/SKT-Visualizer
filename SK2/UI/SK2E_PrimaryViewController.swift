@@ -32,7 +32,6 @@ class SK2E_PrimaryViewController: UIViewController, UITextFieldDelegate, AppMode
     private var _borderWidth: CGFloat = 1
     private var _cornerRadius: CGFloat = 5
     
-    
     override func viewDidLoad() {
         let mtd = "viewDidLoad"
         debug(mtd, "entering")

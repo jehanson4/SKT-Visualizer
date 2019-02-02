@@ -36,8 +36,8 @@ struct SK2E {
         //        _ = sample3.effects?.register(ColoredNodesOnShell(system, sample3, color3, enabled: true))
         //        _ = reg.register(sample3)
         
-        // ==========================================
-        // Shell figures
+        // =====================
+        // baseFigure
         
         let r0 : Double = 1
         let baseFigure = ShellFigure("BaseFigure", radius: r0)
@@ -46,12 +46,33 @@ struct SK2E {
         let bgShell = BackgroundShell(r0, bgColor, enabled: true)
         _ = baseFigure.effects?.register(bgShell)
         
-        _ = baseFigure.effects?.register(NetOnShell(system, enabled: true, radius: r0))
-        _ = baseFigure.effects?.register(MeridiansOnShell(system, enabled: true, radius: r0))
+        do {
+            let netOnShell = NetOnShell(system, enabled: true, radius: r0)
+            _ = try baseFigure.effects?.register(netOnShell, key: NetOnShell.key)
+        } catch {
+            // TODO debug
+            print("Problem registring NetOnShell: \(error)")
+        }
         
-        let baseColorSource = UniformColor("Gray", r: 0.5, g: 0.5, b: 0.5)
-        let baseNodes = NodesOnShell(system, baseFigure, baseColorSource, enabled: true)
-        _ = baseFigure.effects?.register(baseNodes)
+        do {
+            let baseColorSource = UniformColor("Gray", r: 0.5, g: 0.5, b: 0.5)
+            let baseNodes = NodesOnShell(system, baseFigure, baseColorSource, enabled: true)
+            _ = try baseFigure.effects?.register(baseNodes, key: NodesOnShell.key)
+        } catch {
+            // TODO debug
+            print("Problem registring NotesOnShell: \(error)")
+        }
+        
+        do {
+            let meridians = MeridiansOnShell(system, enabled: true, radius: r0)
+            _ = try baseFigure.effects?.register(meridians, key: Meridians.key)
+        } catch {
+            // TODO debug
+            print("Problem registring Meridians: \(error)")
+        }
+        
+        // ===================================
+        // figures that delegate to baseFigure
         
         let energyColorSource = SK2E_EnergyColors(system)
         let energyOnShell = ColorizedFigure("Energy on the Shell",

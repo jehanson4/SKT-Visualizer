@@ -1,5 +1,5 @@
 //
-//  MasterViewController.swift
+//  OLD_MasterViewController.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 4/1/18.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser {
+class OLD_MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser {
     
     let name = "OLD MasterViewController"
     var debugEnabled = true
