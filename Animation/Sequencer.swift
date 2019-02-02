@@ -44,7 +44,8 @@ private let boundaryConditionNames = ["sticky", "elastic", "periodic"]
 // Sequencer
 // =============================================================================
 
-protocol Sequencer : Named, ChangeMonitorEnabled, UserDefaultsContributor {
+// TODO can I get away with NOT requiring all sequencers to have PreferenceSupport?
+protocol Sequencer : Named, ChangeMonitorEnabled {
     
     var backingSystem: PhysicalSystem { get }
 

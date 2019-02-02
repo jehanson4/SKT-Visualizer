@@ -54,9 +54,13 @@ class UISelectorViewController : UIViewController, AppModelUser {
         let mtdName = "prepare for segue"
         debug(mtdName, "destination: \(segue.destination.title ?? "(no title)")")
         
-        appModel?.figureSelector?.clearSelection()
-        appModel?.sequencerSelector?.clearSelection()
-        
+        // HACK so that picture gets updated when you switch back from old UI.
+        // appModel?.figureSelector?.clearSelection()
+        // appModel?.sequencerSelector?.clearSelection()
+        // EXPERIMENTAL change the system model instead of clearing selectors
+        // ...WORKS!
+        appModel?.systemSelector.select(key: SKT.key)
+
         if (segue.destination is AppModelUser) {
             var d2 = segue.destination as! AppModelUser
             if (self.appModel == nil) {

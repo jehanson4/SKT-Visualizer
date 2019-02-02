@@ -1,5 +1,5 @@
 //
-//  SK2E_MasterViewController.swift
+//  SK2E_PrimaryViewController.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 1/7/19.
@@ -8,12 +8,12 @@
 
 import UIKit
 
-class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser {
+class SK2E_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModelUser {
 
     // ==========================================
     // Debug
     
-    let name = "SK2E_MasterViewController"
+    let name = "SK2E_PrimaryViewController"
     var debugEnabled = true
 
     func debug(_ mtd: String, _ msg: String = "") {
@@ -23,8 +23,16 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
     }
     
     // ===========================================
-    // Lifecycle
-
+    // Basics
+    
+    var appModel: AppModel? = nil
+    
+    weak var sk2e: SK2_System!
+    
+    private var _borderWidth: CGFloat = 1
+    private var _cornerRadius: CGFloat = 5
+    
+    
     override func viewDidLoad() {
         let mtd = "viewDidLoad"
         debug(mtd, "entering")
@@ -46,16 +54,16 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
                 debug(mtd, "replaced system model. selection = \(String(describing: appModel!.systemSelector.selection?.name))")
             }
             else {
-                debug(mtd, SK2E.key + " was already selected");
+                debug(mtd, "\(SK2E.key) was already selected");
             }
-            sk2e = appModel?.systemSelector.selection?.value as? SK2E_System
+            sk2e = appModel?.systemSelector.selection?.value as? SK2_System
         }
         
         if (sk2e == nil) {
-            debug(mtd, "sk2e is nil")
+            debug(mtd, "system is nil")
         }
         else {
-            debug(mtd, "sk2e has been set")
+            debug(mtd, "system has been set")
             figureSelector_setup()
             N_setup()
             k_setup()
@@ -110,24 +118,20 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
         super.viewWillDisappear(animated)
     }
     
-    @IBAction func unwindToSK2E
-        (_ sender: UIStoryboardSegue) {
-        debug("unwindToSK2E")
-    }
-    
     deinit {
     }
     
-    // ===========================================
-    // Basics
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // Hide the keyboard.
+        textField.resignFirstResponder()
+        return true
+    }
     
-    var appModel: AppModel? = nil
-    var sk2e: SK2E_System? = nil
+    @IBAction func unwindToSK2E_Primary
+        (_ sender: UIStoryboardSegue) {
+        debug("unwindToSK2E_Primary")
+    }
     
-    private var _borderWidth: CGFloat = 1
-    private var _cornerRadius: CGFloat = 5
-    
-
     // ===========================================
     // Visualization: figure selector
     
@@ -437,7 +441,7 @@ class SK2E_MasterViewController: UIViewController, UITextFieldDelegate, AppModel
             sk2e!.resetAllParameters()
         }
     }
-    
+
     // ===========================================
     // Animation: sweep selector
 

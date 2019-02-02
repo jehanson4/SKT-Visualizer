@@ -27,7 +27,7 @@ class SK2E_SimpleColors: ColorSource {
         }
     }
     
-    init(_ name: String, _ info: String? = nil, _ system: SK2E_System, 
+    init(_ name: String, _ info: String? = nil, _ system: SK2_System, 
          _ getter: @escaping (_ m: Int, _ n: Int) -> Double,
          _ colorMap: ColorMap) {
         self.name = name
@@ -48,7 +48,7 @@ class SK2E_SimpleColors: ColorSource {
         return system
     }
     
-    var system: SK2E_System
+    var system: SK2_System
 
     var getter: (_ m: Int, _ n: Int) -> Double
 
@@ -120,7 +120,7 @@ class SK2E_EnergyColors : SK2E_SimpleColors {
     private var a1_prev: Double = 0
     private var a2_prev: Double = 0
     
-    init(_ system: SK2E_System) {
+    init(_ system: SK2_System) {
         super.init("Energy", nil, system, system.energy, LinearColorMap())
         N_prev = system.N.value
         k_prev = system.k.value
@@ -164,7 +164,7 @@ class SK2E_EntropyColors : SK2E_SimpleColors {
     private var N_prev : Int = 0
     private var k_prev : Int = 0
 
-    init(_ system: SK2E_System) {
+    init(_ system: SK2_System) {
         super.init("Entropy", nil, system, system.entropy, LinearColorMap())
         N_prev = system.N.value
         k_prev = system.k.value
@@ -199,7 +199,7 @@ class SK2E_OccupationColors : SK2E_SimpleColors {
     private var a2_prev: Double = 0
     private var T_prev: Double = 0
     
-    init(_ system: SK2E_System) {
+    init(_ system: SK2_System) {
         super.init("Occupation", nil, system, system.logOccupation, LogColorMap())
         N_prev = system.N.value
         k_prev = system.k.value

@@ -19,38 +19,46 @@ protocol AppModelUser {
 }
 
 // =========================================================
-// UserDefaultsProvider
+// AppPart
 // =========================================================
 
-protocol UserDefaultsContributor {
+struct AppPart: Named {
+    
+    let key: String
+    
+    let system: PhysicalSystem
 
-    func apply(userDefaults: UserDefaults, namespace: String)
-
-    func contributeTo(userDefaults: inout UserDefaults, namespace: String)
-
+    var name: String
+    var info: String? = nil
+    
+    var group: String? = nil
+    var figures: Registry<Figure>? = nil
+    var sequencers: Registry<Sequencer>? = nil
+    
+    init(key: String, name: String, system: PhysicalSystem) {
+        self.key = key
+        self.name = name
+        self.system = system
+    }
 }
 
 // =========================================================
-// PartFactory
+// AppPartFactory
 // =========================================================
 
-protocol PartFactory {
-    associatedtype System: PhysicalSystem
+protocol AppPartFactory {
     
-    static var key: String { get }
-        
-    func makeSystem() -> System
+    var namespace: String { get set }
     
-    func makeFigures(_ system: System, _ graphicsController: GraphicsController) -> Registry<Figure>?
+    func makePartsAndPrefs(_ graphicsController: GraphicsController) -> (parts: [AppPart], preferences: [(String, PreferenceSupport)])
     
-    func makeSequencers(_ system: System) -> Registry<Sequencer>?
 }
 
 // =========================================================
 // AppModel
 // =========================================================
 
-protocol AppModel : ResourceAware {
+protocol AppModel : ResourceManaged {
     
     /// Groups of systems. Only 1 level of grouping is supported
     /// systemGroupNames is in group-creation order
@@ -73,6 +81,6 @@ protocol AppModel : ResourceAware {
     
     var graphicsController: GraphicsController { get set }
     
-    func saveUserDefaults()
+    func savePreferences()
     
 }

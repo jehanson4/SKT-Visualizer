@@ -31,7 +31,7 @@ class NodesOnShell: ColorizedEffect {
     // ============================================
     // Lifecycle
     
-    init(_ system: SK2E_System, _ figure: ShellFigure, _ colorSource: ColorSource, enabled: Bool) {
+    init(_ system: SK2_System, _ figure: ShellFigure, _ colorSource: ColorSource, enabled: Bool) {
         self.geometry = SK2_ShellGeometry(system, radius: figure.r0)
         self.figure = figure
         self._colorSource = colorSource

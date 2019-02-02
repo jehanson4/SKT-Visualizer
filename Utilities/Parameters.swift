@@ -12,7 +12,7 @@ import Foundation
 // Parameter
 // =======================================================
 
-protocol Parameter: Named, UserDefaultsContributor, ChangeMonitorEnabled {
+protocol Parameter: Named, PreferenceSupport, ChangeMonitorEnabled {
     
     var minAsString: String { get }
     var minAsDouble: Double { get }
@@ -271,22 +271,23 @@ class DiscreteParameter: Parameter {
     }
     
     // ==========================================
-    // UserDefaults
+    // Preferences
     
-    func apply(userDefaults: UserDefaults, namespace: String) {
-        let v = userDefaults.integer(forKey: extendNamespace(namespace, "value"))
+    func loadPreferences(namespace: String) {
+        let v = UserDefaults.standard.integer(forKey: extendNamespace(namespace, "value"))
         if (v >= min && v <= max) {
             value = v
         }
-        let ss = userDefaults.integer(forKey: extendNamespace(namespace, "stepSize"))
+        let ss = UserDefaults.standard.integer(forKey: extendNamespace(namespace, "stepSize"))
         if (ss > 0) {
             stepSize = ss
         }
     }
     
-    func contributeTo(userDefaults: inout UserDefaults, namespace: String) {
-        userDefaults.set(value, forKey: extendNamespace(namespace, "value"))
-        userDefaults.set(stepSize, forKey: extendNamespace(namespace, "stepSize"))
+    func savePreferences(namespace: String) {
+        UserDefaults.standard.set(value, forKey: extendNamespace(namespace, "value"))
+        UserDefaults.standard.set(stepSize, forKey: extendNamespace(namespace, "stepSize"))
+
     }
     
     // =========================================
@@ -515,24 +516,25 @@ class ContinuousParameter: Parameter {
     }
     
     // ==========================================
-    // UserDefaults
+    // Preferences
     
-    func apply(userDefaults: UserDefaults, namespace: String) {
-        let v = userDefaults.double(forKey: extendNamespace(namespace, "value"))
+    func loadPreferences(namespace: String) {
+        let v = UserDefaults.standard.double(forKey: extendNamespace(namespace, "value"))
         if (v >= min && v <= max) {
             value = v
         }
-        let ss = userDefaults.double(forKey: extendNamespace(namespace, "stepSize"))
+        let ss = UserDefaults.standard.double(forKey: extendNamespace(namespace, "stepSize"))
         if (ss > 0) {
             stepSize = ss
         }
     }
     
-    func contributeTo(userDefaults: inout UserDefaults, namespace: String) {
-        userDefaults.set(value, forKey: extendNamespace(namespace, "value"))
-        userDefaults.set(stepSize, forKey: extendNamespace(namespace, "stepSize"))
+    func savePreferences(namespace: String) {
+        UserDefaults.standard.set(value, forKey: extendNamespace(namespace, "value"))
+        UserDefaults.standard.set(stepSize, forKey: extendNamespace(namespace, "stepSize"))
     }
     
+
     // =========================================
     // Private
     

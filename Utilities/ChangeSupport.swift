@@ -1,5 +1,5 @@
 //
-//  ChangeManagment.swift
+//  ChangeSupport.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 4/24/18.

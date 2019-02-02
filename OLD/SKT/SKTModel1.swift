@@ -202,21 +202,21 @@ class SKTModel1: SKTModel {
     }
     
     // ======================================================
-    // User defaults
+    // Preferences
     
-    func contributeTo(userDefaults: inout UserDefaults, namespace: String) {
+    func loadPreferences(namespace: String) {
         
         // TODO
         
     }
     
-    func apply(userDefaults: UserDefaults, namespace: String) {
+    func savePreferences(namespace: String) {
         
         // TODO
         
     }
     
-    
+
     
     // ======================================
     // Other things

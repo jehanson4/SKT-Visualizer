@@ -22,7 +22,9 @@ protocol Graphics {
 // Figure
 // ===========================================================================
 
-protocol Figure: Named, UserDefaultsContributor, ResourceAware {
+// TODO because of DelegatedFigure, I may need to
+// make Figure extend PreferenceSupport
+protocol Figure: Named, ResourceManaged {
     
     // DEFER but I'm sure I'll want it eventually
     // MAYBE optional
@@ -55,7 +57,7 @@ protocol Figure: Named, UserDefaultsContributor, ResourceAware {
 // Effect
 // ==============================================================================
 
-protocol Effect: Named, ResourceAware {
+protocol Effect: Named, ResourceManaged {
     
     static var key: String { get }
     

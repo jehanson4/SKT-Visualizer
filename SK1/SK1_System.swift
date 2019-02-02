@@ -12,17 +12,13 @@ import Foundation
 // SK1_System
 // ==============================================================
 
-class SK1_System: DiscreteSystem {
+class SK1_System: DiscreteSystem, PreferenceSupport {
     
 
     // ==================================
     // Basics
     
-    static let type = "SK/1"
-    
-    var name = SK1_System.type
-    
-    var group: String? = "SK/1"
+    var name = "SK/1"
     
     var info: String? = "SK Hamiltonian with 1 component"
     
@@ -141,15 +137,15 @@ class SK1_System: DiscreteSystem {
     }
     
     // ======================================================
-    // User defaults
+    // Preferences
     
-    func contributeTo(userDefaults: inout UserDefaults, namespace: String) {
+    func loadPreferences(namespace: String) {
         
         // TODO
         
     }
     
-    func apply(userDefaults: UserDefaults, namespace: String) {
+    func savePreferences(namespace: String) {
         
         // TODO
         

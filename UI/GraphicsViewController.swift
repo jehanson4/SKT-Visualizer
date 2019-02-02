@@ -42,6 +42,9 @@ class GraphicsViewController: GLKViewController, AppModelUser, Graphics {
         get { return (view as! GLKView).snapshot }
     }
     
+    // EMPIRICAL so that true black is noticeable
+    static var backgroundColor: GLKVector4 = GLKVector4Make(0.2, 0.2, 0.2, 1)
+
 //    // EMPIRICAL
 //    let pan_phiFactor: Double = 0.005
 //    let pan_ThetaEFactor: Double = -0.005

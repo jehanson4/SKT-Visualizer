@@ -66,14 +66,24 @@ struct SK2_Descriptor: Equatable {
 // SK2_System
 // ==============================================================
 
-class SK2_System: PhysicalSystem {
+class SK2_System: PhysicalSystem, PreferenceSupport {
+    
+    // ==========================================
+    // Debug
+    
+    let cls = "SK2_System"
+    var debugEnabled = true
+    
+    func debug(_ mtd: String, _ msg: String = "") {
+        if (debugEnabled)  {
+            print(cls, mtd, msg)
+        }
+    }
     
     // ===================================
     // Initializer
     
-    init(_ name: String, _ info: String? = nil) {
-        self.name = name
-        self.info = info
+    init() {
         self._N = SK2_System.N_defaultSetPoint
         self._k = SK2_System.k_defaultSetPoint
         self._a1 = SK2_System.a1_defaultSetPoint
@@ -86,12 +96,14 @@ class SK2_System: PhysicalSystem {
     // ===================================
     // Basics
     
-    var name: String
+    var name: String = "SK/2"
     
-    var group: String? = "SK/2"
-    var info: String? = nil
+    var info: String? = "SK Hamiltonian with 2 components"
 
-    func releaseOptionalResources() {}
+    func releaseOptionalResources() {
+        discardBasinModel()
+        discardFlowModel()
+    }
 
     // ===================================
     // Nodes
@@ -121,7 +133,7 @@ class SK2_System: PhysicalSystem {
     }
     
     // =========================================
-    // Derived variables. Some are only useful
+    // Derived geometry variables. Some are only useful
     // on the shell. See SK2_ShellGeometry
     
     var nodeIndexModulus: Int = 0
@@ -138,6 +150,10 @@ class SK2_System: PhysicalSystem {
         sin_s0 = sin(s0)
         cot_s0 = 1.0/tan(s0)
         s12_max = twoPi - s0
+        
+        discardBasinModel()
+        discardFlowModel()
+
     }
     
     // ===========================================
@@ -165,6 +181,7 @@ class SK2_System: PhysicalSystem {
     static let N_defaultSetPoint: Int = 200
     static let N_defaultStepSize: Int = 2
     
+    /// Non-private for speed. DO NOT set it directly.
     var _N : Int
     
     private func _getN() -> Int {
@@ -203,6 +220,7 @@ class SK2_System: PhysicalSystem {
     static let k_defaultSetPoint: Int = SK2_System.N_defaultSetPoint/2
     static let k_defaultStepSize: Int = 1
     
+    /// Non-private for speed. DO NOT set it directly.
     var _k : Int
     
     private func _getK() -> Int {
@@ -241,7 +259,7 @@ class SK2_System: PhysicalSystem {
     static let a1_defaultSetPoint: Double = 1
     static let a1_defaultStepSize: Double = 0.01
 
-    var _a1 : Double
+    private var _a1 : Double
     
     private func _getA1() -> Double {
         return _a1
@@ -270,7 +288,7 @@ class SK2_System: PhysicalSystem {
     static let a2_defaultSetPoint: Double = 1
     static let a2_defaultStepSize: Double = 0.01
     
-    var _a2 : Double
+    private var _a2 : Double
     
     private func _getA2() -> Double {
         return _a2
@@ -300,8 +318,8 @@ class SK2_System: PhysicalSystem {
     static let T_defaultSetPoint: Double = 1000
     static let T_defaultStepSize: Double = 10
     
-    var _T : Double
-    var _beta: Double
+    private var _T : Double
+    private var _beta: Double
     
     private func _getT() -> Double {
         return _T
@@ -374,26 +392,93 @@ class SK2_System: PhysicalSystem {
         T.resetValue()
     }
 
+    // ======================================
+    // Functions for physical properties
+    
+    func energy(_ nodeIndex: Int) -> Double {
+        let m = nodeIndex / nodeIndexModulus
+        let n = nodeIndex - (m * nodeIndexModulus)
+        return energy(m, n)
+    }
+    
+    func energy(_ m: Int, _ n: Int) -> Double {
+        let d1 = 0.5 * Double(_N) - Double(m + n)
+        let d2 = 0.5 * Double(_N) - Double(_k + n - m)
+        return -(_a1 * d1 * d1  + _a2 * d2 * d2)
+    }
+    
+    func entropy(_ nodeIndex: Int) -> Double {
+        let m = nodeIndex / nodeIndexModulus
+        let n = nodeIndex - (m * nodeIndexModulus)
+        return entropy(m, n)
+    }
+    
+    func entropy(_ m: Int, _ n: Int) -> Double {
+        return logBinomial(_k, m) + logBinomial(_N - _k, n)
+    }
+    
+    func logOccupation(_ nodeIndex: Int) -> Double {
+        let m = nodeIndex / nodeIndexModulus
+        let n = nodeIndex - (m * nodeIndexModulus)
+        return logOccupation(m, n)
+    }
+    
+    func logOccupation(_ m: Int, _ n: Int) -> Double {
+        return entropy(m, n) - _beta * energy(m, n)
+    }
+    
+    // ========================================================
+    // Basin model
+    //
+
+    func updateBasinModel() {
+        debug("updateBasinModel: discarding it!")
+        discardBasinModel()
+    }
+    
+    func discardBasinModel() {
+        debug("discardBasinModel")
+        // TODO
+    }
+    
+    // TODO a method to call when the a1, a2, T have changed but
+    // N,k have not
+    
+    // ===============================================
+    // Population flow
+    
+    func updateFlowModel() {
+        debug("updateFlowModel: discarding it!")
+        discardFlowModel()
+    }
+    
+    func discardFlowModel() {
+        debug("discardFlowModel")
+        // TODO
+    }
+    
+    // TODO a method to call when the a1, a2, T have changed but
+    // N,k have not
+    
     // ======================================================
-    // User defaults
+    // Preferences
     
-    func apply(userDefaults: UserDefaults, namespace: String) {
-        func pApply(_ p: inout Parameter) {
+    func loadPreferences(namespace: String) {
+        func pLoad(_ p: inout Parameter) {
             let pNS = extendNamespace(namespace, p.name)
-            p.apply(userDefaults: userDefaults, namespace: pNS)
+            p.loadPreferences(namespace: pNS)
         }
-        parameters.apply(pApply)
+        parameters.apply(pLoad)
     }
     
-    func contributeTo(userDefaults: inout UserDefaults, namespace: String) {
-        var d2 = userDefaults
-        func pContribute(_ p: Parameter) {
+    func savePreferences(namespace: String) {
+        func pSave(_ p: Parameter) {
             let pNS = extendNamespace(namespace, p.name)
-            p.contributeTo(userDefaults: &d2, namespace: pNS)
+            p.savePreferences(namespace: pNS)
         }
-        parameters.visit(pContribute)
+        parameters.visit(pSave)
     }
     
-    
+
 
 }

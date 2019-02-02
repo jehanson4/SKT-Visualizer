@@ -3,6 +3,20 @@ ToDo.txt
 ==================================================================================
 
 MAYBE make sk2d and sk2e EXTENSIONS of sk2 rather than subclasses
+...nope. can't add properties
+
+MAYBE combine sk2d and sk2e into one model and then have a combined
+part factory add entries for both?
+...nope. 1 factory makes 1 system. AppModel.installPart expects it.
+
+MAYBE invert the initiative? create a sytem installer and give the
+app model to it?
+...nope. It's awkwared b/c there's so many fiddly bits in app model
+
+MAYBE create an SK2 multifactory that returns a list of factories.
+and have THEM share the same system.
+...ok.  call it partFactory and hav it return list of Parts: where a part
+    has: group, system, figures reg, sequencers reg
 
 ABOVE THE LINE
 ----------------------------------------------------------------------------------

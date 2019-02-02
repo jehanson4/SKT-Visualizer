@@ -156,12 +156,21 @@ func extendNamespace(_ namespace: String, _ ext: String) -> String {
 }
 
 // =======================================================================
-// ResourceAware
+// ResourceManaged
 // =======================================================================
 
-protocol ResourceAware {
+protocol ResourceManaged {
     
     func releaseOptionalResources()
+}
+
+// =======================================================================
+// PreferenceSupport
+// =======================================================================
+
+protocol PreferenceSupport {
+    mutating func loadPreferences(namespace: String)
+    func savePreferences(namespace: String)
 }
 
 // =======================================================================
