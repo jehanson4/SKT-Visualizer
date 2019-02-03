@@ -7,19 +7,20 @@
 //
 
 import UIKit
+import WebKit
 
 class InfoViewController: UIViewController {
 
     private var cls = "InfoViewController"
     var debugEnabled = false
     
-    @IBOutlet weak var webView: UIWebView!
+    @IBOutlet weak var wkWebView: WKWebView!
     
     override func viewDidLoad() {
         debug("viewDidLoad")
         super.viewDidLoad()
 
-        webView.backgroundColor = UIColor.white
+        wkWebView.backgroundColor = UIColor.white
 
         loadHomePage()
     }
@@ -35,7 +36,7 @@ class InfoViewController: UIViewController {
             
             let contents =  try String(contentsOfFile: filePath, encoding: .utf8)
             let baseUrl = URL(fileURLWithPath: filePath)
-            webView.loadHTMLString(contents as String, baseURL: baseUrl)
+            wkWebView.loadHTMLString(contents as String, baseURL: baseUrl)
         }
         catch {
             NSLog("File HTML error")

@@ -32,10 +32,11 @@ class InnerShell : GLKBaseEffect, Effect {
     }
     
     // ================================================
-    // Identifiers
+    // Basics
+    
     static let key = "InnerShell"
     
-    var name = "InnerShell"
+    var name = "Inner Shell"
     var info: String? = nil
     var enabled: Bool
     

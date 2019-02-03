@@ -47,9 +47,9 @@ class SK2E_SecondaryViewController: UIViewController, AppModelUser {
 
             debug(mtd, "currently selected figure = \(String(describing: appModel?.figureSelector?.selection?.name))")
             figure = appModel?.figureSelector?.selection?.value
-            
-            updateEffects(self)
         }
+
+        initEffectsControls(true)
     }
         
     override func didReceiveMemoryWarning() {
@@ -76,94 +76,164 @@ class SK2E_SecondaryViewController: UIViewController, AppModelUser {
    // ======================================================
     // Effects
     
-    @IBOutlet weak var nodesSwitch: UISwitch!
+    @IBOutlet weak var effectLabel0: UILabel!
+    @IBOutlet weak var effectLabel1: UILabel!
+    @IBOutlet weak var effectLabel2: UILabel!
+    @IBOutlet weak var effectLabel3: UILabel!
+    @IBOutlet weak var effectLabel4: UILabel!
     
-    @IBAction func nodesSwitchFlipped(_ sender: UISwitch) {
-        let mtd = "nodesSwitchFlipped"
-        debug(mtd, "entering. sender.tag=\(sender.tag)")
-        if (figure == nil) {
-            debug(mtd, "figure is nil")
+    @IBOutlet weak var effectSwitch0: UISwitch!
+    @IBOutlet weak var effectSwitch1: UISwitch!
+    @IBOutlet weak var effectSwitch2: UISwitch!
+    @IBOutlet weak var effectSwitch3: UISwitch!
+    @IBOutlet weak var effectSwitch4: UISwitch!
+    
+
+    @IBAction func effectSwitchFlipped(_ sender: UISwitch) {
+        debug("effectSwitchFlipped", "tag=\(sender.tag)")
+        if (sender.tag <= 0) {
             return
         }
-        let effects = figure!.effects
-        var nodes = effects?.entry(key: NodesOnShell.key)?.value
-        if (nodes == nil) {
-            debug(mtd, "No \(NodesOnShell.key) in effects registry")
-            debug(mtd, "effects registry entry keys: \(String(describing: effects?.entryKeys))")
-        }
-        else {
-            nodes!.enabled = nodesSwitch.isOn
+
+        var effect = figure?.effects?.entry(index: (sender.tag-1))?.value
+        if (effect != nil) {
+            debug("effectSwitchFlipped", "effect=\(effect!.name)")
+            effect!.enabled = sender.isOn
         }
     }
     
-    @IBOutlet weak var netSwitch: UISwitch!
+//    @IBAction func netSwitchFlipped(_ sender: UISwitch) {
+//        let mtd = "netSwitchFlipped"
+//        debug(mtd, "entering. sender.tag=\(sender.tag)")
+//        if (figure == nil) {
+//            debug(mtd, "figure is nil")
+//            return
+//        }
+//        let effects = figure!.effects
+//        var net = effects?.entry(key: NetOnShell.key)?.value
+//        if (net == nil) {
+//            debug(mtd, "No \(NetOnShell.key) in effects registry")
+//            debug(mtd, "effects registry entry keys: \(String(describing: effects?.entryKeys))")
+//        }
+//        else {
+//            net!.enabled = effectSwitch1.isOn
+//        }
+//    }
+//    
+//    @IBAction func meridiansSwitchFlipped(_ sender: UISwitch) {
+//        let mtd = "meridiansSwitchFlipped"
+//        debug(mtd, "entering. sender.tag=\(sender.tag)")
+//        if (figure == nil) {
+//            debug(mtd, "figure is nil")
+//            return
+//        }
+//        let effects = figure!.effects
+//        var meridians = effects?.entry(key: Meridians.key)?.value
+//        if (meridians == nil) {
+//            debug(mtd, "No \(Meridians.key) in effects registry")
+//            debug(mtd, "effects registry entry keys: \(String(describing: effects?.entryKeys))")
+//        }
+//        else {
+//            meridians!.enabled = effectSwitch2.isOn
+//        }
+//    }
+//    
+//    @IBOutlet weak var innerShellSwitch: UISwitch!
+//    
+//    @IBAction func innerShellSwitchFlipped(_ sender: UISwitch) {
+//    }
     
-    @IBAction func netSwitchFlipped(_ sender: UISwitch) {
-        let mtd = "netSwitchFlipped"
-        debug(mtd, "entering. sender.tag=\(sender.tag)")
-        if (figure == nil) {
-            debug(mtd, "figure is nil")
+    func initEffectsControls(_ setTagsAndLabels: Bool) {
+        let mtd = "initEffectsControls"
+        debug(mtd, "entering. setTagsAndLabels=\(setTagsAndLabels)")
+        
+        let eCount = figure?.effects?.entryCount
+        let eLabels: [UILabel?]  = [
+            effectLabel0,
+            effectLabel1,
+            effectLabel2,
+            effectLabel3,
+            effectLabel4,
+        ]
+        let eSwitches: [UISwitch?] = [
+            effectSwitch0,
+            effectSwitch1,
+            effectSwitch2,
+            effectSwitch3,
+            effectSwitch4
+        ]
+        
+        if (eCount == nil) {
+            debug(mtd, "No effects")
+            for el in eLabels {
+                if (el != nil) {
+                    let eLabel = el!
+                    eLabel.text = nil
+                }
+            }
+            for es in eSwitches {
+                if (es != nil) {
+                    let eSwitch = es!
+                    eSwitch.isOn = false
+                    eSwitch.isEnabled = false
+                }
+            }
             return
         }
-        let effects = figure!.effects
-        var net = effects?.entry(key: NetOnShell.key)?.value
-        if (net == nil) {
-            debug(mtd, "No \(NetOnShell.key) in effects registry")
-            debug(mtd, "effects registry entry keys: \(String(describing: effects?.entryKeys))")
-        }
-        else {
-            net!.enabled = netSwitch.isOn
-        }
-    }
     
-    @IBOutlet weak var meridiansSwitch: UISwitch!
-    
-    @IBAction func meridiansSwitchFlipped(_ sender: UISwitch) {
-        let mtd = "meridiansSwitchFlipped"
-        debug(mtd, "entering. sender.tag=\(sender.tag)")
-        if (figure == nil) {
-            debug(mtd, "figure is nil")
-            return
+        let effectCount = eCount!
+       
+        if (setTagsAndLabels) {
+            for i in 0..<eLabels.count {
+                if (eLabels[i] == nil) {
+                    continue
+                }
+                let eLabel = eLabels[i]!
+                if (i >= effectCount) {
+                    eLabel.text = nil
+                    continue
+                }
+                
+                eLabel.text = figure?.effects?.entry(index: i)?.name
+            }
         }
-        let effects = figure!.effects
-        var meridians = effects?.entry(key: Meridians.key)?.value
-        if (meridians == nil) {
-            debug(mtd, "No \(Meridians.key) in effects registry")
-            debug(mtd, "effects registry entry keys: \(String(describing: effects?.entryKeys))")
-        }
-        else {
-            meridians!.enabled = meridiansSwitch.isOn
-        }
-    }
-    
-    @IBOutlet weak var innerShellSwitch: UISwitch!
-    
-    @IBAction func innerShellSwitchFlipped(_ sender: UISwitch) {
-    }
-    
-    func initEffectsControls() {
-        if (figure == nil) {
+
+        for i in 0..<eSwitches.count {
+            if (eSwitches[i] == nil) {
+                continue
+                
+            }
+            let eSwitch = eSwitches[i]!
+            if (i >= effectCount) {
+                if (setTagsAndLabels) {
+                    eSwitch.tag = 0
+                }
+                eSwitch.isEnabled = false
+                eSwitch.isHidden = true
+                continue
+            }
+
+            let effect = figure?.effects?.entry(index: i)?.value
+            if (effect == nil) {
+                if (setTagsAndLabels) {
+                    eSwitch.tag = 0
+                }
+                eSwitch.isEnabled = false
+                eSwitch.isHidden = true
+                continue
+            }
             
+            if (setTagsAndLabels) {
+                eSwitch.tag = (i+1)
+            }
+            eSwitch.isEnabled = true
+            eSwitch.isHidden = false
+            eSwitch.isOn = effect!.enabled
         }
-        
-        let effectCount = figure?.effects?.entryCount
-        .
-        var switches = [ nodesSwitch, netSwitch, meridiansSwitch ]
-        
     }
     
     func updateEffects(_ sender: Any?) {
-        if (figure == nil) {
-            nodesSwitch.isOn = false
-            netSwitch.isOn = false
-            meridiansSwitch.isOn = false
-            // innerShellSwitch.isOn = false
-            return
-        }
-        
-        let effects = figure!.effects
-        let meridians = effects?.entry(key: Meridians.key)?.value
-        meridiansSwitch.isOn = (meridians != nil) ? meridians!.enabled : false
+        initEffectsControls(false)
     }
     
     func resetEffects() {
