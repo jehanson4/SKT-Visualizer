@@ -15,29 +15,14 @@ import GLKit
 
 struct SK2E {
     static var key = ""
+    static var name = "SK/2 Equilibrium"
+    static var info = "Equilibrium properties of the 2-component SK model"
     
     static func makeFigures(_ system: SK2_System, _ graphicsController: GraphicsController) -> Registry<Figure>? {
         let reg = Registry<Figure>()
         
-        // ===========================================
-        // Sample figures
-        //
-        //        let sample1 = ShellFigure("Sample Figure 1")
-        //        _ = sample1.effects?.register(Axes(enabled: true))
-        //        _ = sample1.effects?.register(Balls(enabled: true))
-        //        _ = reg.register(sample1)
-        //
-        //        let sample2 = ShellFigure("Sample Figure 2")
-        //        _ = sample2.effects?.register(Icosahedron(enabled: true))
-        //        _ = reg.register(sample2)
-        //
-        //        let sample3 = ShellFigure("Sample Figure 3")
-        //        let color3 = UniformColor("white", r: 1, g: 1, b: 1)
-        //        _ = sample3.effects?.register(ColoredNodesOnShell(system, sample3, color3, enabled: true))
-        //        _ = reg.register(sample3)
-        
         // =====================
-        // baseFigure
+        // Base Figure
         
         let r0 : Double = 1
         let baseFigure = ShellFigure("BaseFigure", radius: r0)
@@ -108,13 +93,29 @@ struct SK2E {
 
 struct SK2D {
     static var key = ""
-
+    static var name = "SK/2 Dynamics"
+    static var info = "Simulated population dynamics of the 2-component SK model"
+    
     static func makeFigures(_ system: SK2_System, _ graphicsController: GraphicsController) -> Registry<Figure>? {
         let reg = Registry<Figure>()
         
-        let sampleFigure = ShellFigure("Sample Figure")
-        _ = sampleFigure.effects?.register(Icosahedron(enabled: true))
-        _ = reg.register(sampleFigure)
+        // ===========================================
+        // Sample figures
+        
+        let sample1 = ShellFigure("Sample Figure 1")
+        _ = sample1.effects?.register(Axes(enabled: true))
+        _ = sample1.effects?.register(Balls(enabled: true))
+        _ = reg.register(sample1)
+        
+        let sample2 = ShellFigure("Sample Figure 2")
+        _ = sample2.effects?.register(Icosahedron(enabled: true))
+        _ = reg.register(sample2)
+        
+        let sample3 = ShellFigure("Sample Figure 3")
+        let color3 = UniformColor("white", r: 1, g: 1, b: 1)
+        _ = sample3.effects?.register(NodesOnShell(system, sample3, color3, enabled: true))
+        _ = reg.register(sample3)
+        
         
         return reg
     }
@@ -160,8 +161,8 @@ class SK2_Factory: AppPartFactory {
         let sk2eSequencers: Registry<Sequencer>? = SK2E.makeSequencers(system)
         // TODO sequencer pref's
 
-        let sk2ePart = AppPart1(key: SK2E.key, name: "SK/2 Equilibrium", system: system)
-        sk2ePart.info = "Equilibrium properties of the 2-component SK model"
+        let sk2ePart = AppPart1(key: SK2E.key, name: SK2E.name, system: system)
+        sk2ePart.info = SK2E.info
         sk2ePart.group = group
         sk2ePart.figures = sk2eFigures
         sk2ePart.sequencers = sk2eSequencers
@@ -178,8 +179,8 @@ class SK2_Factory: AppPartFactory {
         let sk2dSequencers: Registry<Sequencer>? = SK2D.makeSequencers(system)
         // TODO sequencer pref's
         
-        let sk2dPart = AppPart1(key: SK2D.key, name: "SK/2 Timeseries", system: system)
-        sk2dPart.info = "Simulated population dynamics of the 2-component SK model"
+        let sk2dPart = AppPart1(key: SK2D.key, name: SK2D.name, system: system)
+        sk2dPart.info = SK2D.info
         sk2dPart.group = group
         sk2dPart.figures = sk2dFigures
         sk2dPart.sequencers = sk2dSequencers

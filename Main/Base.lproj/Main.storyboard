@@ -123,7 +123,7 @@
                                                         <state key="normal" title="SK/2 Equilibrium    〉"/>
                                                         <connections>
                                                             <action selector="selectSK2E:" destination="bVF-Kc-23a" eventType="touchUpInside" id="QVx-bC-f0h"/>
-                                                            <segue destination="pOT-RV-AeI" kind="show" identifier="sequeToSK2E" id="Eh7-cP-QOM"/>
+                                                            <segue destination="pOT-RV-AeI" kind="show" identifier="segueToSK2E" id="Eh7-cP-QOM"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RUD-NF-Y2T">
@@ -131,7 +131,7 @@
                                                         <state key="normal" title="SK/2 Dynamics    〉"/>
                                                         <connections>
                                                             <action selector="selectSK2D:" destination="bVF-Kc-23a" eventType="touchUpInside" id="AyB-dm-OP7"/>
-                                                            <segue destination="pOT-RV-AeI" kind="show" id="WGP-mm-czg"/>
+                                                            <segue destination="pOT-RV-AeI" kind="show" identifier="segueToSK2D" id="WGP-mm-czg"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zyd-iM-ZCR">
@@ -304,16 +304,16 @@
             </objects>
             <point key="canvasLocation" x="942" y="-1689"/>
         </scene>
-        <!--SK2E_Storyboard-->
+        <!--SK2_Storyboard-->
         <scene sceneID="ncs-bM-tTG">
             <objects>
-                <viewControllerPlaceholder storyboardName="SK2E_Storyboard" id="pOT-RV-AeI" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="SK2_Storyboard" id="pOT-RV-AeI" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZMk-MP-bdz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="934" y="-1628"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Eh7-cP-QOM"/>
+        <segue reference="WGP-mm-czg"/>
     </inferredMetricsTieBreakers>
 </document>

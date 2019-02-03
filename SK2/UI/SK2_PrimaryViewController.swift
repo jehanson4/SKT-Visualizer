@@ -1,5 +1,5 @@
 //
-//  SK2E_PrimaryViewController.swift
+//  SK2_PrimaryViewController.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 1/7/19.
@@ -8,12 +8,12 @@
 
 import UIKit
 
-class SK2E_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModelUser {
+class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModelUser {
 
     // ==========================================
     // Debug
     
-    let name = "SK2E_PrimaryViewController"
+    let name = "SK2_PrimaryViewController"
     var debugEnabled = true
 
     func debug(_ mtd: String, _ msg: String = "") {
@@ -27,7 +27,7 @@ class SK2E_PrimaryViewController: UIViewController, UITextFieldDelegate, AppMode
     
     var appModel: AppModel? = nil
     weak var appPart: AppPart!
-    weak var sk2e: SK2_System!
+    weak var system: SK2_System!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,11 +41,14 @@ class SK2E_PrimaryViewController: UIViewController, UITextFieldDelegate, AppMode
         else {
             debug(mtd, "appModel has been set")
             appPart = appModel!.partSelector.selection?.value
+            debug(mtd, "setting navigation bar title")
+            self.title = appPart.name
             debug(mtd, "selected part = \(String(describing: appPart))")
-            sk2e = appPart.system as? SK2_System
+            system = appPart.system as? SK2_System
         }
         
-        if (sk2e == nil) {
+
+        if (system == nil) {
             debug(mtd, "system is nil")
         }
         else {
@@ -99,7 +102,7 @@ class SK2E_PrimaryViewController: UIViewController, UITextFieldDelegate, AppMode
         a1_teardown()
         a2_teardown()
         T_teardown()
-        sk2e = nil
+        system = nil
         // appModel = nil
 
         super.viewWillDisappear(animated)
@@ -114,9 +117,9 @@ class SK2E_PrimaryViewController: UIViewController, UITextFieldDelegate, AppMode
         return true
     }
     
-    @IBAction func unwindToSK2E_Primary
+    @IBAction func unwindToSK2_Primary
         (_ sender: UIStoryboardSegue) {
-        debug("unwindToSK2E_Primary")
+        debug("unwindToSK2_Primary")
     }
     
     // ===========================================
@@ -186,15 +189,15 @@ class SK2E_PrimaryViewController: UIViewController, UITextFieldDelegate, AppMode
     
     @IBAction func N_edited(_ sender: UITextField) {
         debug("N_edited", "sender.tag=\(sender.tag)")
-        if (sk2e != nil && sender.text != nil) {
-            sk2e!.N.applyValue(sender.text!)
+        if (system != nil && sender.text != nil) {
+            system!.N.applyValue(sender.text!)
         }
     }
     
     @IBAction func N_step(_ sender: UIStepper) {
         debug("N_step")
-        if (sk2e != nil) {
-            sk2e!.N.applyValue(sender.value)
+        if (system != nil) {
+            system!.N.applyValue(sender.value)
         }
     }
     
@@ -213,9 +216,9 @@ class SK2E_PrimaryViewController: UIViewController, UITextFieldDelegate, AppMode
     func N_setup() {
         debug("N_setup")
         param1_text.delegate = self
-        if (sk2e != nil) {
-            self.N_update(sk2e!.N)
-            param1_monitor = sk2e!.N.monitorChanges(N_update)
+        if (system != nil) {
+            self.N_update(system!.N)
+            param1_monitor = system!.N.monitorChanges(N_update)
         }
     }
     
@@ -235,15 +238,15 @@ class SK2E_PrimaryViewController: UIViewController, UITextFieldDelegate, AppMode
 
     @IBAction func k_edited(_ sender: UITextField) {
         debug("k_edited")
-        if (sk2e != nil && sender.text != nil) {
-            sk2e!.k.applyValue(sender.text!)
+        if (system != nil && sender.text != nil) {
+            system!.k.applyValue(sender.text!)
         }
     }
     
     @IBAction func k_step(_ sender: UIStepper) {
         debug("k_step")
-        if (sk2e != nil) {
-            sk2e!.k.applyValue(sender.value)
+        if (system != nil) {
+            system!.k.applyValue(sender.value)
         }
     }
     
@@ -262,9 +265,9 @@ class SK2E_PrimaryViewController: UIViewController, UITextFieldDelegate, AppMode
     func k_setup() {
         debug("k_setup")
         k_text.delegate = self
-        if (sk2e != nil) {
-            self.k_update(sk2e!.k)
-            k_monitor = sk2e!.k.monitorChanges(k_update)
+        if (system != nil) {
+            self.k_update(system!.k)
+            k_monitor = system!.k.monitorChanges(k_update)
         }
     }
     
@@ -284,15 +287,15 @@ class SK2E_PrimaryViewController: UIViewController, UITextFieldDelegate, AppMode
 
     @IBAction func a1_edited(_ sender: UITextField) {
         debug("a1_edited")
-        if (sk2e != nil && sender.text != nil) {
-            sk2e!.a1.applyValue(sender.text!)
+        if (system != nil && sender.text != nil) {
+            system!.a1.applyValue(sender.text!)
         }
     }
     
     @IBAction func a1_step(_ sender: UIStepper) {
         debug("a1_step")
-        if (sk2e != nil) {
-            sk2e!.a1.applyValue(sender.value)
+        if (system != nil) {
+            system!.a1.applyValue(sender.value)
         }
     }
 
@@ -311,9 +314,9 @@ class SK2E_PrimaryViewController: UIViewController, UITextFieldDelegate, AppMode
     func a1_setup() {
         debug("a1_setup")
         a1_text.delegate = self
-        if (sk2e != nil) {
-            self.a1_update(sk2e!.a1)
-            a1_monitor = sk2e!.a1.monitorChanges(a1_update)
+        if (system != nil) {
+            self.a1_update(system!.a1)
+            a1_monitor = system!.a1.monitorChanges(a1_update)
         }
     }
     
@@ -333,15 +336,15 @@ class SK2E_PrimaryViewController: UIViewController, UITextFieldDelegate, AppMode
 
     @IBAction func a2_edited(_ sender: UITextField) {
         debug("a2_edited")
-        if (sk2e != nil && sender.text != nil) {
-            sk2e!.a2.applyValue(sender.text!)
+        if (system != nil && sender.text != nil) {
+            system!.a2.applyValue(sender.text!)
         }
     }
     
     @IBAction func a2_step(_ sender: UIStepper) {
         debug("a2_step")
-        if (sk2e != nil) {
-            sk2e!.a2.applyValue(sender.value)
+        if (system != nil) {
+            system!.a2.applyValue(sender.value)
         }
     }
     
@@ -360,9 +363,9 @@ class SK2E_PrimaryViewController: UIViewController, UITextFieldDelegate, AppMode
     func a2_setup() {
         debug("a2_setup")
         a2_text.delegate = self
-        if (sk2e != nil) {
-            self.a2_update(sk2e!.a2)
-            a2_monitor = sk2e!.a2.monitorChanges(a2_update)
+        if (system != nil) {
+            self.a2_update(system!.a2)
+            a2_monitor = system!.a2.monitorChanges(a2_update)
         }
     }
     
@@ -382,15 +385,15 @@ class SK2E_PrimaryViewController: UIViewController, UITextFieldDelegate, AppMode
 
     @IBAction func T_edited(_ sender: UITextField) {
         debug("T_edited")
-        if (sk2e != nil && sender.text != nil) {
-            sk2e!.T.applyValue(sender.text!)
+        if (system != nil && sender.text != nil) {
+            system!.T.applyValue(sender.text!)
         }
     }
     
     @IBAction func T_step(_ sender: UIStepper) {
         debug("T_step")
-        if (sk2e != nil) {
-            sk2e!.T.applyValue(sender.value)
+        if (system != nil) {
+            system!.T.applyValue(sender.value)
         }
     }
     
@@ -409,9 +412,9 @@ class SK2E_PrimaryViewController: UIViewController, UITextFieldDelegate, AppMode
     func T_setup() {
         debug("T_setup")
         T_text.delegate = self
-        if (sk2e != nil) {
-            self.T_update(sk2e!.T)
-            T_monitor = sk2e!.T.monitorChanges(T_update)
+        if (system != nil) {
+            self.T_update(system!.T)
+            T_monitor = system!.T.monitorChanges(T_update)
         }
     }
     
@@ -425,8 +428,8 @@ class SK2E_PrimaryViewController: UIViewController, UITextFieldDelegate, AppMode
     
     @IBAction func resetModelParams(_ sender: Any) {
         debug("resetModelParams")
-        if (sk2e != nil) {
-            sk2e!.resetAllParameters()
+        if (system != nil) {
+            system!.resetAllParameters()
         }
     }
 

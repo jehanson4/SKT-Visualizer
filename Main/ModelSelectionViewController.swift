@@ -116,12 +116,14 @@ class ModelSelectionViewController : UIViewController, AppModelUser {
             }
             else {
                 debug(mtdName, "setting destination's appModel")
-                d2.appModel = self.appModel
+                d2.appModel = self.appModel                
             }
+            
         }
         else {
             debug(mtdName, "destination is not an app model user")
         }
+        
     }
     
 }

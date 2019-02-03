@@ -1,5 +1,5 @@
 //
-//  SK2E_SecondaryViewController.swift
+//  SK2_SecondaryViewController.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 1/13/19.
@@ -8,12 +8,12 @@
 
 import UIKit
 
-class SK2E_SecondaryViewController: UIViewController, AppModelUser {
+class SK2_SecondaryViewController: UIViewController, AppModelUser {
     
     // =============================================
     // Debugging
     
-    let name = "SK2E_SecondaryViewController"
+    let name = "SK2_SecondaryViewController"
     var debugEnabled = true
     func debug(_ mtd: String, _ msg: String = "") {
         if (debugEnabled)  {
@@ -66,9 +66,9 @@ class SK2E_SecondaryViewController: UIViewController, AppModelUser {
         self.dismiss(animated: true, completion: nil)
     }
  
-    @IBAction func unwindToSK2E_Secondary
+    @IBAction func unwindToSK2_Secondary
         (_ sender: UIStoryboardSegue) {
-        debug("unwindToSK2E_Secondary")
+        debug("unwindToSK2_Secondary")
     }
     
    // ======================================================
@@ -99,47 +99,6 @@ class SK2E_SecondaryViewController: UIViewController, AppModelUser {
             effect!.enabled = sender.isOn
         }
     }
-    
-//    @IBAction func netSwitchFlipped(_ sender: UISwitch) {
-//        let mtd = "netSwitchFlipped"
-//        debug(mtd, "entering. sender.tag=\(sender.tag)")
-//        if (figure == nil) {
-//            debug(mtd, "figure is nil")
-//            return
-//        }
-//        let effects = figure!.effects
-//        var net = effects?.entry(key: NetOnShell.key)?.value
-//        if (net == nil) {
-//            debug(mtd, "No \(NetOnShell.key) in effects registry")
-//            debug(mtd, "effects registry entry keys: \(String(describing: effects?.entryKeys))")
-//        }
-//        else {
-//            net!.enabled = effectSwitch1.isOn
-//        }
-//    }
-//    
-//    @IBAction func meridiansSwitchFlipped(_ sender: UISwitch) {
-//        let mtd = "meridiansSwitchFlipped"
-//        debug(mtd, "entering. sender.tag=\(sender.tag)")
-//        if (figure == nil) {
-//            debug(mtd, "figure is nil")
-//            return
-//        }
-//        let effects = figure!.effects
-//        var meridians = effects?.entry(key: Meridians.key)?.value
-//        if (meridians == nil) {
-//            debug(mtd, "No \(Meridians.key) in effects registry")
-//            debug(mtd, "effects registry entry keys: \(String(describing: effects?.entryKeys))")
-//        }
-//        else {
-//            meridians!.enabled = effectSwitch2.isOn
-//        }
-//    }
-//    
-//    @IBOutlet weak var innerShellSwitch: UISwitch!
-//    
-//    @IBAction func innerShellSwitchFlipped(_ sender: UISwitch) {
-//    }
     
     func initEffectsControls(_ setTagsAndLabels: Bool) {
         let mtd = "initEffectsControls"
@@ -238,4 +197,7 @@ class SK2E_SecondaryViewController: UIViewController, AppModelUser {
         func reset(_ effect: Effect) { effect.reset() }
         figure?.effects?.visit(reset)
     }
+    
+    // ========================================
+    // Deltas
 }

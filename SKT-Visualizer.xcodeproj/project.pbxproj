@@ -59,7 +59,7 @@
 		8A75B694208A771800EACD13 /* SKTModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B693208A771800EACD13 /* SKTModel.swift */; };
 		8A84313820726F0100F06B9B /* Axes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A84313720726F0100F06B9B /* Axes.swift */; };
 		8A8817472207484800523467 /* UIUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A8817462207484800523467 /* UIUtils.swift */; };
-		8A88174B220757C000523467 /* SK2E_Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A88174A220757C000523467 /* SK2E_Storyboard.storyboard */; };
+		8A88174B220757C000523467 /* SK2_Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A88174A220757C000523467 /* SK2_Storyboard.storyboard */; };
 		8A91B0982093F8C100488907 /* OLD_Parameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A91B0972093F8C100488907 /* OLD_Parameters.swift */; };
 		8A91B09C2093F98000488907 /* OLD_Sequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A91B09B2093F98000488907 /* OLD_Sequencer.swift */; };
 		8A91B09E2094163C00488907 /* DummySequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A91B09D2094163C00488907 /* DummySequencer.swift */; };
@@ -203,7 +203,7 @@
 		8A75B693208A771800EACD13 /* SKTModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKTModel.swift; sourceTree = "<group>"; };
 		8A84313720726F0100F06B9B /* Axes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Axes.swift; sourceTree = "<group>"; };
 		8A8817462207484800523467 /* UIUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIUtils.swift; sourceTree = "<group>"; };
-		8A88174A220757C000523467 /* SK2E_Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SK2E_Storyboard.storyboard; sourceTree = "<group>"; };
+		8A88174A220757C000523467 /* SK2_Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SK2_Storyboard.storyboard; sourceTree = "<group>"; };
 		8A91B0972093F8C100488907 /* OLD_Parameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OLD_Parameters.swift; sourceTree = "<group>"; };
 		8A91B09B2093F98000488907 /* OLD_Sequencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OLD_Sequencer.swift; sourceTree = "<group>"; };
 		8A91B09D2094163C00488907 /* DummySequencer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DummySequencer.swift; sourceTree = "<group>"; };
@@ -385,6 +385,7 @@
 		8A3C45B72086185B00A1E9CD /* Scratch */ = {
 			isa = PBXGroup;
 			children = (
+				8A591B3A21E6D6DB00B802F8 /* UISelectionViewController.swift */,
 				8A2034E821ED2F8E00A4C418 /* SystemGeometry.swift */,
 				8A2034DB21EB76AC00A4C418 /* ButtonWithImage.swift */,
 				8A4654C121E97A7B00EE2B26 /* Registry2.swift */,
@@ -613,7 +614,7 @@
 		8AC82CE721F9DA4000A75595 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				8A88174A220757C000523467 /* SK2E_Storyboard.storyboard */,
+				8A88174A220757C000523467 /* SK2_Storyboard.storyboard */,
 				8A591B3121E441FB00B802F8 /* SK2_PrimaryViewController.swift */,
 				8A2034DD21EB961300A4C418 /* SK2_SecondaryViewController.swift */,
 			);
@@ -757,7 +758,6 @@
 			isa = PBXGroup;
 			children = (
 				8AF98F9F207FE8350007688E /* GraphicsViewController.swift */,
-				8A591B3A21E6D6DB00B802F8 /* UISelectionViewController.swift */,
 				8A41B09B21F357F600DE38CB /* FigureSelectionViewController.swift */,
 				8AE1BD11220097E300D6A062 /* SequencerSelectionViewController.swift */,
 				8A8817462207484800523467 /* UIUtils.swift */,
@@ -854,7 +854,7 @@
 				8A1CF020207146540099DD97 /* LaunchScreen.storyboard in Resources */,
 				8A75424A20A8CC5100A2BFAD /* about.html in Resources */,
 				8AD81824207C9BD900426C25 /* image1-20@3x.png in Resources */,
-				8A88174B220757C000523467 /* SK2E_Storyboard.storyboard in Resources */,
+				8A88174B220757C000523467 /* SK2_Storyboard.storyboard in Resources */,
 				8AD81827207C9BD900426C25 /* Contents.json in Resources */,
 				8AD9DAC520914E020062457C /* SimpleFragmentShader.glsl in Resources */,
 				8A73A77F22072FC300276165 /* OLD.storyboard in Resources */,
