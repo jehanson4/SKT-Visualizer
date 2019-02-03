@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Darwin
 
 // =======================================================================
 // Misc Functions
@@ -32,9 +33,14 @@ func sgn(_ x: Double) -> Double {
     return (x == 0) ? 0 : ( (x < 0) ? -1 : 1)
 }
 
-/// returns exponent: for 1 < x < 10, returns 1; etc
+/// returns the exponent: for 10 <= x < 100, returns 2. If x == 0 returns 0
 func orderOfMagnitude(_ x: Double) -> Double {
     return (x == 0) ? 0 : floor(log10(abs(x)))
+}
+
+/// returns the 10^orderOfMagnitude: for 10 <= x < 100, returns 10. If x == 0 returns 1
+func powerOf10(_ x: Double) -> Double {
+    return pow(10, orderOfMagnitude(x))
 }
 
 /**

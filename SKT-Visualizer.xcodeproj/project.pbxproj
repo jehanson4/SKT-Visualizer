@@ -60,6 +60,7 @@
 		8A84313820726F0100F06B9B /* Axes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A84313720726F0100F06B9B /* Axes.swift */; };
 		8A8817472207484800523467 /* UIUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A8817462207484800523467 /* UIUtils.swift */; };
 		8A88174B220757C000523467 /* SK2_Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A88174A220757C000523467 /* SK2_Storyboard.storyboard */; };
+		8A88174D220791D400523467 /* SK2_TertiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A88174C220791D400523467 /* SK2_TertiaryViewController.swift */; };
 		8A91B0982093F8C100488907 /* OLD_Parameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A91B0972093F8C100488907 /* OLD_Parameters.swift */; };
 		8A91B09C2093F98000488907 /* OLD_Sequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A91B09B2093F98000488907 /* OLD_Sequencer.swift */; };
 		8A91B09E2094163C00488907 /* DummySequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A91B09D2094163C00488907 /* DummySequencer.swift */; };
@@ -204,6 +205,7 @@
 		8A84313720726F0100F06B9B /* Axes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Axes.swift; sourceTree = "<group>"; };
 		8A8817462207484800523467 /* UIUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIUtils.swift; sourceTree = "<group>"; };
 		8A88174A220757C000523467 /* SK2_Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SK2_Storyboard.storyboard; sourceTree = "<group>"; };
+		8A88174C220791D400523467 /* SK2_TertiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_TertiaryViewController.swift; sourceTree = "<group>"; };
 		8A91B0972093F8C100488907 /* OLD_Parameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OLD_Parameters.swift; sourceTree = "<group>"; };
 		8A91B09B2093F98000488907 /* OLD_Sequencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OLD_Sequencer.swift; sourceTree = "<group>"; };
 		8A91B09D2094163C00488907 /* DummySequencer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DummySequencer.swift; sourceTree = "<group>"; };
@@ -617,6 +619,7 @@
 				8A88174A220757C000523467 /* SK2_Storyboard.storyboard */,
 				8A591B3121E441FB00B802F8 /* SK2_PrimaryViewController.swift */,
 				8A2034DD21EB961300A4C418 /* SK2_SecondaryViewController.swift */,
+				8A88174C220791D400523467 /* SK2_TertiaryViewController.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -892,6 +895,7 @@
 				8A591B3421E6902500B802F8 /* ModelSelectionViewController.swift in Sources */,
 				8A41B09021F0ACA500DE38CB /* Parameters.swift in Sources */,
 				8AB2A63721FDEDEC00A46316 /* DiscreteSystem.swift in Sources */,
+				8A88174D220791D400523467 /* SK2_TertiaryViewController.swift in Sources */,
 				8A0C09A620716B670017AC4C /* SK2Geometry.swift in Sources */,
 				8AA05A2220900692009417A6 /* OLD_ColorSourceSelectionViewController.swift in Sources */,
 				8A2034E921ED2F8E00A4C418 /* SystemGeometry.swift in Sources */,

@@ -28,6 +28,7 @@ class SK2_SecondaryViewController: UIViewController, AppModelUser {
     weak var appPart: AppPart!
     weak var system: SK2_System!
     var figure: Figure? = nil
+    var sequencer: Sequencer? = nil
     
     override func viewDidLoad() {
         let mtd = "viewDidLoad"
@@ -40,14 +41,23 @@ class SK2_SecondaryViewController: UIViewController, AppModelUser {
         else {
             debug(mtd, "app Model has been set")
             appPart = appModel!.partSelector.selection?.value
+
+            debug(mtd, "setting navigation bar title")
+            self.title = appPart.name
+
             debug(mtd, "currently selected part = \(String(describing: appPart))")
             system = appPart.system as? SK2_System
 
             figure = appPart.figureSelector.selection?.value
             debug(mtd, "currently selected figure = \(String(describing: figure))")
+
+            sequencer = appPart.sequencerSelector.selection?.value
+            debug(mtd, "currently selected sequencer = \(String(describing: sequencer))")
+
         }
 
         initEffectsControls(true)
+        initDeltaControls(true)
     }
         
     override func didReceiveMemoryWarning() {
@@ -200,4 +210,116 @@ class SK2_SecondaryViewController: UIViewController, AppModelUser {
     
     // ========================================
     // Deltas
+    
+    @IBOutlet weak var delta1_Label: UILabel!
+    @IBOutlet weak var delta1_Text: UITextField!
+    @IBOutlet weak var delta1_Stepper: UIStepper!
+    
+    @IBAction func delta1_edited(_ sender: UITextField) {
+        debug("delta1_edited", "tag=\(sender.tag)")
+    }
+    
+    @IBAction func delta1_step(_ sender: UIStepper) {
+        debug("delta1_step", "tag=\(sender.tag)")
+    }
+    
+    @IBOutlet weak var delta2_Label: UILabel!
+    @IBOutlet weak var delta2_Text: UITextField!
+    @IBOutlet weak var delta2_Stepper: UIStepper!
+    
+    @IBAction func delta2_edited(_ sender: UITextField) {
+    }
+    
+    @IBAction func delta2_step(_ sender: UIStepper) {
+    }
+    
+    @IBOutlet weak var delta3_Label: UILabel!
+    @IBOutlet weak var delta3_Text: UITextField!
+    @IBOutlet weak var delta3_Stepper: UIStepper!
+    
+    @IBAction func delta3_edited(_ sender: UITextField) {
+    }
+    
+    @IBAction func delta3_step(_ sender: UIStepper) {
+    }
+    
+    @IBOutlet weak var delta4_Label: UILabel!
+    @IBOutlet weak var delta4_Text: UITextField!
+    @IBOutlet weak var delta4_Stepper: UIStepper!
+    
+    @IBAction func delta4_edited(_ sender: UITextField) {
+    }
+    
+    @IBAction func delta4_step(_ sender: UIStepper) {
+    }
+    
+    @IBOutlet weak var delta5_Label: UILabel!
+    @IBOutlet weak var delta5_Text: UITextField!
+    @IBOutlet weak var delta5_Stepper: UIStepper!
+    
+    @IBAction func delta5_edited(_ sender: UITextField) {
+        
+    }
+    
+    @IBAction func delta5_step(_ sender: UIStepper) {
+    }
+    
+    func initDeltaControls(_ setLabelsAndTags: Bool) {
+        
+        let labels = [
+            delta1_Label,
+            delta2_Label,
+            delta3_Label,
+            delta4_Label,
+            delta5_Label
+        ]
+        let texts = [
+            delta1_Text,
+            delta2_Text,
+            delta3_Text,
+            delta4_Text,
+            delta5_Text
+        ]
+        let steppers = [
+            delta1_Stepper,
+            delta2_Stepper,
+            delta3_Stepper,
+            delta4_Stepper,
+            delta5_Stepper
+        ]
+        let params = appPart.system.parameters
+        for i in 0..<params.entryCount {
+            initDeltaControl(setLabelsAndTags,
+                             params.entry(index: i)?.value,
+                             (i+1),
+                             labels[i],
+                             texts[i],
+                             steppers[i])
+        }
+    }
+    
+    func initDeltaControl(_ setLabelsAndTags: Bool, _ param: Parameter?, _ tag: Int, _ label: UILabel?, _ text: UITextField?, _ stepper: UIStepper?) {
+        if (param == nil) {
+            return
+        }
+        
+        if (label != nil) {
+            if (setLabelsAndTags) {
+                label!.text = "\u{0394}" + (param?.name ?? "") + ":"
+            }
+        }
+        
+        if (text != nil) {
+            let pStepSize = param?.stepSizeAsString ?? ""
+            text!.text = pStepSize
+        }
+        
+        if (stepper != nil) {
+            let pStepSize = param?.stepSizeAsDouble ?? 1
+            let pStepSizeDelta = param?.stepSizeIncrementAsDouble ?? 0.01
+            stepper!.value = pStepSize
+            stepper?.stepValue = pStepSizeDelta
+        }
+    }
+    
 }

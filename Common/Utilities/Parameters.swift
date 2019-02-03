@@ -30,6 +30,9 @@ protocol Parameter: Named, PreferenceSupport, ChangeMonitorEnabled {
     func applyStepSize(_: String)
     func applyStepSize(_: Double)
     
+    /// because I need to set the increment on a Stepper control that changes the step size
+    var stepSizeIncrementAsDouble: Double { get }
+    
     var valueAsString: String { get }
     var valueAsDouble: Double { get }
     func applyValue(_: String)
@@ -163,6 +166,10 @@ class DiscreteParameter: Parameter {
                 _stepSize = s3
             }
         }
+    }
+    
+    var stepSizeIncrementAsDouble: Double {
+        return 1
     }
     
     // =========================================
@@ -411,6 +418,10 @@ class ContinuousParameter: Parameter {
         if (s > 0) {
             _stepSize = s
         }
+    }
+    
+    var stepSizeIncrementAsDouble: Double {
+        return powerOf10(0.1 * (maxAsDouble - minAsDouble))
     }
     
     // =========================================

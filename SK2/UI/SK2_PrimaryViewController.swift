@@ -41,9 +41,11 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
         else {
             debug(mtd, "appModel has been set")
             appPart = appModel!.partSelector.selection?.value
+          
             debug(mtd, "setting navigation bar title")
             self.title = appPart.name
-            debug(mtd, "selected part = \(String(describing: appPart))")
+            
+            debug(mtd, "currently selected part = \(String(describing: appPart))")
             system = appPart.system as? SK2_System
         }
         

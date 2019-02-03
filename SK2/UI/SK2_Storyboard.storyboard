@@ -895,9 +895,15 @@
                                                                 <nil key="textColor"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                                                <connections>
+                                                                    <action selector="delta1_edited:" destination="deL-8s-Yda" eventType="editingDidEnd" id="HTJ-ZF-6aO"/>
+                                                                </connections>
                                                             </textField>
                                                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="qjv-Wd-Hja">
                                                                 <rect key="frame" x="217" y="0.0" width="94" height="29"/>
+                                                                <connections>
+                                                                    <action selector="delta1_step:" destination="deL-8s-Yda" eventType="valueChanged" id="Sks-sZ-LRn"/>
+                                                                </connections>
                                                             </stepper>
                                                         </subviews>
                                                     </stackView>
@@ -915,9 +921,15 @@
                                                                 <nil key="textColor"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                                                <connections>
+                                                                    <action selector="delta2_edited:" destination="deL-8s-Yda" eventType="editingDidEnd" id="l1y-Zi-QKb"/>
+                                                                </connections>
                                                             </textField>
                                                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="Oxc-8l-7Ut">
                                                                 <rect key="frame" x="217" y="0.0" width="94" height="29"/>
+                                                                <connections>
+                                                                    <action selector="delta2_step:" destination="deL-8s-Yda" eventType="valueChanged" id="1Na-r5-LPO"/>
+                                                                </connections>
                                                             </stepper>
                                                         </subviews>
                                                     </stackView>
@@ -935,9 +947,15 @@
                                                                 <nil key="textColor"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                                                <connections>
+                                                                    <action selector="delta3_edited:" destination="deL-8s-Yda" eventType="editingDidEnd" id="Wvn-Nm-iuF"/>
+                                                                </connections>
                                                             </textField>
                                                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="sPW-P3-1Lb">
                                                                 <rect key="frame" x="217" y="0.0" width="94" height="29"/>
+                                                                <connections>
+                                                                    <action selector="delta3_step:" destination="deL-8s-Yda" eventType="valueChanged" id="F8q-Bz-2w3"/>
+                                                                </connections>
                                                             </stepper>
                                                         </subviews>
                                                     </stackView>
@@ -955,9 +973,15 @@
                                                                 <nil key="textColor"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                                                <connections>
+                                                                    <action selector="delta4_edited:" destination="deL-8s-Yda" eventType="editingDidEnd" id="K3h-3d-csJ"/>
+                                                                </connections>
                                                             </textField>
                                                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="5pd-AD-qCv">
                                                                 <rect key="frame" x="217" y="0.0" width="94" height="29"/>
+                                                                <connections>
+                                                                    <action selector="delta4_step:" destination="deL-8s-Yda" eventType="valueChanged" id="eph-h0-Bf9"/>
+                                                                </connections>
                                                             </stepper>
                                                         </subviews>
                                                     </stackView>
@@ -975,9 +999,15 @@
                                                                 <nil key="textColor"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                                                <connections>
+                                                                    <action selector="delta5_edited:" destination="deL-8s-Yda" eventType="editingDidEnd" id="Zrp-Vm-w8N"/>
+                                                                </connections>
                                                             </textField>
                                                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="Whl-xM-Xyo">
                                                                 <rect key="frame" x="217" y="0.0" width="94" height="29"/>
+                                                                <connections>
+                                                                    <action selector="delta5_step:" destination="deL-8s-Yda" eventType="valueChanged" id="QZT-Uc-LEs"/>
+                                                                </connections>
                                                             </stepper>
                                                         </subviews>
                                                     </stackView>
@@ -1016,6 +1046,21 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="delta1_Label" destination="rht-iW-nDM" id="rzS-WU-NgW"/>
+                        <outlet property="delta1_Stepper" destination="qjv-Wd-Hja" id="usW-4L-po0"/>
+                        <outlet property="delta1_Text" destination="a4d-3H-wCl" id="a9C-Nc-Et0"/>
+                        <outlet property="delta2_Label" destination="881-sq-QmU" id="Unf-ya-VwI"/>
+                        <outlet property="delta2_Stepper" destination="Oxc-8l-7Ut" id="bxi-BL-3jp"/>
+                        <outlet property="delta2_Text" destination="0kX-r4-YUt" id="g8l-de-PHZ"/>
+                        <outlet property="delta3_Label" destination="Fot-OJ-lBi" id="D3w-e0-CnI"/>
+                        <outlet property="delta3_Stepper" destination="sPW-P3-1Lb" id="7ep-8U-j1P"/>
+                        <outlet property="delta3_Text" destination="R3z-N0-Sq0" id="KIH-rS-eTh"/>
+                        <outlet property="delta4_Label" destination="sJX-Ma-rfe" id="3Oj-0M-eAk"/>
+                        <outlet property="delta4_Stepper" destination="5pd-AD-qCv" id="gNu-jf-578"/>
+                        <outlet property="delta4_Text" destination="6Q1-Xk-UOT" id="1Ff-rm-y2u"/>
+                        <outlet property="delta5_Label" destination="1Jm-nt-BS5" id="cui-ds-KGF"/>
+                        <outlet property="delta5_Stepper" destination="Whl-xM-Xyo" id="n2P-fB-hcQ"/>
+                        <outlet property="delta5_Text" destination="I5i-q0-mpF" id="w7Y-cr-VZe"/>
                         <outlet property="effectLabel0" destination="xDh-vT-Lq1" id="JJV-Rc-vmF"/>
                         <outlet property="effectLabel1" destination="kac-tK-Zfa" id="zEI-1w-gXy"/>
                         <outlet property="effectLabel2" destination="Xdp-zH-OvA" id="NbI-CP-C8e"/>
@@ -1036,7 +1081,7 @@
         <!--SK2E Tertiary View Controller-->
         <scene sceneID="jry-wl-UMG">
             <objects>
-                <viewController title="SK/2E" id="I5j-bs-HXI" userLabel="SK2E Tertiary View Controller" sceneMemberID="viewController">
+                <viewController title="SK/2E" id="I5j-bs-HXI" userLabel="SK2E Tertiary View Controller" customClass="SK2_TertiaryViewController" customModule="SKT_Visualizer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="tHc-Ak-djg">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
