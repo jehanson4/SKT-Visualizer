@@ -141,12 +141,23 @@ class SK2E_SecondaryViewController: UIViewController, AppModelUser {
     @IBAction func innerShellSwitchFlipped(_ sender: UISwitch) {
     }
     
+    func initEffectsControls() {
+        if (figure == nil) {
+            
+        }
+        
+        let effectCount = figure?.effects?.entryCount
+        .
+        var switches = [ nodesSwitch, netSwitch, meridiansSwitch ]
+        
+    }
+    
     func updateEffects(_ sender: Any?) {
         if (figure == nil) {
-            meridiansSwitch.isOn = false
-            // innerShellSwitch.isOn = false
             nodesSwitch.isOn = false
             netSwitch.isOn = false
+            meridiansSwitch.isOn = false
+            // innerShellSwitch.isOn = false
             return
         }
         

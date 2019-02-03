@@ -43,7 +43,7 @@ struct SK2E {
         let baseFigure = ShellFigure("BaseFigure", radius: r0)
         
         let bgColor: GLKVector4 = graphicsController.backgroundColor
-        let bgShell = BackgroundShell(r0, bgColor, enabled: true)
+        let bgShell = InnerShell(r0, bgColor, enabled: true)
         _ = baseFigure.effects?.register(bgShell)
         
         do {

@@ -305,7 +305,7 @@ class VisualizationModel1 : VisualizationModel, Figure {
         registerEffect(FlowLines(skt.geometry, skt.physics, enabled: false))
         
         let bg: GLfloat = VisualizationModel1.scene_backgroundColorValue
-        registerEffect(BackgroundShell(
+        registerEffect(InnerShell(
             skt.geometry.r0,
             GLKVector4Make(bg, bg, bg, 1),
             enabled: true))

@@ -42,7 +42,7 @@ private let effectKeys = [
     Balls.key,
     FlowLines.key,
     BusySpinner.key,
-    BackgroundShell.key
+    InnerShell.key
 ]
 
 

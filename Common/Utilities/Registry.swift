@@ -46,6 +46,8 @@ class Registry<T> : ChangeMonitorEnabled {
         return _entryNames!
     }
     
+    var entryCount: Int { return _entriesByKey.count }
+    
     var entryKeys: [String] { return _entryKeys }
 
     private var _entryKeys: [String] = []

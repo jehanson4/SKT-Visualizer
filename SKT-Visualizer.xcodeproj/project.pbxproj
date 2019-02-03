@@ -63,7 +63,7 @@
 		8A91B0A02094164700488907 /* NForFixedKOverN.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A91B09F2094164700488907 /* NForFixedKOverN.swift */; };
 		8A91B0A4209418A900488907 /* NumericParameterSequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A91B0A3209418A900488907 /* NumericParameterSequencer.swift */; };
 		8A91B0AA2094B01400488907 /* GenericSequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A91B0A92094B01400488907 /* GenericSequencer.swift */; };
-		8A9BA6B820ADD71F009C39BE /* BackgroundShell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9BA6B720ADD71F009C39BE /* BackgroundShell.swift */; };
+		8A9BA6B820ADD71F009C39BE /* InnerShell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9BA6B720ADD71F009C39BE /* InnerShell.swift */; };
 		8AA05A11208FC14E009417A6 /* AppModel1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA05A10208FC14E009417A6 /* AppModel1.swift */; };
 		8AA05A13208FCB58009417A6 /* ChangeSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA05A12208FCB58009417A6 /* ChangeSupport.swift */; };
 		8AA05A15208FD56F009417A6 /* SK2Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA05A14208FD56F009417A6 /* SK2Point.swift */; };
@@ -204,7 +204,7 @@
 		8A91B09F2094164700488907 /* NForFixedKOverN.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NForFixedKOverN.swift; sourceTree = "<group>"; };
 		8A91B0A3209418A900488907 /* NumericParameterSequencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumericParameterSequencer.swift; sourceTree = "<group>"; };
 		8A91B0A92094B01400488907 /* GenericSequencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericSequencer.swift; sourceTree = "<group>"; };
-		8A9BA6B720ADD71F009C39BE /* BackgroundShell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundShell.swift; sourceTree = "<group>"; };
+		8A9BA6B720ADD71F009C39BE /* InnerShell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InnerShell.swift; sourceTree = "<group>"; };
 		8AA05A10208FC14E009417A6 /* AppModel1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel1.swift; sourceTree = "<group>"; };
 		8AA05A12208FCB58009417A6 /* ChangeSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSupport.swift; sourceTree = "<group>"; };
 		8AA05A14208FD56F009417A6 /* SK2Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2Point.swift; sourceTree = "<group>"; };
@@ -323,12 +323,8 @@
 				8A1CF013207146510099DD97 /* Products */,
 				8AF98FA6207FE9CF0007688E /* README.md */,
 				8AF138B7207B8966001A88C6 /* Resources */,
-				8A0C09A220716B050017AC4C /* Utilities */,
 				8A9D599B208DFBD20022831B /* Main */,
-				8AC82CED21F9E41A00A75595 /* Animation */,
-				8AC82CC221F5C8B700A75595 /* Graphics */,
-				8AF5320C2088B63E009D1882 /* PhysicalSystem */,
-				8AF59504208AC6DB0082C5DE /* UI */,
+				8AE1BD1A22060E7200D6A062 /* Common */,
 				8A2034E021ED0F3400A4C418 /* SK1 */,
 				8AC82CE421F9D9A900A75595 /* SK2 */,
 				8A41B09121F0BF0300DE38CB /* SK3 */,
@@ -524,18 +520,6 @@
 			path = Basins;
 			sourceTree = "<group>";
 		};
-		8AB2A63821FDF09A00A46316 /* Shell */ = {
-			isa = PBXGroup;
-			children = (
-				8A9BA6B720ADD71F009C39BE /* BackgroundShell.swift */,
-				8A84313720726F0100F06B9B /* Axes.swift */,
-				8AD9DACA20914E3D0062457C /* Balls.swift */,
-				8ACE788C2072E51800C29875 /* Icosahedron.swift */,
-				8AC82CD821F6668000A75595 /* ShellFigure.swift */,
-			);
-			path = Shell;
-			sourceTree = "<group>";
-		};
 		8AB2A63921FE4F4500A46316 /* Flow */ = {
 			isa = PBXGroup;
 			children = (
@@ -569,8 +553,8 @@
 		8AC82CC221F5C8B700A75595 /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
+				8AE1BD1922060E0D00D6A062 /* Effects */,
 				8AB2A64321FEA9DC00A46316 /* Shaders */,
-				8AB2A63821FDF09A00A46316 /* Shell */,
 				8AE48BBA2087857C001B5D11 /* GLUtils.swift */,
 				8A575FED20804759002B9951 /* ColorMaps.swift */,
 				8AC82CC321F5D00E00A75595 /* Graphics.swift */,
@@ -698,6 +682,30 @@
 				8AE18F9D2099ED8A0086F127 /* lookAndFeel.txt */,
 			);
 			path = _Notes;
+			sourceTree = "<group>";
+		};
+		8AE1BD1922060E0D00D6A062 /* Effects */ = {
+			isa = PBXGroup;
+			children = (
+				8AC82CD821F6668000A75595 /* ShellFigure.swift */,
+				8A9BA6B720ADD71F009C39BE /* InnerShell.swift */,
+				8A84313720726F0100F06B9B /* Axes.swift */,
+				8AD9DACA20914E3D0062457C /* Balls.swift */,
+				8ACE788C2072E51800C29875 /* Icosahedron.swift */,
+			);
+			path = Effects;
+			sourceTree = "<group>";
+		};
+		8AE1BD1A22060E7200D6A062 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				8AF59504208AC6DB0082C5DE /* UI */,
+				8AF5320C2088B63E009D1882 /* PhysicalSystem */,
+				8AC82CC221F5C8B700A75595 /* Graphics */,
+				8AC82CED21F9E41A00A75595 /* Animation */,
+				8A0C09A220716B050017AC4C /* Utilities */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 		8AF138B7207B8966001A88C6 /* Resources */ = {
@@ -944,7 +952,7 @@
 				8AF59503208AC5B10082C5DE /* VisualizatonModel.swift in Sources */,
 				8AF59500208AC0420082C5DE /* AppModel.swift in Sources */,
 				8A35083220A0D5C800E36C1F /* PFlowRules.swift in Sources */,
-				8A9BA6B820ADD71F009C39BE /* BackgroundShell.swift in Sources */,
+				8A9BA6B820ADD71F009C39BE /* InnerShell.swift in Sources */,
 				8A91B0A4209418A900488907 /* NumericParameterSequencer.swift in Sources */,
 				8AC82CC721F5D60400A75595 /* SK2SphereUtils.swift in Sources */,
 				8AAA008E207166C0001A136D /* OLD_MasterViewController.swift in Sources */,

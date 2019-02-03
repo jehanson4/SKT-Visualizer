@@ -1,5 +1,5 @@
 //
-//  Surface.swift
+//  InnerShell.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 4/7/18.
@@ -15,15 +15,15 @@ import OpenGL
 #endif
 
 // ==============================================================
-// BackgroundShell
+// InnerShell
 // ==============================================================
 
-class BackgroundShell : GLKBaseEffect, Effect {
+class InnerShell : GLKBaseEffect, Effect {
 
     // =================================================
     // Debugging
     
-    let cls = "BackgroundShell"
+    let cls = "InnerShell"
     var debugEnabled = false
     func debug(_ mtd: String, _ msg: String = "") {
         if (debugEnabled) {
@@ -33,16 +33,16 @@ class BackgroundShell : GLKBaseEffect, Effect {
     
     // ================================================
     // Identifiers
-    static let key = "BackgroundShell"
+    static let key = "InnerShell"
     
-    var name = "BackgroundShell"
+    var name = "InnerShell"
     var info: String? = nil
     var enabled: Bool
     
     private let enabledDefault: Bool
     
-    // EMPIRICAL
-    static let rOffsetDefault: Double = -0.005
+    // EMPIRICAL multiplicative factor: inner shell radius = rFactor * figure radius
+    static let rFactor: Double = 0.99
     
     private var r: Double
     private var built: Bool = false
@@ -77,7 +77,7 @@ class BackgroundShell : GLKBaseEffect, Effect {
 
     /// r0 = radius of the shell we're "background" of, not our own radius
     init(_ r0 : Double, _ color: GLKVector4, enabled: Bool) {
-        self.r = r0 + BackgroundShell.rOffsetDefault
+        self.r = r0 * InnerShell.rFactor
         self.enabled = enabled
         self.enabledDefault = enabled
         
