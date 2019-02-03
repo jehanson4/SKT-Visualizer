@@ -15,7 +15,7 @@
 		8A1CF01D207146540099DD97 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A1CF01C207146540099DD97 /* Assets.xcassets */; };
 		8A1CF020207146540099DD97 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A1CF01E207146540099DD97 /* LaunchScreen.storyboard */; };
 		8A2034DC21EB76AC00A4C418 /* ButtonWithImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2034DB21EB76AC00A4C418 /* ButtonWithImage.swift */; };
-		8A2034DE21EB961300A4C418 /* SK2E_SecondaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2034DD21EB961300A4C418 /* SK2E_SecondaryViewController.swift */; };
+		8A2034DE21EB961300A4C418 /* SK2_SecondaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2034DD21EB961300A4C418 /* SK2_SecondaryViewController.swift */; };
 		8A2034E221ED0F4E00A4C418 /* SK1_System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2034E121ED0F4E00A4C418 /* SK1_System.swift */; };
 		8A2034E721ED2A6000A4C418 /* SK2_System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2034E621ED2A6000A4C418 /* SK2_System.swift */; };
 		8A2034E921ED2F8E00A4C418 /* SystemGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2034E821ED2F8E00A4C418 /* SystemGeometry.swift */; };
@@ -47,7 +47,7 @@
 		8A56BE7920ADB37700C19F4C /* PFlowModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A56BE7820ADB37700C19F4C /* PFlowModel.swift */; };
 		8A56BE7B20ADB3FF00C19F4C /* PFlowNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A56BE7A20ADB3FF00C19F4C /* PFlowNode.swift */; };
 		8A575FEE20804759002B9951 /* ColorMaps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A575FED20804759002B9951 /* ColorMaps.swift */; };
-		8A591B3221E441FB00B802F8 /* SK2E_PrimaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A591B3121E441FB00B802F8 /* SK2E_PrimaryViewController.swift */; };
+		8A591B3221E441FB00B802F8 /* SK2_PrimaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A591B3121E441FB00B802F8 /* SK2_PrimaryViewController.swift */; };
 		8A591B3421E6902500B802F8 /* ModelSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A591B3321E6902500B802F8 /* ModelSelectionViewController.swift */; };
 		8A591B3B21E6D6DB00B802F8 /* UISelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A591B3A21E6D6DB00B802F8 /* UISelectionViewController.swift */; };
 		8A5E948E2078EE46003477D3 /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A5E948D2078EE46003477D3 /* Net.swift */; };
@@ -59,6 +59,7 @@
 		8A75B694208A771800EACD13 /* SKTModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B693208A771800EACD13 /* SKTModel.swift */; };
 		8A84313820726F0100F06B9B /* Axes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A84313720726F0100F06B9B /* Axes.swift */; };
 		8A8817472207484800523467 /* UIUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A8817462207484800523467 /* UIUtils.swift */; };
+		8A88174B220757C000523467 /* SK2E_Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A88174A220757C000523467 /* SK2E_Storyboard.storyboard */; };
 		8A91B0982093F8C100488907 /* OLD_Parameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A91B0972093F8C100488907 /* OLD_Parameters.swift */; };
 		8A91B09C2093F98000488907 /* OLD_Sequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A91B09B2093F98000488907 /* OLD_Sequencer.swift */; };
 		8A91B09E2094163C00488907 /* DummySequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A91B09D2094163C00488907 /* DummySequencer.swift */; };
@@ -158,7 +159,7 @@
 		8A1CF01F207146540099DD97 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8A1CF021207146540099DD97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8A2034DB21EB76AC00A4C418 /* ButtonWithImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonWithImage.swift; sourceTree = "<group>"; };
-		8A2034DD21EB961300A4C418 /* SK2E_SecondaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK2E_SecondaryViewController.swift; sourceTree = "<group>"; };
+		8A2034DD21EB961300A4C418 /* SK2_SecondaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK2_SecondaryViewController.swift; sourceTree = "<group>"; };
 		8A2034E121ED0F4E00A4C418 /* SK1_System.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK1_System.swift; sourceTree = "<group>"; };
 		8A2034E621ED2A6000A4C418 /* SK2_System.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_System.swift; sourceTree = "<group>"; };
 		8A2034E821ED2F8E00A4C418 /* SystemGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemGeometry.swift; sourceTree = "<group>"; };
@@ -190,7 +191,7 @@
 		8A56BE7820ADB37700C19F4C /* PFlowModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PFlowModel.swift; sourceTree = "<group>"; };
 		8A56BE7A20ADB3FF00C19F4C /* PFlowNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PFlowNode.swift; sourceTree = "<group>"; };
 		8A575FED20804759002B9951 /* ColorMaps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorMaps.swift; sourceTree = "<group>"; };
-		8A591B3121E441FB00B802F8 /* SK2E_PrimaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK2E_PrimaryViewController.swift; sourceTree = "<group>"; };
+		8A591B3121E441FB00B802F8 /* SK2_PrimaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK2_PrimaryViewController.swift; sourceTree = "<group>"; };
 		8A591B3321E6902500B802F8 /* ModelSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelSelectionViewController.swift; sourceTree = "<group>"; };
 		8A591B3A21E6D6DB00B802F8 /* UISelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UISelectionViewController.swift; sourceTree = "<group>"; };
 		8A5E948D2078EE46003477D3 /* Net.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Net.swift; sourceTree = "<group>"; };
@@ -202,6 +203,7 @@
 		8A75B693208A771800EACD13 /* SKTModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKTModel.swift; sourceTree = "<group>"; };
 		8A84313720726F0100F06B9B /* Axes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Axes.swift; sourceTree = "<group>"; };
 		8A8817462207484800523467 /* UIUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIUtils.swift; sourceTree = "<group>"; };
+		8A88174A220757C000523467 /* SK2E_Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SK2E_Storyboard.storyboard; sourceTree = "<group>"; };
 		8A91B0972093F8C100488907 /* OLD_Parameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OLD_Parameters.swift; sourceTree = "<group>"; };
 		8A91B09B2093F98000488907 /* OLD_Sequencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OLD_Sequencer.swift; sourceTree = "<group>"; };
 		8A91B09D2094163C00488907 /* DummySequencer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DummySequencer.swift; sourceTree = "<group>"; };
@@ -610,8 +612,9 @@
 		8AC82CE721F9DA4000A75595 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				8A591B3121E441FB00B802F8 /* SK2E_PrimaryViewController.swift */,
-				8A2034DD21EB961300A4C418 /* SK2E_SecondaryViewController.swift */,
+				8A88174A220757C000523467 /* SK2E_Storyboard.storyboard */,
+				8A591B3121E441FB00B802F8 /* SK2_PrimaryViewController.swift */,
+				8A2034DD21EB961300A4C418 /* SK2_SecondaryViewController.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -851,6 +854,7 @@
 				8A1CF020207146540099DD97 /* LaunchScreen.storyboard in Resources */,
 				8A75424A20A8CC5100A2BFAD /* about.html in Resources */,
 				8AD81824207C9BD900426C25 /* image1-20@3x.png in Resources */,
+				8A88174B220757C000523467 /* SK2E_Storyboard.storyboard in Resources */,
 				8AD81827207C9BD900426C25 /* Contents.json in Resources */,
 				8AD9DAC520914E020062457C /* SimpleFragmentShader.glsl in Resources */,
 				8A73A77F22072FC300276165 /* OLD.storyboard in Resources */,
@@ -894,7 +898,7 @@
 				8A3C45B42086165500A1E9CD /* Entropy.swift in Sources */,
 				8A91B0A02094164700488907 /* NForFixedKOverN.swift in Sources */,
 				8AD817FC207BFA9200426C25 /* InfoViewController.swift in Sources */,
-				8A591B3221E441FB00B802F8 /* SK2E_PrimaryViewController.swift in Sources */,
+				8A591B3221E441FB00B802F8 /* SK2_PrimaryViewController.swift in Sources */,
 				8A741FE620925E2D002A88D0 /* SKGraph.swift in Sources */,
 				8AB2A64521FEB24900A46316 /* Geometry.swift in Sources */,
 				8AB2A63521FCEB5800A46316 /* SK2_BAFinder.swift in Sources */,
@@ -904,7 +908,7 @@
 				8AB2A63B21FE4F5C00A46316 /* SK2_PFNode.swift in Sources */,
 				8A35083020A0A0C200E36C1F /* PopulationFlowSequencer.swift in Sources */,
 				8AB2A62C21FCE0D500A46316 /* SK3_System.swift in Sources */,
-				8A2034DE21EB961300A4C418 /* SK2E_SecondaryViewController.swift in Sources */,
+				8A2034DE21EB961300A4C418 /* SK2_SecondaryViewController.swift in Sources */,
 				8A91B09C2093F98000488907 /* OLD_Sequencer.swift in Sources */,
 				8AB2A64221FEA8BF00A46316 /* NodesOnShell.swift in Sources */,
 				8A3C45B62086167E00A1E9CD /* LogOccupation.swift in Sources */,
