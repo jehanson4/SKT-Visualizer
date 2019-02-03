@@ -18,6 +18,8 @@ class BasinColorSource : ColorSource {
     
     var name: String = "Basins"
     var info: String? = nil
+    var description: String { return nameAndInfo(self) }
+
     var backingModel: AnyObject? { return basinFinder.backingModel }
     
 

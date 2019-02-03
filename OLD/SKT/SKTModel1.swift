@@ -30,8 +30,9 @@ class SKTModel1: SKTModel {
     // Basics
 
     var name: String = "SKT"
-    var group: String? = "SK/2"
     var info: String? = "SK Hamiltonian with 2 components"
+    var description: String { return nameAndInfo(self) }
+
     var embeddingDimension: Int = 2
     
     func releaseOptionalResources() {

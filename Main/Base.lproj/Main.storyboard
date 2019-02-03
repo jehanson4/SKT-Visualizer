@@ -10,46 +10,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--UI Selector View Controller-->
-        <scene sceneID="dQ1-ZQ-a6d">
-            <objects>
-                <viewController title="UI" id="W20-ca-e4R" userLabel="UI Selector View Controller" customClass="UISelectorViewController" customModule="SKT_Visualizer" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="uK1-vF-yS9" userLabel="UI Selector View">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="768"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w2G-bS-nnt">
-                                <rect key="frame" x="32" y="102" width="256" height="30"/>
-                                <state key="normal" title="NEW UI"/>
-                                <connections>
-                                    <segue destination="bVF-Kc-23a" kind="show" id="Afl-DY-F2W"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EUi-P8-Afp">
-                                <rect key="frame" x="32" y="164" width="256" height="30"/>
-                                <state key="normal" title="OLD UI"/>
-                                <connections>
-                                    <segue destination="sqW-Ne-u13" kind="show" animates="NO" id="7pS-5U-wEZ"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="w2G-bS-nnt" firstAttribute="top" secondItem="RFe-Ef-Qya" secondAttribute="top" constant="32" id="2oU-Cd-rYR"/>
-                            <constraint firstItem="w2G-bS-nnt" firstAttribute="centerX" secondItem="uK1-vF-yS9" secondAttribute="centerX" id="NWg-Wt-YUX"/>
-                            <constraint firstItem="EUi-P8-Afp" firstAttribute="centerX" secondItem="uK1-vF-yS9" secondAttribute="centerX" id="O1G-J8-XnF"/>
-                            <constraint firstItem="EUi-P8-Afp" firstAttribute="leading" secondItem="RFe-Ef-Qya" secondAttribute="leading" constant="32" id="UkH-pi-gQo"/>
-                            <constraint firstItem="w2G-bS-nnt" firstAttribute="width" secondItem="EUi-P8-Afp" secondAttribute="width" id="lAC-Id-0NW"/>
-                            <constraint firstItem="EUi-P8-Afp" firstAttribute="top" secondItem="w2G-bS-nnt" secondAttribute="bottom" constant="32" id="vPe-V4-v2v"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="RFe-Ef-Qya"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="MXd-Vb-edQ"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="gix-O5-GZ7" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="326" y="-2618"/>
-        </scene>
         <!--SK2E Primary View Controller-->
         <scene sceneID="nSo-6V-83M">
             <objects>
@@ -622,8 +582,6 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="N_stepper" destination="oyO-Gh-GfD" id="ldr-dd-dPt"/>
-                        <outlet property="N_text" destination="frD-IN-KfI" id="2Vu-cc-ens"/>
                         <outlet property="T_stepper" destination="71N-AQ-KgN" id="SMY-QO-Odv"/>
                         <outlet property="T_text" destination="iQo-YS-LVq" id="biw-rW-wqV"/>
                         <outlet property="a1_stepper" destination="6Ka-oC-cW2" id="b4X-cD-BC8"/>
@@ -638,6 +596,8 @@
                         <outlet property="k_text" destination="pPz-tb-NiU" id="1YW-IJ-LuR"/>
                         <outlet property="lbStepper" destination="6Dj-bX-Xeh" id="HZ9-dd-7XM"/>
                         <outlet property="lbText" destination="qKI-UR-443" id="g9T-KC-wFt"/>
+                        <outlet property="param1_stepper" destination="oyO-Gh-GfD" id="ldr-dd-dPt"/>
+                        <outlet property="param1_text" destination="frD-IN-KfI" id="2Vu-cc-ens"/>
                         <outlet property="playerSelector" destination="o7I-x5-9yq" id="MMo-zl-Ton"/>
                         <outlet property="progressLabel" destination="vbo-sS-CDZ" id="Urb-un-DhD"/>
                         <outlet property="sequencerSelectorButton" destination="flB-OF-ZXE" id="lam-Nq-3kh"/>
@@ -1098,8 +1058,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EUi-P8-Afp">
+                                <rect key="frame" x="16" y="118" width="288" height="27"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <state key="normal" title="GO TO OLD UI"/>
+                                <connections>
+                                    <segue destination="sqW-Ne-u13" kind="show" animates="NO" id="7pS-5U-wEZ"/>
+                                </connections>
+                            </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Qsd-gs-hVo">
-                                <rect key="frame" x="16" y="102" width="288" height="494"/>
+                                <rect key="frame" x="16" y="193" width="288" height="494"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eMA-y0-9bt" userLabel="Separator">
                                         <rect key="frame" x="0.0" y="0.0" width="288" height="1"/>
@@ -1280,17 +1248,23 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="Qsd-gs-hVo" firstAttribute="top" secondItem="llR-u1-7rx" secondAttribute="top" constant="32" id="boL-SV-XSb"/>
+                            <constraint firstItem="EUi-P8-Afp" firstAttribute="top" secondItem="llR-u1-7rx" secondAttribute="top" constant="48" id="BJC-zI-Fol"/>
+                            <constraint firstItem="EUi-P8-Afp" firstAttribute="centerX" secondItem="llR-u1-7rx" secondAttribute="centerX" id="P7A-RU-4Wt"/>
+                            <constraint firstItem="EUi-P8-Afp" firstAttribute="leading" secondItem="llR-u1-7rx" secondAttribute="leading" constant="16" id="Sqe-PK-ThF"/>
                             <constraint firstItem="Qsd-gs-hVo" firstAttribute="leading" secondItem="llR-u1-7rx" secondAttribute="leading" constant="16" id="cg8-0J-jLs"/>
                             <constraint firstItem="Qsd-gs-hVo" firstAttribute="centerX" secondItem="llR-u1-7rx" secondAttribute="centerX" id="eCa-sr-bOH"/>
+                            <constraint firstItem="Qsd-gs-hVo" firstAttribute="top" secondItem="EUi-P8-Afp" secondAttribute="bottom" constant="48" id="wPh-jG-eo5"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="llR-u1-7rx"/>
                     </view>
                     <navigationItem key="navigationItem" title="Models" id="1AI-u4-KIa"/>
+                    <connections>
+                        <outlet property="oldUIButton" destination="EUi-P8-Afp" id="VwR-nB-Hph"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J32-6H-LNw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1327.1484375" y="-2617.96875"/>
+            <point key="canvasLocation" x="411" y="-1645"/>
         </scene>
         <!--Master Navigation Controller-->
         <scene sceneID="jzL-Fv-J3k">
@@ -1301,12 +1275,12 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="W20-ca-e4R" kind="relationship" relationship="rootViewController" id="1RU-Tc-3y8"/>
+                        <segue destination="bVF-Kc-23a" kind="relationship" relationship="rootViewController" id="FFL-n5-d8G"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="riZ-8s-cjg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-453" y="-2618"/>
+            <point key="canvasLocation" x="-376" y="-1645"/>
         </scene>
         <!--Graphics View Controller-->
         <scene sceneID="ABm-an-9fd">
@@ -1342,7 +1316,7 @@
                     </connections>
                 </pinchGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-454" y="-403"/>
+            <point key="canvasLocation" x="-376" y="-828"/>
         </scene>
         <!--Split View Controller-->
         <scene sceneID="gMr-bh-oVR">
@@ -1363,7 +1337,7 @@
                 <viewControllerPlaceholder storyboardIdentifier="MasterViewController" storyboardName="OLD" referencedIdentifier="MasterViewController" id="sqW-Ne-u13" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bdL-uN-HMt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="342" y="-1841"/>
+            <point key="canvasLocation" x="1100" y="-1869"/>
         </scene>
     </scenes>
 </document>

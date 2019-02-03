@@ -17,7 +17,8 @@ class PhysicalPropertyColorSource : ColorSource {
     
     var name: String
     var info: String? = nil
-    
+    var description: String { return nameAndInfo(self) }
+
     var backingModel: AnyObject? { return property.backingModel as AnyObject }
     
     var property: PhysicalProperty

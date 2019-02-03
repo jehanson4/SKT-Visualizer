@@ -61,8 +61,11 @@ class NodesOnShell: ColorizedEffect {
     // Basics
     
     static let key = "Nodes"
-    var name = "Nodes"
+
+    var name = "Nodes On Shell"
     var info: String? = nil
+    var description: String { return nameAndInfo(self) }
+
     var enabled: Bool
     
     private let enabledDefault: Bool

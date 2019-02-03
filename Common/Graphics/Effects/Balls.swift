@@ -28,6 +28,8 @@ class Balls : Effect {
     static let key = "Balls"
     var name = "Balls"
     var info: String? = nil
+    var description: String { return nameAndInfo(self) }
+
     var enabled: Bool
     
     private let enabledDefault: Bool

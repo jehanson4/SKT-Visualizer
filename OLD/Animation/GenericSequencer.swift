@@ -24,7 +24,8 @@ class GenericSequencer<T> : OLD_Sequencer {
     
     var name: String
     var info: String? = nil
-    
+    var description: String { return nameAndInfo(self) }
+
     var backingSystem: PhysicalSystem
     
     /// FOR OVERRIDE

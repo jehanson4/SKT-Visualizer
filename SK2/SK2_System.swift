@@ -96,9 +96,9 @@ class SK2_System: PhysicalSystem, PreferenceSupport {
     // ===================================
     // Basics
     
-    var name: String = "SK/2"
-    
+    var name: String = "SK/2"    
     var info: String? = "SK Hamiltonian with 2 components"
+    var description: String { return nameAndInfo(self) }
 
     func releaseOptionalResources() {
         discardBasinModel()

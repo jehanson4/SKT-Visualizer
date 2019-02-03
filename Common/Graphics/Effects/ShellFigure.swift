@@ -67,7 +67,8 @@ class ShellFigure : Figure {
     
     var name: String
     var info: String?
-    
+    var description: String { return nameAndInfo(self) }
+
     /// radius of the hemisphere
     let r0: Double
     

@@ -58,9 +58,9 @@ class DiscreteParameter: Parameter {
     // name & info
     
     var name: String
-    
     var info: String?
-    
+    var description: String { return nameAndInfo(self) }
+
     // =========================================
     // Bounds
     
@@ -312,10 +312,10 @@ class ContinuousParameter: Parameter {
     // =========================================
     // name & info
     
-    var name: String
-    
+    var name: String    
     var info: String?
-    
+    var description: String { return nameAndInfo(self) }
+
     // =========================================
     // Bounds
     

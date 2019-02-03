@@ -60,7 +60,8 @@ class SteepestDescentFirstMatch : PFlowRule {
     let ruleType = PFlowRuleType.steepestDescentFirstMatch
     var name: String = "Steepest Descent - First Match"
     var info: String? = nil
-    
+    var description: String { return nameAndInfo(self) }
+
     private var geometry: SK2Geometry!
     private var physics: SKPhysics!
     
@@ -99,7 +100,8 @@ class SteepestDescentLastMatch : PFlowRule {
     let ruleType = PFlowRuleType.steepestDescentLastMatch
     var name: String = "Steepest Descent - Last Match"
     var info: String? = nil
-    
+    var description: String { return nameAndInfo(self) }
+
     private var geometry: SK2Geometry!
     private var physics: SKPhysics!
     
@@ -139,7 +141,8 @@ class SteepestDescentEqualDivision : PFlowRule {
     let ruleType = PFlowRuleType.steepestDescentEqualDivision
     var name: String = "Steepest Descent - Equal Division"
     var info: String? = nil
-    
+    var description: String { return nameAndInfo(self) }
+
     private var geometry: SK2Geometry!
     private var physics: SKPhysics!
     
@@ -216,7 +219,8 @@ class AnyDescentEqualDivision : PFlowRule {
     let ruleType = PFlowRuleType.anyDescentEqualDivision
     var name: String = "Any Descent - Equal Division"
     var info: String? = nil
-    
+    var description: String { return nameAndInfo(self) }
+
     private var geometry: SK2Geometry!
     private var physics: SKPhysics!
     
@@ -304,7 +308,8 @@ class ProportionalDescent : PFlowRule {
     let ruleType = PFlowRuleType.proportionalDescent
     var name: String = "Proportional Descent"
     var info: String? = nil
-    
+    var description: String { return nameAndInfo(self) }
+
     private var geometry: SK2Geometry!
     private var physics: SKPhysics!
     
@@ -406,6 +411,7 @@ class MetropolisFlow : PFlowRule {
     let ruleType = PFlowRuleType.metropolisFlow
     var name: String = "Metropolis Flow"
     var info: String? = nil
+    var description: String { return nameAndInfo(self) }
 
     // EMPIRICAL
     let pAccept_equalEnergy: Double = 0.5

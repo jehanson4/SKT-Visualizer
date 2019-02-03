@@ -14,6 +14,7 @@ import GLKit
 // =====================================================================
 
 class PopulationColorSource : ColorSource {
+    
   
     var debugEnabled = false
     func debug(_ mtd: String, _ msg: String = "") {
@@ -24,6 +25,8 @@ class PopulationColorSource : ColorSource {
     
     var name: String = "Population"
     var info: String? = nil
+    var description: String { return nameAndInfo(self) }
+
     var backingModel: AnyObject? { return flow }
     
     private var flow: PopulationFlow

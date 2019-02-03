@@ -29,13 +29,11 @@ class SK2E_PrimaryViewController: UIViewController, UITextFieldDelegate, AppMode
     
     weak var sk2e: SK2_System!
     
-    private var _borderWidth: CGFloat = 1
-    private var _cornerRadius: CGFloat = 5
-    
     override func viewDidLoad() {
-        let mtd = "viewDidLoad"
-        debug(mtd, "entering")
         super.viewDidLoad()
+
+        let mtd = "viewDidLoad"
+        debug(mtd, "entered")
         
         if (appModel == nil) {
             debug(mtd, "appModel is nil")
@@ -69,6 +67,7 @@ class SK2E_PrimaryViewController: UIViewController, UITextFieldDelegate, AppMode
             a1_setup()
             a2_setup()
             T_setup()
+            sweepSelector_setup()
         }
     }
     
@@ -132,7 +131,7 @@ class SK2E_PrimaryViewController: UIViewController, UITextFieldDelegate, AppMode
     }
     
     // ===========================================
-    // Visualization: figure selector
+    // Visualization
     
     @IBOutlet weak var figureSelectorButton: UIButton!
     
@@ -150,11 +149,7 @@ class SK2E_PrimaryViewController: UIViewController, UITextFieldDelegate, AppMode
     
     func figureSelector_setup() {
         debug("figureSelector_setup")
-        if (figureSelectorButton != nil) {
-            figureSelectorButton.layer.borderWidth = _borderWidth
-            figureSelectorButton.layer.cornerRadius = _cornerRadius
-            figureSelectorButton.layer.borderColor = self.view.tintColor.cgColor
-        }
+        UIUtils.addBorder(figureSelectorButton)
         let figureSelector = appModel!.figureSelector
         figureSelector_update(figureSelector)
         figureSelectionMonitor = figureSelector!.monitorChanges(figureSelector_update);
@@ -165,9 +160,6 @@ class SK2E_PrimaryViewController: UIViewController, UITextFieldDelegate, AppMode
         figureSelectionMonitor?.disconnect()
     }
     
-    // ===========================================
-    // Visualization: buttons
-
     @IBAction func calibrate(_ sender: Any) {
         debug("calibrate")
         appModel!.figureSelector?.selection?.value.calibrate()
@@ -189,14 +181,23 @@ class SK2E_PrimaryViewController: UIViewController, UITextFieldDelegate, AppMode
     // ===========================================
     // Model Parameters: N
 
-    @IBOutlet weak var N_text: UITextField!
+    var param1: Parameter!
+    var param1_monitor: ChangeMonitor!
+    @IBOutlet weak var param1_text: UITextField!
+    @IBOutlet weak var param1_stepper: UIStepper!
     
-    @IBOutlet weak var N_stepper: UIStepper!
-    
-    var N_monitor: ChangeMonitor!
+    // TODO
+//    func modelParams_setup() {
+//        param1 = sk2e?.N
+//        param1_monitor = param1.monitorChanges(param1_changed)
+//    }
+//    
+//    func param1_changed(_ sender: Any?) {
+//        
+//    }
     
     @IBAction func N_edited(_ sender: UITextField) {
-        debug("N_edited")
+        debug("N_edited", "sender.tag=\(sender.tag)")
         if (sk2e != nil && sender.text != nil) {
             sk2e!.N.applyValue(sender.text!)
         }
@@ -213,26 +214,26 @@ class SK2E_PrimaryViewController: UIViewController, UITextFieldDelegate, AppMode
         debug("N_update")
         let param = sender as? Parameter
         if (param != nil) {
-            N_text.text = param!.valueAsString
-            N_stepper.minimumValue = param!.minAsDouble
-            N_stepper.maximumValue = param!.maxAsDouble
-            N_stepper.stepValue = param!.stepSizeAsDouble
-            N_stepper.value = param!.valueAsDouble
+            param1_text.text = param!.valueAsString
+            param1_stepper.minimumValue = param!.minAsDouble
+            param1_stepper.maximumValue = param!.maxAsDouble
+            param1_stepper.stepValue = param!.stepSizeAsDouble
+            param1_stepper.value = param!.valueAsDouble
         }
     }
     
     func N_setup() {
         debug("N_setup")
-        N_text.delegate = self
+        param1_text.delegate = self
         if (sk2e != nil) {
             self.N_update(sk2e!.N)
-            N_monitor = sk2e!.N.monitorChanges(N_update)
+            param1_monitor = sk2e!.N.monitorChanges(N_update)
         }
     }
     
     func N_teardown() {
         debug("N_teardown")
-        N_monitor?.disconnect()
+        param1_monitor?.disconnect()
     }
     
     // ===========================================
@@ -450,12 +451,14 @@ class SK2E_PrimaryViewController: UIViewController, UITextFieldDelegate, AppMode
     }
     
     func sweepSelector_setup() {
-        debug("sweepSelector_setup")
+        debug("sweepSelector_setup", "entered")
+    
+        UIUtils.addBorder(sequencerSelectorButton)
         // TODO
     }
     
     func sweepSelector_teardown() {
-        debug("sweepSelector_teardown")
+        debug("sweepSelector_teardown", "entered")
         // TODO
     }
     

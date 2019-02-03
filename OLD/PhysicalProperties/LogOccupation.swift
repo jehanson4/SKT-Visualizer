@@ -17,7 +17,8 @@ class LogOccupation : TypedPhysicalProperty {
     let physicalPropertyType = PhysicalPropertyType.logOccupation
     var name: String  = "LogOccupation"
     var info: String? = nil
-    
+    var description: String { return nameAndInfo(self) }
+
     var backingModel: PhysicalSystem { return model as PhysicalSystem }
     
     var bounds: (min: Double, max: Double) { ensureFresh(); return fBounds }

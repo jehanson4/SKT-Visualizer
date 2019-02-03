@@ -79,7 +79,8 @@ class VisualizationModel1 : VisualizationModel, Figure {
 
     var name = "VisualizationModel1"
     var info: String? = nil
-    
+    var description: String { return nameAndInfo(self) }
+
     var debugEnabled = false
     
     private var skt: SKTModel

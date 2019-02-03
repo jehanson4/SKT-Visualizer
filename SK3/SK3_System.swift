@@ -18,11 +18,9 @@ class SK3_System: DiscreteSystem {
     // Basics
     
     var name = "SK/3"
-    
-    var group: String? = "SK/3"
-    
     var info: String? = "SK Hamiltonian with 3 components"
-    
+    var description: String { return nameAndInfo(self) }
+
     func releaseOptionalResources() {
     }    
 

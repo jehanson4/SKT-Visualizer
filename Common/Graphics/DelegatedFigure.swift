@@ -22,10 +22,10 @@ class DelegatedFigure: Figure {
         self.delegate = delegate
     }
     
-    var name: String
-    
+    var name: String    
     var info: String?
-    
+    var description: String { return nameAndInfo(self) }
+
     private var delegate: Figure
     
     var effects: Registry<Effect>? {

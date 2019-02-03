@@ -25,6 +25,8 @@ class BusySpinner : Effect {
     static let key = "BusySpinner"
     var name: String = "BusySpinner"
     var info: String? = nil
+    var description: String { return nameAndInfo(self) }
+
     var enabled: Bool {
         get { return true}
         set(newValue) { /* IGNORE */ }

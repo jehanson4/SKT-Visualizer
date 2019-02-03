@@ -11,9 +11,11 @@ import GLKit
 
 class UniformColor : ColorSource {
     
-    let alpha: GLfloat = 1.0
     var name: String
     var info: String? = nil
+    var description: String { return nameAndInfo(self) }
+
+    let alpha: GLfloat = 1.0
     var backingModel: AnyObject? { return nil }
     var color: GLKVector4
     

@@ -30,7 +30,8 @@ struct AppPart: Named {
 
     var name: String
     var info: String? = nil
-    
+    var description: String { return nameAndInfo(self) }
+
     var group: String? = nil
     var figures: Registry<Figure>? = nil
     var sequencers: Registry<Sequencer>? = nil

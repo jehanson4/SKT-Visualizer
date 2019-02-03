@@ -40,6 +40,7 @@ class Nodes : Effect {
     static let key = "Nodes"
     var name = "Nodes"
     var info: String? = nil
+    var description: String { return nameAndInfo(self) }
     var enabled: Bool
     
     private let enabledDefault: Bool

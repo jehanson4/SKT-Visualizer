@@ -17,6 +17,7 @@ class Entropy : TypedPhysicalProperty {
     let physicalPropertyType = PhysicalPropertyType.entropy
     var name: String = "Entropy"
     var info: String? = nil
+    var description: String { return nameAndInfo(self) }
 
     var backingModel: PhysicalSystem { return model as PhysicalSystem }
     

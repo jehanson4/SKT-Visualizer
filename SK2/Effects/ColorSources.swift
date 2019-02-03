@@ -40,10 +40,10 @@ class SK2E_SimpleColors: ColorSource {
         _ = colorMap.calibrate(bounds)
     }
     
-    var name: String
-    
+    var name: String    
     var info: String?
-    
+    var description: String { return nameAndInfo(self) }
+
     var backingModel: AnyObject? {
         return system
     }

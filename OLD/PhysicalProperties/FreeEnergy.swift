@@ -18,6 +18,7 @@ class FreeEnergy : TypedPhysicalProperty {
     let physicalPropertyType = PhysicalPropertyType.freeEnergy
     var name: String  = "FreeEnergy"
     var info: String? = nil
+    var description: String { return nameAndInfo(self) }
 
     var backingModel: PhysicalSystem { return model as PhysicalSystem }
     

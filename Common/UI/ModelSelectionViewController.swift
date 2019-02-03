@@ -21,16 +21,51 @@ class ModelSelectionViewController : UIViewController, AppModelUser {
 
     var appModel: AppModel?
     
-    override func viewDidLoad() {
-        debug("viewDidLoad")
-        super.viewDidLoad()
+    @IBOutlet weak var oldUIButton: UIButton!
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+
+        let mtd = "viewWillLayoutSubviews"
+        debug(mtd, "entered")
         
         if (appModel == nil) {
-            debug("viewDidLoad", "appModel is nil")
+            debug(mtd, "appModel is nil")
         }
         else {
-            debug("viewDidLoad", "appModel has been set.")
+            debug(mtd, "appModel has been set.")
         }
+        if (oldUIButton == nil) {
+            debug(mtd, "old ui button is nil")
+        }
+        else {
+            debug(mtd, "old ui button is set")
+        }
+
+        debug(mtd, "exiting")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        let mtd = "viewDidLoad"
+        debug(mtd, "entered")
+
+        if (appModel == nil) {
+            debug(mtd, "appModel is nil")
+        }
+        else {
+            debug(mtd, "appModel has been set.")
+        }
+        if (oldUIButton == nil) {
+            debug(mtd, "old ui button is nil")
+        }
+        else {
+            debug(mtd, "old ui button is set")
+        }
+
+        UIUtils.addBorder(oldUIButton)
+        debug(mtd, "exiting")
     }
     
     override func didReceiveMemoryWarning() {

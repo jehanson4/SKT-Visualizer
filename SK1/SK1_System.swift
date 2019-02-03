@@ -19,9 +19,9 @@ class SK1_System: DiscreteSystem, PreferenceSupport {
     // Basics
     
     var name = "SK/1"
-    
     var info: String? = "SK Hamiltonian with 1 component"
-    
+    var description: String { return nameAndInfo(self) }
+
     var nodeCount: Int {
         return _N
     }

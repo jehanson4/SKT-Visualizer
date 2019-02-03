@@ -145,9 +145,18 @@ func piFraction(_ x: Double) -> String {
 // Names
 // =======================================================================
 
-protocol Named {
+protocol Named: CustomStringConvertible {
     var name: String { get set }
     var info: String? { get set }
+}
+
+func nameAndInfo(_ named: Named) -> String {
+    var desc = named.name
+    if (named.info != nil) {
+        desc.append(": ")
+        desc.append(named.info!)
+    }
+    return desc
 }
 
 /// appends ext to namespace
