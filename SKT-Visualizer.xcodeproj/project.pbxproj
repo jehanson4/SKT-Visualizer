@@ -503,6 +503,7 @@
 				8A1CF015207146510099DD97 /* AppDelegate.swift */,
 				8A1CF021207146540099DD97 /* Info.plist */,
 				8AA05A10208FC14E009417A6 /* AppModel1.swift */,
+				8A591B3321E6902500B802F8 /* ModelSelectionViewController.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -756,7 +757,6 @@
 			isa = PBXGroup;
 			children = (
 				8AF98F9F207FE8350007688E /* GraphicsViewController.swift */,
-				8A591B3321E6902500B802F8 /* ModelSelectionViewController.swift */,
 				8A591B3A21E6D6DB00B802F8 /* UISelectionViewController.swift */,
 				8A41B09B21F357F600DE38CB /* FigureSelectionViewController.swift */,
 				8AE1BD11220097E300D6A062 /* SequencerSelectionViewController.swift */,

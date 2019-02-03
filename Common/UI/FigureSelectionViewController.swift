@@ -44,7 +44,7 @@ class FigureSelectionViewController: UITableViewController, AppModelUser {
         }
         else {
             debug("viewDidLoad", "appModel has been set")
-            figureSelector = appModel!.figureSelector
+            figureSelector = appModel!.partSelector.selection?.value.figureSelector
         }
         
         if (figureSelector == nil) {

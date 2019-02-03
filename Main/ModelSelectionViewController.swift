@@ -21,8 +21,6 @@ class ModelSelectionViewController : UIViewController, AppModelUser {
 
     var appModel: AppModel?
     
-    @IBOutlet weak var oldUIButton: UIButton!
-    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
 
@@ -80,12 +78,22 @@ class ModelSelectionViewController : UIViewController, AppModelUser {
         super.viewWillDisappear(animated)
     }
     
-//    @IBOutlet weak var sk2eButton: UIButton!
-//
-//    @IBAction func selectSK2E(_ sender: Any) {
-//        debug("selectSK2E")
-//        // appModel?.systemSelector.select(SK2E_System.type)
-//    }
+    @IBOutlet weak var oldUIButton: UIButton!
+    
+    @IBAction func selectSK2E(_ sender: Any) {
+        debug("selectSK2E")
+        appModel?.partSelector.select(key: SK2E.key)
+    }
+    
+    @IBAction func selectSK2D(_ sender: Any) {
+        debug("selectSK2D")
+        appModel?.partSelector.select(key: SK2D.key)
+
+        // TODO trigger the segue programmatically here
+        // then remove it from the storyboard
+        // self.navigationController?.pushViewController(nextViewController, animated: true)
+
+    }
     
     @IBAction func unwindToModelSelector(_ sender: UIStoryboardSegue) {
         debug("unwindToModelSelector")

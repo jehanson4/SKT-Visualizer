@@ -176,7 +176,7 @@ class Selector<T> : ChangeMonitorEnabled {
     // Initializers
     
     init() {
-        self.registry = Registry<T>()
+        // self.registry = Registry<T>()
     }
     
     init(_ registry: Registry<T>) {
@@ -186,7 +186,7 @@ class Selector<T> : ChangeMonitorEnabled {
     // =============================
     // Registry
     
-    let registry: Registry<T>
+    var registry: Registry<T>!
     
     // =============================
     // Selection

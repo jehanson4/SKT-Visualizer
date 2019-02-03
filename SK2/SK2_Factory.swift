@@ -160,7 +160,7 @@ class SK2_Factory: AppPartFactory {
         let sk2eSequencers: Registry<Sequencer>? = SK2E.makeSequencers(system)
         // TODO sequencer pref's
 
-        var sk2ePart = AppPart(key: SK2E.key, name: "SK/2 Equilibrium", system: system)
+        let sk2ePart = AppPart1(key: SK2E.key, name: "SK/2 Equilibrium", system: system)
         sk2ePart.info = "Equilibrium properties of the 2-component SK model"
         sk2ePart.group = group
         sk2ePart.figures = sk2eFigures
@@ -178,7 +178,7 @@ class SK2_Factory: AppPartFactory {
         let sk2dSequencers: Registry<Sequencer>? = SK2D.makeSequencers(system)
         // TODO sequencer pref's
         
-        var sk2dPart = AppPart(key: SK2D.key, name: "SK/2 Timeseries", system: system)
+        let sk2dPart = AppPart1(key: SK2D.key, name: "SK/2 Timeseries", system: system)
         sk2dPart.info = "Simulated population dynamics of the 2-component SK model"
         sk2dPart.group = group
         sk2dPart.figures = sk2dFigures

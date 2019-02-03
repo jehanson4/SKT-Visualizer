@@ -25,6 +25,7 @@ class SK2E_SecondaryViewController: UIViewController, AppModelUser {
     // Basics
 
     var appModel: AppModel? = nil
+    weak var appPart: AppPart!
     weak var system: SK2_System!
     var figure: Figure? = nil
     
@@ -38,15 +39,12 @@ class SK2E_SecondaryViewController: UIViewController, AppModelUser {
         }
         else {
             debug(mtd, "app Model has been set")
-            
-            debug(mtd, "selecting \(SK2E.key) system")
-            appModel?.systemSelector.select(key: SK2E.key)
+            appPart = appModel!.partSelector.selection?.value
+            debug(mtd, "currently selected part = \(String(describing: appPart))")
+            system = appPart.system as? SK2_System
 
-            debug(mtd, "currently selected system = \(String(describing: appModel?.systemSelector.selection?.name))")
-            system = appModel?.systemSelector.selection?.value as? SK2_System
-
-            debug(mtd, "currently selected figure = \(String(describing: appModel?.figureSelector?.selection?.name))")
-            figure = appModel?.figureSelector?.selection?.value
+            figure = appPart.figureSelector.selection?.value
+            debug(mtd, "currently selected figure = \(String(describing: figure))")
         }
 
         initEffectsControls(true)

@@ -8,6 +8,55 @@
 
 import Foundation
 
+// =========================================================
+// AppPart1
+// =========================================================
+
+class AppPart1: AppPart {
+    
+    let key: String
+    var group: String? = nil
+    var name: String
+    var info: String? = nil
+    var description: String { return nameAndInfo(self) }
+    
+    let system: PhysicalSystem
+    
+    var figures: Registry<Figure>? {
+        get {
+            return figureSelector.registry
+        }
+        set(newValue) {
+            if (newValue != nil) {
+                figureSelector.registry = newValue
+            }
+        }
+    }
+    
+    var figureSelector: Selector<Figure>
+    
+    var sequencers: Registry<Sequencer>? {
+        get {
+            return sequencerSelector.registry
+        }
+        set(newValue) {
+            if (newValue != nil) {
+                sequencerSelector.registry = newValue
+            }
+        }
+    }
+    
+    var sequencerSelector: Selector<Sequencer>
+    
+    init(key: String, name: String, system: PhysicalSystem) {
+        self.key = key
+        self.name = name
+        self.system = system
+        self.figureSelector = Selector<Figure>()
+        self.sequencerSelector = Selector<Sequencer>()
+    }
+}
+
 // ============================================================
 // AppModel1
 // ============================================================
@@ -35,100 +84,89 @@ class AppModel1 : AppModel {
     // Basics
     
     func releaseOptionalResources() {
-        func systemRelease(_ s: PhysicalSystem) { s.releaseOptionalResources() }
-        systemSelector.registry.visit(systemRelease)
-        
-        func figureRelease(_ f: Figure) { f.releaseOptionalResources() }
-        for fEntry in _figureSelectors {
-            fEntry.value.registry.visit(figureRelease)
+        func figureRelease(_ f: inout Figure) {
+            f.releaseOptionalResources()
         }
+        func partRelease(_ p: inout AppPart) {
+            p.system.releaseOptionalResources()
+            p.figures?.apply(figureRelease)
+        }
+        parts.apply(partRelease)
     }
-    
+
     // ================================================
-    // Systems
+    // Parts
     
-    var systemGroupNames: [String] = []
-    var systemGroups: [String: [String]] = [String: [String]]()
+    var parts: Registry<AppPart> { return partSelector.registry }
     
-    let systemSelector: Selector<PhysicalSystem>
+    var partSelector: Selector<AppPart>
     
-    private var systemChangeMonitor: ChangeMonitor? = nil
-    private var _currSystemKey: String? = nil
+    private var currPartKey: String?
+
+    private var partChangeMonitor: ChangeMonitor!
     
-    private func systemChanged(_ sender: Any?) {
-        AppModel1.debug("systemChanged")
+    private func partHasChanged(_ sender: Any?) {
+        AppModel1.debug("partHasChanged")
         
-        let _prevSystemKey = _currSystemKey
-        _currSystemKey = systemSelector.selection?.key
-        if (_prevSystemKey != nil) {
-            releaseOptionalResourcesForSystem(_prevSystemKey!)
-        }
+        // TODO check memory usage before uncommenting this
+        // let prevPartKey = currPartKey
+        // if (prevPartKey != nil) {
+        //     releaseOptionalResourcesForPart(prevPartKey!)
+        // }
+        currPartKey = partSelector.selection?.key
         
-        graphicsController.figure = figureSelector?.selection?.value
         updateFigureChangeMonitor()
-
-        animationController.sequencer = sequencerSelector?.selection?.value
         updateSequencerChangeMonitor()
+        
+        // graphicsController.figure = partSelector.selection?.value.figureSelector.selection?.value
+
+        //        updateFigureChangeMonitor()
+
+        //        animationController.sequencer = sequencerSelector?.selection?.value
+        //        updateSequencerChangeMonitor()
 
     }
     
-    func releaseOptionalResourcesForSystem(_ systemKey: String) {
-        systemSelector.registry.entry(key: systemKey)?.value.releaseOptionalResources()
-        
-        func figureRelease(_ f: Figure) { f.releaseOptionalResources() }
-        _figureSelectors[systemKey]?.registry.visit(figureRelease)
-    }
+//    func releaseOptionalResourcesForPart(_ systemKey: String) {
+//        systemSelector.registry.entry(key: systemKey)?.value.releaseOptionalResources()
+//
+//        func figureRelease(_ f: Figure) { f.releaseOptionalResources() }
+//        _figureSelectors[systemKey]?.registry.visit(figureRelease)
+//    }
+//
     
     // ================================================
     // Figures
-    
-    /// map's key is system's registry key
-    private var _figureSelectors: [String: Selector<Figure>]
-    
-    var figureSelector: Selector<Figure>? {
-        let systemKey = systemSelector.selection?.key
-        return (systemKey == nil) ? nil : _figureSelectors[systemKey!]
-    }
 
     private var figureChangeMonitor: ChangeMonitor? = nil
-    
+
     private func updateFigureChangeMonitor() {
         AppModel1.debug("updateFigureChangeMonitor")
         figureChangeMonitor?.disconnect()
         figureChanged(self)
-        figureChangeMonitor = figureSelector?.monitorChanges(figureChanged)
+        figureChangeMonitor = partSelector.selection?.value.figureSelector.monitorChanges(figureChanged)
     }
-    
+
     private func figureChanged(_ sender: Any?) {
         AppModel1.debug("figureChanged")
-        graphicsController.figure = figureSelector?.selection?.value
+        graphicsController.figure = partSelector.selection?.value.figureSelector.selection?.value
     }
-    
+
     // ================================================
     // Sequencers
-    
-    /// map's key is system's registry key
-    private var _sequencerSelectors: [String: Selector<Sequencer>]
-    
-    var sequencerSelector: Selector<Sequencer>? {
-        let systemKey = systemSelector.selection?.key
-        return (systemKey == nil) ? nil : _sequencerSelectors[systemKey!]
-    }
-    
+
     private var sequencerChangeMonitor: ChangeMonitor? = nil
-    
+
     private func updateSequencerChangeMonitor() {
         AppModel1.debug("updateSequencerChangeMonitor")
-        if (sequencerChangeMonitor != nil) {
-            sequencerChangeMonitor?.disconnect()
-        }
+        sequencerChangeMonitor?.disconnect()
         sequencerChanged(self)
-        sequencerChangeMonitor = sequencerSelector?.monitorChanges(sequencerChanged)
+        sequencerChangeMonitor = partSelector.selection?.value.sequencerSelector.monitorChanges(sequencerChanged)
     }
-    
+
     private func sequencerChanged(_ sender: Any?) {
         AppModel1.debug("sequencerChanged")
-        animationController.sequencer = sequencerSelector?.selection?.value
+        animationController.sequencer = partSelector.selection?.value.sequencerSelector.selection?.value
     }
     
     // ================================================
@@ -139,7 +177,7 @@ class AppModel1 : AppModel {
     var graphicsController: GraphicsController
     
     // TO BE DELETED
-    lazy var oldFactory = SKT_Factory("old")
+    var oldFactory: SKT_Factory
     var skt: SKTModel { return oldFactory.skt }
     var viz: VisualizationModel1 { return oldFactory.viz }
     
@@ -149,15 +187,14 @@ class AppModel1 : AppModel {
     init() {
         
         // 1. Initialize the vars
-        
-        systemSelector = Selector<PhysicalSystem>()
-        _figureSelectors = [String: Selector<Figure>]()
-        _sequencerSelectors = [String: Selector<Sequencer>]()
+
+        partSelector = Selector<AppPart>(Registry<AppPart>())
+        currPartKey = nil
         
         animationController = AnimationController()
         graphicsController = GraphicsControllerV1()
 
-        _preferenceSupportList = []
+       _preferenceSupportList = []
         
         // 2. Install the parts
         
@@ -184,35 +221,39 @@ class AppModel1 : AppModel {
         
         // 3. Restore selections
 
-        let ssKey = extendNamespace(ud_systems, ud_selection)
-        let ssValue = UserDefaults.standard.string(forKey: ssKey)
-        if (ssValue != nil) {
-            systemSelector.select(key: ssValue!)
+        let spKey = extendNamespace(ud_parts, ud_selection)
+        let spValue = UserDefaults.standard.string(forKey: spKey)
+        if (spValue != nil) {
+            partSelector.select(key: spValue!)
         }
         
         let sfKey = extendNamespace(ud_figures, ud_selection)
         let sfValue = UserDefaults.standard.string(forKey: sfKey)
         if (sfValue != nil) {
-            figureSelector?.select(key: sfValue!)
+            partSelector.selection?.value.figureSelector.select(key: sfValue!)
         }
         
         let sqKey = extendNamespace(ud_figures, ud_selection)
         let sqValue = UserDefaults.standard.string(forKey: sqKey)
         if (sqValue != nil) {
-            sequencerSelector?.select(key: sqValue!)
+            partSelector.selection?.value.sequencerSelector.select(key: sqValue!)
         }
         
         // 4. Start monitoring.
         
-        systemChanged(self)
-        self.systemChangeMonitor = self.systemSelector.monitorChanges(systemChanged)
+//        systemChanged(self)
+//        self.systemChangeMonitor = self.systemSelector.monitorChanges(systemChanged)
+
+        partHasChanged(self)
+        partChangeMonitor = partSelector.monitorChanges(partHasChanged)
+
 
     }
 
     // ================================================
     // Preferences
     
-    let ud_systems = "systems"
+    let ud_parts = "parts"
     let ud_figures = "figures"
     let ud_sequencers = "sequencers"
     let ud_selection = "selection"
@@ -225,19 +266,19 @@ class AppModel1 : AppModel {
             ps.savePreferences(namespace: ns)
         }
         
-        let ssValue: String? = systemSelector.selection?.key
-        if (ssValue != nil) {
-            let ssKey = extendNamespace(ud_systems, ud_selection)
-            UserDefaults.standard.set(ssValue, forKey: ssKey)
+        let spValue: String? = partSelector.selection?.key
+        if (spValue != nil) {
+            let spKey = extendNamespace(ud_parts, ud_selection)
+            UserDefaults.standard.set(spValue, forKey: spKey)
         }
-
-        let sfValue: String? = figureSelector?.selection?.key
+        
+        let sfValue: String? = partSelector.selection?.value.figureSelector.selection?.key
         if (sfValue != nil) {
             let sfKey = extendNamespace(ud_figures, ud_selection)
             UserDefaults.standard.set(sfValue, forKey: sfKey)
         }
-        
-        let sqValue: String? = sequencerSelector?.selection?.key
+
+        let sqValue: String? = partSelector.selection?.value.sequencerSelector.selection?.key
         if (sqValue != nil) {
             let sqKey = extendNamespace(ud_sequencers, ud_selection)
             UserDefaults.standard.set(sqValue, forKey: sqKey)
@@ -249,41 +290,10 @@ class AppModel1 : AppModel {
     // Installing parts
     
     private func installPart(_ part: AppPart) {
-        let systemKey = part.key
-        if (systemSelector.registry.keyInUse(systemKey)) {
-            AppModel1.debug("installPart", "part already installed: key=\(systemKey)")
-            return
-        }
-        
         do {
-            let system = part.system
-            
-            _ = try systemSelector.registry.register(system, nameHint: system.name, key: systemKey)
-            
-            let figures = part.figures
-            if (figures != nil) {
-                let figureSelector = Selector<Figure>(figures!)
-                _figureSelectors[systemKey] = figureSelector
-            }
-            
-            let sequencers = part.sequencers
-            if (sequencers != nil) {
-                let sequencerSelector = Selector<Sequencer>(sequencers!)
-                _sequencerSelectors[systemKey] = sequencerSelector
-            }
-            
-            let group = (part.group == nil) ? "" : part.group!
-            var systemsInGroup = systemGroups[group]
-            if (systemsInGroup == nil) {
-                systemGroupNames.append(group)
-                systemGroups[group] = [systemKey]
-            }
-            else {
-                systemsInGroup!.append(systemKey)
-            }
-            
+            _ = try parts.register(part, key: part.key)
         } catch {
-            AppModel1.info("installPart", "Unexpected error. key=\(systemKey) error: \(error)")
+            AppModel1.info("installPart", "Unexpected error installing \"\(part.name)\": \(error)")
         }
     }
 }

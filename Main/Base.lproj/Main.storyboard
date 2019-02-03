@@ -122,6 +122,7 @@
                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                         <state key="normal" title="SK/2 Equilibrium    〉"/>
                                                         <connections>
+                                                            <action selector="selectSK2E:" destination="bVF-Kc-23a" eventType="touchUpInside" id="QVx-bC-f0h"/>
                                                             <segue destination="pOT-RV-AeI" kind="show" identifier="sequeToSK2E" id="Eh7-cP-QOM"/>
                                                         </connections>
                                                     </button>
@@ -129,6 +130,7 @@
                                                         <rect key="frame" x="0.0" y="68" width="256" height="30"/>
                                                         <state key="normal" title="SK/2 Dynamics    〉"/>
                                                         <connections>
+                                                            <action selector="selectSK2D:" destination="bVF-Kc-23a" eventType="touchUpInside" id="AyB-dm-OP7"/>
                                                             <segue destination="pOT-RV-AeI" kind="show" id="WGP-mm-czg"/>
                                                         </connections>
                                                     </button>

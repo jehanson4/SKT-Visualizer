@@ -26,7 +26,7 @@ class SK2E_PrimaryViewController: UIViewController, UITextFieldDelegate, AppMode
     // Basics
     
     var appModel: AppModel? = nil
-    
+    weak var appPart: AppPart!
     weak var sk2e: SK2_System!
     
     override func viewDidLoad() {
@@ -40,20 +40,9 @@ class SK2E_PrimaryViewController: UIViewController, UITextFieldDelegate, AppMode
         }
         else {
             debug(mtd, "appModel has been set")
-            
-            let prevSelection = appModel?.systemSelector.selection
-            if (prevSelection == nil) {
-                appModel?.systemSelector.select(key: SK2E.key)
-                debug(mtd, "selected system model. selection = \(String(describing: appModel!.systemSelector.selection?.name))")
-            }
-            else if (prevSelection!.key != SK2E.key) {
-                appModel?.systemSelector.select(key: SK2E.key)
-                debug(mtd, "replaced system model. selection = \(String(describing: appModel!.systemSelector.selection?.name))")
-            }
-            else {
-                debug(mtd, "\(SK2E.key) was already selected");
-            }
-            sk2e = appModel?.systemSelector.selection?.value as? SK2_System
+            appPart = appModel!.partSelector.selection?.value
+            debug(mtd, "selected part = \(String(describing: appPart))")
+            sk2e = appPart.system as? SK2_System
         }
         
         if (sk2e == nil) {
@@ -139,20 +128,19 @@ class SK2E_PrimaryViewController: UIViewController, UITextFieldDelegate, AppMode
     
     func figureSelector_update(_ sender: Any?) {
         debug("figureSelector_update")
-        let figureSelector = appModel!.figureSelector
-        if (figureSelector != nil && figureSelectorButton != nil) {
-            let selection = figureSelector!.selection
-            let title = selection?.name ?? "<choose figure>"
-            figureSelectorButton.setTitle(title, for: .normal);
+        let figureSelector = appPart.figureSelector
+        if (figureSelectorButton != nil) {
+            let title = figureSelector.selection?.name ?? "<choose figure>"
+            figureSelectorButton.setTitle(title, for: .normal)
         }
     }
     
     func figureSelector_setup() {
         debug("figureSelector_setup")
         UIUtils.addBorder(figureSelectorButton)
-        let figureSelector = appModel!.figureSelector
+        let figureSelector = appPart.figureSelector
         figureSelector_update(figureSelector)
-        figureSelectionMonitor = figureSelector!.monitorChanges(figureSelector_update);
+        figureSelectionMonitor = figureSelector.monitorChanges(figureSelector_update);
     }
     
     func figureSelector_teardown() {
@@ -162,12 +150,12 @@ class SK2E_PrimaryViewController: UIViewController, UITextFieldDelegate, AppMode
     
     @IBAction func calibrate(_ sender: Any) {
         debug("calibrate")
-        appModel!.figureSelector?.selection?.value.calibrate()
+        appPart.figureSelector.selection?.value.calibrate()
     }
     
     @IBAction func resetPOV(_ sender: Any) {
         debug("resetPOV")
-        appModel!.figureSelector?.selection?.value.resetPOV()
+        appPart.figureSelector.selection?.value.resetPOV()
     }
     
     @IBAction func takeSnapshot(_ sender: Any) {

@@ -44,7 +44,7 @@ class SK1_Factory: AppPartFactory {
         
         SK1.key = extendNamespace(namespace, "sk1")
 
-        var sk1Part = AppPart(key: SK1.key, name: "SK/1", system: system)
+        let sk1Part = AppPart1(key: SK1.key, name: "SK/1", system: system)
         sk1Part.group = group
         parts.append(sk1Part)
 

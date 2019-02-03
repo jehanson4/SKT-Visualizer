@@ -41,7 +41,7 @@ class SKT_Factory: AppPartFactory, PreferenceSupport {
         viz = VisualizationModel1(skt)
         loadPreferences(namespace: namespace)
 
-        let part = AppPart(key: SKT.key, name: "SKT", system: skt)
+        let part = AppPart1(key: SKT.key, name: "SKT", system: skt)
         parts.append(part)
         
         prefs.append( (namespace, self) )

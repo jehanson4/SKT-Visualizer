@@ -44,7 +44,7 @@ class SequencerSelectionViewController2: UITableViewController, AppModelUser {
         }
         else {
             debug("viewDidLoad", "appModel has been set")
-            sequencerSelector = appModel!.sequencerSelector
+            sequencerSelector = appModel!.partSelector.selection?.value.sequencerSelector
         }
         
         if (sequencerSelector == nil) {
