@@ -320,6 +320,7 @@ class SK2_SecondaryViewController: UIViewController, UITextFieldDelegate, AppMod
         }
         if (text != nil) {
             text!.tag = tag
+            text!.delegate = self
         }
         if (stepper != nil) {
             stepper!.minimumValue = 0

@@ -231,6 +231,7 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
         }
         if (text != nil) {
             text!.tag = tag
+            text!.delegate = self
         }
         if (stepper != nil) {
             stepper!.tag = tag
@@ -355,28 +356,108 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     // Animation: Sequencer
 
     var sequencerMonitor: ChangeMonitor? = nil
-    
     @IBOutlet weak var sequencerSelectorButton: UIButton!
     
+    @IBOutlet weak var lbText: UITextField!
+    @IBOutlet weak var lbStepper: UIStepper!
+
+    @IBOutlet weak var ubText: UITextField!
+    @IBOutlet weak var ubStepper: UIStepper!
+    
+    @IBOutlet weak var deltaText: UITextField!
+    @IBOutlet weak var deltaStepper: UIStepper!
+    
+    @IBOutlet weak var bcSelector: UISegmentedControl!
+    
+
     @IBAction func sequencerSelectorAction(_ sender: Any) {
+        // TODO
+    }
+    
+    @IBAction func lbTextEdited(_ sender: UITextField) {
+        // TODO
+        
+        lb_update()
+    }
+
+    @IBAction func lbStep(_ sender: UIStepper) {
+        // TODO
+        
+        lb_update()
+    }
+    
+    func lb_update() {
+        // TODO
+    }
+    
+    @IBAction func ubTextEdited(_ sender: UITextField) {
+        // TODO
+        
+        ub_update()
+    }
+    
+    @IBAction func ubStep(_ sender: UIStepper) {
+        // TODO
+        
+        ub_update()
+    }
+    
+    func ub_update() {
+        // TODO
+    }
+    
+    @IBAction func deltaTextEdited(_ sender: UITextField) {
+        // TODO
+        
+        delta_update()
+    }
+    
+    @IBAction func deltaStep(_ sender: UIStepper) {
+        // TODO
+        
+        delta_update()
+    }
+
+    func delta_update() {
+        // TODO
+    }
+    
+    @IBAction func bcSelected(_ sender: UISegmentedControl) {
+        // TODO
+        
+        bc_update()
+    }
+    
+    func bc_update() {
+        // TODO
     }
     
     func sequencer_setup() {
         debug("sequencer_setup", "entered")
         UIUtils.addBorder(sequencerSelectorButton)
+        
+        if (lbText != nil) {
+            lbText!.delegate = self
+        }
+        if (ubText != nil) {
+            ubText!.delegate = self
+        }
+        if (deltaText != nil) {
+            deltaText!.delegate = self
+        }
+        
         let sequencerSelector = appPart.sequencerSelector
         sequencer_update(sequencerSelector)
         sequencerMonitor = sequencerSelector.monitorChanges(sequencer_update)
     }
     
     func sequencer_update(_ sender: Any?) {
-       
         let sequencerSelector = appPart.sequencerSelector
         if (sequencerSelectorButton != nil) {
             let title = sequencerSelector.selection?.name ?? "(choose a sequencer)"
             sequencerSelectorButton.setTitle(title, for: .normal)
         }
-
+        
         lb_update()
         ub_update()
         delta_update()
@@ -386,96 +467,6 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     func sequencer_teardown() {
         debug("sequencer_teardown", "entered")
         sequencerMonitor?.disconnect()
-    }
-    
-    // ===========================================
-    // Animation: Sequencer: Hi
-    
-    @IBOutlet weak var lbText: UITextField!
-    
-    @IBAction func lbTextEdited(_ sender: UITextField) {
-        
-        // TODO
-        
-        lb_update()
-    }
-
-    @IBOutlet weak var lbStepper: UIStepper!
-    
-    @IBAction func lbStep(_ sender: UIStepper) {
-        
-        // TODO
-        
-        lb_update()
-    }
-    
-    func lb_update() {
-        // TO DO
-    }
-    
-    // ===========================================
-    // Animation: Sequencer: Hi
-
-    @IBOutlet weak var ubText: UITextField!
-    
-    @IBAction func ubTextEdited(_ sender: UITextField) {
-        
-        // TODO
-        
-        ub_update()
-    }
-    
-    @IBOutlet weak var ubStepper: UIStepper!
-    
-    @IBAction func ubStep(_ sender: UIStepper) {
-        
-        // TODO
-        
-        ub_update()
-    }
-    
-    func ub_update() {
-    }
-    
-    
-    // ===========================================
-    // Animation: Sequencer: Delta
-
-    @IBOutlet weak var deltaText: UITextField!
-    
-    @IBAction func deltaTextEdited(_ sender: UITextField) {
-        
-        // TODO
-        
-        delta_update()
-    }
-    
-    @IBOutlet weak var deltaStepper: UIStepper!
-    
-    @IBAction func deltaStep(_ sender: UIStepper) {
-        
-        // TODO
-        
-        delta_update()
-    }
-
-    func delta_update() {
-        
-    }
-    
-    // ===========================================
-    // Animation: Sequencer: BC
-    
-    @IBOutlet weak var bcSelector: UISegmentedControl!
-    
-    @IBAction func bcSelected(_ sender: UISegmentedControl) {
-        
-        // TODO
-        
-        bc_update()
-    }
-    
-    func bc_update() {
     }
     
     // ===========================================
