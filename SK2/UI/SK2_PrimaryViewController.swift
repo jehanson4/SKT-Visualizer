@@ -121,6 +121,14 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     
     var figureSelectionMonitor: ChangeMonitor? = nil
     
+    func figureSelector_setup() {
+        debug("figureSelector_setup")
+        UIUtils.addBorder(figureSelectorButton)
+        let figureSelector = appPart.figureSelector
+        figureSelector_update(figureSelector)
+        figureSelectionMonitor = figureSelector.monitorChanges(figureSelector_update);
+    }
+    
     func figureSelector_update(_ sender: Any?) {
         debug("figureSelector_update")
         let figureSelector = appPart.figureSelector
@@ -128,14 +136,6 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
             let title = figureSelector.selection?.name ?? "(choose a figure)"
             figureSelectorButton.setTitle(title, for: .normal)
         }
-    }
-    
-    func figureSelector_setup() {
-        debug("figureSelector_setup")
-        UIUtils.addBorder(figureSelectorButton)
-        let figureSelector = appPart.figureSelector
-        figureSelector_update(figureSelector)
-        figureSelectionMonitor = figureSelector.monitorChanges(figureSelector_update);
     }
     
     func figureSelector_teardown() {
@@ -369,86 +369,118 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     
     @IBOutlet weak var bcSelector: UISegmentedControl!
     
-
-    @IBAction func sequencerSelectorAction(_ sender: Any) {
-        // TODO
-    }
-    
     @IBAction func lbTextEdited(_ sender: UITextField) {
-        // TODO
-        
+        var sequencer = appPart?.sequencerSelector.selection?.value
+        if (sequencer != nil && sender.text != nil) {
+            let v2 = Double(sender.text!)
+            if (v2 != nil) {
+                sequencer!.lowerBound = v2!
+            }
+        }
         lb_update()
     }
 
     @IBAction func lbStep(_ sender: UIStepper) {
-        // TODO
-        
+        var sequencer = appPart?.sequencerSelector.selection?.value
+        sequencer?.lowerBound = sender.value
         lb_update()
     }
     
     func lb_update() {
-        // TODO
+        var sequencer = appPart?.sequencerSelector.selection?.value
+        let lb = sequencer?.lowerBound ?? 0
+        lbText?.text = basicString(lb)
+        lbStepper?.value = lb
     }
     
     @IBAction func ubTextEdited(_ sender: UITextField) {
-        // TODO
-        
+        var sequencer = appPart?.sequencerSelector.selection?.value
+        if (sequencer != nil && sender.text != nil) {
+            let v2 = Double(sender.text!)
+            if (v2 != nil) {
+                sequencer!.upperBound = v2!
+            }
+        }
         ub_update()
     }
     
     @IBAction func ubStep(_ sender: UIStepper) {
-        // TODO
-        
+        var sequencer = appPart?.sequencerSelector.selection?.value
+        sequencer?.upperBound = sender.value
         ub_update()
     }
     
     func ub_update() {
-        // TODO
+        var sequencer = appPart?.sequencerSelector.selection?.value
+        let ub = sequencer?.upperBound ?? 1
+        ubText?.text = basicString(ub)
+        ubStepper?.value = ub
     }
     
     @IBAction func deltaTextEdited(_ sender: UITextField) {
-        // TODO
-        
+        var sequencer = appPart?.sequencerSelector.selection?.value
+        if (sequencer != nil && sender.text != nil) {
+            let v2 = Double(sender.text!)
+            if (v2 != nil) {
+                sequencer!.stepSize = v2!
+            }
+        }
         delta_update()
     }
     
     @IBAction func deltaStep(_ sender: UIStepper) {
-        // TODO
-        
+        var sequencer = appPart?.sequencerSelector.selection?.value
+        sequencer?.stepSize = sender.value
         delta_update()
     }
 
     func delta_update() {
-        // TODO
+        let delta = appPart?.sequencerSelector.selection?.value.stepSize ?? 1
+        deltaText?.text = basicString(delta)
+        deltaStepper?.value = delta
     }
     
     @IBAction func bcSelected(_ sender: UISegmentedControl) {
-        // TODO
-        
+        // debug("bcSelected", "selectedSegmentIndex=" + String(sender.selectedSegmentIndex))
+        var sequencer = appPart?.sequencerSelector.selection?.value
+        if (sequencer != nil) {
+            let newBC = BoundaryCondition(rawValue: sender.selectedSegmentIndex)
+            if (newBC != nil) {
+                sequencer!.boundaryCondition = newBC!
+            }
+        }
         bc_update()
     }
     
     func bc_update() {
-        // TODO
+        let sequencer = appPart?.sequencerSelector.selection?.value
+        bcSelector?.selectedSegmentIndex = sequencer?.boundaryCondition.rawValue ?? -1
     }
     
     func sequencer_setup() {
         debug("sequencer_setup", "entered")
         UIUtils.addBorder(sequencerSelectorButton)
-        
-        if (lbText != nil) {
-            lbText!.delegate = self
-        }
-        if (ubText != nil) {
-            ubText!.delegate = self
-        }
-        if (deltaText != nil) {
-            deltaText!.delegate = self
-        }
-        
+
         let sequencerSelector = appPart.sequencerSelector
-        sequencer_update(sequencerSelector)
+        sequencer_update(nil)
         sequencerMonitor = sequencerSelector.monitorChanges(sequencer_update)
+
+        let sequencer = sequencerSelector.selection?.value
+        
+        lbText?.delegate = self
+        lbStepper?.minimumValue = 0
+        lbStepper?.stepValue = sequencer?.lowerBoundIncrement ?? 0.1
+        lbStepper?.maximumValue = sequencer?.lowerBoundMax ?? 1
+        
+        ubText?.delegate = self
+        ubStepper?.minimumValue = 0
+        ubStepper?.stepValue = sequencer?.upperBoundIncrement ?? 0.1
+        ubStepper?.maximumValue = sequencer?.upperBoundMax ?? 1
+        
+        deltaText?.delegate = self
+        deltaStepper?.minimumValue = 0
+        deltaStepper?.stepValue = sequencer?.stepSizeIncrement ?? 0.1
+        deltaStepper?.maximumValue = sequencer?.stepSizeMax ?? 1
     }
     
     func sequencer_update(_ sender: Any?) {
@@ -472,19 +504,94 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     // ===========================================
     // Animation: Player
     
-    @IBOutlet weak var playerSelector: UISegmentedControl!
-    
-    @IBAction func playerSelected(_ sender: UISegmentedControl) {
+    private enum PlayerState: Int {
+        case reset = 0
+        case runBackward = 1
+        case stepBackward = 2
+        case stop = 3
+        case stepForward = 4
+        case runForward = 5
     }
+
+    @IBOutlet weak var playerSelector: UISegmentedControl!
     
     @IBOutlet weak var progressLabel: UILabel!
 
+    @IBAction func playerSelected(_ sender: UISegmentedControl) {
+        var sequencer = appPart?.sequencerSelector.selection?.value
+        let playerState = getPlayerState(sender.selectedSegmentIndex)
+        if (sequencer != nil && playerState != nil) {
+            setPlayerState(&sequencer!, playerState!)
+        }
+        player_update()
+    }
+    
     func player_setup() {
         // TODO
+        player_update()
+    }
+    
+    func player_update() {
+        // TODO
+
     }
     
     func player_teardown() {
         // TODO
     }
 
+    
+    private func getPlayerState(_ s: Int) -> PlayerState? {
+        return PlayerState(rawValue: s)
+    }
+    
+    private func getPlayerState(_ seq: Sequencer) -> PlayerState {
+        switch (seq.direction) {
+        case .reverse:
+            return (seq.enabled) ? .runBackward : .stepBackward
+        case .stopped:
+            return .stop
+        case .forward:
+            return (seq.enabled) ? .runForward : .stepForward
+        }
+    }
+    
+    private func setPlayerState(_ seq: inout Sequencer, _ state: PlayerState) {
+        // There must be a better way....
+        switch (state) {
+        case .reset:
+            seq.enabled = false
+            seq.reset()
+            seq.direction = Direction.stopped
+        case  .runBackward:
+            seq.direction = Direction.reverse
+            if (seq.direction == Direction.reverse) {
+                seq.enabled = true
+            }
+        case .stepBackward:
+            seq.direction = Direction.reverse
+            seq.enabled = false
+            if (seq.direction == Direction.reverse) {
+                seq.step()
+                seq.direction = Direction.stopped
+            }
+        case .stop:
+            seq.direction = Direction.stopped
+            seq.enabled = false
+        case .stepForward:
+            seq.direction = Direction.forward
+            seq.enabled = false
+            if (seq.direction == Direction.forward) {
+                seq.step()
+                seq.direction = Direction.stopped
+            }
+        case .runForward:
+            seq.direction = Direction.forward
+            if (seq.direction == Direction.forward) {
+                seq.enabled = true
+            }
+        }
+    }
+    
+    
 }

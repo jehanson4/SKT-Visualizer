@@ -13,6 +13,16 @@ import Foundation
 // ======================================================================
 
 class DummySequencer: OLD_Sequencer {
+
+    // TODO real values for these
+    var upperBoundMax: Double = 1
+    var upperBoundIncrement: Double = 0.1
+    var lowerBoundMax: Double = 1
+    var lowerBoundIncrement: Double = 0.1
+    var stepSizeMax: Double = 1
+    var stepSizeIncrement: Double = 0.1
+    
+
     
     init(_ name: String, _ system: PhysicalSystem) {
         self.name = name

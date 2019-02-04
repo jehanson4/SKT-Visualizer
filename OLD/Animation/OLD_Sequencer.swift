@@ -53,9 +53,6 @@ protocol OLD_Sequencer: Sequencer {
     
     var progressionType: ProgressionType { get }
     
-    /// value as a fraction of the inverval between the bounds
-    var progress: Double { get}
-    
     /// Convert from nominal value to string
     func toString(_ x: Double) -> String
 
