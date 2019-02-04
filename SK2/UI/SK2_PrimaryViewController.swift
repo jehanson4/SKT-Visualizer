@@ -93,8 +93,10 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        debug("viewWillDisappear")
         
+        // If we're doing a seque to secondary controller and we disconnect things here,
+        // they don't get reconnected when we unwind.
+        debug("viewWillDisappear", "disconnecting controls")
         figureSelector_teardown()
         modelParams_teardown()
         sequencer_teardown()
@@ -109,9 +111,12 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
         return true
     }
     
-    @IBAction func unwindToSK2_Primary
-        (_ sender: UIStoryboardSegue) {
-        debug("unwindToSK2_Primary")
+    @IBAction func unwindToSK2_Primary(_ sender: UIStoryboardSegue) {
+        debug("unwindToSK2_Primary. reconnecting controls")
+        figureSelector_setup()
+        modelParams_setup()
+        sequencer_setup()
+        player_setup()
     }
     
     // ===========================================
@@ -190,6 +195,7 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     @IBOutlet weak var param5_stepper: UIStepper!
     
     @IBAction func param_edited(_ sender: UITextField) {
+        debug("param_edited", "tag=\(sender.tag)")
         let pCount = system.parameters.entryCount
         if (sender.tag <= 0 || sender.tag > pCount) {
             return
@@ -202,6 +208,7 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     }
     
     @IBAction func param_step(_ sender: UIStepper) {
+        debug("param_step", "tag=\(sender.tag)")
         let pCount = system.parameters.entryCount
         if (sender.tag <= 0 || sender.tag > pCount) {
             return
@@ -243,7 +250,7 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     }
     
     func param_update(_ param: Parameter?, _ text: UITextField?, _ stepper: UIStepper?) {
-        var pValueAsString = "0"
+        var pValueAsString = ""
         var pValueAsDouble: Double = 0
         var pStep: Double = 0.1
         if (param != nil) {
@@ -522,12 +529,11 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     // Animation: Player
     
     private enum PlayerState: Int {
-        case reset = 0
-        case runBackward = 1
-        case stepBackward = 2
-        case stop = 3
-        case stepForward = 4
-        case runForward = 5
+        case runBackward = 0
+        case stepBackward = 1
+        case stop = 2
+        case stepForward = 3
+        case runForward = 4
     }
 
     @IBOutlet weak var playerSelector: UISegmentedControl!
@@ -576,10 +582,6 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     private func setPlayerState(_ seq: inout Sequencer, _ state: PlayerState) {
         // There must be a better way....
         switch (state) {
-        case .reset:
-            seq.enabled = false
-            seq.reset()
-            seq.direction = Direction.stopped
         case  .runBackward:
             seq.direction = Direction.reverse
             if (seq.direction == Direction.reverse) {

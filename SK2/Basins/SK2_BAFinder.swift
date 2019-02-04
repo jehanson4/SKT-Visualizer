@@ -38,8 +38,9 @@ class SK2_BAFinder {
         }
     }
     
+    let system: SK2_System
+    
     private var queue: WorkQueue
-    private var system: SK2_System
     private var workingData: SK2_BAModel
     private var _basinData: [DS2_BasinData]
     private var _busy: Bool

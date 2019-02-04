@@ -76,8 +76,7 @@ class SK2_System: DS2_System, PreferenceSupport {
     var description: String { return nameAndInfo(self) }
 
     func releaseOptionalResources() {
-        discardBasinModel()
-        discardFlowModel()
+        // NOP
     }
 
     // ===================================
@@ -125,10 +124,6 @@ class SK2_System: DS2_System, PreferenceSupport {
         sin_s0 = sin(s0)
         cot_s0 = 1.0/tan(s0)
         s12_max = twoPi - s0
-        
-        discardBasinModel()
-        discardFlowModel()
-
     }
     
     // ===========================================
@@ -407,39 +402,6 @@ class SK2_System: DS2_System, PreferenceSupport {
     func logOccupation(_ m: Int, _ n: Int) -> Double {
         return entropy(m, n) - _beta * energy(m, n)
     }
-    
-    // ========================================================
-    // Basin model
-    //
-
-    func updateBasinModel() {
-        debug("updateBasinModel: discarding it!")
-        discardBasinModel()
-    }
-    
-    func discardBasinModel() {
-        debug("discardBasinModel")
-        // TODO
-    }
-    
-    // TODO a method to call when the a1, a2, T have changed but
-    // N,k have not
-    
-    // ===============================================
-    // Population flow
-    
-    func updateFlowModel() {
-        debug("updateFlowModel: discarding it!")
-        discardFlowModel()
-    }
-    
-    func discardFlowModel() {
-        debug("discardFlowModel")
-        // TODO
-    }
-    
-    // TODO a method to call when the a1, a2, T have changed but
-    // N,k have not
     
     // ======================================================
     // Preferences

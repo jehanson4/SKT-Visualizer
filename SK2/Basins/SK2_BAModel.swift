@@ -28,6 +28,10 @@ fileprivate func warn(_ mtd: String, _ msg: String = "") {
 /// on which operations may be safely performed while the app is changing
 class SK2_BAModel {
 
+    // TODO a method to call when the a1, a2, T have changed but
+    // N,k have not
+    
+
     var modelParams: SK2_Descriptor
     
     private var system: SK2_System

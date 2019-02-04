@@ -32,8 +32,8 @@ struct SK2E {
         let reg = Registry<Figure>()
         
         // =====================
-        // Base Figure w/ its effects
-        // InnerShell, NetOnShell, NodesOnShell, Meridians, DescentLinesOnShell
+        // Base Figure
+        // has InnerShell, NetOnShell, NodesOnShell, Meridians, DescentLinesOnShell
         
         let r0 : Double = 1
         let bgColor: GLKVector4 = graphicsController.backgroundColor
@@ -76,7 +76,7 @@ struct SK2E {
         }
         
         // ===================================
-        // figures that delegate to baseFigure
+        // Figures that delegate to baseFigure
         
         let energyColorSource = SK2E_EnergyColors(system)
         let energyOnShell = ColorizedFigure("Energy on the Shell",
@@ -95,6 +95,13 @@ struct SK2E {
                                                 delegate: baseFigure,
                                                 colorSource: occupationColorSource)
         _ = reg.register(occupationOnShell)
+        
+        let basinFinder = SK2_BAFinder(system)
+        let basinColorSource = SK2_BAColorSource(basinFinder)
+        let basinsOnShell = ColorizedFigure("Basins on the Shell",
+                                            delegate: baseFigure,
+                                            colorSource: basinColorSource)
+        _ = reg.register(basinsOnShell)
         
         return reg
     }

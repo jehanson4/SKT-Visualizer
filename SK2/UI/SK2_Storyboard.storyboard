@@ -166,14 +166,12 @@
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                                 <connections>
-                                                                    <action selector="N_edited:" destination="1Ul-i5-KtM" eventType="editingDidEnd" id="wHA-vH-wbD"/>
                                                                     <action selector="param_edited:" destination="1Ul-i5-KtM" eventType="editingDidEnd" id="7Vp-kC-sPU"/>
                                                                 </connections>
                                                             </textField>
                                                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="oyO-Gh-GfD">
                                                                 <rect key="frame" x="217" y="0.0" width="94" height="29"/>
                                                                 <connections>
-                                                                    <action selector="N_step:" destination="1Ul-i5-KtM" eventType="valueChanged" id="5bu-le-8RN"/>
                                                                     <action selector="param_step:" destination="1Ul-i5-KtM" eventType="valueChanged" id="PK9-El-CnF"/>
                                                                 </connections>
                                                             </stepper>
@@ -194,14 +192,12 @@
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                                 <connections>
-                                                                    <action selector="k_edited:" destination="1Ul-i5-KtM" eventType="editingDidEnd" id="OdT-ZJ-cYa"/>
                                                                     <action selector="param_edited:" destination="1Ul-i5-KtM" eventType="editingDidEnd" id="nci-vN-BTd"/>
                                                                 </connections>
                                                             </textField>
                                                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="ExS-VI-VxA">
                                                                 <rect key="frame" x="217" y="0.0" width="94" height="29"/>
                                                                 <connections>
-                                                                    <action selector="k_step:" destination="1Ul-i5-KtM" eventType="valueChanged" id="CeH-0n-Bpl"/>
                                                                     <action selector="param_step:" destination="1Ul-i5-KtM" eventType="valueChanged" id="Ieu-FC-v45"/>
                                                                 </connections>
                                                             </stepper>
@@ -222,14 +218,12 @@
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                                 <connections>
-                                                                    <action selector="a1_edited:" destination="1Ul-i5-KtM" eventType="editingDidEnd" id="nZh-4d-UcX"/>
                                                                     <action selector="param_edited:" destination="1Ul-i5-KtM" eventType="editingDidEnd" id="ljn-dQ-4JB"/>
                                                                 </connections>
                                                             </textField>
                                                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="6Ka-oC-cW2">
                                                                 <rect key="frame" x="217" y="0.0" width="94" height="29"/>
                                                                 <connections>
-                                                                    <action selector="a1_step:" destination="1Ul-i5-KtM" eventType="valueChanged" id="hps-xt-BZ8"/>
                                                                     <action selector="param_step:" destination="1Ul-i5-KtM" eventType="valueChanged" id="lC4-b6-Am0"/>
                                                                 </connections>
                                                             </stepper>
@@ -250,14 +244,12 @@
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                                 <connections>
-                                                                    <action selector="a2_edited:" destination="1Ul-i5-KtM" eventType="editingDidEnd" id="8zU-Hz-ONc"/>
                                                                     <action selector="param_edited:" destination="1Ul-i5-KtM" eventType="editingDidEnd" id="TtW-fQ-8K7"/>
                                                                 </connections>
                                                             </textField>
                                                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="yKm-Go-gmY">
                                                                 <rect key="frame" x="217" y="0.0" width="94" height="29"/>
                                                                 <connections>
-                                                                    <action selector="a2_step:" destination="1Ul-i5-KtM" eventType="valueChanged" id="HLk-xx-atz"/>
                                                                     <action selector="param_step:" destination="1Ul-i5-KtM" eventType="valueChanged" id="2as-uq-mpq"/>
                                                                 </connections>
                                                             </stepper>
@@ -278,14 +270,12 @@
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                                 <connections>
-                                                                    <action selector="T_edited:" destination="1Ul-i5-KtM" eventType="editingDidEnd" id="h8N-d9-TPo"/>
                                                                     <action selector="param_edited:" destination="1Ul-i5-KtM" eventType="editingDidEnd" id="dRa-E1-vnR"/>
                                                                 </connections>
                                                             </textField>
                                                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="71N-AQ-KgN">
                                                                 <rect key="frame" x="217" y="0.0" width="94" height="29"/>
                                                                 <connections>
-                                                                    <action selector="T_step:" destination="1Ul-i5-KtM" eventType="valueChanged" id="XIh-mF-SQR"/>
                                                                     <action selector="param_step:" destination="1Ul-i5-KtM" eventType="valueChanged" id="ANu-He-BAx"/>
                                                                 </connections>
                                                             </stepper>
@@ -507,13 +497,12 @@
                                                             <constraint firstAttribute="height" constant="8" id="9si-v9-CDf"/>
                                                         </constraints>
                                                     </view>
-                                                    <segmentedControl opaque="NO" contentMode="center" horizontalHuggingPriority="750" contentHorizontalAlignment="fill" contentVerticalAlignment="center" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="o7I-x5-9yq" userLabel="player">
+                                                    <segmentedControl opaque="NO" contentMode="center" horizontalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="o7I-x5-9yq" userLabel="player">
                                                         <rect key="frame" x="0.0" y="174" width="311" height="33"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="32" id="lVV-K4-bn7"/>
                                                         </constraints>
                                                         <segments>
-                                                            <segment title="|◁◁"/>
                                                             <segment title="◁"/>
                                                             <segment title="||◁"/>
                                                             <segment title="||"/>
@@ -747,7 +736,7 @@
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ew9-SB-o99" userLabel="Effect 0">
                                                         <rect key="frame" x="0.0" y="0.0" width="311" height="124"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Net" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xDh-vT-Lq1">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Effect 1" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xDh-vT-Lq1">
                                                                 <rect key="frame" x="0.0" y="0.0" width="262" height="124"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <nil key="textColor"/>
@@ -764,7 +753,7 @@
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NpH-EU-Naa" userLabel="Effect 1">
                                                         <rect key="frame" x="0.0" y="124" width="311" height="31"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Nodes" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kac-tK-Zfa">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Effect 2" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kac-tK-Zfa">
                                                                 <rect key="frame" x="0.0" y="0.0" width="262" height="31"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <nil key="textColor"/>
@@ -782,7 +771,7 @@
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R5P-VW-rKy" userLabel="Effect 2">
                                                         <rect key="frame" x="0.0" y="155" width="311" height="31"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Meridians" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xdp-zH-OvA">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Effect 3" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xdp-zH-OvA">
                                                                 <rect key="frame" x="0.0" y="0.0" width="262" height="31"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <nil key="textColor"/>
@@ -799,7 +788,7 @@
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="B4E-3o-Nsm" userLabel="Effect 3">
                                                         <rect key="frame" x="0.0" y="186" width="311" height="31"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Flow lines" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1LL-dP-aFs">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Effect 4" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1LL-dP-aFs">
                                                                 <rect key="frame" x="0.0" y="0.0" width="262" height="31"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <nil key="textColor"/>
@@ -816,7 +805,7 @@
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I6e-Vm-FTL" userLabel="Effect 4">
                                                         <rect key="frame" x="0.0" y="217" width="311" height="31"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Surface" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Zx-Nh-AC6">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Effect 5" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Zx-Nh-AC6">
                                                                 <rect key="frame" x="0.0" y="0.0" width="262" height="31"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <nil key="textColor"/>

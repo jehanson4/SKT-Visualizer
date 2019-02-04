@@ -129,7 +129,7 @@ class SK2_SecondaryViewController: UIViewController, UITextFieldDelegate, AppMod
         
         let eCount = figure?.effects?.entryCount
         let eLabels: [UILabel?]  = [
-            effect2_Label,
+            effect1_Label,
             effect2_Label,
             effect3_Label,
             effect4_Label,
