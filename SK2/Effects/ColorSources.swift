@@ -9,25 +9,21 @@
 import Foundation
 import GLKit
 
+fileprivate let debugEnabled = true
+
+fileprivate func debug(_ mtd: String, _ msg: String = "") {
+    if (debugEnabled) {
+        print("ColorSources", mtd, msg)
+    }
+}
+
 // ====================================================
 // SK2E_SimpleColors
 // ====================================================
 
 class SK2E_SimpleColors: ColorSource {
 
-    // ========================================
-    // Debugging
-    
-    let clsName = "SK2E_SimpleColors"
-    let debugEnabled = true
-    
-    private func debug(_ mtd: String, _ msg: String = "") {
-        if (debugEnabled) {
-            print(clsName, mtd, msg)
-        }
-    }
-    
-    init(_ name: String, _ info: String? = nil, _ system: SK2_System, 
+    init(_ name: String, _ info: String? = nil, _ system: SK2_System,
          _ getter: @escaping (_ m: Int, _ n: Int) -> Double,
          _ colorMap: ColorMap) {
         self.name = name
@@ -61,7 +57,7 @@ class SK2E_SimpleColors: ColorSource {
     
     func calibrate() -> Bool {
         let bounds = findBounds()
-        debug("calibrate", "bounds=\(bounds)")
+        debug("SK2E_SimpleColors.calibrate", "bounds=\(bounds)")
         let colorsChanged = colorMap.calibrate(bounds)
         if (colorsChanged) {
             fireChange()

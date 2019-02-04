@@ -9,51 +9,70 @@
 import Foundation
 import GLKit
 
+fileprivate var debugEnabled = true
+
+fileprivate func debug(_ mtd: String, _ msg: String = "") {
+    if (debugEnabled)  {
+        print("SK2_Factory", mtd, msg)
+    }
+}
+
 // ==============================================
 // SK2E
 // ==============================================
 
 struct SK2E {
+    
     static var key = ""
     static var name = "SK/2 Equilibrium"
     static var info = "Equilibrium properties of the 2-component SK model"
     
     static func makeFigures(_ system: SK2_System, _ graphicsController: GraphicsController) -> Registry<Figure>? {
+        let mtd = "SK2E.makeFigures"
         let reg = Registry<Figure>()
         
         // =====================
-        // Base Figure
+        // Base Figure w/ its effects
+        // InnerShell, NetOnShell, NodesOnShell, Meridians, DescentLinesOnShell
         
         let r0 : Double = 1
+        let bgColor: GLKVector4 = graphicsController.backgroundColor
+        let baseColorSource = UniformColor("Gray", r: 0.5, g: 0.5, b: 0.5)
         let baseFigure = ShellFigure("BaseFigure", radius: r0)
         
-        let bgColor: GLKVector4 = graphicsController.backgroundColor
-        let bgShell = InnerShell(r0, bgColor, enabled: true)
-        _ = baseFigure.effects?.register(bgShell)
-        
+        do {
+            let innerShell = InnerShell(r0, bgColor, enabled: true)
+            _ = try baseFigure.effects?.register(innerShell, key: InnerShell.key)
+        } catch {
+            debug(mtd, "Problem registring InnerShell: \(error)")
+        }
+
         do {
             let netOnShell = NetOnShell(system, enabled: true, radius: r0)
             _ = try baseFigure.effects?.register(netOnShell, key: NetOnShell.key)
         } catch {
-            // TODO debug
-            print("Problem registring NetOnShell: \(error)")
+            debug(mtd, "Problem registring NetOnShell: \(error)")
         }
         
         do {
-            let baseColorSource = UniformColor("Gray", r: 0.5, g: 0.5, b: 0.5)
-            let baseNodes = NodesOnShell(system, baseFigure, baseColorSource, enabled: true)
-            _ = try baseFigure.effects?.register(baseNodes, key: NodesOnShell.key)
+            let nodesOnShell = NodesOnShell(system, baseFigure, baseColorSource, enabled: true)
+            _ = try baseFigure.effects?.register(nodesOnShell, key: NodesOnShell.key)
         } catch {
-            // TODO debug
-            print("Problem registring NotesOnShell: \(error)")
+            debug(mtd, "Problem registring NodesOnShell: \(error)")
         }
         
         do {
             let meridians = MeridiansOnShell(system, enabled: true, radius: r0)
             _ = try baseFigure.effects?.register(meridians, key: Meridians.key)
         } catch {
-            // TODO debug
-            print("Problem registring Meridians: \(error)")
+            debug(mtd, "Problem registring Meridians: \(error)")
+        }
+        
+        do {
+            let descentLines = DescentLinesOnShell(system, enabled: true, radius: r0)
+            _ = try baseFigure.effects?.register(descentLines, key: DescentLinesOnShell.key)
+        } catch {
+            debug(mtd, "Problem registring DescentLinesOnShell: \(error)")
         }
         
         // ===================================
@@ -95,6 +114,7 @@ struct SK2E {
 // ==============================================
 
 struct SK2D {
+    
     static var key = ""
     static var name = "SK/2 Dynamics"
     static var info = "Simulated population dynamics of the 2-component SK model"

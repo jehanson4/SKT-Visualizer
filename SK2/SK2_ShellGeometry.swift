@@ -18,7 +18,7 @@ fileprivate let eps = Double.constants.eps
 // SK2_ShellPoint
 // ======================================================
 
-class SK2_ShellPoint : SK2_Node {
+class SK2_ShellPoint : DS2_Node {
     
     let r: Double
     let phi: Double
@@ -67,15 +67,23 @@ class SK2_ShellGeometry {
     // =====================================
     // Transforms
     
+    func sphericalToCartesian(_ r: Double, _ phi: Double, _ thetaE: Double) -> (x: Double, y: Double, z: Double) {
+        let theta = piOver2 - thetaE
+        let x = r * sin(theta) * cos(phi)
+        let y = r * sin(theta) * sin(phi)
+        let z = r * cos(theta)
+        return (x, y, z)
+    }
+    
     func skToCartesian(_ m: Int, _ n: Int) -> (x: Double, y: Double, z: Double) {
-        let t1 = skToTwoPoint(m, n)
-        let sph = twoPointToSpherical(t1.s1, t1.s2)
-        return Geometry.sphericalToCartesian(r: sph.r, phi: sph.phi, thetaE: sph.thetaE)
+        let (s1, s2) = skToTwoPoint(m, n)
+        let (r, phi, thetaE) = twoPointToSpherical(s1, s2)
+        return sphericalToCartesian(r, phi, thetaE)
     }
 
     func skToSpherical(_ m: Int, _ n: Int) -> (r: Double, phi: Double, thetaE: Double) {
-        let t1 = skToTwoPoint(m, n)
-        return twoPointToSpherical(t1.s1, t1.s2)
+        let (s1, s2) = skToTwoPoint(m, n)
+        return twoPointToSpherical(s1, s2)
     }
     
     func skToTwoPoint(_ m: Int, _ n: Int) -> (s1: Double, s2: Double) {

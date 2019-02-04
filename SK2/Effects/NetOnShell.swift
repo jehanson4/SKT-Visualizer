@@ -9,22 +9,19 @@
 import Foundation
 import GLKit
 
+fileprivate var debugEnabled = false
+
+fileprivate func debug(_ mtd: String, _ msg: String = "") {
+    if (debugEnabled) {
+        print("NetOnShell", mtd, msg)
+    }
+}
+
 // =============================================================
 // NetOnShell
 // =============================================================
 
 class NetOnShell: GLKBaseEffect, Effect {
-    
-    // ===========================================
-    // Debug
-    
-    static var cls = "NetOnShell"
-    var debugEnabled = false
-    func debug(_ mtd: String, _ msg: String = "") {
-        if (debugEnabled) {
-            print(NetOnShell.cls, mtd, msg)
-        }
-    }
     
     // ===========================================
     // Basics

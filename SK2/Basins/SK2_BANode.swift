@@ -12,7 +12,9 @@ import Foundation
 // SK2_BANode
 // ====================================================
 
-class SK2_BANode: SK2_Node {
+/// Needs to be a class so we can pass around lists of these guys pulled out of
+/// the nodes array, and update them. If it were a struct we'd be updating a copy.
+class SK2_BANode: DS2_Node {
 
     /// Our energy, or NaN
     var energy: Double

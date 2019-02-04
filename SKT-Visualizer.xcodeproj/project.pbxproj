@@ -62,6 +62,13 @@
 		8A88174B220757C000523467 /* SK2_Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A88174A220757C000523467 /* SK2_Storyboard.storyboard */; };
 		8A88174D220791D400523467 /* SK2_TertiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A88174C220791D400523467 /* SK2_TertiaryViewController.swift */; };
 		8A8817502207F21600523467 /* ParameterSweep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A88174F2207F21600523467 /* ParameterSweep.swift */; };
+		8A88175222084E2700523467 /* DescentLinesOnShell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A88175122084E2700523467 /* DescentLinesOnShell.swift */; };
+		8A88175422085CFA00523467 /* SK2_BAColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A88175322085CFA00523467 /* SK2_BAColors.swift */; };
+		8A88175622085D5A00523467 /* SK2_PFRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A88175522085D5A00523467 /* SK2_PFRules.swift */; };
+		8A88175822085D7500523467 /* SK2_PFColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A88175722085D7500523467 /* SK2_PFColors.swift */; };
+		8A88175A22085E3B00523467 /* SK2_PFSequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A88175922085E3B00523467 /* SK2_PFSequencer.swift */; };
+		8A88175C2208628700523467 /* DS2_BasinData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A88175B2208628700523467 /* DS2_BasinData.swift */; };
+		8A88175E2208637A00523467 /* DS2_System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A88175D2208637A00523467 /* DS2_System.swift */; };
 		8A91B0982093F8C100488907 /* OLD_Parameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A91B0972093F8C100488907 /* OLD_Parameters.swift */; };
 		8A91B09C2093F98000488907 /* OLD_Sequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A91B09B2093F98000488907 /* OLD_Sequencer.swift */; };
 		8A91B09E2094163C00488907 /* DummySequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A91B09D2094163C00488907 /* DummySequencer.swift */; };
@@ -208,6 +215,13 @@
 		8A88174A220757C000523467 /* SK2_Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SK2_Storyboard.storyboard; sourceTree = "<group>"; };
 		8A88174C220791D400523467 /* SK2_TertiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_TertiaryViewController.swift; sourceTree = "<group>"; };
 		8A88174F2207F21600523467 /* ParameterSweep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParameterSweep.swift; sourceTree = "<group>"; };
+		8A88175122084E2700523467 /* DescentLinesOnShell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescentLinesOnShell.swift; sourceTree = "<group>"; };
+		8A88175322085CFA00523467 /* SK2_BAColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_BAColors.swift; sourceTree = "<group>"; };
+		8A88175522085D5A00523467 /* SK2_PFRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_PFRules.swift; sourceTree = "<group>"; };
+		8A88175722085D7500523467 /* SK2_PFColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_PFColors.swift; sourceTree = "<group>"; };
+		8A88175922085E3B00523467 /* SK2_PFSequencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_PFSequencer.swift; sourceTree = "<group>"; };
+		8A88175B2208628700523467 /* DS2_BasinData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DS2_BasinData.swift; sourceTree = "<group>"; };
+		8A88175D2208637A00523467 /* DS2_System.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DS2_System.swift; sourceTree = "<group>"; };
 		8A91B0972093F8C100488907 /* OLD_Parameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OLD_Parameters.swift; sourceTree = "<group>"; };
 		8A91B09B2093F98000488907 /* OLD_Sequencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OLD_Sequencer.swift; sourceTree = "<group>"; };
 		8A91B09D2094163C00488907 /* DummySequencer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DummySequencer.swift; sourceTree = "<group>"; };
@@ -441,13 +455,6 @@
 			path = UI;
 			sourceTree = "<group>";
 		};
-		8A5E948A2077D285003477D3 /* Effects */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Effects;
-			sourceTree = "<group>";
-		};
 		8A75B691208A768100EACD13 /* ColorSources */ = {
 			isa = PBXGroup;
 			children = (
@@ -539,6 +546,7 @@
 				8AB2A62E21FCE1C100A46316 /* SK2_BANode.swift */,
 				8AB2A63021FCE40E00A46316 /* SK2_BAModel.swift */,
 				8AB2A63421FCEB5800A46316 /* SK2_BAFinder.swift */,
+				8A88175322085CFA00523467 /* SK2_BAColors.swift */,
 			);
 			path = Basins;
 			sourceTree = "<group>";
@@ -548,6 +556,9 @@
 			children = (
 				8AB2A63A21FE4F5C00A46316 /* SK2_PFNode.swift */,
 				8AB2A63C21FE4F6B00A46316 /* SK2_PFModel.swift */,
+				8A88175522085D5A00523467 /* SK2_PFRules.swift */,
+				8A88175722085D7500523467 /* SK2_PFColors.swift */,
+				8A88175922085E3B00523467 /* SK2_PFSequencer.swift */,
 			);
 			path = Flow;
 			sourceTree = "<group>";
@@ -559,6 +570,7 @@
 				8AB2A64121FEA8BF00A46316 /* NodesOnShell.swift */,
 				8AB2A65021FF8C8C00A46316 /* NetOnShell.swift */,
 				8AB2A65221FF9A1400A46316 /* MeridiansOnShell.swift */,
+				8A88175122084E2700523467 /* DescentLinesOnShell.swift */,
 			);
 			path = Effects;
 			sourceTree = "<group>";
@@ -750,6 +762,8 @@
 				8AD823B3208E36CB0045F3B1 /* PhysicalProperty.swift */,
 				8A4654BF21E8E38300EE2B26 /* PhysicalSystem.swift */,
 				8AB2A63621FDEDEC00A46316 /* DiscreteSystem.swift */,
+				8A88175D2208637A00523467 /* DS2_System.swift */,
+				8A88175B2208628700523467 /* DS2_BasinData.swift */,
 			);
 			name = PhysicalSystem;
 			path = SystemModel;
@@ -763,7 +777,6 @@
 				8A3BBBB6208BC28A00669227 /* VisualizationModel1.swift */,
 				8AF59502208AC5B10082C5DE /* VisualizatonModel.swift */,
 				8A75B691208A768100EACD13 /* ColorSources */,
-				8A5E948A2077D285003477D3 /* Effects */,
 			);
 			path = Visualization;
 			sourceTree = "<group>";
@@ -914,6 +927,7 @@
 				8A3C45B42086165500A1E9CD /* Entropy.swift in Sources */,
 				8A91B0A02094164700488907 /* NForFixedKOverN.swift in Sources */,
 				8AD817FC207BFA9200426C25 /* InfoViewController.swift in Sources */,
+				8A88175A22085E3B00523467 /* SK2_PFSequencer.swift in Sources */,
 				8A591B3221E441FB00B802F8 /* SK2_PrimaryViewController.swift in Sources */,
 				8A741FE620925E2D002A88D0 /* SKGraph.swift in Sources */,
 				8AB2A64521FEB24900A46316 /* Geometry.swift in Sources */,
@@ -927,6 +941,7 @@
 				8A2034DE21EB961300A4C418 /* SK2_SecondaryViewController.swift in Sources */,
 				8A91B09C2093F98000488907 /* OLD_Sequencer.swift in Sources */,
 				8AB2A64221FEA8BF00A46316 /* NodesOnShell.swift in Sources */,
+				8A88175E2208637A00523467 /* DS2_System.swift in Sources */,
 				8A3C45B62086167E00A1E9CD /* LogOccupation.swift in Sources */,
 				8AB2A63321FCE92F00A46316 /* SK2_ShellGeometry.swift in Sources */,
 				8A56BE7320ADAD5100C19F4C /* BANode.swift in Sources */,
@@ -935,10 +950,12 @@
 				8A91B09E2094163C00488907 /* DummySequencer.swift in Sources */,
 				8A3C45C42086214D00A1E9CD /* PhysicalPropertyColorSource.swift in Sources */,
 				8ABEEC3B20803A2F008E72F4 /* Surface.swift in Sources */,
+				8A88175222084E2700523467 /* DescentLinesOnShell.swift in Sources */,
 				8ACE788F2073C57500C29875 /* TypedEffect.swift in Sources */,
 				8AC82CF521FC9AED00A75595 /* AnimationController.swift in Sources */,
 				8A0B3A0020A4B71200370999 /* PopulationFlow.swift in Sources */,
 				8AB2A64D21FF178700A46316 /* DelegatedFigure.swift in Sources */,
+				8A88175422085CFA00523467 /* SK2_BAColors.swift in Sources */,
 				8AE1BD162203EF4500D6A062 /* SK2_Factory.swift in Sources */,
 				8AB2A64F21FF199700A46316 /* ColorizedFigure.swift in Sources */,
 				8A35082E20A092A400E36C1F /* PopulationColorSource.swift in Sources */,
@@ -977,6 +994,7 @@
 				8AA05A15208FD56F009417A6 /* SK2Point.swift in Sources */,
 				8A741FE820926B9E002A88D0 /* FlowLines.swift in Sources */,
 				8A591B3B21E6D6DB00B802F8 /* UISelectionViewController.swift in Sources */,
+				8A88175C2208628700523467 /* DS2_BasinData.swift in Sources */,
 				8AF59503208AC5B10082C5DE /* VisualizatonModel.swift in Sources */,
 				8AF59500208AC0420082C5DE /* AppModel.swift in Sources */,
 				8A35083220A0D5C800E36C1F /* PFlowRules.swift in Sources */,
@@ -985,8 +1003,10 @@
 				8AC82CC721F5D60400A75595 /* SK2SphereUtils.swift in Sources */,
 				8AAA008E207166C0001A136D /* OLD_MasterViewController.swift in Sources */,
 				8A91B0AA2094B01400488907 /* GenericSequencer.swift in Sources */,
+				8A88175822085D7500523467 /* SK2_PFColors.swift in Sources */,
 				8A40BC0C207ECC7500F2D2EB /* Nodes.swift in Sources */,
 				8AF98FA5207FE8B40007688E /* OLD_SettingsViewController.swift in Sources */,
+				8A88175622085D5A00523467 /* SK2_PFRules.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

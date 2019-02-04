@@ -9,24 +9,19 @@
 import Foundation
 import GLKit
 
+fileprivate var debugEnabled = false
+
+fileprivate func debug(_ mtd: String, _ msg : String = "") {
+    if (debugEnabled) {
+        print("NodesOnShell", mtd, msg)
+    }
+}
+
 // =========================================================
 // NodesOnShell
 // =========================================================
 
 class NodesOnShell: ColorizedEffect {
-    
-    // ============================================
-    // Debugging
-    
-    let cls = "NodesOnShell"
-    
-    var debugEnabled = false
-    
-    func debug(_ mtd: String, _ msg : String = "") {
-        if (debugEnabled) {
-            print(cls, mtd, msg)
-        }
-    }
     
     // ============================================
     // Lifecycle

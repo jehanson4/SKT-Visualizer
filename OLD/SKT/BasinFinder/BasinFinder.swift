@@ -8,30 +8,6 @@
 
 import Foundation
 
-// =====================================================================================
-// BasinData
-// =====================================================================================
-
-struct BasinData {
-    let idx: Int
-    let m: Int
-    let n: Int
-    let isClassified: Bool
-    let isBoundary: Bool?
-    let basinID: Int?
-    let distanceToAttractor: Int?
-    
-    init(_ node: BANode) {
-        self.idx = node.idx
-        self.m = node.m
-        self.n = node.n
-        self.isClassified = node.isClassified
-        self.isBoundary = node.isBoundary
-        self.basinID = node.basinID
-        self.distanceToAttractor = node.distanceToAttractor
-    }
-}
-
 // ============================================================================
 // BasinFinder
 // ============================================================================
@@ -46,7 +22,7 @@ class BasinFinder {
     
     var expectedMaxDistanceToAttractor: Int { return geometry.N / 2 }
 
-    var basinData: [BasinData] {
+    var basinData: [DS2_BasinData] {
         get {
             // sync() returns before sync actually happens, so this
             // getter may return stale data. But at least an update
@@ -61,7 +37,7 @@ class BasinFinder {
     private var geometry: SK2Geometry
     private var physics: SKPhysics
     private var workingData: BAModel
-    private var _basinData: [BasinData]
+    private var _basinData: [DS2_BasinData]
     private var _busy: Bool
     private var _updatesDone: Bool
     
@@ -142,7 +118,7 @@ class BasinFinder {
         return true
     }
     
-    private func updateLiveData(_ modelParams: SKTModelParams, _ newBasinData: [BasinData]?) {
+    private func updateLiveData(_ modelParams: SKTModelParams, _ newBasinData: [DS2_BasinData]?) {
         let liveParams = SKTModelParams(geometry, physics)
         if (liveParams != modelParams) {
             debug("updateLiveData", "modelParams are stale, so discarding new basin data")

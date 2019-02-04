@@ -7,3 +7,12 @@
 //
 
 import Foundation
+
+fileprivate var debugEnabled = false
+
+fileprivate func debug(_ mtd: String, _ msg: String = "") {
+    if (debugEnabled) {
+        print("SK2_PFModel", mtd, msg)
+    }
+}
+

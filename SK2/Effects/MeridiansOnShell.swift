@@ -9,22 +9,19 @@
 import Foundation
 import GLKit
 
+fileprivate var debugEnabled = false
+
+fileprivate func debug(_ mtd: String, _ msg: String = "") {
+    if (debugEnabled) {
+        print("MeridiansOnShell", mtd, msg)
+    }
+}
+
 // ==================================================================
 // MeridiansOnShell
 // ==================================================================
 
 class MeridiansOnShell:  GLKBaseEffect, Effect {
-    
-    // ======================================
-    // Debugging
-    
-    static let cls = "MeridiansOnShell"
-    var debugEnabled = false
-    func debug(_ mtd: String, _ msg: String = "") {
-        if (debugEnabled) {
-            print(MeridiansOnShell.cls, mtd, msg)
-        }
-    }
     
     static let key = "Meridians"
     var name = "Meridians"

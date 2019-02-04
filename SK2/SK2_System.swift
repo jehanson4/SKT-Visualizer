@@ -8,31 +8,16 @@
 
 import Foundation
 
-fileprivate let pi = Double.constants.pi
-fileprivate let twoPi = Double.constants.twoPi
+fileprivate var debugEnabled = true
 
-// ==============================================================
-// SK2_Node
-// ==============================================================
-
-class SK2_Node: DS_Node {
-    
-    let nodeIndex: Int
-    let m: Int
-    let n: Int
-
-    init(_ nodeIndex: Int, _ m: Int, _ n: Int) {
-        self.nodeIndex = nodeIndex
-        self.m = m
-        self.n = n
-    }
-    
-    var hashValue: Int { return nodeIndex }
-    
-    static func == (lhs: SK2_Node, rhs: SK2_Node) -> Bool {
-        return lhs.nodeIndex == rhs.nodeIndex
+fileprivate func debug(_ mtd: String, _ msg: String = "") {
+    if (debugEnabled)  {
+        print("SK2_System", mtd, msg)
     }
 }
+
+fileprivate let pi = Double.constants.pi
+fileprivate let twoPi = Double.constants.twoPi
 
 // ==============================================================
 // SK2_Descriptor
@@ -60,25 +45,15 @@ struct SK2_Descriptor: Equatable {
         self.a2 = system.a2.value
         self.T = system.T.value
     }
+    
+    // TODO equatable func?
 }
 
 // ==============================================================
 // SK2_System
 // ==============================================================
 
-class SK2_System: PhysicalSystem, PreferenceSupport {
-    
-    // ==========================================
-    // Debug
-    
-    let cls = "SK2_System"
-    var debugEnabled = true
-    
-    func debug(_ mtd: String, _ msg: String = "") {
-        if (debugEnabled)  {
-            print(cls, mtd, msg)
-        }
-    }
+class SK2_System: DS2_System, PreferenceSupport {
     
     // ===================================
     // Initializer
@@ -358,7 +333,12 @@ class SK2_System: PhysicalSystem, PreferenceSupport {
         return params
     }
     
-    func apply(_ desc: SK2_Descriptor) {
+    /// returns true iff any parameter was changed
+    func apply(_ desc: SK2_Descriptor) -> Bool {
+        if (desc.N == _N && desc.k == _k && desc.a1 == _a1 && desc.a2 == _a2 && desc.T == _T) {
+            return false
+        }
+        
         // Special handling of N and k so that they get modified
         // together. Gotta make sure the derived var's get set.
         _N = desc.N
@@ -370,6 +350,7 @@ class SK2_System: PhysicalSystem, PreferenceSupport {
         a1.value = desc.a1
         a2.value = desc.a2
         T.value = desc.T
+        return true
     }
     
     func resetAllParameters() {
