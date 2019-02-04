@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SK2_TertiaryViewController: UIViewController, AppModelUser {
+class SK2_TertiaryViewController: UIViewController, UITextFieldDelegate, AppModelUser {
     
     // =============================================
     // Debugging
@@ -71,6 +71,12 @@ class SK2_TertiaryViewController: UIViewController, AppModelUser {
     @IBAction func dismissView(_ sender: Any) {
         debug("dismissView")
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // Hide the keyboard.
+        textField.resignFirstResponder()
+        return true
     }
     
 }

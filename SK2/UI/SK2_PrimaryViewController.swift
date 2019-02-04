@@ -56,12 +56,9 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
         else {
             debug(mtd, "system has been set")
             figureSelector_setup()
-            N_setup()
-            k_setup()
-            a1_setup()
-            a2_setup()
-            T_setup()
-            sweepSelector_setup()
+            modelParams_setup()
+            sequencer_setup()
+            player_setup()
         }
     }
     
@@ -99,18 +96,11 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
         debug("viewWillDisappear")
         
         figureSelector_teardown()
-        N_teardown()
-        k_teardown()
-        a1_teardown()
-        a2_teardown()
-        T_teardown()
-        system = nil
-        // appModel = nil
+        modelParams_teardown()
+        sequencer_teardown()
+        player_teardown()
 
         super.viewWillDisappear(animated)
-    }
-    
-    deinit {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -135,7 +125,7 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
         debug("figureSelector_update")
         let figureSelector = appPart.figureSelector
         if (figureSelectorButton != nil) {
-            let title = figureSelector.selection?.name ?? "<choose figure>"
+            let title = figureSelector.selection?.name ?? "(choose a figure)"
             figureSelectorButton.setTitle(title, for: .normal)
         }
     }
@@ -172,261 +162,187 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     }
 
     // ===========================================
-    // Model Parameters: N
+    // Model Parameters
 
-    var param1: Parameter!
-    var param1_monitor: ChangeMonitor!
+    var param1_monitor: ChangeMonitor?
+    @IBOutlet weak var param1_label: UILabel!
     @IBOutlet weak var param1_text: UITextField!
     @IBOutlet weak var param1_stepper: UIStepper!
+
+    var param2_monitor: ChangeMonitor?
+    @IBOutlet weak var param2_label: UILabel!
+    @IBOutlet weak var param2_text: UITextField!
+    @IBOutlet weak var param2_stepper: UIStepper!
     
-    // TODO
-//    func modelParams_setup() {
-//        param1 = sk2e?.N
-//        param1_monitor = param1.monitorChanges(param1_changed)
-//    }
-//    
-//    func param1_changed(_ sender: Any?) {
-//        
-//    }
+    var param3_monitor: ChangeMonitor?
+    @IBOutlet weak var param3_label: UILabel!
+    @IBOutlet weak var param3_text: UITextField!
+    @IBOutlet weak var param3_stepper: UIStepper!
     
-    @IBAction func N_edited(_ sender: UITextField) {
-        debug("N_edited", "sender.tag=\(sender.tag)")
-        if (system != nil && sender.text != nil) {
-            system!.N.applyValue(sender.text!)
+    var param4_monitor: ChangeMonitor?
+    @IBOutlet weak var param4_label: UILabel!
+    @IBOutlet weak var param4_text: UITextField!
+    @IBOutlet weak var param4_stepper: UIStepper!
+    
+    var param5_monitor: ChangeMonitor?
+    @IBOutlet weak var param5_label: UILabel!
+    @IBOutlet weak var param5_text: UITextField!
+    @IBOutlet weak var param5_stepper: UIStepper!
+    
+    @IBAction func param_edited(_ sender: UITextField) {
+        let pCount = system.parameters.entryCount
+        if (sender.tag <= 0 || sender.tag > pCount) {
+            return
+        }
+        
+        let param = system.parameters.entry(index: (sender.tag-1))?.value
+        if (param != nil && sender.text != nil) {
+            param!.applyValue(sender.text!)
         }
     }
     
-    @IBAction func N_step(_ sender: UIStepper) {
-        debug("N_step")
-        if (system != nil) {
-            system!.N.applyValue(sender.value)
+    @IBAction func param_step(_ sender: UIStepper) {
+        let pCount = system.parameters.entryCount
+        if (sender.tag <= 0 || sender.tag > pCount) {
+            return
         }
-    }
-    
-    func N_update(_ sender: Any?) {
-        debug("N_update")
-        let param = sender as? Parameter
+        
+        let param = system.parameters.entry(index: (sender.tag-1))?.value
         if (param != nil) {
-            param1_text.text = param!.valueAsString
-            param1_stepper.minimumValue = param!.minAsDouble
-            param1_stepper.maximumValue = param!.maxAsDouble
-            param1_stepper.stepValue = param!.stepSizeAsDouble
-            param1_stepper.value = param!.valueAsDouble
+            param!.applyValue(sender.value)
         }
     }
     
-    func N_setup() {
-        debug("N_setup")
-        param1_text.delegate = self
-        if (system != nil) {
-            self.N_update(system!.N)
-            param1_monitor = system!.N.monitorChanges(N_update)
+    func param_setup(_ param: Parameter?, _ tag: Int, _ label: UILabel?,  _ text: UITextField?, _ stepper: UIStepper?) -> ChangeMonitor? {
+        var monitor: ChangeMonitor? = nil
+        var pName = ""
+        var pMin: Double = 0
+        var pMax: Double = 1
+        if (param != nil) {
+            pName = param!.name
+            pMin = param!.minAsDouble
+            pMax = param!.maxAsDouble
+            
+            monitor = param!.monitorChanges(modelParams_update)
+        }
+        
+        if (label != nil) {
+            label!.text = pName + ":"
+        }
+        if (text != nil) {
+            text!.tag = tag
+        }
+        if (stepper != nil) {
+            stepper!.tag = tag
+            stepper!.minimumValue = pMin
+            stepper!.maximumValue = pMax
+        }
+        
+        return monitor
+    }
+    
+    func param_update(_ param: Parameter?, _ text: UITextField?, _ stepper: UIStepper?) {
+        var pValueAsString = "0"
+        var pValueAsDouble: Double = 0
+        var pStep: Double = 0.1
+        if (param != nil) {
+            pValueAsString = param!.valueAsString
+            pValueAsDouble = param!.valueAsDouble
+            pStep = param!.stepSizeAsDouble
+        }
+        if (text != nil) {
+            text!.text = pValueAsString
+        }
+        if (stepper != nil) {
+            stepper!.value = pValueAsDouble
+            stepper!.stepValue = pStep
         }
     }
     
-    func N_teardown() {
-        debug("N_teardown")
+    func modelParams_setup() {
+        debug("modelParams_setup", "entered")
+
+        let pCount = system.parameters.entryCount
+        
+        var idx: Int = 0
+        var param: Parameter? = nil
+        var tag: Int = 0
+        
+        // param1
+        idx = 0
+        param = (pCount > idx) ? system.parameters.entry(index: idx)?.value : nil
+        tag = (pCount > idx) ? (idx+1) : 0
+        param1_monitor = param_setup(param, tag, param1_label, param1_text, param1_stepper)
+
+        // param2
+        idx = 1
+        param = (pCount > idx) ? system.parameters.entry(index: idx)?.value : nil
+        tag = (pCount > idx) ? (idx+1) : 0
+        param2_monitor = param_setup(param, tag, param2_label, param2_text, param2_stepper)
+
+        // param3
+        idx = 2
+        param = (pCount > idx) ? system.parameters.entry(index: idx)?.value : nil
+        tag = (pCount > idx) ? (idx+1) : 0
+        param3_monitor = param_setup(param, tag, param3_label, param3_text, param3_stepper)
+
+        // param4
+        idx = 3
+        param = (pCount > idx) ? system.parameters.entry(index: idx)?.value : nil
+        tag = (pCount > idx) ? (idx+1) : 0
+        param4_monitor = param_setup(param, tag, param4_label, param4_text, param4_stepper)
+
+        // param5
+        idx = 4
+        param = (pCount > idx) ? system.parameters.entry(index: idx)?.value : nil
+        tag = (pCount > idx) ? (idx+1) : 0
+        param5_monitor = param_setup(param, tag, param5_label, param5_text, param5_stepper)
+        
+        modelParams_update(nil)
+    }
+    
+    func modelParams_update(_ sender: Any?) {
+        debug("modelParams_update", "entered")
+        
+        let pCount = system.parameters.entryCount
+        var idx: Int = 0
+        var param: Parameter? = nil
+        
+        // param1
+        idx = 0
+        param = (pCount > idx) ? system.parameters.entry(index: idx)?.value : nil
+        param_update(param, param1_text, param1_stepper)
+        
+        // param2
+        idx = 1
+        param = (pCount > idx) ? system.parameters.entry(index: idx)?.value : nil
+        param_update(param, param2_text, param2_stepper)
+        
+        // param3
+        idx = 2
+        param = (pCount > idx) ? system.parameters.entry(index: idx)?.value : nil
+        param_update(param, param3_text, param3_stepper)
+        
+        // param4
+        idx = 3
+        param = (pCount > idx) ? system.parameters.entry(index: idx)?.value : nil
+        param_update(param, param4_text, param4_stepper)
+        
+        // param5
+        idx = 4
+        param = (pCount > idx) ? system.parameters.entry(index: idx)?.value : nil
+        param_update(param, param5_text, param5_stepper)
+
+    }
+    
+    func modelParams_teardown() {
+        debug("modelParams_teardown", "entered")
         param1_monitor?.disconnect()
+        param2_monitor?.disconnect()
+        param3_monitor?.disconnect()
+        param4_monitor?.disconnect()
+        param5_monitor?.disconnect()
     }
-    
-    // ===========================================
-    // Model Parameters: k
-    
-    @IBOutlet weak var k_text: UITextField!
-    
-    @IBOutlet weak var k_stepper: UIStepper!
-    
-    var k_monitor: ChangeMonitor!
-
-    @IBAction func k_edited(_ sender: UITextField) {
-        debug("k_edited")
-        if (system != nil && sender.text != nil) {
-            system!.k.applyValue(sender.text!)
-        }
-    }
-    
-    @IBAction func k_step(_ sender: UIStepper) {
-        debug("k_step")
-        if (system != nil) {
-            system!.k.applyValue(sender.value)
-        }
-    }
-    
-    func k_update(_ sender: Any?) {
-        debug("k_update")
-        let param = sender as? Parameter
-        if (param != nil) {
-            k_text.text = param!.valueAsString
-            k_stepper.minimumValue = param!.minAsDouble
-            k_stepper.maximumValue = param!.maxAsDouble
-            k_stepper.stepValue = param!.stepSizeAsDouble
-            k_stepper.value = param!.valueAsDouble
-        }
-    }
-    
-    func k_setup() {
-        debug("k_setup")
-        k_text.delegate = self
-        if (system != nil) {
-            self.k_update(system!.k)
-            k_monitor = system!.k.monitorChanges(k_update)
-        }
-    }
-    
-    func k_teardown() {
-        debug("k_teardown")
-        k_monitor?.disconnect()
-    }
-    
-    // ===========================================
-    // Model Parameters: a1
-    
-    @IBOutlet weak var a1_text: UITextField!
-    
-    @IBOutlet weak var a1_stepper: UIStepper!
-    
-    var a1_monitor: ChangeMonitor!
-
-    @IBAction func a1_edited(_ sender: UITextField) {
-        debug("a1_edited")
-        if (system != nil && sender.text != nil) {
-            system!.a1.applyValue(sender.text!)
-        }
-    }
-    
-    @IBAction func a1_step(_ sender: UIStepper) {
-        debug("a1_step")
-        if (system != nil) {
-            system!.a1.applyValue(sender.value)
-        }
-    }
-
-    func a1_update(_ sender: Any?) {
-        debug("a1_update")
-        let param = sender as? Parameter
-        if (param != nil) {
-            a1_text.text = param!.valueAsString
-            a1_stepper.minimumValue = param!.minAsDouble
-            a1_stepper.maximumValue = param!.maxAsDouble
-            a1_stepper.stepValue = param!.stepSizeAsDouble
-            a1_stepper.value = param!.valueAsDouble
-        }
-    }
-    
-    func a1_setup() {
-        debug("a1_setup")
-        a1_text.delegate = self
-        if (system != nil) {
-            self.a1_update(system!.a1)
-            a1_monitor = system!.a1.monitorChanges(a1_update)
-        }
-    }
-    
-    func a1_teardown() {
-        debug("a1_teardown")
-        a1_monitor?.disconnect()
-    }
-    
-    // ===========================================
-    // Model Parameters: a2
-    
-    @IBOutlet weak var a2_text: UITextField!
-    
-    @IBOutlet weak var a2_stepper: UIStepper!
-    
-    var a2_monitor: ChangeMonitor!
-
-    @IBAction func a2_edited(_ sender: UITextField) {
-        debug("a2_edited")
-        if (system != nil && sender.text != nil) {
-            system!.a2.applyValue(sender.text!)
-        }
-    }
-    
-    @IBAction func a2_step(_ sender: UIStepper) {
-        debug("a2_step")
-        if (system != nil) {
-            system!.a2.applyValue(sender.value)
-        }
-    }
-    
-    func a2_update(_ sender: Any?) {
-        debug("a2_update")
-        let param = sender as? Parameter
-        if (param != nil) {
-            a2_text.text = param!.valueAsString
-            a2_stepper.minimumValue = param!.minAsDouble
-            a2_stepper.maximumValue = param!.maxAsDouble
-            a2_stepper.stepValue = param!.stepSizeAsDouble
-            a2_stepper.value = param!.valueAsDouble
-        }
-    }
-    
-    func a2_setup() {
-        debug("a2_setup")
-        a2_text.delegate = self
-        if (system != nil) {
-            self.a2_update(system!.a2)
-            a2_monitor = system!.a2.monitorChanges(a2_update)
-        }
-    }
-    
-    func a2_teardown() {
-        debug("a2_teardown")
-        a2_monitor?.disconnect()
-    }
-    
-    // ===========================================
-    // Model Parameters: T
-    
-    @IBOutlet weak var T_text: UITextField!
-    
-    @IBOutlet weak var T_stepper: UIStepper!
-    
-    var T_monitor: ChangeMonitor!
-
-    @IBAction func T_edited(_ sender: UITextField) {
-        debug("T_edited")
-        if (system != nil && sender.text != nil) {
-            system!.T.applyValue(sender.text!)
-        }
-    }
-    
-    @IBAction func T_step(_ sender: UIStepper) {
-        debug("T_step")
-        if (system != nil) {
-            system!.T.applyValue(sender.value)
-        }
-    }
-    
-    func T_update(_ sender: Any?) {
-        debug("T_update")
-        let param = sender as? Parameter
-        if (param != nil) {
-            T_text.text = param!.valueAsString
-            T_stepper.minimumValue = param!.minAsDouble
-            T_stepper.maximumValue = param!.maxAsDouble
-            T_stepper.stepValue = param!.stepSizeAsDouble
-            T_stepper.value = param!.valueAsDouble
-        }
-    }
-    
-    func T_setup() {
-        debug("T_setup")
-        T_text.delegate = self
-        if (system != nil) {
-            self.T_update(system!.T)
-            T_monitor = system!.T.monitorChanges(T_update)
-        }
-    }
-    
-    func T_teardown() {
-        debug("T_teardown")
-        T_monitor?.disconnect()
-    }
-    
-    // ===========================================
-    // Model Parameters: buttons
     
     @IBAction func resetModelParams(_ sender: Any) {
         debug("resetModelParams")
@@ -436,70 +352,130 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     }
 
     // ===========================================
-    // Animation: sweep selector
+    // Animation: Sequencer
 
+    var sequencerMonitor: ChangeMonitor? = nil
+    
     @IBOutlet weak var sequencerSelectorButton: UIButton!
     
     @IBAction func sequencerSelectorAction(_ sender: Any) {
     }
     
-    func sweepSelector_setup() {
-        debug("sweepSelector_setup", "entered")
-    
+    func sequencer_setup() {
+        debug("sequencer_setup", "entered")
         UIUtils.addBorder(sequencerSelectorButton)
-        // TODO
+        let sequencerSelector = appPart.sequencerSelector
+        sequencer_update(sequencerSelector)
+        sequencerMonitor = sequencerSelector.monitorChanges(sequencer_update)
     }
     
-    func sweepSelector_teardown() {
-        debug("sweepSelector_teardown", "entered")
-        // TODO
+    func sequencer_update(_ sender: Any?) {
+       
+        let sequencerSelector = appPart.sequencerSelector
+        if (sequencerSelectorButton != nil) {
+            let title = sequencerSelector.selection?.name ?? "(choose a sequencer)"
+            sequencerSelectorButton.setTitle(title, for: .normal)
+        }
+
+        lb_update()
+        ub_update()
+        delta_update()
+        bc_update()
+    }
+    
+    func sequencer_teardown() {
+        debug("sequencer_teardown", "entered")
+        sequencerMonitor?.disconnect()
     }
     
     // ===========================================
-    // Animation: Lo
+    // Animation: Sequencer: Hi
     
     @IBOutlet weak var lbText: UITextField!
     
     @IBAction func lbTextEdited(_ sender: UITextField) {
+        
+        // TODO
+        
+        lb_update()
     }
 
     @IBOutlet weak var lbStepper: UIStepper!
     
     @IBAction func lbStep(_ sender: UIStepper) {
+        
+        // TODO
+        
+        lb_update()
+    }
+    
+    func lb_update() {
+        // TO DO
     }
     
     // ===========================================
-    // Animation: Hi
+    // Animation: Sequencer: Hi
 
     @IBOutlet weak var ubText: UITextField!
     
     @IBAction func ubTextEdited(_ sender: UITextField) {
+        
+        // TODO
+        
+        ub_update()
     }
     
     @IBOutlet weak var ubStepper: UIStepper!
     
     @IBAction func ubStep(_ sender: UIStepper) {
+        
+        // TODO
+        
+        ub_update()
     }
     
+    func ub_update() {
+    }
+    
+    
     // ===========================================
-    // Animation: Delta
+    // Animation: Sequencer: Delta
 
     @IBOutlet weak var deltaText: UITextField!
     
     @IBAction func deltaTextEdited(_ sender: UITextField) {
+        
+        // TODO
+        
+        delta_update()
     }
     
     @IBOutlet weak var deltaStepper: UIStepper!
     
     @IBAction func deltaStep(_ sender: UIStepper) {
+        
+        // TODO
+        
+        delta_update()
+    }
+
+    func delta_update() {
+        
     }
     
     // ===========================================
-    // Animation: BC
+    // Animation: Sequencer: BC
     
     @IBOutlet weak var bcSelector: UISegmentedControl!
     
     @IBAction func bcSelected(_ sender: UISegmentedControl) {
+        
+        // TODO
+        
+        bc_update()
+    }
+    
+    func bc_update() {
     }
     
     // ===========================================
@@ -510,8 +486,14 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     @IBAction func playerSelected(_ sender: UISegmentedControl) {
     }
     
-    // ===========================================
-    // Animation: Progress
-
     @IBOutlet weak var progressLabel: UILabel!
+
+    func player_setup() {
+        // TODO
+    }
+    
+    func player_teardown() {
+        // TODO
+    }
+
 }

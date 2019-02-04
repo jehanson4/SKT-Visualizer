@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SK2_SecondaryViewController: UIViewController, AppModelUser {
+class SK2_SecondaryViewController: UIViewController, UITextFieldDelegate, AppModelUser {
     
     // =============================================
     // Debugging
@@ -56,8 +56,8 @@ class SK2_SecondaryViewController: UIViewController, AppModelUser {
 
         }
 
-        initEffectsControls(true)
-        initDeltaControls(true)
+        setupEffects()
+        setupDeltas()
     }
         
     override func didReceiveMemoryWarning() {
@@ -69,6 +69,9 @@ class SK2_SecondaryViewController: UIViewController, AppModelUser {
     override func viewWillDisappear(_ animated: Bool) {
         debug("viewWillDisappear")
         super.viewWillDisappear(animated)
+        
+        teardownEffects()
+        teardownDeltas()
     }
     
     @IBAction func dismissView(_ sender: Any) {
@@ -76,25 +79,34 @@ class SK2_SecondaryViewController: UIViewController, AppModelUser {
         self.dismiss(animated: true, completion: nil)
     }
  
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // Hide the keyboard.
+        textField.resignFirstResponder()
+        return true
+    }
+    
     @IBAction func unwindToSK2_Secondary
         (_ sender: UIStoryboardSegue) {
         debug("unwindToSK2_Secondary")
     }
     
-   // ======================================================
+    // ======================================================
     // Effects
     
-    @IBOutlet weak var effectLabel0: UILabel!
-    @IBOutlet weak var effectLabel1: UILabel!
-    @IBOutlet weak var effectLabel2: UILabel!
-    @IBOutlet weak var effectLabel3: UILabel!
-    @IBOutlet weak var effectLabel4: UILabel!
-    
-    @IBOutlet weak var effectSwitch0: UISwitch!
-    @IBOutlet weak var effectSwitch1: UISwitch!
-    @IBOutlet weak var effectSwitch2: UISwitch!
-    @IBOutlet weak var effectSwitch3: UISwitch!
-    @IBOutlet weak var effectSwitch4: UISwitch!
+    @IBOutlet weak var effect1_Label: UILabel!
+    @IBOutlet weak var effect1_Switch: UISwitch!
+
+    @IBOutlet weak var effect2_Label: UILabel!
+    @IBOutlet weak var effect2_Switch: UISwitch!
+
+    @IBOutlet weak var effect3_Label: UILabel!
+    @IBOutlet weak var effect3_Switch: UISwitch!
+
+    @IBOutlet weak var effect4_Label: UILabel!
+    @IBOutlet weak var effect4_Switch: UISwitch!
+
+    @IBOutlet weak var effect5_Label: UILabel!    
+    @IBOutlet weak var effect5_Switch: UISwitch!
     
 
     @IBAction func effectSwitchFlipped(_ sender: UISwitch) {
@@ -107,27 +119,28 @@ class SK2_SecondaryViewController: UIViewController, AppModelUser {
         if (effect != nil) {
             debug("effectSwitchFlipped", "effect=\(effect!.name)")
             effect!.enabled = sender.isOn
+            sender.isOn = effect!.enabled
         }
     }
     
-    func initEffectsControls(_ setTagsAndLabels: Bool) {
-        let mtd = "initEffectsControls"
-        debug(mtd, "entering. setTagsAndLabels=\(setTagsAndLabels)")
+    func setupEffects() {
+        let mtd = "setupEffects"
+        debug(mtd, "entered")
         
         let eCount = figure?.effects?.entryCount
         let eLabels: [UILabel?]  = [
-            effectLabel0,
-            effectLabel1,
-            effectLabel2,
-            effectLabel3,
-            effectLabel4,
+            effect2_Label,
+            effect2_Label,
+            effect3_Label,
+            effect4_Label,
+            effect5_Label,
         ]
         let eSwitches: [UISwitch?] = [
-            effectSwitch0,
-            effectSwitch1,
-            effectSwitch2,
-            effectSwitch3,
-            effectSwitch4
+            effect1_Switch,
+            effect2_Switch,
+            effect3_Switch,
+            effect4_Switch,
+            effect5_Switch
         ]
         
         if (eCount == nil) {
@@ -149,22 +162,21 @@ class SK2_SecondaryViewController: UIViewController, AppModelUser {
         }
     
         let effectCount = eCount!
-       
-        if (setTagsAndLabels) {
-            for i in 0..<eLabels.count {
-                if (eLabels[i] == nil) {
-                    continue
-                }
-                let eLabel = eLabels[i]!
-                if (i >= effectCount) {
-                    eLabel.text = nil
-                    continue
-                }
-                
-                eLabel.text = figure?.effects?.entry(index: i)?.name
+        
+        for i in 0..<eLabels.count {
+            if (eLabels[i] == nil) {
+                continue
             }
+            let eLabel = eLabels[i]!
+            if (i >= effectCount) {
+                eLabel.text = nil
+                continue
+            }
+            
+            eLabel.text = figure?.effects?.entry(index: i)?.name
         }
-
+        
+        
         for i in 0..<eSwitches.count {
             if (eSwitches[i] == nil) {
                 continue
@@ -172,9 +184,7 @@ class SK2_SecondaryViewController: UIViewController, AppModelUser {
             }
             let eSwitch = eSwitches[i]!
             if (i >= effectCount) {
-                if (setTagsAndLabels) {
-                    eSwitch.tag = 0
-                }
+                eSwitch.tag = 0
                 eSwitch.isEnabled = false
                 eSwitch.isHidden = true
                 continue
@@ -182,25 +192,21 @@ class SK2_SecondaryViewController: UIViewController, AppModelUser {
 
             let effect = figure?.effects?.entry(index: i)?.value
             if (effect == nil) {
-                if (setTagsAndLabels) {
-                    eSwitch.tag = 0
-                }
+                eSwitch.tag = 0
                 eSwitch.isEnabled = false
                 eSwitch.isHidden = true
                 continue
             }
             
-            if (setTagsAndLabels) {
-                eSwitch.tag = (i+1)
-            }
+            eSwitch.tag = (i+1)
             eSwitch.isEnabled = true
             eSwitch.isHidden = false
             eSwitch.isOn = effect!.enabled
         }
     }
     
-    func updateEffects(_ sender: Any?) {
-        initEffectsControls(false)
+    func teardownEffects() {
+        // NOP
     }
     
     func resetEffects() {
@@ -215,57 +221,24 @@ class SK2_SecondaryViewController: UIViewController, AppModelUser {
     @IBOutlet weak var delta1_Text: UITextField!
     @IBOutlet weak var delta1_Stepper: UIStepper!
     
-    @IBAction func delta1_edited(_ sender: UITextField) {
-        debug("delta1_edited", "tag=\(sender.tag)")
-    }
-    
-    @IBAction func delta1_step(_ sender: UIStepper) {
-        debug("delta1_step", "tag=\(sender.tag)")
-    }
-    
     @IBOutlet weak var delta2_Label: UILabel!
     @IBOutlet weak var delta2_Text: UITextField!
     @IBOutlet weak var delta2_Stepper: UIStepper!
-    
-    @IBAction func delta2_edited(_ sender: UITextField) {
-    }
-    
-    @IBAction func delta2_step(_ sender: UIStepper) {
-    }
     
     @IBOutlet weak var delta3_Label: UILabel!
     @IBOutlet weak var delta3_Text: UITextField!
     @IBOutlet weak var delta3_Stepper: UIStepper!
     
-    @IBAction func delta3_edited(_ sender: UITextField) {
-    }
-    
-    @IBAction func delta3_step(_ sender: UIStepper) {
-    }
-    
     @IBOutlet weak var delta4_Label: UILabel!
     @IBOutlet weak var delta4_Text: UITextField!
     @IBOutlet weak var delta4_Stepper: UIStepper!
-    
-    @IBAction func delta4_edited(_ sender: UITextField) {
-    }
-    
-    @IBAction func delta4_step(_ sender: UIStepper) {
-    }
     
     @IBOutlet weak var delta5_Label: UILabel!
     @IBOutlet weak var delta5_Text: UITextField!
     @IBOutlet weak var delta5_Stepper: UIStepper!
     
-    @IBAction func delta5_edited(_ sender: UITextField) {
-        
-    }
-    
-    @IBAction func delta5_step(_ sender: UIStepper) {
-    }
-    
-    func initDeltaControls(_ setLabelsAndTags: Bool) {
-        
+    func setupDeltas() {
+        debug("setupDeltas", "entered")
         let labels = [
             delta1_Label,
             delta2_Label,
@@ -288,38 +261,122 @@ class SK2_SecondaryViewController: UIViewController, AppModelUser {
             delta5_Stepper
         ]
         let params = appPart.system.parameters
-        for i in 0..<params.entryCount {
-            initDeltaControl(setLabelsAndTags,
-                             params.entry(index: i)?.value,
-                             (i+1),
-                             labels[i],
-                             texts[i],
-                             steppers[i])
+        let paramCount = params.entryCount
+        let deltaCount = 5
+        let shorter = (paramCount < deltaCount) ? paramCount : deltaCount
+        for i in 0..<shorter {
+            let param = params.entry(index: i)?.value
+            let tag = i+1
+            delta_setup(param, tag, labels[i], texts[i], steppers[i])
+            delta_update(param, texts[i], steppers[i])
+        }
+        for i in shorter..<deltaCount {
+            delta_setup(nil, 0, labels[i], texts[i], steppers[i])
+            delta_update(nil, texts[i], steppers[i])
         }
     }
     
-    func initDeltaControl(_ setLabelsAndTags: Bool, _ param: Parameter?, _ tag: Int, _ label: UILabel?, _ text: UITextField?, _ stepper: UIStepper?) {
+    func teardownDeltas() {
+        // NOP
+    }
+    
+    @IBAction func delta_edited(_ sender: UITextField) {
+        debug("delta_edited", "tag=\(sender.tag)")
+        let params = appPart.system.parameters
+        if (sender.tag <= 0 || sender.tag > params.entryCount) {
+            return
+        }
+        let param = params.entry(index: (sender.tag-1))?.value
+        if (param == nil || sender.text == nil) {
+            return
+        }
+        param!.applyStepSize(sender.text!)
+        delta_update(param, sender, stepperForTag(sender.tag))
+    }
+    
+    @IBAction func delta_step(_ sender: UIStepper) {
+        debug("delta_step", "tag=\(sender.tag)")
+        let params = appPart.system.parameters
+        if (sender.tag <= 0 || sender.tag > params.entryCount) {
+            return
+        }
+        let param = params.entry(index: (sender.tag-1))?.value
         if (param == nil) {
             return
         }
-        
+        param!.applyStepSize(sender.value)
+        delta_update(param, textFieldForTag(sender.tag), sender)
+    }
+
+    func delta_setup(_ param: Parameter?, _ tag: Int, _ label: UILabel?, _ text: UITextField?, _ stepper: UIStepper?) {
+        var pName = ""
+        var pMax: Double = 1
+        if (param != nil) {
+            pName = param!.name
+            pMax = param!.maxAsDouble
+        }
         if (label != nil) {
-            if (setLabelsAndTags) {
-                label!.text = "\u{0394}" + (param?.name ?? "") + ":"
-            }
+            label!.text = "\u{0394}" + pName + ":"
         }
-        
         if (text != nil) {
-            let pStepSize = param?.stepSizeAsString ?? ""
-            text!.text = pStepSize
+            text!.tag = tag
         }
-        
         if (stepper != nil) {
-            let pStepSize = param?.stepSizeAsDouble ?? 1
-            let pStepSizeDelta = param?.stepSizeIncrementAsDouble ?? 0.01
-            stepper!.value = pStepSize
-            stepper?.stepValue = pStepSizeDelta
+            stepper!.minimumValue = 0
+            stepper!.maximumValue = pMax
+            stepper!.tag = tag
         }
     }
     
+    func delta_update(_ param: Parameter?, _ text: UITextField?, _ stepper: UIStepper?) {
+        var pStepSizeString: String = "10"
+        var pStepSizeDouble: Double = 10
+        var pStepSizeIncr: Double = 0.1
+        if (param != nil) {
+            pStepSizeString = param!.stepSizeAsString
+            pStepSizeDouble = param!.stepSizeAsDouble
+            pStepSizeIncr = param!.stepSizeIncrementAsDouble
+        }
+        if (text != nil) {
+            text!.text = pStepSizeString
+        }
+        if (stepper != nil) {
+            stepper!.value = pStepSizeDouble
+            stepper?.stepValue = pStepSizeIncr
+        }
+    }
+    
+    func textFieldForTag(_ tag: Int) -> UITextField? {
+        switch (tag) {
+        case 1:
+            return delta1_Text
+        case 2:
+            return delta2_Text
+        case 3:
+            return delta3_Text
+        case 4:
+            return delta4_Text
+        case 5:
+            return delta5_Text
+        default:
+            return nil
+        }
+    }
+    
+    func stepperForTag(_ tag: Int) -> UIStepper? {
+        switch (tag) {
+        case 1:
+            return delta1_Stepper
+        case 2:
+            return delta2_Stepper
+        case 3:
+            return delta3_Stepper
+        case 4:
+            return delta4_Stepper
+        case 5:
+            return delta5_Stepper
+        default:
+            return nil
+        }
+    }
 }
