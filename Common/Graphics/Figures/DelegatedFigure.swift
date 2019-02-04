@@ -60,27 +60,4 @@ class DelegatedFigure: Figure {
         delegate.handlePinch(sender)
     }
     
-    func releaseOptionalResources() {
-        delegate.releaseOptionalResources()
-    }
-    
-//    // ==================================================
-//    // User defaults
-//    
-//    func contributeTo(userDefaults: inout UserDefaults, namespace: String) {
-//        
-//        // TODO get the namespace right. I'll be setting delegate's properties
-//        // over and over if it shared among multiple instances of this class.
-//        
-//        delegate.contributeTo(userDefaults: &userDefaults, namespace: namespace)
-//    }
-//    
-//    func apply(userDefaults: UserDefaults, namespace: String) {
-//        
-//        // TODO get the namespace right. I'll be setting delegate's properties
-//        // over and over if it shared among multiple instances of this class.
-//        
-//        delegate.apply(userDefaults: userDefaults, namespace: namespace)
-//    }
-
 }

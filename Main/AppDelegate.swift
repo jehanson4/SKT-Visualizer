@@ -46,7 +46,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         debug("applicationDidEnterBackground")
         appModel?.savePreferences()
-        appModel?.releaseOptionalResources()
 
     }
 

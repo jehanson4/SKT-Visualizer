@@ -12,7 +12,7 @@ import Foundation
 // PhysicalSystem
 // ================================================================
 
-protocol PhysicalSystem: AnyObject, Named, ResourceManaged {
+protocol PhysicalSystem: AnyObject, Named {
 
     /// Indicates that a state change is under way, i.e., the system's state
     /// variables and/or properties are being updated on another thread.

@@ -52,7 +52,7 @@ protocol AppPartFactory {
 // AppModel
 // =========================================================
 
-protocol AppModel : ResourceManaged {
+protocol AppModel {
     
 //    /// Groups of systems. Only 1 level of grouping is supported
 //    /// systemGroupNames is in group-creation order

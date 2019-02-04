@@ -338,7 +338,7 @@
                                             <constraint firstAttribute="height" constant="1" id="viT-5W-h4d"/>
                                         </constraints>
                                     </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="ANIMATION" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mxW-Cn-au0" userLabel="Sweep Section Title">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="ANIMATION" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mxW-Cn-au0" userLabel="Animation Section Title">
                                         <rect key="frame" x="0.0" y="436" width="343" height="17"/>
                                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -351,7 +351,7 @@
                                             <constraint firstAttribute="height" constant="8" id="uwr-h1-18c"/>
                                         </constraints>
                                     </view>
-                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xJj-WT-wDg" userLabel="Sweep Section Inner">
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xJj-WT-wDg" userLabel="Animation Section Inner">
                                         <rect key="frame" x="0.0" y="461" width="343" height="260"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7X1-oZ-q7E" userLabel="Left spacer">
@@ -361,10 +361,10 @@
                                                     <constraint firstAttribute="width" constant="16" id="LJj-cG-Nwn"/>
                                                 </constraints>
                                             </view>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="Rcf-qN-WTk" userLabel="Sweep Secton Body">
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="Rcf-qN-WTk" userLabel="Animation Secton Body">
                                                 <rect key="frame" x="16" y="0.0" width="311" height="260"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="flB-OF-ZXE" userLabel="Sweep Selector Pop Trigger">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="flB-OF-ZXE" userLabel="Sequencer Selector Pop Trigger">
                                                         <rect key="frame" x="0.0" y="0.0" width="311" height="32"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="32" id="jPw-Mj-VxD"/>
@@ -564,7 +564,7 @@
                                 <segue destination="LGz-bM-eMW" kind="unwind" unwindAction="unwindToModelSelector:" id="kr2-HW-WzP"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="2 &gt;&gt;" id="v7W-Vm-KXq">
+                        <barButtonItem key="rightBarButtonItem" title="More ›" id="v7W-Vm-KXq">
                             <connections>
                                 <segue destination="deL-8s-Yda" kind="show" id="55e-Vq-pTC"/>
                             </connections>
@@ -1024,12 +1024,12 @@
                         <viewLayoutGuide key="safeArea" id="ttV-bu-eZf"/>
                     </view>
                     <navigationItem key="navigationItem" title="SK/2 Equilibrium" id="j4D-dT-E6l">
-                        <barButtonItem key="leftBarButtonItem" title="&lt;&lt; 1" style="done" id="x8o-gU-d0i">
+                        <barButtonItem key="leftBarButtonItem" title="‹ Back" style="done" id="x8o-gU-d0i">
                             <connections>
                                 <segue destination="grC-3w-1Se" kind="unwind" unwindAction="unwindToSK2_Primary:" id="xNB-WT-XQp"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="3 &gt;&gt;" id="2kE-EN-cpB">
+                        <barButtonItem key="rightBarButtonItem" title="More ›" id="2kE-EN-cpB">
                             <connections>
                                 <segue destination="I5j-bs-HXI" kind="show" id="JDO-Pc-bEG"/>
                             </connections>
@@ -1079,7 +1079,7 @@
                         <viewLayoutGuide key="safeArea" id="OWy-8h-VGg"/>
                     </view>
                     <navigationItem key="navigationItem" title="SK/2 Equilibrium" id="zgT-ys-iov">
-                        <barButtonItem key="leftBarButtonItem" title="&lt;&lt; 2" id="IOS-uh-QWl">
+                        <barButtonItem key="leftBarButtonItem" title="‹ Back" id="IOS-uh-QWl">
                             <connections>
                                 <segue destination="R0e-fm-6AI" kind="unwind" unwindAction="unwindToSK2_Secondary:" id="2Ly-S4-dqy"/>
                             </connections>

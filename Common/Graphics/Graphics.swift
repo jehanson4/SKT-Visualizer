@@ -24,7 +24,7 @@ protocol Graphics {
 
 // TODO because of DelegatedFigure, I may need to
 // make Figure extend PreferenceSupport
-protocol Figure: Named, ResourceManaged {
+protocol Figure: AnyObject, Named {
     
     // DEFER but I'm sure I'll want it eventually
     // MAYBE optional
@@ -57,10 +57,12 @@ protocol Figure: Named, ResourceManaged {
 // Effect
 // ==============================================================================
 
-protocol Effect: Named, ResourceManaged {
+protocol Effect: Named {
     
     static var key: String { get }
     
+    /// effect is responsible for discarding resources when it is disabled and
+    /// recreating them when enabled.
     var enabled: Bool { get set }
     
     var projectionMatrix: GLKMatrix4 { get set }

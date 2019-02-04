@@ -57,11 +57,6 @@ class ShellFigure : Figure {
         self.r0 = radius
     }
 
-    func releaseOptionalResources() {
-        func eRelease(_ effect: Effect) { effect.releaseOptionalResources() }
-        effects!.visit(eRelease)
-    }
-    
     // ================================================
     // Basics
     

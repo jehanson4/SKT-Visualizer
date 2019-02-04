@@ -2,6 +2,13 @@
 ToDo.txt
 ==================================================================================
 
+EFFECTS clean up after themselves when disabled
+and we disable them all before switching figures.
+That should take care of pretty much all the memory issues ever.
+Don't bother with the resource-aware thing.
+Get rid of it.
+
+---------------
 MAYBE make sk2d and sk2e EXTENSIONS of sk2 rather than subclasses
 ...nope. can't add properties
 

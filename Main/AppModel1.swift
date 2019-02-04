@@ -8,6 +8,21 @@
 
 import Foundation
 
+// ========================================
+// Debugging
+
+fileprivate let debugEnabled = true
+
+fileprivate func debug(_ mtd: String, _ msg: String = "") {
+    if (debugEnabled) {
+        print("AppModel1", mtd, ":", msg)
+    }
+}
+
+fileprivate func warn(_ mtd: String, _ msg: String = "") {
+    print("!!! AppModel1", mtd, ":", msg)
+}
+
 // =========================================================
 // AppPart1
 // =========================================================
@@ -63,37 +78,6 @@ class AppPart1: AppPart {
 
 class AppModel1 : AppModel {
 
-    // ========================================
-    // Debugging
-    
-    private static let cls = "AppModel1"
-    
-    private static let debugEnabled = true
-    
-    private static func debug(_ mtd: String, _ msg: String = "") {
-        if (AppModel1.debugEnabled) {
-            print(AppModel1.cls, mtd, ":", msg)
-        }
-    }
-
-    private static func info(_ mtd: String, _ msg: String = "") {
-        print(AppModel1.cls, mtd, ":", msg)
-    }
-
-    // ===========================
-    // Basics
-    
-    func releaseOptionalResources() {
-        func figureRelease(_ f: inout Figure) {
-            f.releaseOptionalResources()
-        }
-        func partRelease(_ p: inout AppPart) {
-            p.system.releaseOptionalResources()
-            p.figures?.apply(figureRelease)
-        }
-        parts.apply(partRelease)
-    }
-
     // ================================================
     // Parts
     
@@ -106,7 +90,7 @@ class AppModel1 : AppModel {
     private var partChangeMonitor: ChangeMonitor!
     
     private func partHasChanged(_ sender: Any?) {
-        AppModel1.debug("partHasChanged")
+        debug("partHasChanged", "entered")
         
         // TODO check memory usage before uncommenting this
         // let prevPartKey = currPartKey
@@ -141,14 +125,14 @@ class AppModel1 : AppModel {
     private var figureChangeMonitor: ChangeMonitor? = nil
 
     private func updateFigureChangeMonitor() {
-        AppModel1.debug("updateFigureChangeMonitor")
+        debug("updateFigureChangeMonitor", "entered")
         figureChangeMonitor?.disconnect()
         figureChanged(self)
         figureChangeMonitor = partSelector.selection?.value.figureSelector.monitorChanges(figureChanged)
     }
 
     private func figureChanged(_ sender: Any?) {
-        AppModel1.debug("figureChanged")
+        debug("figureChanged", "entered")
         graphicsController.figure = partSelector.selection?.value.figureSelector.selection?.value
     }
 
@@ -158,14 +142,14 @@ class AppModel1 : AppModel {
     private var sequencerChangeMonitor: ChangeMonitor? = nil
 
     private func updateSequencerChangeMonitor() {
-        AppModel1.debug("updateSequencerChangeMonitor")
+        debug("updateSequencerChangeMonitor", "entered")
         sequencerChangeMonitor?.disconnect()
         sequencerChanged(self)
         sequencerChangeMonitor = partSelector.selection?.value.sequencerSelector.monitorChanges(sequencerChanged)
     }
 
     private func sequencerChanged(_ sender: Any?) {
-        AppModel1.debug("sequencerChanged")
+        debug("sequencerChanged", "entered")
         animationController.sequencer = partSelector.selection?.value.sequencerSelector.selection?.value
     }
     
@@ -293,7 +277,7 @@ class AppModel1 : AppModel {
         do {
             _ = try parts.register(part, key: part.key)
         } catch {
-            AppModel1.info("installPart", "Unexpected error installing \"\(part.name)\": \(error)")
+            warn("installPart", "Unexpected error installing \"\(part.name)\": \(error)")
         }
     }
 }
