@@ -202,9 +202,8 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
         }
         
         let param = system.parameters.entry(index: (sender.tag-1))?.value
-        let v2 = parseDouble(sender.text)
-        if (param != nil && v2 != nil) {
-            param!.applyValue(v2!)
+        if (param != nil && sender.text != nil) {
+            param!.applyValue(sender.text!)
         }
     }
     

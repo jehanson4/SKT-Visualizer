@@ -289,11 +289,10 @@ class SK2_SecondaryViewController: UIViewController, UITextFieldDelegate, AppMod
             return
         }
         let param = params.entry(index: (sender.tag-1))?.value
-        let v2 = parseDouble(sender.text)
-        if (param == nil || v2 == nil) {
+        if (param == nil || sender.text == nil) {
             return
         }
-        param!.applyStepSize(v2!)
+        param!.applyStepSize(sender.text!)
         delta_update(param, sender, stepperForTag(sender.tag))
     }
     
