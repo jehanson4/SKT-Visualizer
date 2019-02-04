@@ -481,6 +481,15 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
         sequencer_update(nil)
         sequencerMonitor = sequencerSelector.monitorChanges(sequencer_update)
 
+    }
+    
+    func sequencer_update(_ sender: Any?) {
+        let sequencerSelector = appPart.sequencerSelector
+        if (sequencerSelectorButton != nil) {
+            let title = sequencerSelector.selection?.name ?? "(choose a sequencer)"
+            sequencerSelectorButton.setTitle(title, for: .normal)
+        }
+        
         let sequencer = sequencerSelector.selection?.value
         
         lbText?.delegate = self
@@ -497,15 +506,7 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
         deltaStepper?.minimumValue = 0
         deltaStepper?.stepValue = sequencer?.stepSizeIncrement ?? 0.1
         deltaStepper?.maximumValue = sequencer?.stepSizeMax ?? 1
-    }
-    
-    func sequencer_update(_ sender: Any?) {
-        let sequencerSelector = appPart.sequencerSelector
-        if (sequencerSelectorButton != nil) {
-            let title = sequencerSelector.selection?.name ?? "(choose a sequencer)"
-            sequencerSelectorButton.setTitle(title, for: .normal)
-        }
-        
+
         lb_update()
         ub_update()
         delta_update()
