@@ -67,17 +67,16 @@ class SK2_SecondaryViewController: UIViewController, UITextFieldDelegate, AppMod
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        debug("viewWillDisappear")
-        super.viewWillDisappear(animated)
-        
+        debug("viewWillDisappear", "disconnecting controls")
         teardownEffects()
         teardownDeltas()
+        super.viewWillDisappear(animated)
     }
     
-    @IBAction func dismissView(_ sender: Any) {
-        debug("dismissView")
-        self.dismiss(animated: true, completion: nil)
-    }
+//    @IBAction func dismissView(_ sender: Any) {
+//        debug("dismissView")
+//        self.dismiss(animated: true, completion: nil)
+//    }
  
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         // Hide the keyboard.
@@ -87,7 +86,10 @@ class SK2_SecondaryViewController: UIViewController, UITextFieldDelegate, AppMod
     
     @IBAction func unwindToSK2_Secondary
         (_ sender: UIStoryboardSegue) {
-        debug("unwindToSK2_Secondary")
+        debug("unwindToSK2_Secondary", "reconnecting controls")
+        setupEffects()
+        setupDeltas()
+
     }
     
     // ======================================================
@@ -287,10 +289,11 @@ class SK2_SecondaryViewController: UIViewController, UITextFieldDelegate, AppMod
             return
         }
         let param = params.entry(index: (sender.tag-1))?.value
-        if (param == nil || sender.text == nil) {
+        let v2 = parseDouble(sender.text)
+        if (param == nil || v2 == nil) {
             return
         }
-        param!.applyStepSize(sender.text!)
+        param!.applyStepSize(v2!)
         delta_update(param, sender, stepperForTag(sender.tag))
     }
     

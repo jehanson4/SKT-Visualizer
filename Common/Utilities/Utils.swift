@@ -111,6 +111,14 @@ func subtractLogs(_ w1: Double, _ w2: Double) -> Double {
 // Conversions to String
 // =======================================================================
 
+func parseInt(_ x: String?) -> Int? {
+    return Int(x?.trimmingCharacters(in: CharacterSet.whitespaces) ?? "")
+}
+
+func parseDouble(_ x: String?) -> Double? {
+    return Double(x?.trimmingCharacters(in: CharacterSet.whitespaces) ?? "")
+}
+
 func basicString(_ x: Int) -> String {
     return String(x)
 }

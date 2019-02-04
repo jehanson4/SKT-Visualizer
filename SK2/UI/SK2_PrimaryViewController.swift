@@ -202,8 +202,9 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
         }
         
         let param = system.parameters.entry(index: (sender.tag-1))?.value
-        if (param != nil && sender.text != nil) {
-            param!.applyValue(sender.text!)
+        let v2 = parseDouble(sender.text)
+        if (param != nil && v2 != nil) {
+            param!.applyValue(v2!)
         }
     }
     
@@ -378,11 +379,9 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     
     @IBAction func lbTextEdited(_ sender: UITextField) {
         var sequencer = appPart?.sequencerSelector.selection?.value
-        if (sequencer != nil && sender.text != nil) {
-            let v2 = Double(sender.text!)
-            if (v2 != nil) {
-                sequencer!.lowerBound = v2!
-            }
+        let v2 = parseDouble(sender.text)
+        if (sequencer != nil && v2 != nil) {
+            sequencer!.lowerBound = v2!
         }
         lb_update()
     }
@@ -407,11 +406,10 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     
     @IBAction func ubTextEdited(_ sender: UITextField) {
         var sequencer = appPart?.sequencerSelector.selection?.value
-        if (sequencer != nil && sender.text != nil) {
-            let v2 = Double(sender.text!)
-            if (v2 != nil) {
-                sequencer!.upperBound = v2!
-            }
+        let v2 = parseDouble(sender.text)
+        if (sequencer != nil && v2 != nil) {
+            debug("ubTextEdited", "v2=\(String(describing: v2))")
+            sequencer!.upperBound = v2!
         }
         ub_update()
     }
@@ -429,6 +427,7 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
             ubStepper?.value = 0
         }
         else {
+            debug("ub_update", "UB=\(ub!)")
             ubText?.text = basicString(ub!)
             ubStepper?.value = ub!
         }
@@ -436,11 +435,9 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     
     @IBAction func deltaTextEdited(_ sender: UITextField) {
         var sequencer = appPart?.sequencerSelector.selection?.value
-        if (sequencer != nil && sender.text != nil) {
-            let v2 = Double(sender.text!)
-            if (v2 != nil) {
+        let v2 = parseDouble(sender.text)
+        if (sequencer != nil && v2 != nil) {
                 sequencer!.stepSize = v2!
-            }
         }
         delta_update()
     }

@@ -68,10 +68,10 @@ class SK2_TertiaryViewController: UIViewController, UITextFieldDelegate, AppMode
         super.viewWillDisappear(animated)
     }
     
-    @IBAction func dismissView(_ sender: Any) {
-        debug("dismissView")
-        self.dismiss(animated: true, completion: nil)
-    }
+//    @IBAction func dismissView(_ sender: Any) {
+//        debug("dismissView")
+//        self.dismiss(animated: true, completion: nil)
+//    }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         // Hide the keyboard.
