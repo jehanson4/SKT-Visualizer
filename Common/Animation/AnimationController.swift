@@ -107,7 +107,7 @@ class AnimationController {
             return
         }
         
-        if (seq.backingSystem.busy) {
+        if (seq.busy) {
             debug(mtd, "busy")
             return
         }

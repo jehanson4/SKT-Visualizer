@@ -41,7 +41,7 @@ class ShellFigure : Figure {
     // Debugging
     
     let clsName = "ShellFigure"
-    let debugEnabled = true
+    let debugEnabled = false
     func debug(_ mtd: String, _ msg: String = "") {
         if (debugEnabled) {
             print(clsName, mtd, msg)

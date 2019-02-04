@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="4u7-Sh-0Pp">
-                                <rect key="frame" x="16" y="52" width="343" height="613"/>
+                                <rect key="frame" x="16" y="52" width="343" height="721"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PtQ-pI-7bw" userLabel="Separator">
                                         <rect key="frame" x="0.0" y="0.0" width="343" height="1"/>
@@ -42,79 +42,62 @@
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jzW-HU-q21" userLabel="Visualization Section Inner">
-                                        <rect key="frame" x="0.0" y="26" width="343" height="96"/>
+                                        <rect key="frame" x="0.0" y="26" width="343" height="174"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="24e-5w-GNn" userLabel="Left spacer">
-                                                <rect key="frame" x="0.0" y="0.0" width="16" height="96"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="16" height="174"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="16" id="QT9-eS-Jvr"/>
                                                 </constraints>
                                             </view>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="D7a-nn-9YQ" userLabel="Visualization Secton Body">
-                                                <rect key="frame" x="16" y="0.0" width="311" height="96"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="D7a-nn-9YQ" userLabel="Visualization Secton Body">
+                                                <rect key="frame" x="16" y="0.0" width="311" height="174"/>
                                                 <subviews>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lDE-a8-xw8" userLabel="Figure">
-                                                        <rect key="frame" x="0.0" y="0.0" width="311" height="32"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aDJ-qV-Xi8" userLabel="Figure Selector Pop Button">
+                                                        <rect key="frame" x="0.0" y="0.0" width="311" height="112"/>
+                                                        <state key="normal" title="&lt;choose figure&gt;"/>
+                                                        <connections>
+                                                            <segue destination="22o-zh-LZs" kind="popoverPresentation" identifier="SK2E_ShowFigureSelector" popoverAnchorView="aDJ-qV-Xi8" id="M1K-xq-F8r">
+                                                                <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                                            </segue>
+                                                        </connections>
+                                                    </button>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="cbH-1E-G80" userLabel="Buttons 1">
+                                                        <rect key="frame" x="0.0" y="113" width="311" height="30"/>
                                                         <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aDJ-qV-Xi8" userLabel="Figure Selector Pop Button">
-                                                                <rect key="frame" x="0.0" y="0.0" width="311" height="32"/>
-                                                                <state key="normal" title="&lt;choose figure&gt;"/>
-                                                                <connections>
-                                                                    <segue destination="22o-zh-LZs" kind="popoverPresentation" identifier="SK2E_ShowFigureSelector" popoverAnchorView="aDJ-qV-Xi8" id="M1K-xq-F8r">
-                                                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                                                                    </segue>
-                                                                </connections>
-                                                            </button>
-                                                        </subviews>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="32" id="8Qj-5k-Y5T"/>
-                                                        </constraints>
-                                                    </stackView>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="cbH-1E-G80" userLabel="Buttons 1">
-                                                        <rect key="frame" x="0.0" y="32" width="311" height="32"/>
-                                                        <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dlj-YM-1iN" userLabel="Recalibrate">
-                                                                <rect key="frame" x="0.0" y="0.0" width="77" height="32"/>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dlj-YM-1iN" userLabel="Recalibrate">
+                                                                <rect key="frame" x="0.0" y="0.0" width="155.5" height="30"/>
                                                                 <state key="normal" title="Recalibrate"/>
                                                                 <connections>
                                                                     <action selector="calibrate:" destination="1Ul-i5-KtM" eventType="touchUpInside" id="F4q-go-qqL"/>
                                                                 </connections>
                                                             </button>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l0N-Ae-IOl">
-                                                                <rect key="frame" x="238" y="0.0" width="73" height="32"/>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l0N-Ae-IOl">
+                                                                <rect key="frame" x="155.5" y="0.0" width="155.5" height="30"/>
                                                                 <state key="normal" title="Reset POV"/>
                                                                 <connections>
                                                                     <action selector="resetPOV:" destination="1Ul-i5-KtM" eventType="touchUpInside" id="6Bj-ad-1Dh"/>
                                                                 </connections>
                                                             </button>
                                                         </subviews>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="32" id="EUj-XE-Fx2"/>
-                                                        </constraints>
                                                     </stackView>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" translatesAutoresizingMaskIntoConstraints="NO" id="Lb7-iT-iEO" userLabel="Buttons 2">
-                                                        <rect key="frame" x="0.0" y="64" width="311" height="32"/>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="5L3-MQ-z00" userLabel="Buttons 2">
+                                                        <rect key="frame" x="0.0" y="144" width="311" height="30"/>
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K8e-dM-aCD">
-                                                                <rect key="frame" x="0.0" y="0.0" width="99" height="32"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="311" height="30"/>
                                                                 <state key="normal" title="Take snapshot"/>
                                                                 <connections>
                                                                     <action selector="takeSnapshot:" destination="1Ul-i5-KtM" eventType="touchUpInside" id="gLG-MP-Hku"/>
                                                                 </connections>
                                                             </button>
-                                                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c5l-wp-dHp">
-                                                                <rect key="frame" x="281" y="0.0" width="30" height="32"/>
-                                                            </button>
                                                         </subviews>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="32" id="r6K-G4-DNw"/>
-                                                        </constraints>
                                                     </stackView>
                                                 </subviews>
                                             </stackView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cHS-MY-NKp" userLabel="Right spacer">
-                                                <rect key="frame" x="327" y="0.0" width="16" height="96"/>
+                                                <rect key="frame" x="327" y="0.0" width="16" height="174"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="16" id="lgd-ng-jjy"/>
@@ -123,34 +106,34 @@
                                         </subviews>
                                     </stackView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wAN-8L-Avc" userLabel="Spacer">
-                                        <rect key="frame" x="0.0" y="122" width="343" height="16"/>
+                                        <rect key="frame" x="0.0" y="200" width="343" height="16"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="16" id="g8S-y6-3Cl"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bh8-O6-xBf" userLabel="Separator">
-                                        <rect key="frame" x="0.0" y="138" width="343" height="1"/>
+                                        <rect key="frame" x="0.0" y="216" width="343" height="1"/>
                                         <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="sZ1-17-mIV"/>
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="MODEL PARAMETERS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jn8-Pf-3se" userLabel="Params Section Title">
-                                        <rect key="frame" x="0.0" y="139" width="343" height="17"/>
+                                        <rect key="frame" x="0.0" y="217" width="343" height="17"/>
                                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a9A-md-p99" userLabel="Spacer">
-                                        <rect key="frame" x="0.0" y="156" width="343" height="8"/>
+                                        <rect key="frame" x="0.0" y="234" width="343" height="8"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="8" id="JVO-HN-ui3"/>
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="vFV-6k-iht" userLabel="Params Section Inner">
-                                        <rect key="frame" x="0.0" y="164" width="343" height="177"/>
+                                        <rect key="frame" x="0.0" y="242" width="343" height="177"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="j8B-XM-9e5" userLabel="Left spacer">
                                                 <rect key="frame" x="0.0" y="0.0" width="16" height="50"/>
@@ -305,15 +288,16 @@
                                                             </stepper>
                                                         </subviews>
                                                     </stackView>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lxY-4E-NNh" userLabel="Buttons">
+                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="lxY-4E-NNh" userLabel="Buttons">
                                                         <rect key="frame" x="0.0" y="145" width="311" height="32"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="voV-QE-bd0">
                                                                 <rect key="frame" x="0.0" y="0.0" width="211" height="32"/>
+                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             </view>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TWX-4p-Abs" userLabel="Model Params Reset Button">
-                                                                <rect key="frame" x="211" y="0.0" width="100" height="32"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="311" height="32"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <state key="normal" title="Reset Params"/>
                                                                 <connections>
@@ -324,6 +308,11 @@
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="32" id="14f-HV-XtC"/>
                                                         </constraints>
+                                                        <variation key="default">
+                                                            <mask key="subviews">
+                                                                <exclude reference="voV-QE-bd0"/>
+                                                            </mask>
+                                                        </variation>
                                                     </stackView>
                                                 </subviews>
                                                 <constraints>
@@ -343,65 +332,56 @@
                                         </constraints>
                                     </stackView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RY4-wI-mTx" userLabel="Spacer">
-                                        <rect key="frame" x="0.0" y="341" width="343" height="16"/>
+                                        <rect key="frame" x="0.0" y="419" width="343" height="16"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="16" id="6w0-mQ-UCx"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oyu-id-JGj" userLabel="Separator">
-                                        <rect key="frame" x="0.0" y="357" width="343" height="1"/>
+                                        <rect key="frame" x="0.0" y="435" width="343" height="1"/>
                                         <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="viT-5W-h4d"/>
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="ANIMATION" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mxW-Cn-au0" userLabel="Sweep Section Title">
-                                        <rect key="frame" x="0.0" y="358" width="343" height="17"/>
+                                        <rect key="frame" x="0.0" y="436" width="343" height="17"/>
                                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vos-WT-VZX" userLabel="Spacer">
-                                        <rect key="frame" x="0.0" y="375" width="343" height="8"/>
+                                        <rect key="frame" x="0.0" y="453" width="343" height="8"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="8" id="uwr-h1-18c"/>
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xJj-WT-wDg" userLabel="Sweep Section Inner">
-                                        <rect key="frame" x="0.0" y="383" width="343" height="230"/>
+                                        <rect key="frame" x="0.0" y="461" width="343" height="260"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7X1-oZ-q7E" userLabel="Left spacer">
-                                                <rect key="frame" x="0.0" y="0.0" width="16" height="230"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="16" height="260"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="16" id="LJj-cG-Nwn"/>
                                                 </constraints>
                                             </view>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Rcf-qN-WTk" userLabel="Sweep Secton Body">
-                                                <rect key="frame" x="16" y="0.0" width="311" height="230"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="Rcf-qN-WTk" userLabel="Sweep Secton Body">
+                                                <rect key="frame" x="16" y="0.0" width="311" height="260"/>
                                                 <subviews>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AFj-zg-Wtm" userLabel="Sweep Selector">
-                                                        <rect key="frame" x="0.0" y="0.0" width="311" height="32"/>
-                                                        <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="flB-OF-ZXE" userLabel="Sweep Selector Pop Trigger">
-                                                                <rect key="frame" x="0.0" y="0.0" width="311" height="32"/>
-                                                                <state key="normal" title="&lt;choose sequence&gt;"/>
-                                                                <connections>
-                                                                    <action selector="sequencerSelectorAction:" destination="1Ul-i5-KtM" eventType="touchUpInside" id="Qyh-Gs-kZP"/>
-                                                                    <segue destination="Z6m-9L-RID" kind="popoverPresentation" popoverAnchorView="flB-OF-ZXE" id="fFw-EU-8Mr">
-                                                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                                                                    </segue>
-                                                                </connections>
-                                                            </button>
-                                                        </subviews>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="32" id="yIQ-X3-VU1"/>
-                                                        </constraints>
-                                                    </stackView>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="flB-OF-ZXE" userLabel="Sweep Selector Pop Trigger">
+                                                        <rect key="frame" x="0.0" y="0.0" width="311" height="55"/>
+                                                        <state key="normal" title="&lt;choose sequence&gt;"/>
+                                                        <connections>
+                                                            <segue destination="Z6m-9L-RID" kind="popoverPresentation" popoverAnchorView="flB-OF-ZXE" id="fFw-EU-8Mr">
+                                                                <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                                            </segue>
+                                                        </connections>
+                                                    </button>
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ODL-qs-4zT" userLabel="LB">
-                                                        <rect key="frame" x="0.0" y="32" width="311" height="32"/>
+                                                        <rect key="frame" x="0.0" y="56" width="311" height="32"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lo:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jsY-vi-ois">
                                                                 <rect key="frame" x="0.0" y="0.0" width="32" height="32"/>
@@ -433,7 +413,7 @@
                                                         </constraints>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e62-Sm-L42" userLabel="UB">
-                                                        <rect key="frame" x="0.0" y="64" width="311" height="32"/>
+                                                        <rect key="frame" x="0.0" y="89" width="311" height="32"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hi:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nuj-br-aIN">
                                                                 <rect key="frame" x="0.0" y="0.0" width="32" height="32"/>
@@ -462,7 +442,7 @@
                                                         </constraints>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1rK-LY-WOc" userLabel="Delta">
-                                                        <rect key="frame" x="0.0" y="96" width="311" height="32"/>
+                                                        <rect key="frame" x="0.0" y="122" width="311" height="32"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Δ:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tao-nV-hJ8">
                                                                 <rect key="frame" x="0.0" y="0.0" width="32" height="32"/>
@@ -491,7 +471,7 @@
                                                         </constraints>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="411-J7-fRe" userLabel="BC">
-                                                        <rect key="frame" x="0.0" y="128" width="311" height="32"/>
+                                                        <rect key="frame" x="0.0" y="155" width="311" height="32"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BC:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UBi-eS-sD7">
                                                                 <rect key="frame" x="0.0" y="0.0" width="32" height="32"/>
@@ -516,13 +496,13 @@
                                                         </constraints>
                                                     </stackView>
                                                     <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="48r-3q-N4B" userLabel="Spacer">
-                                                        <rect key="frame" x="0.0" y="160" width="311" height="8"/>
+                                                        <rect key="frame" x="0.0" y="188" width="311" height="8"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="8" id="9si-v9-CDf"/>
                                                         </constraints>
                                                     </view>
                                                     <segmentedControl opaque="NO" contentMode="center" horizontalHuggingPriority="750" contentHorizontalAlignment="fill" contentVerticalAlignment="center" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="o7I-x5-9yq" userLabel="player">
-                                                        <rect key="frame" x="0.0" y="168" width="311" height="33"/>
+                                                        <rect key="frame" x="0.0" y="197" width="311" height="33"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="32" id="lVV-K4-bn7"/>
                                                         </constraints>
@@ -539,7 +519,7 @@
                                                         </connections>
                                                     </segmentedControl>
                                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="oKk-yY-KT6" userLabel="Progress">
-                                                        <rect key="frame" x="0.0" y="200" width="311" height="30"/>
+                                                        <rect key="frame" x="0.0" y="230" width="311" height="30"/>
                                                         <subviews>
                                                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="YyL-vR-Olk" userLabel="Progress Slider">
                                                                 <rect key="frame" x="-2" y="0.0" width="246" height="31"/>
@@ -563,7 +543,7 @@
                                                 </constraints>
                                             </stackView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nIv-D3-3Wg" userLabel="Right spacer">
-                                                <rect key="frame" x="327" y="0.0" width="16" height="230"/>
+                                                <rect key="frame" x="327" y="0.0" width="16" height="260"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </view>
                                         </subviews>
@@ -620,7 +600,6 @@
                         <outlet property="param5_text" destination="iQo-YS-LVq" id="biw-rW-wqV"/>
                         <outlet property="playerSelector" destination="o7I-x5-9yq" id="MMo-zl-Ton"/>
                         <outlet property="progressLabel" destination="vbo-sS-CDZ" id="Urb-un-DhD"/>
-                        <outlet property="sequencerSelectorButton" destination="flB-OF-ZXE" id="lam-Nq-3kh"/>
                         <outlet property="ubStepper" destination="H4o-Kq-Fql" id="GLm-g7-MHR"/>
                         <outlet property="ubText" destination="E5Z-e2-lrs" id="KwH-Be-cQJ"/>
                     </connections>

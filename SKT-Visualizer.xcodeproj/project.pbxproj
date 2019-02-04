@@ -61,6 +61,7 @@
 		8A8817472207484800523467 /* UIUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A8817462207484800523467 /* UIUtils.swift */; };
 		8A88174B220757C000523467 /* SK2_Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A88174A220757C000523467 /* SK2_Storyboard.storyboard */; };
 		8A88174D220791D400523467 /* SK2_TertiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A88174C220791D400523467 /* SK2_TertiaryViewController.swift */; };
+		8A8817502207F21600523467 /* ParameterSweep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A88174F2207F21600523467 /* ParameterSweep.swift */; };
 		8A91B0982093F8C100488907 /* OLD_Parameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A91B0972093F8C100488907 /* OLD_Parameters.swift */; };
 		8A91B09C2093F98000488907 /* OLD_Sequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A91B09B2093F98000488907 /* OLD_Sequencer.swift */; };
 		8A91B09E2094163C00488907 /* DummySequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A91B09D2094163C00488907 /* DummySequencer.swift */; };
@@ -206,6 +207,7 @@
 		8A8817462207484800523467 /* UIUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIUtils.swift; sourceTree = "<group>"; };
 		8A88174A220757C000523467 /* SK2_Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SK2_Storyboard.storyboard; sourceTree = "<group>"; };
 		8A88174C220791D400523467 /* SK2_TertiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_TertiaryViewController.swift; sourceTree = "<group>"; };
+		8A88174F2207F21600523467 /* ParameterSweep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParameterSweep.swift; sourceTree = "<group>"; };
 		8A91B0972093F8C100488907 /* OLD_Parameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OLD_Parameters.swift; sourceTree = "<group>"; };
 		8A91B09B2093F98000488907 /* OLD_Sequencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OLD_Sequencer.swift; sourceTree = "<group>"; };
 		8A91B09D2094163C00488907 /* DummySequencer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DummySequencer.swift; sourceTree = "<group>"; };
@@ -496,6 +498,16 @@
 			path = ParameterSweep;
 			sourceTree = "<group>";
 		};
+		8A88174E2207F18100523467 /* Figures */ = {
+			isa = PBXGroup;
+			children = (
+				8AB2A64C21FF178700A46316 /* DelegatedFigure.swift */,
+				8AB2A64E21FF199700A46316 /* ColorizedFigure.swift */,
+				8AC82CD821F6668000A75595 /* ShellFigure.swift */,
+			);
+			path = Figures;
+			sourceTree = "<group>";
+		};
 		8A9D599B208DFBD20022831B /* Main */ = {
 			isa = PBXGroup;
 			children = (
@@ -564,13 +576,12 @@
 		8AC82CC221F5C8B700A75595 /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
+				8A88174E2207F18100523467 /* Figures */,
 				8AE1BD1922060E0D00D6A062 /* Effects */,
 				8AB2A64321FEA9DC00A46316 /* Shaders */,
 				8AE48BBA2087857C001B5D11 /* GLUtils.swift */,
 				8A575FED20804759002B9951 /* ColorMaps.swift */,
 				8AC82CC321F5D00E00A75595 /* Graphics.swift */,
-				8AB2A64C21FF178700A46316 /* DelegatedFigure.swift */,
-				8AB2A64E21FF199700A46316 /* ColorizedFigure.swift */,
 				8AC82CE021F8874200A75595 /* GraphicsController.swift */,
 				8A3C45C52086278900A1E9CD /* UniformColor.swift */,
 			);
@@ -629,6 +640,7 @@
 			children = (
 				8AC82CEB21F9E36700A75595 /* Sequencer.swift */,
 				8AC82CF421FC9AED00A75595 /* AnimationController.swift */,
+				8A88174F2207F21600523467 /* ParameterSweep.swift */,
 			);
 			path = Animation;
 			sourceTree = "<group>";
@@ -700,7 +712,6 @@
 		8AE1BD1922060E0D00D6A062 /* Effects */ = {
 			isa = PBXGroup;
 			children = (
-				8AC82CD821F6668000A75595 /* ShellFigure.swift */,
 				8A9BA6B720ADD71F009C39BE /* InnerShell.swift */,
 				8A84313720726F0100F06B9B /* Axes.swift */,
 				8AD9DACA20914E3D0062457C /* Balls.swift */,
@@ -880,6 +891,7 @@
 				8A91B0982093F8C100488907 /* OLD_Parameters.swift in Sources */,
 				8AE48BBB2087857C001B5D11 /* GLUtils.swift in Sources */,
 				8A2A32D720AB881600D4D619 /* WorkQueue.swift in Sources */,
+				8A8817502207F21600523467 /* ParameterSweep.swift in Sources */,
 				8AB2A64721FEBF0800A46316 /* ColorSources.swift in Sources */,
 				8A41B09C21F357F600DE38CB /* FigureSelectionViewController.swift in Sources */,
 				8A1CF016207146510099DD97 /* AppDelegate.swift in Sources */,

@@ -13,8 +13,7 @@ import Foundation
 // ======================================================================
 
 class DummySequencer: OLD_Sequencer {
-
-    // TODO real values for these
+    var busy: Bool = false
     var upperBoundMax: Double = 1
     var upperBoundIncrement: Double = 0.1
     var lowerBoundMax: Double = 1

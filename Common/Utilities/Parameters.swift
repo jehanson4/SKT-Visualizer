@@ -12,7 +12,7 @@ import Foundation
 // Parameter
 // =======================================================
 
-protocol Parameter: Named, PreferenceSupport, ChangeMonitorEnabled {
+protocol Parameter: AnyObject, Named, PreferenceSupport, ChangeMonitorEnabled {
     
     var minAsString: String { get }
     var minAsDouble: Double { get }

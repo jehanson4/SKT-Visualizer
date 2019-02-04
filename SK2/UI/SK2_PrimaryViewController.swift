@@ -387,10 +387,15 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     }
     
     func lb_update() {
-        var sequencer = appPart?.sequencerSelector.selection?.value
-        let lb = sequencer?.lowerBound ?? 0
-        lbText?.text = basicString(lb)
-        lbStepper?.value = lb
+        let lb = appPart?.sequencerSelector.selection?.value.lowerBound
+        if (lb == nil) {
+            lbText?.text = ""
+            lbStepper?.value = 0
+        }
+        else {
+            lbText?.text =  basicString(lb!)
+            lbStepper?.value = lb!
+        }
     }
     
     @IBAction func ubTextEdited(_ sender: UITextField) {
@@ -411,10 +416,15 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     }
     
     func ub_update() {
-        var sequencer = appPart?.sequencerSelector.selection?.value
-        let ub = sequencer?.upperBound ?? 1
-        ubText?.text = basicString(ub)
-        ubStepper?.value = ub
+        let ub = appPart?.sequencerSelector.selection?.value.upperBound
+        if (ub == nil) {
+            ubText?.text = ""
+            ubStepper?.value = 0
+        }
+        else {
+            ubText?.text = basicString(ub!)
+            ubStepper?.value = ub!
+        }
     }
     
     @IBAction func deltaTextEdited(_ sender: UITextField) {
@@ -435,9 +445,15 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     }
 
     func delta_update() {
-        let delta = appPart?.sequencerSelector.selection?.value.stepSize ?? 1
-        deltaText?.text = basicString(delta)
-        deltaStepper?.value = delta
+        let delta = appPart?.sequencerSelector.selection?.value.stepSize
+        if (delta == nil) {
+            deltaText?.text = ""
+            deltaStepper?.value = 0
+        }
+        else {
+            deltaText?.text = basicString(delta!)
+            deltaStepper?.value = delta!
+        }
     }
     
     @IBAction func bcSelected(_ sender: UISegmentedControl) {
