@@ -30,8 +30,18 @@ class Balls : Effect {
     var info: String? = nil
     var description: String { return nameAndInfo(self) }
 
-    var enabled: Bool
+    private var _enabled: Bool
     
+    var enabled: Bool {
+        get { return _enabled }
+        set(newValue) {
+            _enabled = newValue
+            if (!_enabled) {
+                clean()
+            }
+        }
+    }
+
     private let enabledDefault: Bool
 
     static let c0 = GLfloat(0.0)
@@ -86,7 +96,7 @@ class Balls : Effect {
     
     init(enabled: Bool) {
         self.enabledDefault = enabled
-        self.enabled = enabled
+        self._enabled = enabled
         
         let vv = Balls.vertices2
         let cc = Balls.colors2
@@ -99,6 +109,10 @@ class Balls : Effect {
         for c in cc {
             colors.append(GLKVector4Make(c[0], c[1], c[2], c[3]))
         }
+    }
+    
+    func clean() {
+        // TODO
     }
     
     private func build() -> Bool {

@@ -12,3 +12,6 @@ import Foundation
 // SK2_PFColorSource
 // ======================================================================
 
+class SK2_PFColorSource {
+    
+}

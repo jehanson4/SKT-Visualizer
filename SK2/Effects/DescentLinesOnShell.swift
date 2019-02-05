@@ -30,8 +30,18 @@ class DescentLinesOnShell : GLKBaseEffect, Effect {
     var name: String = "Descent Lines"
     var info: String? = nil
     
-    var enabled: Bool
+    private var _enabled: Bool
     
+    var enabled: Bool {
+        get { return _enabled }
+        set(newValue) {
+            _enabled = newValue
+            if (!_enabled) {
+                clean()
+            }
+        }
+    }
+
     private let defaultEnabled: Bool
 
     // EMPIRICAL
@@ -56,7 +66,7 @@ class DescentLinesOnShell : GLKBaseEffect, Effect {
     init(_ sk2: SK2_System, enabled: Bool, radius: Double = 1) {
         self.sk2 = sk2
         self.geometry = SK2_ShellGeometry(sk2, radius: radius)
-        self.enabled = enabled
+        self._enabled = enabled
         self.defaultEnabled = enabled
         self.rOffset = DescentLinesOnShell.rOffsetDefault
         super.init()
@@ -67,6 +77,10 @@ class DescentLinesOnShell : GLKBaseEffect, Effect {
         k_monitor = sk2.k.monitorChanges(markForRebuild)
         a1_monitor = sk2.a1.monitorChanges(markForRebuild)
         a2_monitor = sk2.a2.monitorChanges(markForRebuild)
+    }
+    
+    func clean() {
+        // TODO
     }
     
     deinit {

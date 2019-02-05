@@ -13,23 +13,11 @@ import Foundation
 // =============================================================
 
 // TODO make this a protocol
-class DS2_Node: DS_Node {
+protocol DS2_Node: DS_Node {
     
-    let nodeIndex: Int
-    let m: Int
-    let n: Int
+    var m: Int { get }
+    var n: Int { get }
     
-    init(_ nodeIndex: Int, _ m: Int, _ n: Int) {
-        self.nodeIndex = nodeIndex
-        self.m = m
-        self.n = n
-    }
-    
-    var hashValue: Int { return nodeIndex }
-    
-    static func == (lhs: DS2_Node, rhs: DS2_Node) -> Bool {
-        return lhs.nodeIndex == rhs.nodeIndex
-    }
 }
 
 // =============================================================

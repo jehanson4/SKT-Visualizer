@@ -26,8 +26,19 @@ class MeridiansOnShell:  GLKBaseEffect, Effect {
     static let key = "Meridians"
     var name = "Meridians"
     var info: String? = nil
-    var enabled: Bool
     
+    private var _enabled: Bool
+    
+    var enabled: Bool {
+        get { return _enabled }
+        set(newValue) {
+            _enabled = newValue
+            if (!_enabled) {
+                clean()
+            }
+        }
+    }
+
     private let enabledDefault: Bool
     
     var showSecondaries: Bool {
@@ -85,7 +96,7 @@ class MeridiansOnShell:  GLKBaseEffect, Effect {
     init(_ sk2: SK2_System, enabled: Bool, radius: Double = 1) {
         self.sk2 = sk2
         self.geometry = SK2_ShellGeometry(sk2, radius: radius)
-        self.enabled = enabled
+        self._enabled = enabled
         self.enabledDefault = enabled
         self.rOffset = MeridiansOnShell.rOffsetDefault
         super.init()
@@ -110,6 +121,10 @@ class MeridiansOnShell:  GLKBaseEffect, Effect {
         buildVertexData()
         createBuffers()
         return true
+    }
+    
+    func clean() {
+        // TODO
     }
     
     deinit {

@@ -29,7 +29,18 @@ class NetOnShell: GLKBaseEffect, Effect {
     static let key = "Net"
     var name: String = "Net"
     var info: String? = nil
-    var enabled: Bool
+    
+    var enabled: Bool {
+        get { return _enabled }
+        set(newValue) {
+            _enabled = newValue
+            if (!_enabled) {
+                clean()
+            }
+        }
+    }
+    private var _enabled: Bool
+    
     
     private let enabledDefault: Bool
     
@@ -39,6 +50,10 @@ class NetOnShell: GLKBaseEffect, Effect {
     var k_monitor: ChangeMonitor? = nil
     var rOffset: Double
     var geometryIsStale: Bool = true
+    
+    func clean() {
+        // TODO
+    }
     
     // ===========================================
     // GL
@@ -76,7 +91,7 @@ class NetOnShell: GLKBaseEffect, Effect {
     init(_ system: SK2_System, enabled: Bool, radius: Double = 1) {
         self.system = system
         self.geometry = SK2_ShellGeometry(system, radius: radius)
-        self.enabled = enabled
+        self._enabled = enabled
         self.enabledDefault = enabled
         self.rOffset = NetOnShell.rOffsetDefault
         self.geometryIsStale = true

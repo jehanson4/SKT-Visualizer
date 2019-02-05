@@ -30,7 +30,7 @@ class NodesOnShell: ColorizedEffect {
         self.geometry = SK2_ShellGeometry(system, radius: figure.r0)
         self.figure = figure
         self._colorSource = colorSource
-        self.enabled = enabled
+        self._enabled = enabled
         self.enabledDefault = enabled
 
         self.N_monitor = system.N.monitorChanges(updateGeometry)
@@ -42,16 +42,18 @@ class NodesOnShell: ColorizedEffect {
         N_monitor?.disconnect()
         k_monitor?.disconnect()
         colorSourceMonitor?.disconnect()
+        
+        // Q: which of these is part of clean()?
         glDeleteProgram(programHandle)
         glDeleteVertexArrays(1, &vertexArray)
         deleteBuffers()
     }
     
-    func releaseOptionalResources() {
-        // TODO
+    private func clean() {
+        debug("clean", "TODO")
+        // TODO: what's OK and what's not?
     }
     
-
     // ============================================
     // Basics
     
@@ -61,7 +63,17 @@ class NodesOnShell: ColorizedEffect {
     var info: String? = nil
     var description: String { return nameAndInfo(self) }
 
-    var enabled: Bool
+    var enabled: Bool {
+        get { return _enabled }
+        set(newValue) {
+            _enabled = newValue
+            if (!_enabled) {
+                clean()
+            }
+        }
+    }
+    
+    private var _enabled: Bool
     
     private let enabledDefault: Bool
     private var built: Bool = false

@@ -38,8 +38,19 @@ class InnerShell : GLKBaseEffect, Effect {
     
     var name = "Inner Shell"
     var info: String? = nil
-    var enabled: Bool
     
+    private var _enabled: Bool
+    
+    var enabled: Bool {
+        get { return _enabled }
+        set(newValue) {
+            _enabled = newValue
+            if (!_enabled) {
+                clean()
+            }
+        }
+    }
+
     private let enabledDefault: Bool
     
     // EMPIRICAL multiplicative factor: inner shell radius = rFactor * figure radius
@@ -79,12 +90,16 @@ class InnerShell : GLKBaseEffect, Effect {
     /// r0 = radius of the shell we're "background" of, not our own radius
     init(_ r0 : Double, _ color: GLKVector4, enabled: Bool) {
         self.r = r0 * InnerShell.rFactor
-        self.enabled = enabled
+        self._enabled = enabled
         self.enabledDefault = enabled
         
         super.init()
         super.useConstantColor = 1
         super.constantColor = color
+    }
+    
+    func clean() {
+        // TODO
     }
     
     deinit {

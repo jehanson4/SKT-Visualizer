@@ -1,5 +1,5 @@
 //
-//  SK2_BAFinder.swift
+//  SK2_BasinsAndAttractors.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 1/26/19.
@@ -17,10 +17,10 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 }
 
 // ===============================================================
-// SK2_BAFinder
+// SK2_BasinsAndAttractors
 // ===============================================================
 
-class SK2_BAFinder {
+class SK2_BasinsAndAttractors {
     
     var debugEnabled = false
     var infoEnabled = true

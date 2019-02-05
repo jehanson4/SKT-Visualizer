@@ -34,7 +34,7 @@ class SK2_BAColorSource : ColorSource {
     var backingModel: AnyObject? { return basinFinder.system }
     
     
-    private let basinFinder: SK2_BAFinder
+    private let basinFinder: SK2_BasinsAndAttractors
     
     private var unclassified_color: GLKVector4 // gray
     private var basinBoundary_color: GLKVector4 // black
@@ -42,7 +42,7 @@ class SK2_BAColorSource : ColorSource {
     
     private var washoutNorm: GLfloat = 1.0
     
-    init(_ basinFinder: SK2_BAFinder, expectedBasinCount: Int = 4) {
+    init(_ basinFinder: SK2_BasinsAndAttractors, expectedBasinCount: Int = 4) {
         self.basinFinder = basinFinder
         self.unclassified_color = GLKVector4Make(0.5, 0.5, 0.5, 1)
         self.basinBoundary_color = GLKVector4Make(0,0,0,1)

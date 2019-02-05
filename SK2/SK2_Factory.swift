@@ -96,7 +96,7 @@ struct SK2E {
                                                 colorSource: occupationColorSource)
         _ = reg.register(occupationOnShell)
         
-        let basinFinder = SK2_BAFinder(system)
+        let basinFinder = SK2_BasinsAndAttractors(system)
         let basinColorSource = SK2_BAColorSource(basinFinder)
         let basinsOnShell = ColorizedFigure("Basins on the Shell",
                                             delegate: baseFigure,

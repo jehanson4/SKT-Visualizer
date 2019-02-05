@@ -22,7 +22,17 @@ class Axes : GLKBaseEffect, Effect {
     
     var name = "Axes"
     var info: String? = nil
-    var enabled: Bool
+    private var _enabled: Bool
+    
+    var enabled: Bool {
+        get { return _enabled }
+        set(newValue) {
+            _enabled = newValue
+            if (!_enabled) {
+                clean()
+            }
+        }
+    }
 
     private let enabledDefault: Bool
     private var built: Bool = false
@@ -53,6 +63,10 @@ class Axes : GLKBaseEffect, Effect {
     private var vertexArray: GLuint = 0
     private var vertexBuffer: GLuint = 0
 
+    func clean() {
+        // TODO
+    }
+    
     deinit {
         if (built) {
             glDeleteVertexArrays(1, &vertexArray)
@@ -62,7 +76,7 @@ class Axes : GLKBaseEffect, Effect {
   
     init(enabled: Bool) {
         self.enabledDefault = enabled
-        self.enabled = enabled
+        self._enabled = enabled
         super.init()
         // debug("init", "projectionMatrix: " + String(describing: super.transform.projectionMatrix))
     }

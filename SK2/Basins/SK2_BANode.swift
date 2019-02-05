@@ -16,6 +16,17 @@ import Foundation
 /// the nodes array, and update them. If it were a struct we'd be updating a copy.
 class SK2_BANode: DS2_Node {
 
+    
+    let nodeIndex: Int
+    let m: Int
+    let n: Int
+    
+    var hashValue: Int { return nodeIndex }
+    
+    static func == (lhs: SK2_BANode, rhs: SK2_BANode) -> Bool {
+        return lhs.nodeIndex == rhs.nodeIndex
+    }
+
     /// Our energy, or NaN
     var energy: Double
     
@@ -36,11 +47,13 @@ class SK2_BANode: DS2_Node {
     // =========================================
     
     init(_ idx: Int, _ m: Int, _ n: Int, _ energy: Double = Double.nan) {
+        self.nodeIndex = idx
+        self.m = m
+        self.n = n
         self.energy = energy
         self.isBoundary = nil
         self.basinID = nil
         self.distanceToAttractor = nil
-        super.init(idx, m, n)
     }
     
     func reset(_ energy: Double = Double.nan) {

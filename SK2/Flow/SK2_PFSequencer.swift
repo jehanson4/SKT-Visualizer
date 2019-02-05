@@ -19,3 +19,8 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 // ===============================================================================
 // SK2_PFSequencer
 // ===============================================================================
+
+class SK2_PFSequencer {
+    
+    // give it a (shared) PF model + a rule
+}
