@@ -123,6 +123,7 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     // Visualization
     
     @IBOutlet weak var figureSelectorButton: UIButton!
+    @IBOutlet weak var autocalibrateButton: UIButton!
     
     var figureSelectionMonitor: ChangeMonitor? = nil
     
@@ -166,6 +167,29 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
         }
     }
 
+    @IBAction func toggleAutocalibration(_ sender: Any?) {
+        debug("toggleAutocalibration") 
+        var isOn: Bool = false
+        let figure = appPart.figureSelector.selection?.value
+        if (figure != nil) {
+            let prev = figure!.autocalibrate
+            figure!.autocalibrate = !prev
+            isOn = figure!.autocalibrate
+            if isOn {
+                figure!.calibrate()
+            }
+        }
+        
+        if (isOn) {
+            debug("toggleAutocalibration", "Autocalibration is on")
+            // TODO update button
+        }
+        else {
+            debug("toggleAutocalibration", "Autocalibration is off")
+            // TODO update button
+        }
+    }
+    
     // ===========================================
     // Model Parameters
 

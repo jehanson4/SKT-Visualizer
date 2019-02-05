@@ -207,6 +207,10 @@ class Net : GLKBaseEffect, Effect {
         enabled = enabledDefault
     }
     
+    func calibrate() {
+        // TODO
+    }
+    
     func prepareToShow() {
         debug("prepareToShow")
         // TODO

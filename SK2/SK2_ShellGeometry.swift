@@ -18,20 +18,34 @@ fileprivate let eps = Double.constants.eps
 // SK2_ShellPoint
 // ======================================================
 
-class SK2_ShellPoint : DS2_Node {
+struct SK2_ShellPoint : DS2_Node {
     
+    let nodeIndex: Int
+    let m: Int
+    let n: Int
     let r: Double
     let phi: Double
     let thetaE: Double
     
     init(_ nodeIndex: Int, _ m: Int, _ n: Int, r: Double, phi: Double, thetaE: Double) {
+        self.nodeIndex = nodeIndex
+        self.m = m
+        self.n = n
         self.r = r
         self.phi = phi
         self.thetaE = thetaE
-        super.init(nodeIndex, m, n);
     }
     
+    var hashCode: Int {
+        return nodeIndex
+    }
+    
+    static func == (lhs: SK2_ShellPoint, rhs: SK2_ShellPoint) -> Bool {
+        return lhs.nodeIndex == rhs.nodeIndex
+    }
+
 }
+
 // ======================================================
 // SK2_ShellGeometry
 // ======================================================

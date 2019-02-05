@@ -19,7 +19,7 @@ import OpenGL
 // ===========================================
 
 class BusySpinner : Effect {
-    
+   
     var debugEnabled = false
 
     static let key = "BusySpinner"
@@ -173,6 +173,10 @@ class BusySpinner : Effect {
     }
     
     func reset() {}
+    
+    func calibrate() {
+        // TODO
+    }
     
     func prepareToShow() {
         debug("prepareToShow")

@@ -41,6 +41,11 @@ class PopulationColorSource : ColorSource {
         self.wCurr = []
     }
     
+    func calibrate() -> Bool {
+        // TODO
+        return false
+    }
+    
     func prepare() -> Bool {
         debug("prepare", "getting flow.wCurr")
         self.wCurr = flow.wCurr

@@ -30,6 +30,8 @@ protocol Figure: AnyObject, Named {
     // MAYBE optional
     // var parameters: Registry<Parameter> { get }
     
+    var autocalibrate: Bool { get set }
+    
     var effects: Registry<Effect>? { get }
     
     func resetPOV()
@@ -68,6 +70,9 @@ protocol Effect: Named {
     var projectionMatrix: GLKMatrix4 { get set }
     var modelviewMatrix: GLKMatrix4 { get set }
     
+    /// recomputes data-dependent internal state such as colormap
+    func calibrate()
+    
     /// resets params to default values
     func reset()
     
@@ -89,6 +94,10 @@ protocol ColorSource : Named, ChangeMonitorEnabled {
     
     /// Returns the thing that provides data to this color source, if any.
     var backingModel: AnyObject? { get }
+    
+    /// Calibrates this color source's internal state according to the data to be
+    /// displayed. E.g., recomputes the color map to match the data's bounds.
+    func calibrate() -> Bool
     
     /// Updates this color source's internal state as needed. Should be called
     /// before start of a pass over node indices.

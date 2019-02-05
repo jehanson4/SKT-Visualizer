@@ -28,6 +28,11 @@ class DelegatedFigure: Figure {
 
     private var delegate: Figure
     
+    var autocalibrate:Bool {
+        get { return delegate.autocalibrate }
+        set(newValue) { delegate.autocalibrate = newValue }
+    }
+    
     var effects: Registry<Effect>? {
         return delegate.effects
     }

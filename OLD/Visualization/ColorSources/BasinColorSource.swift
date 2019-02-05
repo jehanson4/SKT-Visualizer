@@ -52,6 +52,11 @@ class BasinColorSource : ColorSource {
         }
     }
 
+    func calibrate() -> Bool {
+        // TODO
+        return false
+    }
+    
     func prepare() -> Bool {
         var changed = false
         let newWashoutNorm = washoutFudgeFactor / GLfloat(basinFinder.expectedMaxDistanceToAttractor)

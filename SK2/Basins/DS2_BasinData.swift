@@ -12,9 +12,9 @@ import Foundation
 // DS2_BasinData
 // =====================================================================================
 
-// TODO once DS2_Node is a protocol, have this guy implement it
-struct DS2_BasinData {
-    let idx: Int
+struct DS2_BasinData: DS2_Node {
+    
+    let nodeIndex: Int
     let m: Int
     let n: Int
     let isClassified: Bool
@@ -23,7 +23,7 @@ struct DS2_BasinData {
     let distanceToAttractor: Int?
     
     init(_ node: DS2_Node, isClassified: Bool, isBoundary: Bool?, basinID: Int?, distanceToAttractor: Int?) {
-        self.idx = node.nodeIndex
+        self.nodeIndex = node.nodeIndex
         self.m = node.m
         self.n = node.n
         self.isClassified = isClassified
@@ -34,7 +34,7 @@ struct DS2_BasinData {
     
     // OLD -- FIXME stop using this
     init(_ node: BANode) {
-        self.idx = node.idx
+        self.nodeIndex = node.idx
         self.m = node.m
         self.n = node.n
         self.isClassified = node.isClassified

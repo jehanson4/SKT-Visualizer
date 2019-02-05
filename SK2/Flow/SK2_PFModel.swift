@@ -36,30 +36,42 @@ class SK2_PFModel {
         }
     }
     
+    var system: SK2_System
     var ic: SK2_PFInitializer
     var rule: SK2_PFRule
     var stepNumber: Int
     
     private var nodes: [SK2_PFNode]
-    
     private var _nodeArrayIsStale: Bool
     private var _potentialIsStale: Bool
     
-    var system: SK2_System
+    private func geometryChanged(_ sender: Any?) {
+        _nodeArrayIsStale = true
+        _potentialIsStale = true
+    }
+
+    private func physicsChanged(_sender: Any?) {
+        _potentialIsStale = true
+    }
     
     // =====================================
     // Inializer
-    // =====================================
     
-    init(_ system: SK2_System, _ ic: SK2_PFInitializer, _ rule: SK2_PFRule) {
-        self.system = system
+    init(_ desc: SK2_Descriptor, _ ic: SK2_PFInitializer, _ rule: SK2_PFRule) {
+        self.system = SK2_System(desc)
         self.nodes = []
         self.ic = ic
         self.rule = rule
         self.stepNumber = 0
         self._nodeArrayIsStale = true
         self._potentialIsStale = true
+
         _ = refresh()
+        _ = system.N.monitorChanges(geometryChanged)
+        _ = system.k.monitorChanges(geometryChanged)
+        _ = system.a1.monitorChanges(physicsChanged)
+        _ = system.a2.monitorChanges(physicsChanged)
+        _ = system.T.monitorChanges(physicsChanged)
     }
     
     // =====================================
@@ -93,7 +105,6 @@ class SK2_PFModel {
         // HACK to force resetNodes when geometry has not changed
         self._potentialIsStale = true
         
-        checkGeometryAndPhysicsChangeNumbers()
         if (self._nodeArrayIsStale) {
             buildNodes()
         }
@@ -107,7 +118,6 @@ class SK2_PFModel {
     
     func step() -> Bool {
         debug("step", "entering")
-        checkGeometryAndPhysicsChangeNumbers()
         var changed = false
         if (self._nodeArrayIsStale) {
             buildNodes()
@@ -127,19 +137,6 @@ class SK2_PFModel {
     
     // =====================================
     // step helpers
-    
-    private func checkGeometryAndPhysicsChangeNumbers() {
-        let gnn = geometry.changeNumber
-        if (gnn != geometryCC) {
-            _nodeArrayIsStale = true
-            geometryCC = gnn
-        }
-        let pnn = physics.changeNumber
-        if (pnn != physicsCC) {
-            _potentialIsStale = true
-            physicsCC = pnn
-        }
-    }
     
     private func buildNodes() {
         debug("buildNodes", "entering")
@@ -174,6 +171,7 @@ class SK2_PFModel {
     }
     
     private var applyRuleCount = 0;
+    
     private func applyRule() -> Bool {
         let rc = applyRuleCount
         applyRuleCount += 1
@@ -230,12 +228,11 @@ class SK2_PFModel {
     private func refresh() -> Bool {
         debug("refresh", "entering")
         var changed = false
-        checkGeometryAndPhysicsChangeNumbers()
         if (self._nodeArrayIsStale) {
             buildNodes()
             changed = true
         }
-        else if (self._potentialIsStale) {
+        if (self._potentialIsStale) {
             resetNodes()
             changed = true
         }

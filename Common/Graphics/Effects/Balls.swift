@@ -171,6 +171,10 @@ class Balls : Effect {
         enabled = enabledDefault
     }
     
+    func calibrate() {
+        // TODO
+    }
+    
     func prepareToShow() {
         // TODO
     }

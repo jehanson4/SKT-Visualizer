@@ -63,23 +63,21 @@ class SK2_BAColorSource : ColorSource {
         }
     }
     
-    func prepare() -> Bool {
+    func calibrate() -> Bool {
         var changed = false
         let newWashoutNorm = washoutFudgeFactor / GLfloat(basinFinder.expectedMaxDistanceToAttractor)
         if (newWashoutNorm != self.washoutNorm) {
             changed = true
             self.washoutNorm = newWashoutNorm
         }
-        
-        // TODO don't change it here, have it done on BG queue
-        
-        // Return values from these are useless b/c the changes
+        return changed
+    }
+    
+    func prepare() -> Bool {
+        // Return values from basinFinder updates are useless b/c the changes
         // happen asynchronously.
         _ = basinFinder.update()
-        
-        changed = true
-        debug("prepare", "done: changed=\(changed)")
-        return changed
+        return true
     }
     
     func colorAt(_ nodeIndex: Int) -> GLKVector4 {

@@ -14,11 +14,12 @@ import Foundation
 
 /// Needs to be a class so we can pass around lists of these guys pulled out of
 /// the nodes array, and update them. If it were a struct we'd be updating a copy.
-class SK2_BANode: DS2_Node {
+class SK2_BANode: DS2_Node, Hashable {
 
-    
     let nodeIndex: Int
+    
     let m: Int
+    
     let n: Int
     
     var hashValue: Int { return nodeIndex }
@@ -26,7 +27,7 @@ class SK2_BANode: DS2_Node {
     static func == (lhs: SK2_BANode, rhs: SK2_BANode) -> Bool {
         return lhs.nodeIndex == rhs.nodeIndex
     }
-
+    
     /// Our energy, or NaN
     var energy: Double
     
@@ -92,5 +93,4 @@ class SK2_BANode: DS2_Node {
         return boundaryStr + basinIDStr + dToAStr
     }
     
-
 }

@@ -306,6 +306,8 @@ class NodesOnShell: ColorizedEffect {
         // TODO: Do not call _colorSource.prepare() at all
         // Instead call colorSource.calibrate() IFF colorsAreStale
         // Q: who sets them to be stale?
+        // A: used to be prepareToShow. Now it's calibrate()
+        
         let colorSourceChanged = _colorSource.prepare()
         if (colorSourceChanged || colorsAreStale) {
             colorsAreStale = false
@@ -325,6 +327,10 @@ class NodesOnShell: ColorizedEffect {
         enabled = enabledDefault
     }
 
+    func calibrate() {
+        // TODO
+    }
+    
     func prepareToShow() {
         debug("prepareToShow")
         _ = colorSource.prepare()

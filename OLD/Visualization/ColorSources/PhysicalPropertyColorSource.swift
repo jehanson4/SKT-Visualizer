@@ -23,6 +23,7 @@ class PhysicalPropertyColorSource : ColorSource {
     
     var property: PhysicalProperty
     var colorMap: ColorMap
+    private var calibrated: Bool = false
     
     init(_ property: PhysicalProperty, _ colorMap: ColorMap, name: String? = nil) {
         self.name = (name != nil) ? name! : property.name
@@ -30,8 +31,14 @@ class PhysicalPropertyColorSource : ColorSource {
         self.colorMap = colorMap
     }
     
+    func calibrate() -> Bool {
+        let changed = colorMap.calibrate(property.bounds)
+        self.calibrated = true
+        return changed
+    }
+    
     func prepare() -> Bool {
-        return colorMap.calibrate(property.bounds)
+        return (!calibrated) ? calibrate() : false
     }
     
     func colorAt(_ nodeIndex: Int) -> GLKVector4 {

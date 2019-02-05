@@ -111,7 +111,11 @@ class Axes : GLKBaseEffect, Effect {
         enabled = enabledDefault
     }
     
-    func prepareToShow() {
+    func calibrate() {
+        // TODO
+    }
+    
+        func prepareToShow() {
         debug("prepareToShow")
         // TODO
     }

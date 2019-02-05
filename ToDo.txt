@@ -2,6 +2,10 @@
 ToDo.txt
 ==================================================================================
 
+1. Entropy
+
+2. param & UI control auto-calibration: for whether to calibrate on every real change
+
 EFFECTS clean up after themselves when disabled
 and we disable them all before switching figures.
 That should take care of pretty much all the memory issues ever.

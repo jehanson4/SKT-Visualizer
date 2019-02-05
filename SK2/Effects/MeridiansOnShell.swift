@@ -22,7 +22,7 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 // ==================================================================
 
 class MeridiansOnShell:  GLKBaseEffect, Effect {
-    
+
     static let key = "Meridians"
     var name = "Meridians"
     var info: String? = nil
@@ -258,6 +258,11 @@ class MeridiansOnShell:  GLKBaseEffect, Effect {
     func reset() {
         enabled = enabledDefault
     }
+    
+    func calibrate() {
+        // TODO
+    }
+    
     
     func prepareToShow() {
         debug("prepareToShow")

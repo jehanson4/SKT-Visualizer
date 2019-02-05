@@ -24,6 +24,10 @@ class UniformColor : ColorSource {
         self.color = GLKVector4Make(r, g, b, alpha)
     }
     
+    func calibrate() -> Bool {
+        return false
+    }
+    
     func prepare() -> Bool {
         return false
     }

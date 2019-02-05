@@ -27,21 +27,8 @@ protocol PhysicalSystem: AnyObject, Named {
     
 }
 
-//// ================================================================
-//// SystemPoint
-////
-//// An abstract point in a system's phase space, at which physical
-//// properties may be measured.
-//// ================================================================
-//
-//protocol SystemPoint {
-//    var nodeIndex: Int { get }
-//}
-
 // ================================================================
 // OLD_PhysicalSystem
-//
-// The thing that the app visualizes.
 // ================================================================
 
 protocol OLD_PhysicalSystem: PhysicalSystem {

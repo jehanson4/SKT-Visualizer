@@ -24,6 +24,7 @@ fileprivate let twoPi = Double.constants.twoPi
 // ==============================================================
 
 struct SK2_Descriptor: Equatable {
+    
     let N: Int
     let k: Int
     let a1: Double
@@ -46,7 +47,13 @@ struct SK2_Descriptor: Equatable {
         self.T = system.T.value
     }
     
-    // TODO equatable func?
+    func matches(_ system: SK2_System) -> Bool {
+        return (self.N == system.N.value)
+            && (self.k == system.k.value)
+            && (self.a1 == system.a1.value)
+            && (self.a2 == system.a2.value)
+            && (self.T == system.T.value)
+    }
 }
 
 // ==============================================================
@@ -56,7 +63,7 @@ struct SK2_Descriptor: Equatable {
 class SK2_System: DS2_System, PreferenceSupport {
     
     // ===================================
-    // Initializer
+    // Initializers
     
     init() {
         self._N = SK2_System.N_defaultSetPoint
@@ -64,10 +71,19 @@ class SK2_System: DS2_System, PreferenceSupport {
         self._a1 = SK2_System.a1_defaultSetPoint
         self._a2 = SK2_System.a2_defaultSetPoint
         self._T = SK2_System.T_defaultSetPoint
-        self._beta = 1/_T
-        updateDerivedVariables()
+        updateDerivedProperties()
     }
     
+    init(_ desc: SK2_Descriptor) {
+        self._N = desc.N
+        self._k = desc.k
+        self._a1 = desc.a1
+        self._a2 = desc.a2
+        self._T = desc.T
+        updateDerivedProperties()
+    }
+    
+
     // ===================================
     // Basics
     
@@ -106,43 +122,6 @@ class SK2_System: DS2_System, PreferenceSupport {
         return m * nodeIndexModulus + n
     }
     
-    // =========================================
-    // Derived geometry variables. Some are only useful
-    // on the shell. See SK2_ShellGeometry
-    
-    var nodeIndexModulus: Int = 0
-    var skNorm: Double = 0
-    var s0: Double = 0
-    var sin_s0: Double = 0
-    var cot_s0: Double = 0
-    var s12_max: Double = 0
-    
-    private func updateDerivedVariables() {
-        nodeIndexModulus = _N - _k + 1
-        skNorm = pi / Double(_N)
-        s0 = pi * Double(_k) / Double(_N)
-        sin_s0 = sin(s0)
-        cot_s0 = 1.0/tan(s0)
-        s12_max = twoPi - s0
-    }
-    
-    // ===========================================
-    // Work queue
-    
-    private var _workQueue: WorkQueue? = nil
-    
-    // Not a lazy stored property b/c we don't want 'busy' getter to create it
-    var workQueue: WorkQueue {
-        if (_workQueue == nil) {
-            _workQueue = WorkQueue()
-        }
-        return _workQueue!
-    }
-    
-    var busy: Bool {
-        return (_workQueue == nil) ? false : _workQueue!.busy
-    }
-    
     // ===================================
     // Parameter: N
     
@@ -151,24 +130,25 @@ class SK2_System: DS2_System, PreferenceSupport {
     static let N_defaultSetPoint: Int = 200
     static let N_defaultStepSize: Int = 2
     
-    /// Non-private for speed. DO NOT set it directly.
-    var _N : Int
+    private var _N : Int
     
     private func _getN() -> Int {
         return _N
     }
     
-    private func _setN(_ N: Int) {
-        var kChanged = false
-        _N = N
+    /// called by self.N
+    private func _setN(_ newN: Int) {
+        _N = newN
         if (_k > _N/2) {
             _k = _N/2
-            kChanged = true
         }
-        updateDerivedVariables()
-        if (kChanged) {
-            k.refresh()
-        }
+
+        // Do this before any Parameter changes so that guys
+        // with change monitors will see the correct values
+        updateDerivedProperties()
+        
+        k.refresh()
+        // NO N.refresh()
     }
     
     lazy var N = DiscreteParameter(
@@ -190,24 +170,26 @@ class SK2_System: DS2_System, PreferenceSupport {
     static let k_defaultSetPoint: Int = SK2_System.N_defaultSetPoint/2
     static let k_defaultStepSize: Int = 1
     
-    /// Non-private for speed. DO NOT set it directly.
+    /// DO NOT set this. It's non-private for speed.
     var _k : Int
     
     private func _getK() -> Int {
         return _k
     }
     
+    /// ONLY called by self.k
     private func _setK(_ k: Int) {
-        var NChanged = false
         _k = k
         if (_N < 2 * _k) {
             _N = 2 * _k
-            NChanged = true
         }
-        updateDerivedVariables()
-        if (NChanged) {
-            N.refresh()
-        }
+        
+        // Do this before any Parameter changes so that guys
+        // with change monitors will see the correct values
+        updateDerivedProperties()
+        
+        // NO k.refresh()
+        N.refresh()
     }
     
     lazy var k = DiscreteParameter(
@@ -235,8 +217,10 @@ class SK2_System: DS2_System, PreferenceSupport {
         return _a1
     }
     
+    /// ONLY called by self.a1
     private func _setA1(_ a1: Double) {
         _a1 = a1
+        updateDerivedProperties()
     }
     
     lazy var a1 = ContinuousParameter(
@@ -264,8 +248,10 @@ class SK2_System: DS2_System, PreferenceSupport {
         return _a2
     }
     
+    /// ONLY called by self.a2
     private func _setA2(_ a2: Double) {
         _a2 = a2
+        updateDerivedProperties()
     }
     
     lazy var a2 = ContinuousParameter(
@@ -283,23 +269,21 @@ class SK2_System: DS2_System, PreferenceSupport {
     // ===================================
     // Parameter: T
     
-    static let T_min: Double = Double.constants.eps
+    static let T_min: Double = 0
     static let T_max: Double = 1000000
     static let T_defaultSetPoint: Double = 1000
     static let T_defaultStepSize: Double = 10
     
     private var _T : Double
-    private var _beta: Double
     
     private func _getT() -> Double {
         return _T
     }
     
+    /// ONLY called by self.T
     private func _setT(_ T: Double) {
-        if (T > 0) {
-            _T = T
-            _beta = 1/T
-        }
+        _T = T
+        updateDerivedProperties()
     }
     
     lazy var T = ContinuousParameter(
@@ -334,17 +318,21 @@ class SK2_System: DS2_System, PreferenceSupport {
             return false
         }
         
-        // Special handling of N and k so that they get modified
-        // together. Gotta make sure the derived var's get set.
         _N = desc.N
         _k = desc.k
-        updateDerivedVariables()
+        _a1 = desc.a1
+        _a2 = desc.a2
+        _T = desc.T
+        
+        // Do this before any Parameter update so that guys
+        // with ChangeMonitors will see the correct values
+        updateDerivedProperties()
+        
         N.refresh()
         k.refresh()
-        
-        a1.value = desc.a1
-        a2.value = desc.a2
-        T.value = desc.T
+        a1.refresh()
+        a2.refresh()
+        T.refresh()
         return true
     }
     
@@ -359,15 +347,42 @@ class SK2_System: DS2_System, PreferenceSupport {
         }
         _N = N2
         _k = k2
-        updateDerivedVariables()
+        
+        // Do this before any Parameter update so that guys
+        // with ChangeMonitors will see the correct values
+        updateDerivedProperties()
+        
         N.refresh()
         k.refresh()
-        
         a1.resetValue()
         a2.resetValue()
         T.resetValue()
     }
 
+    // =========================================
+    // Derived variables. Some are only useful
+    // on the shell. See SK2_ShellGeometry
+    
+    var nodeIndexModulus: Int = 0
+    var skNorm: Double = 0
+    var s0: Double = 0
+    var sin_s0: Double = 0
+    var cot_s0: Double = 0
+    var s12_max: Double = 0
+
+    var beta: Double = 0
+    
+    private func updateDerivedProperties() {
+        nodeIndexModulus = _N - _k + 1
+        skNorm = pi / Double(_N)
+        s0 = pi * Double(_k) / Double(_N)
+        sin_s0 = sin(s0)
+        cot_s0 = 1.0/tan(s0)
+        s12_max = twoPi - s0
+        
+        beta = (_T > 0) ? 1/_T : Double.greatestFiniteMagnitude
+    }
+    
     // ======================================
     // Functions for physical properties
     
@@ -400,7 +415,11 @@ class SK2_System: DS2_System, PreferenceSupport {
     }
     
     func logOccupation(_ m: Int, _ n: Int) -> Double {
-        return entropy(m, n) - _beta * energy(m, n)
+        return entropy(m, n) - beta * energy(m, n)
+    }
+    
+    func logOccupation(_ m: Int, _ n: Int, forT t: Double) -> Double {
+        return entropy(m, n) - (1/t) * energy(m, n)
     }
     
     // ======================================================
@@ -422,6 +441,21 @@ class SK2_System: DS2_System, PreferenceSupport {
         parameters.visit(pSave)
     }
     
-
+    // ===========================================
+    // Work queue
+    
+    private var _workQueue: WorkQueue? = nil
+    
+    // Not a lazy stored property b/c we don't want 'busy' getter to create it
+    var workQueue: WorkQueue {
+        if (_workQueue == nil) {
+            _workQueue = WorkQueue()
+        }
+        return _workQueue!
+    }
+    
+    var busy: Bool {
+        return (_workQueue == nil) ? false : _workQueue!.busy
+    }
 
 }

@@ -9,10 +9,10 @@
 import Foundation
 
 // ================================================
-// DS_Node
+// DSNode
 // ================================================
 
-protocol DS_Node: Hashable {
+protocol DSNode {
     var nodeIndex: Int { get }
 }
 
@@ -23,4 +23,25 @@ protocol DS_Node: Hashable {
 protocol DiscreteSystem: PhysicalSystem {
     
     var nodeCount: Int { get }
+}
+
+// =============================================================
+// DS2_Node
+// =============================================================
+
+protocol DS2_Node: DSNode {
+    
+    var m: Int { get }
+    var n: Int { get }
+    
+}
+
+// =============================================================
+// DS2_System
+// =============================================================
+
+protocol DS2_System : DiscreteSystem {
+    
+    var m_max: Int { get }
+    var n_max: Int { get }
 }

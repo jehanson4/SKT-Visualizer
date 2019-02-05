@@ -15,6 +15,9 @@ import GLKit
 
 class VisualizationModel1 : VisualizationModel, Figure {
     
+    var autocalibrate: Bool = true
+    
+    
     func contributeTo(userDefaults: inout UserDefaults, namespace: String) {
         // TODO . . . or not
     }

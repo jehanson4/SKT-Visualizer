@@ -66,7 +66,7 @@ class SK2_PopulationFlow : ChangeMonitorEnabled {
         return _isSteadyState
     }
     
-    var skt: SKTModel
+    weak var system: SK2_System!
     private var workingData: SK2_PFModel
     private var _busy: Bool = false
     
@@ -78,17 +78,13 @@ class SK2_PopulationFlow : ChangeMonitorEnabled {
     
     private var bgTaskCounter: Int = 0
     
-    init(_ system: SK2_SystemTModel, _ ic: SK2_PFInitializer? = nil, _ rule: SK2_PFRule? = nil) {
+    init(_ system: SK2_System, _ ic: SK2_PFInitializer? = nil, _ rule: SK2_PFRule? = nil) {
         self.system = system
         
-        let geometry = SK2Geometry()
-        let physics = SKPhysics(geometry)
-        let sktParams = skt.modelParams
-        _ = sktParams.applyTo(geometry)
-        _ = sktParams.applyTo(physics)
-        let ic2 = (ic != nil) ? ic! : EquilibriumPopulation()
-        let rule2 = (rule != nil) ? rule! : SteepestDescentFirstMatch()
-        self.workingData = SK2_PFModel(geometry, physics, ic2, rule2)
+        let desc = SK2_Descriptor(system)
+        let ic2 = (ic != nil) ? ic! : SK2_EquilibriumPopulation()
+        let rule2 = (rule != nil) ? rule! : SK2_SteepestDescentFirstMatch()
+        self.workingData = SK2_PFModel(desc, ic2, rule2)
         
         self._wCurr = self.workingData.exportWCurr()
     }
@@ -99,7 +95,7 @@ class SK2_PopulationFlow : ChangeMonitorEnabled {
             return
         }
         
-        let liveParams = self.skt.modelParams
+        let liveParams = SK2_Descriptor(self.system)
         let wdParams = self.workingData.modelParams
         if (liveParams == wdParams) {
             debug("sync", "already in sync, returning early")
@@ -108,7 +104,7 @@ class SK2_PopulationFlow : ChangeMonitorEnabled {
         
         debug("sync", "submitting work item")
         self._busy = true
-        self.skt.workQueue.async {
+        self.system.workQueue.async {
             let populationChanged = self.workingData.setModelParams(liveParams)
             let modelParams = self.workingData.modelParams
             let stepNumber = self.workingData.stepNumber
@@ -124,8 +120,8 @@ class SK2_PopulationFlow : ChangeMonitorEnabled {
     func changeRule(_ rule: SK2_PFRule) {
         // DO NOT abort if _busy
         debug("changeRule", "entering")
-        let liveParams = self.skt.modelParams
-        self.skt.workQueue.async {
+        let liveParams = SK2_Descriptor(self.system)
+        self.system.workQueue.async {
             self.workingData.rule = rule
             var populationChanged = self.workingData.setModelParams(liveParams)
             if (!populationChanged) {
@@ -144,8 +140,8 @@ class SK2_PopulationFlow : ChangeMonitorEnabled {
     func reset() {
         // DO NOT abort if _busy
         debug("reset", "entering")
-        let liveParams = self.skt.modelParams
-        self.skt.workQueue.async {
+        let liveParams = SK2_Descriptor(self.system)
+        self.system.workQueue.async {
             var populationChanged = self.workingData.setModelParams(liveParams)
             if (!populationChanged) {
                 populationChanged = self.workingData.reset()
@@ -163,11 +159,11 @@ class SK2_PopulationFlow : ChangeMonitorEnabled {
     func step() {
         // DO NOT abort if _busy
         debug("step", "entering")
-        let liveParams = self.skt.modelParams
-        self.skt.workQueue.async {
+        let liveParams = SK2_Descriptor(self.system)
+        self.system.workQueue.async {
             let tt = self.bgTaskCounter
             self.bgTaskCounter += 1
-            self.debug("step", "BG task[\(tt)] starting")
+            debug("step", "BG task[\(tt)] starting")
             // FIXME not threadsafe: what if they're changing when we call this?
             var populationChanged = self.workingData.setModelParams(liveParams)
             if (!populationChanged) {
@@ -176,7 +172,7 @@ class SK2_PopulationFlow : ChangeMonitorEnabled {
             let modelParams = self.workingData.modelParams
             let stepNumber = self.workingData.stepNumber
             let wCurr = (populationChanged) ? self.workingData.exportWCurr() : nil
-            self.debug("step", "BG task[\(tt)]done")
+            debug("step", "BG task[\(tt)]done")
             DispatchQueue.main.sync {
                 self.updateLiveData(modelParams, stepNumber, !populationChanged, wCurr)
             }
@@ -184,10 +180,10 @@ class SK2_PopulationFlow : ChangeMonitorEnabled {
         debug("step", "done")
     }
     
-    private func updateLiveData(_ modelParams: SKTModelParams, _ stepNumber: Int, _ isSteadyState: Bool, _ wCurr: [Double]?) {
+    private func updateLiveData(_ modelParams: SK2_Descriptor, _ stepNumber: Int, _ isSteadyState: Bool, _ wCurr: [Double]?) {
         debug("updateLiveData", "entering")
         
-        if (self.skt.modelParams != modelParams) {
+        if (!modelParams.matches(self.system)) {
             debug("updateLiveData", "modelParams are stale, so discarding them")
             return
         }
@@ -237,8 +233,5 @@ class SK2_PopulationFlow : ChangeMonitorEnabled {
         changeSupport.fire()
         debug("fireChange", "done")
     }
-    
-    // =======================================
-    // Debugging
     
 }

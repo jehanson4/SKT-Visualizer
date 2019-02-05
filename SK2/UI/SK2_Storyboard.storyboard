@@ -67,13 +67,32 @@
                                                         </connections>
                                                     </button>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="cbH-1E-G80" userLabel="Buttons 1">
-                                                        <rect key="frame" x="0.0" y="33" width="311" height="30"/>
+                                                        <rect key="frame" x="0.0" y="33" width="311" height="110"/>
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dlj-YM-1iN" userLabel="Recalibrate">
-                                                                <rect key="frame" x="0.0" y="0.0" width="155.5" height="30"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="155.5" height="110"/>
                                                                 <state key="normal" title="Recalibrate"/>
                                                                 <connections>
                                                                     <action selector="calibrate:" destination="1Ul-i5-KtM" eventType="touchUpInside" id="F4q-go-qqL"/>
+                                                                </connections>
+                                                            </button>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K8e-dM-aCD">
+                                                                <rect key="frame" x="155.5" y="0.0" width="155.5" height="110"/>
+                                                                <state key="normal" title="Take snapshot"/>
+                                                                <connections>
+                                                                    <action selector="takeSnapshot:" destination="1Ul-i5-KtM" eventType="touchUpInside" id="gLG-MP-Hku"/>
+                                                                </connections>
+                                                            </button>
+                                                        </subviews>
+                                                    </stackView>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="5L3-MQ-z00" userLabel="Buttons 2">
+                                                        <rect key="frame" x="0.0" y="144" width="311" height="30"/>
+                                                        <subviews>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l1P-8m-Ta9">
+                                                                <rect key="frame" x="0.0" y="0.0" width="155.5" height="30"/>
+                                                                <state key="normal" title="Autocalibrate"/>
+                                                                <connections>
+                                                                    <action selector="toggleAutocalibration:" destination="1Ul-i5-KtM" eventType="touchUpInside" id="JfG-8r-mP6"/>
                                                                 </connections>
                                                             </button>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l0N-Ae-IOl">
@@ -81,18 +100,6 @@
                                                                 <state key="normal" title="Reset POV"/>
                                                                 <connections>
                                                                     <action selector="resetPOV:" destination="1Ul-i5-KtM" eventType="touchUpInside" id="6Bj-ad-1Dh"/>
-                                                                </connections>
-                                                            </button>
-                                                        </subviews>
-                                                    </stackView>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="5L3-MQ-z00" userLabel="Buttons 2">
-                                                        <rect key="frame" x="0.0" y="64" width="311" height="110"/>
-                                                        <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K8e-dM-aCD">
-                                                                <rect key="frame" x="0.0" y="0.0" width="311" height="110"/>
-                                                                <state key="normal" title="Take snapshot"/>
-                                                                <connections>
-                                                                    <action selector="takeSnapshot:" destination="1Ul-i5-KtM" eventType="touchUpInside" id="gLG-MP-Hku"/>
                                                                 </connections>
                                                             </button>
                                                         </subviews>
@@ -162,6 +169,9 @@
                                                             </label>
                                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="right" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="frD-IN-KfI">
                                                                 <rect key="frame" x="32" y="0.0" width="185" height="29"/>
+                                                                <accessibility key="accessibilityConfiguration">
+                                                                    <accessibilityTraits key="traits" updatesFrequently="YES"/>
+                                                                </accessibility>
                                                                 <nil key="textColor"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
@@ -188,6 +198,9 @@
                                                             </label>
                                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="right" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pPz-tb-NiU">
                                                                 <rect key="frame" x="32" y="0.0" width="185" height="29"/>
+                                                                <accessibility key="accessibilityConfiguration">
+                                                                    <accessibilityTraits key="traits" updatesFrequently="YES"/>
+                                                                </accessibility>
                                                                 <nil key="textColor"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
@@ -214,6 +227,9 @@
                                                             </label>
                                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="right" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dGa-Ix-rWA">
                                                                 <rect key="frame" x="32" y="0.0" width="185" height="29"/>
+                                                                <accessibility key="accessibilityConfiguration">
+                                                                    <accessibilityTraits key="traits" updatesFrequently="YES"/>
+                                                                </accessibility>
                                                                 <nil key="textColor"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
@@ -240,6 +256,9 @@
                                                             </label>
                                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="right" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kDt-Gj-ldN">
                                                                 <rect key="frame" x="32" y="0.0" width="185" height="29"/>
+                                                                <accessibility key="accessibilityConfiguration">
+                                                                    <accessibilityTraits key="traits" updatesFrequently="YES"/>
+                                                                </accessibility>
                                                                 <nil key="textColor"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
@@ -266,6 +285,9 @@
                                                             </label>
                                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="right" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iQo-YS-LVq">
                                                                 <rect key="frame" x="32" y="0.0" width="185" height="29"/>
+                                                                <accessibility key="accessibilityConfiguration">
+                                                                    <accessibilityTraits key="traits" updatesFrequently="YES"/>
+                                                                </accessibility>
                                                                 <nil key="textColor"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
@@ -518,9 +540,15 @@
                                                         <subviews>
                                                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="YyL-vR-Olk" userLabel="Progress Slider">
                                                                 <rect key="frame" x="-2" y="0.0" width="246" height="54"/>
+                                                                <accessibility key="accessibilityConfiguration">
+                                                                    <accessibilityTraits key="traits" updatesFrequently="YES"/>
+                                                                </accessibility>
                                                             </slider>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="---" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vbo-sS-CDZ" userLabel="Progress Label">
                                                                 <rect key="frame" x="247" y="0.0" width="64" height="53"/>
+                                                                <accessibility key="accessibilityConfiguration">
+                                                                    <accessibilityTraits key="traits" staticText="YES" updatesFrequently="YES"/>
+                                                                </accessibility>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="64" id="i2P-wt-wW2"/>
                                                                 </constraints>
@@ -572,6 +600,7 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="autocalibrateButton" destination="l1P-8m-Ta9" id="X2J-Q5-a4G"/>
                         <outlet property="bcSelector" destination="qOJ-1R-dAz" id="fVZ-Lz-NJc"/>
                         <outlet property="deltaStepper" destination="iPb-xT-o65" id="CFm-wq-uHm"/>
                         <outlet property="deltaText" destination="JS0-19-oSI" id="wkL-7s-yqK"/>

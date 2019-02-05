@@ -68,7 +68,6 @@
 		8A88175822085D7500523467 /* SK2_PFColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A88175722085D7500523467 /* SK2_PFColors.swift */; };
 		8A88175A22085E3B00523467 /* SK2_PFSequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A88175922085E3B00523467 /* SK2_PFSequencer.swift */; };
 		8A88175C2208628700523467 /* DS2_BasinData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A88175B2208628700523467 /* DS2_BasinData.swift */; };
-		8A88175E2208637A00523467 /* DS2_System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A88175D2208637A00523467 /* DS2_System.swift */; };
 		8A88176222090F4400523467 /* SK2_PFInitializers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A88176122090F4400523467 /* SK2_PFInitializers.swift */; };
 		8A8817642209104200523467 /* SK2_PopulationFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A8817632209104200523467 /* SK2_PopulationFlow.swift */; };
 		8A8817662209118000523467 /* SK2_PlaneGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A8817652209118000523467 /* SK2_PlaneGeometry.swift */; };
@@ -224,7 +223,6 @@
 		8A88175722085D7500523467 /* SK2_PFColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_PFColors.swift; sourceTree = "<group>"; };
 		8A88175922085E3B00523467 /* SK2_PFSequencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_PFSequencer.swift; sourceTree = "<group>"; };
 		8A88175B2208628700523467 /* DS2_BasinData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DS2_BasinData.swift; sourceTree = "<group>"; };
-		8A88175D2208637A00523467 /* DS2_System.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DS2_System.swift; sourceTree = "<group>"; };
 		8A88176122090F4400523467 /* SK2_PFInitializers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_PFInitializers.swift; sourceTree = "<group>"; };
 		8A8817632209104200523467 /* SK2_PopulationFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_PopulationFlow.swift; sourceTree = "<group>"; };
 		8A8817652209118000523467 /* SK2_PlaneGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_PlaneGeometry.swift; sourceTree = "<group>"; };
@@ -549,6 +547,7 @@
 		8AB2A62D21FCE1AA00A46316 /* Basins */ = {
 			isa = PBXGroup;
 			children = (
+				8A88175B2208628700523467 /* DS2_BasinData.swift */,
 				8AB2A63421FCEB5800A46316 /* SK2_BasinsAndAttractors.swift */,
 				8AB2A62E21FCE1C100A46316 /* SK2_BANode.swift */,
 				8AB2A63021FCE40E00A46316 /* SK2_BAModel.swift */,
@@ -771,8 +770,6 @@
 				8AD823B3208E36CB0045F3B1 /* PhysicalProperty.swift */,
 				8A4654BF21E8E38300EE2B26 /* PhysicalSystem.swift */,
 				8AB2A63621FDEDEC00A46316 /* DiscreteSystem.swift */,
-				8A88175D2208637A00523467 /* DS2_System.swift */,
-				8A88175B2208628700523467 /* DS2_BasinData.swift */,
 			);
 			name = PhysicalSystem;
 			path = SystemModel;
@@ -951,7 +948,6 @@
 				8A2034DE21EB961300A4C418 /* SK2_SecondaryViewController.swift in Sources */,
 				8A91B09C2093F98000488907 /* OLD_Sequencer.swift in Sources */,
 				8AB2A64221FEA8BF00A46316 /* NodesOnShell.swift in Sources */,
-				8A88175E2208637A00523467 /* DS2_System.swift in Sources */,
 				8A3C45B62086167E00A1E9CD /* LogOccupation.swift in Sources */,
 				8AB2A63321FCE92F00A46316 /* SK2_ShellGeometry.swift in Sources */,
 				8A56BE7320ADAD5100C19F4C /* BANode.swift in Sources */,

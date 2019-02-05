@@ -297,6 +297,10 @@ class DescentLinesOnShell : GLKBaseEffect, Effect {
         enabled = defaultEnabled
     }
     
+    func calibrate() {
+        // TODO
+    }
+    
     func prepareToShow() {
         debug("prepareToShow")
         // TODO

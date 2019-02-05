@@ -67,7 +67,8 @@ class ShellFigure : Figure {
     /// radius of the hemisphere
     let r0: Double
     
-
+    var autocalibrate: Bool = false
+    
     // =================================================
     // Effects
     
