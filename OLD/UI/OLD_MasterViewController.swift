@@ -13,8 +13,8 @@ class OLD_MasterViewController: UIViewController, UITextFieldDelegate, AppModelU
     let name = "OLD MasterViewController"
     var debugEnabled = true
     
-    var appModel: AppModel? = nil
-    var old_AppModel: AppModel1? = nil
+    weak var appModel: AppModel!
+    weak var old_AppModel: AppModel1!
     
     private var _borderWidth: CGFloat = 1
     private var _cornerRadius: CGFloat = 5
@@ -394,24 +394,24 @@ class OLD_MasterViewController: UIViewController, UITextFieldDelegate, AppModelU
     }
     
     func fixColorSourceForSequencer() {
-        let mtd = "fixColorSourceForSequencer"
-        let sequencers = old_AppModel?.viz.sequencers
-        let colorSources = old_AppModel?.viz.colorSources
-        
-        let sequencerModel = sequencers?.selection?.value.backingModel
-        let colorSourceModel = colorSources?.selection?.value.backingModel
-        if (sequencerModel != nil && colorSourceModel != nil) {
-            if (sequencerModel !== colorSourceModel) {
-                debug(mtd, "sequencer and colorSource do not have the same backingModel")
-                let csNames = colorSources?.entryNames ?? []
-                for csName in csNames {
-                    if (sequencerModel === colorSources?.entry(csName)?.value.backingModel) {
-                        debug(mtd, "found colorSource with same backingModel as sequencer. Selecting it")
-                        colorSources?.select(csName)
-                    }
-                }
-            }
-        }
+//        let mtd = "fixColorSourceForSequencer"
+//        let sequencers = old_AppModel?.viz.sequencers
+//        let colorSources = old_AppModel?.viz.colorSources
+//        
+//        let sequencerModel = sequencers?.selection?.value.backingModel
+//        let colorSourceModel = colorSources?.selection?.value.backingModel
+//        if (sequencerModel != nil && colorSourceModel != nil) {
+//            if (sequencerModel !== colorSourceModel) {
+//                debug(mtd, "sequencer and colorSource do not have the same backingModel")
+//                let csNames = colorSources?.entryNames ?? []
+//                for csName in csNames {
+//                    if (sequencerModel === colorSources?.entry(csName)?.value.backingModel) {
+//                        debug(mtd, "found colorSource with same backingModel as sequencer. Selecting it")
+//                        colorSources?.select(csName)
+//                    }
+//                }
+//            }
+//        }
     }
 
     @IBAction func resetPOV(_ sender: Any) {

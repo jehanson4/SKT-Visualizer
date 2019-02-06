@@ -14,16 +14,31 @@ import GLKit
 // =============================================================
 
 class VisualizationModel1 : VisualizationModel, Figure {
+  
+    func figureHasBeenHidden() {
+        
+    }
+    
+    func loadPreferences(namespace: String) {
+        
+    }
+    
+    func savePreferences(namespace: String) {
+        
+    }
+    
+    
+    func resetEffects() {
+    }
+    
     
     var autocalibrate: Bool = true
     
     
     func contributeTo(userDefaults: inout UserDefaults, namespace: String) {
-        // TODO . . . or not
     }
     
     func apply(userDefaults: UserDefaults, namespace: String) {
-        // TODO . . . or not
     }
     
     
@@ -107,10 +122,9 @@ class VisualizationModel1 : VisualizationModel, Figure {
         }
     }
 
-    func prepareToShow() {
+    func aboutToShowFigure() {
         debug("prepareToShow")
-        func prepareEffect(_ effect: Effect) { effect.prepareToShow() }
-        effects?.visit(prepareEffect)
+        // TODO
     }
     
     // ===========================================
@@ -317,11 +331,6 @@ class VisualizationModel1 : VisualizationModel, Figure {
         registerEffect(BusySpinner(skt))
         // registerEffect(Icosahedron(enabled: false))
         // registerEffect(Balls(enabled: false))
-    }
-    
-    func resetEffects() {
-        func visitor(effect: Effect) { effect.reset() }
-        effects!.visit(visitor);
     }
     
     // ====================================

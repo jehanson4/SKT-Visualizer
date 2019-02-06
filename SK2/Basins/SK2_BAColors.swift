@@ -33,14 +33,17 @@ class SK2_BAColorSource : ColorSource {
     
     var backingModel: AnyObject? { return basinFinder.system }
     
-    
-    private let basinFinder: SK2_BasinsAndAttractors
+    private var basinFinder: SK2_BasinsAndAttractors
     
     private var unclassified_color: GLKVector4 // gray
     private var basinBoundary_color: GLKVector4 // black
     private var basin_colors: [GLKVector4]
     
     private var washoutNorm: GLfloat = 1.0
+    
+    // ============================================================
+    // TODO monitor changes in system
+    // ============================================================
     
     init(_ basinFinder: SK2_BasinsAndAttractors, expectedBasinCount: Int = 4) {
         self.basinFinder = basinFinder
@@ -63,17 +66,23 @@ class SK2_BAColorSource : ColorSource {
         }
     }
     
-    func calibrate() -> Bool {
+    func calibrate() {
         var changed = false
         let newWashoutNorm = washoutFudgeFactor / GLfloat(basinFinder.expectedMaxDistanceToAttractor)
         if (newWashoutNorm != self.washoutNorm) {
             changed = true
             self.washoutNorm = newWashoutNorm
         }
-        return changed
+        if (changed) {
+            fireChange();
+        }
     }
     
-    func prepare() -> Bool {
+    func teardown() {
+        // TODO
+    }
+    
+    func prepare(_ nodeCount: Int) -> Bool {
         // Return values from basinFinder updates are useless b/c the changes
         // happen asynchronously.
         _ = basinFinder.update()
@@ -111,10 +120,20 @@ class SK2_BAColorSource : ColorSource {
         return colorValue + (1.0-colorValue) * washoutNorm * GLfloat(washoutLevel)
     }
     
+    // ==========================================
+    // Change monitoring
+    
+    private var changeSupport : ChangeMonitorSupport? = nil
+    
     func monitorChanges(_ callback: @escaping (Any) -> ()) -> ChangeMonitor? {
-        // We need this so that effects will recompute colors if the
-        // basinFinder state changes
-        return basinFinder.monitorChanges(callback)
+        if (changeSupport == nil) {
+            changeSupport = ChangeMonitorSupport()
+        }
+        return changeSupport!.monitorChanges(callback, self)
     }
     
+    func fireChange() {
+        changeSupport?.fire()
+    }
+
 }

@@ -15,6 +15,10 @@ import OpenGL
 #endif
 
 class Net : GLKBaseEffect, Effect {
+    func teardown() {
+        
+    }
+    
     
     var debugEnabled = false
 

@@ -85,39 +85,21 @@ class AppModel1 : AppModel {
     
     var partSelector: Selector<AppPart>
     
-    private var currPartKey: String?
-
     private var partChangeMonitor: ChangeMonitor!
     
     private func partHasChanged(_ sender: Any?) {
-        debug("partHasChanged", "entered")
-        
-        // TODO check memory usage before uncommenting this
-        // let prevPartKey = currPartKey
-        // if (prevPartKey != nil) {
-        //     releaseOptionalResourcesForPart(prevPartKey!)
-        // }
-        currPartKey = partSelector.selection?.key
-        
+        debug("partHasChanged", "starting")
         updateFigureChangeMonitor()
         updateSequencerChangeMonitor()
-        
-        // graphicsController.figure = partSelector.selection?.value.figureSelector.selection?.value
-
-        //        updateFigureChangeMonitor()
-
-        //        animationController.sequencer = sequencerSelector?.selection?.value
-        //        updateSequencerChangeMonitor()
-
     }
     
-//    func releaseOptionalResourcesForPart(_ systemKey: String) {
-//        systemSelector.registry.entry(key: systemKey)?.value.releaseOptionalResources()
-//
-//        func figureRelease(_ f: Figure) { f.releaseOptionalResources() }
-//        _figureSelectors[systemKey]?.registry.visit(figureRelease)
-//    }
-//
+    private func installPart(_ part: AppPart) {
+        do {
+            _ = try parts.register(part, key: part.key)
+        } catch {
+            warn("installPart", "Unexpected error installing \"\(part.name)\": \(error)")
+        }
+    }
     
     // ================================================
     // Figures
@@ -127,12 +109,12 @@ class AppModel1 : AppModel {
     private func updateFigureChangeMonitor() {
         debug("updateFigureChangeMonitor", "entered")
         figureChangeMonitor?.disconnect()
-        figureChanged(self)
-        figureChangeMonitor = partSelector.selection?.value.figureSelector.monitorChanges(figureChanged)
+        figureHasChanged(self)
+        figureChangeMonitor = partSelector.selection?.value.figureSelector.monitorChanges(figureHasChanged)
     }
 
-    private func figureChanged(_ sender: Any?) {
-        debug("figureChanged", "entered")
+    private func figureHasChanged(_ sender: Any?) {
+        debug("figureHasChanged", "entered")
         graphicsController.figure = partSelector.selection?.value.figureSelector.selection?.value
     }
 
@@ -144,11 +126,11 @@ class AppModel1 : AppModel {
     private func updateSequencerChangeMonitor() {
         debug("updateSequencerChangeMonitor", "entered")
         sequencerChangeMonitor?.disconnect()
-        sequencerChanged(self)
-        sequencerChangeMonitor = partSelector.selection?.value.sequencerSelector.monitorChanges(sequencerChanged)
+        sequencerHasChanged(self)
+        sequencerChangeMonitor = partSelector.selection?.value.sequencerSelector.monitorChanges(sequencerHasChanged)
     }
 
-    private func sequencerChanged(_ sender: Any?) {
+    private func sequencerHasChanged(_ sender: Any?) {
         debug("sequencerChanged", "entered")
         animationController.sequencer = partSelector.selection?.value.sequencerSelector.selection?.value
     }
@@ -173,11 +155,8 @@ class AppModel1 : AppModel {
         // 1. Initialize the vars
 
         partSelector = Selector<AppPart>(Registry<AppPart>())
-        currPartKey = nil
-        
         animationController = AnimationController()
         graphicsController = GraphicsControllerV1()
-
        _preferenceSupportList = []
         
         // 2. Install the parts
@@ -225,13 +204,8 @@ class AppModel1 : AppModel {
         
         // 4. Start monitoring.
         
-//        systemChanged(self)
-//        self.systemChangeMonitor = self.systemSelector.monitorChanges(systemChanged)
-
         partHasChanged(self)
         partChangeMonitor = partSelector.monitorChanges(partHasChanged)
-
-
     }
 
     // ================================================
@@ -267,17 +241,6 @@ class AppModel1 : AppModel {
             let sqKey = extendNamespace(ud_sequencers, ud_selection)
             UserDefaults.standard.set(sqValue, forKey: sqKey)
         }
-        
     }
     
-    // ==============================================================
-    // Installing parts
-    
-    private func installPart(_ part: AppPart) {
-        do {
-            _ = try parts.register(part, key: part.key)
-        } catch {
-            warn("installPart", "Unexpected error installing \"\(part.name)\": \(error)")
-        }
-    }
 }

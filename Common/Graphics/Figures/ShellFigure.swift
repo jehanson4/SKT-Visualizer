@@ -1,5 +1,5 @@
 //
-//  SK2E_PhysicalPropertyOnSphere.swift
+//  ShellFigure.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 1/21/19.
@@ -8,6 +8,14 @@
 
 import Foundation
 import GLKit
+
+fileprivate let debugEnabled = true
+
+fileprivate func debug(_ mtd: String, _ msg: String = "") {
+    if (debugEnabled) {
+        print("ShellFigure", mtd, msg)
+    }
+}
 
 // ============================================================================
 // ShellPOV
@@ -36,18 +44,6 @@ struct ShellPOV {
 
 class ShellFigure : Figure {
     
-
-    // =================================================
-    // Debugging
-    
-    let clsName = "ShellFigure"
-    let debugEnabled = false
-    func debug(_ mtd: String, _ msg: String = "") {
-        if (debugEnabled) {
-            print(clsName, mtd, msg)
-        }
-    }
-
     // ================================================
     // Lifecycle
     
@@ -267,15 +263,27 @@ class ShellFigure : Figure {
     // Drawing
     
     func calibrate() {
-        debug("calibrate")
-        // TODO calibrate the effects
+        // NOP
     }
 
-    func prepareToShow() {
-        debug("prepareToShow")
-        func prepareEffect(_ effect: Effect) {
-            effect.prepareToShow()
+    func aboutToShowFigure() {
+        // NOP
+    }
+    
+    func figureHasBeenHidden() {
+        debug("figureHasBeenHidden")
+        func teardownEffect(_ effect: Effect) {
+            effect.teardown()
         }
+        effects?.visit(teardownEffect)
+    }
+    
+    func loadPreferences(namespace: String) {
+        // TODO
+    }
+    
+    func savePreferences(namespace: String) {
+        // TODO
     }
     
     func draw(_ drawableWidth: Int, _ drawableHeight: Int) {
@@ -288,14 +296,4 @@ class ShellFigure : Figure {
         effects!.visit(drawEffect)
     }
 
-    // ==================================================
-    // User defaults
-    func contributeTo(userDefaults: inout UserDefaults, namespace: String) {
-        // TODO
-    }
-    
-    func apply(userDefaults: UserDefaults, namespace: String) {
-        // TODO
-    }
-    
 }

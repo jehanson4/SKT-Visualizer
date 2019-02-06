@@ -12,8 +12,8 @@ class OLD_SettingsViewController: UIViewController, UITextFieldDelegate, AppMode
     let name: String = "OLD SettingsViewController"
     var debugEnabled: Bool = true
     
-    var appModel: AppModel?
-    var old_AppModel: AppModel1? = nil
+    weak var appModel: AppModel!
+    weak var old_AppModel: AppModel1!
     
     override func viewDidLoad() {
         debug("viewDidLoad", "entering")

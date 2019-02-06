@@ -172,6 +172,8 @@ class BusySpinner : Effect {
         // TODO
     }
     
+    func teardown() {}
+    
     func reset() {}
     
     func calibrate() {

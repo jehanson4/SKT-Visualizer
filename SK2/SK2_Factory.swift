@@ -32,7 +32,7 @@ struct SK2E {
         let reg = Registry<Figure>()
         
         // =====================
-        // Base Figure
+        // Base shell
         // has InnerShell, NetOnShell, NodesOnShell, Meridians, DescentLinesOnShell
         
         let r0 : Double = 1
@@ -48,7 +48,7 @@ struct SK2E {
         }
 
         do {
-            let netOnShell = NetOnShell(system, enabled: true, radius: r0)
+            let netOnShell = NetOnShell(system, enabled: false, radius: r0)
             _ = try baseFigure.effects?.register(netOnShell, key: NetOnShell.key)
         } catch {
             debug(mtd, "Problem registring NetOnShell: \(error)")
@@ -69,36 +69,27 @@ struct SK2E {
         }
         
         do {
-            let descentLines = DescentLinesOnShell(system, enabled: true, radius: r0)
+            let descentLines = DescentLinesOnShell(system, enabled: false, radius: r0)
             _ = try baseFigure.effects?.register(descentLines, key: DescentLinesOnShell.key)
         } catch {
-            debug(mtd, "Problem registring DescentLinesOnShell: \(error)")
+            debug(mtd, "Problem registering DescentLinesOnShell: \(error)")
         }
         
         // ===================================
-        // Figures that delegate to baseFigure
-        
-        let energyColorSource = SK2E_EnergyColors(system)
-        let energyOnShell = ColorizedFigure("Energy on the Shell",
-                                            delegate: baseFigure,
-                                            colorSource: energyColorSource)
+        // Figures that delegate to baseShell
+
+        let energyOnShell = SK2E_EnergyFigure("Energy on the Hemisphere", system, baseFigure)
         _ = reg.register(energyOnShell)
         
-        let entropyColorSource = SK2E_EntropyColors(system)
-        let entropyOnShell = ColorizedFigure("Entropy on the Shell",
-                                             delegate: baseFigure,
-                                             colorSource: entropyColorSource)
+        let entropyOnShell = SK2E_EntropyFigure("Entropy on the Hemisphere", system, baseFigure)
         _ = reg.register(entropyOnShell)
         
-        let occupationColorSource = SK2E_OccupationColors(system)
-        let occupationOnShell = ColorizedFigure("Occupation on the Shell",
-                                                delegate: baseFigure,
-                                                colorSource: occupationColorSource)
+        let occupationOnShell = SK2E_OccupationFigure("Occupation on the Hemisphere", system, baseFigure)
         _ = reg.register(occupationOnShell)
         
         let basinFinder = SK2_BasinsAndAttractors(system)
         let basinColorSource = SK2_BAColorSource(basinFinder)
-        let basinsOnShell = ColorizedFigure("Basins on the Shell",
+        let basinsOnShell = ColorizedFigure("Basins on the Hemisphere",
                                             delegate: baseFigure,
                                             colorSource: basinColorSource)
         _ = reg.register(basinsOnShell)

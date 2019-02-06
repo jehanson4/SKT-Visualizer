@@ -74,3 +74,142 @@ protocol AppPart {
     figures: Selector<Figure> { get }
     sequencers: Selector<Sequencer> { get }
 }
+
+=========================================
+
+Figure.prepareToShow:
+1. ColorizedFigure -- installs the color source in the effects. COULD do initial calibration too.
+2. ShellFigure -- calls prepareToShow on the effects
+
+Effect.prepareToShow:
+1. InnerShell -- NOP
+2. Axes -- NOP
+3. Balls -- NOP
+4. Icosahedron -- NOP
+5. etc.
+The only one that does anything is NodesOnShell, which calls colorsource.prepare
+
+I'm putting all kinds of stuff in draw() -- because I need to keep rebuilding the picture.
+There's very little I could do that doesn't need redoing when the system changes.
+
+ColorSource.prepare:
+simplecolors: only thing it does is make sure color source is calibrated
+    but I couldensure that in Figure.prepareToShow
+
+basin: actually does an update of the basinfinder data
+I want that to be done with every draw()
+population: actually grabs wCurr from model.
+
+--------------
+BOTTOM LINE: I need a method in ColorSource that gets called
+right before we do a loop over nodes calling colorAt.
+
+We do a loop over nodes calling colorAt when the colors are stale and we're about to draw.
+We do it in order to copy the colors into GL buffer.
+
+In other words: we do prepare-then-loop only when we think colors have changed.
+
+It's not the same as calibrating the colormap. It's not calibrating anything. It's actually
+grabbing the data.
+
+However: calibrating may need to be done as well.
+Calibration is a rarer event. pepare-then-loop is once per system-change.
+
+System changes and so effect marks colors as stale.
+Therefore in next draw we'll do  a prepare-then-colorat.
+
+IFF autocalibration is on then we need to calibrate too.
+
+The name is confusing me. There's several different 'prepare' with different meanings and
+usage. Could call it 'update' or 'refresh'
+
+Do we ever want to prepare without also calibrating? yes.
+
+Do we ever want to calibrate without also preparing? no, but that's misleading.
+
+Do we always call prepare in every effect.draw()? no. only when we're copying color data
+from the color source into GL
+
+effects monitor changes in system and in the colorSource. But I never really got the colorsource
+monitoring stuff right.
+
+effect monitors geometry b/c it needs to completely rebuild
+effect doesn't know it should monitor a1 a2 or T -- answer depends on the effect's
+color source, which gets replaced when the figure changes
+
+energy, entrop, occupation are 3 diff figures and are defined by color source. They all
+share the same base figure.
+
+color source changes basically never. effects get turned off and on.
+figures could subscribe to a1 a2 or T. figure also holds color source. but
+nodes has a ref. to the color source.
+
+Figure could assume responsibility for telling the effects that they need to do a
+prepare-then-colorAt. ColorizedEffect.markColorsStale
+
+--------------
+basins color source needs to have its backend rebuild when either geometry of physics changes
+backend can get out of sync with frontend
+--------------
+feature is autocalibrate and it has a color source which it has given to the effect
+effect monitors geometry and rebuilds vertices when it changes
+also rebuilds colors array and needs to initialize it
+they both have same system backend so no sync issues
+entropy color source monitors physics, also has same sytem backend
+so rebuild of colors array should be OK
+and recopy it to GL vertex buffer ditto
+but how does autocalibrate work?
+would like to NOT have to push autocalibrate var down down down
+would prefer NOT to have effects be 'calibrated' -- only color/elevation sources
+
+if we make that a fixed design point what do we end up with?
+something still has to know when calibration goes stale, and it depends on
+color source AND effect
+
+energy colorsource would have the bounds and have the calibrate but would not watch for
+changes in anything.
+
+so I'd need EnergyFeature which could actually BE a color source too if i felt like it
+
+effect.reset:  delete it
+
+
+---------------------------------
+reason I needed effect.defaultEnabled was so that I could re-enable the right ones
+in figure.prepareToShow. It's an 'initial enablement'
+
+alt is to have effect.clean get called w/o changing enablement
+which may be better I think.
+BACK we swing toward ResourceAware.
+
+figure.hasBeenHidden calls effect.clean
+figure.clean better name
+
+=================================
+basins in sweep over N: need a way to keep the sequencer from advancing
+need to add concept of 'drawing of a work in progress'
+or sequencer temporary block w/o changing status
+it's got a 'busy' concept, maybe there's a way to hook that up.
+
+=================================
+use case: it's BasinColors in a sweep over N
+    so array length is changing
+use case: it's BasinColors in a sweep over a1
+    so color values are cnanging
+use case: it's BasinColors in a sweep over T
+    so nothing is changing
+
+
+**********************************************
+occupation figure could monitor Nka1a2T and lookup autocalibrate and then do the calibration
+and then fire change to effect, which could mark its colors array stale. then effect wouldn't
+know concept of calibration at all.
+
+colorsources becomes stateless passthru? would color source still need to provide change
+monitors?
+
+color sources still need to fire change when calibrated so that
+effect can redisplay w/ new colors right away (rather than only when
+there's a subsequent model changes or something)
+**********************************************
+

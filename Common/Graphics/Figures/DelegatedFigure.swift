@@ -15,7 +15,7 @@ import UIKit
 
 // TODO rename. This is not 'delegated' is 'delegating'
 class DelegatedFigure: Figure {
-    
+
     init(_ name: String, _ info: String? = nil, delegate: Figure) {
         self.name = name
         self.info = info
@@ -41,16 +41,29 @@ class DelegatedFigure: Figure {
         delegate.resetPOV()
     }
     
-    func prepareToShow() {
-        delegate.prepareToShow()
+    func aboutToShowFigure() {
+        delegate.aboutToShowFigure()
+    }
+    
+    func figureHasBeenHidden() {
+        // NO: we may be switching to another DelegatedFigure that has the same delegate,
+        // in which case we don't want to tell the delegate it has been hidden.
+        //
+        // FIXME: but if that's not the case then we SHOULD call delegate method.
+        //
+        // delegate.figureHasBeenHidden()
+    }
+    
+    func loadPreferences(namespace: String) {
+        // NOP
+    }
+    
+    func savePreferences(namespace: String) {
+        // NOP
     }
     
     func calibrate() {
         delegate.calibrate()
-    }
-    
-    func markGraphicsStale() {
-        delegate.markGraphicsStale()
     }
     
     func draw(_ drawableWidth: Int, _ drawableHeight: Int) {

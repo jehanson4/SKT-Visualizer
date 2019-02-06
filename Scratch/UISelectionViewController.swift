@@ -18,7 +18,7 @@ class UISelectorViewController : UIViewController, AppModelUser {
             print(clsName, mtd, msg)
         }
     }
-    var appModel: AppModel?
+    weak var appModel: AppModel!
     
     override func viewDidLoad() {
         debug("viewDidLoad")

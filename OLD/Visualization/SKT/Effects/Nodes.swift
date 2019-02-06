@@ -20,6 +20,11 @@ import OpenGL
 
 class Nodes : Effect {
     
+    func teardown() {
+        
+    }
+    
+    
     // ============================================
     // Debugging
     
@@ -214,7 +219,7 @@ class Nodes : Effect {
         
         var colorsRecomputed = false
         let cs = colorSource!
-        let colorSourceChanged = cs.prepare()
+        let colorSourceChanged = cs.prepare(colors.count)
         if (colorSourceChanged || colorsAreStale) {
             colorsAreStale = false
             debug("recomputing colors", "colorSource: \(cs.name) colors.count=\(colors.count)")

@@ -28,25 +28,24 @@ class MeridiansOnShell:  GLKBaseEffect, Effect {
     var info: String? = nil
     
     private var _enabled: Bool
+    private var built: Bool = false
     
     var enabled: Bool {
         get { return _enabled }
         set(newValue) {
             _enabled = newValue
             if (!_enabled) {
-                clean()
+                teardown()
             }
         }
     }
-
-    private let enabledDefault: Bool
     
     var showSecondaries: Bool {
         get { return _showSecondaries }
         set(newValue) {
             if (newValue != _showSecondaries) {
                 _showSecondaries = newValue
-                _built = false
+                built = false
             }
         }
     }
@@ -77,7 +76,6 @@ class MeridiansOnShell:  GLKBaseEffect, Effect {
     }
     
     private var _showSecondaries: Bool = true
-    private var _built: Bool = false
     
     private var sk2: SK2_System
     private var geometry: SK2_ShellGeometry
@@ -97,34 +95,35 @@ class MeridiansOnShell:  GLKBaseEffect, Effect {
         self.sk2 = sk2
         self.geometry = SK2_ShellGeometry(sk2, radius: radius)
         self._enabled = enabled
-        self.enabledDefault = enabled
         self.rOffset = MeridiansOnShell.rOffsetDefault
         super.init()
         super.useConstantColor = 1
         
-        N_monitor = sk2.N.monitorChanges(updateGeometry)
-        k_monitor = sk2.k.monitorChanges(updateGeometry)
+        N_monitor = sk2.N.monitorChanges(markGeometryStale)
+        k_monitor = sk2.k.monitorChanges(markGeometryStale)
     }
     
-    func updateGeometry(_ sender: Any?) {
+    func markGeometryStale(_ sender: Any?) {
         geometryIsStale = true
     }
     
-    func releaseOptionalResources() {
-        // TODO
-    }
-    
-    private func build() -> Bool {
+    private func build() {
+        debug("building")
         if (vertexArray == 0) {
             glGenVertexArrays(1, &vertexArray)
         }
         buildVertexData()
         createBuffers()
-        return true
+        geometryIsStale = false
+        built = true
     }
     
-    func clean() {
-        // TODO
+    func teardown() {
+        if (built) {
+            debug("cleaning")
+            // TODO
+            // built = false
+        }
     }
     
     deinit {
@@ -144,7 +143,6 @@ class MeridiansOnShell:  GLKBaseEffect, Effect {
         let phi2 = geometry.p2.phi
         let phi3 = 0.5 * (phi1 + phi2)
         let phi4 = phi3 + piOver2
-        
         
         addCaret(phi1)
         addPrimaryMeridian(phi1)
@@ -255,30 +253,14 @@ class MeridiansOnShell:  GLKBaseEffect, Effect {
         glDeleteBuffers(1, &vertexBuffer)
     }
     
-    func reset() {
-        enabled = enabledDefault
-    }
-    
-    func calibrate() {
-        // TODO
-    }
-    
-    
-    func prepareToShow() {
-        debug("prepareToShow")
-        // TODO
-    }
-    
-    
     func draw() {
         if (!enabled) {
             return
         }
-        if (!_built) {
-            _built = build()
+        if (!built) {
+            build()
         }
-        
-        if (geometryIsStale) {
+        else if (geometryIsStale) {
             debug("rebuilding...")
             deleteBuffers()
             buildVertexData()
@@ -291,7 +273,9 @@ class MeridiansOnShell:  GLKBaseEffect, Effect {
         
         super.constantColor = lineColor_primary
         glLineWidth(lineWidth_primary)
+        
         prepareToDraw()
+        
         for i in primaryLines {
             glDrawArrays(GLenum(GL_LINE_STRIP), lineStarts[i], lineVertexCounts[i])
             let err = glGetError()

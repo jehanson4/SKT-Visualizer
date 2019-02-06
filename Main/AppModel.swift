@@ -8,16 +8,6 @@
 
 import Foundation
 
-// ============================================================================
-// AppModelUser
-// ============================================================================
-
-protocol AppModelUser {
-    
-    var appModel: AppModel? { get set }
-
-}
-
 // =========================================================
 // AppPart
 // =========================================================
@@ -52,24 +42,7 @@ protocol AppPartFactory {
 // AppModel
 // =========================================================
 
-protocol AppModel {
-    
-//    /// Groups of systems. Only 1 level of grouping is supported
-//    /// systemGroupNames is in group-creation order
-//    var systemGroupNames: [String] { get }
-//
-//    /// systemGroups map has key = group name; value = list of selector
-//    /// keys of systems in that group
-//    var systemGroups: [String: [String]] { get }
-//
-//    /// lets you select a system to visualize
-//    var systemSelector: Selector<PhysicalSystem> { get }
-//
-//    /// lets you select a figure for the currently selected system
-//    var figureSelector: Selector<Figure>? { get }
-//
-//    /// lets you select a sequencer for the currently selected system
-//    var sequencerSelector: Selector<Sequencer>? { get }
+protocol AppModel: AnyObject {
     
     var parts: Registry<AppPart> { get }
     
@@ -82,3 +55,14 @@ protocol AppModel {
     func savePreferences()
     
 }
+
+// ============================================================================
+// AppModelUser
+// ============================================================================
+
+protocol AppModelUser {
+    
+    var appModel: AppModel! { get set }
+    
+}
+

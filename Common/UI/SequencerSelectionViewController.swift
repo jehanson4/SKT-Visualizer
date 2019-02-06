@@ -29,8 +29,8 @@ class SequencerSelectionViewController2: UITableViewController, AppModelUser {
     // =====================================
     // Model
     
-    var appModel: AppModel? = nil
-    var sequencerSelector: Selector<Sequencer>? = nil
+    weak var appModel: AppModel!
+    weak var sequencerSelector: Selector<Sequencer>!
     
     // =====================================
     // Lifecycle

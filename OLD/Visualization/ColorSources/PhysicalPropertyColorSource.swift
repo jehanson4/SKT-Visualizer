@@ -15,6 +15,18 @@ import GLKit
 
 class PhysicalPropertyColorSource : ColorSource {
     
+    func teardown() {
+        // NOP
+    }
+    
+    func prepare(_ nodeCount: Int) -> Bool {
+        return false
+    }
+    
+    func calibrate() {
+    }
+    
+    
     var name: String
     var info: String? = nil
     var description: String { return nameAndInfo(self) }

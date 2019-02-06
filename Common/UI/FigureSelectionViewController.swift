@@ -29,8 +29,8 @@ class FigureSelectionViewController: UITableViewController, AppModelUser {
     // =====================================
     // Model
     
-    var appModel: AppModel? = nil
-    var figureSelector: Selector<Figure>? = nil
+    weak var appModel: AppModel!
+    weak var figureSelector: Selector<Figure>!
     
     // =====================================
     // Lifecycle

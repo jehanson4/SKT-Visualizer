@@ -24,7 +24,7 @@ class SK2_TertiaryViewController: UIViewController, UITextFieldDelegate, AppMode
     // =============================================
     // Basics
     
-    var appModel: AppModel? = nil
+    weak var appModel: AppModel!
     weak var appPart: AppPart!
     weak var system: SK2_System!
     var figure: Figure? = nil

@@ -35,14 +35,11 @@ class NetOnShell: GLKBaseEffect, Effect {
         set(newValue) {
             _enabled = newValue
             if (!_enabled) {
-                clean()
+                teardown()
             }
         }
     }
     private var _enabled: Bool
-    
-    
-    private let enabledDefault: Bool
     
     var system: SK2_System
     var geometry: SK2_ShellGeometry
@@ -50,10 +47,6 @@ class NetOnShell: GLKBaseEffect, Effect {
     var k_monitor: ChangeMonitor? = nil
     var rOffset: Double
     var geometryIsStale: Bool = true
-    
-    func clean() {
-        // TODO
-    }
     
     // ===========================================
     // GL
@@ -92,7 +85,6 @@ class NetOnShell: GLKBaseEffect, Effect {
         self.system = system
         self.geometry = SK2_ShellGeometry(system, radius: radius)
         self._enabled = enabled
-        self.enabledDefault = enabled
         self.rOffset = NetOnShell.rOffsetDefault
         self.geometryIsStale = true
         super.init()
@@ -113,18 +105,27 @@ class NetOnShell: GLKBaseEffect, Effect {
         geometryIsStale = true
     }
     
-    func releaseOptionalResources() {
-        // TODO
-    }
-    
-    private func build() -> Bool {
+    private func build() {
+        debug("building")
+        
+        // Doesn't this need to go somewhere else?
         super.useConstantColor = 1
         super.constantColor = lineColor
         
         glGenVertexArrays(1, &vertexArray)
+        
         buildVertexData()
         createBuffers()
-        return true
+        geometryIsStale = false
+        built = true
+    }
+    
+    func teardown() {
+        if (built) {
+            debug("teardown")
+            // TODO
+            // built = false
+        }
     }
     
     private func buildVertexData() {
@@ -239,28 +240,14 @@ class NetOnShell: GLKBaseEffect, Effect {
         glDeleteBuffers(1, &indexBuffer)
     }
     
-    func reset() {
-        enabled = enabledDefault
-    }
-    
-    func calibrate() {
-        // TODO
-    }
-    
-    func prepareToShow() {
-        debug("prepareToShow")
-        // TODO
-    }
-    
     func draw() {
         if (!enabled) {
             return
         }
         if (!built) {
-            built = build()
+            build()
         }
-        
-        if (geometryIsStale) {
+        else if (geometryIsStale) {
             debug("rebuilding...")
             deleteBuffers()
             buildVertexData()
@@ -269,16 +256,15 @@ class NetOnShell: GLKBaseEffect, Effect {
             debug("done rebuilding")
         }
         
-        glBindVertexArray(vertexArray)
-        prepareToDraw()
         glLineWidth(lineWidth)
+        glBindVertexArray(vertexArray)
         
-        // print(name, "drawIfEnabled", "drawing")
-        
+        prepareToDraw()
+
         // debugDraw1()
         // debugDraw2()
         // debugDraw3()
-        
+
         let lineCount = lineArrayLengths.count
         for line in 0..<lineCount {
             // debug("draw","line " + String(line+1) + " of " + String(lineCount))
@@ -293,8 +279,8 @@ class NetOnShell: GLKBaseEffect, Effect {
                 break
             }
         }
-        glLineWidth(1.0)
         glBindVertexArray(0)
+        glLineWidth(1.0)
     }
     
 }

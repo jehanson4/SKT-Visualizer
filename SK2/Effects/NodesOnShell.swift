@@ -9,11 +9,16 @@
 import Foundation
 import GLKit
 
-fileprivate var debugEnabled = false
+fileprivate var debugEnabled = true
 
 fileprivate func debug(_ mtd: String, _ msg : String = "") {
     if (debugEnabled) {
-        print("NodesOnShell", mtd, msg)
+        if (msg.isEmpty) {
+            print("NodesOnShell", mtd)
+        }
+        else {
+            print("NodesOnShell", mtd, ":", msg)
+        }
     }
 }
 
@@ -21,21 +26,24 @@ fileprivate func debug(_ mtd: String, _ msg : String = "") {
 // NodesOnShell
 // =========================================================
 
-class NodesOnShell: ColorizedEffect {
+class NodesOnShell: Effect, Colorized {
     
     // ============================================
     // Lifecycle
     
     init(_ system: SK2_System, _ figure: ShellFigure, _ colorSource: ColorSource, enabled: Bool) {
+        debug("init")
+        self.system = system
         self.geometry = SK2_ShellGeometry(system, radius: figure.r0)
         self.figure = figure
         self._colorSource = colorSource
         self._enabled = enabled
-        self.enabledDefault = enabled
 
-        self.N_monitor = system.N.monitorChanges(updateGeometry)
-        self.k_monitor = system.k.monitorChanges(updateGeometry)
-        self.colorSourceMonitor = colorSource.monitorChanges(updateColors)
+        self.N_monitor = system.N.monitorChanges(markGeometryStale)
+        self.k_monitor = system.k.monitorChanges(markGeometryStale)
+        
+        debug("init", "setting color source monitor. colorSource=\(colorSource)")
+        self.colorSourceMonitor = colorSource.monitorChanges(markColorsStale)
     }
     
     deinit {
@@ -43,15 +51,20 @@ class NodesOnShell: ColorizedEffect {
         k_monitor?.disconnect()
         colorSourceMonitor?.disconnect()
         
+        if (built) {
         // Q: which of these is part of clean()?
         glDeleteProgram(programHandle)
         glDeleteVertexArrays(1, &vertexArray)
         deleteBuffers()
+        }
     }
     
-    private func clean() {
-        debug("clean", "TODO")
-        // TODO: what's OK and what's not?
+    func teardown() {
+        if (built) {
+            debug("teardown")
+            // TODO
+            // built = false
+        }
     }
     
     // ============================================
@@ -68,25 +81,25 @@ class NodesOnShell: ColorizedEffect {
         set(newValue) {
             _enabled = newValue
             if (!_enabled) {
-                clean()
+                teardown()
             }
         }
     }
     
     private var _enabled: Bool
-    
-    private let enabledDefault: Bool
     private var built: Bool = false
 
+    private weak var system: SK2_System!
+    private weak var figure: ShellFigure!
     private var geometry: SK2_ShellGeometry
-    private var figure: ShellFigure
-    
+
     private var N_monitor: ChangeMonitor?
     private var k_monitor: ChangeMonitor?
     
     private var geometryIsStale: Bool = true
 
-    func updateGeometry(_ sender: Any?) {
+    func markGeometryStale(_ sender: Any?) {
+        debug("markGeometryStale")
         geometryIsStale = true
     }
     
@@ -98,15 +111,20 @@ class NodesOnShell: ColorizedEffect {
         set(newValue) {
             _colorSource = newValue
             colorsAreStale = true
+            debug("colorSource setter", "replacing change monitor")
+            self.colorSourceMonitor?.disconnect()
+            self.colorSourceMonitor = _colorSource.monitorChanges(markColorsStale)
         }
     }
+    
     private var _colorSource: ColorSource
 
     private var colorsAreStale = true
 
     private var colorSourceMonitor: ChangeMonitor?
     
-    func updateColors(_ sender: Any?) {
+    func markColorsStale(_ sender: Any?) {
+        debug("markColorsStale")
         colorsAreStale = true
     }
     
@@ -143,18 +161,20 @@ class NodesOnShell: ColorizedEffect {
         glDeleteBuffers(1, &colorBuffer)
     }
     
-    private func build() -> Bool {
+    private func build() {
+        debug("build")
         compile(vertexShader, fragmentShader)
         glGenVertexArrays(1, &vertexArray)
         buildVertexAndColorData()
         createBuffers()
-        return true
+        built = true
     }
     
     private func buildVertexAndColorData() {
         
         self.vertices = geometry.buildVertexArray4()
-        
+        self.geometryIsStale = false
+
         // Fill colors array with black, then set flag to force an update
         
         let black = GLKVector4Make(0, 0, 0, 0)
@@ -215,8 +235,8 @@ class NodesOnShell: ColorizedEffect {
     func calculatePointSize() -> GLfloat {
         
         let pts = pointSizeScaleFactor * GLfloat(figure.pov.zoom * geometry.neighborDistance)
-        debug("calculatePointSize", "zoom=\(figure.pov.zoom)")
-        debug("calculatePointSize", "pts=\(pts)")
+        // debug("calculatePointSize", "zoom=\(figure.pov.zoom)")
+        // debug("calculatePointSize", "pts=\(pts)")
         return clip(pts, 1, pointSizeMax)
     }
     
@@ -303,15 +323,10 @@ class NodesOnShell: ColorizedEffect {
     private func ensureColorsAreFresh() -> Bool {
         var colorsRecomputed = false
         
-        // TODO: Do not call _colorSource.prepare() at all
-        // Instead call colorSource.calibrate() IFF colorsAreStale
-        // Q: who sets them to be stale?
-        // A: used to be prepareToShow. Now it's calibrate()
-        
-        let colorSourceChanged = _colorSource.prepare()
+        let colorSourceChanged = _colorSource.prepare(system.nodeCount)
         if (colorSourceChanged || colorsAreStale) {
             colorsAreStale = false
-            debug("recomputing colors", "colorSource: \(_colorSource.name) colors.count=\(colors.count)")
+            debug("rereading colors array", "colorSource: \(_colorSource.name) colors.count=\(colors.count)")
             for i in 0..<colors.count {
                 colors[i] = _colorSource.colorAt(i)
             }
@@ -322,21 +337,6 @@ class NodesOnShell: ColorizedEffect {
     
     // ===================================================
     // Actual work
-    
-    func reset() {
-        enabled = enabledDefault
-    }
-
-    func calibrate() {
-        // TODO
-    }
-    
-    func prepareToShow() {
-        debug("prepareToShow")
-        _ = colorSource.prepare()
-        // Do this regardless of color source
-        colorsAreStale = true
-    }
     
     func prepareToDraw() {
         glUseProgram(programHandle)
@@ -365,7 +365,7 @@ class NodesOnShell: ColorizedEffect {
         }
         
         if (!built) {
-            built = build()
+            build()
         }
 
         if (geometryIsStale) {
@@ -388,7 +388,19 @@ class NodesOnShell: ColorizedEffect {
             debug(mtd, String(format:"glError 0x%x", err0))
         }
         
-        let needsColorBufferUpdate = ensureColorsAreFresh()
+        
+        var needsColorBufferUpdate = false
+        let colorSourceChanged = _colorSource.prepare(system.nodeCount)
+        if (colorSourceChanged || colorsAreStale) {
+            colorsAreStale = false
+            debug("rereading colors from color source", "colorSource: \(_colorSource.name) colors.count=\(colors.count)")
+            for i in 0..<colors.count {
+                colors[i] = _colorSource.colorAt(i)
+            }
+            needsColorBufferUpdate = true
+        }
+
+        // =================================================
         
         glBindVertexArray(vertexArray)
         
@@ -407,7 +419,7 @@ class NodesOnShell: ColorizedEffect {
             debug(mtd, String(format:"glError 0x%x", err0))
         }
         
-        debug(mtd, "drawing points")
+        // debug(mtd, "drawing points. vertices.count=\(vertices.count)")
         glDrawArrays(GLenum(GL_POINTS), 0, GLsizei(vertices.count))
         
         // DEBUG

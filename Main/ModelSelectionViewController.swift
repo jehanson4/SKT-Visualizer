@@ -8,46 +8,27 @@
 
 import UIKit
 
+fileprivate var debugEnabled = true
+
+fileprivate func debug(_ mtd: String, _ msg: String = "") {
+    if (debugEnabled) {
+        print("ModelSelectionViewController", mtd, msg)
+    }
+}
+
+// =============================================================
+// ModelSelectionViewController
+// =============================================================
+
 class ModelSelectionViewController : UIViewController, AppModelUser {
-    
-    private var clsName = "ModelSelectionViewController"
-    private var debugEnabled = true
-    
-    private func debug(_ mtd: String, _ msg: String = "") {
-        if (debugEnabled) {
-            print(clsName, mtd, msg)
-        }
-    }
-
-    var appModel: AppModel?
-    
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-
-        let mtd = "viewWillLayoutSubviews"
-        debug(mtd, "entered")
-        
-        if (appModel == nil) {
-            debug(mtd, "appModel is nil")
-        }
-        else {
-            debug(mtd, "appModel has been set.")
-        }
-        if (oldUIButton == nil) {
-            debug(mtd, "old ui button is nil")
-        }
-        else {
-            debug(mtd, "old ui button is set")
-        }
-
-        debug(mtd, "exiting")
-    }
+            
+    weak var appModel: AppModel!
     
     override func viewDidLoad() {
+        let mtd = "viewDidLoad"
         super.viewDidLoad()
 
-        let mtd = "viewDidLoad"
-        debug(mtd, "entered")
+        debug(mtd, "starting")
 
         if (appModel == nil) {
             debug(mtd, "appModel is nil")
@@ -63,7 +44,7 @@ class ModelSelectionViewController : UIViewController, AppModelUser {
         }
 
         UIUtils.addBorder(oldUIButton)
-        debug(mtd, "exiting")
+        debug(mtd, "done")
     }
     
     override func didReceiveMemoryWarning() {
@@ -74,7 +55,7 @@ class ModelSelectionViewController : UIViewController, AppModelUser {
     
     override func viewWillDisappear(_ animated: Bool) {
         debug("viewWillDisappear")
-        // appModel = nil
+        // NO appModel = nil
         super.viewWillDisappear(animated)
     }
     

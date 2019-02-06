@@ -24,9 +24,10 @@ class SK2_SecondaryViewController: UIViewController, UITextFieldDelegate, AppMod
     // =============================================
     // Basics
 
-    var appModel: AppModel? = nil
+    weak var appModel: AppModel!
     weak var appPart: AppPart!
     weak var system: SK2_System!
+    
     var figure: Figure? = nil
     var sequencer: Sequencer? = nil
     
@@ -209,11 +210,6 @@ class SK2_SecondaryViewController: UIViewController, UITextFieldDelegate, AppMod
     
     func teardownEffects() {
         // NOP
-    }
-    
-    func resetEffects() {
-        func reset(_ effect: Effect) { effect.reset() }
-        figure?.effects?.visit(reset)
     }
     
     // ========================================

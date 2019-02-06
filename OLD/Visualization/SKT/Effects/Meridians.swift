@@ -15,6 +15,10 @@ import OpenGL
 #endif
 
 class Meridians : GLKBaseEffect, Effect {
+    func teardown() {
+        
+    }
+    
     
     var debugEnabled = false
     func debug(_ mtd: String, _ msg: String = "") {

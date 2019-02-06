@@ -23,6 +23,7 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 
 class SK2_PFColorSource : ColorSource {
     
+    
     var name: String = "Population"
     var info: String? = nil
     var description: String { return nameAndInfo(self) }
@@ -39,13 +40,20 @@ class SK2_PFColorSource : ColorSource {
         self.flow = flow
         self.colorMap = colorMap
         self.wCurr = []
+        flowMonitor = flow.monitorChanges(flowChanged)
     }
     
-    func calibrate() -> Bool {
-        return colorMap.calibrate(flow.wBounds)
+    func teardown() {
+        // TODO
     }
     
-    func prepare() -> Bool {
+    func calibrate() {
+        if (colorMap.calibrate(flow.wBounds)) {
+            fireChange()
+        }
+    }
+    
+    func prepare(_ nodeCount: Int) -> Bool {
         debug("prepare", "getting flow.wCurr")
         self.wCurr = flow.wCurr
         return true
@@ -55,10 +63,25 @@ class SK2_PFColorSource : ColorSource {
         return colorMap.getColor((nodeIndex < wCurr.count) ? wCurr[nodeIndex] : 0)
     }
     
-    func monitorChanges(_ callback: @escaping (Any) -> ()) -> ChangeMonitor? {
-        // We need this so that effects will recompute colors when the flow changes
-        return flow.monitorChanges(callback)
+    private var flowMonitor: ChangeMonitor? = nil
+    
+    private func flowChanged(_ sender: Any?) {
+        fireChange()
     }
     
+    // ==========================================
+    // Change monitoring
     
+    private var changeSupport : ChangeMonitorSupport? = nil
+    
+    func monitorChanges(_ callback: @escaping (Any) -> ()) -> ChangeMonitor? {
+        if (changeSupport == nil) {
+            changeSupport = ChangeMonitorSupport()
+        }
+        return changeSupport!.monitorChanges(callback, self)
+    }
+    
+    func fireChange() {
+        changeSupport?.fire()
+    }
 }

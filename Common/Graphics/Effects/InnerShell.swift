@@ -14,23 +14,29 @@ import OpenGLES
 import OpenGL
 #endif
 
+// =================================================
+// Debugging
+
+fileprivate var debugEnabled = true
+
+fileprivate func debug(_ mtd: String, _ msg: String = "") {
+    if (debugEnabled) {
+        if (msg.isEmpty) {
+            print("InnerShell", mtd)
+        }
+        else {
+            print("InnerShell", mtd, ":", msg)
+
+        }
+    }
+}
+
 // ==============================================================
 // InnerShell
 // ==============================================================
 
 class InnerShell : GLKBaseEffect, Effect {
 
-    // =================================================
-    // Debugging
-    
-    let cls = "InnerShell"
-    var debugEnabled = false
-    func debug(_ mtd: String, _ msg: String = "") {
-        if (debugEnabled) {
-            print(cls, mtd, msg)
-        }
-    }
-    
     // ================================================
     // Basics
     
@@ -46,18 +52,17 @@ class InnerShell : GLKBaseEffect, Effect {
         set(newValue) {
             _enabled = newValue
             if (!_enabled) {
-                clean()
+                teardown()
             }
         }
     }
-
-    private let enabledDefault: Bool
     
+    private var built: Bool = false
+
     // EMPIRICAL multiplicative factor: inner shell radius = rFactor * figure radius
     static let rFactor: Double = 0.99
     
     private var r: Double
-    private var built: Bool = false
 
     // ====================================
     // GL stuff
@@ -89,33 +94,47 @@ class InnerShell : GLKBaseEffect, Effect {
 
     /// r0 = radius of the shell we're "background" of, not our own radius
     init(_ r0 : Double, _ color: GLKVector4, enabled: Bool) {
+        debug("init")
         self.r = r0 * InnerShell.rFactor
         self._enabled = enabled
-        self.enabledDefault = enabled
         
         super.init()
         super.useConstantColor = 1
         super.constantColor = color
     }
     
-    func clean() {
-        // TODO
+    deinit {
+        if (built) {
+            glDeleteVertexArrays(1, &vertexArray)
+            glDeleteBuffers(1, &vertexBuffer)
+            glDeleteBuffers(1, &indexBuffer)
+        }
     }
     
-    deinit {
-        glDeleteVertexArrays(1, &vertexArray)
-        glDeleteBuffers(1, &vertexBuffer)
-        glDeleteBuffers(1, &indexBuffer)
+    func teardown() {
+        if (built) {
+            debug("teardown")
+            // TODO
+            // ?? vertices = []
+            // ?? indices = []
+            // ?? glDeleteVertexArrays(1, &vertexArray)
+            // ?? glDeleteBuffers(1, &vertexBuffer)
+            // ?? glDeleteBuffers(1, &indexBuffer)
+            // built = false
+        }
     }
-
-    private func build() -> Bool {
+    
+    private func build() {
+        debug("build", "starting")
         glGenVertexArrays(1, &vertexArray)
         buildVertexData()
         createBuffers()
-        return true
+        built = true
+        debug("build", "done")
     }
     
     private func buildVertexData() {
+        debug("buildVertexData", "starting")
         
         vertices = []
         indices = []
@@ -173,9 +192,11 @@ class InnerShell : GLKBaseEffect, Effect {
                 indices.append(idx0)
             }
         }
+        debug("buildVertexData", "done. indices.count=\(indices.count) ")
     }
     
     private func createBuffers() {
+        debug("createBuffers", "starting")
         
         glBindVertexArray(vertexArray)
         
@@ -209,23 +230,7 @@ class InnerShell : GLKBaseEffect, Effect {
             debug(String(format: "createBuffers: glError 0x%x", err))
         }
         
-    }
-    
-    func reset() {
-        enabled = enabledDefault
-    }
-    
-    func calibrate() {
-        // TODO
-    }
-    
-    func prepareToShow() {
-        debug("prepareToShow")
-        // TODO
-    }
-    
-    func releaseOptionalResources() {
-        // TODO
+        debug("createBuffers", "done")
     }
     
     func draw() {
@@ -234,9 +239,9 @@ class InnerShell : GLKBaseEffect, Effect {
         }
 
         if (!built) {
-            built = build()
+            build()
         }
-        
+
         glBindVertexArray(vertexArray)
         prepareToDraw()
 
@@ -246,6 +251,7 @@ class InnerShell : GLKBaseEffect, Effect {
 
         glDrawElements(GLenum(GL_TRIANGLES), GLsizei(indices.count), GLenum(GL_UNSIGNED_INT), BUFFER_OFFSET(0))
         
+        // release the GL resources
         glBindVertexArray(0)
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), 0)
 

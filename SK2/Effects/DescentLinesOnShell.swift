@@ -37,12 +37,10 @@ class DescentLinesOnShell : GLKBaseEffect, Effect {
         set(newValue) {
             _enabled = newValue
             if (!_enabled) {
-                clean()
+                teardown()
             }
         }
     }
-
-    private let defaultEnabled: Bool
 
     // EMPIRICAL
     // additive constant
@@ -67,7 +65,6 @@ class DescentLinesOnShell : GLKBaseEffect, Effect {
         self.sk2 = sk2
         self.geometry = SK2_ShellGeometry(sk2, radius: radius)
         self._enabled = enabled
-        self.defaultEnabled = enabled
         self.rOffset = DescentLinesOnShell.rOffsetDefault
         super.init()
         super.useConstantColor = 1
@@ -79,8 +76,12 @@ class DescentLinesOnShell : GLKBaseEffect, Effect {
         a2_monitor = sk2.a2.monitorChanges(markForRebuild)
     }
     
-    func clean() {
-        // TODO
+    func teardown() {
+        if (built) {
+            debug("cleaning")
+            // TODO
+            // built = false
+        }
     }
     
     deinit {
@@ -94,10 +95,6 @@ class DescentLinesOnShell : GLKBaseEffect, Effect {
         a2_monitor?.disconnect()
     }
     
-    func releaseOptionalResources() {
-        // TODO
-    }
-        
     func markForRebuild(_ sender: Any) {
         self.rebuildNeeded = true
     }
@@ -120,7 +117,7 @@ class DescentLinesOnShell : GLKBaseEffect, Effect {
     }
     
     func rebuild() {
-        debug("rebuild", "entering")
+        debug("rebuild", "starting")
         
         buildVertices()
         
@@ -144,7 +141,7 @@ class DescentLinesOnShell : GLKBaseEffect, Effect {
     }
     
     private func buildVertices() {
-        debug("buildVertices", "entered")
+        debug("buildVertices", "starting")
         
         self.vertices = []
         
@@ -292,19 +289,6 @@ class DescentLinesOnShell : GLKBaseEffect, Effect {
     // ======================================================
     // draw
     // ======================================================
-    
-    func reset() {
-        enabled = defaultEnabled
-    }
-    
-    func calibrate() {
-        // TODO
-    }
-    
-    func prepareToShow() {
-        debug("prepareToShow")
-        // TODO
-    }
     
     func draw() {
         if (!enabled) {

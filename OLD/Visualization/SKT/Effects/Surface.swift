@@ -19,6 +19,10 @@ import OpenGL
 // ==============================================================
 
 class Surface : GLKBaseEffect, Effect {
+    func teardown() {
+        
+    }
+    
     
     var debugEnabled = false
     
@@ -203,7 +207,7 @@ class Surface : GLKBaseEffect, Effect {
         var colorsRecomputed = false
         let cs = colorSource!
         debug(mtd, "calling colorSource.prepare(). colorSource: \(cs.name)")
-        let colorSourceChanged = cs.prepare()
+        let colorSourceChanged = cs.prepare(colors.count)
         if (colorSourceChanged || colorsAreStale) {
             colorsAreStale = false
             debug(mtd, "recomputing colors. colorSource: \(cs.name)")

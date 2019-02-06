@@ -35,8 +35,8 @@ class GraphicsViewController: GLKViewController, AppModelUser, Graphics {
     // ============================================
     // AppModel etc
     
-    var appModel: AppModel? = nil
-    var context: GLContext? = nil
+    weak var appModel: AppModel!
+    var context: GLContext!
     
     var snapshot: UIImage {
         get { return (view as! GLKView).snapshot }

@@ -14,9 +14,19 @@ import OpenGLES
 import OpenGL
 #endif
 
+fileprivate var debugEnabled = false
+
+fileprivate func debug(_ mtd: String, _ msg: String = "") {
+    if (debugEnabled) {
+        print("Axes", mtd, msg)
+    }
+}
+
+// ====================================================================
+// Axes
+// ====================================================================
+
 class Axes : GLKBaseEffect, Effect {
-    
-    var debugEnabled = false
     
     static let key = "Axes"
     
@@ -29,12 +39,11 @@ class Axes : GLKBaseEffect, Effect {
         set(newValue) {
             _enabled = newValue
             if (!_enabled) {
-                clean()
+                teardown()
             }
         }
     }
 
-    private let enabledDefault: Bool
     private var built: Bool = false
     
     var projectionMatrix: GLKMatrix4 {
@@ -63,8 +72,14 @@ class Axes : GLKBaseEffect, Effect {
     private var vertexArray: GLuint = 0
     private var vertexBuffer: GLuint = 0
 
-    func clean() {
-        // TODO
+    func teardown() {
+        if (built) {
+            debug("cleaning")
+            // TODO
+            // ?? glDeleteVertexArrays(1, &vertexArray)
+            // ?? glDeleteBuffers(1, &vertexBuffer)
+            // built = false
+        }
     }
     
     deinit {
@@ -75,14 +90,14 @@ class Axes : GLKBaseEffect, Effect {
     }
   
     init(enabled: Bool) {
-        self.enabledDefault = enabled
         self._enabled = enabled
         super.init()
         // debug("init", "projectionMatrix: " + String(describing: super.transform.projectionMatrix))
     }
     
-    private func build() -> Bool {
-        
+    private func build() {
+        debug("building")
+
         super.useConstantColor = 1
         super.constantColor = GLKVector4Make(1.0, 1.0, 1.0, 1.0)
         
@@ -104,24 +119,7 @@ class Axes : GLKBaseEffect, Effect {
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), 0)
         glBindVertexArray(0)
 
-        return true
-    }
-    
-    func reset() {
-        enabled = enabledDefault
-    }
-    
-    func calibrate() {
-        // TODO
-    }
-    
-        func prepareToShow() {
-        debug("prepareToShow")
-        // TODO
-    }
-    
-    func releaseOptionalResources() {
-        // TODO
+        built = true
     }
     
     func draw() {
@@ -130,18 +128,19 @@ class Axes : GLKBaseEffect, Effect {
         }
         
         if (!built) {
-            debug("building")
-            built = build()
+            build()
         }
 
         // debug("draw", "projectionMatrix: " + String(describing: super.transform.projectionMatrix))
         // debug("draw", "modelviewMatrix: " + String(describing: super.transform.modelviewMatrix))
 
+        glLineWidth(8.0)
+
         glBindVertexArray(vertexArray);
         prepareToDraw()
-        glLineWidth(8.0)
         debug("drawing")
         glDrawArrays(GLenum(GL_LINE_STRIP), 0, GLsizei(vertices.count))
+        
         glLineWidth(1.0)
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), 0)
         glBindVertexArray(0)
@@ -152,9 +151,4 @@ class Axes : GLKBaseEffect, Effect {
         }
     }
     
-    private func debug(_ mtd: String, _ msg: String = "") {
-        if (debugEnabled) {
-            print(name, mtd, msg)
-        }
-    }
 }

@@ -14,36 +14,44 @@ import OpenGLES
 import OpenGL
 #endif
 
+fileprivate var debugEnabled = false
+
+fileprivate func debug(_ mtd: String, _ msg: String = "") {
+    if (debugEnabled) {
+        print("Balls", mtd, msg)
+    }
+}
+
+// ==============================================================
+// Balls
+// ==============================================================
+
 class Balls : Effect {
     
-    static let cls = "Balls"
-    var debugEnabled = false
-    func debug(_ mtd: String, _ msg: String = "") {
-        if (debugEnabled) {
-            print(Balls.cls, mtd, msg)
-        }
-    }
+    // ==========================================
+    // Basics
     
-
     static let key = "Balls"
     var name = "Balls"
     var info: String? = nil
     var description: String { return nameAndInfo(self) }
 
-    private var _enabled: Bool
-    
     var enabled: Bool {
         get { return _enabled }
         set(newValue) {
             _enabled = newValue
             if (!_enabled) {
-                clean()
+                teardown()
             }
         }
     }
 
-    private let enabledDefault: Bool
-
+    private var _enabled: Bool
+    private var built: Bool = false
+    
+    // ===============================================
+    // Constants
+    
     static let c0 = GLfloat(0.0)
     static let c1 = GLfloat(1.0 / sqrt(1.0 + Double.constants.goldenRatio * Double.constants.goldenRatio))
     static let c2 = GLfloat(Double.constants.goldenRatio / sqrt(1.0 + Double.constants.goldenRatio * Double.constants.goldenRatio))
@@ -92,10 +100,11 @@ class Balls : Effect {
     var vertexArray: GLuint = 0
     var vertexBuffer: GLuint = 0
     var colorBuffer: GLuint = 0
-    var built: Bool = false
+    
+    // ====================================================
+    // Initializer
     
     init(enabled: Bool) {
-        self.enabledDefault = enabled
         self._enabled = enabled
         
         let vv = Balls.vertices2
@@ -111,11 +120,8 @@ class Balls : Effect {
         }
     }
     
-    func clean() {
-        // TODO
-    }
-    
-    private func build() -> Bool {
+    private func build() {
+        debug("building")
         
         compile(vertexShader, fragmentShader)
         
@@ -157,26 +163,23 @@ class Balls : Effect {
             debug(String(format: "createBuffers: glError 0x%x", err))
         }
         
-        return true
+        built = true
+    }
+    
+    func teardown() {
+        if (built) {
+            debug("cleaning")
+            // TODO
+        }
     }
     
     deinit {
-        glDeleteProgram(programHandle)
-        glDeleteVertexArrays(1, &vertexArray)
-        glDeleteBuffers(1, &vertexBuffer)
-        glDeleteBuffers(1, &colorBuffer)
-    }
-    
-    func reset() {
-        enabled = enabledDefault
-    }
-    
-    func calibrate() {
-        // TODO
-    }
-    
-    func prepareToShow() {
-        // TODO
+        if (built) {
+            glDeleteProgram(programHandle)
+            glDeleteVertexArrays(1, &vertexArray)
+            glDeleteBuffers(1, &vertexBuffer)
+            glDeleteBuffers(1, &colorBuffer)
+        }
     }
     
     func prepareToDraw() {
@@ -187,17 +190,13 @@ class Balls : Effect {
         
     }
     
-    func releaseOptionalResources() {
-        // TODO
-    }
-    
     var drawCounter: Int = 0
     func draw() {
         if (!enabled) {
             return
         }
         if (!built) {
-            built = build()
+            build()
         }
         
         glBindVertexArray(vertexArray)
@@ -206,8 +205,8 @@ class Balls : Effect {
         drawCounter += 1
         debug("draw[\(drawCounter)]")
         glDrawArrays(GLenum(GL_POINTS), 0, GLsizei(vertices.count))
-        glBindVertexArray(0)
         
+        glBindVertexArray(0)
         let err = glGetError()
         if (err != 0) {
             debug(String(format: "draw glError: 0x%x", err))

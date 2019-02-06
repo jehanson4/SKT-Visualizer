@@ -14,8 +14,19 @@ import OpenGLES
 import OpenGL
 #endif
 
+fileprivate var debugEnabled = false
+
+fileprivate func debug(_ mtd: String, _ msg: String = "") {
+    if (debugEnabled) {
+        print("Icosahedron", mtd, msg)
+    }
+}
+
+// ===========================================================
+// Icosahedron
+// ===========================================================
+
 class Icosahedron : GLKBaseEffect, Effect {
-    var debugEnabled = false
     
     static let key = "Icosahedron"
     
@@ -23,18 +34,18 @@ class Icosahedron : GLKBaseEffect, Effect {
     var info: String? = nil
 
     private var _enabled: Bool
+    private var built: Bool = false
     
     var enabled: Bool {
         get { return _enabled }
         set(newValue) {
             _enabled = newValue
             if (!_enabled) {
-                clean()
+                teardown()
             }
         }
     }
 
-    private let enabledDefault: Bool
     
     var projectionMatrix: GLKMatrix4 {
         get { return transform.projectionMatrix }
@@ -127,15 +138,15 @@ class Icosahedron : GLKBaseEffect, Effect {
     var vertexBuffer: GLuint = 0
     var normalBuffer: GLuint = 0
     var indexBuffer: GLuint = 0
-    var built: Bool = false
 
     init(enabled: Bool) {
         self._enabled = enabled
-        self.enabledDefault = enabled
         super.init()
     }
     
-    private func build() -> Bool {
+    private func build() {
+        debug("building")
+        
         // material
         super.colorMaterialEnabled = GLboolean(GL_TRUE)
         // super.material.ambientColor = GLKVector4Make(0.0, 0.0, 0.0, 0.0)
@@ -198,58 +209,43 @@ class Icosahedron : GLKBaseEffect, Effect {
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), 0)
         glBindBuffer(GLenum(GL_ELEMENT_ARRAY_BUFFER), 0)
         
-        return true
+        built = true
     }
     
-    func clean() {
-        // TODO
+    func teardown() {
+        if (built) {
+            debug("cleaning")
+            // TODO
+            // built = false
+        }
     }
     
     deinit {
-        glDeleteVertexArrays(1, &vertexArray)
-        glDeleteBuffers(1, &vertexBuffer)
-        glDeleteBuffers(1, &normalBuffer)
-        glDeleteBuffers(1, &indexBuffer)
+        if (built) {
+            glDeleteVertexArrays(1, &vertexArray)
+            glDeleteBuffers(1, &vertexBuffer)
+            glDeleteBuffers(1, &normalBuffer)
+            glDeleteBuffers(1, &indexBuffer)
+        }
     }
   
-    func reset() {
-        enabled = enabledDefault
-    }
-    
-    func calibrate() {
-        // TODO
-    }
-    
-    func prepareToShow() {
-        debug("prepareToShow")
-        // TODO
-    }
-    
-    func releaseOptionalResources() {
-        // TODO
-    }
-    
     func draw() {
         if (!enabled) {
             return
         }
         if (!built) {
-            built = build()
+            build()
         }
+        
         glBindVertexArray(vertexArray)
         prepareToDraw()
         glDrawElements(GLenum(GL_TRIANGLES), GLsizei(indices.count), GLenum(GL_UNSIGNED_INT), BUFFER_OFFSET(0))
+        
         glBindVertexArray(0)
-
         let err = glGetError()
         if (err != 0) {
             debug(String(format: "draw glError: 0x%x", err))
         }
     }
 
-    func debug(_ mtd: String, _ msg: String = "") {
-        if (debugEnabled) {
-            print(name, mtd, msg)
-        }
-    }
 }

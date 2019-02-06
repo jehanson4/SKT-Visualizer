@@ -52,27 +52,27 @@ struct SK2_ShellPoint : DS2_Node {
 
 class SK2_ShellGeometry {
 
-    init(_ sk2: SK2_System, radius: Double = 1) {
-        self.sk2 = sk2
+    init(_ system: SK2_System, radius: Double = 1) {
+        self.system = system
         self.radius = radius
     }
     
-    let sk2: SK2_System
+    private weak var system: SK2_System!
     
     let radius: Double
     
     var p1: SK2_ShellPoint {
         let m: Int = 0
         let n: Int = 0
-        let nodeIndex = sk2.skToNodeIndex(m, n)
+        let nodeIndex = system.skToNodeIndex(m, n)
         let sph = skToSpherical(m, n)
         return SK2_ShellPoint(nodeIndex, m, n, r: sph.r, phi: sph.phi, thetaE: sph.thetaE)
     }
     
     var p2: SK2_ShellPoint {
         let m: Int = 0
-        let n: Int = sk2.k.value
-        let nodeIndex = sk2.skToNodeIndex(m, n)
+        let n: Int = system.k.value
+        let nodeIndex = system.skToNodeIndex(m, n)
         let sph = skToSpherical(m, n)
         return SK2_ShellPoint(nodeIndex, m, n, r: sph.r, phi: sph.phi, thetaE: sph.thetaE)
 
@@ -101,8 +101,8 @@ class SK2_ShellGeometry {
     }
     
     func skToTwoPoint(_ m: Int, _ n: Int) -> (s1: Double, s2: Double) {
-        let s1 = sk2.skNorm * Double(n + m)
-        let s2 = sk2.skNorm * Double(sk2._k + n - m)
+        let s1 = system.skNorm * Double(n + m)
+        let s2 = system.skNorm * Double(system._k + n - m)
         return (s1, s2)
     }
     
@@ -111,14 +111,14 @@ class SK2_ShellGeometry {
         var s1a = s1
         var s2a = s2
         
-        if (s1 + s2 < sk2.s0) {
-            let diff = 0.5 * (sk2.s0 - (s1+s2))
+        if (s1 + s2 < system.s0) {
+            let diff = 0.5 * (system.s0 - (s1+s2))
             s1a += diff
             s2a += diff
         }
         
-        if (s1 + s2 > sk2.s12_max) {
-            let diff = 0.5 * ((s1+s2) - sk2.s12_max)
+        if (s1 + s2 > system.s12_max) {
+            let diff = 0.5 * ((s1+s2) - system.s12_max)
             s1a -= diff
             s2a -= diff
         }
@@ -139,7 +139,7 @@ class SK2_ShellGeometry {
         var phi: Double
         var thetaE: Double
         let cos_s1 = cos(s1)
-        phi = atan( cos(s2) / (cos_s1 * sk2.sin_s0) - sk2.cot_s0 )
+        phi = atan( cos(s2) / (cos_s1 * system.sin_s0) - system.cot_s0 )
         
         //  atan(x) returns principal value, in [-pi/2, pi/2]
         //  Need to add pi if we're on the far side (s1 > pi/2)
@@ -189,7 +189,7 @@ class SK2_ShellGeometry {
         
         let cos_s1 = cos(s1)
         let cos_s2 = cos(s2)
-        phi = sk2.s0 - atan( cos_s1 / (cos_s2 * sk2.sin_s0) - sk2.cot_s0 )
+        phi = system.s0 - atan( cos_s1 / (cos_s2 * system.sin_s0) - system.cot_s0 )
         
         // atan(x) returns the principal branch, i.e., in [-pi_2, pi_2].
         // Need to add pi if we're on the far side (s2 > pi/2)
@@ -205,7 +205,7 @@ class SK2_ShellGeometry {
             phi -= twoPi
         }
         
-        var cos_phi2 = cos(sk2.s0 - phi)
+        var cos_phi2 = cos(system.s0 - phi)
         
         //  Avoid division by zero.
         if (cos_phi2 == 0) {
@@ -236,9 +236,9 @@ class SK2_ShellGeometry {
      in node index order defined by the given geometry.
      */
     func buildVertexCoordinateArray(rOffset: Double = 0) -> [GLfloat] {
-        let mMax = sk2.m_max
-        let nMax = sk2.n_max
-        var vertexCoords: [GLfloat] = Array(repeating: 0, count: 3 * sk2.nodeCount)
+        let mMax = system.m_max
+        let nMax = system.n_max
+        var vertexCoords: [GLfloat] = Array(repeating: 0, count: 3 * system.nodeCount)
         var nextVertex: Int = 0
         
         // HACK HACK HACK HACK retrofit optional rOffset
@@ -270,8 +270,8 @@ class SK2_ShellGeometry {
     }
     
     func buildVertexArray4() -> [GLKVector4] {
-        let mMax = sk2.m_max
-        let nMax = sk2.n_max
+        let mMax = system.m_max
+        let nMax = system.n_max
         var vertices: [GLKVector4] = []
         for m in 0...mMax {
             for n in 0...nMax {
@@ -286,16 +286,16 @@ class SK2_ShellGeometry {
     // Other stuff
     
     var neighborDistance : Double {
-        let m_middle = sk2.m_max/2
-        let n_middle = sk2.n_max/2
+        let m_middle = system.m_max/2
+        let n_middle = system.n_max/2
         
         var m_distance: Double = 1
-        if (m_middle < sk2.m_max) {
+        if (m_middle < system.m_max) {
             m_distance = Geometry.distance(skToCartesian(m_middle, n_middle), skToCartesian(m_middle+1, n_middle))
         }
         
         var n_distance: Double = 1
-        if (n_middle < sk2.n_max) {
+        if (n_middle < system.n_max) {
             n_distance = Geometry.distance(skToCartesian(m_middle, n_middle), skToCartesian(m_middle, n_middle+1))
         }
         

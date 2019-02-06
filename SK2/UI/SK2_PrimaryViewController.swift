@@ -25,7 +25,7 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     // ===========================================
     // Basics
     
-    var appModel: AppModel? = nil
+    weak var appModel: AppModel!
     weak var appPart: AppPart!
     weak var system: SK2_System!
     
@@ -182,11 +182,15 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
         
         if (isOn) {
             debug("toggleAutocalibration", "Autocalibration is on")
-            // TODO update button
+            if (autocalibrateButton != nil) {
+                autocalibrateButton!.setTitle("Autocalibrate ON", for: .normal)
+            }
         }
         else {
             debug("toggleAutocalibration", "Autocalibration is off")
-            // TODO update button
+            if (autocalibrateButton != nil) {
+                autocalibrateButton!.setTitle("Autocalibrate OFF", for: .normal)
+            }
         }
     }
     
@@ -240,6 +244,7 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
         
         let param = system.parameters.entry(index: (sender.tag-1))?.value
         if (param != nil) {
+            debug("param_step", "applying value. param=\(String(describing: param?.name)) value=\(sender.value)")
             param!.applyValue(sender.value)
         }
     }

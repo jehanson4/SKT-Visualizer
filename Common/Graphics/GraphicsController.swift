@@ -56,13 +56,13 @@ class GraphicsControllerV1: GraphicsController {
     var figure: Figure? {
         get { return _figure }
         set(newValue) {
-            // MAYBE old figure 'withdraw' or something
-            // DEFER until we need it.
+            let oldFigure = _figure
             _figure = newValue
             if (_figure != nil) {
                 debug("installing figure \(_figure!.name)")
-                _figure!.prepareToShow()
+                _figure!.aboutToShowFigure()
             }
+            oldFigure?.figureHasBeenHidden()
         }
         
     }

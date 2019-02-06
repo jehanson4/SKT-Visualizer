@@ -19,10 +19,7 @@ class BasinColorSource : ColorSource {
     var name: String = "Basins"
     var info: String? = nil
     var description: String { return nameAndInfo(self) }
-
-    var backingModel: AnyObject? { return basinFinder.backingModel }
     
-
     private let basinFinder: BasinFinder
 
     private var unclassified_color: GLKVector4 // gray
@@ -52,12 +49,15 @@ class BasinColorSource : ColorSource {
         }
     }
 
-    func calibrate() -> Bool {
+    func teardown() {
         // TODO
-        return false
     }
     
-    func prepare() -> Bool {
+    func calibrate() {
+        // TODO
+    }
+    
+    func prepare(_ nodeCount: Int) -> Bool {
         var changed = false
         let newWashoutNorm = washoutFudgeFactor / GLfloat(basinFinder.expectedMaxDistanceToAttractor)
         if (newWashoutNorm != self.washoutNorm) {

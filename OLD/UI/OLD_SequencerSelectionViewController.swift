@@ -19,7 +19,7 @@ class OLD_SequencerSelectionViewController: UITableViewController, AppModelUser 
         }
     }
     
-    var appModel: AppModel?
+    weak var appModel: AppModel!
     private weak var registry: RegistryWithSelection<OLD_Sequencer>!
     
     override func viewDidLoad() {

@@ -96,7 +96,7 @@ class AnimationController {
             return
         }
         if (seq.direction == Direction.stopped) {
-            debug(mtd, "sequencer is stuck")
+            // debug(mtd, "Sequencer is stopped")
             return
         }
         

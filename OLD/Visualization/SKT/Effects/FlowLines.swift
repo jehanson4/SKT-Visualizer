@@ -14,6 +14,10 @@ import GLKit
 // ============================================================================
 
 class FlowLines : GLKBaseEffect, Effect {
+    func teardown() {
+        
+    }
+    
     
     var debugEnabled = false
     

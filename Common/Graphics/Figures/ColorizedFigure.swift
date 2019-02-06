@@ -21,14 +21,19 @@ class ColorizedFigure: DelegatedFigure {
     
     var colorSource: ColorSource
     
-    override func prepareToShow() {
+    override func aboutToShowFigure() {
         func installColorSource(_ effect: inout Effect) {
-            if effect is ColorizedEffect {
-                var colorizedEffect = effect as! ColorizedEffect
+            if effect is Colorized {
+                var colorizedEffect = effect as! Colorized
                 colorizedEffect.colorSource = colorSource
             }
         }
         effects!.apply(installColorSource)
-        super.prepareToShow()
+        super.aboutToShowFigure()
+    }
+    
+    override func calibrate() {
+        colorSource.calibrate()
+        super.calibrate()
     }
 }
