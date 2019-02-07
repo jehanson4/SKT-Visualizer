@@ -75,6 +75,14 @@ class DummySequencer: OLD_Sequencer {
     
     var progress: Double = 0
     
+    func aboutToInstallSequencer() {
+        // NOP
+    }
+    
+    func sequencerHasBeenUninstalled() {
+        // NOP
+    }
+    
     func reset() { }
     
     func toString(_ x: Double) -> String {

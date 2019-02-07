@@ -48,6 +48,14 @@ class ParameterSweep: Sequencer {
         self._stepSize = param.stepSizeAsDouble
     }
     
+    func aboutToInstallSequencer() {
+        // NOP
+    }
+    
+    func sequencerHasBeenUninstalled() {
+        // NOP
+    }
+    
     // ================================================
     // Numeric properties
     

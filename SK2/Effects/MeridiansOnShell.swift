@@ -77,7 +77,7 @@ class MeridiansOnShell:  GLKBaseEffect, Effect {
     
     private var _showSecondaries: Bool = true
     
-    private var sk2: SK2_System
+    private var system: SK2_System
     private var geometry: SK2_ShellGeometry
     private var N_monitor: ChangeMonitor? = nil
     private var k_monitor: ChangeMonitor? = nil
@@ -92,7 +92,7 @@ class MeridiansOnShell:  GLKBaseEffect, Effect {
     private var vertexBuffer: GLuint = 0
     
     init(_ sk2: SK2_System, enabled: Bool, radius: Double = 1) {
-        self.sk2 = sk2
+        self.system = sk2
         self.geometry = SK2_ShellGeometry(sk2, radius: radius)
         self._enabled = enabled
         self.rOffset = MeridiansOnShell.rOffsetDefault

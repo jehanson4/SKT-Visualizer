@@ -450,7 +450,7 @@ class VisualizationModel1 : VisualizationModel, Figure {
             debug(mtd, "So sequencer is selected")
             return
         }
-        var seq = sequencer!
+        let seq = sequencer!
         
         debug(mtd, "before: enabled=\(seq.enabled) direction=\(Direction.name(seq.direction))")
         if (seq.enabled) {
@@ -472,7 +472,7 @@ class VisualizationModel1 : VisualizationModel, Figure {
             return
         }
         
-        var seq = sequencer!
+        let seq = sequencer!
         if (!seq.enabled) {
             // debug(mtd, "Sequencer is not enabled")
             return

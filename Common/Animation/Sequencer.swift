@@ -22,7 +22,7 @@ enum Direction: Int {
     }
 }
 
-private let directionNames = ["forward", "reverse", "periodic"]
+private let directionNames = ["forward", "reverse", "stopped"]
 
 // ==============================================================================
 // BoundaryCondition
@@ -45,7 +45,7 @@ private let boundaryConditionNames = ["sticky", "elastic", "periodic"]
 // =============================================================================
 
 // TODO can I get away with NOT requiring all sequencers to have PreferenceSupport?
-protocol Sequencer : Named, ChangeMonitorEnabled {
+protocol Sequencer : AnyObject, Named, ChangeMonitorEnabled {
     
     var busy: Bool { get }
     
@@ -80,6 +80,10 @@ protocol Sequencer : Named, ChangeMonitorEnabled {
     
     /// a fraction of the inverval between the bounds
     var normalizedProgress: Double { get}
+    
+    func aboutToInstallSequencer()
+    
+    func sequencerHasBeenUninstalled()
     
     func reset()
     

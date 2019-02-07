@@ -43,7 +43,7 @@ class AnimationController {
         }
     }
     
-    private var _sequencer: Sequencer? = nil
+    private weak var _sequencer: Sequencer? = nil
     
     // ========================================
     // Step rate
@@ -69,7 +69,7 @@ class AnimationController {
             debug(mtd, "sequencer is nil")
             return
         }
-        var seq = _sequencer!
+        let seq = _sequencer!
         
         debug(mtd, "before: enabled=\(seq.enabled) direction=\(Direction.name(seq.direction))")
         if (seq.enabled) {
@@ -90,7 +90,7 @@ class AnimationController {
             return
         }
         
-        var seq = _sequencer!
+        let seq = _sequencer!
         if (!seq.enabled) {
             // debug(mtd, "Sequencer is not enabled")
             return

@@ -13,11 +13,10 @@ fileprivate var debugEnabled = false
 fileprivate func debug(_ mtd: String, _ msg: String = "") {
     if (debugEnabled) {
         if (Thread.current.isMainThread) {
-            print("SK2_PopulationFlow", "[main]", mtd, msg)
+            print("SK2_PFDynamic", "[main]", mtd, msg)
         }
         else {
-            print("SK2_PopulationFlow", "[????]", mtd, msg)
-            
+            print("SK2_PFDynamic", "[????]", mtd, msg)
         }
     }
 }
@@ -26,10 +25,30 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 // SK2_PopulationFlow
 // ========================================================
 
-class SK2_PopulationFlow : ChangeMonitorEnabled {
+class SK2_PopulationFlow : DiscreteTimeDynamic, ChangeMonitorEnabled {
     
+    // ==========================================
+    // Basics
     
+    private var _stepCount : Int = 0
+    private var _isSteadyState: Bool = false
+    private var _busy: Bool = false
+    
+    var stepCount: Int {
+        return _stepCount
+    }
+    
+    var hasNextStep: Bool {
+        return !_isSteadyState
+    }
+    
+    var busy: Bool {
+        return _busy
+    }
+    
+    // ==========================================
     // Array of population 'weights' at nodes
+    
     var wCurr: [Double] {
         get {
             // sync() returns before sync actually happens, so this
@@ -58,23 +77,12 @@ class SK2_PopulationFlow : ChangeMonitorEnabled {
         }
     }
     
-    var stepNumber: Int {
-        return _stepNumber
-    }
-    
-    var isSteadyState: Bool {
-        return _isSteadyState
-    }
-    
     weak var system: SK2_System!
     private var workingData: SK2_PFModel
-    private var _busy: Bool = false
     
     private var _wCurr: [Double]
     private var _wBounds: (min: Double, max: Double)? = nil
     private var _wTotal: Double? = nil
-    private var _stepNumber : Int = 0
-    private var _isSteadyState: Bool = false
     
     private var bgTaskCounter: Int = 0
     
@@ -116,10 +124,31 @@ class SK2_PopulationFlow : ChangeMonitorEnabled {
         }
         debug("sync", "done")
     }
-    
-    func changeRule(_ rule: SK2_PFRule) {
+
+    func replaceInitializer(_ ic: SK2_PFInitializer) {
         // DO NOT abort if _busy
-        debug("changeRule", "entering")
+        debug("replaceInitializer", "starting")
+        let liveParams = SK2_Descriptor(self.system)
+        self.system.workQueue.async {
+            self.workingData.ic = ic
+            var populationChanged = self.workingData.setModelParams(liveParams)
+            if (!populationChanged) {
+                populationChanged = self.workingData.reset()
+            }
+            let modelParams = self.workingData.modelParams
+            let stepNumber = self.workingData.stepNumber
+            let wCurr = (populationChanged) ? self.workingData.exportWCurr() : nil
+            DispatchQueue.main.sync {
+                self.updateLiveData(modelParams, stepNumber, !populationChanged, wCurr)
+            }
+        }
+        debug("replaceInitializer", "done")
+    }
+    
+
+    func replaceRule(_ rule: SK2_PFRule) {
+        // DO NOT abort if _busy
+        debug("replaceRule", "starting")
         let liveParams = SK2_Descriptor(self.system)
         self.system.workQueue.async {
             self.workingData.rule = rule
@@ -134,12 +163,12 @@ class SK2_PopulationFlow : ChangeMonitorEnabled {
                 self.updateLiveData(modelParams, stepNumber, !populationChanged, wCurr)
             }
         }
-        debug("changeRule", "done")
+        debug("replaceRule", "done")
     }
     
-    func reset() {
+    func reset() -> Bool {
         // DO NOT abort if _busy
-        debug("reset", "entering")
+        debug("reset", "starting")
         let liveParams = SK2_Descriptor(self.system)
         self.system.workQueue.async {
             var populationChanged = self.workingData.setModelParams(liveParams)
@@ -154,11 +183,26 @@ class SK2_PopulationFlow : ChangeMonitorEnabled {
             }
         }
         debug("reset", "done")
+        return true
     }
     
-    func step() {
+    func step(_ n: Int) -> Int {
+        var stepsTaken: Int = 0
+        while (step()) {
+            stepsTaken += 1
+        }
+        return stepsTaken
+    }
+    
+    func step() -> Bool {
         // DO NOT abort if _busy
-        debug("step", "entering")
+        debug("step", "starting")
+
+        if (_isSteadyState) {
+            debug("step", "returning early because population has reached a steady state")
+            return false
+        }
+        
         let liveParams = SK2_Descriptor(self.system)
         self.system.workQueue.async {
             let tt = self.bgTaskCounter
@@ -178,17 +222,18 @@ class SK2_PopulationFlow : ChangeMonitorEnabled {
             }
         }
         debug("step", "done")
+        return true
     }
     
     private func updateLiveData(_ modelParams: SK2_Descriptor, _ stepNumber: Int, _ isSteadyState: Bool, _ wCurr: [Double]?) {
-        debug("updateLiveData", "entering")
+        debug("updateLiveData", "starting")
         
         if (!modelParams.matches(self.system)) {
             debug("updateLiveData", "modelParams are stale, so discarding them")
             return
         }
         
-        self._stepNumber = stepNumber
+        self._stepCount = stepNumber
         self._isSteadyState = isSteadyState
         if (wCurr != nil) {
             self._wCurr = wCurr!
@@ -197,7 +242,7 @@ class SK2_PopulationFlow : ChangeMonitorEnabled {
         }
         debug("updateLiveData", "firing change")
         self.fireChange()
-        debug("updateLiveData", "exiting")
+        debug("updateLiveData", "done")
     }
     
     private func updateDerivedVars() {
@@ -229,7 +274,7 @@ class SK2_PopulationFlow : ChangeMonitorEnabled {
     }
     
     private func fireChange() {
-        debug("fireChange", "entering")
+        debug("fireChange", "starting")
         changeSupport.fire()
         debug("fireChange", "done")
     }

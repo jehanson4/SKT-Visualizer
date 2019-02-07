@@ -23,6 +23,14 @@ class GenericSequencer<T> : OLD_Sequencer {
     var stepSizeMax: Double = 1
     var stepSizeIncrement: Double = 0.1
     
+    func aboutToInstallSequencer() {
+        // NOP
+    }
+    
+    func sequencerHasBeenUninstalled() {
+        // NOP
+    }
+    
     func contributeTo(userDefaults: inout UserDefaults, namespace: String) {
         // TODO
     }

@@ -382,6 +382,8 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     // ===========================================
     // Animation: Sequencer
 
+    weak var sequencer: Sequencer? = nil
+    
     @IBOutlet weak var sequencerSelectorButton: UIButton!
     
     var sequencerSelectionMonitor: ChangeMonitor? = nil
@@ -409,8 +411,15 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
             sequencerSelectorButton.setTitle(title, for: .normal)
         }
         
-        let sequencer = sequencerSelector.selection?.value
-        if (sequencer == nil) {
+        let oldSequencer = self.sequencer
+        let newSequencer = sequencerSelector.selection?.value
+        newSequencer?.aboutToInstallSequencer()
+        self.sequencer = newSequencer
+        if (oldSequencer != nil) {
+            oldSequencer!.sequencerHasBeenUninstalled()
+        }
+        
+        if (self.sequencer == nil) {
             
             lbText?.text = ""
             lbText?.isEnabled = false
@@ -429,7 +438,6 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
         }
         else {
             let seq = sequencer!
-            
             lbText?.isEnabled = true
             
             lbStepper?.isEnabled = true
@@ -485,7 +493,6 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     @IBOutlet weak var deltaStepper: UIStepper!
     
     @IBAction func lbTextEdited(_ sender: UITextField) {
-        var sequencer = appPart?.sequencerSelector.selection?.value
         let v2 = parseDouble(sender.text)
         if (sequencer != nil && v2 != nil) {
             sequencer!.lowerBound = v2!
@@ -494,13 +501,12 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     }
 
     @IBAction func lbStep(_ sender: UIStepper) {
-        var sequencer = appPart?.sequencerSelector.selection?.value
         sequencer?.lowerBound = sender.value
         lb_update()
     }
     
     func lb_update() {
-        let lb = appPart?.sequencerSelector.selection?.value.lowerBound
+        let lb = sequencer?.lowerBound
         if (lb == nil) {
             lbText?.text = ""
             lbStepper?.value = 0
@@ -512,7 +518,6 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     }
     
     @IBAction func ubTextEdited(_ sender: UITextField) {
-        var sequencer = appPart?.sequencerSelector.selection?.value
         let v2 = parseDouble(sender.text)
         if (sequencer != nil && v2 != nil) {
             debug("ubTextEdited", "v2=\(String(describing: v2))")
@@ -522,13 +527,12 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     }
     
     @IBAction func ubStep(_ sender: UIStepper) {
-        var sequencer = appPart?.sequencerSelector.selection?.value
         sequencer?.upperBound = sender.value
         ub_update()
     }
     
     func ub_update() {
-        let ub = appPart?.sequencerSelector.selection?.value.upperBound
+        let ub = sequencer?.upperBound
         if (ub == nil) {
             ubText?.text = ""
             ubStepper?.value = 0
@@ -541,7 +545,6 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     }
     
     @IBAction func deltaTextEdited(_ sender: UITextField) {
-        var sequencer = appPart?.sequencerSelector.selection?.value
         let v2 = parseDouble(sender.text)
         if (sequencer != nil && v2 != nil) {
                 sequencer!.stepSize = v2!
@@ -550,13 +553,12 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     }
     
     @IBAction func deltaStep(_ sender: UIStepper) {
-        var sequencer = appPart?.sequencerSelector.selection?.value
         sequencer?.stepSize = sender.value
         delta_update()
     }
 
     func delta_update() {
-        let delta = appPart?.sequencerSelector.selection?.value.stepSize
+        let delta = sequencer?.stepSize
         if (delta == nil) {
             deltaText?.text = ""
             deltaStepper?.value = 0
@@ -574,7 +576,6 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     
     @IBAction func bcSelected(_ sender: UISegmentedControl) {
         // debug("bcSelected", "selectedSegmentIndex=" + String(sender.selectedSegmentIndex))
-        var sequencer = appPart?.sequencerSelector.selection?.value
         if (sequencer != nil) {
             let newBC = BoundaryCondition(rawValue: sender.selectedSegmentIndex)
             if (newBC != nil) {
@@ -585,7 +586,6 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     }
     
     func bc_update() {
-        let sequencer = appPart?.sequencerSelector.selection?.value
         bcSelector?.selectedSegmentIndex = sequencer?.boundaryCondition.rawValue ?? -1
     }
     
@@ -603,7 +603,6 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     @IBOutlet weak var playerSelector: UISegmentedControl!
     
     @IBAction func playerSelected(_ sender: UISegmentedControl) {
-        var sequencer = appPart?.sequencerSelector.selection?.value
         let playerState = getPlayerState(sender.selectedSegmentIndex)
         if (sequencer != nil && playerState != nil) {
             setPlayerState(&sequencer!, playerState!)
@@ -614,7 +613,6 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     @IBOutlet weak var progressSlider: UISlider!
     
     @IBAction func progressSliderAction(_ sender: UISlider) {
-        let sequencer = appPart?.sequencerSelector.selection?.value
         sequencer?.jumpTo(normalizedProgress: Double(sender.value))
         player_update(sequencer)
     }
@@ -623,7 +621,6 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     
     func player_update(_ sender: Any?) {
         debug("player_update")
-        let sequencer = sender as? Sequencer
         if (sequencer == nil) {
             playerSelector.isEnabled = false
             playerSelector.selectedSegmentIndex = -1
@@ -696,6 +693,4 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
             }
         }
     }
-    
-    
 }

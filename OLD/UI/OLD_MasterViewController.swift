@@ -463,7 +463,7 @@ class OLD_MasterViewController: UIViewController, UITextFieldDelegate, AppModelU
             updateSequencerPropertyControls(nil)
         }
         else {
-            var seq = selection!.value
+            let seq = selection!.value
             seq.reset()
             seq.enabled = false
             seq.direction = Direction.stopped
@@ -521,7 +521,7 @@ class OLD_MasterViewController: UIViewController, UITextFieldDelegate, AppModelU
     @IBOutlet weak var ub_text: UITextField!
     
     @IBAction func ub_action(_ sender: UITextField) {
-        var sequencer = old_AppModel?.viz.sequencers.selection?.value
+        let sequencer = old_AppModel?.viz.sequencers.selection?.value
         if (sequencer != nil) {
             if (sender.text != nil) {
                 let v2 = sequencer!.fromString(sender.text!)
@@ -535,7 +535,7 @@ class OLD_MasterViewController: UIViewController, UITextFieldDelegate, AppModelU
     @IBOutlet weak var ub_stepper: UIStepper!
     
     @IBAction func ub_stepperAction(_ sender: UIStepper) {
-        var sequencer = old_AppModel?.viz.sequencers.selection?.value
+        let sequencer = old_AppModel?.viz.sequencers.selection?.value
         if (sequencer != nil) {
             sequencer!.upperBound = sender.value
         }
@@ -544,7 +544,7 @@ class OLD_MasterViewController: UIViewController, UITextFieldDelegate, AppModelU
     @IBOutlet weak var lb_text: UITextField!
     
     @IBAction func lb_action(_ sender: UITextField) {
-        var sequencer = old_AppModel?.viz.sequencers.selection?.value
+        let sequencer = old_AppModel?.viz.sequencers.selection?.value
         if (sequencer != nil) {
             if (sender.text != nil) {
                 let v2 = sequencer!.fromString(sender.text!)
@@ -558,7 +558,7 @@ class OLD_MasterViewController: UIViewController, UITextFieldDelegate, AppModelU
     @IBOutlet weak var lb_stepper: UIStepper!
     
     @IBAction func lb_stepperAction(_ sender: UIStepper) {
-        var sequencer = old_AppModel?.viz.sequencers.selection?.value
+        let sequencer = old_AppModel?.viz.sequencers.selection?.value
         if (sequencer != nil) {
             sequencer!.lowerBound = sender.value
         }
@@ -567,7 +567,7 @@ class OLD_MasterViewController: UIViewController, UITextFieldDelegate, AppModelU
     @IBOutlet weak var stepSize_text: UITextField!
     
     @IBAction func stepSize_action(_ sender: UITextField) {
-        var sequencer = old_AppModel?.viz.sequencers.selection?.value
+        let sequencer = old_AppModel?.viz.sequencers.selection?.value
         if (sequencer != nil) {
             if (sender.text != nil) {
                 let v2 = sequencer!.fromString(sender.text!)
@@ -581,7 +581,7 @@ class OLD_MasterViewController: UIViewController, UITextFieldDelegate, AppModelU
     @IBOutlet weak var stepSize_stepper: UIStepper!
     
     @IBAction func stepSize_stepperAction(_ sender: UIStepper) {
-        var sequencer = old_AppModel?.viz.sequencers.selection?.value
+        let sequencer = old_AppModel?.viz.sequencers.selection?.value
         if (sequencer != nil) {
             sequencer!.stepSize = sender.value
         }
@@ -591,7 +591,7 @@ class OLD_MasterViewController: UIViewController, UITextFieldDelegate, AppModelU
     
     @IBAction func bc_action(_ sender: UISegmentedControl) {
         // debug("bc_action", "selectedSegmentIndex=" + String(sender.selectedSegmentIndex))
-        var sequencer = old_AppModel?.viz.sequencers.selection?.value
+        let sequencer = old_AppModel?.viz.sequencers.selection?.value
         if (sequencer != nil) {
             let newBC = BoundaryCondition(rawValue: sender.selectedSegmentIndex)
             if (newBC != nil) {

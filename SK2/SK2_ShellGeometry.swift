@@ -70,8 +70,8 @@ class SK2_ShellGeometry {
     }
     
     var p2: SK2_ShellPoint {
-        let m: Int = 0
-        let n: Int = system.k.value
+        let m: Int = system.k.value
+        let n: Int = 0
         let nodeIndex = system.skToNodeIndex(m, n)
         let sph = skToSpherical(m, n)
         return SK2_ShellPoint(nodeIndex, m, n, r: sph.r, phi: sph.phi, thetaE: sph.thetaE)
