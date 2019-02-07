@@ -514,7 +514,7 @@ class OLD_MasterViewController: UIViewController, UITextFieldDelegate, AppModelU
     @IBAction func sequencerProgressAction(_ sender: UISlider) {
         let sequencer = old_AppModel?.viz.sequencers.selection?.value
         if (sequencer != nil) {
-            sequencer!.jumpToProgress(Double(sender.value))
+            sequencer!.jumpTo(normalizedProgress: Double(sender.value))
         }
     }
     

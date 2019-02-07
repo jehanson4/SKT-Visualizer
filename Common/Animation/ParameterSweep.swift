@@ -8,24 +8,19 @@
 
 import Foundation
 
+fileprivate let debugEnabled = true
+
+fileprivate func debug(_ mtd: String, _ msg: String = "") {
+    if (debugEnabled) {
+        print("ParameterSweep", mtd, ":", msg)
+    }
+}
+
 // ===============================================================
 // ParameterSweep
 // ===============================================================
 
 class ParameterSweep: Sequencer {
-    
-    // ========================================
-    // Debugging
-    
-    private let cls = "ParameterSweep"
-    
-    let debugEnabled = true
-    
-    private func debug(_ mtd: String, _ msg: String = "") {
-        if (debugEnabled) {
-            print(cls, mtd, ":", msg)
-        }
-    }
     
     // ========================================
     // Basics
@@ -40,6 +35,8 @@ class ParameterSweep: Sequencer {
     var busy: Bool {
         return system.busy
     }
+    
+    let reversible: Bool = true
     
     init(_ param: Parameter, _ system: PhysicalSystem) {
         self.name = "Sweep over " + param.name
@@ -113,6 +110,10 @@ class ParameterSweep: Sequencer {
     }
     
     var progress: Double {
+        return param.valueAsDouble
+    }
+
+    var normalizedProgress: Double {
         return (param.valueAsDouble - _lowerBound) / (_upperBound - _lowerBound)
     }
     
@@ -191,11 +192,10 @@ class ParameterSweep: Sequencer {
         }
     }
     
-    func jumpToProgress(_ progress: Double) {
+    func jumpTo(normalizedProgress p: Double) {
         // Make the new progress consistent with stepSize
-        let p = clip(progress, 0, 1)
-        let nextVal = _stepSize * floor(p * (_upperBound - _lowerBound) / _stepSize) + _lowerBound
         let prevVal = param.valueAsDouble
+        let nextVal = _stepSize * floor(p * (_upperBound - _lowerBound) / _stepSize) + _lowerBound
         param.applyValue(nextVal)
         if (param.valueAsDouble != prevVal) {
             fireChange()

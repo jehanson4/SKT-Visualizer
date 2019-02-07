@@ -543,6 +543,9 @@
                                                                 <accessibility key="accessibilityConfiguration">
                                                                     <accessibilityTraits key="traits" updatesFrequently="YES"/>
                                                                 </accessibility>
+                                                                <connections>
+                                                                    <action selector="progressSliderAction:" destination="1Ul-i5-KtM" eventType="valueChanged" id="C8F-KZ-sek"/>
+                                                                </connections>
                                                             </slider>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="---" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vbo-sS-CDZ" userLabel="Progress Label">
                                                                 <rect key="frame" x="247" y="0.0" width="64" height="53"/>
@@ -623,7 +626,8 @@
                         <outlet property="param5_stepper" destination="71N-AQ-KgN" id="SMY-QO-Odv"/>
                         <outlet property="param5_text" destination="iQo-YS-LVq" id="biw-rW-wqV"/>
                         <outlet property="playerSelector" destination="o7I-x5-9yq" id="MMo-zl-Ton"/>
-                        <outlet property="progressLabel" destination="vbo-sS-CDZ" id="Urb-un-DhD"/>
+                        <outlet property="progressLabel" destination="vbo-sS-CDZ" id="N24-xP-yVJ"/>
+                        <outlet property="progressSlider" destination="YyL-vR-Olk" id="iFT-7b-6sQ"/>
                         <outlet property="sequencerSelectorButton" destination="flB-OF-ZXE" id="Kwk-ei-DPZ"/>
                         <outlet property="ubStepper" destination="H4o-Kq-Fql" id="GLm-g7-MHR"/>
                         <outlet property="ubText" destination="E5Z-e2-lrs" id="KwH-Be-cQJ"/>

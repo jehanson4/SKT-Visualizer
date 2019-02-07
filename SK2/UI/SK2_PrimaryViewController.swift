@@ -58,7 +58,6 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
             figureSelector_setup()
             modelParams_setup()
             sequencer_setup()
-            player_setup()
         }
     }
     
@@ -100,7 +99,6 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
         figureSelector_teardown()
         modelParams_teardown()
         sequencer_teardown()
-        player_teardown()
 
         super.viewWillDisappear(animated)
     }
@@ -116,7 +114,6 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
         figureSelector_setup()
         modelParams_setup()
         sequencer_setup()
-        player_setup()
     }
     
     // ===========================================
@@ -132,14 +129,15 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
         UIUtils.addBorder(figureSelectorButton)
         let figureSelector = appPart.figureSelector
         figureSelector_update(figureSelector)
-        figureSelectionMonitor = figureSelector.monitorChanges(figureSelector_update);
+        figureSelectionMonitor = figureSelector.monitorChanges(figureSelector_update)
     }
     
+    /// called when selected figure changes
     func figureSelector_update(_ sender: Any?) {
         debug("figureSelector_update")
         let figureSelector = appPart.figureSelector
         if (figureSelectorButton != nil) {
-            let title = figureSelector.selection?.name ?? "(choose a figure)"
+            let title = figureSelector.selection?.name ?? "(choose)"
             figureSelectorButton.setTitle(title, for: .normal)
         }
     }
@@ -179,19 +177,12 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
                 figure!.calibrate()
             }
         }
-        
-        if (isOn) {
-            debug("toggleAutocalibration", "Autocalibration is on")
-            if (autocalibrateButton != nil) {
-                autocalibrateButton!.setTitle("Autocalibrate ON", for: .normal)
-            }
-        }
-        else {
-            debug("toggleAutocalibration", "Autocalibration is off")
-            if (autocalibrateButton != nil) {
-                autocalibrateButton!.setTitle("Autocalibrate OFF", for: .normal)
-            }
-        }
+        updateAutocalibration(nil)
+    }
+    
+    func updateAutocalibration(_ sender: Any?) {
+        let title = (appPart.figureSelector.selection?.value.autocalibrate ?? false) ? "\u{2713} Autocalibrate" : "Autocalibrate"
+        autocalibrateButton?.setTitle(title, for: .normal)
     }
     
     // ===========================================
@@ -391,8 +382,98 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     // ===========================================
     // Animation: Sequencer
 
-    var sequencerMonitor: ChangeMonitor? = nil
     @IBOutlet weak var sequencerSelectorButton: UIButton!
+    
+    var sequencerSelectionMonitor: ChangeMonitor? = nil
+
+    var sequencerChangeMonitor: ChangeMonitor? = nil
+    
+    func sequencer_setup() {
+        debug("sequencer_setup", "entered")
+        UIUtils.addBorder(sequencerSelectorButton)
+        
+        lbText?.delegate = self
+        ubText?.delegate = self
+        deltaText?.delegate = self
+
+        let sequencerSelector = appPart.sequencerSelector
+        sequencer_update(nil)
+        sequencerSelectionMonitor = sequencerSelector.monitorChanges(sequencer_update)
+    }
+    
+    /// called when selected sequencer changes
+    func sequencer_update(_ sender: Any?) {
+        let sequencerSelector = appPart.sequencerSelector
+        if (sequencerSelectorButton != nil) {
+            let title = sequencerSelector.selection?.name ?? "(choose)"
+            sequencerSelectorButton.setTitle(title, for: .normal)
+        }
+        
+        let sequencer = sequencerSelector.selection?.value
+        if (sequencer == nil) {
+            
+            lbText?.text = ""
+            lbText?.isEnabled = false
+            lbStepper?.isEnabled = false
+            
+            ubText?.text = ""
+            ubText?.isEnabled = false
+            ubStepper?.isEnabled = false
+            
+            deltaText?.text = ""
+            deltaText?.isEnabled = false
+            deltaStepper?.isEnabled = false
+            
+            bcSelector?.isEnabled = false
+            bcSelector?.selectedSegmentIndex = -1
+        }
+        else {
+            let seq = sequencer!
+            
+            lbText?.isEnabled = true
+            
+            lbStepper?.isEnabled = true
+            lbStepper?.minimumValue = 0
+            lbStepper?.stepValue = seq.lowerBoundIncrement
+            lbStepper?.maximumValue = seq.lowerBoundMax
+            lb_update()
+            
+            ubText?.isEnabled = true
+            
+            ubStepper?.isEnabled = true
+            ubStepper?.minimumValue = 0
+            ubStepper?.stepValue = seq.upperBoundIncrement
+            ubStepper?.maximumValue = seq.upperBoundMax
+            ub_update()
+            
+            deltaText?.isEnabled = true
+            
+            deltaStepper?.isEnabled = true
+            deltaStepper?.minimumValue = 0
+            deltaStepper?.stepValue = seq.stepSizeIncrement
+            deltaStepper?.maximumValue = seq.stepSizeMax
+            delta_update()
+            
+            bcSelector?.isEnabled = true
+            bcSelector?.setEnabled(seq.reversible,
+                                   forSegmentAt: BoundaryCondition.elastic.rawValue)
+            bc_update()
+        }
+        
+        sequencerChangeMonitor?.disconnect()
+        sequencerChangeMonitor = sequencer?.monitorChanges(player_update)
+        player_update(sequencer)
+        
+    }
+    
+    func sequencer_teardown() {
+        debug("sequencer_teardown", "entered")
+        sequencerSelectionMonitor?.disconnect()
+        sequencerChangeMonitor?.disconnect()
+    }
+    
+    // ===========================================
+    // Animation: LB, UB, delta
     
     @IBOutlet weak var lbText: UITextField!
     @IBOutlet weak var lbStepper: UIStepper!
@@ -402,8 +483,6 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     
     @IBOutlet weak var deltaText: UITextField!
     @IBOutlet weak var deltaStepper: UIStepper!
-    
-    @IBOutlet weak var bcSelector: UISegmentedControl!
     
     @IBAction func lbTextEdited(_ sender: UITextField) {
         var sequencer = appPart?.sequencerSelector.selection?.value
@@ -488,6 +567,11 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
         }
     }
     
+    // =========================================================
+    // Animation: BC
+    
+    @IBOutlet weak var bcSelector: UISegmentedControl!
+    
     @IBAction func bcSelected(_ sender: UISegmentedControl) {
         // debug("bcSelected", "selectedSegmentIndex=" + String(sender.selectedSegmentIndex))
         var sequencer = appPart?.sequencerSelector.selection?.value
@@ -505,51 +589,6 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
         bcSelector?.selectedSegmentIndex = sequencer?.boundaryCondition.rawValue ?? -1
     }
     
-    func sequencer_setup() {
-        debug("sequencer_setup", "entered")
-        UIUtils.addBorder(sequencerSelectorButton)
-
-        let sequencerSelector = appPart.sequencerSelector
-        sequencer_update(nil)
-        sequencerMonitor = sequencerSelector.monitorChanges(sequencer_update)
-
-    }
-    
-    func sequencer_update(_ sender: Any?) {
-        let sequencerSelector = appPart.sequencerSelector
-        if (sequencerSelectorButton != nil) {
-            let title = sequencerSelector.selection?.name ?? "(choose a sequencer)"
-            sequencerSelectorButton.setTitle(title, for: .normal)
-        }
-        
-        let sequencer = sequencerSelector.selection?.value
-        
-        lbText?.delegate = self
-        lbStepper?.minimumValue = 0
-        lbStepper?.stepValue = sequencer?.lowerBoundIncrement ?? 0.1
-        lbStepper?.maximumValue = sequencer?.lowerBoundMax ?? 1
-        
-        ubText?.delegate = self
-        ubStepper?.minimumValue = 0
-        ubStepper?.stepValue = sequencer?.upperBoundIncrement ?? 0.1
-        ubStepper?.maximumValue = sequencer?.upperBoundMax ?? 1
-        
-        deltaText?.delegate = self
-        deltaStepper?.minimumValue = 0
-        deltaStepper?.stepValue = sequencer?.stepSizeIncrement ?? 0.1
-        deltaStepper?.maximumValue = sequencer?.stepSizeMax ?? 1
-
-        lb_update()
-        ub_update()
-        delta_update()
-        bc_update()
-    }
-    
-    func sequencer_teardown() {
-        debug("sequencer_teardown", "entered")
-        sequencerMonitor?.disconnect()
-    }
-    
     // ===========================================
     // Animation: Player
     
@@ -563,31 +602,50 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
 
     @IBOutlet weak var playerSelector: UISegmentedControl!
     
-    @IBOutlet weak var progressLabel: UILabel!
-
     @IBAction func playerSelected(_ sender: UISegmentedControl) {
         var sequencer = appPart?.sequencerSelector.selection?.value
         let playerState = getPlayerState(sender.selectedSegmentIndex)
         if (sequencer != nil && playerState != nil) {
             setPlayerState(&sequencer!, playerState!)
         }
-        player_update()
+        player_update(sequencer)
     }
     
-    func player_setup() {
-        // TODO
-        player_update()
+    @IBOutlet weak var progressSlider: UISlider!
+    
+    @IBAction func progressSliderAction(_ sender: UISlider) {
+        let sequencer = appPart?.sequencerSelector.selection?.value
+        sequencer?.jumpTo(normalizedProgress: Double(sender.value))
+        player_update(sequencer)
     }
     
-    func player_update() {
-        // TODO
+    @IBOutlet weak var progressLabel: UILabel!
+    
+    func player_update(_ sender: Any?) {
+        debug("player_update")
+        let sequencer = sender as? Sequencer
+        if (sequencer == nil) {
+            playerSelector.isEnabled = false
+            playerSelector.selectedSegmentIndex = -1
+            
+            progressSlider.isEnabled = false
+            progressSlider.value = 0
+            
+            progressLabel.text = "---"
+        }
+        else {
+            let seq = sequencer!
+            
+            playerSelector.isEnabled = true
+            playerSelector.selectedSegmentIndex = getPlayerState(seq).rawValue
+            
+            progressSlider.isEnabled = true
+            progressSlider.value = Float(seq.normalizedProgress)
+
+            progressLabel.text = basicString(seq.progress)
+        }
 
     }
-    
-    func player_teardown() {
-        // TODO
-    }
-
     
     private func getPlayerState(_ s: Int) -> PlayerState? {
         return PlayerState(rawValue: s)
@@ -617,6 +675,7 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
             seq.enabled = false
             if (seq.direction == Direction.reverse) {
                 seq.step()
+                // Gotta do this, else nothing happens if same button is clicked again
                 seq.direction = Direction.stopped
             }
         case .stop:
@@ -627,6 +686,7 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
             seq.enabled = false
             if (seq.direction == Direction.forward) {
                 seq.step()
+                // Gotta do this, else nothing happens if same button is clicked again
                 seq.direction = Direction.stopped
             }
         case .runForward:

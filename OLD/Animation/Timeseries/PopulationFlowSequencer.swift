@@ -55,7 +55,7 @@ class PopulationFlowSequencer : GenericSequencer<Int> {
     
     override var progressionType: ProgressionType  { return ProgressionType.timeseries }
 
-    override var progress: Double {
+    override var normalizedProgress: Double {
         return value/upperBound
     }
     

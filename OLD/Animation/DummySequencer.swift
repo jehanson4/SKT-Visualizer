@@ -13,6 +13,14 @@ import Foundation
 // ======================================================================
 
 class DummySequencer: OLD_Sequencer {
+
+    var reversible: Bool = true
+    
+    var normalizedProgress: Double = 0
+    
+    func jumpTo(normalizedProgress: Double) {
+    }
+    
     var busy: Bool = false
     var upperBoundMax: Double = 1
     var upperBoundIncrement: Double = 0.1

@@ -52,7 +52,7 @@ protocol Sequencer : Named, ChangeMonitorEnabled {
     var enabled: Bool { get set }
     
     var upperBound: Double { get set }
-    
+
     var upperBoundMax: Double { get }
     
     var upperBoundIncrement: Double { get }
@@ -71,10 +71,15 @@ protocol Sequencer : Named, ChangeMonitorEnabled {
     
     var boundaryCondition: BoundaryCondition { get set }
     
+    var reversible: Bool { get }
+    
     var direction: Direction { get set }
     
-    /// value as a fraction of the inverval between the bounds
-    var progress: Double { get}
+    /// in the interval [lowerBound, upperBound]
+    var progress: Double { get }
+    
+    /// a fraction of the inverval between the bounds
+    var normalizedProgress: Double { get}
     
     func reset()
     
@@ -82,8 +87,7 @@ protocol Sequencer : Named, ChangeMonitorEnabled {
     
     func reverse()
     
-    // TODO refactor jumpTo(progress: Double)
-    func jumpToProgress(_ progress: Double)
+    func jumpTo(normalizedProgress: Double)
     
 }
 

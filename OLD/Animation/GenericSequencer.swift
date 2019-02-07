@@ -13,6 +13,7 @@ import Foundation
 // =============================================================================
 
 class GenericSequencer<T> : OLD_Sequencer {
+    
     // TODO real values for these
     var busy: Bool = false
     var upperBoundMax: Double = 1
@@ -135,9 +136,11 @@ class GenericSequencer<T> : OLD_Sequencer {
     
     /// FOR OVERRIDE: this impl is non-functional
     var value: Double { return 0 }
+
+    var progress: Double { return value }
         
     /// FOR OVERRIDE: this impl is non-functional
-    var progress: Double { return 0 }
+    var normalizedProgress: Double { return 0 }
     
     /// FOR OVERRIDE: this impl is non-functional
     func toString(_ x: Double) -> String {
@@ -183,6 +186,10 @@ class GenericSequencer<T> : OLD_Sequencer {
         }
     }
 
+    func jumpTo(normalizedProgress: Double) {
+        jumpToProgress(normalizedProgress)
+    }
+    
     // Returns true iff sequencer state changed
     // FOR OVERRIDE. This method does nothing
     func jumpToProgress(_ progress: Double) {}

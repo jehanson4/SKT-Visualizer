@@ -70,7 +70,7 @@ class NumericParameterSequencer<T: Comparable & Numeric> : GenericSequencer<T> {
         return ProgressionType.parameterSweep 
     }
 
-    override var progress: Double {
+    override var normalizedProgress: Double {
         return (value-lowerBound)/(upperBound-lowerBound)
     }
     
