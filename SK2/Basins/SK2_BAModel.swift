@@ -77,16 +77,16 @@ class SK2_BAModel: DiscreteTimeDynamic {
     // =======================================
     // Basin-building APIs
     
-    func nodeToBasinData(_ node: SK2_BANode) -> DS2_BasinData {
-        return DS2_BasinData(node,
+    func nodeToBasinData(_ node: SK2_BANode) -> SK2_BasinData {
+        return SK2_BasinData(node,
                              isClassified: node.isClassified,
                             isBoundary: node.isBoundary,
                             basinID: node.basinID,
                             distanceToAttractor: node.distanceToAttractor)
     }
     
-    func exportBasinData() -> [DS2_BasinData] {
-        var basinData: [DS2_BasinData] = []
+    func exportBasinData() -> [SK2_BasinData] {
+        var basinData: [SK2_BasinData] = []
         for node in nodes {
             basinData.append(nodeToBasinData(node))
         }
@@ -138,7 +138,10 @@ class SK2_BAModel: DiscreteTimeDynamic {
     
     func step(_ n: Int) -> Int {
         var stepsTaken = 0
-        while(step()) {
+        for _ in 0..<n {
+            if (!step()) {
+                break;
+            }
             stepsTaken += 1
         }
         return stepsTaken

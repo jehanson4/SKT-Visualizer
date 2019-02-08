@@ -98,10 +98,7 @@ struct SK2D {
 //        _ = reg.register(sample3)
         
         let flow = SK2D.getOrCreateFlow(system, workQueue)
-        let flowColorSource = SK2_PFColorSource(flow, LogColorMap())
-        let flowOnShell = ColorizedFigure("Population on the Hemisphere",
-                                          delegate: baseShell,
-                                          colorSource: flowColorSource)
+        let flowOnShell = SK2_Population("Population on the Hemisphere", baseShell, flow)
         
         _ = reg.register(flowOnShell)
 

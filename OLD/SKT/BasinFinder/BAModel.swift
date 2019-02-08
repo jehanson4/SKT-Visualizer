@@ -81,10 +81,10 @@ class BAModel {
     // =======================================
     // Basin-building APIs
     
-    func exportBasinData() -> [DS2_BasinData] {
-        var basinData: [DS2_BasinData] = []
+    func exportBasinData() -> [SK2_BasinData] {
+        var basinData: [SK2_BasinData] = []
         for node in nodes {
-            basinData.append(DS2_BasinData(node))
+            basinData.append(SK2_BasinData(node))
         }
         return basinData
     }

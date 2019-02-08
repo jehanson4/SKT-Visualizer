@@ -127,7 +127,6 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     func visualization_setup() {
         debug("visualization_setup")
         UIUtils.addBorder(figureSelectorButton)
-        updateAutocalibration(nil)
         let figureSelector = appPart.figureSelector
         figureSelector_update(figureSelector)
         figureSelectionMonitor = figureSelector.monitorChanges(figureSelector_update)
@@ -146,6 +145,7 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
             let title = figureSelector.selection?.name ?? "(choose)"
             figureSelectorButton.setTitle(title, for: .normal)
         }
+        updateAutocalibration(nil)
     }
     
     @IBAction func calibrate(_ sender: Any) {

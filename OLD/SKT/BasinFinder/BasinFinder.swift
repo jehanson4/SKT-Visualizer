@@ -22,7 +22,7 @@ class BasinFinder {
     
     var expectedMaxDistanceToAttractor: Int { return geometry.N / 2 }
 
-    var basinData: [DS2_BasinData] {
+    var basinData: [SK2_BasinData] {
         get {
             // sync() returns before sync actually happens, so this
             // getter may return stale data. But at least an update
@@ -37,7 +37,7 @@ class BasinFinder {
     private var geometry: SK2Geometry
     private var physics: SKPhysics
     private var workingData: BAModel
-    private var _basinData: [DS2_BasinData]
+    private var _basinData: [SK2_BasinData]
     private var _busy: Bool
     private var _updatesDone: Bool
     
@@ -118,7 +118,7 @@ class BasinFinder {
         return true
     }
     
-    private func updateLiveData(_ modelParams: SKTModelParams, _ newBasinData: [DS2_BasinData]?) {
+    private func updateLiveData(_ modelParams: SKTModelParams, _ newBasinData: [SK2_BasinData]?) {
         let liveParams = SKTModelParams(geometry, physics)
         if (liveParams != modelParams) {
             debug("updateLiveData", "modelParams are stale, so discarding new basin data")

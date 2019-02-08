@@ -33,7 +33,7 @@ class SK2_BasinsAndAttractors {
     
     var expectedMaxDistanceToAttractor: Int { return system.N.value / 2 }
     
-    var basinData: [DS2_BasinData] {
+    var basinData: [SK2_BasinData] {
         get {
             // sync() returns before sync actually happens, so this
             // getter may return stale data. But at least an update
@@ -52,7 +52,7 @@ class SK2_BasinsAndAttractors {
     private var a2_monitor: ChangeMonitor?
 
     private var workingData: SK2_BAModel
-    private var _basinData: [DS2_BasinData]
+    private var _basinData: [SK2_BasinData]
     private var _busy: Bool
     private var _updatesDone: Bool
     
@@ -142,7 +142,7 @@ class SK2_BasinsAndAttractors {
         return true
     }
     
-    private func updateLiveData(_ modelParams: SK2_Descriptor, _ newBasinData: [DS2_BasinData]?) {
+    private func updateLiveData(_ modelParams: SK2_Descriptor, _ newBasinData: [SK2_BasinData]?) {
         debug("updateLiveData", "starting")
         let liveParams = SK2_Descriptor(system)
         if (liveParams != modelParams) {

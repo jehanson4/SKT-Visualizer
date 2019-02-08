@@ -8,15 +8,15 @@
 
 import Foundation
 
-fileprivate var debugEnabled = false
+fileprivate var debugEnabled = true
 
 fileprivate func debug(_ mtd: String, _ msg: String = "") {
     if (debugEnabled) {
         if (Thread.current.isMainThread) {
-            print("SK2_PFDynamic", "[main]", mtd, msg)
+            print("SK2_PopulationFlow", "[main]", mtd, msg)
         }
         else {
-            print("SK2_PFDynamic", "[????]", mtd, msg)
+            print("SK2_PopulationFlow", "[????]", mtd, msg)
         }
     }
 }
@@ -79,6 +79,7 @@ class SK2_PopulationFlow : DiscreteTimeDynamic, ChangeMonitorEnabled {
     
     weak var system: SK2_System!
     weak var workQueue: WorkQueue!
+    
     private var workingData: SK2_PFModel
     
     private var _wCurr: [Double]
@@ -107,7 +108,7 @@ class SK2_PopulationFlow : DiscreteTimeDynamic, ChangeMonitorEnabled {
         let liveParams = SK2_Descriptor(self.system)
         let wdParams = self.workingData.modelParams
         if (liveParams == wdParams) {
-            debug("sync", "already in sync, returning early")
+            // debug("sync", "model params are already in sync, returning early")
             return
         }
         
@@ -132,6 +133,7 @@ class SK2_PopulationFlow : DiscreteTimeDynamic, ChangeMonitorEnabled {
         let liveParams = SK2_Descriptor(self.system)
         self.workQueue.async {
             self.workingData.ic = ic
+            debug("repaceInitializer", "working Data.ic has been replaced")
             var populationChanged = self.workingData.setModelParams(liveParams)
             if (!populationChanged) {
                 populationChanged = self.workingData.reset()
@@ -140,6 +142,7 @@ class SK2_PopulationFlow : DiscreteTimeDynamic, ChangeMonitorEnabled {
             let stepNumber = self.workingData.stepNumber
             let wCurr = (populationChanged) ? self.workingData.exportWCurr() : nil
             DispatchQueue.main.sync {
+                debug("replaceInitializer", "calling updateLiveData after")
                 self.updateLiveData(modelParams, stepNumber, !populationChanged, wCurr)
             }
         }
@@ -153,6 +156,7 @@ class SK2_PopulationFlow : DiscreteTimeDynamic, ChangeMonitorEnabled {
         let liveParams = SK2_Descriptor(self.system)
         self.workQueue.async {
             self.workingData.rule = rule
+            debug("repaceRule", "working Data.rule has been replaced")
             var populationChanged = self.workingData.setModelParams(liveParams)
             if (!populationChanged) {
                 populationChanged = self.workingData.reset()
@@ -161,6 +165,7 @@ class SK2_PopulationFlow : DiscreteTimeDynamic, ChangeMonitorEnabled {
             let stepNumber = self.workingData.stepNumber
             let wCurr = (populationChanged) ? self.workingData.exportWCurr() : nil
             DispatchQueue.main.sync {
+                debug("replaceRule", "calling updateLiveData after")
                 self.updateLiveData(modelParams, stepNumber, !populationChanged, wCurr)
             }
         }
@@ -176,10 +181,12 @@ class SK2_PopulationFlow : DiscreteTimeDynamic, ChangeMonitorEnabled {
             if (!populationChanged) {
                 populationChanged = self.workingData.reset()
             }
+            debug("reset", "working data is reset")
             let modelParams = self.workingData.modelParams
             let stepNumber = self.workingData.stepNumber
             let wCurr = (populationChanged) ? self.workingData.exportWCurr() : nil
             DispatchQueue.main.sync {
+                debug("reset", "calling updateLiveData after")
                 self.updateLiveData(modelParams, stepNumber, !populationChanged, wCurr)
             }
         }
@@ -188,8 +195,11 @@ class SK2_PopulationFlow : DiscreteTimeDynamic, ChangeMonitorEnabled {
     }
     
     func step(_ n: Int) -> Int {
-        var stepsTaken: Int = 0
-        while (step()) {
+        var stepsTaken = 0
+        for _ in 0..<n {
+            if (!step()) {
+                break;
+            }
             stepsTaken += 1
         }
         return stepsTaken
@@ -205,20 +215,18 @@ class SK2_PopulationFlow : DiscreteTimeDynamic, ChangeMonitorEnabled {
         }
         
         let liveParams = SK2_Descriptor(self.system)
-        self.workQueue.async {
-            let tt = self.bgTaskCounter
+        workQueue.async {
             self.bgTaskCounter += 1
-            debug("step", "BG task[\(tt)] starting")
-            // FIXME not threadsafe: what if they're changing when we call this?
             var populationChanged = self.workingData.setModelParams(liveParams)
             if (!populationChanged) {
                 populationChanged = self.workingData.step()
             }
+            debug("step", "step is taken")
             let modelParams = self.workingData.modelParams
             let stepNumber = self.workingData.stepNumber
             let wCurr = (populationChanged) ? self.workingData.exportWCurr() : nil
-            debug("step", "BG task[\(tt)]done")
             DispatchQueue.main.sync {
+                debug("step", "calling updateLiveData after")
                 self.updateLiveData(modelParams, stepNumber, !populationChanged, wCurr)
             }
         }
@@ -230,7 +238,7 @@ class SK2_PopulationFlow : DiscreteTimeDynamic, ChangeMonitorEnabled {
         debug("updateLiveData", "starting")
         
         if (!modelParams.matches(self.system)) {
-            debug("updateLiveData", "modelParams are stale, so discarding them")
+            debug("updateLiveData", "discarding this update because its modelParams are stale")
             return
         }
         

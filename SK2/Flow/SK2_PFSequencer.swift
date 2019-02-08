@@ -22,20 +22,20 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 
 class SK2_PFSequencer: StepTimeseries {
     
-    private weak var _flow: SK2_PopulationFlow!
-    private let _ic: SK2_PFInitializer
-    private let _rule: SK2_PFRule
+    weak var flow: SK2_PopulationFlow!
+    let ic: SK2_PFInitializer
+    let rule: SK2_PFRule
     
     init(_ name: String, _ flow: SK2_PopulationFlow, _ ic: SK2_PFInitializer, _ rule: SK2_PFRule) {
-        self._flow = flow
-        self._ic = ic
-        self._rule = rule
+        self.flow = flow
+        self.ic = ic
+        self.rule = rule
         super.init(name, flow)
     }
     
     override func aboutToInstallSequencer() {
-        _flow.replaceInitializer(_ic)
-        _flow.replaceRule(_rule)
+        flow.replaceInitializer(ic)
+        flow.replaceRule(rule)
     }
     
 }

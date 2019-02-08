@@ -8,11 +8,16 @@
 
 import Foundation
 
-fileprivate var debugEnabled = false
+fileprivate var debugEnabled = true
 
 fileprivate func debug(_ mtd: String, _ msg: String = "") {
     if (debugEnabled) {
-        print("SK2_PFModel", mtd, msg)
+        if (Thread.current.isMainThread) {
+            print("SK2_PFModel [main]", mtd, msg)
+        }
+        else {
+            print("SK2_PFModel [????]", mtd, msg)
+        }
     }
 }
 
@@ -79,7 +84,7 @@ class SK2_PFModel {
     // =====================================
     
     func setModelParams(_ params: SK2_Descriptor) -> Bool {
-        debug("setModelParams", "entering")
+        debug("setModelParams", "starting")
         _ = system.apply(params)
         let changed = refresh()
         debug("setModelParams", "done. changed=\(changed)")
@@ -90,7 +95,7 @@ class SK2_PFModel {
     }
     
     func exportWCurr() -> [Double] {
-        debug("exportWCurr", "entering")
+        debug("exportWCurr", "starting")
         var wCurr: [Double] = []
         for i in 0..<nodes.count {
             wCurr.append(nodes[i].wCurr)
@@ -100,7 +105,7 @@ class SK2_PFModel {
     }
     
     func reset() -> Bool {
-        debug("reset", "entering")
+        debug("reset", "starting")
         
         // HACK to force resetNodes when geometry has not changed
         self._potentialIsStale = true
@@ -117,7 +122,7 @@ class SK2_PFModel {
     }
     
     func step() -> Bool {
-        debug("step", "entering")
+        debug("step", "starting")
         var changed = false
         if (self._nodeArrayIsStale) {
             buildNodes()
@@ -139,7 +144,7 @@ class SK2_PFModel {
     // step helpers
     
     private func buildNodes() {
-        debug("buildNodes", "entering")
+        debug("buildNodes", "starting")
         ic.prepare(self)
         rule.prepare(self)
         var nodearray: [SK2_PFNode] = []

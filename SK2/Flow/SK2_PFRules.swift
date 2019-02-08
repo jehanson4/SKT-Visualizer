@@ -12,7 +12,12 @@ fileprivate var debugEnabled = false
 
 fileprivate func debug(_ mtd: String, _ msg: String = "") {
     if (debugEnabled) {
-        print("SK2_PFRules", mtd, msg)
+        if (Thread.current.isMainThread) {
+            print("SK2_PFRules [main]", mtd, msg)
+        }
+        else {
+            print("SK2_PFRules [????]", mtd, msg)
+        }
     }
 }
 

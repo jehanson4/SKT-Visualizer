@@ -42,7 +42,7 @@ class StepTimeseries: Sequencer {
         self.dynamic = dynamic
         
         self._lowerBound = 0
-        self._upperBound = 100
+        self._upperBound = 1000
         self._stepSize = 1
     }
     
@@ -224,11 +224,12 @@ class StepTimeseries: Sequencer {
     private func stickyForwardStep(_ n: Int) -> Bool {
         var changed = false
         let prevDirection = _direction
-        let stepsTaken = dynamic.step(n)
+        let stepsToTake = (dynamic.stepCount + n <= _upperBound) ? n : (_upperBound-dynamic.stepCount)
+        let stepsTaken = dynamic.step(stepsToTake)
         if (stepsTaken > 0) {
             changed = true
         }
-        if (!dynamic.hasNextStep) {
+        if (dynamic.stepCount >= _upperBound || !dynamic.hasNextStep) {
             _direction = .stopped
             if (prevDirection != _direction) {
                 changed = true
@@ -240,26 +241,28 @@ class StepTimeseries: Sequencer {
     /// assumes n > 0
     private func periodicForwardStep(_ n: Int) -> Bool {
         var changed = false
-        var stepsToGo = n
+        var stepsRemaining = n
 
-        var stepsTaken = dynamic.step(stepsToGo)
+        var stepsToTake = (dynamic.stepCount + stepsRemaining <= _upperBound) ? stepsRemaining : (_upperBound-dynamic.stepCount)
+        var stepsTaken = dynamic.step(stepsToTake)
         if (stepsTaken > 0) {
             changed = true
         }
+        stepsRemaining -= stepsTaken
         
-        stepsToGo -= stepsTaken
-        while (stepsToGo > 0) {
+        while (stepsRemaining > 0) {
             if dynamic.reset() {
                 changed = true
             }
             
-            stepsTaken = dynamic.step(stepsToGo)
+            stepsToTake = (dynamic.stepCount + stepsRemaining <= _upperBound) ? stepsRemaining : (_upperBound-dynamic.stepCount)
+            stepsTaken = dynamic.step(stepsToTake)
             if (stepsTaken == 0) {
                 // we're stuck. Get out.
                 break
             }
+            stepsRemaining -= stepsTaken
             changed = true
-            stepsToGo -= stepsTaken
         }
         return changed
     }

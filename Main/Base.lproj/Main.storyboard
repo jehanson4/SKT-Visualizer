@@ -56,7 +56,7 @@
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EOK-iU-lHo" userLabel="SK/1">
                                                         <rect key="frame" x="0.0" y="0.0" width="256" height="50"/>
-                                                        <state key="normal" title="SK/1    〉"/>
+                                                        <state key="normal" title="SK/1 ›"/>
                                                     </button>
                                                 </subviews>
                                             </stackView>
@@ -112,7 +112,7 @@
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rca-ER-4OT">
                                                         <rect key="frame" x="0.0" y="0.0" width="256" height="32"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                        <state key="normal" title="SK/2 Equilibrium    〉"/>
+                                                        <state key="normal" title="SK/2 Equilibrium ›"/>
                                                         <connections>
                                                             <action selector="selectSK2E:" destination="bVF-Kc-23a" eventType="touchUpInside" id="QVx-bC-f0h"/>
                                                             <segue destination="pOT-RV-AeI" kind="show" identifier="segueToSK2E" id="Eh7-cP-QOM"/>
@@ -120,7 +120,7 @@
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RUD-NF-Y2T">
                                                         <rect key="frame" x="0.0" y="32" width="256" height="30"/>
-                                                        <state key="normal" title="SK/2 Dynamics    〉"/>
+                                                        <state key="normal" title="SK/2 Dynamics ›"/>
                                                         <connections>
                                                             <action selector="selectSK2D:" destination="bVF-Kc-23a" eventType="touchUpInside" id="AyB-dm-OP7"/>
                                                             <segue destination="pOT-RV-AeI" kind="show" identifier="segueToSK2D" id="WGP-mm-czg"/>
@@ -128,7 +128,7 @@
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zyd-iM-ZCR">
                                                         <rect key="frame" x="0.0" y="62" width="256" height="30"/>
-                                                        <state key="normal" title="SK/2 Bifurcations    〉"/>
+                                                        <state key="normal" title="SK/2 Bifurcations ›"/>
                                                     </button>
                                                 </subviews>
                                             </stackView>
@@ -183,11 +183,11 @@
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Vc-yg-dsa">
                                                         <rect key="frame" x="0.0" y="0.0" width="256" height="30"/>
-                                                        <state key="normal" title="SK/3 Equilibrium    〉"/>
+                                                        <state key="normal" title="SK/3 Equilibrium ›"/>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ozY-A3-mDJ">
                                                         <rect key="frame" x="0.0" y="30" width="256" height="30"/>
-                                                        <state key="normal" title="SK/3 Dynamics    〉"/>
+                                                        <state key="normal" title="SK/3 Dynamics ›"/>
                                                     </button>
                                                 </subviews>
                                             </stackView>

@@ -23,13 +23,13 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 
 class SK2_PFColorSource : ColorSource {
     
-    
     var name: String = "Population"
     var info: String? = nil
     var description: String { return nameAndInfo(self) }
     
     var backingModel: AnyObject? { return flow }
-    
+    var calibrationNeeded: Bool
+
     weak var flow: SK2_PopulationFlow!
     var colorMap: LogColorMap
     
@@ -40,8 +40,8 @@ class SK2_PFColorSource : ColorSource {
     init(_ flow: SK2_PopulationFlow, _ colorMap: LogColorMap) {
         self.flow = flow
         self.colorMap = colorMap
+        self.calibrationNeeded = true
         self.wCurr = wEmpty
-        flowMonitor = flow.monitorChanges(flowChanged)
     }
     
     func teardown() {
@@ -49,16 +49,17 @@ class SK2_PFColorSource : ColorSource {
     }
     
     func calibrate() {
-        if (colorMap.calibrate(flow.wBounds)) {
+        if doCalibration() {
             fireChange()
         }
     }
     
     func prepare(_ nodeCount: Int) -> Bool {
-        if (wCurr.count != nodeCount) {
-            debug("prepare", "getting flow.wCurr")
-            self.wCurr = flow.wCurr
-            return true
+        // debug("prepare", "getting flow.wCurr (causes sync() call)")
+        self.wCurr = flow.wCurr
+
+        if (calibrationNeeded) {
+           return  doCalibration()
         }
         return false
     }
@@ -67,14 +68,19 @@ class SK2_PFColorSource : ColorSource {
         return colorMap.getColor((nodeIndex < wCurr.count) ? wCurr[nodeIndex] : 0)
     }
     
-    private var flowMonitor: ChangeMonitor? = nil
-    
-    private func flowChanged(_ sender: Any?) {
-        debug("flowChanged", "discarding wCurr")
-        wCurr = wEmpty
-        debug("flowChanged", "firing change to my own monitors")
-        fireChange()
+    private func doCalibration() -> Bool {
+        calibrationNeeded = false
+        return colorMap.calibrate(flow.wBounds)
     }
+    
+//    private var flowMonitor: ChangeMonitor? = nil
+//
+//    private func flowChanged(_ sender: Any?) {
+//        debug("flowChanged", "discarding wCurr")
+//        wCurr = wEmpty
+//        debug("flowChanged", "firing change to my own monitors")
+//        fireChange()
+//    }
     
     // ==========================================
     // Change monitoring

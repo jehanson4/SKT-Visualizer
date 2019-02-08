@@ -12,7 +12,7 @@ import Foundation
 // SK2_BasinData
 // =====================================================================================
 
-struct DS2_BasinData: DS2_Node {
+struct SK2_BasinData: DS2_Node {
     
     let nodeIndex: Int
     let m: Int
