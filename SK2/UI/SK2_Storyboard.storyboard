@@ -591,7 +591,7 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="SK/2 Equilibrium" id="4aM-uI-mxK" userLabel="Navigation Item">
-                        <barButtonItem key="leftBarButtonItem" title="Models" id="knR-ZY-6qg">
+                        <barButtonItem key="leftBarButtonItem" title="‹ Models" id="knR-ZY-6qg">
                             <connections>
                                 <segue destination="LGz-bM-eMW" kind="unwind" unwindAction="unwindToModelSelector:" id="kr2-HW-WzP"/>
                             </connections>

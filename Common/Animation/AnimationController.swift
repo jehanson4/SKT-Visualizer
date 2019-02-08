@@ -8,7 +8,7 @@
 
 import Foundation
 
-fileprivate let debugEnabled = true
+fileprivate let debugEnabled = false
 
 fileprivate func debug(_ mtd: String, _ msg: String = "") {
     if (debugEnabled) {
@@ -55,7 +55,7 @@ class AnimationController {
     // ========================================
     // Step rate
     
-    static let rateLimit_default = 1.0
+    static let rateLimit_default = 10.0
     private var _rateLimit: Double = rateLimit_default
     private var _stepInterval: TimeInterval = 1.0/rateLimit_default
     private var _lastStepTime: TimeInterval = 0.0
