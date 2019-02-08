@@ -36,7 +36,7 @@ class GraphicsControllerV1: GraphicsController {
     // Debugging
     
     let clsName = "GraphicsControllerV1"
-    let debugEnabled = true
+    let debugEnabled = false
     
     private func debug(_ mtd: String, _ msg: String = "") {
         if (debugEnabled) {

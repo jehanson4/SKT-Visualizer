@@ -9,7 +9,7 @@
 import Foundation
 import GLKit
 
-fileprivate var debugEnabled = true
+fileprivate var debugEnabled = false
 
 fileprivate func debug(_ mtd: String, _ msg: String = "") {
     if (debugEnabled) {

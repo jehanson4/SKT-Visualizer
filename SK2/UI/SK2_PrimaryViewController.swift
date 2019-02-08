@@ -14,7 +14,7 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     // Debug
     
     let name = "SK2_PrimaryViewController"
-    var debugEnabled = true
+    var debugEnabled = false
 
     func debug(_ mtd: String, _ msg: String = "") {
         if (debugEnabled)  {

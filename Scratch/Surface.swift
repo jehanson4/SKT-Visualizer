@@ -67,10 +67,8 @@ class Surface : GLKBaseEffect, Effect {
     // ====================================
     // SKT stuff
     
-    var geometry: SK2Geometry
-    var geometryChangeNumber: Int
-    var physics: SKPhysics
-    var physicsChangeNumber: Int
+    weak var system: SK2_System!
+    var geometry: SK2_ShellGeometry
     
     private var colorSources: RegistryWithSelection<ColorSource>? = nil
     private var colorSourceSelectionMonitor: ChangeMonitor? = nil
@@ -84,11 +82,9 @@ class Surface : GLKBaseEffect, Effect {
     // Initiailzers
     // ====================================
 
-    init(_ geometry: SK2Geometry, _ physics: SKPhysics, _ colorSources: RegistryWithSelection<ColorSource>?, enabled: Bool) {
-        self.geometry = geometry
-        self.geometryChangeNumber = geometry.changeNumber
-        self.physics = physics
-        self.physicsChangeNumber = physics.changeNumber
+    init(_ system: SK2_System, _ colorSources: RegistryWithSelection<ColorSource>?, enabled: Bool) {
+        self.system = system
+        self.geometry = SK2_ShellGeometry(system)
         self.colorSources = colorSources
         self.enabled = enabled
         self.enabledDefault = enabled
@@ -150,21 +146,21 @@ class Surface : GLKBaseEffect, Effect {
     
     private func buildVertexAndColorData() {
         // vertices
-        self.vertices = buildPNVertexArray(geometry)
+        self.vertices = geometry.buildPNVertexArray()
         
         // indices
         
         indices = []
-        let mMax = geometry.m_max
-        let nMax = geometry.n_max
+        let mMax = system.m_max
+        let nMax = system.n_max
         for m in 0..<mMax {
             for n in 0..<nMax {
                 
                 // v1->v2->v3->v4 is counterclockwise
-                let v1 = geometry.skToNodeIndex(m,n)
-                let v2 = geometry.skToNodeIndex(m + 1, n)
-                let v3 = geometry.skToNodeIndex(m + 1, n + 1)
-                let v4 = geometry.skToNodeIndex(m, n + 1)
+                let v1 = system.skToNodeIndex(m,n)
+                let v2 = system.skToNodeIndex(m + 1, n)
+                let v3 = system.skToNodeIndex(m + 1, n + 1)
+                let v4 = system.skToNodeIndex(m, n + 1)
                 
                 // Draw two triangles of quad (v1,v2,v3,v4):
                 
@@ -321,33 +317,29 @@ class Surface : GLKBaseEffect, Effect {
             built = build()
         }
         
-        let geometryChange = geometry.changeNumber
-        let physicsChange = physics.changeNumber
-        if (geometryChange != geometryChangeNumber) {
-            debug(mtd, "geometry has changed. Rebuilding.")
-            self.geometryChangeNumber = geometryChange
-            self.physicsChangeNumber = physicsChange
-            
-            // IMPORTANT
-            self.colorsAreStale = true
-            
-            deleteBuffers()
-            buildVertexAndColorData()
-            
-            // INEFFICIENT redundant copy colors to color buffer
-            createBuffers()
-            
-            debug(mtd, "done rebuilding")
-        }
-        else if (physicsChange != physicsChangeNumber) {
-            debug(mtd, "physics has changed. Rebuilding.")
-            self.physicsChangeNumber = physicsChange
-
-            // IMPORTANT
-            self.colorsAreStale = true
-            
-            debug(mtd, "done rebuilding.")
-        }
+//        if (geometryIsStale) {
+//            debug(mtd, "geometry has changed. Rebuilding.")
+//            self.geometryChangeNumber = geometryChange
+//            self.physicsChangeNumber = physicsChange
+//
+//            // IMPORTANT
+//            self.colorsAreStale = true
+//
+//            deleteBuffers()
+//            buildVertexAndColorData()
+//
+//            // INEFFICIENT redundant copy colors to color buffer
+//            createBuffers()
+//
+//            debug(mtd, "done rebuilding")
+//        }
+//        else if (colorsAreStale) {
+//
+//            // IMPORTANT
+//            self.colorsAreStale = true
+//
+//            debug(mtd, "done rebuilding.")
+//        }
 
         // DEBUG
         let err1 = glGetError()

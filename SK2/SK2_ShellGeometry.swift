@@ -281,7 +281,21 @@ class SK2_ShellGeometry {
         }
         return vertices
     }
-    
+
+    func buildPNVertexArray() -> [PNVertex] {
+        let mMax = system.m_max
+        let nMax = system.n_max
+        var vertices: [PNVertex] = []
+        for m in 0...mMax {
+            for n in 0...nMax {
+                let v = skToCartesian(m, n)
+                vertices.append(PNVertex(GLfloat(v.x), GLfloat(v.y), GLfloat(v.z), GLfloat(v.x), GLfloat(v.y), GLfloat(v.z)))
+            }
+        }
+        return vertices
+    }
+
+
     // =====================================
     // Other stuff
     

@@ -8,7 +8,7 @@
 
 import Foundation
 
-fileprivate let debugEnabled = true
+fileprivate let debugEnabled = false
 
 fileprivate func debug(_ mtd: String, _ msg: String = "") {
     if (debugEnabled) {

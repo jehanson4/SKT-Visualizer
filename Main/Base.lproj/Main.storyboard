@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Qsd-gs-hVo">
-                                <rect key="frame" x="16" y="102" width="288" height="312"/>
+                                <rect key="frame" x="16" y="102" width="288" height="168"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eMA-y0-9bt" userLabel="Separator">
                                         <rect key="frame" x="0.0" y="0.0" width="288" height="1"/>
@@ -30,12 +30,13 @@
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="SK HAMILTONIAN / 1 COMPONENT" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B3F-BU-A9H" userLabel="SK1 Section Title">
                                         <rect key="frame" x="0.0" y="1" width="288" height="17"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ItM-3z-cBx" userLabel="Vertical Spacer">
-                                        <rect key="frame" x="0.0" y="18" width="288" height="8"/>
+                                        <rect key="frame" x="0.0" y="1" width="288" height="8"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="8" id="8P3-xA-rSf"/>
@@ -43,6 +44,7 @@
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2tz-Rt-ATs" userLabel="SK1 Section View">
                                         <rect key="frame" x="0.0" y="26" width="288" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Azi-ob-4Pw" userLabel="Left spacer">
                                                 <rect key="frame" x="0.0" y="0.0" width="16" height="50"/>
@@ -70,34 +72,34 @@
                                         </subviews>
                                     </stackView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FPc-XT-rd2" userLabel="Vertical Spacer">
-                                        <rect key="frame" x="0.0" y="76" width="288" height="16"/>
+                                        <rect key="frame" x="0.0" y="9" width="288" height="16"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="16" id="H9j-Cu-110"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bqG-Xt-tHm" userLabel="Separator">
-                                        <rect key="frame" x="0.0" y="92" width="288" height="1"/>
+                                        <rect key="frame" x="0.0" y="25" width="288" height="1"/>
                                         <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="lUP-Ct-6Jt"/>
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="SK HAMILTONIAN / 2 COMPONENTS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wLP-Aw-f3E" userLabel="SK2 Section Title">
-                                        <rect key="frame" x="0.0" y="93" width="288" height="17"/>
+                                        <rect key="frame" x="0.0" y="26" width="288" height="17"/>
                                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fD2-NP-lpq" userLabel="Vertical Spacer">
-                                        <rect key="frame" x="0.0" y="110" width="288" height="8"/>
+                                        <rect key="frame" x="0.0" y="43" width="288" height="8"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="8" id="pVA-kq-5Jr"/>
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UJy-UY-rEL" userLabel="SK2 Section View">
-                                        <rect key="frame" x="0.0" y="118" width="288" height="92"/>
+                                        <rect key="frame" x="0.0" y="51" width="288" height="92"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g3u-OV-3Dn" userLabel="Left spacer">
                                                 <rect key="frame" x="0.0" y="0.0" width="16" height="92"/>
@@ -110,7 +112,7 @@
                                                 <rect key="frame" x="16" y="0.0" width="256" height="92"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rca-ER-4OT">
-                                                        <rect key="frame" x="0.0" y="0.0" width="256" height="32"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="256" height="62"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                         <state key="normal" title="SK/2 Equilibrium ›"/>
                                                         <connections>
@@ -119,7 +121,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RUD-NF-Y2T">
-                                                        <rect key="frame" x="0.0" y="32" width="256" height="30"/>
+                                                        <rect key="frame" x="0.0" y="62" width="256" height="30"/>
                                                         <state key="normal" title="SK/2 Dynamics ›"/>
                                                         <connections>
                                                             <action selector="selectSK2D:" destination="bVF-Kc-23a" eventType="touchUpInside" id="AyB-dm-OP7"/>
@@ -128,9 +130,15 @@
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zyd-iM-ZCR">
                                                         <rect key="frame" x="0.0" y="62" width="256" height="30"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <state key="normal" title="SK/2 Bifurcations ›"/>
                                                     </button>
                                                 </subviews>
+                                                <variation key="default">
+                                                    <mask key="subviews">
+                                                        <exclude reference="zyd-iM-ZCR"/>
+                                                    </mask>
+                                                </variation>
                                             </stackView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ywR-y2-aoe" userLabel="Right spacer">
                                                 <rect key="frame" x="272" y="0.0" width="16" height="92"/>
@@ -142,34 +150,36 @@
                                         </subviews>
                                     </stackView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h1p-Fw-2Au" userLabel="Vertical Spacer">
-                                        <rect key="frame" x="0.0" y="210" width="288" height="16"/>
+                                        <rect key="frame" x="0.0" y="143" width="288" height="16"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="16" id="Uxj-py-mM0"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Otm-hz-IRb" userLabel="Separator">
-                                        <rect key="frame" x="0.0" y="226" width="288" height="1"/>
+                                        <rect key="frame" x="0.0" y="159" width="288" height="1"/>
                                         <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="GAo-lc-TfD"/>
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SK HAMILTONIAN / 3 COMPONENTS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XeF-ao-6YR" userLabel="SK3 Section Title">
-                                        <rect key="frame" x="0.0" y="227" width="288" height="17"/>
+                                        <rect key="frame" x="0.0" y="160" width="288" height="17"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Gi-hk-HO9" userLabel="Vertical Spacer">
-                                        <rect key="frame" x="0.0" y="244" width="288" height="8"/>
+                                        <rect key="frame" x="0.0" y="160" width="288" height="8"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="8" id="dA9-eP-n1a"/>
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="loM-qm-kgB" userLabel="SK3 Section View">
-                                        <rect key="frame" x="0.0" y="252" width="288" height="60"/>
+                                        <rect key="frame" x="0.0" y="185" width="288" height="60"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QEe-M2-AZE" userLabel="Left spacer">
                                                 <rect key="frame" x="0.0" y="0.0" width="16" height="60"/>
@@ -201,16 +211,15 @@
                                         </subviews>
                                     </stackView>
                                 </subviews>
+                                <variation key="default">
+                                    <mask key="subviews">
+                                        <exclude reference="B3F-BU-A9H"/>
+                                        <exclude reference="2tz-Rt-ATs"/>
+                                        <exclude reference="XeF-ao-6YR"/>
+                                        <exclude reference="loM-qm-kgB"/>
+                                    </mask>
+                                </variation>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EUi-P8-Afp">
-                                <rect key="frame" x="16" y="446" width="288" height="27"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <state key="normal" title="GO TO OLD UI"/>
-                                <connections>
-                                    <segue destination="sqW-Ne-u13" kind="show" animates="NO" id="7pS-5U-wEZ"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -219,16 +228,8 @@
                             <constraint firstItem="Qsd-gs-hVo" firstAttribute="top" secondItem="llR-u1-7rx" secondAttribute="top" constant="32" id="wPh-jG-eo5"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="llR-u1-7rx"/>
-                        <variation key="default">
-                            <mask key="subviews">
-                                <exclude reference="EUi-P8-Afp"/>
-                            </mask>
-                        </variation>
                     </view>
                     <navigationItem key="navigationItem" title="Models" id="1AI-u4-KIa"/>
-                    <connections>
-                        <outlet property="oldUIButton" destination="EUi-P8-Afp" id="VwR-nB-Hph"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J32-6H-LNw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -299,14 +300,6 @@
             </objects>
             <point key="canvasLocation" x="-1212" y="-1233"/>
         </scene>
-        <!--MasterViewController-->
-        <scene sceneID="hhP-lS-5Ss">
-            <objects>
-                <viewControllerPlaceholder storyboardIdentifier="MasterViewController" storyboardName="OLD" referencedIdentifier="MasterViewController" id="sqW-Ne-u13" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="bdL-uN-HMt" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="942" y="-1689"/>
-        </scene>
         <!--SK2_Storyboard-->
         <scene sceneID="ncs-bM-tTG">
             <objects>
@@ -317,6 +310,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="WGP-mm-czg"/>
+        <segue reference="Eh7-cP-QOM"/>
     </inferredMetricsTieBreakers>
 </document>

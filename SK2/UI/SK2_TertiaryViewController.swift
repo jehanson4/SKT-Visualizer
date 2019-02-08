@@ -14,7 +14,7 @@ class SK2_TertiaryViewController: UIViewController, UITextFieldDelegate, AppMode
     // Debugging
     
     let name = "SK2_TertiaryViewController"
-    var debugEnabled = true
+    var debugEnabled = false
     func debug(_ mtd: String, _ msg: String = "") {
         if (debugEnabled)  {
             print(name, mtd, msg)

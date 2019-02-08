@@ -18,7 +18,7 @@ class SequencerSelectionViewController2: UITableViewController, AppModelUser {
     // Debug
     
     private var clsName = "SequencerSelectionViewController"
-    private var debugEnabled = true
+    private var debugEnabled = false
     
     private func debug(_ mtd: String, _ msg: String = "") {
         if (debugEnabled) {

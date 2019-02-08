@@ -18,7 +18,7 @@ class FigureSelectionViewController: UITableViewController, AppModelUser {
     // Debug
     
     private var clsName = "FigureSelectionViewController"
-    private var debugEnabled = true
+    private var debugEnabled = false
     
     private func debug(_ mtd: String, _ msg: String = "") {
         if (debugEnabled) {

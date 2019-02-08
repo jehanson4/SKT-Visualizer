@@ -14,7 +14,7 @@ class SK2_SecondaryViewController: UIViewController, UITextFieldDelegate, AppMod
     // Debugging
     
     let name = "SK2_SecondaryViewController"
-    var debugEnabled = true
+    var debugEnabled = false
     func debug(_ mtd: String, _ msg: String = "") {
         if (debugEnabled)  {
             print(name, mtd, msg)

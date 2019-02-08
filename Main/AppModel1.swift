@@ -11,7 +11,7 @@ import Foundation
 // ========================================
 // Debugging
 
-fileprivate let debugEnabled = true
+fileprivate let debugEnabled = false
 
 fileprivate func debug(_ mtd: String, _ msg: String = "") {
     if (debugEnabled) {
@@ -145,9 +145,9 @@ class AppModel1 : AppModel {
     var workQueue: WorkQueue
     
     // TO BE DELETED
-    var oldFactory: SKT_Factory
-    var skt: SKTModel { return oldFactory.skt }
-    var viz: VisualizationModel1 { return oldFactory.viz }
+    // var oldFactory: SKT_Factory
+    // var skt: SKTModel { return oldFactory.skt }
+    // var viz: VisualizationModel1 { return oldFactory.viz }
     
     // ================================================
     // Initializer
@@ -164,12 +164,12 @@ class AppModel1 : AppModel {
 
         // 2. Install the parts
         
-        oldFactory = SKT_Factory("old")
-        let (oldParts, oldPrefs) = oldFactory.makePartsAndPrefs(animationController, graphicsController, workQueue)
-        for part in oldParts {
-            installPart(part)
-        }
-        _preferenceSupportList += oldPrefs
+//        oldFactory = SKT_Factory("old")
+//        let (oldParts, oldPrefs) = oldFactory.makePartsAndPrefs(animationController, graphicsController, workQueue)
+//        for part in oldParts {
+//            installPart(part)
+//        }
+//        _preferenceSupportList += oldPrefs
 
         let sk1Factory = SK1_Factory("sk1")
         let (sk1Parts, sk1Prefs) = sk1Factory.makePartsAndPrefs(animationController, graphicsController, workQueue)

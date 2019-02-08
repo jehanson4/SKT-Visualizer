@@ -11,7 +11,7 @@ import UIKit
 class UISelectorViewController : UIViewController, AppModelUser {
     
     private var clsName = "UISelectionViewController"
-    private var debugEnabled = true
+    private var debugEnabled = false
     
     private func debug(_ mtd: String, _ msg: String = "") {
         if (debugEnabled) {

@@ -11,7 +11,7 @@ import UIKit
 class OLD_MasterViewController: UIViewController, UITextFieldDelegate, AppModelUser {
     
     let name = "OLD MasterViewController"
-    var debugEnabled = true
+    var debugEnabled = false
     
     weak var appModel: AppModel!
     weak var old_AppModel: AppModel1!

@@ -32,15 +32,15 @@ struct SK2_BasinData: DS2_Node {
         self.distanceToAttractor = distanceToAttractor
     }
     
-    // OLD -- FIXME stop using this
-    init(_ node: BANode) {
-        self.nodeIndex = node.idx
-        self.m = node.m
-        self.n = node.n
-        self.isClassified = node.isClassified
-        self.isBoundary = node.isBoundary
-        self.basinID = node.basinID
-        self.distanceToAttractor = node.distanceToAttractor
-    }
+//    // OLD -- FIXME stop using this
+//    init(_ node: BANode) {
+//        self.nodeIndex = node.idx
+//        self.m = node.m
+//        self.n = node.n
+//        self.isClassified = node.isClassified
+//        self.isBoundary = node.isBoundary
+//        self.basinID = node.basinID
+//        self.distanceToAttractor = node.distanceToAttractor
+//    }
 }
 

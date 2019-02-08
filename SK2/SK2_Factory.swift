@@ -9,7 +9,7 @@
 import Foundation
 import GLKit
 
-fileprivate var debugEnabled = true
+fileprivate var debugEnabled = false
 
 fileprivate func debug(_ mtd: String, _ msg: String = "") {
     if (debugEnabled)  {
@@ -248,7 +248,7 @@ class SK2_Factory: AppPartFactory {
         
         do {
             let meridians = MeridiansOnShell(system, enabled: true, switchable: true, radius: r0)
-            _ = try baseShell.effects?.register(meridians, key: Meridians.key)
+            _ = try baseShell.effects?.register(meridians, key: MeridiansOnShell.key)
         } catch {
             debug(mtd, "Problem registring Meridians: \(error)")
         }
