@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Qsd-gs-hVo">
-                                <rect key="frame" x="16" y="102" width="288" height="168"/>
+                                <rect key="frame" x="16" y="102" width="288" height="166"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eMA-y0-9bt" userLabel="Separator">
                                         <rect key="frame" x="0.0" y="0.0" width="288" height="1"/>
@@ -36,7 +36,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ItM-3z-cBx" userLabel="Vertical Spacer">
-                                        <rect key="frame" x="0.0" y="1" width="288" height="8"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="288" height="8"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="8" id="8P3-xA-rSf"/>
@@ -72,34 +72,34 @@
                                         </subviews>
                                     </stackView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FPc-XT-rd2" userLabel="Vertical Spacer">
-                                        <rect key="frame" x="0.0" y="9" width="288" height="16"/>
+                                        <rect key="frame" x="0.0" y="8" width="288" height="16"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="16" id="H9j-Cu-110"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bqG-Xt-tHm" userLabel="Separator">
-                                        <rect key="frame" x="0.0" y="25" width="288" height="1"/>
+                                        <rect key="frame" x="0.0" y="24" width="288" height="1"/>
                                         <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="lUP-Ct-6Jt"/>
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="SK HAMILTONIAN / 2 COMPONENTS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wLP-Aw-f3E" userLabel="SK2 Section Title">
-                                        <rect key="frame" x="0.0" y="26" width="288" height="17"/>
+                                        <rect key="frame" x="0.0" y="25" width="288" height="17"/>
                                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fD2-NP-lpq" userLabel="Vertical Spacer">
-                                        <rect key="frame" x="0.0" y="43" width="288" height="8"/>
+                                        <rect key="frame" x="0.0" y="42" width="288" height="8"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="8" id="pVA-kq-5Jr"/>
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UJy-UY-rEL" userLabel="SK2 Section View">
-                                        <rect key="frame" x="0.0" y="51" width="288" height="92"/>
+                                        <rect key="frame" x="0.0" y="50" width="288" height="92"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g3u-OV-3Dn" userLabel="Left spacer">
                                                 <rect key="frame" x="0.0" y="0.0" width="16" height="92"/>
@@ -150,14 +150,14 @@
                                         </subviews>
                                     </stackView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h1p-Fw-2Au" userLabel="Vertical Spacer">
-                                        <rect key="frame" x="0.0" y="143" width="288" height="16"/>
+                                        <rect key="frame" x="0.0" y="142" width="288" height="16"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="16" id="Uxj-py-mM0"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Otm-hz-IRb" userLabel="Separator">
-                                        <rect key="frame" x="0.0" y="159" width="288" height="1"/>
+                                        <rect key="frame" x="0.0" y="158" width="288" height="1"/>
                                         <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="GAo-lc-TfD"/>
@@ -171,7 +171,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Gi-hk-HO9" userLabel="Vertical Spacer">
-                                        <rect key="frame" x="0.0" y="160" width="288" height="8"/>
+                                        <rect key="frame" x="0.0" y="158" width="288" height="8"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="8" id="dA9-eP-n1a"/>
@@ -213,8 +213,10 @@
                                 </subviews>
                                 <variation key="default">
                                     <mask key="subviews">
+                                        <exclude reference="eMA-y0-9bt"/>
                                         <exclude reference="B3F-BU-A9H"/>
                                         <exclude reference="2tz-Rt-ATs"/>
+                                        <exclude reference="Otm-hz-IRb"/>
                                         <exclude reference="XeF-ao-6YR"/>
                                         <exclude reference="loM-qm-kgB"/>
                                     </mask>
