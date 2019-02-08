@@ -34,7 +34,9 @@ protocol AppPartFactory {
     
     var namespace: String { get set }
     
-    func makePartsAndPrefs(_ graphicsController: GraphicsController) -> (parts: [AppPart], preferences: [(String, PreferenceSupport)])
+    func makePartsAndPrefs(_ animationController: AnimationController,
+                           _ graphicsController: GraphicsController,
+                           _ workQueue: WorkQueue) -> (parts: [AppPart], preferences: [(String, PreferenceSupport)])
     
 }
 
@@ -51,6 +53,8 @@ protocol AppModel: AnyObject {
     var animationController: AnimationController { get }
     
     var graphicsController: GraphicsController { get set }
+
+    var workQueue: WorkQueue { get }
     
     func savePreferences()
     

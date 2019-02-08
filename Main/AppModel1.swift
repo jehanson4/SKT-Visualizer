@@ -136,11 +136,13 @@ class AppModel1 : AppModel {
     }
     
     // ================================================
-    // Other controllers
+    // Other stuff
     
     var animationController: AnimationController
     
     var graphicsController: GraphicsController
+    
+    var workQueue: WorkQueue
     
     // TO BE DELETED
     var oldFactory: SKT_Factory
@@ -154,29 +156,30 @@ class AppModel1 : AppModel {
         
         // 1. Initialize the vars
 
-        partSelector = Selector<AppPart>(Registry<AppPart>())
-        animationController = AnimationController()
+        workQueue = WorkQueue()
+        animationController = AnimationController(workQueue)
         graphicsController = GraphicsControllerV1()
-       _preferenceSupportList = []
-        
+        partSelector = Selector<AppPart>(Registry<AppPart>())
+        _preferenceSupportList = []
+
         // 2. Install the parts
         
         oldFactory = SKT_Factory("old")
-        let (oldParts, oldPrefs) = oldFactory.makePartsAndPrefs(graphicsController)
+        let (oldParts, oldPrefs) = oldFactory.makePartsAndPrefs(animationController, graphicsController, workQueue)
         for part in oldParts {
             installPart(part)
         }
         _preferenceSupportList += oldPrefs
 
         let sk1Factory = SK1_Factory("sk1")
-        let (sk1Parts, sk1Prefs) = sk1Factory.makePartsAndPrefs(graphicsController)
+        let (sk1Parts, sk1Prefs) = sk1Factory.makePartsAndPrefs(animationController, graphicsController, workQueue)
         for part in sk1Parts {
             installPart(part)
         }
         _preferenceSupportList += sk1Prefs
 
         let sk2Factory = SK2_Factory("sk2")
-        let (sk2Parts, sk2Prefs) = sk2Factory.makePartsAndPrefs(graphicsController)
+        let (sk2Parts, sk2Prefs) = sk2Factory.makePartsAndPrefs(animationController, graphicsController, workQueue)
         for part in sk2Parts {
             installPart(part)
         }

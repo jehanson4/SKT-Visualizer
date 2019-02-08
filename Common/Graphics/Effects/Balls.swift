@@ -36,6 +36,8 @@ class Balls : Effect {
     var info: String? = nil
     var description: String { return nameAndInfo(self) }
 
+    var switchable: Bool
+    
     var enabled: Bool {
         get { return _enabled }
         set(newValue) {
@@ -104,8 +106,9 @@ class Balls : Effect {
     // ====================================================
     // Initializer
     
-    init(enabled: Bool) {
+    init(enabled: Bool, switchable: Bool) {
         self._enabled = enabled
+        self.switchable = switchable
         
         let vv = Balls.vertices2
         let cc = Balls.colors2

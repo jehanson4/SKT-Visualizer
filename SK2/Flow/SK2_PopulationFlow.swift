@@ -78,6 +78,7 @@ class SK2_PopulationFlow : DiscreteTimeDynamic, ChangeMonitorEnabled {
     }
     
     weak var system: SK2_System!
+    weak var workQueue: WorkQueue!
     private var workingData: SK2_PFModel
     
     private var _wCurr: [Double]
@@ -86,9 +87,9 @@ class SK2_PopulationFlow : DiscreteTimeDynamic, ChangeMonitorEnabled {
     
     private var bgTaskCounter: Int = 0
     
-    init(_ system: SK2_System, _ ic: SK2_PFInitializer? = nil, _ rule: SK2_PFRule? = nil) {
+    init(_ system: SK2_System, _ workQueue: WorkQueue, _ ic: SK2_PFInitializer? = nil, _ rule: SK2_PFRule? = nil) {
         self.system = system
-        
+        self.workQueue = workQueue
         let desc = SK2_Descriptor(system)
         let ic2 = (ic != nil) ? ic! : SK2_EquilibriumPopulation()
         let rule2 = (rule != nil) ? rule! : SK2_SteepestDescentFirstMatch()
@@ -112,7 +113,7 @@ class SK2_PopulationFlow : DiscreteTimeDynamic, ChangeMonitorEnabled {
         
         debug("sync", "submitting work item")
         self._busy = true
-        self.system.workQueue.async {
+        self.workQueue.async {
             let populationChanged = self.workingData.setModelParams(liveParams)
             let modelParams = self.workingData.modelParams
             let stepNumber = self.workingData.stepNumber
@@ -129,7 +130,7 @@ class SK2_PopulationFlow : DiscreteTimeDynamic, ChangeMonitorEnabled {
         // DO NOT abort if _busy
         debug("replaceInitializer", "starting")
         let liveParams = SK2_Descriptor(self.system)
-        self.system.workQueue.async {
+        self.workQueue.async {
             self.workingData.ic = ic
             var populationChanged = self.workingData.setModelParams(liveParams)
             if (!populationChanged) {
@@ -150,7 +151,7 @@ class SK2_PopulationFlow : DiscreteTimeDynamic, ChangeMonitorEnabled {
         // DO NOT abort if _busy
         debug("replaceRule", "starting")
         let liveParams = SK2_Descriptor(self.system)
-        self.system.workQueue.async {
+        self.workQueue.async {
             self.workingData.rule = rule
             var populationChanged = self.workingData.setModelParams(liveParams)
             if (!populationChanged) {
@@ -170,7 +171,7 @@ class SK2_PopulationFlow : DiscreteTimeDynamic, ChangeMonitorEnabled {
         // DO NOT abort if _busy
         debug("reset", "starting")
         let liveParams = SK2_Descriptor(self.system)
-        self.system.workQueue.async {
+        self.workQueue.async {
             var populationChanged = self.workingData.setModelParams(liveParams)
             if (!populationChanged) {
                 populationChanged = self.workingData.reset()
@@ -204,7 +205,7 @@ class SK2_PopulationFlow : DiscreteTimeDynamic, ChangeMonitorEnabled {
         }
         
         let liveParams = SK2_Descriptor(self.system)
-        self.system.workQueue.async {
+        self.workQueue.async {
             let tt = self.bgTaskCounter
             self.bgTaskCounter += 1
             debug("step", "BG task[\(tt)] starting")

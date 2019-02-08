@@ -9,7 +9,7 @@
 import Foundation
 import GLKit
 
-fileprivate var debugEnabled = true
+fileprivate var debugEnabled = false
 
 fileprivate func debug(_ mtd: String, _ msg : String = "") {
     if (debugEnabled) {
@@ -31,12 +31,13 @@ class NodesOnShell: Effect, Colorized {
     // ============================================
     // Lifecycle
     
-    init(_ system: SK2_System, _ figure: ShellFigure, _ colorSource: ColorSource, enabled: Bool) {
+    init(_ system: SK2_System, _ figure: ShellFigure, _ colorSource: ColorSource, enabled: Bool, switchable: Bool) {
         debug("init")
         self.system = system
         self.geometry = SK2_ShellGeometry(system, radius: figure.r0)
         self.figure = figure
         self._colorSource = colorSource
+        self.switchable = switchable
         self._enabled = enabled
 
         self.N_monitor = system.N.monitorChanges(markGeometryStale)
@@ -76,6 +77,10 @@ class NodesOnShell: Effect, Colorized {
     var info: String? = nil
     var description: String { return nameAndInfo(self) }
 
+    var switchable: Bool
+    
+    private var _enabled: Bool
+    
     var enabled: Bool {
         get { return _enabled }
         set(newValue) {
@@ -86,7 +91,6 @@ class NodesOnShell: Effect, Colorized {
         }
     }
     
-    private var _enabled: Bool
     private var built: Bool = false
 
     private weak var system: SK2_System!
@@ -113,6 +117,7 @@ class NodesOnShell: Effect, Colorized {
             colorsAreStale = true
             debug("colorSource setter", "replacing change monitor")
             self.colorSourceMonitor?.disconnect()
+            markColorsStale(nil)
             self.colorSourceMonitor = _colorSource.monitorChanges(markColorsStale)
         }
     }
@@ -392,11 +397,12 @@ class NodesOnShell: Effect, Colorized {
         var needsColorBufferUpdate = false
         let colorSourceChanged = _colorSource.prepare(system.nodeCount)
         if (colorSourceChanged || colorsAreStale) {
+            debug("rereading colors from color source", "colorSource: \(_colorSource.name) colors.count=\(colors.count) colorSourceChanged=\(colorSourceChanged) colorsAreStale=\(colorsAreStale)")
             colorsAreStale = false
-            debug("rereading colors from color source", "colorSource: \(_colorSource.name) colors.count=\(colors.count)")
             for i in 0..<colors.count {
                 colors[i] = _colorSource.colorAt(i)
             }
+            colorsAreStale = false
             needsColorBufferUpdate = true
         }
 

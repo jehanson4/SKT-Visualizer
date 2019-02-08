@@ -27,6 +27,8 @@ class MeridiansOnShell:  GLKBaseEffect, Effect {
     var name = "Meridians"
     var info: String? = nil
     
+    var switchable: Bool
+
     private var _enabled: Bool
     private var built: Bool = false
     
@@ -91,9 +93,10 @@ class MeridiansOnShell:  GLKBaseEffect, Effect {
     private var vertexArray: GLuint = 0
     private var vertexBuffer: GLuint = 0
     
-    init(_ sk2: SK2_System, enabled: Bool, radius: Double = 1) {
+    init(_ sk2: SK2_System, enabled: Bool, switchable: Bool, radius: Double = 1) {
         self.system = sk2
         self.geometry = SK2_ShellGeometry(sk2, radius: radius)
+        self.switchable = switchable
         self._enabled = enabled
         self.rOffset = MeridiansOnShell.rOffsetDefault
         super.init()

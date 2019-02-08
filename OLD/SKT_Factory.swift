@@ -30,7 +30,9 @@ class SKT_Factory: AppPartFactory, PreferenceSupport {
         self.namespace = namespace
     }
     
-    func makePartsAndPrefs(_ graphicsController: GraphicsController) -> (parts: [AppPart], preferences: [(String, PreferenceSupport)]) {
+    func makePartsAndPrefs(_ animationController: AnimationController,
+                           _ graphicsController: GraphicsController,
+                           _ workQueue: WorkQueue) -> (parts: [AppPart], preferences: [(String, PreferenceSupport)]) {
        
         var parts: [AppPart] = []
         var prefs: [(String, PreferenceSupport)] = []

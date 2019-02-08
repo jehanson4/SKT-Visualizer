@@ -31,7 +31,8 @@ class Surface : GLKBaseEffect, Effect {
     var name = "Surface"
     var info: String? = nil
     var enabled = false
-    
+    var switchable: Bool = true
+
     private let enabledDefault: Bool
     private var built: Bool = false
 

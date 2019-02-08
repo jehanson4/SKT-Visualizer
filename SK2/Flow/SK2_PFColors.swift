@@ -30,16 +30,17 @@ class SK2_PFColorSource : ColorSource {
     
     var backingModel: AnyObject? { return flow }
     
-    private var flow: SK2_PopulationFlow
-    private var colorMap: LogColorMap
+    weak var flow: SK2_PopulationFlow!
+    var colorMap: LogColorMap
     
     // population 'weight' of a node
     private var wCurr: [Double]
-    
+    let wEmpty: [Double] = []
+
     init(_ flow: SK2_PopulationFlow, _ colorMap: LogColorMap) {
         self.flow = flow
         self.colorMap = colorMap
-        self.wCurr = []
+        self.wCurr = wEmpty
         flowMonitor = flow.monitorChanges(flowChanged)
     }
     
@@ -54,9 +55,12 @@ class SK2_PFColorSource : ColorSource {
     }
     
     func prepare(_ nodeCount: Int) -> Bool {
-        debug("prepare", "getting flow.wCurr")
-        self.wCurr = flow.wCurr
-        return true
+        if (wCurr.count != nodeCount) {
+            debug("prepare", "getting flow.wCurr")
+            self.wCurr = flow.wCurr
+            return true
+        }
+        return false
     }
     
     func colorAt(_ nodeIndex: Int) -> GLKVector4 {
@@ -66,6 +70,9 @@ class SK2_PFColorSource : ColorSource {
     private var flowMonitor: ChangeMonitor? = nil
     
     private func flowChanged(_ sender: Any?) {
+        debug("flowChanged", "discarding wCurr")
+        wCurr = wEmpty
+        debug("flowChanged", "firing change to my own monitors")
         fireChange()
     }
     

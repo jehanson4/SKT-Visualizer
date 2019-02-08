@@ -8,24 +8,31 @@
 
 import Foundation
 
+fileprivate let debugEnabled = true
+
+fileprivate func debug(_ mtd: String, _ msg: String = "") {
+    if (debugEnabled) {
+        print("AnimationController", mtd, ":", msg)
+    }
+}
+
 // ===============================================================
 // AnimationController
 // ===============================================================
 
 class AnimationController {
+
+    // ========================================
+    // Initializer
+    
+    init(_ workQueue: WorkQueue) {
+        self.workQueue = workQueue
+    }
     
     // ========================================
-    // Debugging
+    // WorkQueue
     
-    private let cls = "AnimationController"
-    
-    let debugEnabled = true
-    
-    private func debug(_ mtd: String, _ msg: String = "") {
-        if (debugEnabled) {
-            print(cls, mtd, ":", msg)
-        }
-    }
+    weak var workQueue: WorkQueue!
     
     // ========================================
     // Sequencer
@@ -48,7 +55,7 @@ class AnimationController {
     // ========================================
     // Step rate
     
-    static let rateLimit_default = 10.0
+    static let rateLimit_default = 1.0
     private var _rateLimit: Double = rateLimit_default
     private var _stepInterval: TimeInterval = 1.0/rateLimit_default
     private var _lastStepTime: TimeInterval = 0.0
@@ -66,7 +73,7 @@ class AnimationController {
     func toggleSequencer() {
         let mtd = "toggleSequencer"
         if (_sequencer == nil) {
-            debug(mtd, "sequencer is nil")
+            debug(mtd, "giving up because equencer is nil")
             return
         }
         let seq = _sequencer!
@@ -103,12 +110,12 @@ class AnimationController {
         let t0: TimeInterval = currTime()
         let dt: TimeInterval = t0 - _lastStepTime
         if (dt < _stepInterval) {
-            debug(mtd, "too soon")
+            debug(mtd, "giving up because it's too soon")
             return
         }
         
-        if (seq.busy) {
-            debug(mtd, "busy")
+        if (workQueue.busy) {
+            debug(mtd, "giving up because queue is busy")
             return
         }
         

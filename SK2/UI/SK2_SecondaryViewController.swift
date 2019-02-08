@@ -96,6 +96,8 @@ class SK2_SecondaryViewController: UIViewController, UITextFieldDelegate, AppMod
     // ======================================================
     // Effects
     
+    var switchableEffectKeys: [String?] = []
+
     @IBOutlet weak var effect1_Label: UILabel!
     @IBOutlet weak var effect1_Switch: UISwitch!
 
@@ -112,24 +114,18 @@ class SK2_SecondaryViewController: UIViewController, UITextFieldDelegate, AppMod
     @IBOutlet weak var effect5_Switch: UISwitch!
     
 
-    @IBAction func effectSwitchFlipped(_ sender: UISwitch) {
-        debug("effectSwitchFlipped", "tag=\(sender.tag)")
-        if (sender.tag <= 0) {
-            return
-        }
-
-        var effect = figure?.effects?.entry(index: (sender.tag-1))?.value
-        if (effect != nil) {
-            debug("effectSwitchFlipped", "effect=\(effect!.name)")
-            effect!.enabled = sender.isOn
-            sender.isOn = effect!.enabled
-        }
-    }
-    
     func setupEffects() {
         let mtd = "setupEffects"
         debug(mtd, "entered")
         
+        func addSwitchableKey(_ entry: RegistryEntry<Effect>) {
+            if (entry.value.switchable) {
+                switchableEffectKeys.append(entry.key)
+            }
+        }
+        figure?.effects?.visitEntries(addSwitchableKey)
+        
+
         let eCount = figure?.effects?.entryCount
         let eLabels: [UILabel?]  = [
             effect1_Label,
@@ -210,6 +206,20 @@ class SK2_SecondaryViewController: UIViewController, UITextFieldDelegate, AppMod
     
     func teardownEffects() {
         // NOP
+    }
+    
+    @IBAction func effectSwitchFlipped(_ sender: UISwitch) {
+        debug("effectSwitchFlipped", "tag=\(sender.tag)")
+        if (sender.tag <= 0) {
+            return
+        }
+        
+        var effect = figure?.effects?.entry(index: (sender.tag-1))?.value
+        if (effect != nil) {
+            debug("effectSwitchFlipped", "effect=\(effect!.name)")
+            effect!.enabled = sender.isOn
+            sender.isOn = effect!.enabled
+        }
     }
     
     // ========================================

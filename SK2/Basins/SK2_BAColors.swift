@@ -11,12 +11,11 @@ import GLKit
 
 fileprivate var debugEnabled = false
 
-fileprivate func debug(_ mtd: String, _ msg: String) {
+fileprivate func debug(_ mtd: String, _ msg: String = "") {
     if (debugEnabled) {
         print("SK2_BAColors", mtd, msg)
     }
 }
-
 
 // ==================================================================
 // SK2_BAColorSource
@@ -33,7 +32,8 @@ class SK2_BAColorSource : ColorSource {
     
     var backingModel: AnyObject? { return basinFinder.system }
     
-    private var basinFinder: SK2_BasinsAndAttractors
+    weak var basinFinder: SK2_BasinsAndAttractors!
+    var calibrationNeeded: Bool
     
     private var unclassified_color: GLKVector4 // gray
     private var basinBoundary_color: GLKVector4 // black
@@ -41,12 +41,9 @@ class SK2_BAColorSource : ColorSource {
     
     private var washoutNorm: GLfloat = 1.0
     
-    // ============================================================
-    // TODO monitor changes in system
-    // ============================================================
-    
     init(_ basinFinder: SK2_BasinsAndAttractors, expectedBasinCount: Int = 4) {
         self.basinFinder = basinFinder
+        self.calibrationNeeded = true
         self.unclassified_color = GLKVector4Make(0.5, 0.5, 0.5, 1)
         self.basinBoundary_color = GLKVector4Make(0,0,0,1)
         self.basin_colors = []
@@ -66,15 +63,10 @@ class SK2_BAColorSource : ColorSource {
         }
     }
     
+    
     func calibrate() {
-        var changed = false
-        let newWashoutNorm = washoutFudgeFactor / GLfloat(basinFinder.expectedMaxDistanceToAttractor)
-        if (newWashoutNorm != self.washoutNorm) {
-            changed = true
-            self.washoutNorm = newWashoutNorm
-        }
-        if (changed) {
-            fireChange();
+        if (doCalibration()) {
+            fireChange()
         }
     }
     
@@ -83,9 +75,14 @@ class SK2_BAColorSource : ColorSource {
     }
     
     func prepare(_ nodeCount: Int) -> Bool {
-        // Return values from basinFinder updates are useless b/c the changes
+        debug("SK2_BAColorSource prepare", "calling basinFinder.update")
+        // Return value from basinFinder.update() is useless b/c the changes
         // happen asynchronously.
         _ = basinFinder.update()
+        
+        if (calibrationNeeded) {
+            _ = doCalibration()
+        }
         return true
     }
     
@@ -93,7 +90,7 @@ class SK2_BAColorSource : ColorSource {
         // let nd = basinFinder.nodeData[nodeIndex]
         let nc = basinFinder.basinData.count
         if (nodeIndex >= nc) {
-            // debug("colorAt", "Bad node index \(nodeIndex); nodeCount=\(nc)")
+            debug("colorAt", "Bad node index \(nodeIndex); nodeCount=\(nc)")
             return unclassified_color
         }
         
@@ -120,12 +117,22 @@ class SK2_BAColorSource : ColorSource {
         return colorValue + (1.0-colorValue) * washoutNorm * GLfloat(washoutLevel)
     }
     
+    func doCalibration() -> Bool {
+        let newWashoutNorm = washoutFudgeFactor / GLfloat(basinFinder.expectedMaxDistanceToAttractor)
+        if (newWashoutNorm != self.washoutNorm) {
+            self.washoutNorm = newWashoutNorm
+            return true
+        }
+        calibrationNeeded = false
+        return false
+    }
     // ==========================================
     // Change monitoring
     
     private var changeSupport : ChangeMonitorSupport? = nil
     
     func monitorChanges(_ callback: @escaping (Any) -> ()) -> ChangeMonitor? {
+        debug("SK2_BAColorSource monitorChanges")
         if (changeSupport == nil) {
             changeSupport = ChangeMonitorSupport()
         }
@@ -133,6 +140,7 @@ class SK2_BAColorSource : ColorSource {
     }
     
     func fireChange() {
+        debug("SK2_BAColorSource fireChange")
         changeSupport?.fire()
     }
 

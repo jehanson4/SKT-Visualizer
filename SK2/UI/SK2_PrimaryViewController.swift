@@ -55,7 +55,7 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
         }
         else {
             debug(mtd, "system has been set")
-            figureSelector_setup()
+            visualization_setup()
             modelParams_setup()
             sequencer_setup()
         }
@@ -96,7 +96,7 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
         // If we're doing a seque to secondary controller and we disconnect things here,
         // they don't get reconnected when we unwind.
         debug("viewWillDisappear", "disconnecting controls")
-        figureSelector_teardown()
+        visualization_teardown()
         modelParams_teardown()
         sequencer_teardown()
 
@@ -111,7 +111,7 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     
     @IBAction func unwindToSK2_Primary(_ sender: UIStoryboardSegue) {
         debug("unwindToSK2_Primary. reconnecting controls")
-        figureSelector_setup()
+        visualization_setup()
         modelParams_setup()
         sequencer_setup()
     }
@@ -124,12 +124,18 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     
     var figureSelectionMonitor: ChangeMonitor? = nil
     
-    func figureSelector_setup() {
-        debug("figureSelector_setup")
+    func visualization_setup() {
+        debug("visualization_setup")
         UIUtils.addBorder(figureSelectorButton)
+        updateAutocalibration(nil)
         let figureSelector = appPart.figureSelector
         figureSelector_update(figureSelector)
         figureSelectionMonitor = figureSelector.monitorChanges(figureSelector_update)
+    }
+    
+    func visualization_teardown() {
+        debug("visualization_teardown")
+        figureSelectionMonitor?.disconnect()
     }
     
     /// called when selected figure changes
@@ -140,11 +146,6 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
             let title = figureSelector.selection?.name ?? "(choose)"
             figureSelectorButton.setTitle(title, for: .normal)
         }
-    }
-    
-    func figureSelector_teardown() {
-        debug("figureSelector_teardown")
-        figureSelectionMonitor?.disconnect()
     }
     
     @IBAction func calibrate(_ sender: Any) {

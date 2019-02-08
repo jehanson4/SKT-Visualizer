@@ -15,6 +15,7 @@ import OpenGL
 #endif
 
 class Net : GLKBaseEffect, Effect {
+    
     func teardown() {
         
     }
@@ -26,7 +27,8 @@ class Net : GLKBaseEffect, Effect {
     var name: String = "Net"
     var info: String? = nil
     var enabled: Bool
-    
+    var switchable: Bool = true
+
     private let enabledDefault: Bool
     
     var geometry: SK2Geometry

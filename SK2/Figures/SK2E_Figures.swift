@@ -23,27 +23,41 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 
 class SK2E_EnergyFigure: ColorizedFigure {
     
-    private var N_monitor: ChangeMonitor?
-    private var k_monitor: ChangeMonitor?
-    private var a1_monitor: ChangeMonitor?
-    private var a2_monitor: ChangeMonitor?
+    private weak var system: SK2_System!
+    private var N_monitor: ChangeMonitor? = nil
+    private var k_monitor: ChangeMonitor? = nil
+    private var a1_monitor: ChangeMonitor? = nil
+    private var a2_monitor: ChangeMonitor? = nil
     private let cs: SK2E_EnergyColors
     
     init(_ name: String, _ system: SK2_System, _ baseFigure: Figure) {
+        self.system = system
         self.cs = SK2E_EnergyColors(system)
         super.init(name, delegate: baseFigure, colorSource: cs)
+    }
+    
+    override func aboutToShowFigure() {
+        super.aboutToShowFigure()
         N_monitor = system.N.monitorChanges(systemHasChanged)
         k_monitor = system.k.monitorChanges(systemHasChanged)
         a1_monitor = system.a1.monitorChanges(systemHasChanged)
         a2_monitor = system.a2.monitorChanges(systemHasChanged)
     }
     
+    override func figureHasBeenHidden() {
+        N_monitor?.disconnect()
+        k_monitor?.disconnect()
+        a1_monitor?.disconnect()
+        a2_monitor?.disconnect()
+        super.figureHasBeenHidden()
+    }
+    
     private func systemHasChanged(_ sender: Any?) {
         if (autocalibrate) {
-            debug("systemHasChanged", "calibrating the color source because autocalibrate is on")
+            debug("SK2E_EnergyFigure.systemHasChanged", "calibrating the color source because autocalibrate is on")
             colorSource.calibrate()
         }
-        debug("systemHasChanged", "firing colorSource change notification")
+        debug("SK2E_EnergyFigure.systemHasChanged", "firing colorSource change notification")
         cs.fireChange()
     }
 }
@@ -54,23 +68,35 @@ class SK2E_EnergyFigure: ColorizedFigure {
 
 class SK2E_EntropyFigure: ColorizedFigure {
     
-    private var N_monitor: ChangeMonitor?
-    private var k_monitor: ChangeMonitor?
+    private weak var system: SK2_System!
     private let cs: SK2E_EntropyColors
+    private var N_monitor: ChangeMonitor? = nil
+    private var k_monitor: ChangeMonitor? = nil
 
     init(_ name: String, _ system: SK2_System, _ baseFigure: Figure) {
+        self.system = system
         self.cs = SK2E_EntropyColors(system)
         super.init(name, delegate: baseFigure, colorSource: cs)
+    }
+
+    override func aboutToShowFigure() {
+        super.aboutToShowFigure()
         N_monitor = system.N.monitorChanges(systemHasChanged)
         k_monitor = system.k.monitorChanges(systemHasChanged)
     }
     
+    override func figureHasBeenHidden() {
+        N_monitor?.disconnect()
+        k_monitor?.disconnect()
+        super.figureHasBeenHidden()
+    }
+    
     private func systemHasChanged(_ sender: Any?) {
         if (autocalibrate) {
-            debug("systemHasChanged", "calibrating the color source because autocalibrate is on")
+            debug("SK2E_EntropyFigure.systemHasChanged", "calibrating the color source because autocalibrate is on")
             colorSource.calibrate()
         }
-        debug("systemHasChanged", "firing colorSource change notification")
+        debug("SK2E_EntropyFigure.systemHasChanged", "firing colorSource change notification")
         cs.fireChange()
     }
 }
@@ -81,17 +107,23 @@ class SK2E_EntropyFigure: ColorizedFigure {
 
 class SK2E_OccupationFigure: ColorizedFigure {
     
+    private weak var system: SK2_System!
+    private let cs: SK2E_OccupationColors
     private var N_monitor: ChangeMonitor?
     private var k_monitor: ChangeMonitor?
     private var a1_monitor: ChangeMonitor?
     private var a2_monitor: ChangeMonitor?
     private var T_monitor: ChangeMonitor?
-    private let cs: SK2E_OccupationColors
-    
+
 
     init(_ name: String, _ system: SK2_System, _ baseFigure: Figure) {
+        self.system = system
         self.cs = SK2E_OccupationColors(system)
         super.init(name, delegate: baseFigure, colorSource: cs)
+    }
+    
+    override func aboutToShowFigure() {
+        super.aboutToShowFigure()
         N_monitor = system.N.monitorChanges(systemHasChanged)
         k_monitor = system.k.monitorChanges(systemHasChanged)
         a1_monitor = system.a1.monitorChanges(systemHasChanged)
@@ -99,12 +131,22 @@ class SK2E_OccupationFigure: ColorizedFigure {
         T_monitor = system.T.monitorChanges(systemHasChanged)
     }
     
+    override func figureHasBeenHidden() {
+        N_monitor?.disconnect()
+        k_monitor?.disconnect()
+        a1_monitor?.disconnect()
+        a2_monitor?.disconnect()
+        T_monitor?.disconnect()
+        super.figureHasBeenHidden()
+    }
+
+    
     private func systemHasChanged(_ sender: Any?) {
         if (autocalibrate) {
-            debug("systemHasChanged", "calibrating the color source because autocalibrate is on")
+            debug("SK2E_OccupationFigure.systemHasChanged", "calibrating the color source because autocalibrate is on")
             colorSource.calibrate()
         }
-        debug("systemHasChanged", "firing colorSource change notification")
+        debug("SK2E_OccupationFigure.systemHasChanged", "firing colorSource change notification")
         cs.fireChange()
     }
 }

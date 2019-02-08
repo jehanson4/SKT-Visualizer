@@ -441,21 +441,4 @@ class SK2_System: DS2_System, PreferenceSupport {
         parameters.visit(pSave)
     }
     
-    // ===========================================
-    // Work queue
-    
-    private var _workQueue: WorkQueue? = nil
-    
-    // Not a lazy stored property b/c we don't want 'busy' getter to create it
-    var workQueue: WorkQueue {
-        if (_workQueue == nil) {
-            _workQueue = WorkQueue()
-        }
-        return _workQueue!
-    }
-    
-    var busy: Bool {
-        return (_workQueue == nil) ? false : _workQueue!.busy
-    }
-
 }

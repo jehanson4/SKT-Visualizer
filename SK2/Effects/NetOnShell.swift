@@ -30,6 +30,8 @@ class NetOnShell: GLKBaseEffect, Effect {
     var name: String = "Net"
     var info: String? = nil
     
+    var switchable: Bool
+
     var enabled: Bool {
         get { return _enabled }
         set(newValue) {
@@ -81,10 +83,11 @@ class NetOnShell: GLKBaseEffect, Effect {
     var lineArrayOffsets: [UnsafeRawPointer?] = []
     var built: Bool = false
     
-    init(_ system: SK2_System, enabled: Bool, radius: Double = 1) {
+    init(_ system: SK2_System, enabled: Bool, switchable: Bool, radius: Double = 1) {
         self.system = system
         self.geometry = SK2_ShellGeometry(system, radius: radius)
         self._enabled = enabled
+        self.switchable = switchable
         self.rOffset = NetOnShell.rOffsetDefault
         self.geometryIsStale = true
         super.init()

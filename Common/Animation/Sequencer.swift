@@ -46,9 +46,7 @@ private let boundaryConditionNames = ["sticky", "elastic", "periodic"]
 
 // TODO can I get away with NOT requiring all sequencers to have PreferenceSupport?
 protocol Sequencer : AnyObject, Named, ChangeMonitorEnabled {
-    
-    var busy: Bool { get }
-    
+        
     var enabled: Bool { get set }
     
     var upperBound: Double { get set }

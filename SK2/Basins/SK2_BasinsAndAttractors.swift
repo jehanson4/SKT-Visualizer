@@ -12,7 +12,12 @@ fileprivate var debugEnabled = false
 
 fileprivate func debug(_ mtd: String, _ msg: String = "") {
     if (debugEnabled) {
-        print("SK2_BAFinder", mtd, msg)
+        if (Thread.current.isMainThread) {
+            print("SK2_BasinsAndAttractors [main]", mtd, ":",  msg)
+        }
+        else {
+            print("SK2_BasinsAndAttractors [????]", mtd, ":",  msg)
+        }
     }
 }
 
@@ -38,27 +43,41 @@ class SK2_BasinsAndAttractors {
         }
     }
     
-    let system: SK2_System
-    
-    private var queue: WorkQueue
+    weak var system: SK2_System!
+    weak var queue: WorkQueue!
+
+    private var N_monitor: ChangeMonitor?
+    private var k_monitor: ChangeMonitor?
+    private var a1_monitor: ChangeMonitor?
+    private var a2_monitor: ChangeMonitor?
+
     private var workingData: SK2_BAModel
     private var _basinData: [DS2_BasinData]
     private var _busy: Bool
     private var _updatesDone: Bool
     
+    var updatesDone: Bool {
+        return _updatesDone
+    }
+    
     // =====================================
     // Initializing
     // =====================================
     
-    init(_ system: SK2_System) {
+    init(_ system: SK2_System, _ workQueue: WorkQueue) {
         self.system = system
-        self.queue = system.workQueue
-        
+        self.queue = workQueue
+
         let modelParams = SK2_Descriptor(system)
         self.workingData = SK2_BAModel(modelParams)
         self._basinData = self.workingData.exportBasinData()
         self._busy = false
         self._updatesDone = false
+        
+        self.N_monitor = system.N.monitorChanges(systemHasChanged)
+        self.k_monitor = system.k.monitorChanges(systemHasChanged)
+        self.a1_monitor = system.a1.monitorChanges(systemHasChanged)
+        self.a2_monitor = system.a2.monitorChanges(systemHasChanged)
     }
     
     // =============================================
@@ -67,7 +86,7 @@ class SK2_BasinsAndAttractors {
     
     func sync() {
         if self._busy {
-            debug("sync", "operation in progress: aborting")
+            // debug("sync", "operation in progress: aborting")
             return
         }
         let liveParams = SK2_Descriptor(system)
@@ -92,6 +111,8 @@ class SK2_BasinsAndAttractors {
     }
     
     func update() -> Bool {
+        debug("update", "starting")
+        
         if self._busy {
             debug("update", "operation in progress: aborting")
             return false
@@ -122,19 +143,28 @@ class SK2_BasinsAndAttractors {
     }
     
     private func updateLiveData(_ modelParams: SK2_Descriptor, _ newBasinData: [DS2_BasinData]?) {
+        debug("updateLiveData", "starting")
         let liveParams = SK2_Descriptor(system)
         if (liveParams != modelParams) {
             debug("updateLiveData", "modelParams are stale, so discarding new basin data")
             return
         }
         if (newBasinData != nil) {
+            debug("updateLiveData", "newBasinData is not nil")
             self._updatesDone = false
             self._basinData = newBasinData!
             self.fireChange()
         }
         else {
+            debug("updateLiveData", "newBasinData is nil")
             self._updatesDone = true
         }
+        debug("updateLiveData", "done")
+    }
+    
+    private func systemHasChanged(_ sender: Any?) {
+        debug("systemHasChanged")
+        sync()
     }
     
     // =============================================

@@ -80,6 +80,7 @@
 		8A91B0AA2094B01400488907 /* GenericSequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A91B0A92094B01400488907 /* GenericSequencer.swift */; };
 		8A9B149C220C83AA00A2CDAB /* Timeseries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9B149B220C83AA00A2CDAB /* Timeseries.swift */; };
 		8A9B149E220C94AC00A2CDAB /* Dynamic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9B149D220C94AC00A2CDAB /* Dynamic.swift */; };
+		8A9B14A0220CF97F00A2CDAB /* SK2_BAFigures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9B149F220CF97F00A2CDAB /* SK2_BAFigures.swift */; };
 		8A9BA6B820ADD71F009C39BE /* InnerShell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9BA6B720ADD71F009C39BE /* InnerShell.swift */; };
 		8AA05A11208FC14E009417A6 /* AppModel1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA05A10208FC14E009417A6 /* AppModel1.swift */; };
 		8AA05A13208FCB58009417A6 /* ChangeSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA05A12208FCB58009417A6 /* ChangeSupport.swift */; };
@@ -238,6 +239,7 @@
 		8A91B0A92094B01400488907 /* GenericSequencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericSequencer.swift; sourceTree = "<group>"; };
 		8A9B149B220C83AA00A2CDAB /* Timeseries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timeseries.swift; sourceTree = "<group>"; };
 		8A9B149D220C94AC00A2CDAB /* Dynamic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dynamic.swift; sourceTree = "<group>"; };
+		8A9B149F220CF97F00A2CDAB /* SK2_BAFigures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_BAFigures.swift; sourceTree = "<group>"; };
 		8A9BA6B720ADD71F009C39BE /* InnerShell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InnerShell.swift; sourceTree = "<group>"; };
 		8AA05A10208FC14E009417A6 /* AppModel1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel1.swift; sourceTree = "<group>"; };
 		8AA05A12208FCB58009417A6 /* ChangeSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSupport.swift; sourceTree = "<group>"; };
@@ -567,6 +569,7 @@
 				8AB2A62E21FCE1C100A46316 /* SK2_BANode.swift */,
 				8AB2A63021FCE40E00A46316 /* SK2_BAModel.swift */,
 				8A88175322085CFA00523467 /* SK2_BAColors.swift */,
+				8A9B149F220CF97F00A2CDAB /* SK2_BAFigures.swift */,
 			);
 			path = Basins;
 			sourceTree = "<group>";
@@ -638,7 +641,6 @@
 				8A5E948D2078EE46003477D3 /* Net.swift */,
 				8A40BC0B207ECC7500F2D2EB /* Nodes.swift */,
 				8ABEEC3A20803A2F008E72F4 /* Surface.swift */,
-				8ACB503F20AC92DC00878612 /* BusySpinner.swift */,
 			);
 			path = Effects;
 			sourceTree = "<group>";
@@ -752,6 +754,7 @@
 				8A84313720726F0100F06B9B /* Axes.swift */,
 				8AD9DACA20914E3D0062457C /* Balls.swift */,
 				8ACE788C2072E51800C29875 /* Icosahedron.swift */,
+				8ACB503F20AC92DC00878612 /* BusySpinner.swift */,
 			);
 			path = Effects;
 			sourceTree = "<group>";
@@ -1028,6 +1031,7 @@
 				8A35083220A0D5C800E36C1F /* PFlowRules.swift in Sources */,
 				8A9BA6B820ADD71F009C39BE /* InnerShell.swift in Sources */,
 				8A91B0A4209418A900488907 /* NumericParameterSequencer.swift in Sources */,
+				8A9B14A0220CF97F00A2CDAB /* SK2_BAFigures.swift in Sources */,
 				8AC82CC721F5D60400A75595 /* SK2SphereUtils.swift in Sources */,
 				8AAA008E207166C0001A136D /* OLD_MasterViewController.swift in Sources */,
 				8A91B0AA2094B01400488907 /* GenericSequencer.swift in Sources */,

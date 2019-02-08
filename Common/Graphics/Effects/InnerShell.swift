@@ -45,8 +45,10 @@ class InnerShell : GLKBaseEffect, Effect {
     var name = "Inner Shell"
     var info: String? = nil
     
+    var switchable: Bool
+
     private var _enabled: Bool
-    
+
     var enabled: Bool {
         get { return _enabled }
         set(newValue) {
@@ -93,9 +95,10 @@ class InnerShell : GLKBaseEffect, Effect {
     // ====================================
 
     /// r0 = radius of the shell we're "background" of, not our own radius
-    init(_ r0 : Double, _ color: GLKVector4, enabled: Bool) {
+    init(_ r0 : Double, _ color: GLKVector4, enabled: Bool, switchable: Bool) {
         debug("init")
         self.r = r0 * InnerShell.rFactor
+        self.switchable = switchable
         self._enabled = enabled
         
         super.init()

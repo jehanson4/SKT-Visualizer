@@ -315,7 +315,7 @@ class VisualizationModel1 : VisualizationModel, Figure {
     }
     
     private func initEffects() {
-        registerEffect(Axes(enabled: false))
+        registerEffect(Axes(enabled: false, switchable: true))
         registerEffect(Meridians(skt.geometry, enabled: true))
         registerEffect(Net(skt.geometry, enabled: false))
         registerEffect(Surface(skt.geometry, skt.physics, colorSources, enabled: false))
@@ -326,9 +326,10 @@ class VisualizationModel1 : VisualizationModel, Figure {
         registerEffect(InnerShell(
             skt.geometry.r0,
             GLKVector4Make(bg, bg, bg, 1),
-            enabled: true))
+            enabled: true,
+            switchable: true))
         
-        registerEffect(BusySpinner(skt))
+        registerEffect(BusySpinner(skt.workQueue, enabled: true, switchable: false))
         // registerEffect(Icosahedron(enabled: false))
         // registerEffect(Balls(enabled: false))
     }

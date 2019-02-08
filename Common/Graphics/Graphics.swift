@@ -54,6 +54,10 @@ protocol Effect: Named {
     
     static var key: String { get }
     
+    /// Iff true, user may enable or disable this effect
+    var switchable: Bool { get }
+    
+    /// Iff true, effect will be drawn
     var enabled: Bool { get set }
     
     var projectionMatrix: GLKMatrix4 { get set }

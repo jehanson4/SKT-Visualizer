@@ -32,6 +32,9 @@ class Axes : GLKBaseEffect, Effect {
     
     var name = "Axes"
     var info: String? = nil
+    
+    var switchable: Bool
+    
     private var _enabled: Bool
     
     var enabled: Bool {
@@ -89,7 +92,8 @@ class Axes : GLKBaseEffect, Effect {
         }
     }
   
-    init(enabled: Bool) {
+    init(enabled: Bool, switchable: Bool) {
+        self.switchable = switchable
         self._enabled = enabled
         super.init()
         // debug("init", "projectionMatrix: " + String(describing: super.transform.projectionMatrix))

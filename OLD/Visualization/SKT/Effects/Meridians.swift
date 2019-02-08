@@ -15,6 +15,7 @@ import OpenGL
 #endif
 
 class Meridians : GLKBaseEffect, Effect {
+        
     func teardown() {
         
     }
@@ -31,6 +32,7 @@ class Meridians : GLKBaseEffect, Effect {
     var name = "Meridians"
     var info: String? = nil
     var enabled: Bool
+    var switchable: Bool = true
     
     private let enabledDefault: Bool
     

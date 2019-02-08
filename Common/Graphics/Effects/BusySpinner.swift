@@ -14,19 +14,26 @@ import OpenGLES
 import OpenGL
 #endif
 
+fileprivate var debugEnabled = false
+
+fileprivate func debug(_ mtd: String, _ msg: String = "") {
+    if (debugEnabled) {
+        print("BusySpinner", mtd, msg)
+    }
+}
 // ===========================================
 // Busy
 // ===========================================
 
 class BusySpinner : Effect {
    
-    var debugEnabled = false
-
     static let key = "BusySpinner"
     var name: String = "BusySpinner"
     var info: String? = nil
     var description: String { return nameAndInfo(self) }
 
+    var switchable: Bool { return false }
+    
     var enabled: Bool {
         get { return true}
         set(newValue) { /* IGNORE */ }
@@ -88,11 +95,11 @@ class BusySpinner : Effect {
     // ======================================
     // Initializer
 
-    init(_ model: SKTModel) {
+    init(_ workQueue: WorkQueue, enabled: Bool, switchable: Bool) {
         self.active = false
         self.vertices = []
         self.colors = []
-        self.queueMonitor = model.workQueue.monitorChanges(updateBusyState)
+        self.queueMonitor = workQueue.monitorChanges(updateBusyState)
 
         let vv = BusySpinner.vertices1
         let cc = BusySpinner.colors1
@@ -315,13 +322,4 @@ class BusySpinner : Effect {
         }
     }
 
-    // ========================================
-    // DEBUG
-    // ========================================
-
-    private func debug(_ mtd: String, _ msg: String = "") {
-        if (debugEnabled) {
-            print(name, mtd, msg)
-        }
-    }
 }

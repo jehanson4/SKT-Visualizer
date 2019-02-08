@@ -12,7 +12,13 @@ fileprivate var debugEnabled = false
 
 fileprivate func debug(_ mtd: String, _ msg: String = "") {
     if (debugEnabled) {
-        print("SK2_BAModel", mtd, msg)
+        if (Thread.current.isMainThread) {
+            print("SK2_BAModel [main]", mtd, msg)
+        }
+        else {
+            print("SK2_BAModel [????]", mtd, msg)
+        }
+        
     }
 }
 
@@ -26,8 +32,8 @@ fileprivate func warn(_ mtd: String, _ msg: String = "") {
 
 /// This is a self-contained object, disconnected from the rest of the app,
 /// on which operations may be safely performed while the app is changing
-class SK2_BAModel {
-
+class SK2_BAModel: DiscreteTimeDynamic {
+    
     // TODO a method to call when the a1, a2, T have changed but
     // N,k have not
     
@@ -40,6 +46,7 @@ class SK2_BAModel {
     private var rebuildNeeded: Bool
     private var resetNeeded: Bool
     
+    var _stepCount: Int
     var attractorsFound: Bool
     var basinsExpanded: Bool
     var boundariesFinished: Bool
@@ -60,6 +67,7 @@ class SK2_BAModel {
         self.rebuildNeeded = true
         self.resetNeeded = true
         
+        self._stepCount = 0
         self.attractorsFound = false
         self.basinsExpanded = false
         self.boundariesFinished = false
@@ -111,7 +119,7 @@ class SK2_BAModel {
             return true
         }
         if (resetNeeded) {
-            reset()
+            _ = reset()
             debug("refresh", "returning after reset")
             return true
         }
@@ -119,15 +127,54 @@ class SK2_BAModel {
         return false
     }
     
+    // Because this doesn't do any background work, to the calling thread
+    // it's never "busy".
+    var busy: Bool { return false }
+    
+    var stepCount: Int {
+        return _stepCount;
+    }
+    
+    
+    func step(_ n: Int) -> Int {
+        var stepsTaken = 0
+        while(step()) {
+            stepsTaken += 1
+        }
+        return stepsTaken
+    }
+    
+    
+    var hasNextStep: Bool {
+        return !boundariesFinished
+    }
+
+    func reset() -> Bool {
+        debug("reset", "entering. nodes.count=\(nodes.count)")
+        for i in 0..<nodes.count {
+            let (m, n) = system.nodeIndexToSK(i)
+            nodes[i].reset(system.energy(m, n))
+        }
+        resetNeeded = false
+        attractors.removeAll(keepingCapacity: true)
+        self._stepCount = 0
+        attractorsFound = false
+        basinsExpanded = false
+        boundariesFinished = false
+        debug("reset", "done")
+        return true
+    }
+    
     func step() -> Bool {
+        debug("step", "starting")
+        // prepare for 1st step
         if (rebuildNeeded) {
             rebuild()
-            return true
         }
         if (resetNeeded) {
-            reset()
-            return true
+            _ = reset()
         }
+
         if (!attractorsFound) {
             findAttractors()
             return true
@@ -185,20 +232,6 @@ class SK2_BAModel {
         debug("rebuild", "done")
     }
     
-    private func reset() {
-        debug("reset", "entering. nodes.count=\(nodes.count)")
-        for i in 0..<nodes.count {
-            let (m, n) = system.nodeIndexToSK(i)
-            nodes[i].reset(system.energy(m, n))
-        }
-        resetNeeded = false
-        attractors.removeAll(keepingCapacity: true)
-        attractorsFound = false
-        basinsExpanded = false
-        boundariesFinished = false
-        debug("reset", "done")
-    }
-    
     private func findAttractors() {
         
         // Add distinguished points if they are in fact local minima
@@ -252,6 +285,7 @@ class SK2_BAModel {
             growPossibleAttractingSet(node)
         }
         
+        self._stepCount += 1
         self.attractorsFound = true
     }
     
@@ -450,6 +484,8 @@ class SK2_BAModel {
             }
         }
         
+        _stepCount += 1
+        
         if (totalClassified == nodes.count) {
             basinsExpanded = true
             boundariesFinished = true
@@ -567,7 +603,7 @@ class SK2_BAModel {
             }
         }
         debug(mtd, "done with pass over nodes")
-        
+        _stepCount += 1
         boundariesFinished = true
     }
     
@@ -591,6 +627,11 @@ class SK2_BAModel {
         var isBoundary: Bool = false
         var firstBasinID: Int? = nil
         while (nodesToCheck.count > 0) {
+            
+            // =======================================
+            // MAYBE increment _stepCount in here too.
+            // Or, rather, break this loop into separate
+            // steps.
             
             var hotList: [SK2_BANode] = []
             hotList.append(contentsOf: nodesToCheck)

@@ -14,6 +14,7 @@ import GLKit
 // ============================================================================
 
 class FlowLines : GLKBaseEffect, Effect {
+    var switchable: Bool = true
     func teardown() {
         
     }

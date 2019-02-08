@@ -120,6 +120,14 @@ class Registry<T> : ChangeMonitorEnabled {
         return newEntry
     }
     
+    /// Visits each restry entry
+    func visitEntries(_ visitor: @escaping (RegistryEntry<T>) -> ()) {
+        for ee in _entriesByKey {
+            visitor(ee.value)
+        }
+    }
+    
+    /// Visits each registered object
     func visit(_ visitor: @escaping (T) -> ()) {
         for ee in _entriesByKey {
             visitor(ee.value.value)
@@ -264,12 +272,21 @@ class RegistryWithSelection<T> : ChangeMonitorEnabled {
         return newEntry
     }
 
+    /// Visits each restry entry
+    func visitEntries(_ visitor: @escaping (RegistryEntry<T>) -> ()) {
+        for ee in _entries {
+            visitor(ee.value)
+        }
+    }
+    
+    /// Visits each registered object
     func visit(_ visitor: @escaping (T) -> ()) {
         for ee in _entries {
             visitor(ee.value.value)
         }
     }
 
+    /// Applies the finction to each registered value
     func apply(_ op: @escaping (inout T) -> ()) {
         for ee in _entries {
             op(&ee.value.value)

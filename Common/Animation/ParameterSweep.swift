@@ -32,10 +32,6 @@ class ParameterSweep: Sequencer {
     weak var param: Parameter!
     weak var system: PhysicalSystem!
     
-    var busy: Bool {
-        return system.busy
-    }
-    
     let reversible: Bool = true
     
     init(_ param: Parameter, _ system: PhysicalSystem) {

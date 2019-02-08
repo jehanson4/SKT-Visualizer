@@ -213,3 +213,5 @@ effect can redisplay w/ new colors right away (rather than only when
 there's a subsequent model changes or something)
 **********************************************
 
+we've got 2 COLOR SOURCES that use the work queue.
+AnimationController needs it to check for busy.

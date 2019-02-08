@@ -36,6 +36,8 @@ class Icosahedron : GLKBaseEffect, Effect {
     private var _enabled: Bool
     private var built: Bool = false
     
+    var switchable: Bool
+    
     var enabled: Bool {
         get { return _enabled }
         set(newValue) {
@@ -139,7 +141,8 @@ class Icosahedron : GLKBaseEffect, Effect {
     var normalBuffer: GLuint = 0
     var indexBuffer: GLuint = 0
 
-    init(enabled: Bool) {
+    init(enabled: Bool, switchable: Bool) {
+        self.switchable = switchable
         self._enabled = enabled
         super.init()
     }

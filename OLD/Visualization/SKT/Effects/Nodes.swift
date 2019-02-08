@@ -47,7 +47,8 @@ class Nodes : Effect {
     var info: String? = nil
     var description: String { return nameAndInfo(self) }
     var enabled: Bool
-    
+    var switchable: Bool = true
+
     private let enabledDefault: Bool
     private var built: Bool = false
 
