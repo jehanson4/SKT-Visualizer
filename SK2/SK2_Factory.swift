@@ -34,13 +34,19 @@ struct SK2E {
         let energyInPlane = SK2E_Energy("Energy in the Plane", nil, system, planeBase)
         _ = reg.register(energyInPlane)
         
-        let occupationInPlane = SK2E_Energy("Occupation in the Plane", nil, system, planeBase)
-        _ = reg.register(occupationInPlane)
-        
-        let energyOnShell = SK2E_Energy("Energy on the Hemisphere", nil, system, shellBase)
+        let energyOnShell = SK2E_Energy("Energy on the Shell", nil, system, shellBase)
         _ = reg.register(energyOnShell)
         
-        let occupationOnShell = SK2E_Energy("Occupation on the Hemisphere", nil, system, shellBase)
+        let entropyInPlane = SK2E_Entropy("Entropy in the Plane", nil, system, planeBase)
+        _ = reg.register(entropyInPlane)
+        
+        let entropyOnShell = SK2E_Entropy("Entropy on the Shell", nil, system, shellBase)
+        _ = reg.register(entropyOnShell)
+        
+        let occupationInPlane = SK2E_Occupation("Occupation in the Plane", nil, system, planeBase)
+        _ = reg.register(occupationInPlane)
+        
+        let occupationOnShell = SK2E_Occupation("Occupation on the Shell", nil, system, shellBase)
         _ = reg.register(occupationOnShell)
         
 //

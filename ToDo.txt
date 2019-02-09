@@ -2,6 +2,24 @@
 ToDo.txt
 ==================================================================================
 
+relief
+    not working
+    needs proper scaling
+    needs clipping too -- by the effect? no the Relief
+
+autocalibration
+figure switching gest confused
+effects are getting lost
+data sources need not be change monitor enabled
+can't zoom plane
+basins
+pop flow
+
+ABOVE THE LINE
+----------------------------------------------------------------------------------
+BELOW THE LINE
+
+
 1. Entropy
 
 2. param & UI control auto-calibration: for whether to calibrate on every real change
@@ -27,12 +45,7 @@ app model to it?
 MAYBE create an SK2 multifactory that returns a list of factories.
 and have THEM share the same system.
 ...ok.  call it partFactory and hav it return list of Parts: where a part
-    has: group, system, figures reg, sequencers reg
-
-ABOVE THE LINE
-----------------------------------------------------------------------------------
-BELOW THE LINE
-
+has: group, system, figures reg, sequencers reg
 For 1.0.7
 
 [ ] BUG: Close the Visualizer, then start it up again. Click once on + to

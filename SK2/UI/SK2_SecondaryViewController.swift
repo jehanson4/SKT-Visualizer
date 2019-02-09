@@ -14,7 +14,7 @@ class SK2_SecondaryViewController: UIViewController, UITextFieldDelegate, AppMod
     // Debugging
     
     let name = "SK2_SecondaryViewController"
-    var debugEnabled = false
+    var debugEnabled = true
     func debug(_ mtd: String, _ msg: String = "") {
         if (debugEnabled)  {
             print(name, mtd, msg)
@@ -54,7 +54,6 @@ class SK2_SecondaryViewController: UIViewController, UITextFieldDelegate, AppMod
 
             sequencer = appPart.sequencerSelector.selection?.value
             debug(mtd, "currently selected sequencer = \(String(describing: sequencer))")
-
         }
 
         setupEffects()
@@ -121,13 +120,15 @@ class SK2_SecondaryViewController: UIViewController, UITextFieldDelegate, AppMod
         let mtd = "setupEffects"
         debug(mtd, "entered")
         
+        var keys: [String] = []
         func addSwitchableKey(_ entry: RegistryEntry<Effect>) {
             if (entry.value.switchable) {
-                switchableEffectKeys.append(entry.key)
+                keys.append(entry.key)
             }
         }
         figure?.effects?.visitEntries(addSwitchableKey)
-        
+        switchableEffectKeys = keys
+        debug(mtd, "Found \(switchableEffectKeys.count) switchable effects")
 
         let eCount = switchableEffectKeys.count
         let eLabels: [UILabel?]  = [

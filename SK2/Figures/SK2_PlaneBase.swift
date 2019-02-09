@@ -13,7 +13,7 @@ import GLKit
 // Debugging
 // =====================================================
 
-fileprivate var debugEnabled = false
+fileprivate var debugEnabled = true
 
 fileprivate func debug(_ mtd: String, _ msg: String = "") {
     if (debugEnabled) {
@@ -140,7 +140,7 @@ class SK2_PlaneBase : PlaneFigure, SK2_BaseFigure {
             let reliefSwitch = ReliefSwitch(self)
             _ = try effects?.register(reliefSwitch, key: ReliefSwitch.key)
         } catch {
-            warn(mtd, "Problen registering reliefSwitch: \(error)")
+            warn(mtd, "Problem registering reliefSwitch: \(error)")
         }
         
         do {
@@ -168,11 +168,16 @@ class SK2_PlaneBase : PlaneFigure, SK2_BaseFigure {
     // Calibration
     
     override func setAutocalibration(_ flag: Bool) {
-        // TODO color sources and relief
+        debug("setAutocalibration")
+        colorSource?.autocalibrate = flag
+        relief?.autocalibrate = flag
     }
     
     override func calibrate() {
-        // TODO color sources and relief
+        debug("calibrate")
+        colorSource?.calibrate()
+        relief?.calibrate()
+        invalidateData(self)
     }
     
     

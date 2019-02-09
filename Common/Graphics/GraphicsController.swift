@@ -9,6 +9,18 @@
 import Foundation
 import GLKit
 
+// ========================================
+// Debugging
+// ========================================
+
+fileprivate let debugEnabled = true
+
+fileprivate func debug(_ mtd: String, _ msg: String = "") {
+    if (debugEnabled) {
+        print("GraphicsController", mtd, msg)
+    }
+}
+
 // ============================================================================
 // GraphicsController
 // ============================================================================
@@ -33,18 +45,6 @@ protocol GraphicsController {
 class GraphicsControllerV1: GraphicsController {
 
     // ========================================
-    // Debugging
-    
-    let clsName = "GraphicsControllerV1"
-    let debugEnabled = false
-    
-    private func debug(_ mtd: String, _ msg: String = "") {
-        if (debugEnabled) {
-            print(clsName, mtd, msg)
-        }
-    }
-
-    // ========================================
     // Initializer
     
     init() {
@@ -60,11 +60,10 @@ class GraphicsControllerV1: GraphicsController {
             _figure = newValue
             if (_figure != nil) {
                 debug("installing figure \(_figure!.name)")
+                oldFigure?.figureHasBeenHidden()
                 _figure!.aboutToShowFigure()
             }
-            oldFigure?.figureHasBeenHidden()
         }
-        
     }
     var _figure: Figure? = nil
     

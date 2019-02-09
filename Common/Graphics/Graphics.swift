@@ -76,7 +76,7 @@ protocol Effect: Named {
 // DataProvider
 // ==============================================================================
 
-protocol DataProvider: ChangeMonitorEnabled {
+protocol DataProvider { // : ChangeMonitorEnabled {
     
     /// Iff true, this data provider recalibrates itself whenever its backing data changes.
     var autocalibrate: Bool { get set }

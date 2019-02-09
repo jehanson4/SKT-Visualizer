@@ -66,7 +66,6 @@ class Surface : GLKBaseEffect, Effect {
     var colorSource: ColorSource
     var geometry: SK2_ShellGeometry
     
-    private var colorSourceInstanceMonitor: ChangeMonitor? = nil
     private var colorsAreStale: Bool = false
     
     // var linearColorMap: ColorMap? = nil
@@ -84,7 +83,6 @@ class Surface : GLKBaseEffect, Effect {
         self.enabledDefault = enabled
         super.init()
 
-        colorSourceInstanceMonitor = colorSource.monitorChanges(colorSourceInstanceChanged)
     }
     
     func releaseOptionalResources() {
