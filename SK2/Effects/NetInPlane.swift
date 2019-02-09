@@ -47,7 +47,6 @@ class NetInPlane: GLKBaseEffect, Effect {
     
     var system: SK2_System
     var geometry: SK2_PlaneGeometry
-    
     var _relief: Relief?
     
     var relief: Relief? {

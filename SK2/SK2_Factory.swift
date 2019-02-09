@@ -27,23 +27,23 @@ struct SK2E {
     static var name = "SK/2 Equilibrium"
     static var info = "Equilibrium properties of the 2-component SK model"
     
-    static func makeFigures(_ system: SK2_System, _ shellBase: SK2_ShellBase) -> Registry<Figure>? {
+    static func makeFigures(_ system: SK2_System, _ planeBase: SK2_PlaneBase, _ shellBase: SK2_ShellBase) -> Registry<Figure>? {
         let reg = Registry<Figure>()
         
+        
+        let energyInPlane = SK2E_Energy("Energy in the Plane", nil, system, planeBase)
+        _ = reg.register(energyInPlane)
+        
+        let occupationInPlane = SK2E_Energy("Occupation in the Plane", nil, system, planeBase)
+        _ = reg.register(occupationInPlane)
         
         let energyOnShell = SK2E_Energy("Energy on the Hemisphere", nil, system, shellBase)
         _ = reg.register(energyOnShell)
         
+        let occupationOnShell = SK2E_Energy("Occupation on the Hemisphere", nil, system, shellBase)
+        _ = reg.register(occupationOnShell)
         
-//        let energyOnShell = SK2E_EnergyFigure("Energy on the Hemisphere", system, shellFigure)
-//        _ = reg.register(energyOnShell)
 //
-//        let entropyOnShell = SK2E_EntropyFigure("Entropy on the Hemisphere", system, baseShell)
-//        _ = reg.register(entropyOnShell)
-//
-//        let occupationOnShell = SK2E_OccupationFigure("Occupation on the Hemisphere", system, baseShell)
-//        _ = reg.register(occupationOnShell)
-//        
 //        let basinFinder = SK2_BasinsAndAttractors(system, workQueue)
 //        let basinsOnShell = SK2_BAOnShell("Basins on the Hemisphere",
 //                                          basinFinder,
@@ -85,7 +85,7 @@ struct SK2D {
         return flow!
     }
     
-    static func makeFigures(_ system: SK2_System,  _ shellBase: SK2_ShellBase) -> Registry<Figure>? {
+    static func makeFigures(_ system: SK2_System,  _ planeBase: SK2_PlaneBase, _ shellBase: SK2_ShellBase) -> Registry<Figure>? {
         let reg = Registry<Figure>()
         
 
@@ -181,19 +181,21 @@ class SK2_Factory: AppPartFactory {
         // Base figures
         
         let bgColor = graphicsController.backgroundColor
+        
+        let gridSize: Double = 1
+        let planeBase = SK2_PlaneBase(system, gridSize)
+        planeBase.installBaseEffects(workQueue, bgColor)
+        
         let radius: Double = 1
         let shellBase = SK2_ShellBase(system, radius)
         shellBase.installBaseEffects(workQueue, bgColor)
-        
-        // gridSize
-        // planeBase
-        
+
         // =========================
         // SK2E parts and prefs
         
         SK2E.key = extendNamespace(namespace, "sk2e")
         
-        let sk2eFigures: Registry<Figure>? = SK2E.makeFigures(system, shellBase)
+        let sk2eFigures: Registry<Figure>? = SK2E.makeFigures(system, planeBase, shellBase)
         // TODO figure pref's
         
         let sk2eSequencers: Registry<Sequencer>? = SK2E.makeSequencers(system)
@@ -211,7 +213,7 @@ class SK2_Factory: AppPartFactory {
         
         SK2D.key = extendNamespace(namespace, "sk2d")
         
-        let sk2dFigures: Registry<Figure>? = SK2D.makeFigures(system, shellBase)
+        let sk2dFigures: Registry<Figure>? = SK2D.makeFigures(system, planeBase, shellBase)
         // TODO figure pref's
         
         let sk2dSequencers: Registry<Sequencer>? = SK2D.makeSequencers(system, workQueue)

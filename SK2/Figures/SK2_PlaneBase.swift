@@ -153,6 +153,7 @@ class SK2_PlaneBase : PlaneFigure, SK2_BaseFigure {
         do {
             nodes = NodesInPlane(system, geometry, enabled: true, switchable: true)
             _ = try effects?.register(nodes, key: NodesInPlane.key)
+            nodes?.figure = self
         } catch {
             warn(mtd, "Problem registring NodesInPlane: \(error)")
         }

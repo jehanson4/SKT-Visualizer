@@ -113,6 +113,9 @@ class SK2_SecondaryViewController: UIViewController, UITextFieldDelegate, AppMod
     @IBOutlet weak var effect5_Label: UILabel!    
     @IBOutlet weak var effect5_Switch: UISwitch!
     
+    @IBOutlet weak var effect6_Label: UILabel!
+    @IBOutlet weak var effect6_Switch: UISwitch!
+    
 
     func setupEffects() {
         let mtd = "setupEffects"
@@ -133,13 +136,15 @@ class SK2_SecondaryViewController: UIViewController, UITextFieldDelegate, AppMod
             effect3_Label,
             effect4_Label,
             effect5_Label,
+            effect6_Label
         ]
         let eSwitches: [UISwitch?] = [
             effect1_Switch,
             effect2_Switch,
             effect3_Switch,
             effect4_Switch,
-            effect5_Switch
+            effect5_Switch,
+            effect6_Switch
         ]
         
         if (eCount == 0) {

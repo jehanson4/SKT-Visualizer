@@ -767,25 +767,25 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="khm-uo-eWP" userLabel="Effects Inner">
                                                 <rect key="frame" x="16" y="0.0" width="311" height="248"/>
                                                 <subviews>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ew9-SB-o99" userLabel="Effect 0">
-                                                        <rect key="frame" x="0.0" y="0.0" width="311" height="124"/>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ew9-SB-o99" userLabel="Effect 1">
+                                                        <rect key="frame" x="0.0" y="0.0" width="311" height="93"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Effect 1" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xDh-vT-Lq1">
-                                                                <rect key="frame" x="0.0" y="0.0" width="262" height="124"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="262" height="93"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WLn-CJ-tx4">
-                                                                <rect key="frame" x="262" y="0.0" width="51" height="124"/>
+                                                                <rect key="frame" x="262" y="0.0" width="51" height="93"/>
                                                                 <connections>
                                                                     <action selector="effectSwitchFlipped:" destination="deL-8s-Yda" eventType="valueChanged" id="eba-Fh-Hnv"/>
                                                                 </connections>
                                                             </switch>
                                                         </subviews>
                                                     </stackView>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NpH-EU-Naa" userLabel="Effect 1">
-                                                        <rect key="frame" x="0.0" y="124" width="311" height="31"/>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NpH-EU-Naa" userLabel="Effect 2">
+                                                        <rect key="frame" x="0.0" y="93" width="311" height="31"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Effect 2" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kac-tK-Zfa">
                                                                 <rect key="frame" x="0.0" y="0.0" width="262" height="31"/>
@@ -802,8 +802,8 @@
                                                             </switch>
                                                         </subviews>
                                                     </stackView>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R5P-VW-rKy" userLabel="Effect 2">
-                                                        <rect key="frame" x="0.0" y="155" width="311" height="31"/>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R5P-VW-rKy" userLabel="Effect 3">
+                                                        <rect key="frame" x="0.0" y="124" width="311" height="31"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Effect 3" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xdp-zH-OvA">
                                                                 <rect key="frame" x="0.0" y="0.0" width="262" height="31"/>
@@ -819,8 +819,8 @@
                                                             </switch>
                                                         </subviews>
                                                     </stackView>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="B4E-3o-Nsm" userLabel="Effect 3">
-                                                        <rect key="frame" x="0.0" y="186" width="311" height="31"/>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="B4E-3o-Nsm" userLabel="Effect 4">
+                                                        <rect key="frame" x="0.0" y="155" width="311" height="31"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Effect 4" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1LL-dP-aFs">
                                                                 <rect key="frame" x="0.0" y="0.0" width="262" height="31"/>
@@ -836,8 +836,8 @@
                                                             </switch>
                                                         </subviews>
                                                     </stackView>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I6e-Vm-FTL" userLabel="Effect 4">
-                                                        <rect key="frame" x="0.0" y="217" width="311" height="31"/>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I6e-Vm-FTL" userLabel="Effect 5">
+                                                        <rect key="frame" x="0.0" y="186" width="311" height="31"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Effect 5" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Zx-Nh-AC6">
                                                                 <rect key="frame" x="0.0" y="0.0" width="262" height="31"/>
@@ -850,6 +850,24 @@
                                                                 <rect key="frame" x="262" y="0.0" width="51" height="31"/>
                                                                 <connections>
                                                                     <action selector="effectSwitchFlipped:" destination="deL-8s-Yda" eventType="valueChanged" id="4aQ-LT-AFk"/>
+                                                                </connections>
+                                                            </switch>
+                                                        </subviews>
+                                                    </stackView>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uQt-i4-14n" userLabel="Effect 6">
+                                                        <rect key="frame" x="0.0" y="217" width="311" height="31"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Effect 6" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HTf-5h-m1Y" userLabel="Effect6 Label">
+                                                                <rect key="frame" x="0.0" y="0.0" width="262" height="31"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <size key="shadowOffset" width="0.0" height="0.0"/>
+                                                            </label>
+                                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UBz-7r-Cdq" userLabel="Effect6 Switch">
+                                                                <rect key="frame" x="262" y="0.0" width="51" height="31"/>
+                                                                <connections>
+                                                                    <action selector="effectSwitchFlipped:" destination="deL-8s-Yda" eventType="valueChanged" id="dz6-wj-37m"/>
                                                                 </connections>
                                                             </switch>
                                                         </subviews>
@@ -1095,6 +1113,8 @@
                         <outlet property="effect4_Switch" destination="zUx-Ul-pvN" id="I1d-Ma-BwN"/>
                         <outlet property="effect5_Label" destination="6Zx-Nh-AC6" id="v9P-4j-uhk"/>
                         <outlet property="effect5_Switch" destination="ue3-Zz-tIZ" id="wxG-xP-lLS"/>
+                        <outlet property="effect6_Label" destination="HTf-5h-m1Y" id="fdz-yA-exe"/>
+                        <outlet property="effect6_Switch" destination="UBz-7r-Cdq" id="eki-IP-bMS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f47-hA-Kyo" userLabel="First Responder" sceneMemberID="firstResponder"/>

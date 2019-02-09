@@ -94,7 +94,7 @@ class NodesInPlane: Effect {
     private var built: Bool = false
     
     private weak var system: SK2_System!
-    private weak var figure: PlaneFigure!
+    weak var figure: PlaneFigure!
     private var geometry: SK2_PlaneGeometry
     
     private var geometryIsStale: Bool = true

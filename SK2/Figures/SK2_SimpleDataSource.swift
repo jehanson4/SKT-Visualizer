@@ -18,10 +18,10 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 }
 
 // ====================================================
-// SK2_SimpleColors
+// SK2_SimpleDataSource
 // ====================================================
 
-class SK2_SimpleColors: ColorSource, Relief {
+class SK2_SimpleDataSource: ColorSource, Relief {
     
     init(_ system: SK2_System,
          _ getter: @escaping (_ m: Int, _ n: Int) -> Double,
