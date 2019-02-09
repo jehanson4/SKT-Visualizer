@@ -13,7 +13,7 @@ fileprivate let debugEnabled = false
 
 fileprivate func debug(_ mtd: String, _ msg: String = "") {
     if (debugEnabled) {
-        print("SK2E_ColorSources", mtd, msg)
+        print("SK2_SimpleColors", mtd, msg)
     }
 }
 
@@ -21,51 +21,63 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 // SK2_SimpleColors
 // ====================================================
 
-class SK2_SimpleColors: ColorSource {
-
-    init(_ name: String, _ info: String? = nil, _ system: SK2_System,
+class SK2_SimpleColors: ColorSource, Relief {
+    
+    init(_ system: SK2_System,
          _ getter: @escaping (_ m: Int, _ n: Int) -> Double,
          _ colorMap: ColorMap) {
-        self.name = name
-        self.info = info
         self.system = system
         self.getter = getter
         self.colorMap = colorMap
-
-        let bounds = findBounds()
-        _ = colorMap.calibrate(bounds)
     }
     
-    var name: String    
-    var info: String?
-    var description: String { return nameAndInfo(self) }
-
-    private weak var system: SK2_System!
-
+    weak var system: SK2_System!
+    
     var getter: (_ m: Int, _ n: Int) -> Double
     var colorMap: ColorMap
+    var elevation_scale: Double = 0
+    var elevation_offset: Double = 0
+    var autocalibrate: Bool = true
+    
+    // TODO func invalidate()
+    var calibrated: Bool = false
+    
     
     func calibrate() {
-        let bounds = findBounds()
-        debug("SK2_SimpleColors.calibrate", "bounds=\(bounds)")
-        let colorsChanged = colorMap.calibrate(bounds)
-        if (colorsChanged) {
+        if doCalibration() {
             fireChange()
         }
     }
+    
+    private func doCalibration() -> Bool {
+        let bounds = findBounds()
+        debug("SK2_SimpleColors.doCalibration", "bounds=\(bounds)")
+        
+        // TODO scale and offset
+        
+        return colorMap.calibrate(bounds)
+    }
+    
     
     func teardown() {
         // NOP
     }
     
-    func prepare(_ nodeCount: Int) -> Bool {
-        // TODO
-        return false
+    func refresh() {
+        if (autocalibrate && !calibrated) {
+            // TODO I think we should fire change here too.
+            _ = doCalibration()
+        }
     }
     
     func colorAt(_ nodeIndex: Int) -> GLKVector4 {
-        let mn = system.nodeIndexToSK(nodeIndex)
-        return colorMap.getColor(getter(mn.m, mn.n))
+        let (m, n) = system.nodeIndexToSK(nodeIndex)
+        return colorMap.getColor(getter(m, n))
+    }
+    
+    func elevationAt(_ nodeIndex: Int) -> Double {
+        let (m, n) = system.nodeIndexToSK(nodeIndex)
+        return elevation_scale * getter(m, n) - elevation_offset
     }
     
     func findBounds() -> (min: Double, max: Double) {
@@ -103,37 +115,3 @@ class SK2_SimpleColors: ColorSource {
     }
 }
 
-// ====================================================
-// SK2E_EnergyColors
-// ====================================================
-
-class SK2E_EnergyColors : SK2_SimpleColors {
-
-    init(_ system: SK2_System) {
-        super.init("Energy", nil, system, system.energy, LinearColorMap())
-    }
-}
-
-// ====================================================
-// SK2E_EntropyColors
-// ====================================================
-
-class SK2E_EntropyColors : SK2_SimpleColors {
-    
-    init(_ system: SK2_System) {
-        super.init("Entropy", nil, system, system.entropy, LinearColorMap())
-    }
-
-}
-
-// ====================================================
-// SK2E_OccupationColors
-// ====================================================
-
-class SK2E_OccupationColors : SK2_SimpleColors {
-    
-    init(_ system: SK2_System) {
-        super.init("Occupation", nil, system, system.logOccupation, LogColorMap())
-    }
-    
-}

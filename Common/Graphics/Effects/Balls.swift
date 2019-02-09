@@ -37,7 +37,7 @@ class Balls : Effect {
     var description: String { return nameAndInfo(self) }
 
     var switchable: Bool
-    
+
     var enabled: Bool {
         get { return _enabled }
         set(newValue) {
@@ -50,7 +50,8 @@ class Balls : Effect {
 
     private var _enabled: Bool
     private var built: Bool = false
-    
+
+
     // ===============================================
     // Constants
     
@@ -94,6 +95,15 @@ class Balls : Effect {
 
     var projectionMatrix: GLKMatrix4 = GLKMatrix4Identity
     var modelviewMatrix: GLKMatrix4 = GLKMatrix4Identity
+
+    func setProjection(_ projectionMatrix: GLKMatrix4) {
+        self.projectionMatrix = projectionMatrix
+    }
+    
+    func setModelview(_ modelviewMatrix: GLKMatrix4) {
+        self.modelviewMatrix = modelviewMatrix
+    }
+
     var pointSize: GLfloat = 48
     
     var vertices: [GLKVector4]

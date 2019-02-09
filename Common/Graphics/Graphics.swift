@@ -24,11 +24,9 @@ protocol Graphics {
 
 protocol Figure: AnyObject, Named, PreferenceSupport {
     
-    var autocalibrate: Bool { get set }
-    
-    var effects: Registry<Effect>? { get }
-    
     func resetPOV()
+    
+    var autocalibrate: Bool { get set }
     
     /// Calibrates the figure to the data it shows. Assumes the
     /// graphics environent is already set up correctly.
@@ -38,11 +36,15 @@ protocol Figure: AnyObject, Named, PreferenceSupport {
     
     func figureHasBeenHidden()
     
+    var effects: Registry<Effect>? { get }
+    
     func draw(_ drawableWidth: Int, _ drawableHeight: Int)
     
     func handlePan(_ sender: UIPanGestureRecognizer)
     
     func handlePinch(_ sender: UIPinchGestureRecognizer)
+    
+    func handleTap(_ sender: UITapGestureRecognizer)
     
 }
 
@@ -60,8 +62,9 @@ protocol Effect: Named {
     /// Iff true, effect will be drawn
     var enabled: Bool { get set }
     
-    var projectionMatrix: GLKMatrix4 { get set }
-    var modelviewMatrix: GLKMatrix4 { get set }
+    func setProjection(_ projectionMatrix: GLKMatrix4)
+    
+    func setModelview(_ modelviewMatrix: GLKMatrix4)
     
     func draw()
     
@@ -70,34 +73,48 @@ protocol Effect: Named {
 }
 
 // ==============================================================================
-// ColorSource
+// DataProvider
 // ==============================================================================
 
-protocol ColorSource : Named, ChangeMonitorEnabled {
+protocol DataProvider: ChangeMonitorEnabled {
     
-    /// Calibrates this color source to its backing data.
+    /// Iff true, this data provider recalibrates itself whenever its backing data changes.
+    var autocalibrate: Bool { get set }
+    
+    /// Calibrates this data provider to its backing data.
     /// E.g., recomputes the color map to match the data's bounds.
     /// Fires a change event iff the colors were changed.
     func calibrate()
-
+    
+    // MAYBE
+    /// Marks this data provider as being stale
+    // func invalidate()
+    
+    /// Updates this data provider's internal cached state as appropriate.
+    /// If autocalibrate=true, makes sure it's calibrated
+    func refresh()
+    
     /// Discards in-memory resources that can be recreated.
     func teardown()
-
-    /// Prepares this color source to provide up to nodeCount color values
-    /// via colorAt(...)
-    ///
-    /// Should be called at the start of each pass over node indices.
-    /// returns true iff the colors were changed.
-    func prepare(_ nodeCount: Int) -> Bool
     
-    /// Returns the color to use at the given index
+}
+
+// ==============================================================================
+// ColorSource
+// ==============================================================================
+
+protocol ColorSource : DataProvider {
+    
+    /// Returns the color of the given node
     func colorAt(_ nodeIndex: Int) -> GLKVector4
 }
 
-// =============================================================
-// Colorized
-// =============================================================
+// ==============================================================================
+// Relief
+// ==============================================================================
 
-protocol Colorized {
-    var colorSource: ColorSource { get set }
+protocol Relief : DataProvider {
+    
+    /// Returns the elevation of the given node.
+    func elevationAt(_ nodeIndex: Int) -> Double
 }

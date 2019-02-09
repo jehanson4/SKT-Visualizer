@@ -1,67 +1,72 @@
 //
-//  ShellFigure.swift
+//  PlaneFigure.swift
 //  SKT Visualizer
 //
-//  Created by James Hanson on 1/21/19.
+//  Created by James Hanson on 2/8/19.
 //  Copyright © 2019 James Hanson. All rights reserved.
 //
 
 import Foundation
 import GLKit
 
-fileprivate let debugEnabled = false
+fileprivate let debugEnabled = true
 
 fileprivate func debug(_ mtd: String, _ msg: String = "") {
     if (debugEnabled) {
-        print("ShellFigure", mtd, msg)
+        print("PlaneFigure", mtd, msg)
     }
 }
 
+fileprivate let eps = Double.constants.eps
+
 // ============================================================================
-// ShellPOV
+// PlanePOV
 // ============================================================================
 
-struct ShellPOV {
+struct PlanePOV: CustomStringConvertible {
     
-    var r: Double
-    var phi: Double
-    var thetaE: Double
     
-    var zoom: Double
+    var x: Double
+    var y: Double
+    var z: Double
     
-    init(_ r: Double, _ phi: Double, _ thetaE: Double, _ zoom: Double) {
-        self.r = r
-        self.phi = phi
-        self.thetaE = thetaE
-        self.zoom = zoom
+    init(_ x: Double, _ y: Double, _ z: Double) {
+        self.x = x
+        self.y = y
+        self.z = z
     }
+    
+    var description: String {
+        // return "x=" + basicString(x) + " y=" + basicString(y) + " z=" + basicString(z)
+        return "(\(x), \(y), \(z))"
+    }
+
 }
 
-
 // ==============================================================
-// ShellFigure
+// PlaneFigure
 // ==============================================================
 
-class ShellFigure : Figure {
+class PlaneFigure : Figure {
     
     // ================================================
-    // Lifecycle
+    // Initializer
     
-    init(_ name: String, _ info: String? = nil, _ radius: Double = 1) {
+    init(_ name: String, _ info: String? = nil, _ size: Double) {
         self.name = name
         self.info = info
-        self.r0 = radius
+        self.size = size
     }
-
+    
     // ================================================
     // Basics
     
     var name: String
     var info: String?
     var description: String { return nameAndInfo(self) }
-
-    /// radius of the hemisphere
-    let r0: Double
+    
+    /// width or height of the plane, whichever is greater
+    let size: Double
     
     // =================================================
     // Calibration
@@ -94,31 +99,17 @@ class ShellFigure : Figure {
     // ===================================================
     // POV
     
-    // EMPIRICAL
-    let pan_phiFactor: Double = 0.005
-    let pan_ThetaEFactor: Double = -0.005
+    private var _pov_default: PlanePOV = PlanePOV(1,1,1) // temp value
+    private var _pov: PlanePOV = PlanePOV(1,1,1) // temp value
     
-    var pan_initialPhi: Double = 0
-    var pan_initialThetaE: Double = 0
-    var pinch_initialZoom: Double = 1
-    
-    /// pov's r = rFactor * r0
-    static let pov_rFactor = 1.25
-    static let pov_defaultPhi = Double.constants.piOver4
-    static let pov_defaultThetaE = Double.constants.piOver4
-    static let pov_defaultZoom = 1.0
-
-    private var _pov_default: ShellPOV = ShellPOV(1,0,0,1) // temp value
-    private var _pov: ShellPOV = ShellPOV(1,0,0,1) // temp value
-    
-    var pov_default: ShellPOV {
+    var pov_default: PlanePOV {
         get { return _pov_default }
         set(newValue) {
             _pov_default = fixPOV(newValue)
         }
     }
     
-    var pov: ShellPOV {
+    var pov: PlanePOV {
         get { return _pov }
         set(newValue) {
             _pov = fixPOV(newValue)
@@ -133,81 +124,58 @@ class ShellFigure : Figure {
     }
     
     private func initPOV() {
-        _pov_default = ShellPOV(ShellFigure.pov_rFactor * r0, ShellFigure.pov_defaultPhi, ShellFigure.pov_defaultThetaE, ShellFigure.pov_defaultZoom)
+        _pov_default = PlanePOV(size/2, size/2, size/2)
         _pov = pov_default
         // NO updateModelview()
     }
     
-    private func fixPOV(_ pov: ShellPOV) -> ShellPOV {
-        var r2 = pov.r
-        var phi2 = pov.phi
-        var thetaE2 = pov.thetaE
-        var zoom2 = pov.zoom
-        
-        if (r2 <= r0) {
-            // Illegal r; set it to default
-            r2 = ShellFigure.pov_rFactor * r0
-        }
-        
-        while (phi2 < 0) {
-            phi2  += Double.constants.twoPi
-        }
-        while (phi2 >= Double.constants.twoPi) {
-            phi2 -= Double.constants.twoPi
-        }
-        
-        if (thetaE2 < 0) {
-            thetaE2 = 0
-        }
-        if (thetaE2 >= Double.constants.piOver2) {
-            thetaE2 = Double.constants.piOver2 - Double.constants.eps
-        }
-        
-        if (zoom2 <= 0) {
-            // Illegal zoom; set it to default
-            zoom2 = 1.0
-        }
-        
-        return ShellPOV(r2, phi2, thetaE2, zoom2)
+    private func fixPOV(_ pov: PlanePOV) -> PlanePOV {
+        let x2 = pov.x // clip(pov.x, 0, size)
+        let y2 = pov.y // clip(pov.y, 0, size)
+        let z2 = (pov.z > eps) ? pov.z : eps
+        return PlanePOV(x2, y2, z2)
     }
     
     // ===================================================
     // Gestures
     
+    let pan_xFactor: Double = 1
+    let pan_yFactor: Double = 1
+
+    var pan_initialX: Double = 0
+    var pan_initialY: Double = 0
+    
+    var pinch_initialZ: Double = 0
+
     func handlePan(_ sender: UIPanGestureRecognizer) {
-        debug("handlePan")
+        debug("handlePan", "pov=\(pov)")
         if (sender.state == UIGestureRecognizer.State.began) {
-            pan_initialPhi = pov.phi
-            pan_initialThetaE = pov.thetaE
+            pan_initialX = pov.x
+            pan_initialY = pov.y
         }
+        let bounds = sender.view!.bounds
         let delta = sender.translation(in: sender.view)
-        
-        // EMPIRICAL reversed the signs on these to make the response seem more natural
-        let phi2 = pan_initialPhi - Double(delta.x) * pan_phiFactor / pov.zoom
-        let thetaE2 = pan_initialThetaE - Double(delta.y) * pan_ThetaEFactor / pov.zoom
-        
-        debug("handlePan", "pan_initialThetaE=\(pan_initialThetaE), thetaE2=\(thetaE2)")
-        // OLD
-        // appModel!.viz.pov = POV(pov.r, phi2, thetaE2, pov.zoom)
-        // NEW
-        pov = ShellPOV(pov.r, phi2, thetaE2, pov.zoom)
-        debug("handlePan", "new thetaE=\(pov.thetaE)")
+        let x2 = pan_initialX - Double(delta.x) / Double(bounds.maxX)
+        let y2 = pan_initialY + Double(delta.y) / Double(bounds.maxY)
+        pov = PlanePOV(x2, y2, pov.z)
     }
     
     func handlePinch(_ sender: UIPinchGestureRecognizer) {
-        debug("handlePinch")
+        debug("handlePinch", "pov=\(pov)")
         if (sender.state == UIGestureRecognizer.State.began) {
-            pinch_initialZoom = pov.zoom
+            pinch_initialZ = pov.z
         }
-        let newZoom = (pinch_initialZoom * Double(sender.scale))
-        // OLD
-        // appModel!.viz.pov = POV(pov.r, pov.phi, pov.thetaE, newZoom)
-        // NEW
-        pov = ShellPOV(pov.r, pov.phi, pov.thetaE, newZoom)
+        
+        // Disappears before it gets bigger than the drawable area
+        
+        let newZ = (pinch_initialZ * Double(sender.scale))
+        pov = PlanePOV(pov.x, pov.y, newZ)
         
     }
-
-    func handleTap(_ sender: UITapGestureRecognizer) {}
+    
+    func handleTap(_ sender: UITapGestureRecognizer) {
+        // TODO
+    }
     
     // ===================================================
     // Graphics, a/k/k GL coordinate transforms
@@ -223,9 +191,9 @@ class ShellFigure : Figure {
             }
         }
     }
-
+    
     private var graphicsStale: Bool = true
-
+    
     func markGraphicsStale() {
         graphicsStale = true
     }
@@ -243,15 +211,15 @@ class ShellFigure : Figure {
     // If nff == 1 then things seem to disappear
     // If nff > 0 then then everything seems inside-out
     let nearFarFactor: GLfloat = -2
-
-    let d0: Float = 1.25
+    
+    let d0: Float = 1.0
     
     private func updateProjection() {
         debug("updateProjection")
-
+        
         // Docco sez args are: left, right, bottom, top, near, far "in eye coordinates"
         let nff = GLfloat(nearFarFactor)
-        let d = GLfloat(d0)
+        let d = GLfloat(d0) * GLfloat(size)
         let newMatrix = GLKMatrix4MakeOrtho(-d, d, -d/aspectRatio, d/aspectRatio, nff*d, -nff*d)
         
         func applyProjectionMatrix(_ effect: inout Effect) {
@@ -267,11 +235,12 @@ class ShellFigure : Figure {
         // Q: do we ever do this without also calling updateProjection?
         // EMPIRICAL pretty much everything in here
         
-        let povR2: Double = (pov.r - r0)/pov.zoom + r0
-        let povXYZ = Geometry.sphericalToCartesian(r: povR2, phi: pov.phi, thetaE: pov.thetaE)
-        let lookatMatrix = GLKMatrix4MakeLookAt(Float(povXYZ.x), Float(povXYZ.y), Float(povXYZ.z), 0, 0, 0, 0, 0, 1)
+        let lookatMatrix = GLKMatrix4MakeLookAt(
+            Float(pov.x), Float(pov.y), 1,
+            Float(pov.x), Float(pov.y), 0,
+            0, 1, 0)
         
-        let zz = GLfloat(pov.zoom)
+        let zz = GLfloat(pov.z)
         let scaleMatrix = GLKMatrix4MakeScale(zz, zz, zz)
         let newMatrix = GLKMatrix4Multiply(scaleMatrix, lookatMatrix)
         
@@ -281,13 +250,12 @@ class ShellFigure : Figure {
         }
         effects!.apply(applyModelviewMatrix)
     }
-
+    
     // ==================================================
     // Drawing
     
-    /// FOR OVERRIDE
     func aboutToShowFigure() {
-        // TODO
+        // NOP
     }
     
     func figureHasBeenHidden() {
@@ -315,5 +283,5 @@ class ShellFigure : Figure {
         }
         effects!.visit(drawEffect)
     }
-
+    
 }

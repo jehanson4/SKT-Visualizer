@@ -23,7 +23,9 @@ class DelegatedFigure: Figure {
     }
     
     var name: String    
+ 
     var info: String?
+  
     var description: String { return nameAndInfo(self) }
 
     private var delegate: Figure
@@ -46,12 +48,7 @@ class DelegatedFigure: Figure {
     }
     
     func figureHasBeenHidden() {
-        // NO: we may be switching to another DelegatedFigure that has the same delegate,
-        // in which case we don't want to tell the delegate it has been hidden.
-        //
-        // FIXME: but if that's not the case then we SHOULD call delegate method.
-        //
-        // delegate.figureHasBeenHidden()
+        delegate.figureHasBeenHidden()
     }
     
     func loadPreferences(namespace: String) {
@@ -77,5 +74,10 @@ class DelegatedFigure: Figure {
     func handlePinch(_ sender: UIPinchGestureRecognizer) {
         delegate.handlePinch(sender)
     }
+
+    func handleTap(_ sender: UITapGestureRecognizer) {
+        delegate.handleTap(sender);
+    }
     
+
 }

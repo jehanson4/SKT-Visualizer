@@ -21,16 +21,17 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 // SK2_Population
 // ==========================================================
 
-class SK2_Population : ColorizedFigure {
+class SK2_Population : SK2_SystemFigure {
     
     weak var flow: SK2_PopulationFlow!
     let cs: SK2_PFColorSource
     var flowMonitor: ChangeMonitor?
     
-    init(_ name: String, _ baseFigure: Figure, _ flow: SK2_PopulationFlow) {
+    init(_ name: String, _ baseFigure: SK2_BaseFigure, _ flow: SK2_PopulationFlow) {
         self.flow = flow
         self.cs = SK2_PFColorSource(flow, LogColorMap())
-        super.init(name, delegate: baseFigure, colorSource: cs)
+        super.init(name, nil, baseFigure)
+        super.colorSource = cs
     }
     
     override func aboutToShowFigure() {

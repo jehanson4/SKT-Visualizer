@@ -23,14 +23,10 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 
 class SK2_BAColorSource : ColorSource {
     
+    var autocalibrate: Bool = true
+    
     // EMPIRICAL
     var washoutFudgeFactor: GLfloat = 0.5
-    
-    var name: String = "Basins"
-    var info: String? = nil
-    var description: String { return nameAndInfo(self) }
-    
-    var backingModel: AnyObject? { return basinFinder.system }
     
     weak var basinFinder: SK2_BasinsAndAttractors!
     var calibrationNeeded: Bool
@@ -74,16 +70,13 @@ class SK2_BAColorSource : ColorSource {
         // TODO
     }
     
-    func prepare(_ nodeCount: Int) -> Bool {
+    func refresh() {
         debug("SK2_BAColorSource prepare", "calling basinFinder.update")
-        // Return value from basinFinder.update() is useless b/c the changes
-        // happen asynchronously.
         _ = basinFinder.update()
         
         if (calibrationNeeded) {
             _ = doCalibration()
         }
-        return true
     }
     
     func colorAt(_ nodeIndex: Int) -> GLKVector4 {

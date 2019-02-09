@@ -19,6 +19,7 @@ import OpenGL
 // ==============================================================
 
 class Surface : GLKBaseEffect, Effect {
+    
     func teardown() {
         
     }
@@ -39,18 +40,12 @@ class Surface : GLKBaseEffect, Effect {
     // ====================================
     // GL stuff
     
-    var projectionMatrix: GLKMatrix4 {
-        get { return transform.projectionMatrix }
-        set(newValue) {
-            transform.projectionMatrix = newValue
-        }
+    func setProjection(_ projectionMatrix: GLKMatrix4) {
+        transform.projectionMatrix = projectionMatrix
     }
     
-    var modelviewMatrix: GLKMatrix4 {
-        get { return transform.modelviewMatrix }
-        set(newValue) {
-            transform.modelviewMatrix = newValue
-        }
+    func setModelview(_ modelviewMatrix: GLKMatrix4) {
+        transform.modelviewMatrix = modelviewMatrix
     }
     
     var vertices: [PNVertex] = []
@@ -68,10 +63,9 @@ class Surface : GLKBaseEffect, Effect {
     // SKT stuff
     
     weak var system: SK2_System!
+    var colorSource: ColorSource
     var geometry: SK2_ShellGeometry
     
-    private var colorSources: RegistryWithSelection<ColorSource>? = nil
-    private var colorSourceSelectionMonitor: ChangeMonitor? = nil
     private var colorSourceInstanceMonitor: ChangeMonitor? = nil
     private var colorsAreStale: Bool = false
     
@@ -82,21 +76,15 @@ class Surface : GLKBaseEffect, Effect {
     // Initiailzers
     // ====================================
 
-    init(_ system: SK2_System, _ colorSources: RegistryWithSelection<ColorSource>?, enabled: Bool) {
+    init(_ system: SK2_System, _ geometry: SK2_ShellGeometry, _ colorSource: ColorSource, enabled: Bool) {
         self.system = system
-        self.geometry = SK2_ShellGeometry(system)
-        self.colorSources = colorSources
+        self.geometry = geometry
+        self.colorSource = colorSource
         self.enabled = enabled
         self.enabledDefault = enabled
         super.init()
 
-        if (colorSources != nil) {
-            colorSourceSelectionMonitor = colorSources!.monitorChanges(colorSourceSelectionChanged)
-            let sel = colorSources!.selection?.value
-            if (sel != nil) {
-                colorSourceInstanceMonitor = sel!.monitorChanges(colorSourceInstanceChanged)
-            }
-        }
+        colorSourceInstanceMonitor = colorSource.monitorChanges(colorSourceInstanceChanged)
     }
     
     func releaseOptionalResources() {
@@ -107,13 +95,6 @@ class Surface : GLKBaseEffect, Effect {
         glDeleteVertexArrays(1, &vertexArray)
         deleteBuffers()
     }
-
-    private func colorSourceSelectionChanged(_ sender: Any?) {
-        markColorsAsStale()
-        colorSourceInstanceMonitor?.disconnect()
-        _ = colorSources?.selection?.value.monitorChanges(colorSourceInstanceChanged)
-    }
-    
 
     private func colorSourceInstanceChanged(_ sender: Any?) {
         markColorsAsStale()
@@ -183,40 +164,40 @@ class Surface : GLKBaseEffect, Effect {
         self.colorsAreStale = true
     }
     
-    private func ensureColorsAreFresh() -> Bool {
-        let mtd = "ensureColorsAreFresh"
-        if (colorSources == nil) {
-            debug(mtd, "cannot refresh colors: colorSources is nil")
-            return false
-        }
-
-        let colorSource = colorSources?.selection?.value
-        if (colorSource == nil) {
-            debug(mtd, "cannot refresh colors: colorSource is nil")
-            return false
-        }
-        
-        // =============================
-        // TODO: catch selection change
-        // TODO: catch param change
-        // =============================
-
-        var colorsRecomputed = false
-        let cs = colorSource!
-        debug(mtd, "calling colorSource.prepare(). colorSource: \(cs.name)")
-        let colorSourceChanged = cs.prepare(colors.count)
-        if (colorSourceChanged || colorsAreStale) {
-            colorsAreStale = false
-            debug(mtd, "recomputing colors. colorSource: \(cs.name)")
-            for i in 0..<colors.count {
-                colors[i] = cs.colorAt(i)
-            }
-            colorsRecomputed = true
-            debug(mtd, "colors recomputed. colorSource: \(cs.name)")
-        }
-        return colorsRecomputed
-    }
-    
+//    private func ensureColorsAreFresh() -> Bool {
+//        let mtd = "ensureColorsAreFresh"
+//        if (colorSources == nil) {
+//            debug(mtd, "cannot refresh colors: colorSources is nil")
+//            return false
+//        }
+//
+//        let colorSource = colorSources?.selection?.value
+//        if (colorSource == nil) {
+//            debug(mtd, "cannot refresh colors: colorSource is nil")
+//            return false
+//        }
+//
+//        // =============================
+//        // TODO: catch selection change
+//        // TODO: catch param change
+//        // =============================
+//
+//        var colorsRecomputed = false
+//        let cs = colorSource!
+//        debug(mtd, "calling colorSource.prepare(). colorSource: \(cs.name)")
+//        let colorSourceChanged = cs.prepare(colors.count)
+//        if (colorsAreStale) {
+//            colorsAreStale = false
+//            debug(mtd, "recomputing colors. colorSource: \(cs.name)")
+//            for i in 0..<colors.count {
+//                colors[i] = cs.colorAt(i)
+//            }
+//            colorsRecomputed = true
+//            debug(mtd, "colors recomputed. colorSource: \(cs.name)")
+//        }
+//        return colorsRecomputed
+//    }
+//
     private func createBuffers() {
         
         glBindVertexArray(vertexArray)
@@ -347,7 +328,17 @@ class Surface : GLKBaseEffect, Effect {
             debug(mtd, String(format:"glError 0x%x", err0))
         }
         
-        let needsColorBufferUpdate = ensureColorsAreFresh()
+        var needsColorBufferUpdate = false
+        if (colorsAreStale) {
+            colorsAreStale = false
+            colorSource.refresh()
+            debug(mtd, "getting updated colors")
+            for i in 0..<colors.count {
+                colors[i] = colorSource.colorAt(i)
+            }
+            colorsAreStale = false
+            needsColorBufferUpdate = true
+        }
         
         glBindVertexArray(vertexArray)
         

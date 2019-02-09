@@ -164,13 +164,6 @@ class AppModel1 : AppModel {
 
         // 2. Install the parts
         
-//        oldFactory = SKT_Factory("old")
-//        let (oldParts, oldPrefs) = oldFactory.makePartsAndPrefs(animationController, graphicsController, workQueue)
-//        for part in oldParts {
-//            installPart(part)
-//        }
-//        _preferenceSupportList += oldPrefs
-
         let sk1Factory = SK1_Factory("sk1")
         let (sk1Parts, sk1Prefs) = sk1Factory.makePartsAndPrefs(animationController, graphicsController, workQueue)
         for part in sk1Parts {

@@ -26,7 +26,7 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 // ===========================================
 
 class BusySpinner : Effect {
-   
+    
     static let key = "BusySpinner"
     var name: String = "BusySpinner"
     var info: String? = nil
@@ -71,11 +71,16 @@ class BusySpinner : Effect {
     private var projectionMatrixUniform : Int32 = 0
     private var pointSizeUniform : Int32 = 0
     
-    var projectionMatrix: GLKMatrix4 = GLKMatrix4Identity
-    var modelviewMatrix: GLKMatrix4 {
-        get { return GLKMatrix4Identity }
-        set(newValue) { /* IGNORE */ }
+    func setProjection(_ projectionMatrix: GLKMatrix4) {
+        self.projectionMatrix = projectionMatrix
     }
+    
+    func setModelview(_ modelviewMatrix: GLKMatrix4) {
+        // NOP
+    }
+    
+    var projectionMatrix: GLKMatrix4 = GLKMatrix4Identity
+    var modelviewMatrix: GLKMatrix4  = GLKMatrix4Identity
     
     var pointSize: GLfloat = 48
     

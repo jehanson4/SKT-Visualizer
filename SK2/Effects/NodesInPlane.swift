@@ -1,4 +1,14 @@
 //
+//  NodesInPlane.swift
+//  SKT Visualizer
+//
+//  Created by James Hanson on 2/8/19.
+//  Copyright © 2019 James Hanson. All rights reserved.
+//
+
+import Foundation
+
+//
 //  NodesOnShell.swift
 //  SKT Visualizer
 //
@@ -23,30 +33,30 @@ fileprivate func debug(_ mtd: String, _ msg : String = "") {
 }
 
 // =========================================================
-// NodesOnShell
+// NodesInPlane
 // =========================================================
 
-class NodesOnShell: Effect {
+class NodesInPlane: Effect {
     
     // ============================================
     // Lifecycle
     
-    /// need figure b/c pointize calculation depends on zoom
-    init(_ system: SK2_System, _ geometry: SK2_ShellGeometry, enabled: Bool, switchable: Bool) {
+    /// We need the figure's POV for setting size of nodes
+    init(_ system: SK2_System, _ geometry: SK2_PlaneGeometry, enabled: Bool, switchable: Bool) {
         debug("init")
         self.system = system
         self.geometry = geometry
         self.switchable = switchable
         self._enabled = enabled
-        self._colorSource = UniformColor(r: 0, g: 0, b: 0)
     }
     
     deinit {
+        
         if (built) {
-        // Q: which of these is part of clean()?
-        glDeleteProgram(programHandle)
-        glDeleteVertexArrays(1, &vertexArray)
-        deleteBuffers()
+            // Q: which of these is part of clean()?
+            glDeleteProgram(programHandle)
+            glDeleteVertexArrays(1, &vertexArray)
+            deleteBuffers()
         }
     }
     
@@ -61,12 +71,12 @@ class NodesOnShell: Effect {
     // ============================================
     // Basics
     
-    static let key = "NodesOnShell"
-
+    static let key = "NodesInPlane"
+    
     var name = "Nodes"
     var info: String? = nil
     var description: String { return nameAndInfo(self) }
-
+    
     var switchable: Bool
     
     private var _enabled: Bool
@@ -81,16 +91,21 @@ class NodesOnShell: Effect {
         }
     }
     
-    weak var system: SK2_System!
-    weak var geometry: SK2_ShellGeometry!
-    weak var figure: ShellFigure!
-
-    private var geometryIsStale: Bool = true
     private var built: Bool = false
+    
+    private weak var system: SK2_System!
+    private weak var figure: PlaneFigure!
+    private var geometry: SK2_PlaneGeometry
+    
+    private var geometryIsStale: Bool = true
+    
+    func markGeometryStale(_ sender: Any?) {
+        debug("markGeometryStale")
+        geometryIsStale = true
+    }
 
-    private var colorsAreStale = true
-    private var _colorSource: ColorSource?
-    private var _relief: Relief?
+    // ==========================
+    // Data sources
     
     var colorSource: ColorSource? {
         get { return _colorSource }
@@ -100,6 +115,17 @@ class NodesOnShell: Effect {
         }
     }
     
+    private var _colorSource: ColorSource? = nil
+    
+    private var colorsAreStale = true
+    
+    func markColorsStale(_ sender: Any?) {
+        debug("markColorsStale")
+        colorsAreStale = true
+    }
+    
+    var _relief: Relief?
+    
     var relief: Relief? {
         get { return _relief }
         set(newValue) {
@@ -107,7 +133,7 @@ class NodesOnShell: Effect {
             geometryIsStale = true
         }
     }
-
+    
     func invalidateData() {
         if (_colorSource != nil) {
             colorsAreStale = true
@@ -116,7 +142,7 @@ class NodesOnShell: Effect {
             geometryIsStale = true
         }
     }
-    
+
     func invalidateNodes() {
         geometryIsStale = true
     }
@@ -140,7 +166,6 @@ class NodesOnShell: Effect {
     var projectionMatrix: GLKMatrix4 = GLKMatrix4Identity
     var modelviewMatrix: GLKMatrix4 = GLKMatrix4Identity
     
-    
     func setProjection(_ projectionMatrix: GLKMatrix4) {
         self.projectionMatrix = projectionMatrix
     }
@@ -157,7 +182,7 @@ class NodesOnShell: Effect {
     var vertexArray: GLuint = 0
     var vertexBuffer: GLuint = 0
     var colorBuffer: GLuint = 0
-
+    
     private func deleteBuffers() {
         glDeleteBuffers(1, &vertexBuffer)
         glDeleteBuffers(1, &colorBuffer)
@@ -174,9 +199,10 @@ class NodesOnShell: Effect {
     
     private func buildVertexAndColorData() {
         
-        self.vertices = geometry.buildVertexArray4(relief)
+        let z0: Double = 0.0
+        self.vertices = geometry.buildVertexArray4(UniformElevation(z0))
         self.geometryIsStale = false
-
+        
         // Fill colors array with black, then set flag to force an update
         
         let black = GLKVector4Make(0, 0, 0, 0)
@@ -236,14 +262,13 @@ class NodesOnShell: Effect {
     
     func calculatePointSize() -> GLfloat {
         
-        // THIS is why me need figure
-        let pts = pointSizeScaleFactor * GLfloat(figure.pov.zoom * geometry.neighborDistance)
-        // debug("calculatePointSize", "zoom=\(figure.pov.zoom)")
+        let pts = pointSizeScaleFactor * GLfloat(figure.pov.z * geometry.gridSpacing)
+        // debug("calculatePointSize", "z=\(figure.pov.z)")
         // debug("calculatePointSize", "pts=\(pts)")
         return clip(pts, 1, pointSizeMax)
     }
     
-
+    
     // ========================================
     // Shader
     
@@ -322,14 +347,14 @@ class NodesOnShell: Effect {
             exit(1)
         }
     }
-
+    
 //    private func ensureColorsAreFresh() -> Bool {
 //        var colorsRecomputed = false
-//        
+//
 //        let colorSourceChanged = _colorSource.prepare(system.nodeCount)
 //        if (colorSourceChanged || colorsAreStale) {
 //            colorsAreStale = false
-//            debug("rereading colors array")
+//            debug("rereading colors array", "colorSource: \(_colorSource.name) colors.count=\(colors.count)")
 //            for i in 0..<colors.count {
 //                colors[i] = _colorSource.colorAt(i)
 //            }
@@ -351,7 +376,7 @@ class NodesOnShell: Effect {
         glUniform1f(pointSizeUniform, pointSize)
     }
     
-
+    
     var drawCounter: Int = 0
     func draw() {
         let mtd = "draw[\(drawCounter)]"
@@ -370,7 +395,7 @@ class NodesOnShell: Effect {
         if (!built) {
             build()
         }
-
+        
         if (geometryIsStale) {
             
             // IMPORTANT
@@ -443,5 +468,5 @@ class NodesOnShell: Effect {
         glBindVertexArray(0)
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), 0)
     }
-
+    
 }

@@ -8,6 +8,17 @@
 
 import Foundation
 
+// ===============================================================================
+// PhysicalProperty
+// ===============================================================================
+
+protocol PhysicalProperty : AnyObject, Named, ChangeMonitorEnabled {
+    
+    /// Returns the min, max values found across all nodes of the backing model
+    var bounds: (min: Double, max: Double) { get }
+    
+}
+
 // ================================================================
 // PhysicalSystem
 // ================================================================
@@ -17,25 +28,6 @@ protocol PhysicalSystem: AnyObject, Named {
     var parameters: Registry<Parameter> { get }
     
     func resetAllParameters()
-    
-    // DEFER until needed
-    // var properties: Registry<PhysicalProperty> { get }
-    
-}
-
-// ================================================================
-// OLD_PhysicalSystem
-// ================================================================
-
-protocol OLD_PhysicalSystem: PhysicalSystem {
-    
-    /// Min #dimensions of a continuous space in which tbe system can be embedded
-    var embeddingDimension: Int { get }
-
-    /// Number of nodes in the system
-    var nodeCount: Int { get }
-    
-    var physicalProperties: Registry<PhysicalProperty> { get }
-     
+        
 }
 

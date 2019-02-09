@@ -27,23 +27,31 @@ struct SK2E {
     static var name = "SK/2 Equilibrium"
     static var info = "Equilibrium properties of the 2-component SK model"
     
-    static func makeFigures(_ system: SK2_System, _ graphicsController: GraphicsController, _ workQueue: WorkQueue, _ baseShell: ShellFigure) -> Registry<Figure>? {
+    static func makeFigures(_ system: SK2_System, _ shellBase: SK2_ShellBase) -> Registry<Figure>? {
         let reg = Registry<Figure>()
         
-        let energyOnShell = SK2E_EnergyFigure("Energy on the Hemisphere", system, baseShell)
+        
+        let energyOnShell = SK2E_Energy("Energy on the Hemisphere", nil, system, shellBase)
         _ = reg.register(energyOnShell)
         
-        let entropyOnShell = SK2E_EntropyFigure("Entropy on the Hemisphere", system, baseShell)
-        _ = reg.register(entropyOnShell)
         
-        let occupationOnShell = SK2E_OccupationFigure("Occupation on the Hemisphere", system, baseShell)
-        _ = reg.register(occupationOnShell)
-        
-        let basinFinder = SK2_BasinsAndAttractors(system, workQueue)
-        let basinsOnShell = SK2_BAOnShell("Basins on the Hemisphere",
-                                          basinFinder,
-                                          baseShell)
-        _ = reg.register(basinsOnShell)
+//        let energyOnShell = SK2E_EnergyFigure("Energy on the Hemisphere", system, shellFigure)
+//        _ = reg.register(energyOnShell)
+//
+//        let entropyOnShell = SK2E_EntropyFigure("Entropy on the Hemisphere", system, baseShell)
+//        _ = reg.register(entropyOnShell)
+//
+//        let occupationOnShell = SK2E_OccupationFigure("Occupation on the Hemisphere", system, baseShell)
+//        _ = reg.register(occupationOnShell)
+//        
+//        let basinFinder = SK2_BasinsAndAttractors(system, workQueue)
+//        let basinsOnShell = SK2_BAOnShell("Basins on the Hemisphere",
+//                                          basinFinder,
+//                                          baseShell)
+//        _ = reg.register(basinsOnShell)
+//        
+//        let samplePlane = SK2_PlanarReliefFigure("Sample planar figure", system, SK2E_OccupationColors(system), UniformElevation())
+//        _ = reg.register(samplePlane)
         
         return reg
     }
@@ -77,9 +85,10 @@ struct SK2D {
         return flow!
     }
     
-    static func makeFigures(_ system: SK2_System, _ graphicsController: GraphicsController, _ workQueue: WorkQueue, _ baseShell: ShellFigure) -> Registry<Figure>? {
+    static func makeFigures(_ system: SK2_System,  _ shellBase: SK2_ShellBase) -> Registry<Figure>? {
         let reg = Registry<Figure>()
         
+
 //        // ===========================================
 //        // Sample figures
 //
@@ -97,10 +106,10 @@ struct SK2D {
 //        _ = sample3.effects?.register(NodesOnShell(system, sample3, color3, enabled: true, switchable: true))
 //        _ = reg.register(sample3)
         
-        let flow = SK2D.getOrCreateFlow(system, workQueue)
-        let flowOnShell = SK2_Population("Population on the Hemisphere", baseShell, flow)
-        
-        _ = reg.register(flowOnShell)
+//        let flow = SK2D.getOrCreateFlow(system, workQueue)
+//        let flowOnShell = SK2_Population("Population on the Hemisphere", baseShell, flow)
+//
+//        _ = reg.register(flowOnShell)
 
         return reg
     }
@@ -161,22 +170,30 @@ class SK2_Factory: AppPartFactory {
         var prefs: [(String, PreferenceSupport)] = []
 
         // =========================
-        // Shared stuff
+        // System
         
         let system = SK2_System()
         let systemNS = extendNamespace(namespace, "system")
         system.loadPreferences(namespace: systemNS)
         prefs.append( (systemNS, system) )
 
-        let baseShell = makeBaseShell(system, graphicsController, workQueue)
-        baseShell.autocalibrate = true
+        // =========================
+        // Base figures
+        
+        let bgColor = graphicsController.backgroundColor
+        let radius: Double = 1
+        let shellBase = SK2_ShellBase(system, radius)
+        shellBase.installBaseEffects(workQueue, bgColor)
+        
+        // gridSize
+        // planeBase
         
         // =========================
         // SK2E parts and prefs
         
         SK2E.key = extendNamespace(namespace, "sk2e")
         
-        let sk2eFigures: Registry<Figure>? = SK2E.makeFigures(system, graphicsController, workQueue, baseShell)
+        let sk2eFigures: Registry<Figure>? = SK2E.makeFigures(system, shellBase)
         // TODO figure pref's
         
         let sk2eSequencers: Registry<Sequencer>? = SK2E.makeSequencers(system)
@@ -194,7 +211,7 @@ class SK2_Factory: AppPartFactory {
         
         SK2D.key = extendNamespace(namespace, "sk2d")
         
-        let sk2dFigures: Registry<Figure>? = SK2D.makeFigures(system, graphicsController, workQueue, baseShell)
+        let sk2dFigures: Registry<Figure>? = SK2D.makeFigures(system, shellBase)
         // TODO figure pref's
         
         let sk2dSequencers: Registry<Sequencer>? = SK2D.makeSequencers(system, workQueue)
@@ -210,57 +227,5 @@ class SK2_Factory: AppPartFactory {
         return (parts, prefs)
     }
     
-    /// effects: InnerShell, NetOnShell, NodesOnShell, Meridians, DescentLinesOnShell
-    func makeBaseShell(_ system: SK2_System, _ graphicsController: GraphicsController, _ workQueue: WorkQueue) -> ShellFigure {
-        let mtd = "makeBaseShell"
-        
-        let r0 : Double = 1
-        let bgColor: GLKVector4 = graphicsController.backgroundColor
-        let baseColorSource = UniformColor("Gray", r: 0.5, g: 0.5, b: 0.5)
-        let baseShell = ShellFigure("BaseShell", radius: r0)
-        
-        do {
-            let busySpinner = BusySpinner(workQueue, enabled: true, switchable: false)
-            _ = try baseShell.effects?.register(busySpinner, key: BusySpinner.key)
-        } catch {
-            debug(mtd, "Problem registring BusySpinner: \(error)")
-        }
-        do {
-            let innerShell = InnerShell(r0, bgColor, enabled: true, switchable: false)
-            _ = try baseShell.effects?.register(innerShell, key: InnerShell.key)
-        } catch {
-            debug(mtd, "Problem registring InnerShell: \(error)")
-        }
-        
-        do {
-            let netOnShell = NetOnShell(system, enabled: false, switchable: true, radius: r0)
-            _ = try baseShell.effects?.register(netOnShell, key: NetOnShell.key)
-        } catch {
-            debug(mtd, "Problem registring NetOnShell: \(error)")
-        }
-        
-        do {
-            let nodesOnShell = NodesOnShell(system, baseShell, baseColorSource, enabled: true, switchable: true)
-            _ = try baseShell.effects?.register(nodesOnShell, key: NodesOnShell.key)
-        } catch {
-            debug(mtd, "Problem registring NodesOnShell: \(error)")
-        }
-        
-        do {
-            let meridians = MeridiansOnShell(system, enabled: true, switchable: true, radius: r0)
-            _ = try baseShell.effects?.register(meridians, key: MeridiansOnShell.key)
-        } catch {
-            debug(mtd, "Problem registring Meridians: \(error)")
-        }
-        
-        do {
-            let descentLines = DescentLinesOnShell(system, enabled: false, switchable: true, radius: r0)
-            _ = try baseShell.effects?.register(descentLines, key: DescentLinesOnShell.key)
-        } catch {
-            debug(mtd, "Problem registering DescentLinesOnShell: \(error)")
-        }
-        
-        return baseShell
-    }
 }
 

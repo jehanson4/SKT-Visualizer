@@ -215,3 +215,18 @@ there's a subsequent model changes or something)
 
 we've got 2 COLOR SOURCES that use the work queue.
 AnimationController needs it to check for busy.
+
+=============================================================================================
+I'm seeing the Figure as the nexus of customations and special connections.
+e.g. occupation figure is what keeps track of all 5 system param changes
+e.g. tiny offsets between nodes and descent lines
+
+base-figure is not just some random bag of effects it's specifically tailored for SK2 pictures
+of a certain type.
+
+e.g. nodes don't go well w/ relief.
+
+1 base figure with nodes & net but not elevations
+1 base figure with surface and net and color and elevation but no nodes
+
+each one exposes all the right things, by name. no more 'let's install the color source everwhere!'

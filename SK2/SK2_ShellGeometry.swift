@@ -52,14 +52,16 @@ struct SK2_ShellPoint : DS2_Node {
 
 class SK2_ShellGeometry {
 
-    init(_ system: SK2_System, radius: Double = 1) {
+    init(_ system: SK2_System, _ radius: Double) {
         self.system = system
         self.radius = radius
+        self.rScale = radius/4
     }
     
     private weak var system: SK2_System!
     
     let radius: Double
+    let rScale: Double
     
     var p1: SK2_ShellPoint {
         let m: Int = 0
@@ -235,48 +237,69 @@ class SK2_ShellGeometry {
      returns array containing x,y,z values of nodes,
      in node index order defined by the given geometry.
      */
-    func buildVertexCoordinateArray(rOffset: Double = 0) -> [GLfloat] {
+    func buildVertexCoordinateArray(_ relief: Relief?, _ rOffset: Double = 0) -> [GLfloat] {
         let mMax = system.m_max
         let nMax = system.n_max
         var vertexCoords: [GLfloat] = Array(repeating: 0, count: 3 * system.nodeCount)
         var nextVertex: Int = 0
         
-        // HACK HACK HACK HACK retrofit optional rOffset
-        if (rOffset == 0) {
+        if (relief == nil) {
             for m in 0...mMax {
                 for n in 0...nMax {
-                    let v = skToCartesian(m, n)
-                    vertexCoords[3*nextVertex] = GLfloat(v.x)
-                    vertexCoords[3*nextVertex+1] = GLfloat(v.y)
-                    vertexCoords[3*nextVertex+2] = GLfloat(v.z)
+                    var (r,p,t) = skToSpherical(m, n)
+                    r += rOffset
+                    let (x,y,z) = sphericalToCartesian(r, p, t)
+                    vertexCoords[3*nextVertex] = GLfloat(x)
+                    vertexCoords[3*nextVertex+1] = GLfloat(y)
+                    vertexCoords[3*nextVertex+2] = GLfloat(z)
                     nextVertex += 1
                 }
             }
         }
         else {
+            let zSource = relief!
+            zSource.refresh()
             for m in 0...mMax {
                 for n in 0...nMax {
-                    let sph = skToSpherical(m, n)
-                    let v = Geometry.sphericalToCartesian(r: sph.r + rOffset, phi: sph.phi, thetaE: sph.thetaE)
-                    vertexCoords[3*nextVertex] = GLfloat(v.x)
-                    vertexCoords[3*nextVertex+1] = GLfloat(v.y)
-                    vertexCoords[3*nextVertex+2] = GLfloat(v.z)
+                    var (r,p,t) = skToSpherical(m, n)
+                    let nodeIndex = system.skToNodeIndex(m, n)
+                    r += (rOffset + rScale * zSource.elevationAt(nodeIndex) )
+                    let (x,y,z) = sphericalToCartesian(r, p, t)
+                    vertexCoords[3*nextVertex] = GLfloat(x)
+                    vertexCoords[3*nextVertex+1] = GLfloat(y)
+                    vertexCoords[3*nextVertex+2] = GLfloat(z)
                     nextVertex += 1
                 }
             }
-            
+
         }
         return vertexCoords
     }
     
-    func buildVertexArray4() -> [GLKVector4] {
+    func buildVertexArray4(_ relief: Relief?) -> [GLKVector4] {
         let mMax = system.m_max
         let nMax = system.n_max
         var vertices: [GLKVector4] = []
-        for m in 0...mMax {
-            for n in 0...nMax {
-                let v = skToCartesian(m, n)
-                vertices.append(GLKVector4Make(Float(v.x), Float(v.y), Float(v.z), 0))
+        
+        if (relief == nil) {
+            for m in 0...mMax {
+                for n in 0...nMax {
+                    let (x,y,z) = skToCartesian(m, n)
+                    vertices.append(GLKVector4Make(Float(x), Float(y), Float(z), 0))
+                }
+            }
+        }
+        else {
+            let rSource = relief!
+            rSource.refresh()
+            for m in 0...mMax {
+                for n in 0...nMax {
+                    var (r,p,t) = skToSpherical(m, n)
+                    let nodeIndex = system.skToNodeIndex(m, n)
+                    r += rScale * rSource.elevationAt(nodeIndex)
+                    let (x,y,z) = sphericalToCartesian(r, p, t)
+                    vertices.append(GLKVector4Make(Float(x), Float(y), Float(z), 0))
+                }
             }
         }
         return vertices

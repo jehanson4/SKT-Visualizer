@@ -1,5 +1,5 @@
 //
-//  MeridiansOnShell.swift
+//  Meridians.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 1/28/19.
@@ -18,13 +18,14 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 }
 
 // ==================================================================
-// MeridiansOnShell
+// Meridians
 // ==================================================================
 
-class MeridiansOnShell:  GLKBaseEffect, Effect {
+class Meridians:  GLKBaseEffect, Effect {
 
     static let key = "Meridians"
-    var name = "Meridians"
+    
+    var name = Meridians.key
     var info: String? = nil
     
     var switchable: Bool
@@ -63,6 +64,15 @@ class MeridiansOnShell:  GLKBaseEffect, Effect {
     
     var rOffset: Double
     
+    func setProjection(_ projectionMatrix: GLKMatrix4) {
+        transform.projectionMatrix = projectionMatrix
+    }
+    
+    func setModelview(_ modelviewMatrix: GLKMatrix4) {
+        transform.modelviewMatrix = modelviewMatrix
+    }
+    
+    
     var projectionMatrix: GLKMatrix4 {
         get { return transform.projectionMatrix }
         set(newValue) {
@@ -79,10 +89,9 @@ class MeridiansOnShell:  GLKBaseEffect, Effect {
     
     private var _showSecondaries: Bool = true
     
-    private var system: SK2_System
-    private var geometry: SK2_ShellGeometry
-    private var N_monitor: ChangeMonitor? = nil
-    private var k_monitor: ChangeMonitor? = nil
+    weak var system: SK2_System!
+    weak var geometry: SK2_ShellGeometry!
+
     private var geometryIsStale = true
     
     private var vertices: [GLKVector4] = []
@@ -93,20 +102,21 @@ class MeridiansOnShell:  GLKBaseEffect, Effect {
     private var vertexArray: GLuint = 0
     private var vertexBuffer: GLuint = 0
     
-    init(_ sk2: SK2_System, enabled: Bool, switchable: Bool, radius: Double = 1) {
+    init(_ sk2: SK2_System, _ geometry: SK2_ShellGeometry, enabled: Bool, switchable: Bool) {
         self.system = sk2
-        self.geometry = SK2_ShellGeometry(sk2, radius: radius)
+        self.geometry = geometry
         self.switchable = switchable
         self._enabled = enabled
-        self.rOffset = MeridiansOnShell.rOffsetDefault
+        self.rOffset = Meridians.rOffsetDefault
         super.init()
         super.useConstantColor = 1
-        
-        N_monitor = sk2.N.monitorChanges(markGeometryStale)
-        k_monitor = sk2.k.monitorChanges(markGeometryStale)
     }
     
-    func markGeometryStale(_ sender: Any?) {
+    func markGeometryStale() {
+        geometryIsStale = true
+    }
+    
+    func invalidateNodes() {
         geometryIsStale = true
     }
     

@@ -22,13 +22,11 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 // ======================================================================
 
 class SK2_PFColorSource : ColorSource {
+    var autocalibrate: Bool = true
     
-    var name: String = "Population"
-    var info: String? = nil
-    var description: String { return nameAndInfo(self) }
     
-    var backingModel: AnyObject? { return flow }
-    var calibrationNeeded: Bool
+    // var backingModel: AnyObject? { return flow }
+    var calibrationNeeded: Bool = true
 
     weak var flow: SK2_PopulationFlow!
     var colorMap: LogColorMap
@@ -54,14 +52,13 @@ class SK2_PFColorSource : ColorSource {
         }
     }
     
-    func prepare(_ nodeCount: Int) -> Bool {
-        // debug("prepare", "getting flow.wCurr (causes sync() call)")
+    func refresh() {
+        // TODO only do this if we've marked our populations as stale
         self.wCurr = flow.wCurr
 
         if (calibrationNeeded) {
-           return  doCalibration()
+           _ = doCalibration()
         }
-        return false
     }
     
     func colorAt(_ nodeIndex: Int) -> GLKVector4 {

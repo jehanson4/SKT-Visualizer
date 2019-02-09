@@ -1,39 +1,39 @@
 //
-//  NetOnShell.swift
+//  NetInPlane.swift
 //  SKT Visualizer
 //
-//  Created by James Hanson on 1/28/19.
+//  Created by James Hanson on 2/8/19.
 //  Copyright © 2019 James Hanson. All rights reserved.
 //
 
 import Foundation
+
 import GLKit
 
 fileprivate var debugEnabled = false
 
 fileprivate func debug(_ mtd: String, _ msg: String = "") {
     if (debugEnabled) {
-        print("NetOnShell", mtd, msg)
+        print("NetInPlane", mtd, msg)
     }
 }
 
 // =============================================================
-// NetOnShell
+// NetInPlane
 // =============================================================
 
-class NetOnShell: GLKBaseEffect, Effect {
-    
+class NetInPlane: GLKBaseEffect, Effect {
     
     // ===========================================
     // Basics
     
-    static let key = "NetOnShell"
+    static let key = "NetInPlane"
     
     var name: String = "Net"
     var info: String? = nil
     
     var switchable: Bool
-
+    
     var enabled: Bool {
         get { return _enabled }
         set(newValue) {
@@ -46,11 +46,17 @@ class NetOnShell: GLKBaseEffect, Effect {
     private var _enabled: Bool
     
     var system: SK2_System
-    var geometry: SK2_ShellGeometry
-    var N_monitor: ChangeMonitor? = nil
-    var k_monitor: ChangeMonitor? = nil
-    var rOffset: Double
-    var geometryIsStale: Bool = true
+    var geometry: SK2_PlaneGeometry
+    
+    var _relief: Relief?
+    
+    var relief: Relief? {
+        get { return _relief }
+        set(newValue) {
+            _relief = newValue
+            geometryIsStale = true
+        }
+    }
     
     func invalidateNodes() {
         geometryIsStale = true
@@ -61,16 +67,10 @@ class NetOnShell: GLKBaseEffect, Effect {
             geometryIsStale = true
         }
     }
-    
-    var relief: Relief? {
-        get { return _relief }
-        set(newValue) {
-            _relief = newValue
-            geometryIsStale = true
-        }
-    }
-    
-    var _relief: Relief?
+    var geometryIsStale: Bool = true
+
+    // ===========================================
+    // GL
     
     func setProjection(_ projectionMatrix: GLKMatrix4) {
         transform.projectionMatrix = projectionMatrix
@@ -80,29 +80,26 @@ class NetOnShell: GLKBaseEffect, Effect {
         transform.modelviewMatrix = modelviewMatrix
     }
     
-    
-    // EMPIRICAL
-    static let rOffsetDefault = 0.0
     let lineWidth: GLfloat = 2.0
     let lineColor: GLKVector4 = GLKVector4Make(1.0, 1.0, 1.0, 1.0)
     
     var vertexArray: GLuint = 0
     var vertexBuffer: GLuint = 0
     var indexBuffer: GLuint = 0
-    
+        
     // vertex data
     var vertices: [GLfloat] = []
     var indices: [GLuint] = []
     var lineArrayLengths: [GLsizei] = []
     var lineArrayOffsets: [UnsafeRawPointer?] = []
     var built: Bool = false
-    
-    init(_ system: SK2_System, _ geometry: SK2_ShellGeometry, enabled: Bool, switchable: Bool) {
+
+    init(_ system: SK2_System, _ geometry: SK2_PlaneGeometry, enabled: Bool, switchable: Bool) {
         self.system = system
         self.geometry = geometry
+        self._relief = nil
         self._enabled = enabled
         self.switchable = switchable
-        self.rOffset = NetOnShell.rOffsetDefault
         self.geometryIsStale = true
         super.init()
     }
@@ -114,7 +111,7 @@ class NetOnShell: GLKBaseEffect, Effect {
         }
     }
     
-    func markGeometryStale() {
+    func updateGeometry(_ sender: Any?) {
         geometryIsStale = true
     }
     
@@ -145,10 +142,10 @@ class NetOnShell: GLKBaseEffect, Effect {
         
         // =========================================
         // vertex data & array allocation
-        // # ellipse lines = nMax+1
-        // # points in each ellipse line = mMax+1
-        // # hyperbola lines = mMax+1
-        // # points in each hyperbola line: nMax+1
+        // # horizontal lines = nMax+1
+        // # points in each horizoltal line = mMax+1
+        // # vertical lines = mMax+1
+        // # points in each vertical line: nMax+1
         // point (m, n) has index m * (nMax+1) + n
         // "vertex" here means 1 coordinate only: 3 of them per point
         
@@ -159,8 +156,7 @@ class NetOnShell: GLKBaseEffect, Effect {
         
         debug("buildVertexData", "old #vertices: " + String(vertices.count))
         
-        self.vertices = geometry.buildVertexCoordinateArray(relief, self.rOffset)        
-        
+        self.vertices = geometry.buildVertexCoordinateArray(relief)
         debug("buildVertexData", "new #vertices: " + String(vertices.count))
         
         self.indices = Array(repeating: 0, count: indexCount)
@@ -171,21 +167,20 @@ class NetOnShell: GLKBaseEffect, Effect {
         var nextLine = 0
         
         // =========================================
-        // hyperbolas: m=const
+        // verticals: m=const
         
         for m in 0...mMax {
             lineStarts[nextLine] = nextIndex
             lineArrayLengths[nextLine] = GLsizei(nMax+1)
             nextLine += 1
             for n in 0...nMax {
-                // indices[nextIndex] = GLuint(m * pointNumberChunkSize + n)
                 indices[nextIndex] = GLuint(system.skToNodeIndex(m, n))
                 nextIndex += 1
             }
         }
         
         // ==============================================
-        // ellipses: n=const
+        // horizontals: n=const
         
         for n in 0...nMax {
             lineStarts[nextLine] = nextIndex
@@ -275,11 +270,11 @@ class NetOnShell: GLKBaseEffect, Effect {
         glBindVertexArray(vertexArray)
         
         prepareToDraw()
-
+        
         // debugDraw1()
         // debugDraw2()
         // debugDraw3()
-
+        
         let lineCount = lineArrayLengths.count
         for line in 0..<lineCount {
             // debug("draw","line " + String(line+1) + " of " + String(lineCount))
@@ -298,5 +293,5 @@ class NetOnShell: GLKBaseEffect, Effect {
         glLineWidth(1.0)
     }
     
-}
 
+}

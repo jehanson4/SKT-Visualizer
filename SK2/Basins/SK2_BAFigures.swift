@@ -21,17 +21,18 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 // SK2_BAOnShell
 // ==========================================================================
 
-class SK2_BAOnShell: ColorizedFigure {
+class SK2_BAOnShell: SK2_SystemFigure {
     
     private weak var basinFinder: SK2_BasinsAndAttractors!
     private var basinMonitor: ChangeMonitor?
     private let cs: SK2_BAColorSource
     
-    init(_ name: String, _ basinFinder: SK2_BasinsAndAttractors, _ baseFigure: Figure) {
+    init(_ name: String, _ basinFinder: SK2_BasinsAndAttractors, _ baseFigure: SK2_BaseFigure) {
         debug("SK2_BAOnShell.init")
         self.basinFinder = basinFinder
         self.cs = SK2_BAColorSource(basinFinder)
-        super.init(name, delegate: baseFigure, colorSource: cs)
+        super.init(name, nil, baseFigure)
+        super.colorSource = cs
     }
     
     override func aboutToShowFigure() {
@@ -48,6 +49,7 @@ class SK2_BAOnShell: ColorizedFigure {
     
     private func basinsHaveChanged(_ sender: Any?) {
         debug("SK2_BAOnShell.basinsHaveChanged", "starting")
+        // TODO
         if (autocalibrate) {
             cs.calibrationNeeded = true
         }

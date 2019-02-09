@@ -11,31 +11,19 @@ import GLKit
 
 class UniformColor : ColorSource {
     
-    var name: String
-    var info: String? = nil
-    var description: String { return nameAndInfo(self) }
-
     let alpha: GLfloat = 1.0
-    var backingModel: AnyObject? { return nil }
+    var autocalibrate: Bool = true
     var color: GLKVector4
     
-    init(_ name: String, r: GLfloat = 0, g: GLfloat = 0, b: GLfloat = 0) {
-        self.name = name
+    init(r: GLfloat = 0, g: GLfloat = 0, b: GLfloat = 0) {
         self.color = GLKVector4Make(r, g, b, alpha)
     }
     
-    func calibrate() {
-        // NOP
-    }
+    func calibrate() {}
 
-    func teardown() {
-        // NOP
-    }
-    
+    func teardown() {}
 
-    func prepare(_ nodeCount: Int) -> Bool {
-        return false
-    }
+    func refresh() {}
     
     func colorAt(_ nodeIndex: Int) -> GLKVector4 {
         return color

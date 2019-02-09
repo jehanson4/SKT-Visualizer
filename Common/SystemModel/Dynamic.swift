@@ -14,8 +14,8 @@ import Foundation
 
 protocol DiscreteTimeDynamic: AnyObject {
     
-    var busy: Bool { get }
     var stepCount: Int { get }
+    
     var hasNextStep: Bool { get }
     
     /// returns true iff change was made

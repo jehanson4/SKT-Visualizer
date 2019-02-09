@@ -31,10 +31,6 @@ class StepTimeseries: Sequencer {
     
     weak var dynamic: DiscreteTimeDynamic!
     
-    var busy: Bool {
-        return dynamic.busy
-    }
-    
     let reversible: Bool = false
     
     init(_ name: String, _ dynamic: DiscreteTimeDynamic) {

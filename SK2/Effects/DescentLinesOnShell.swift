@@ -27,6 +27,7 @@ class DescentLinesOnShell : GLKBaseEffect, Effect {
     // Basics
     
     static let key = "DescentLinesOnShell"
+    
     var name: String = "Descent Lines"
     var info: String? = nil
     
@@ -56,27 +57,18 @@ class DescentLinesOnShell : GLKBaseEffect, Effect {
     private var rebuildNeeded: Bool = true
     private var bufferUpdateNeeded: Bool = true
     
-    private var sk2: SK2_System
-    private var geometry: SK2_ShellGeometry
-    private var N_monitor: ChangeMonitor? = nil
-    private var k_monitor: ChangeMonitor? = nil
-    private var a1_monitor: ChangeMonitor? = nil
-    private var a2_monitor: ChangeMonitor? = nil
+    private weak var sk2: SK2_System!
+    private weak var geometry: SK2_ShellGeometry!
     
-    init(_ sk2: SK2_System, enabled: Bool, switchable: Bool, radius: Double = 1) {
-        self.sk2 = sk2
-        self.geometry = SK2_ShellGeometry(sk2, radius: radius)
+    init(_ system: SK2_System, _ geometry: SK2_ShellGeometry, enabled: Bool, switchable: Bool) {
+        self.sk2 = system
+        self.geometry = geometry
         self.switchable = switchable
         self._enabled = enabled
         self.rOffset = DescentLinesOnShell.rOffsetDefault
         super.init()
         super.useConstantColor = 1
         super.constantColor = GLKVector4Make(1.0, 1.0, 1.0, 1.0)
-
-        N_monitor = sk2.N.monitorChanges(markForRebuild)
-        k_monitor = sk2.k.monitorChanges(markForRebuild)
-        a1_monitor = sk2.a1.monitorChanges(markForRebuild)
-        a2_monitor = sk2.a2.monitorChanges(markForRebuild)
     }
     
     func teardown() {
@@ -92,10 +84,6 @@ class DescentLinesOnShell : GLKBaseEffect, Effect {
             glDeleteVertexArrays(1, &vertexArray)
             glDeleteBuffers(1, &vertexBuffer)
         }
-        N_monitor?.disconnect()
-        k_monitor?.disconnect()
-        a1_monitor?.disconnect()
-        a2_monitor?.disconnect()
     }
     
     func markForRebuild(_ sender: Any) {
@@ -109,16 +97,14 @@ class DescentLinesOnShell : GLKBaseEffect, Effect {
     private var vertexArray: GLuint = 0
     private var vertexBuffer: GLuint = 0
     
-    var projectionMatrix: GLKMatrix4 {
-        get { return super.transform.projectionMatrix }
-        set(newValue) { super.transform.projectionMatrix = newValue }
+    func setProjection(_ projectionMatrix: GLKMatrix4) {
+        transform.projectionMatrix = projectionMatrix
     }
     
-    var modelviewMatrix: GLKMatrix4 {
-        get { return super.transform.modelviewMatrix }
-        set(newValue) { super.transform.modelviewMatrix = newValue }
+    func setModelview(_ modelviewMatrix: GLKMatrix4) {
+        transform.modelviewMatrix = modelviewMatrix
     }
-    
+        
     func rebuild() {
         debug("rebuild", "starting")
         

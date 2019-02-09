@@ -13,7 +13,21 @@ import Foundation
 // ================================================
 
 protocol DSNode {
+    
     var nodeIndex: Int { get }
+    
+}
+
+// ================================================
+// DSProperty
+// ================================================
+
+protocol DSProperty: PhysicalProperty {
+    
+    func valueAt(nodeIndex: Int) -> Double
+    
+    // MAYBE
+    // func refresh()
 }
 
 // ================================================
@@ -23,6 +37,7 @@ protocol DSNode {
 protocol DiscreteSystem: PhysicalSystem {
     
     var nodeCount: Int { get }
+    
 }
 
 // =============================================================

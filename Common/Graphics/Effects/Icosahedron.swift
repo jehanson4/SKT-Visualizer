@@ -48,19 +48,12 @@ class Icosahedron : GLKBaseEffect, Effect {
         }
     }
 
-    
-    var projectionMatrix: GLKMatrix4 {
-        get { return transform.projectionMatrix }
-        set(newValue) {
-            transform.projectionMatrix = newValue
-        }
+    func setProjection(_ projectionMatrix: GLKMatrix4) {
+        transform.projectionMatrix = projectionMatrix
     }
     
-    var modelviewMatrix: GLKMatrix4 {
-        get { return transform.modelviewMatrix }
-        set(newValue) {
-            transform.modelviewMatrix = newValue
-        }
+    func setModelview(_ modelviewMatrix: GLKMatrix4) {
+        transform.modelviewMatrix = modelviewMatrix
     }
     
     // EMPIRICAL
