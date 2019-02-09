@@ -13,13 +13,15 @@ import Foundation
 // =========================================================
 
 class UniformElevation: Relief {
-
+    
     var z: Double
     var autocalibrate: Bool = true
     
     init(_ z: Double = 0) {
         self.z = z
     }
+    
+    func invalidateCalibration() {}
     
     func calibrate() {}
     

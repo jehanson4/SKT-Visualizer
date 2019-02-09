@@ -24,7 +24,7 @@ class SK2E_Energy: SK2_SystemFigure {
     init(_ name: String, _ info: String?, _ system: SK2_System, _ baseFigure: SK2_BaseFigure) {
         self.system = system
         super.init(name, info, baseFigure)
-        let ds = SK2_SimpleDataSource(system, system.energy, LinearColorMap())
+        let ds = SK2_SimpleDataSource(system, system.energy)
         super.colorSource = ds
         super.relief = ds
     }

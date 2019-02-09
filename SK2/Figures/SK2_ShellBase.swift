@@ -62,8 +62,10 @@ class SK2_ShellBase : ShellFigure, SK2_BaseFigure {
     var colorsAreShown: Bool {
         get { return _colorsAreShown }
         set(newValue) {
-            _colorsAreShown = newValue
-            installColors()
+            if (newValue != _colorsAreShown) {
+                _colorsAreShown = newValue
+                installColors()
+            }
         }
     }
     
@@ -79,6 +81,9 @@ class SK2_ShellBase : ShellFigure, SK2_BaseFigure {
         let cs = (_colorsAreShown) ? _colorSource : nil
         nodes?.colorSource = cs
         // TODO surface.colorSource = cs
+        
+        // REDUNDANT
+        // invalidateData(self)
     }
     
     // =========================================
@@ -87,8 +92,10 @@ class SK2_ShellBase : ShellFigure, SK2_BaseFigure {
     var reliefIsShown: Bool {
         get { return _reliefIsShown }
         set(newValue) {
-            _reliefIsShown = newValue
-            installRelief()
+            if (newValue != _reliefIsShown) {
+                _reliefIsShown = newValue
+                installRelief()
+            }
         }
     }
     
@@ -109,6 +116,9 @@ class SK2_ShellBase : ShellFigure, SK2_BaseFigure {
         nodes?.relief = r
         // TODO surface
         // TODO descentLines
+
+        // REDUNDANT
+        // invalidateNodes(self)
     }
     
     // =========================================
@@ -183,13 +193,18 @@ class SK2_ShellBase : ShellFigure, SK2_BaseFigure {
     // Calibration
     
     override func setAutocalibration(_ flag: Bool) {
-        // TODO color sources and relief
+        debug("setAutocalibration")
+        colorSource?.autocalibrate = flag
+        relief?.autocalibrate = flag
     }
     
     override func calibrate() {
-        // TODO color sources and relief
+        debug("calibrate")
+        colorSource?.calibrate()
+        relief?.calibrate()
+        invalidateData(self)
     }
-    
+
     
     func invalidateNodes(_ sender: Any?) {
         net?.invalidateNodes()
@@ -204,5 +219,7 @@ class SK2_ShellBase : ShellFigure, SK2_BaseFigure {
         nodes?.invalidateData()
         // TODO surface?.invalidateData()
         // TODO descentLines?.invalidateData()
+        colorSource?.invalidateCalibration()
+        relief?.invalidateCalibration()
     }
 }

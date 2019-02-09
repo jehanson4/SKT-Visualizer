@@ -1,8 +1,8 @@
 //
-//  ColorSources.swift
+//  SK2_LogDataSource.swift
 //  SKT Visualizer
 //
-//  Created by James Hanson on 1/27/19.
+//  Created by James Hanson on 2/9/19.
 //  Copyright © 2019 James Hanson. All rights reserved.
 //
 
@@ -13,29 +13,31 @@ fileprivate let debugEnabled = true
 
 fileprivate func debug(_ mtd: String, _ msg: String = "") {
     if (debugEnabled) {
-        print("SK2_SimpleDataSource", mtd, msg)
+        print("SK2_LogDataSource", mtd, msg)
     }
 }
 
 // ====================================================
-// SK2_SimpleDataSource
+// SK2_LogDataSource
 // ====================================================
 
-class SK2_SimpleDataSource: ColorSource, Relief {
+class SK2_LogDataSource: ColorSource, Relief {
     
     init(_ system: SK2_System,
          _ getter: @escaping (_ m: Int, _ n: Int) -> Double) {
         self.system = system
         self.getter = getter
-        self.colorMap = LinearColorMap()
+        self.colorMap = LogColorMap()
     }
     
     weak var system: SK2_System!
     
     var getter: (_ m: Int, _ n: Int) -> Double
     var colorMap: ColorMap
-    var zScale: Double = 1
-    var zOffset: Double = 0
+    
+    var logzScale: Double = 1
+    var logzOffset: Double = 0
+    
     var autocalibrate: Bool = true
     
     var calibrated: Bool = false
@@ -43,14 +45,9 @@ class SK2_SimpleDataSource: ColorSource, Relief {
     func calibrate() {
         let bounds = findBounds()
         debug("calibrate", "bounds=\(bounds)")
-        
-        let newOffset = bounds.min
-        let newScale = 1/(bounds.max - bounds.min)
-        if (newOffset != zOffset || newScale != zScale) {
-            zOffset = newOffset
-            zScale = newScale
-            debug("calibrate", "zScale=\(zScale), zOffset=\(zOffset)")
-        }
+
+        logzScale = subtractLogs(bounds.max, bounds.min)
+        logzOffset = bounds.min
         
         _ = colorMap.calibrate(bounds)
         
@@ -78,9 +75,12 @@ class SK2_SimpleDataSource: ColorSource, Relief {
     
     func elevationAt(_ nodeIndex: Int) -> Double {
         let (m, n) = system.nodeIndexToSK(nodeIndex)
-        let z = clip( zScale * (getter(m, n) - zOffset), 0, 1)
-        debug("elevationAt(\(m), \(n)) = \(z)")
-        return z
+        let logz = getter(m, n)
+        let logzNorm = subtractLogs(logz, logzOffset) - logzScale
+        let z = exp(logzNorm)
+        let z2 = clip(z, 0, 1)
+        // debug("elevationAt(\(m), \(n)): z=\(z) z2=\(z2)")
+        return z2
     }
     
     func findBounds() -> (min: Double, max: Double) {
@@ -102,20 +102,5 @@ class SK2_SimpleDataSource: ColorSource, Relief {
         return (min: minValue, max: maxValue)
     }
     
-//    // ==========================================
-//    // Change monitoring
-//
-//    private var changeSupport : ChangeMonitorSupport? = nil
-//
-//    func monitorChanges(_ callback: @escaping (Any) -> ()) -> ChangeMonitor? {
-//        if (changeSupport == nil) {
-//            changeSupport = ChangeMonitorSupport()
-//        }
-//        return changeSupport!.monitorChanges(callback, self)
-//    }
-//
-//    func fireChange() {
-//        changeSupport?.fire()
-//    }
 }
 

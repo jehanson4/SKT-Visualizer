@@ -11,14 +11,14 @@ import Foundation
 fileprivate var debugEnabled = false
 
 fileprivate func debug(_ mtd: String, _ msg: String = "") {
-    let name = "SK2_BAFigures"
+    let name = "SK2_BAFigure"
     if (debugEnabled) {
         print (name, mtd, msg)
     }
 }
 
 // ==========================================================================
-// SK2_BAOnShell
+// SK2_BAFigure
 // ==========================================================================
 
 class SK2_BAOnShell: SK2_SystemFigure {

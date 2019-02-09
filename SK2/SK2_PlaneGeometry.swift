@@ -9,7 +9,7 @@
 import Foundation
 import GLKit
 
-fileprivate var debugEnabled = false
+fileprivate var debugEnabled = true
 
 fileprivate func debug(_ mtd: String, _ msg: String = "") {
     if (debugEnabled) {
@@ -62,6 +62,7 @@ class SK2_PlaneGeometry {
         var nextVertex: Int = 0
         
         if (relief == nil) {
+            debug("buildVertexCoordinateArray", "relief is nil")
             for m in 0...mMax {
                 for n in 0...nMax {
                     vertexCoords[3*nextVertex] = GLfloat(xOffset + Double(m)*gridSpacing)
@@ -72,6 +73,7 @@ class SK2_PlaneGeometry {
             }
         }
         else {
+            debug("buildVertexCoordinateArray", "using relief")
             let zSource = relief!
             zSource.refresh()
             for m in 0...mMax {
@@ -98,6 +100,7 @@ class SK2_PlaneGeometry {
         
         var vertices: [GLKVector4] = []
         if (relief ==  nil) {
+            debug("buildVertexArray4", "relief is nil")
             for m in 0...mMax {
                 for n in 0...nMax {
                     vertices.append(GLKVector4Make(
@@ -110,6 +113,7 @@ class SK2_PlaneGeometry {
 
         }
         else {
+            debug("buildVertexArray4", "using relief")
             let zSource = relief!
         zSource.refresh()
             for m in 0...mMax {

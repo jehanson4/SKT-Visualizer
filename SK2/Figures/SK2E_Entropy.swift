@@ -22,7 +22,7 @@ class SK2E_Entropy: SK2_SystemFigure {
     init(_ name: String, _ info: String?, _ system: SK2_System, _ baseFigure: SK2_BaseFigure) {
         self.system = system
         super.init(name, info, baseFigure)
-        let ds = SK2_SimpleDataSource(system, system.entropy, LinearColorMap())
+        let ds = SK2_SimpleDataSource(system, system.entropy)
         super.colorSource = ds
         super.relief = ds
     }

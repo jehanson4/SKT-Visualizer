@@ -59,6 +59,9 @@ class SK2_BAColorSource : ColorSource {
         }
     }
     
+    func invalidateCalibration() {
+        calibrationNeeded = true
+    }
     
     func calibrate() {
         if (doCalibration()) {

@@ -22,8 +22,8 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 // ======================================================================
 
 class SK2_PFColorSource : ColorSource {
-    var autocalibrate: Bool = true
     
+    var autocalibrate: Bool = true
     
     // var backingModel: AnyObject? { return flow }
     var calibrationNeeded: Bool = true
@@ -44,6 +44,10 @@ class SK2_PFColorSource : ColorSource {
     
     func teardown() {
         // TODO
+    }
+    
+    func invalidateCalibration() {
+        calibrationNeeded = true
     }
     
     func calibrate() {

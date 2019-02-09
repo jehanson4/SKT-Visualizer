@@ -31,48 +31,29 @@ class DSPropertyColor: ColorSource {
     private var calibrated: Bool = false
 
     func propertyHasChanged(_ sender: Any?) {
-        calibrated = false;
-        fireChange()
+        calibrated = false
+    }
+    
+    func invalidateCalibration() {
+        calibrated = false
     }
     
     func calibrate() {
-        if doCalibrate() {
-            fireChange()
-        }
+        _ = colorMap.calibrate(property.bounds)
+        self.calibrated = true
     }
     
     func teardown() {}
     
     func refresh() {
         if (!calibrated && autocalibrate) {
-            _ = doCalibrate()
+            calibrate()
         }
     }
 
-    func doCalibrate() -> Bool {
-        let changed = colorMap.calibrate(property.bounds)
-        self.calibrated = true
-        return changed
-    }
     
     func colorAt(_ nodeIndex: Int) -> GLKVector4 {
         return colorMap.getColor(property.valueAt(nodeIndex: nodeIndex))
     }
     
-    // =========================================
-    // Change monitoring
-    
-    private var changeSupport : ChangeMonitorSupport?
-    
-    func monitorChanges(_ callback: @escaping (Any) -> ()) -> ChangeMonitor? {
-        if (changeSupport == nil) {
-            changeSupport = ChangeMonitorSupport()
-        }
-        return changeSupport!.monitorChanges(callback, self)
-    }
-    
-    func fireChange() {
-        changeSupport?.fire()
-    }
-
 }

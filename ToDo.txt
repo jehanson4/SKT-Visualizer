@@ -2,97 +2,33 @@
 ToDo.txt
 ==================================================================================
 
-relief
-    not working
-    needs proper scaling
-    needs clipping too -- by the effect? no the Relief
-
-autocalibration
-figure switching gest confused
-effects are getting lost
-data sources need not be change monitor enabled
+autocalibrate not working w/ log data source
+surface
 can't zoom plane
 basins
 pop flow
+
+go to 'normalized occupation' as a color source
+    ...but I don't want to have to find the bounds twice
+    ...so therefore put the bounds into the color source
+    ...they're there already.
 
 ABOVE THE LINE
 ----------------------------------------------------------------------------------
 BELOW THE LINE
 
+[ ] restore the info page
 
-1. Entropy
+[ ] EFFECTS clean up after themselves when disabled
 
-2. param & UI control auto-calibration: for whether to calibrate on every real change
+[?] Name of the thing that changes over time is copied into min/max/delta
 
-EFFECTS clean up after themselves when disabled
-and we disable them all before switching figures.
-That should take care of pretty much all the memory issues ever.
-Don't bother with the resource-aware thing.
-Get rid of it.
-
----------------
-MAYBE make sk2d and sk2e EXTENSIONS of sk2 rather than subclasses
-...nope. can't add properties
-
-MAYBE combine sk2d and sk2e into one model and then have a combined
-part factory add entries for both?
-...nope. 1 factory makes 1 system. AppModel.installPart expects it.
-
-MAYBE invert the initiative? create a sytem installer and give the
-app model to it?
-...nope. It's awkwared b/c there's so many fiddly bits in app model
-
-MAYBE create an SK2 multifactory that returns a list of factories.
-and have THEM share the same system.
-...ok.  call it partFactory and hav it return list of Parts: where a part
-has: group, system, figures reg, sequencers reg
-For 1.0.7
-
-[ ] BUG: Close the Visualizer, then start it up again. Click once on + to
-increase alpha2 to -0.99. Click on Color Source and select Basins. Boom. iOS 11.3.
-
-inside BAModel is a duplicate physics & geometry. We change the main physics,
-which tells BAModel to update its parameters with a 'reset'. but the BAModel's
-geometry is wrong.
-
-[ ] BUG: the colorsource & sequencer UI is confusing.
-Some of the sequencers are timeseries, some are param sweeps. They place constraints
-on choice of color source. E.g., steve was doing timeseries while looking at basins.
-
-[ ] when the sequencer changes, fix the color source
-each sequencer has a progressionType
-there's one color source that takes snapshots of a timeseries: PopulationFlow
-flow models have steps
-
-OH! there's a specific data source or backing model common to both.
-
-...whereas the parameter sweep guys have, as data source, the SKModel
-
-but generic sequencers do too.
-[ ] animation-selection popover has sections
-Parameter Sweep
-Timeseries
-[ ] Name of the thing that changes over time is copied into min/max/delta
-
-[ ] BUG: basins actually assumes an ANY descent, then shows misleading arrow-length
-(b/c does not take degeneracy into account).
-
-[ ] two variants of basins: ANY or STEEPEST.
 [ ] degeneracy-aware arrow length
-
-[ ] NEW: support rectangle
-
-[ ] NEW: UI redesign to support new functionality
-displaying hemisphere & rectangle & cube &c
-separating animation categories: timeseries vs. parameter sweeps
-vs. bufurcation diagrams vs. Steve's 'path graph' thingies &c
 
 [ ] net's arcs drawn as spherical ellipses not line segments. I.e., many tiny line
 	segments.
 
 [ ] verify: sequencers and steppers take step-size from current delta, not default
-
-[ ] verify that all the change monitor guys impl the new protocol
 
 [ ] recheck: pop flow sequencer controls
     [ ] upper bound not updated in UI

@@ -28,6 +28,10 @@ func clip<T: Comparable>(_ x: T, _ min: T, _ max: T) -> T {
     return (x < min) ? min : ((x > max) ? max : x)
 }
 
+func clipToFinite(_ x: Double) -> Double {
+    return (x.isFinite) ? x : ((x>0) ? Double.greatestFiniteMagnitude : -1 * Double.greatestFiniteMagnitude)
+}
+
 /// 0 if arg == 0, -1 if arg < 0, 1 if arg > 0
 func sgn(_ x: Double) -> Double {
     return (x == 0) ? 0 : ( (x < 0) ? -1 : 1)

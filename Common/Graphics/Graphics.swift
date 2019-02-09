@@ -86,9 +86,8 @@ protocol DataProvider { // : ChangeMonitorEnabled {
     /// Fires a change event iff the colors were changed.
     func calibrate()
     
-    // MAYBE
-    /// Marks this data provider as being stale
-    // func invalidate()
+    /// Marks this data provider as in need of calibration
+    func invalidateCalibration()
     
     /// Updates this data provider's internal cached state as appropriate.
     /// If autocalibrate=true, makes sure it's calibrated
@@ -115,6 +114,6 @@ protocol ColorSource : DataProvider {
 
 protocol Relief : DataProvider {
     
-    /// Returns the elevation of the given node.
+    /// Returns the normalized elevation of the given node, in the range is [0, 1].
     func elevationAt(_ nodeIndex: Int) -> Double
 }

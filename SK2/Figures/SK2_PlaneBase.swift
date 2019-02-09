@@ -193,5 +193,7 @@ class SK2_PlaneBase : PlaneFigure, SK2_BaseFigure {
         nodes?.invalidateData()
         // TODO surface?.invalidateData()
         // TODO descentLines?.invalidateData()
+        colorSource?.invalidateCalibration()
+        relief?.invalidateCalibration()
     }
 }

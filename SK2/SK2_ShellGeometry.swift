@@ -14,6 +14,19 @@ fileprivate let twoPi = Double.constants.twoPi
 fileprivate let piOver2 = Double.constants.piOver2
 fileprivate let eps = Double.constants.eps
 
+fileprivate var debugEnabled = true
+
+fileprivate func debug(_ mtd: String, _ msg: String = "") {
+    if (debugEnabled) {
+        if (Thread.current.isMainThread) {
+            print("SK2_ShellGeometry", "[main]", mtd, msg)
+        }
+        else {
+            print("SK2_ShellGeometry", "[????]", mtd, msg)
+        }
+    }
+}
+
 // ======================================================
 // SK2_ShellPoint
 // ======================================================
@@ -244,6 +257,7 @@ class SK2_ShellGeometry {
         var nextVertex: Int = 0
         
         if (relief == nil) {
+            debug("buildVertexCoordinateArray", "relief is nil")
             for m in 0...mMax {
                 for n in 0...nMax {
                     var (r,p,t) = skToSpherical(m, n)
@@ -257,6 +271,7 @@ class SK2_ShellGeometry {
             }
         }
         else {
+            debug("buildVertexCoordinateArray", "using relief")
             let zSource = relief!
             zSource.refresh()
             for m in 0...mMax {
