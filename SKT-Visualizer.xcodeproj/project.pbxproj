@@ -17,7 +17,6 @@
 		8A2034E221ED0F4E00A4C418 /* SK1_System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2034E121ED0F4E00A4C418 /* SK1_System.swift */; };
 		8A2034E721ED2A6000A4C418 /* SK2_System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2034E621ED2A6000A4C418 /* SK2_System.swift */; };
 		8A2A32D720AB881600D4D619 /* WorkQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2A32D620AB881600D4D619 /* WorkQueue.swift */; };
-		8A3BBBB9208BC49D00669227 /* science.html in Resources */ = {isa = PBXBuildFile; fileRef = 8A3BBBB8208BC49D00669227 /* science.html */; };
 		8A3BBBBF208BF29A00669227 /* splash.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8A3BBBBE208BF29A00669227 /* splash.jpg */; };
 		8A3C45C62086278900A1E9CD /* UniformColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3C45C52086278900A1E9CD /* UniformColor.swift */; };
 		8A41A2F2208398E900CDDF28 /* NumericConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A41A2F1208398E900CDDF28 /* NumericConstants.swift */; };
@@ -83,6 +82,7 @@
 		8AB2A65121FF8C8C00A46316 /* NetOnShell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2A65021FF8C8C00A46316 /* NetOnShell.swift */; };
 		8AB2A65321FF9A1400A46316 /* Meridians.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2A65221FF9A1400A46316 /* Meridians.swift */; };
 		8ABEEC3B20803A2F008E72F4 /* Surface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ABEEC3A20803A2F008E72F4 /* Surface.swift */; };
+		8AC059DE2210B25200EB6A1C /* OLD.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8AC059DD2210B25200EB6A1C /* OLD.storyboard */; };
 		8AC82CC421F5D00E00A75595 /* Graphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CC321F5D00E00A75595 /* Graphics.swift */; };
 		8AC82CD921F6668000A75595 /* ShellFigure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CD821F6668000A75595 /* ShellFigure.swift */; };
 		8AC82CE121F8874200A75595 /* GraphicsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CE021F8874200A75595 /* GraphicsController.swift */; };
@@ -126,7 +126,6 @@
 		8AE8AADD21C8737E00E90914 /* _newUI.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8AE8AADC21C8737D00E90914 /* _newUI.txt */; };
 		8AF59500208AC0420082C5DE /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF594FF208AC0420082C5DE /* AppModel.swift */; };
 		8AF98F96207FE7D60007688E /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 8AF98F95207FE7D60007688E /* LICENSE */; };
-		8AF98F9B207FE80E0007688E /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 8AF98F98207FE80D0007688E /* index.html */; };
 		8AF98FA1207FE8350007688E /* GraphicsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF98F9F207FE8350007688E /* GraphicsViewController.swift */; };
 		8AF98FA7207FE9CF0007688E /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 8AF98FA6207FE9CF0007688E /* README.md */; };
 /* End PBXBuildFile section */
@@ -144,7 +143,6 @@
 		8A2034E121ED0F4E00A4C418 /* SK1_System.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK1_System.swift; sourceTree = "<group>"; };
 		8A2034E621ED2A6000A4C418 /* SK2_System.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_System.swift; sourceTree = "<group>"; };
 		8A2A32D620AB881600D4D619 /* WorkQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkQueue.swift; sourceTree = "<group>"; };
-		8A3BBBB8208BC49D00669227 /* science.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = science.html; sourceTree = "<group>"; };
 		8A3BBBBE208BF29A00669227 /* splash.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = splash.jpg; sourceTree = "<group>"; };
 		8A3C45C52086278900A1E9CD /* UniformColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniformColor.swift; sourceTree = "<group>"; };
 		8A41A2F1208398E900CDDF28 /* NumericConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumericConstants.swift; sourceTree = "<group>"; };
@@ -211,6 +209,7 @@
 		8AB2A65221FF9A1400A46316 /* Meridians.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Meridians.swift; sourceTree = "<group>"; };
 		8ABEEC3A20803A2F008E72F4 /* Surface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Surface.swift; sourceTree = "<group>"; };
 		8AC059DC221052A300EB6A1C /* coordinates.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = coordinates.md; sourceTree = "<group>"; };
+		8AC059DD2210B25200EB6A1C /* OLD.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = OLD.storyboard; path = OLD/UI/OLD.storyboard; sourceTree = SOURCE_ROOT; };
 		8AC82CC321F5D00E00A75595 /* Graphics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Graphics.swift; sourceTree = "<group>"; };
 		8AC82CD821F6668000A75595 /* ShellFigure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShellFigure.swift; sourceTree = "<group>"; };
 		8AC82CE021F8874200A75595 /* GraphicsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphicsController.swift; sourceTree = "<group>"; };
@@ -254,7 +253,6 @@
 		8AE8AADC21C8737D00E90914 /* _newUI.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _newUI.txt; sourceTree = "<group>"; };
 		8AF594FF208AC0420082C5DE /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
 		8AF98F95207FE7D60007688E /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		8AF98F98207FE80D0007688E /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		8AF98F9F207FE8350007688E /* GraphicsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphicsViewController.swift; sourceTree = "<group>"; };
 		8AF98FA6207FE9CF0007688E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -325,7 +323,6 @@
 		8A3C45B72086185B00A1E9CD /* Scratch */ = {
 			isa = PBXGroup;
 			children = (
-				8AD817FA207BFA9200426C25 /* InfoViewController.swift */,
 				8ABEEC3A20803A2F008E72F4 /* Surface.swift */,
 				8A2034DB21EB76AC00A4C418 /* ButtonWithImage.swift */,
 			);
@@ -372,11 +369,13 @@
 				8AF594FF208AC0420082C5DE /* AppModel.swift */,
 				8A1CF01E207146540099DD97 /* LaunchScreen.storyboard */,
 				8A1CF019207146510099DD97 /* Main.storyboard */,
+				8AC059DD2210B25200EB6A1C /* OLD.storyboard */,
 				8AA05A18208FFFD4009417A6 /* MagicStrings.swift */,
 				8A1CF015207146510099DD97 /* AppDelegate.swift */,
 				8A1CF021207146540099DD97 /* Info.plist */,
 				8AA05A10208FC14E009417A6 /* AppModel1.swift */,
 				8A591B3321E6902500B802F8 /* ModelSelectionViewController.swift */,
+				8AD817FA207BFA9200426C25 /* InfoViewController.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -502,8 +501,6 @@
 			isa = PBXGroup;
 			children = (
 				8AE48BBE2087E639001B5D11 /* background.css */,
-				8AF98F98207FE80D0007688E /* index.html */,
-				8A3BBBB8208BC49D00669227 /* science.html */,
 				8A53B2A0208D9B380039C5D7 /* help.html */,
 				8A75424920A8CC5100A2BFAD /* about.html */,
 			);
@@ -688,11 +685,10 @@
 				8AD8181F207C9BD900426C25 /* image1-60@3x.png in Resources */,
 				8AD81823207C9BD900426C25 /* image1-83.5@2x.png in Resources */,
 				8AE18FA52099EFF30086F127 /* code.txt in Resources */,
-				8A3BBBB9208BC49D00669227 /* science.html in Resources */,
 				8AD81825207C9BD900426C25 /* image1-76.png in Resources */,
 				8A131C91207160100088F2FC /* _miscNotes.txt in Resources */,
+				8AC059DE2210B25200EB6A1C /* OLD.storyboard in Resources */,
 				8AD81821207C9BD900426C25 /* image1-1024.png in Resources */,
-				8AF98F9B207FE80E0007688E /* index.html in Resources */,
 				8AE48BBF2087E63A001B5D11 /* background.css in Resources */,
 				8AD8181B207C9BD900426C25 /* image1-20.png in Resources */,
 				8AD81828207C9BD900426C25 /* image1-29.png in Resources */,

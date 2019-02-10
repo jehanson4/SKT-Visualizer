@@ -88,7 +88,7 @@ struct SK2D {
     static func makeFigures(_ system: SK2_System, _ flow: SK2_PopulationFlow, _ planeBase: SK2_PlaneBase, _ shellBase: SK2_ShellBase) -> Registry<Figure>? {
         let reg = Registry<Figure>()
 
-        let flowInPlane = SK2_Population("Population in the Plane", shellBase, flow)
+        let flowInPlane = SK2_Population("Population in the Plane", planeBase, flow)
         flowInPlane.group = SK2_Factory.planeFigureGroup
         _ = reg.register(flowInPlane)
         

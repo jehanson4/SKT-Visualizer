@@ -6,14 +6,19 @@ basins reset params doesn't work
 
 autocalibrate not working for occupation in the plane
 
+pop flow calibration is wrong, it goes black in the middle
+
+I think log calc is wrong, it doesn't drain out of high-energy states
+but rather they all go up up up
+if you don't recalibrate
+
+model params controls got disconnected after a bunch of model & figure changes
+
+figure selection has 2 sections: plane and hemi
+
 surface
 
 descent lines
-
-figure selection has 2 sections: plane and hemi
-...means we need a 'group' concept in FIGURE.
-
-model params controls got disconnected after a bunch of model & figure changes
 
 ABOVE THE LINE
 ----------------------------------------------------------------------------------

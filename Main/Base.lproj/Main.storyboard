@@ -231,11 +231,87 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="llR-u1-7rx"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Models" id="1AI-u4-KIa"/>
+                    <navigationItem key="navigationItem" title="Models" id="1AI-u4-KIa">
+                        <barButtonItem key="rightBarButtonItem" id="Xdx-3D-8Pg">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="detailDisclosure" lineBreakMode="middleTruncation" id="Mow-XO-q2V">
+                                <rect key="frame" x="282" y="14" width="22" height="22"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <segue destination="p6a-lG-EGd" kind="presentation" modalPresentationStyle="currentContext" id="2UN-Vv-NzB"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J32-6H-LNw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="411" y="-1645"/>
+        </scene>
+        <!--Info View Controller-->
+        <scene sceneID="22U-a9-OWv">
+            <objects>
+                <viewController id="p6a-lG-EGd" userLabel="Info View Controller" customClass="InfoViewController" customModule="SKT_Visualizer" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="NCb-2w-4Rq">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="768"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="bottom" translatesAutoresizingMaskIntoConstraints="NO" id="0B3-ca-xXk" userLabel="Info Header">
+                                <rect key="frame" x="0.0" y="20" width="320" height="35"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Info" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lem-4d-FF0">
+                                        <rect key="frame" x="145.5" y="0.0" width="29" height="35"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IHD-dB-EP4">
+                                        <rect key="frame" x="173.5" y="0.0" width="130.5" height="35"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                        <state key="normal" title="✕"/>
+                                        <connections>
+                                            <segue destination="Lxi-jN-yDp" kind="unwind" unwindAction="unwindToModelSelector:" id="70w-BD-0a7"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="IHD-dB-EP4" firstAttribute="top" secondItem="0B3-ca-xXk" secondAttribute="top" id="4vM-cP-jVf"/>
+                                    <constraint firstItem="lem-4d-FF0" firstAttribute="top" secondItem="0B3-ca-xXk" secondAttribute="top" id="SJX-k3-fwa"/>
+                                    <constraint firstItem="lem-4d-FF0" firstAttribute="bottom" secondItem="0B3-ca-xXk" secondAttribute="bottom" id="iWO-Qx-JGr"/>
+                                    <constraint firstItem="lem-4d-FF0" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="IHD-dB-EP4" secondAttribute="leading" constant="1" id="jTS-6W-AjB"/>
+                                    <constraint firstItem="IHD-dB-EP4" firstAttribute="trailing" secondItem="0B3-ca-xXk" secondAttribute="trailing" constant="-16" id="jjW-V7-1kB"/>
+                                    <constraint firstItem="lem-4d-FF0" firstAttribute="centerX" secondItem="0B3-ca-xXk" secondAttribute="centerX" id="vBx-Ht-tC9"/>
+                                    <constraint firstItem="IHD-dB-EP4" firstAttribute="bottom" secondItem="0B3-ca-xXk" secondAttribute="bottom" id="xPu-6W-48Q"/>
+                                </constraints>
+                            </view>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N88-rh-fkP">
+                                <rect key="frame" x="0.0" y="55" width="320" height="713"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="N88-rh-fkP" firstAttribute="bottom" secondItem="iPJ-aQ-n1L" secondAttribute="bottom" id="1Am-e6-rhx"/>
+                            <constraint firstItem="0B3-ca-xXk" firstAttribute="top" secondItem="iPJ-aQ-n1L" secondAttribute="top" id="J7e-Jm-brB"/>
+                            <constraint firstItem="N88-rh-fkP" firstAttribute="top" secondItem="0B3-ca-xXk" secondAttribute="bottom" id="c6K-K6-MkT"/>
+                            <constraint firstItem="N88-rh-fkP" firstAttribute="leading" secondItem="iPJ-aQ-n1L" secondAttribute="leading" id="eKr-oe-gHl"/>
+                            <constraint firstItem="0B3-ca-xXk" firstAttribute="leading" secondItem="iPJ-aQ-n1L" secondAttribute="leading" id="fHQ-XT-FBg"/>
+                            <constraint firstItem="0B3-ca-xXk" firstAttribute="trailing" secondItem="iPJ-aQ-n1L" secondAttribute="trailing" id="frU-ga-e0g"/>
+                            <constraint firstItem="N88-rh-fkP" firstAttribute="trailing" secondItem="iPJ-aQ-n1L" secondAttribute="trailing" id="h64-oY-Owl"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="iPJ-aQ-n1L"/>
+                    </view>
+                    <connections>
+                        <outlet property="webView" destination="N88-rh-fkP" id="rgK-3T-lLR"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gba-xk-Glz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="Lxi-jN-yDp" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="393" y="-861"/>
         </scene>
         <!--Master Navigation Controller-->
         <scene sceneID="jzL-Fv-J3k">

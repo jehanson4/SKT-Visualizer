@@ -9,25 +9,32 @@
 import UIKit
 import WebKit
 
-class InfoViewController: UIViewController {
+fileprivate var debugEnabled = false
 
-    private var cls = "InfoViewController"
-    var debugEnabled = false
+fileprivate func debug(_ mtd: String, _ msg: String = "") {
+    print("InfoViewController", mtd, msg)
+}
+
+// ===========================================================
+// InfoViewController
+// ===========================================================
+
+class InfoViewController: UIViewController {
     
-    @IBOutlet weak var wkWebView: WKWebView!
+    @IBOutlet weak var webView: WKWebView!
     
     override func viewDidLoad() {
         debug("viewDidLoad")
         super.viewDidLoad()
 
-        wkWebView.backgroundColor = UIColor.white
+        webView.backgroundColor = UIColor.white
 
         loadHomePage()
     }
     
     func loadHomePage() {
         do {
-            guard let filePath = Bundle.main.path(forResource: "index", ofType: "html")
+            guard let filePath = Bundle.main.path(forResource: "help", ofType: "html")
                 else {
                     // File Error
                     NSLog("File reading error")
@@ -36,7 +43,7 @@ class InfoViewController: UIViewController {
             
             let contents =  try String(contentsOfFile: filePath, encoding: .utf8)
             let baseUrl = URL(fileURLWithPath: filePath)
-            wkWebView.loadHTMLString(contents as String, baseURL: baseUrl)
+            webView.loadHTMLString(contents as String, baseURL: baseUrl)
         }
         catch {
             NSLog("File HTML error")
@@ -58,29 +65,5 @@ class InfoViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    private func debug(_ mtd: String, _ msg: String = "") {
-        print(cls, mtd, msg)
-    }
-    
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        let dname = (segue.destination.title == nil) ? "" : segue.destination.title!
-//        debug("prepare for segue", dname)
-//
-//        // FIXME what about unsubscribing?
-//
-//        // HACK HACK HACK HACK
-//        if (segue.destination is ModelUser) {
-//            debug("destination is a model user")
-//            var d2 = segue.destination as! ModelUser
-//            if (d2.model != nil) {
-//                debug("destination's model is already set")
-//            }
-//            else {
-//                debug("setting destination's model")
-//                d2.model = self.model
-//            }
-//        }
-//    }
     
 }
