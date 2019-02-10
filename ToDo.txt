@@ -2,11 +2,12 @@
 ToDo.txt
 ==================================================================================
 
-figure.takeSnapshot() not figure.snapshot
+pinch is backwards
+pan is backwards
+try allowing pinch in flyover
+try 2z in flyover
 
-LB, UB in sqeuencer UI
-
-autocalibrate not working w/ log data source
+autocalibrate not working for occupation in the plzne
 
 surface
 

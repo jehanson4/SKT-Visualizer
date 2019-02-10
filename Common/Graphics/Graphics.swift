@@ -14,8 +14,10 @@ import GLKit
 // ============================================================================
 
 protocol Graphics {
-    var snapshot: UIImage { get }
+
     var context: GLContext! { get }
+    
+    func takeSnapshot() -> UIImage
 }
 
 // ===========================================================================

@@ -160,7 +160,7 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     
     @IBAction func takeSnapshot(_ sender: Any) {
         debug("takeSnapshot")
-        let image: UIImage? = appModel?.graphicsController.graphics?.snapshot
+        let image: UIImage? = appModel?.graphicsController.graphics?.takeSnapshot()
         if (image != nil) {
             UIImageWriteToSavedPhotosAlbum(image!, nil, nil, nil)
         }

@@ -24,22 +24,57 @@ fileprivate let eps = Double.constants.eps
 // ============================================================================
 
 struct PlanePOV: CustomStringConvertible {
+
+    static let yFactor: Double = 2
     
-    var x: Double
-    var y: Double
-    var z: Double
+    enum Mode {
+        case satellite
+        case flyover
+    }
     
-    init(_ x: Double, _ y: Double, _ z: Double) {
+    let mode: Mode
+    
+    let x: Double
+    let y: Double
+    let z: Double
+    
+    let xLookat: Double
+    let yLookat: Double
+    let zLookat: Double
+
+    init(_ x: Double, _ y: Double, _ z: Double, _ mode: Mode) {
+        self.mode = mode
         self.x = x
         self.y = y
         self.z = z
+        
+        switch(mode) {
+        case .flyover:
+            xLookat = x
+            yLookat = y - PlanePOV.yFactor * z
+            zLookat = 0
+        case .satellite:
+            xLookat = x
+            yLookat = y
+            zLookat = 0
+        }
     }
     
     var description: String {
         // return "x=" + basicString(x) + " y=" + basicString(y) + " z=" + basicString(z)
-        return "(\(x), \(y), \(z))"
+        return "(\(x), \(y), \(z), \(mode)"
     }
 
+    static func transform(_ pov: PlanePOV, toMode: Mode) -> PlanePOV {
+        if (pov.mode == .flyover && toMode == .satellite) {
+            return PlanePOV(pov.x, pov.y - PlanePOV.yFactor * pov.z, pov.z, toMode)
+        }
+        if (pov.mode == .satellite && toMode == .flyover) {
+            return PlanePOV(pov.x, pov.y + PlanePOV.yFactor * pov.z, pov.z, toMode)
+        }
+        // if none of the above
+        return pov
+    }
 }
 
 // ==============================================================
@@ -108,8 +143,8 @@ class PlaneFigure : Figure {
     // ===================================================
     // POV
     
-    private var _pov_default: PlanePOV = PlanePOV(1,1,1) // temp value
-    private var _pov: PlanePOV = PlanePOV(1,1,1) // temp value
+    private var _pov_default: PlanePOV = PlanePOV(1, 1, 1, .satellite) // temp value
+    private var _pov: PlanePOV = PlanePOV(1, 1, 1, .satellite) // temp value
     
     var pov_default: PlanePOV {
         get { return _pov_default }
@@ -136,7 +171,7 @@ class PlaneFigure : Figure {
     }
     
     private func initPOV() {
-        _pov_default = PlanePOV(size/2, size/2, size/2)
+        _pov_default = PlanePOV(0, 0, size/2, .satellite)
         _pov = pov_default
         // NO updateModelview()
     }
@@ -145,7 +180,7 @@ class PlaneFigure : Figure {
         let x2 = pov.x // clip(pov.x, 0, size)
         let y2 = pov.y // clip(pov.y, 0, size)
         let z2 = (pov.z > eps) ? pov.z : eps
-        return PlanePOV(x2, y2, z2)
+        return PlanePOV(x2, y2, z2, pov.mode)
     }
     
     // ===================================================
@@ -160,7 +195,16 @@ class PlaneFigure : Figure {
     var pinch_initialZ: Double = 0
 
     func handlePan(_ sender: UIPanGestureRecognizer) {
-        debug("handlePan", "pov=\(pov)")
+        switch pov.mode {
+        case .flyover:
+            flyoverPan(sender)
+        case .satellite:
+            satellitePan(sender)
+        }
+    }
+
+    func flyoverPan(_ sender: UIPanGestureRecognizer) {
+        debug("flyoverPan", "pov=\(pov)")
         if (sender.state == UIGestureRecognizer.State.began) {
             pan_initialX = pov.x
             pan_initialY = pov.y
@@ -169,27 +213,58 @@ class PlaneFigure : Figure {
         let delta = sender.translation(in: sender.view)
         let x2 = pan_initialX - Double(delta.x) / Double(bounds.maxX)
         let y2 = pan_initialY + Double(delta.y) / Double(bounds.maxY)
-        pov = PlanePOV(x2, y2, pov.z)
+        pov = PlanePOV(x2, y2, pov.z, pov.mode)
+    }
+    
+    func satellitePan(_ sender: UIPanGestureRecognizer) {
+        debug("satellitePan", "pov=\(pov)")
+        if (sender.state == UIGestureRecognizer.State.began) {
+            pan_initialX = pov.x
+            pan_initialY = pov.y
+        }
+        let bounds = sender.view!.bounds
+        let delta = sender.translation(in: sender.view)
+        let x2 = pan_initialX - Double(delta.x) / Double(bounds.maxX)
+        let y2 = pan_initialY + Double(delta.y) / Double(bounds.maxY)
+        pov = PlanePOV(x2, y2, pov.z, pov.mode)
     }
     
     func handlePinch(_ sender: UIPinchGestureRecognizer) {
         debug("handlePinch", "pov=\(pov)")
+        switch(pov.mode) {
+        case .flyover:
+            flyoverPinch(sender)
+        case .satellite:
+            satellitePinch(sender)
+        }
+    }
+    
+    func flyoverPinch(_ sender: UIPinchGestureRecognizer) {
+        debug("flyoverPinch", "pov=\(pov)")
         if (sender.state == UIGestureRecognizer.State.began) {
             pinch_initialZ = pov.z
         }
-        
-        // Disappears before it gets bigger than the drawable area
-        
         let newZ = (pinch_initialZ * Double(sender.scale))
-        pov = PlanePOV(pov.x, pov.y, newZ)
-        
+        pov = PlanePOV(pov.x, pov.y, newZ, pov.mode)
+    }
+    
+    func satellitePinch(_ sender: UIPinchGestureRecognizer) {
+        debug("satellitePinch", "pov=\(pov)")
+        if (sender.state == UIGestureRecognizer.State.began) {
+            pinch_initialZ = pov.z
+        }
+        let newZ = (pinch_initialZ * Double(sender.scale))
+        pov = PlanePOV(pov.x, pov.y, newZ, pov.mode)
     }
     
     func handleTap(_ sender: UITapGestureRecognizer) {
         debug("handleTap")
-        projectionHack += 0.1
-        debug("handleTap", "projectionHack=\(projectionHack)")
-        updateModelview()
+        switch(pov.mode) {
+        case .flyover:
+            pov = PlanePOV.transform(pov, toMode: .satellite)
+        case .satellite:
+            pov = PlanePOV.transform(pov, toMode: .flyover)
+        }
     }
     
     // ===================================================
@@ -255,14 +330,16 @@ class PlaneFigure : Figure {
         // modelview transforms from local coordinates to camera coordinates
         // (world coordinates are in the middle there)
         
+        // Should lookat transform be in projection?
+        
         // "look at"
         // first  are x y z location of camera in world space
         // 2nd  are x y z location of what camera is pointing at, in world space
         // 3rd  define camera's orientation
         let lookatMatrix = GLKMatrix4MakeLookAt(
             Float(pov.x), Float(pov.y), Float(pov.z),
-            Float(pov.x), Float(pov.y) + projectionHack, 0,
-            0, 1, 0)
+            Float(pov.xLookat), Float(pov.yLookat), Float(pov.zLookat),
+            0, -1, 0)
         
         // let zz = GLfloat(pov.z)
         // let scaleMatrix = GLKMatrix4MakeScale(zz, zz, zz)

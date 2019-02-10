@@ -38,8 +38,8 @@ class GraphicsViewController: GLKViewController, AppModelUser, Graphics {
     weak var appModel: AppModel!
     var context: GLContext!
     
-    var snapshot: UIImage {
-        get { return (view as! GLKView).snapshot }
+    func takeSnapshot() -> UIImage {
+        return (view as! GLKView).snapshot
     }
     
     // EMPIRICAL so that true black is noticeable

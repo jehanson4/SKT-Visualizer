@@ -44,12 +44,13 @@ class NetOnShell: GLKBaseEffect, Effect {
         }
     }
     private var _enabled: Bool
-    
+
+    var rOffset: Double = 0
+
     var system: SK2_System
     var geometry: SK2_ShellGeometry
     var N_monitor: ChangeMonitor? = nil
     var k_monitor: ChangeMonitor? = nil
-    var rOffset: Double
     var geometryIsStale: Bool = true
     
     func invalidateNodes() {
@@ -80,10 +81,7 @@ class NetOnShell: GLKBaseEffect, Effect {
         transform.modelviewMatrix = modelviewMatrix
     }
     
-    
-    // EMPIRICAL
-    static let rOffsetDefault = 0.0
-    let lineWidth: GLfloat = 2.0
+        let lineWidth: GLfloat = 2.0
     let lineColor: GLKVector4 = GLKVector4Make(1.0, 1.0, 1.0, 1.0)
     
     var vertexArray: GLuint = 0
@@ -102,7 +100,6 @@ class NetOnShell: GLKBaseEffect, Effect {
         self.geometry = geometry
         self._enabled = enabled
         self.switchable = switchable
-        self.rOffset = NetOnShell.rOffsetDefault
         self.geometryIsStale = true
         super.init()
     }

@@ -45,6 +45,8 @@ class NetInPlane: GLKBaseEffect, Effect {
     }
     private var _enabled: Bool
     
+    var zOffset: Double = 0
+    
     var system: SK2_System
     var geometry: SK2_PlaneGeometry
     var _relief: Relief?
@@ -155,7 +157,7 @@ class NetInPlane: GLKBaseEffect, Effect {
         
         debug("buildVertexData", "old #vertices: " + String(vertices.count))
         
-        self.vertices = geometry.buildVertexCoordinateArray(relief)
+        self.vertices = geometry.buildVertexCoordinateArray(relief, zOffset)
         debug("buildVertexData", "new #vertices: " + String(vertices.count))
         
         self.indices = Array(repeating: 0, count: indexCount)
