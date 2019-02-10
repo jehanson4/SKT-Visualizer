@@ -43,10 +43,10 @@ struct SK2E {
         let entropyOnShell = SK2E_Entropy("Entropy on the Shell", nil, system, shellBase)
         _ = reg.register(entropyOnShell)
         
-        let occupationInPlane = SK2E_Occupation("Occupation in the Plane", nil, system, planeBase)
+        let occupationInPlane = SK2E_Occupation("Normalized occupation in the Plane", nil, system, planeBase)
         _ = reg.register(occupationInPlane)
         
-        let occupationOnShell = SK2E_Occupation("Occupation on the Shell", nil, system, shellBase)
+        let occupationOnShell = SK2E_Occupation("Normalized occupation on the Shell", nil, system, shellBase)
         _ = reg.register(occupationOnShell)
         
         let basinsInPlane = SK2_BAOnShell("Basins in the Plane", basinFinder, planeBase)

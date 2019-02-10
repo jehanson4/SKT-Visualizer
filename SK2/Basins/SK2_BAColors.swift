@@ -29,7 +29,7 @@ class SK2_BAColorSource : ColorSource {
     var washoutFudgeFactor: GLfloat = 0.5
     
     weak var basinFinder: SK2_BasinsAndAttractors!
-    var calibrationNeeded: Bool
+    var calibrated: Bool
     
     private var unclassified_color: GLKVector4 // gray
     private var basinBoundary_color: GLKVector4 // black
@@ -39,7 +39,7 @@ class SK2_BAColorSource : ColorSource {
     
     init(_ basinFinder: SK2_BasinsAndAttractors, expectedBasinCount: Int = 4) {
         self.basinFinder = basinFinder
-        self.calibrationNeeded = true
+        self.calibrated = false
         self.unclassified_color = GLKVector4Make(0.5, 0.5, 0.5, 1)
         self.basinBoundary_color = GLKVector4Make(0,0,0,1)
         self.basin_colors = []
@@ -60,25 +60,30 @@ class SK2_BAColorSource : ColorSource {
     }
     
     func invalidateCalibration() {
-        calibrationNeeded = true
+        calibrated = false
     }
     
     func calibrate() {
-        if (doCalibration()) {
-            fireChange()
+        let newWashoutNorm = washoutFudgeFactor / GLfloat(basinFinder.expectedMaxDistanceToAttractor)
+        if (newWashoutNorm != self.washoutNorm) {
+            self.washoutNorm = newWashoutNorm
         }
+        calibrated = true
     }
     
+
     func teardown() {
         // TODO
     }
     
     func refresh() {
         debug("SK2_BAColorSource prepare", "calling basinFinder.update")
-        _ = basinFinder.update()
-        
-        if (calibrationNeeded) {
-            _ = doCalibration()
+        if (!basinFinder.updatesDone) {
+            _ = basinFinder.update()
+        }
+            
+        if (!calibrated) {
+            calibrate()
         }
     }
     
@@ -113,31 +118,4 @@ class SK2_BAColorSource : ColorSource {
         return colorValue + (1.0-colorValue) * washoutNorm * GLfloat(washoutLevel)
     }
     
-    func doCalibration() -> Bool {
-        let newWashoutNorm = washoutFudgeFactor / GLfloat(basinFinder.expectedMaxDistanceToAttractor)
-        if (newWashoutNorm != self.washoutNorm) {
-            self.washoutNorm = newWashoutNorm
-            return true
-        }
-        calibrationNeeded = false
-        return false
-    }
-    // ==========================================
-    // Change monitoring
-    
-    private var changeSupport : ChangeMonitorSupport? = nil
-    
-    func monitorChanges(_ callback: @escaping (Any) -> ()) -> ChangeMonitor? {
-        debug("SK2_BAColorSource monitorChanges")
-        if (changeSupport == nil) {
-            changeSupport = ChangeMonitorSupport()
-        }
-        return changeSupport!.monitorChanges(callback, self)
-    }
-    
-    func fireChange() {
-        debug("SK2_BAColorSource fireChange")
-        changeSupport?.fire()
-    }
-
 }

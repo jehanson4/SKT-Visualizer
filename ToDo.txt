@@ -2,6 +2,8 @@
 ToDo.txt
 ==================================================================================
 
+LB, UB
+
 autocalibrate not working w/ log data source
 surface
 can't zoom plane
