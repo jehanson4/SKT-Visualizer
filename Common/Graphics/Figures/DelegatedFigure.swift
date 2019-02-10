@@ -15,6 +15,7 @@ import UIKit
 
 // TODO rename. This is not 'delegated' is 'delegating'
 class DelegatedFigure: Figure {
+    
 
     init(_ name: String, _ info: String? = nil, delegate: Figure) {
         self.name = name
@@ -33,6 +34,10 @@ class DelegatedFigure: Figure {
     var autocalibrate:Bool {
         get { return delegate.autocalibrate }
         set(newValue) { delegate.autocalibrate = newValue }
+    }
+    
+    func estimatePointSize(_ spacing: Double) -> GLfloat {
+        return delegate.estimatePointSize(spacing)
     }
     
     var effects: Registry<Effect>? {

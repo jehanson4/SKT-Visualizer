@@ -9,13 +9,15 @@
 import Foundation
 import GLKit
 
-fileprivate let debugEnabled = true
+fileprivate let debugEnabled = false
 
 fileprivate func debug(_ mtd: String, _ msg: String = "") {
     if (debugEnabled) {
         print("SK2_LogDataSource", mtd, msg)
     }
 }
+
+fileprivate let eps = Double.constants.eps
 
 // ====================================================
 // SK2_LogDataSource
@@ -84,8 +86,9 @@ class SK2_LogDataSource: ColorSource, Relief {
     }
     
     func findBounds() -> (min: Double, max: Double) {
-        var tmpValue: Double  = clipToFinite(getter(0,0))
-        
+        // var tmpValue: Double  = clipToFinite(getter(0,0))
+        var tmpValue: Double  = log(eps)
+
         var minValue: Double = tmpValue
         var maxValue: Double = tmpValue
         for m in 0..<system.m_max {

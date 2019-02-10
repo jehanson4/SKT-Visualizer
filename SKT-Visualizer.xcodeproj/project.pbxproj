@@ -210,6 +210,7 @@
 		8AB2A65021FF8C8C00A46316 /* NetOnShell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetOnShell.swift; sourceTree = "<group>"; };
 		8AB2A65221FF9A1400A46316 /* Meridians.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Meridians.swift; sourceTree = "<group>"; };
 		8ABEEC3A20803A2F008E72F4 /* Surface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Surface.swift; sourceTree = "<group>"; };
+		8AC059DC221052A300EB6A1C /* coordinates.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = coordinates.md; sourceTree = "<group>"; };
 		8AC82CC321F5D00E00A75595 /* Graphics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Graphics.swift; sourceTree = "<group>"; };
 		8AC82CD821F6668000A75595 /* ShellFigure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShellFigure.swift; sourceTree = "<group>"; };
 		8AC82CE021F8874200A75595 /* GraphicsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphicsController.swift; sourceTree = "<group>"; };
@@ -548,6 +549,7 @@
 				8AE18F9B2099ED8A0086F127 /* backgroundCalculation.txt */,
 				8AE18FA42099EFF30086F127 /* code.txt */,
 				8AE18F9D2099ED8A0086F127 /* lookAndFeel.txt */,
+				8AC059DC221052A300EB6A1C /* coordinates.md */,
 			);
 			path = _Notes;
 			sourceTree = "<group>";

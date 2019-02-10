@@ -76,11 +76,11 @@
                                                                     <action selector="calibrate:" destination="1Ul-i5-KtM" eventType="touchUpInside" id="F4q-go-qqL"/>
                                                                 </connections>
                                                             </button>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K8e-dM-aCD">
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l0N-Ae-IOl">
                                                                 <rect key="frame" x="155.5" y="0.0" width="155.5" height="110"/>
-                                                                <state key="normal" title="Take snapshot"/>
+                                                                <state key="normal" title="Reset POV"/>
                                                                 <connections>
-                                                                    <action selector="takeSnapshot:" destination="1Ul-i5-KtM" eventType="touchUpInside" id="gLG-MP-Hku"/>
+                                                                    <action selector="resetPOV:" destination="1Ul-i5-KtM" eventType="touchUpInside" id="6Bj-ad-1Dh"/>
                                                                 </connections>
                                                             </button>
                                                         </subviews>
@@ -95,11 +95,11 @@
                                                                     <action selector="toggleAutocalibration:" destination="1Ul-i5-KtM" eventType="touchUpInside" id="JfG-8r-mP6"/>
                                                                 </connections>
                                                             </button>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l0N-Ae-IOl">
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K8e-dM-aCD">
                                                                 <rect key="frame" x="155.5" y="0.0" width="155.5" height="30"/>
-                                                                <state key="normal" title="Reset POV"/>
+                                                                <state key="normal" title="Take snapshot"/>
                                                                 <connections>
-                                                                    <action selector="resetPOV:" destination="1Ul-i5-KtM" eventType="touchUpInside" id="6Bj-ad-1Dh"/>
+                                                                    <action selector="takeSnapshot:" destination="1Ul-i5-KtM" eventType="touchUpInside" id="gLG-MP-Hku"/>
                                                                 </connections>
                                                             </button>
                                                         </subviews>

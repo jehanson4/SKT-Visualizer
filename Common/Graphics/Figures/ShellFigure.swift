@@ -91,6 +91,17 @@ class ShellFigure : Figure {
     
     lazy var effects: Registry<Effect>? =  Registry<Effect>()
     
+    // EMPIRICAL
+    let pointSizeMax: GLfloat = 32
+    let pointSizeScaleFactor: GLfloat = 350
+    
+
+    func estimatePointSize(_ spacing: Double) -> GLfloat {
+        let pts = pointSizeScaleFactor * GLfloat(pov.zoom * spacing)
+        // debug("calculatePointSize", "zoom=\(pov.zoom) pts=\(pts)")
+        return clip(pts, 1, pointSizeMax)
+    }
+    
     // ===================================================
     // POV
     

@@ -54,6 +54,10 @@ class SK2_SystemFigure: Figure {
         baseFigure.relief = nil
     }
     
+    func estimatePointSize(_ spacing: Double) -> GLfloat {
+        return baseFigure.estimatePointSize(spacing)
+    }
+    
     var effects: Registry<Effect>? {
         get { return baseFigure.effects }
     }

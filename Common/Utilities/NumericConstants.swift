@@ -36,7 +36,7 @@ class DoubleConstants : NumericConstants<Double> {
     let twoPi = 2.0 * Double.pi
     let piOver2 = 0.5 * Double.pi
     let piOver4 = 0.25 * Double.pi
-    let eps = 1e-6
+    let eps = 1e-12
     let goldenRatio = (0.5 * (1.0 + sqrt(5.0)))
     let log2 = log(2.0)
 }

@@ -24,10 +24,10 @@ fileprivate var debugEnabled = false
 fileprivate func debug(_ mtd: String, _ msg : String = "") {
     if (debugEnabled) {
         if (msg.isEmpty) {
-            print("NodesOnShell", mtd)
+            print("NodesInPlane", mtd)
         }
         else {
-            print("NodesOnShell", mtd, ":", msg)
+            print("NodesInPlane", mtd, ":", msg)
         }
     }
 }
@@ -199,8 +199,7 @@ class NodesInPlane: Effect {
     
     private func buildVertexAndColorData() {
         
-        let z0: Double = 0.0
-        self.vertices = geometry.buildVertexArray4(UniformElevation(z0))
+        self.vertices = geometry.buildVertexArray4(relief)
         self.geometryIsStale = false
         
         // Fill colors array with black, then set flag to force an update
@@ -253,20 +252,20 @@ class NodesInPlane: Effect {
         
     }
     
-    // ========================================
-    // Point size
-    
-    // EMPIRICAL
-    let pointSizeMax: GLfloat = 32
-    let pointSizeScaleFactor: GLfloat = 350
-    
-    func calculatePointSize() -> GLfloat {
-        
-        let pts = pointSizeScaleFactor * GLfloat(figure.pov.z * geometry.gridSpacing)
-        // debug("calculatePointSize", "z=\(figure.pov.z)")
-        // debug("calculatePointSize", "pts=\(pts)")
-        return clip(pts, 1, pointSizeMax)
-    }
+//    // ========================================
+//    // Point size
+//
+//    // EMPIRICAL
+//    let pointSizeMax: GLfloat = 32
+//    let pointSizeScaleFactor: GLfloat = 350
+//
+//    func calculatePointSize() -> GLfloat {
+//
+//        let pts = pointSizeScaleFactor * GLfloat(figure.pov.z * geometry.gridSpacing)
+//        // debug("calculatePointSize", "z=\(figure.pov.z)")
+//        // debug("calculatePointSize", "pts=\(pts)")
+//        return clip(pts, 1, pointSizeMax)
+//    }
     
     
     // ========================================
@@ -366,15 +365,8 @@ class NodesInPlane: Effect {
     // ===================================================
     // Actual work
     
-    func prepareToDraw() {
-        glUseProgram(programHandle)
-        
-        glUniformMatrix4fv(projectionMatrixUniform, 1, GLboolean(GL_FALSE), projectionMatrix.array)
-        glUniformMatrix4fv(modelViewMatrixUniform, 1, GLboolean(GL_FALSE), modelviewMatrix.array)
-        
-        let pointSize = calculatePointSize()
-        glUniform1f(pointSizeUniform, pointSize)
-    }
+//    func prepareToDraw() {
+//    }
     
     
     var drawCounter: Int = 0
@@ -448,8 +440,15 @@ class NodesInPlane: Effect {
             glBufferSubData(GLenum(GL_ARRAY_BUFFER), 0, cbSize * colors.count, colors)
         }
         
-        prepareToDraw()
+        glUseProgram(programHandle)
         
+        glUniformMatrix4fv(projectionMatrixUniform, 1, GLboolean(GL_FALSE), projectionMatrix.array)
+        glUniformMatrix4fv(modelViewMatrixUniform, 1, GLboolean(GL_FALSE), modelviewMatrix.array)
+        
+        /// THIS is why we need self.figure
+        let pointSize = self.figure.estimatePointSize(geometry.gridSpacing)
+        glUniform1f(pointSizeUniform, pointSize)
+
         // DEBUG
         let err2 = glGetError()
         if (err2 != 0) {

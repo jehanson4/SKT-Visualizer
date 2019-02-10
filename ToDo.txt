@@ -2,19 +2,24 @@
 ToDo.txt
 ==================================================================================
 
-LB, UB
+figure.takeSnapshot() not figure.snapshot
+
+LB, UB in sqeuencer UI
 
 autocalibrate not working w/ log data source
+
 surface
-can't zoom plane
+
 basins
+
 pop flow
 
-go to 'normalized occupation' as a color source
-    ...but I don't want to have to find the bounds twice
-    ...so therefore put the bounds into the color source
-    ...they're there already.
+figure selection has 2 sections: plane and hemi
+...means we need a 'group' concept in FIGURE.
 
+model params controls got disconnected after a bunch of model & figure changes
+
+log data source: lower bound is lesser of min data value & eps
 ABOVE THE LINE
 ----------------------------------------------------------------------------------
 BELOW THE LINE

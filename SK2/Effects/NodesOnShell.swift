@@ -227,22 +227,23 @@ class NodesOnShell: Effect {
         
     }
     
-    // ========================================
-    // Point size
-    
-    // EMPIRICAL
-    let pointSizeMax: GLfloat = 32
-    let pointSizeScaleFactor: GLfloat = 350
-    
-    func calculatePointSize() -> GLfloat {
-        
-        // THIS is why me need figure
-        let pts = pointSizeScaleFactor * GLfloat(figure.pov.zoom * geometry.neighborDistance)
-        // debug("calculatePointSize", "zoom=\(figure.pov.zoom)")
-        // debug("calculatePointSize", "pts=\(pts)")
-        return clip(pts, 1, pointSizeMax)
-    }
-    
+//    // ========================================
+//    // Point size
+//
+//    // EMPIRICAL
+//    let pointSizeMax: GLfloat = 32
+//    let pointSizeScaleFactor: GLfloat = 350
+//
+//    /// THIS is why we need figure
+//    func calculatePointSize() -> GLfloat {
+//        // return figure.calculatePointSize(geometry.neighborDistance)
+//        let pts = pointSizeScaleFactor * GLfloat(figure.pov.zoom * geometry.neighborDistance)
+//        // debug("calculatePointSize", "zoom=\(figure.pov.zoom)")
+//        // debug("calculatePointSize", "pts=\(pts)")
+//        return clip(pts, 1, pointSizeMax)
+//    }
+//
+//
 
     // ========================================
     // Shader
@@ -341,15 +342,16 @@ class NodesOnShell: Effect {
     // ===================================================
     // Actual work
     
-    func prepareToDraw() {
-        glUseProgram(programHandle)
-        
-        glUniformMatrix4fv(projectionMatrixUniform, 1, GLboolean(GL_FALSE), projectionMatrix.array)
-        glUniformMatrix4fv(modelViewMatrixUniform, 1, GLboolean(GL_FALSE), modelviewMatrix.array)
-        
-        let pointSize = calculatePointSize()
-        glUniform1f(pointSizeUniform, pointSize)
-    }
+//    func prepareToDraw() {
+//        glUseProgram(programHandle)
+//        
+//        glUniformMatrix4fv(projectionMatrixUniform, 1, GLboolean(GL_FALSE), projectionMatrix.array)
+//        glUniformMatrix4fv(modelViewMatrixUniform, 1, GLboolean(GL_FALSE), modelviewMatrix.array)
+//        
+//        /// THIS is why we need self.figure
+//        let pointSize = self.figure.estimatePointSize(geometry.neighborDistance)
+//        glUniform1f(pointSizeUniform, pointSize)
+//    }
     
 
     var drawCounter: Int = 0
@@ -423,7 +425,16 @@ class NodesOnShell: Effect {
             glBufferSubData(GLenum(GL_ARRAY_BUFFER), 0, cbSize * colors.count, colors)
         }
         
-        prepareToDraw()
+        // prepareToDraw()
+        glUseProgram(programHandle)
+        
+        glUniformMatrix4fv(projectionMatrixUniform, 1, GLboolean(GL_FALSE), projectionMatrix.array)
+        glUniformMatrix4fv(modelViewMatrixUniform, 1, GLboolean(GL_FALSE), modelviewMatrix.array)
+        
+        /// THIS is why we need self.figure
+        let pointSize = self.figure.estimatePointSize(geometry.neighborDistance)
+        glUniform1f(pointSizeUniform, pointSize)
+
         
         // DEBUG
         let err2 = glGetError()

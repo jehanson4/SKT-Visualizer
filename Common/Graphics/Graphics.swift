@@ -28,15 +28,20 @@ protocol Figure: AnyObject, Named, PreferenceSupport {
     
     var autocalibrate: Bool { get set }
     
-    /// Calibrates the figure to the data it shows. Assumes the
-    /// graphics environent is already set up correctly.
+    /// Calibrates the figure's data providers.
     func calibrate()
+    
+    var effects: Registry<Effect>? { get }
+    
+    /// Size of a point sprite appropriate for a given spacing between points.
+    /// Point sprites should be small but should not overlap.
+    /// spacing is in model (aka local) coordinates
+    /// size is in the units expected by OpenGL
+    func estimatePointSize(_ spacing: Double) -> GLfloat
     
     func aboutToShowFigure()
     
     func figureHasBeenHidden()
-    
-    var effects: Registry<Effect>? { get }
     
     func draw(_ drawableWidth: Int, _ drawableHeight: Int)
     

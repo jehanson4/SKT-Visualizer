@@ -9,7 +9,7 @@
 import Foundation
 import GLKit
 
-fileprivate let debugEnabled = false
+fileprivate let debugEnabled = true
 
 fileprivate func debug(_ mtd: String, _ msg: String = "") {
     if (debugEnabled) {
@@ -24,7 +24,6 @@ fileprivate let eps = Double.constants.eps
 // ============================================================================
 
 struct PlanePOV: CustomStringConvertible {
-    
     
     var x: Double
     var y: Double
@@ -96,6 +95,16 @@ class PlaneFigure : Figure {
     
     lazy var effects: Registry<Effect>? =  Registry<Effect>()
     
+    // EMPIRICAL
+    let pointSizeMax: GLfloat = 32
+    let pointSizeScaleFactor: GLfloat = 350
+    
+    func estimatePointSize(_ spacing: Double) -> GLfloat {
+        let pts = pointSizeScaleFactor * GLfloat(spacing / pov.z)
+        // debug("calculatePointSize", "zoom=\(pov.zoom) pts=\(pts)")
+        return clip(pts, 1, pointSizeMax)
+    }
+    
     // ===================================================
     // POV
     
@@ -113,14 +122,17 @@ class PlaneFigure : Figure {
         get { return _pov }
         set(newValue) {
             _pov = fixPOV(newValue)
-            updateModelview()
+            // updateModelview()
+            markGraphicsStale()
         }
     }
     
     func resetPOV() {
         debug("resetPOV")
         _pov = _pov_default
-        updateModelview()
+        projectionHack = 0
+        // updateModelview()
+        markGraphicsStale()
     }
     
     private func initPOV() {
@@ -174,14 +186,19 @@ class PlaneFigure : Figure {
     }
     
     func handleTap(_ sender: UITapGestureRecognizer) {
-        // TODO
+        debug("handleTap")
+        projectionHack += 0.1
+        debug("handleTap", "projectionHack=\(projectionHack)")
+        updateModelview()
     }
     
     // ===================================================
     // Graphics, a/k/k GL coordinate transforms
     
     private var _aspectRatio: Float = 0
+    var projectionHack: Float = 0
     
+
     var aspectRatio: Float {
         get { return _aspectRatio }
         set(newValue) {
@@ -207,20 +224,18 @@ class PlaneFigure : Figure {
         self.graphicsStale = false
     }
     
-    // EMPIRICAL for projection matrix:
-    // If nff == 1 then things seem to disappear
-    // If nff > 0 then then everything seems inside-out
-    let nearFarFactor: GLfloat = -2
-    
-    let d0: Float = 1.0
-    
     private func updateProjection() {
         debug("updateProjection")
         
+        let d = GLfloat(pov.z)
+
+        // To zoom we should change PROJECTION based on lookat distance -- e.g. pov.z if we're looking straight down
+    
         // Docco sez args are: left, right, bottom, top, near, far "in eye coordinates"
-        let nff = GLfloat(nearFarFactor)
-        let d = GLfloat(d0) * GLfloat(size)
-        let newMatrix = GLKMatrix4MakeOrtho(-d, d, -d/aspectRatio, d/aspectRatio, nff*d, -nff*d)
+        // near = distance from camera to the front of the stage.
+        // far = distance from camera to the back of the stage.
+        // these are +z direction
+        let newMatrix = GLKMatrix4MakeOrtho(-d, d, -d/aspectRatio, d/aspectRatio, 0, GLfloat(100*size))
         
         func applyProjectionMatrix(_ effect: inout Effect) {
             debug("updateProjection", "applyProjectionMatrix to effect:" + effect.name)
@@ -231,21 +246,30 @@ class PlaneFigure : Figure {
     
     private func updateModelview() {
         debug("updateModelview")
-        
+
         // Q: do we ever do this without also calling updateProjection?
-        // EMPIRICAL pretty much everything in here
+
+        // For these figures, world coordinates "are" local coordinates.
+        // That's b/c there's only the one 'local' object in view
         
+        // modelview transforms from local coordinates to camera coordinates
+        // (world coordinates are in the middle there)
+        
+        // "look at"
+        // first  are x y z location of camera in world space
+        // 2nd  are x y z location of what camera is pointing at, in world space
+        // 3rd  define camera's orientation
         let lookatMatrix = GLKMatrix4MakeLookAt(
-            Float(pov.x), Float(pov.y), 1,
-            Float(pov.x), Float(pov.y), 0,
+            Float(pov.x), Float(pov.y), Float(pov.z),
+            Float(pov.x), Float(pov.y) + projectionHack, 0,
             0, 1, 0)
         
-        let zz = GLfloat(pov.z)
-        let scaleMatrix = GLKMatrix4MakeScale(zz, zz, zz)
-        let newMatrix = GLKMatrix4Multiply(scaleMatrix, lookatMatrix)
-        
+        // let zz = GLfloat(pov.z)
+        // let scaleMatrix = GLKMatrix4MakeScale(zz, zz, zz)
+        // let newMatrix = GLKMatrix4Multiply(scaleMatrix, lookatMatrix)
+        let newMatrix = lookatMatrix
         func applyModelviewMatrix(_ effect: inout Effect) {
-            debug("updateModelview", "applyModelviewMatrix to effect:" + effect.name)
+            // debug("updateModelview", "applyModelviewMatrix to effect:" + effect.name)
             effect.setModelview(newMatrix)
         }
         effects!.apply(applyModelviewMatrix)
