@@ -21,14 +21,18 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 // SK2_PFColorSource
 // ======================================================================
 
-class SK2_PFColorSource : ColorSource {
+class SK2_PFColorSource : ColorSource, Relief {
+    
+    var logzScale: Double = 1
+
+    var logzOffset: Double = 0
     
     var autocalibrate: Bool = true
     
-    // var backingModel: AnyObject? { return flow }
-    var calibrationNeeded: Bool = true
-
-    weak var flow: SK2_PopulationFlow!
+    var calibrated: Bool = false
+    
+    var flow: SK2_PopulationFlow!
+  
     var colorMap: LogColorMap
     
     // population 'weight' of a node
@@ -38,7 +42,6 @@ class SK2_PFColorSource : ColorSource {
     init(_ flow: SK2_PopulationFlow, _ colorMap: LogColorMap) {
         self.flow = flow
         self.colorMap = colorMap
-        self.calibrationNeeded = true
         self.wCurr = wEmpty
     }
     
@@ -47,55 +50,60 @@ class SK2_PFColorSource : ColorSource {
     }
     
     func invalidateCalibration() {
-        calibrationNeeded = true
+        calibrated = false
     }
     
     func calibrate() {
-        if doCalibration() {
-            fireChange()
-        }
+        let bounds = findBounds()
+        debug("calibrate", "bounds=\(bounds)")
+        
+        logzScale = subtractLogs(bounds.max, bounds.min)
+        logzOffset = bounds.min
+        
+        _ = colorMap.calibrate(bounds)
+        
+        calibrated = true
+        _ = colorMap.calibrate(flow.wBounds)
+        calibrated = true
     }
     
     func refresh() {
         // TODO only do this if we've marked our populations as stale
         self.wCurr = flow.wCurr
 
-        if (calibrationNeeded) {
-           _ = doCalibration()
+        if (autocalibrate && !calibrated) {
+            calibrate()
         }
+    }
+    
+
+    func elevationAt(_ nodeIndex: Int) -> Double {
+        let logz = (nodeIndex < wCurr.count) ? wCurr[nodeIndex] : 0
+        let logzNorm = subtractLogs(logz, logzOffset) - logzScale
+        let z = exp(logzNorm)
+        let z2 = clip(z, 0, 1)
+        // debug("elevationAt(\(m), \(n)): z=\(z) z2=\(z2)")
+        return z2
     }
     
     func colorAt(_ nodeIndex: Int) -> GLKVector4 {
         return colorMap.getColor((nodeIndex < wCurr.count) ? wCurr[nodeIndex] : 0)
     }
-    
-    private func doCalibration() -> Bool {
-        calibrationNeeded = false
-        return colorMap.calibrate(flow.wBounds)
-    }
-    
-//    private var flowMonitor: ChangeMonitor? = nil
-//
-//    private func flowChanged(_ sender: Any?) {
-//        debug("flowChanged", "discarding wCurr")
-//        wCurr = wEmpty
-//        debug("flowChanged", "firing change to my own monitors")
-//        fireChange()
-//    }
-    
-    // ==========================================
-    // Change monitoring
-    
-    private var changeSupport : ChangeMonitorSupport? = nil
-    
-    func monitorChanges(_ callback: @escaping (Any) -> ()) -> ChangeMonitor? {
-        if (changeSupport == nil) {
-            changeSupport = ChangeMonitorSupport()
+
+    func findBounds() -> (min: Double, max: Double) {
+        var tmpValue: Double  = clipToFinite(wCurr[0])
+        var minValue: Double = tmpValue
+        var maxValue: Double = tmpValue
+        for i in 0..<wCurr.count {
+            tmpValue = clipToFinite(wCurr[i])
+            if (tmpValue < minValue) {
+                minValue = tmpValue
+            }
+            if (tmpValue > maxValue) {
+                maxValue = tmpValue
+            }
         }
-        return changeSupport!.monitorChanges(callback, self)
+        return (min: minValue, max: maxValue)
     }
     
-    func fireChange() {
-        changeSupport?.fire()
-    }
 }

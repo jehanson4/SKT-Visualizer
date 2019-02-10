@@ -9,7 +9,7 @@
 import Foundation
 import GLKit
 
-fileprivate let debugEnabled = true
+fileprivate let debugEnabled = false
 
 fileprivate func debug(_ mtd: String, _ msg: String = "") {
     if (debugEnabled) {
@@ -79,7 +79,7 @@ class SK2_SimpleDataSource: ColorSource, Relief {
     func elevationAt(_ nodeIndex: Int) -> Double {
         let (m, n) = system.nodeIndexToSK(nodeIndex)
         let z = clip( zScale * (getter(m, n) - zOffset), 0, 1)
-        debug("elevationAt(\(m), \(n)) = \(z)")
+        // debug("elevationAt(\(m), \(n)) = \(z)")
         return z
     }
     

@@ -8,7 +8,7 @@
 
 import Foundation
 
-fileprivate var debugEnabled = false
+fileprivate var debugEnabled = true
 
 fileprivate func debug(_ mtd: String, _ msg: String = "") {
     let name = "SK2_PFFigures"
@@ -23,32 +23,24 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 
 class SK2_Population : SK2_SystemFigure {
     
-    weak var flow: SK2_PopulationFlow!
-    let cs: SK2_PFColorSource
+    var flow: SK2_PopulationFlow!
     var flowMonitor: ChangeMonitor?
     
     init(_ name: String, _ baseFigure: SK2_BaseFigure, _ flow: SK2_PopulationFlow) {
         self.flow = flow
-        self.cs = SK2_PFColorSource(flow, LogColorMap())
         super.init(name, nil, baseFigure)
-        super.colorSource = cs
+        let ds = SK2_PFColorSource(flow, LogColorMap())
+        super.colorSource = ds
+        super.relief = ds
     }
     
     override func aboutToShowFigure() {
         super.aboutToShowFigure()
-        flowMonitor = flow.monitorChanges(flowHasChanged)
+        flowMonitor = flow.monitorChanges(baseFigure.invalidateNodes)
     }
     
     override func figureHasBeenHidden() {
         flowMonitor?.disconnect()
         super.figureHasBeenHidden()
-    }
-
-    func flowHasChanged(_ sender: Any?) {
-        debug("SK2_PopulationOnShell flowHashChanged")
-        if (autocalibrate) {
-            cs.calibrationNeeded = true
-        }
-        cs.fireChange()
     }
 }
