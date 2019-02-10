@@ -2,25 +2,19 @@
 ToDo.txt
 ==================================================================================
 
-pinch is backwards
-pan is backwards
-try allowing pinch in flyover
-try 2z in flyover
+basins reset params doesn't work
 
-autocalibrate not working for occupation in the plzne
+autocalibrate not working for occupation in the plane
 
 surface
 
-basins
-
-pop flow
+descent lines
 
 figure selection has 2 sections: plane and hemi
 ...means we need a 'group' concept in FIGURE.
 
 model params controls got disconnected after a bunch of model & figure changes
 
-log data source: lower bound is lesser of min data value & eps
 ABOVE THE LINE
 ----------------------------------------------------------------------------------
 BELOW THE LINE

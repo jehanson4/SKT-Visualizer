@@ -29,6 +29,8 @@ class DelegatedFigure: Figure {
   
     var description: String { return nameAndInfo(self) }
 
+    var group: String? = nil
+    
     private var delegate: Figure
     
     var autocalibrate:Bool {

@@ -122,19 +122,19 @@ class SK2_PlaneBase : PlaneFigure, SK2_BaseFigure {
     func installBaseEffects(_ workQueue: WorkQueue, _ bgColor: GLKVector4) {
         let mtd = "SK2_ShellBase.intallBaseEffects"
 
-        do {
-            let axes = Axes(enabled: true, switchable: false)
-            _ = try effects?.register(axes, key: Balls.key)
-        } catch {
-            warn(mtd, "Problem registring Axes: \(error)")
-        }
-        
-        do {
-            let balls = Balls(enabled: true, switchable: false)
-            _ = try effects?.register(balls, key: Balls.key)
-        } catch {
-            warn(mtd, "Problem registring Balls: \(error)")
-        }
+//        do {
+//            let axes = Axes(enabled: true, switchable: false)
+//            _ = try effects?.register(axes, key: Axes.key)
+//        } catch {
+//            warn(mtd, "Problem registring Axes: \(error)")
+//        }
+//
+//        do {
+//            let balls = Balls(enabled: true, switchable: false)
+//            _ = try effects?.register(balls, key: Balls.key)
+//        } catch {
+//            warn(mtd, "Problem registring Balls: \(error)")
+//        }
         
         do {
             let busySpinner = BusySpinner(workQueue, enabled: true, switchable: false)

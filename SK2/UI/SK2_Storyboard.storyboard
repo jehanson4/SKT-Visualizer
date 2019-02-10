@@ -639,10 +639,10 @@
             </objects>
             <point key="canvasLocation" x="1927" y="-4773"/>
         </scene>
-        <!--SK2E Figure Selector-->
+        <!--SK/2E Figures-->
         <scene sceneID="iUy-u6-KrA">
             <objects>
-                <tableViewController title="SK2E Figure Selector" clearsSelectionOnViewWillAppear="NO" id="22o-zh-LZs" customClass="FigureSelectionViewController" customModule="SKT_Visualizer" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="SK/2E Figures" clearsSelectionOnViewWillAppear="NO" id="22o-zh-LZs" customClass="FigureSelectionViewController" customModule="SKT_Visualizer" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="hIe-5b-6mF">
                         <rect key="frame" x="0.0" y="0.0" width="256" height="512"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -655,9 +655,10 @@
                                     <rect key="frame" x="0.0" y="0.0" width="256" height="63.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BCJ-je-Ruu">
+                                        <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BCJ-je-Ruu">
                                             <rect key="frame" x="0.0" y="0.0" width="256" height="63.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <inset key="contentEdgeInsets" minX="16" minY="8" maxX="0.0" maxY="8"/>
                                             <state key="normal" title="Button"/>
                                         </button>
                                     </subviews>
@@ -698,8 +699,9 @@
                                     <rect key="frame" x="0.0" y="0.0" width="256" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kBf-1H-iV1">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kBf-1H-iV1">
                                             <rect key="frame" x="0.0" y="0.0" width="256" height="43.5"/>
+                                            <inset key="contentEdgeInsets" minX="16" minY="8" maxX="0.0" maxY="8"/>
                                             <state key="normal" title="Button"/>
                                         </button>
                                     </subviews>

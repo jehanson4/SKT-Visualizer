@@ -18,6 +18,7 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 }
 
 fileprivate let eps = Double.constants.eps
+fileprivate let piOver4 = Double.constants.piOver4
 
 // ============================================================================
 // PlanePOV
@@ -51,7 +52,7 @@ struct PlanePOV: CustomStringConvertible {
         switch(mode) {
         case .flyover:
             xLookat = x
-            yLookat = y - PlanePOV.yFactor * z
+            yLookat = y + PlanePOV.yFactor * z
             zLookat = 0
         case .satellite:
             xLookat = x
@@ -67,10 +68,10 @@ struct PlanePOV: CustomStringConvertible {
 
     static func transform(_ pov: PlanePOV, toMode: Mode) -> PlanePOV {
         if (pov.mode == .flyover && toMode == .satellite) {
-            return PlanePOV(pov.x, pov.y - PlanePOV.yFactor * pov.z, pov.z, toMode)
+            return PlanePOV(pov.x, pov.y + PlanePOV.yFactor * pov.z, pov.z, toMode)
         }
         if (pov.mode == .satellite && toMode == .flyover) {
-            return PlanePOV(pov.x, pov.y + PlanePOV.yFactor * pov.z, pov.z, toMode)
+            return PlanePOV(pov.x, pov.y - PlanePOV.yFactor * pov.z, pov.z, toMode)
         }
         // if none of the above
         return pov
@@ -90,6 +91,10 @@ class PlaneFigure : Figure {
         self.name = name
         self.info = info
         self.size = size
+        
+        _pov_default = PlanePOV(size/2, size/2, 3*size/5, .satellite)
+        _pov = _pov_default
+
     }
     
     // ================================================
@@ -98,6 +103,7 @@ class PlaneFigure : Figure {
     var name: String
     var info: String?
     var description: String { return nameAndInfo(self) }
+    var group: String? = nil
     
     /// width or height of the plane, whichever is greater
     let size: Double
@@ -143,8 +149,8 @@ class PlaneFigure : Figure {
     // ===================================================
     // POV
     
-    private var _pov_default: PlanePOV = PlanePOV(1, 1, 1, .satellite) // temp value
-    private var _pov: PlanePOV = PlanePOV(1, 1, 1, .satellite) // temp value
+    private var _pov_default: PlanePOV
+    private var _pov: PlanePOV
     
     var pov_default: PlanePOV {
         get { return _pov_default }
@@ -165,15 +171,9 @@ class PlaneFigure : Figure {
     func resetPOV() {
         debug("resetPOV")
         _pov = _pov_default
-        projectionHack = 0
+        // projectionHack = 0
         // updateModelview()
         markGraphicsStale()
-    }
-    
-    private func initPOV() {
-        _pov_default = PlanePOV(0, 0, size/2, .satellite)
-        _pov = pov_default
-        // NO updateModelview()
     }
     
     private func fixPOV(_ pov: PlanePOV) -> PlanePOV {
@@ -244,7 +244,7 @@ class PlaneFigure : Figure {
         if (sender.state == UIGestureRecognizer.State.began) {
             pinch_initialZ = pov.z
         }
-        let newZ = (pinch_initialZ * Double(sender.scale))
+        let newZ = (pinch_initialZ / Double(sender.scale))
         pov = PlanePOV(pov.x, pov.y, newZ, pov.mode)
     }
     
@@ -253,7 +253,7 @@ class PlaneFigure : Figure {
         if (sender.state == UIGestureRecognizer.State.began) {
             pinch_initialZ = pov.z
         }
-        let newZ = (pinch_initialZ * Double(sender.scale))
+        let newZ = (pinch_initialZ / Double(sender.scale))
         pov = PlanePOV(pov.x, pov.y, newZ, pov.mode)
     }
     
@@ -271,9 +271,7 @@ class PlaneFigure : Figure {
     // Graphics, a/k/k GL coordinate transforms
     
     private var _aspectRatio: Float = 0
-    var projectionHack: Float = 0
     
-
     var aspectRatio: Float {
         get { return _aspectRatio }
         set(newValue) {
@@ -310,7 +308,14 @@ class PlaneFigure : Figure {
         // near = distance from camera to the front of the stage.
         // far = distance from camera to the back of the stage.
         // these are +z direction
-        let newMatrix = GLKMatrix4MakeOrtho(-d, d, -d/aspectRatio, d/aspectRatio, 0, GLfloat(100*size))
+        
+        var newMatrix: GLKMatrix4!
+        if (pov.mode == .flyover) {
+            newMatrix = GLKMatrix4MakePerspective(GLfloat(piOver4), aspectRatio, GLfloat(eps), GLfloat(100*size))
+        }
+        else {
+            newMatrix = GLKMatrix4MakeOrtho(-d, d, -d/aspectRatio, d/aspectRatio, GLfloat(eps), GLfloat(100*size))
+        }
         
         func applyProjectionMatrix(_ effect: inout Effect) {
             debug("updateProjection", "applyProjectionMatrix to effect:" + effect.name)
@@ -339,7 +344,7 @@ class PlaneFigure : Figure {
         let lookatMatrix = GLKMatrix4MakeLookAt(
             Float(pov.x), Float(pov.y), Float(pov.z),
             Float(pov.xLookat), Float(pov.yLookat), Float(pov.zLookat),
-            0, -1, 0)
+            0, 1, 0)
         
         // let zz = GLfloat(pov.z)
         // let scaleMatrix = GLKMatrix4MakeScale(zz, zz, zz)

@@ -30,29 +30,36 @@ struct SK2E {
     static func makeFigures(_ system: SK2_System, _ basinFinder: SK2_BasinsAndAttractors, _ planeBase: SK2_PlaneBase, _ shellBase: SK2_ShellBase) -> Registry<Figure>? {
         let reg = Registry<Figure>()
         
-        
         let energyInPlane = SK2E_Energy("Energy in the Plane", nil, system, planeBase)
+        energyInPlane.group = SK2_Factory.planeFigureGroup
         _ = reg.register(energyInPlane)
         
-        let energyOnShell = SK2E_Energy("Energy on the Shell", nil, system, shellBase)
-        _ = reg.register(energyOnShell)
-        
         let entropyInPlane = SK2E_Entropy("Entropy in the Plane", nil, system, planeBase)
+        entropyInPlane.group = SK2_Factory.planeFigureGroup
         _ = reg.register(entropyInPlane)
         
-        let entropyOnShell = SK2E_Entropy("Entropy on the Shell", nil, system, shellBase)
-        _ = reg.register(entropyOnShell)
-        
-        let occupationInPlane = SK2E_Occupation("Normalized occupation in the Plane", nil, system, planeBase)
+        let occupationInPlane = SK2E_Occupation("Occupation in the Plane", nil, system, planeBase)
+        occupationInPlane.group = SK2_Factory.planeFigureGroup
         _ = reg.register(occupationInPlane)
         
-        let occupationOnShell = SK2E_Occupation("Normalized occupation on the Shell", nil, system, shellBase)
-        _ = reg.register(occupationOnShell)
-        
         let basinsInPlane = SK2_BAOnShell("Basins in the Plane", basinFinder, planeBase)
+        basinsInPlane.group = SK2_Factory.planeFigureGroup
         _ = reg.register(basinsInPlane)
         
+        let energyOnShell = SK2E_Energy("Energy on the Shell", nil, system, shellBase)
+        energyOnShell.group = SK2_Factory.shellFigureGroup
+        _ = reg.register(energyOnShell)
+        
+        let entropyOnShell = SK2E_Entropy("Entropy on the Shell", nil, system, shellBase)
+        entropyOnShell.group = SK2_Factory.shellFigureGroup
+        _ = reg.register(entropyOnShell)
+        
+        let occupationOnShell = SK2E_Occupation("Occupation on the Shell", nil, system, shellBase)
+        occupationOnShell.group = SK2_Factory.shellFigureGroup
+        _ = reg.register(occupationOnShell)
+        
         let basinsOnShell = SK2_BAOnShell("Basins on the Shell", basinFinder, shellBase)
+        basinsOnShell.group = SK2_Factory.shellFigureGroup
         _ = reg.register(basinsOnShell)
         
         return reg
@@ -81,11 +88,13 @@ struct SK2D {
     static func makeFigures(_ system: SK2_System, _ flow: SK2_PopulationFlow, _ planeBase: SK2_PlaneBase, _ shellBase: SK2_ShellBase) -> Registry<Figure>? {
         let reg = Registry<Figure>()
 
-        let flowInPlane = SK2_Population("Population in the Plain", shellBase, flow)
+        let flowInPlane = SK2_Population("Population in the Plane", shellBase, flow)
+        flowInPlane.group = SK2_Factory.planeFigureGroup
         _ = reg.register(flowInPlane)
         
 
         let flowOnShell = SK2_Population("Population on the Shell", shellBase, flow)
+        flowOnShell.group = SK2_Factory.shellFigureGroup
         _ = reg.register(flowOnShell)
 
         return reg
@@ -130,8 +139,10 @@ struct SK2D {
 
 class SK2_Factory: AppPartFactory {
 
-    let group = "SK/2"
-
+    static let partGroup = "SK/2"
+    static let shellFigureGroup = "Shell"
+    static let planeFigureGroup = "Plane"
+    
     var namespace: String
     
     init(_ namespace: String) {
@@ -181,7 +192,7 @@ class SK2_Factory: AppPartFactory {
 
         let sk2ePart = AppPart1(key: SK2E.key, name: SK2E.name, system: system)
         sk2ePart.info = SK2E.info
-        sk2ePart.group = group
+        sk2ePart.group = SK2_Factory.partGroup
         sk2ePart.figures = sk2eFigures
         sk2ePart.sequencers = sk2eSequencers
         parts.append(sk2ePart)
@@ -201,7 +212,7 @@ class SK2_Factory: AppPartFactory {
         
         let sk2dPart = AppPart1(key: SK2D.key, name: SK2D.name, system: system)
         sk2dPart.info = SK2D.info
-        sk2dPart.group = group
+        sk2dPart.group = SK2_Factory.partGroup
         sk2dPart.figures = sk2dFigures
         sk2dPart.sequencers = sk2dSequencers
         parts.append(sk2dPart)

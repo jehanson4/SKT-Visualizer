@@ -18,7 +18,8 @@ class SK2_SystemFigure: Figure {
     var name: String
     var info: String?
     var description: String { return nameAndInfo(self) }
-    
+    var group: String? = nil
+
     var baseFigure: SK2_BaseFigure
     var colorSource: ColorSource?
     var relief: Relief?

@@ -26,6 +26,8 @@ protocol Graphics {
 
 protocol Figure: AnyObject, Named, PreferenceSupport {
     
+    var group: String? { get set }
+    
     func resetPOV()
     
     var autocalibrate: Bool { get set }

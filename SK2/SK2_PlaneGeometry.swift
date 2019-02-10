@@ -55,8 +55,8 @@ class SK2_PlaneGeometry {
         let gMax = (mMax > nMax) ? mMax : nMax
         
         let gridSpacing: Double = gridSize/Double(gMax)
-        let xOffset: Double = gridSize/2
-        let yOffset: Double = gridSize/2
+        let xOffset: Double = 0 // gridSize/2
+        let yOffset: Double = 0 // gridSize/2
         let z1 = z0 + zOffset
         var vertexCoords: [GLfloat] = Array(repeating: 0, count: 3 * system.nodeCount)
         var nextVertex: Int = 0
@@ -94,8 +94,8 @@ class SK2_PlaneGeometry {
         let gMax = (mMax > nMax) ? mMax : nMax
         
         let gridSpacing: Double = gridSize/Double(gMax)
-        let xOffset: Double = gridSize/2
-        let yOffset: Double = gridSize/2
+        let xOffset: Double = 0 // gridSize/2
+        let yOffset: Double = 0 // gridSize/2
         let z1 = z0 + zOffset
         
         var vertices: [GLKVector4] = []
