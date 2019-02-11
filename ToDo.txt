@@ -2,6 +2,8 @@
 ToDo.txt
 ==================================================================================
 
+effects don't get installed or reinstalled
+
 basins reset params doesn't work
 
 autocalibrate not working for occupation in the plane

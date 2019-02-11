@@ -176,6 +176,7 @@
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                                 <connections>
+                                                                    <action selector="param_beginEdit:" destination="1Ul-i5-KtM" eventType="editingDidBegin" id="fRA-Q1-Eep"/>
                                                                     <action selector="param_edited:" destination="1Ul-i5-KtM" eventType="editingDidEnd" id="7Vp-kC-sPU"/>
                                                                 </connections>
                                                             </textField>
@@ -205,6 +206,7 @@
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                                 <connections>
+                                                                    <action selector="param_beginEdit:" destination="1Ul-i5-KtM" eventType="editingDidBegin" id="KCc-al-SIC"/>
                                                                     <action selector="param_edited:" destination="1Ul-i5-KtM" eventType="editingDidEnd" id="nci-vN-BTd"/>
                                                                 </connections>
                                                             </textField>
@@ -234,6 +236,7 @@
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                                 <connections>
+                                                                    <action selector="param_beginEdit:" destination="1Ul-i5-KtM" eventType="editingDidBegin" id="ogH-U6-Imn"/>
                                                                     <action selector="param_edited:" destination="1Ul-i5-KtM" eventType="editingDidEnd" id="ljn-dQ-4JB"/>
                                                                 </connections>
                                                             </textField>
@@ -263,6 +266,7 @@
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                                 <connections>
+                                                                    <action selector="param_beginEdit:" destination="1Ul-i5-KtM" eventType="editingDidBegin" id="cBg-I7-jTe"/>
                                                                     <action selector="param_edited:" destination="1Ul-i5-KtM" eventType="editingDidEnd" id="TtW-fQ-8K7"/>
                                                                 </connections>
                                                             </textField>
@@ -292,6 +296,7 @@
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                                 <connections>
+                                                                    <action selector="param_beginEdit:" destination="1Ul-i5-KtM" eventType="editingDidBegin" id="qbn-gS-TAH"/>
                                                                     <action selector="param_edited:" destination="1Ul-i5-KtM" eventType="editingDidEnd" id="dRa-E1-vnR"/>
                                                                 </connections>
                                                             </textField>
@@ -417,6 +422,7 @@
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                                 <connections>
+                                                                    <action selector="animation_beginEdit:" destination="1Ul-i5-KtM" eventType="editingDidBegin" id="ZoN-wz-H63"/>
                                                                     <action selector="lbTextEdited:" destination="1Ul-i5-KtM" eventType="editingDidEnd" id="Q5a-OQ-uTY"/>
                                                                 </connections>
                                                             </textField>
@@ -446,6 +452,7 @@
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                                 <connections>
+                                                                    <action selector="animation_beginEdit:" destination="1Ul-i5-KtM" eventType="editingDidBegin" id="3Aj-in-OYF"/>
                                                                     <action selector="ubTextEdited:" destination="1Ul-i5-KtM" eventType="editingDidEnd" id="COx-Lv-oN8"/>
                                                                 </connections>
                                                             </textField>
@@ -475,6 +482,7 @@
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                                 <connections>
+                                                                    <action selector="animation_beginEdit:" destination="1Ul-i5-KtM" eventType="editingDidBegin" id="emk-eq-qLo"/>
                                                                     <action selector="deltaTextEdited:" destination="1Ul-i5-KtM" eventType="editingDidEnd" id="okX-iU-EUC"/>
                                                                 </connections>
                                                             </textField>
@@ -940,6 +948,7 @@
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                                 <connections>
+                                                                    <action selector="delta_beginEdit:" destination="deL-8s-Yda" eventType="editingDidBegin" id="6Sg-S0-yny"/>
                                                                     <action selector="delta_edited:" destination="deL-8s-Yda" eventType="editingDidEnd" id="Lio-k5-IUo"/>
                                                                 </connections>
                                                             </textField>
@@ -966,6 +975,7 @@
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                                 <connections>
+                                                                    <action selector="delta_beginEdit:" destination="deL-8s-Yda" eventType="editingDidBegin" id="b7k-lx-uvg"/>
                                                                     <action selector="delta_edited:" destination="deL-8s-Yda" eventType="editingDidEnd" id="Wip-p9-QNn"/>
                                                                 </connections>
                                                             </textField>
@@ -992,6 +1002,7 @@
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                                 <connections>
+                                                                    <action selector="delta_beginEdit:" destination="deL-8s-Yda" eventType="editingDidBegin" id="YEL-de-JHa"/>
                                                                     <action selector="delta_edited:" destination="deL-8s-Yda" eventType="editingDidEnd" id="VcW-FP-k9x"/>
                                                                 </connections>
                                                             </textField>
@@ -1018,6 +1029,7 @@
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                                 <connections>
+                                                                    <action selector="delta_beginEdit:" destination="deL-8s-Yda" eventType="editingDidBegin" id="Xvv-6N-2Gd"/>
                                                                     <action selector="delta_edited:" destination="deL-8s-Yda" eventType="editingDidEnd" id="18o-Id-LNw"/>
                                                                 </connections>
                                                             </textField>
@@ -1044,6 +1056,7 @@
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                                 <connections>
+                                                                    <action selector="delta_beginEdit:" destination="deL-8s-Yda" eventType="editingDidBegin" id="vsP-qq-FMo"/>
                                                                     <action selector="delta_edited:" destination="deL-8s-Yda" eventType="editingDidEnd" id="949-Px-DqP"/>
                                                                 </connections>
                                                             </textField>

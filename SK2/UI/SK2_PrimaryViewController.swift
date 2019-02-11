@@ -14,7 +14,7 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     // Debug
     
     let name = "SK2_PrimaryViewController"
-    var debugEnabled = false
+    var debugEnabled = true
 
     func debug(_ mtd: String, _ msg: String = "") {
         if (debugEnabled)  {
@@ -214,13 +214,35 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     @IBOutlet weak var param5_text: UITextField!
     @IBOutlet weak var param5_stepper: UIStepper!
     
+    // EMPIRICAL
+    let param_yShift: CGFloat = 72
+    
+    @IBAction func param_beginEdit(_ sender: UITextField) {
+        debug("param_beginEdit", "moving us up by \(param_yShift)")
+        var viewFrame = self.view.frame
+        viewFrame.origin.y -= param_yShift
+        UIView.beginAnimations(nil, context: nil)
+        UIView.setAnimationBeginsFromCurrentState(true)
+        UIView.setAnimationDuration(0.3)
+        self.view.frame = viewFrame
+        UIView.commitAnimations()
+    }
+    
     @IBAction func param_edited(_ sender: UITextField) {
+        debug("param_edited", "moving us back down")
+        var viewFrame = self.view.frame
+        viewFrame.origin.y += param_yShift
+        UIView.beginAnimations(nil, context: nil)
+        UIView.setAnimationBeginsFromCurrentState(true)
+        UIView.setAnimationDuration(0.3)
+        self.view.frame = viewFrame
+        UIView.commitAnimations()
+        
         debug("param_edited", "tag=\(sender.tag)")
         let pCount = system.parameters.entryCount
         if (sender.tag <= 0 || sender.tag > pCount) {
             return
         }
-        
         let param = system.parameters.entry(index: (sender.tag-1))?.value
         if (param != nil && sender.text != nil) {
             param!.applyValue(sender.text!)
@@ -493,7 +515,34 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     @IBOutlet weak var deltaText: UITextField!
     @IBOutlet weak var deltaStepper: UIStepper!
     
+    // EMPIRICAL
+    let animation_yShift: CGFloat = 280
+    
+    @IBAction func animation_beginEdit(_ sender: UITextField) {
+        debug("animation_beginEdit", "moving us up by \(animation_yShift)")
+        var viewFrame = self.view.frame
+        viewFrame.origin.y -= animation_yShift
+        UIView.beginAnimations(nil, context: nil)
+        UIView.setAnimationBeginsFromCurrentState(true)
+        UIView.setAnimationDuration(0.3)
+        self.view.frame = viewFrame
+        UIView.commitAnimations()
+    }
+    
+    func animation_shiftDown() {
+        debug("animation_shiftDown", "moving us back down")
+        var viewFrame = self.view.frame
+        viewFrame.origin.y += animation_yShift
+        UIView.beginAnimations(nil, context: nil)
+        UIView.setAnimationBeginsFromCurrentState(true)
+        UIView.setAnimationDuration(0.3)
+        self.view.frame = viewFrame
+        UIView.commitAnimations()
+        
+    }
+    
     @IBAction func lbTextEdited(_ sender: UITextField) {
+        animation_shiftDown()
         let v2 = parseDouble(sender.text)
         if (sequencer != nil && v2 != nil) {
             sequencer!.lowerBound = v2!
@@ -519,6 +568,7 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     }
     
     @IBAction func ubTextEdited(_ sender: UITextField) {
+        animation_shiftDown()
         let v2 = parseDouble(sender.text)
         if (sequencer != nil && v2 != nil) {
             debug("ubTextEdited", "v2=\(String(describing: v2))")
@@ -546,6 +596,7 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     }
     
     @IBAction func deltaTextEdited(_ sender: UITextField) {
+        animation_shiftDown()
         let v2 = parseDouble(sender.text)
         if (sequencer != nil && v2 != nil) {
                 sequencer!.stepSize = v2!

@@ -289,8 +289,32 @@ class SK2_SecondaryViewController: UIViewController, UITextFieldDelegate, AppMod
     func teardownDeltas() {
         // NOP
     }
+
+    // EMPIRICAL
+    let delta_yShift: CGFloat = 170
     
+    @IBAction func delta_beginEdit(_ sender: UITextField) {
+        debug("delta_beginEdit", "moving us up by \(delta_yShift)")
+        var viewFrame = self.view.frame
+        viewFrame.origin.y -= delta_yShift
+        UIView.beginAnimations(nil, context: nil)
+        UIView.setAnimationBeginsFromCurrentState(true)
+        UIView.setAnimationDuration(0.3)
+        self.view.frame = viewFrame
+        UIView.commitAnimations()
+    }
+    
+
     @IBAction func delta_edited(_ sender: UITextField) {
+        debug("delta_edited", "moving us back down")
+        var viewFrame = self.view.frame
+        viewFrame.origin.y += delta_yShift
+        UIView.beginAnimations(nil, context: nil)
+        UIView.setAnimationBeginsFromCurrentState(true)
+        UIView.setAnimationDuration(0.3)
+        self.view.frame = viewFrame
+        UIView.commitAnimations()
+        
         debug("delta_edited", "tag=\(sender.tag)")
         let params = appPart.system.parameters
         if (sender.tag <= 0 || sender.tag > params.entryCount) {

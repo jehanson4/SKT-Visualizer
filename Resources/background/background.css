@@ -2,7 +2,7 @@
 html,body {
     margin: 0px;
     padding: 10px;
-    font-size: 90%
+    font-size: 100%
 }
 
 h3, h3, h4 {
@@ -42,6 +42,7 @@ h3, h3, h4 {
 .quicklinks {
     text-align: justify;
     font-variant: small-caps;
+    font-size: 110%;
 }
 
 .faq {
@@ -51,4 +52,9 @@ h3, h3, h4 {
 
 .def {
     font-weight: bold;
+}
+
+.copyright {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 75%;
 }
