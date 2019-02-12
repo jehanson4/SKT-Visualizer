@@ -1,0 +1,30 @@
+==================================================================================
+Done
+==================================================================================
+
+
+[SRW] (1) Models -> SK/2 Equilibrium
+Visualization -> Occupation on the Hemisphere
+Animation -> Sweep Over T (result: Animation selection doesn’t change)
+But then fiddling, such as selecting More> and then <Back, seems to show the correct Animation selection. (I’m not clear on this. Different things happened when I tried to reproduce it several times.)
+
+--> CNR
+
+------------------------
+
+[SRW] (2) Do the above, then notice:
+From: 0
+To: 1E+06
+It seems to me that the default should be to start at large T and decrease to small (but perhaps nonzero) T. We should figure out how to scale the default min & max T for a given N & k0. I don’t think that should be hard.
+
+--> I set tMax = 1K. changed labels to "LB" and "UB"
+
+-------------------------
+
+[SRW] (3) Do the above, then try to fix the min & max T:
+Select From:, hit Backspace several times, then type 1000. That works, but notice that the keyboard (in landscape mode) covers the input field, so you can’t see what you’re doing. It would be ideal if, maybe, the whole parameters part of the screen scrolled up so you could see the input field.
+Select To:, hit Backspace several times, then type .01. That doesn’t work; the input field is not changed, and I couldn’t figure out any way to change it.
+
+--> keyborad scrolls. changed labels to clarify "LB and "UB"
+
+-------------------------

@@ -270,8 +270,8 @@ class SK2_System: DS2_System, PreferenceSupport {
     // Parameter: T
     
     static let T_min: Double = 0
-    static let T_max: Double = 1000000
-    static let T_defaultSetPoint: Double = 1000
+    static let T_max: Double = 1000
+    static let T_defaultSetPoint: Double = 500
     static let T_defaultStepSize: Double = 10
     
     private var _T : Double

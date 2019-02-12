@@ -5,8 +5,11 @@
 
 ### Release Notes -- Version 1.0.11
 
-* plane figures
+* relief
+* plane figures 
 * tap a plane figure to change view angle
+* scroll input fields to avoid keyboard
+* refactoring under the covers
 
 ### Release Notes -- Version 1.0.10
 
