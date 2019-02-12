@@ -181,6 +181,7 @@ class PlaneFigure : Figure {
     var pan_initialX: Double = 0
     var pan_initialY: Double = 0
     
+    var pinch_initialY: Double = 0
     var pinch_initialZ: Double = 0
 
     func handlePan(_ sender: UIPanGestureRecognizer) {
@@ -232,9 +233,14 @@ class PlaneFigure : Figure {
         debug("flyoverPinch", "pov=\(pov)")
         if (sender.state == UIGestureRecognizer.State.began) {
             pinch_initialZ = pov.z
+            pinch_initialY = pov.y
         }
+        
+        // We want to move along the line of sight.
+        // if z changes by dz then y changes by -PlanePOV.yFactor * dz
         let newZ = (pinch_initialZ / Double(sender.scale))
-        pov = PlanePOV(pov.x, pov.y, newZ, pov.mode)
+        let newY = pinch_initialY - PlanePOV.yFactor * (newZ - pinch_initialZ)
+        pov = PlanePOV(pov.x, newY, newZ, pov.mode)
     }
     
     func satellitePinch(_ sender: UIPinchGestureRecognizer) {

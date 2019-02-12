@@ -2,17 +2,6 @@
 ToDo.txt
 ==================================================================================
 
-[ ] change monitors on the basins & flow: do 'em for real
-
-[ ] rebuilding BAmodel even though it's not visible
-... caused crash
-... should we do system.basins { get } and system.discardBasins()
-... ALT is basins.enable or system.disableBasins
-    BOTH TOO FIDDLY.
-!!! the figure should create and own the basin model, just like energy figure
-creates its color source.
-... ditto pflow
-
 sequencer=sweep over a1, but sequencer delta is not reading from a1 delta
 
 delta T stepper gives nonsense value if you go down from 10
@@ -37,8 +26,6 @@ pop flow calibration is wrong, it goes black in the middle even when recalibrate
 
 I think log dataprovider is wrong, it doesn't drain out of high-energy states
 but rather they all go up up up if you don't recalibrate
-
-pinch in plane figure flyover is not right. should move us along POV line
 
 
 
