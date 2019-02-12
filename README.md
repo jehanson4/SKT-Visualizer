@@ -1,10 +1,20 @@
-## Visualization of SK-Model Spin Glass Thermodynamics 
+## Visualization of Spin Glass Thermodynamics 
 
 ---
 ## Release Notes
 
+### Release Notes -- Version 1.0.11
+
+* plane figures
+* tap a plane figure to change view angle
+
+### Release Notes -- Version 1.0.10
+
+new UI preview
+
 ### Release Notes -- Version 1.0.9
 
+make space for the new UI
 
 ### Release Notes -- Version 1.0.8
 
