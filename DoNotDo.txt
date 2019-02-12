@@ -1,0 +1,4 @@
+
+[N] combine ColorSource and Relief
+    Basins is a colorSource that opeates in 2 int's not 1 double
+    And while we could shoehorn it in, it's not a natural fit.

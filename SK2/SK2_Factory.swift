@@ -42,7 +42,7 @@ struct SK2E {
         occupationInPlane.group = SK2_Factory.planeFigureGroup
         _ = reg.register(occupationInPlane)
         
-        let basinsInPlane = SK2_BAOnShell("Basins in the Plane", basinFinder, planeBase)
+        let basinsInPlane = SK2_BAOnShell("Basins in the Plane", system, basinFinder, planeBase)
         basinsInPlane.group = SK2_Factory.planeFigureGroup
         _ = reg.register(basinsInPlane)
         
@@ -58,7 +58,7 @@ struct SK2E {
         occupationOnShell.group = SK2_Factory.shellFigureGroup
         _ = reg.register(occupationOnShell)
         
-        let basinsOnShell = SK2_BAOnShell("Basins on the Shell", basinFinder, shellBase)
+        let basinsOnShell = SK2_BAOnShell("Basins on the Shell", system, basinFinder, shellBase)
         basinsOnShell.group = SK2_Factory.shellFigureGroup
         _ = reg.register(basinsOnShell)
         
@@ -88,12 +88,12 @@ struct SK2D {
     static func makeFigures(_ system: SK2_System, _ flow: SK2_PopulationFlow, _ planeBase: SK2_PlaneBase, _ shellBase: SK2_ShellBase) -> Registry<Figure>? {
         let reg = Registry<Figure>()
 
-        let flowInPlane = SK2_Population("Population in the Plane", planeBase, flow)
+        let flowInPlane = SK2_Population("Population in the Plane", system, flow, planeBase)
         flowInPlane.group = SK2_Factory.planeFigureGroup
         _ = reg.register(flowInPlane)
         
 
-        let flowOnShell = SK2_Population("Population on the Shell", shellBase, flow)
+        let flowOnShell = SK2_Population("Population on the Shell", system, flow, shellBase)
         flowOnShell.group = SK2_Factory.shellFigureGroup
         _ = reg.register(flowOnShell)
 

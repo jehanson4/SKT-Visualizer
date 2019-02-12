@@ -50,6 +50,7 @@ class SK2_PlaneBase : PlaneFigure, SK2_BaseFigure {
     init(_ system: SK2_System, _ gridSize: Double) {
         self.system = system
         self.geometry = SK2_PlaneGeometry(system, gridSize)
+        self._autocalibrate = true
         super.init("planeBase", nil, gridSize)
     }
     
@@ -178,37 +179,46 @@ class SK2_PlaneBase : PlaneFigure, SK2_BaseFigure {
         
     }
     
-    
     // ==============================================================
     // Calibration
     
-    override func setAutocalibration(_ flag: Bool) {
-        debug("setAutocalibration")
-        colorSource?.autocalibrate = flag
-        relief?.autocalibrate = flag
+    private var _autocalibrate: Bool
+    
+    var autocalibrate: Bool {
+        get { return _autocalibrate }
+        set(newValue) {
+            let invalidateNow = (newValue && !_autocalibrate)
+            _autocalibrate = newValue
+            if (invalidateNow) {
+                invalidateCalibration()
+            }
+        }
     }
     
-    override func calibrate() {
+    func calibrate() {
         debug("calibrate")
         colorSource?.calibrate()
         relief?.calibrate()
-        invalidateData(self)
+        invalidateData()
     }
     
-    
-    func invalidateNodes(_ sender: Any?) {
+    func invalidateCalibration() {
+        colorSource?.invalidateCalibration()
+        relief?.invalidateCalibration()
+    }
+
+    func invalidateNodes() {
         net?.invalidateNodes()
         nodes?.invalidateNodes()
         // TODO: surface
         // TODO: descentLines
     }
     
-    func invalidateData(_ sender: Any?) {
+    func invalidateData() {
         net?.invalidateData()
         nodes?.invalidateData()
         // TODO surface?.invalidateData()
         // TODO descentLines?.invalidateData()
-        colorSource?.invalidateCalibration()
-        relief?.invalidateCalibration()
     }
+    
 }

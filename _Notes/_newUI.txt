@@ -230,3 +230,78 @@ e.g. nodes don't go well w/ relief.
 1 base figure with surface and net and color and elevation but no nodes
 
 each one exposes all the right things, by name. no more 'let's install the color source everwhere!'
+
+===============================================================================================
+
+Subclasses can add or replace methods in a base class, same as I'm used to; but the
+concept of ABC, mixing API w/ impl, is gone.
+
+Delegates are what you use in place of abstract base classes?
+
+Maybe.
+
+So how's it work?
+
+You instantiate the main class, which has a nil delegate whose API contains all the
+methods that would have gone into the abstract base class
+
+But what if those are API methods?
+
+NO, I think it's the other way around. The abstract methods stay in the protocol
+until the concrete class provides implementations. The concrete class has the
+delegate, and the delegate has all the methods that were implemented in the ABC.
+
+ShellDelegate does gestures & POV & manages the effects.
+
+OK.
+
+Then SK2_Base is applied to the energy guy?
+No, it provides API that the energy guy uses.
+No, it doesn't have to be that way.
+I'm so confused!
+
+ALT: Delegates are like the SPI methods I use: they're hooks or callouts. the main guy
+calls them at the appropriate times ("about to show..."). But they don't supply any
+essential function. The main guy works fine as-is.
+
+That fits with the usages I see.
+
+In that case them ShellFigure w/ its effects might call on a delegate from inside
+its own 'about to show' and 'was hidden' -- but the delegate DOES NOT supply any
+missing bits of the Figure API.
+
+Which means, Figure is NOT calibrated at all!
+
+The UI calls methods on something that wraps a vanilla ShellFigure or PlaneFigure.
+That wrapper has created effects and given them to the figure to draw, but it
+has also kept ref's to them. The wrapper is a Calibrated, and it has APIs for
+invalidating effects' nodes & data as well
+
+BUT I still think that wrapper needs to impl the Figure protocol, because that's what
+we install into the GraphicsController.
+
+G.C. calls:
+--about to show
+--has been hidden
+--draw
+
+UI calls:
+--calibrate
+--autocalibrate
+--Named APIs
+
+Factory calls:
+--effects
+
+But none of those guys calls the DATA or NODES methods
+or invalidateCalibration either
+
+===================================================================================
+Calibrated needs to be its own protocol even so b/c there are two kinds of 'em
+--Datasources
+--figures
+
+
+
+
+

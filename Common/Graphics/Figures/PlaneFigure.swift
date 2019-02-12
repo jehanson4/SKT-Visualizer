@@ -85,19 +85,6 @@ struct PlanePOV: CustomStringConvertible {
 class PlaneFigure : Figure {
     
     // ================================================
-    // Initializer
-    
-    init(_ name: String, _ info: String? = nil, _ size: Double) {
-        self.name = name
-        self.info = info
-        self.size = size
-        
-        _pov_default = PlanePOV(size/2, size/2, 3*size/5, .satellite)
-        _pov = _pov_default
-
-    }
-    
-    // ================================================
     // Basics
     
     var name: String
@@ -108,27 +95,29 @@ class PlaneFigure : Figure {
     /// width or height of the plane, whichever is greater
     let size: Double
     
-    // =================================================
-    // Calibration
+    // ================================================
+    // Lifecycle
     
-    private var _autocalibrate: Bool = true
+    init(_ name: String, _ info: String? = nil, _ size: Double) {
+        self.name = name
+        self.info = info
+        self.size = size
+        
+        _pov_default = PlanePOV(size/2, size/2, 3*size/5, .satellite)
+        _pov = _pov_default
+        
+    }
     
-    var autocalibrate: Bool {
-        get { return _autocalibrate }
-        set (newValue) {
-            _autocalibrate = newValue
-            setAutocalibration(_autocalibrate)
+    func aboutToShowFigure() {
+    }
+    
+    func figureHasBeenHidden() {
+        debug("figureHasBeenHidden")
+        func teardownEffect(_ effect: Effect) {
+            effect.teardown()
         }
-    }
-    
-    /// FOR OVERRIDE
-    func setAutocalibration(_ flag: Bool) {
-        // NOP
-    }
-    
-    /// FOR OVERRIDE
-    func calibrate() {
-        // NOP
+        effects?.visit(teardownEffect)
+        
     }
     
     // =================================================
@@ -318,7 +307,7 @@ class PlaneFigure : Figure {
         }
         
         func applyProjectionMatrix(_ effect: inout Effect) {
-            debug("updateProjection", "applyProjectionMatrix to effect:" + effect.name)
+            // debug("updateProjection", "applyProjectionMatrix to effect:" + effect.name)
             effect.setProjection(newMatrix)
         }
         effects!.apply(applyProjectionMatrix)
@@ -359,18 +348,6 @@ class PlaneFigure : Figure {
     
     // ==================================================
     // Drawing
-    
-    func aboutToShowFigure() {
-        // NOP
-    }
-    
-    func figureHasBeenHidden() {
-        debug("figureHasBeenHidden")
-        func teardownEffect(_ effect: Effect) {
-            effect.teardown()
-        }
-        effects?.visit(teardownEffect)
-    }
     
     func loadPreferences(namespace: String) {
         // TODO

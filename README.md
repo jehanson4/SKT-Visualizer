@@ -3,6 +3,9 @@
 ---
 ## Release Notes
 
+### Release Notes -- Version 1.0.9
+
+
 ### Release Notes -- Version 1.0.8
 
 * Bug fix: app crashes when selecting Basins color source after changing model params

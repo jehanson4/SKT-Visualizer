@@ -14,7 +14,7 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     // Debug
     
     let name = "SK2_PrimaryViewController"
-    var debugEnabled = true
+    var debugEnabled = false
 
     func debug(_ mtd: String, _ msg: String = "") {
         if (debugEnabled)  {
@@ -145,12 +145,13 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
             let title = figureSelector.selection?.name ?? "(choose)"
             figureSelectorButton.setTitle(title, for: .normal)
         }
-        updateAutocalibration(nil)
+        updateFigureControls()
     }
     
     @IBAction func calibrate(_ sender: Any) {
         debug("calibrate")
-        appPart.figureSelector.selection?.value.calibrate()
+        let figure = appPart.figureSelector.selection?.value as? Calibrated
+        figure?.calibrate()
     }
     
     @IBAction func resetPOV(_ sender: Any) {
@@ -168,22 +169,30 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
 
     @IBAction func toggleAutocalibration(_ sender: Any?) {
         debug("toggleAutocalibration") 
-        var isOn: Bool = false
-        let figure = appPart.figureSelector.selection?.value
-        if (figure != nil) {
-            let prev = figure!.autocalibrate
-            figure!.autocalibrate = !prev
-            isOn = figure!.autocalibrate
-            if isOn {
-                figure!.calibrate()
-            }
+        var calibratedFigure = appPart.figureSelector.selection?.value as? Calibrated
+        if (calibratedFigure != nil) {
+            let prev = calibratedFigure!.autocalibrate
+            calibratedFigure!.autocalibrate = !prev
         }
-        updateAutocalibration(nil)
+        updateFigureControls()
     }
     
-    func updateAutocalibration(_ sender: Any?) {
-        let title = (appPart.figureSelector.selection?.value.autocalibrate ?? false) ? "\u{2713} Autocalibrate" : "Autocalibrate"
-        autocalibrateButton?.setTitle(title, for: .normal)
+    func updateFigureControls() {
+        
+        // ? reset isEnabled
+        // ? snapshot isEnabled
+        
+        var calibratedFigure = appPart.figureSelector.selection?.value as? Calibrated
+        if (calibratedFigure == nil) {
+            // ? recalibrateButton.isEnabled = false
+            // ? autocalibrateButton?.isEnabled = false
+        }
+        else {
+            // ? recalibrateButton.isEnabled = true
+            // ? autocalibrateButton?.isEnabled = true
+            let acTitle = calibratedFigure!.autocalibrate ? "\u{2713} Autocalibrate" : "Autocalibrate"
+            autocalibrateButton?.setTitle(acTitle, for: .normal)
+        }
     }
     
     // ===========================================

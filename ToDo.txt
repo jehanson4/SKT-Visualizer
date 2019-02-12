@@ -2,19 +2,55 @@
 ToDo.txt
 ==================================================================================
 
-effects don't get installed or reinstalled
+[ ] change monitors on the basins & flow: do 'em for real
 
-basins reset params doesn't work
+[ ] rebuilding BAmodel even though it's not visible
+... caused crash
+... should we do system.basins { get } and system.discardBasins()
+... ALT is basins.enable or system.disableBasins
+    BOTH TOO FIDDLY.
+!!! the figure should create and own the basin model, just like energy figure
+creates its color source.
+... ditto pflow
 
-autocalibrate not working for occupation in the plane
+sequencer=sweep over a1, but sequencer delta is not reading from a1 delta
 
-pop flow calibration is wrong, it goes black in the middle
+delta T stepper gives nonsense value if you go down from 10
 
-I think log calc is wrong, it doesn't drain out of high-energy states
-but rather they all go up up up
-if you don't recalibrate
+delta a1 and delta a2 steppers won't go down below 0.01
+...perhaps b/c their own incr is 0.01
 
 model params controls got disconnected after a bunch of model & figure changes
+...basins reset params didn't work
+...sequencer controls got disconnected
+
+update release notes
+build 9: I forget. What was the thing in the notes to testers?
+build 10: new UI preview
+
+autocalibrate not ALWAYS working for occupation in the plane
+...switch figures when autocalibrate is on, doesn't recalibrate before showing the new
+figure
+...change N: doesn't auto recalibrate
+
+pop flow calibration is wrong, it goes black in the middle even when recalibrated
+
+I think log dataprovider is wrong, it doesn't drain out of high-energy states
+but rather they all go up up up if you don't recalibrate
+
+pinch in plane figure flyover is not right. should move us along POV line
+
+
+
+ABOVE THE LINE
+----------------------------------------------------------------------------------
+BELOW THE LINE
+
+
+
+option to save current model params as defaults
+
+reset model params doesn't reset the timeseries sequencer, but I think it should
 
 figure selection has 2 sections: plane and hemi
 
@@ -22,11 +58,7 @@ surface
 
 descent lines
 
-ABOVE THE LINE
-----------------------------------------------------------------------------------
-BELOW THE LINE
-
-[ ] restore the info page
+any-descent basins
 
 [ ] EFFECTS clean up after themselves when disabled
 
@@ -49,11 +81,6 @@ BELOW THE LINE
 [ ] recheck: N & k0 sequencer doesn't pick up new ratio k/N
     if you stop it, change k0, start it again
 
-[ ] automatically select color source = population when sequencer selection changes
-    to a pop-flow sequencer from sth else.
-
-    This is 1st step in new design that de-emphasises static pictures.
-
 [ ] snapshot doesn't get background color right
 
 [ ] something to get it past Apple's prohibition of 'niche apps' in the App Store
@@ -64,27 +91,18 @@ BELOW THE LINE
 
 [ ] macOS version
 
-[ ] UI for pop flow rule selection
-
 [?] relaxation flow -- use known equilibrium occupancy
     but isn't that cheating?
-
-[?] move sequencer controls to page 2
-
-[ ] only execute a clear-and-redraw when needed
-    (actual frame rate is handled by . . . whom? GLKView?)
 
 [ ] control for sequencer step rate
 
 [ ] improved pointsize calc
 
-[ ] page 2 POV controls
+[ ] POV controls
 
 [ ] add texture to the sprites to make them look like balls
 
 [ ] scroll & pan: track finger *exactly*. esp at v high zoom & near center
-
-[ ] segue from background to prev, not always back to main
 
 [ ] all the monitors dict's should be lazy
 

@@ -30,11 +30,6 @@ protocol Figure: AnyObject, Named, PreferenceSupport {
     
     func resetPOV()
     
-    var autocalibrate: Bool { get set }
-    
-    /// Calibrates the figure's data providers.
-    func calibrate()
-    
     var effects: Registry<Effect>? { get }
     
     /// Size of a point sprite appropriate for a given spacing between points.
@@ -81,28 +76,32 @@ protocol Effect: Named {
     func teardown()
 }
 
+// ===========================================================================
+// Calibrated
+// ===========================================================================
+
+protocol Calibrated {
+    
+    var autocalibrate: Bool { get set }
+    
+    func calibrate()
+    
+    /// Marks this object as in need of calibration
+    func invalidateCalibration()
+    
+}
+
 // ==============================================================================
 // DataProvider
 // ==============================================================================
 
-protocol DataProvider { // : ChangeMonitorEnabled {
+protocol DataProvider: Calibrated {
     
-    /// Iff true, this data provider recalibrates itself whenever its backing data changes.
-    var autocalibrate: Bool { get set }
-    
-    /// Calibrates this data provider to its backing data.
-    /// E.g., recomputes the color map to match the data's bounds.
-    /// Fires a change event iff the colors were changed.
-    func calibrate()
-    
-    /// Marks this data provider as in need of calibration
-    func invalidateCalibration()
-    
-    /// Updates this data provider's internal cached state as appropriate.
+    /// Updates this data provider's internal state as appropriate.
     /// If autocalibrate=true, makes sure it's calibrated
     func refresh()
     
-    /// Discards in-memory resources that can be recreated.
+    /// Discards internal state that can be recreated.
     func teardown()
     
 }

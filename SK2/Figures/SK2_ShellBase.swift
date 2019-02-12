@@ -50,6 +50,7 @@ class SK2_ShellBase : ShellFigure, SK2_BaseFigure {
     init(_ system: SK2_System, _ radius: Double) {
         self.system = system
         self.geometry = SK2_ShellGeometry(system, radius)
+        self._autocalibrate = true
         super.init("shellBase", nil, radius)
     }
     
@@ -107,7 +108,7 @@ class SK2_ShellBase : ShellFigure, SK2_BaseFigure {
         }
     }
     
-    private var _reliefIsShown: Bool = true
+    private var _reliefIsShown: Bool = false
     private var _relief: Relief? = nil
     
     private func installRelief() {
@@ -192,21 +193,33 @@ class SK2_ShellBase : ShellFigure, SK2_BaseFigure {
     // ==============================================================
     // Calibration
     
-    override func setAutocalibration(_ flag: Bool) {
-        debug("setAutocalibration")
-        colorSource?.autocalibrate = flag
-        relief?.autocalibrate = flag
+    var _autocalibrate: Bool
+    
+    var autocalibrate: Bool {
+        get { return _autocalibrate }
+        set(newValue) {
+            let invalidateNow = (newValue && !_autocalibrate)
+            self._autocalibrate = newValue
+            if (invalidateNow) {
+                invalidateCalibration()
+            }
+        }
     }
     
-    override func calibrate() {
+    func calibrate() {
         debug("calibrate")
         colorSource?.calibrate()
         relief?.calibrate()
-        invalidateData(self)
+        invalidateData()
     }
 
+    func invalidateCalibration() {
+        colorSource?.invalidateCalibration()
+        relief?.invalidateCalibration()
+    }
     
-    func invalidateNodes(_ sender: Any?) {
+
+    func invalidateNodes() {
         net?.invalidateNodes()
         nodes?.invalidateNodes()
         meridians?.invalidateNodes()
@@ -214,12 +227,10 @@ class SK2_ShellBase : ShellFigure, SK2_BaseFigure {
         // TODO: descentLines
     }
     
-    func invalidateData(_ sender: Any?) {
+    func invalidateData() {
         net?.invalidateData()
         nodes?.invalidateData()
         // TODO surface?.invalidateData()
         // TODO descentLines?.invalidateData()
-        colorSource?.invalidateCalibration()
-        relief?.invalidateCalibration()
     }
 }

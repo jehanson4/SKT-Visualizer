@@ -13,7 +13,7 @@ import GLKit
 // SK2_BaseFigure
 // =====================================================
 
-protocol SK2_BaseFigure: Figure {
+protocol SK2_BaseFigure: Figure, Calibrated {
     
     var colorsAreShown: Bool { get set }
 
@@ -23,7 +23,7 @@ protocol SK2_BaseFigure: Figure {
 
     var relief: Relief? { get set }
     
-    func invalidateNodes(_ sender: Any?)
+    func invalidateNodes()
     
-    func invalidateData(_ sender: Any?)
+    func invalidateData()
 }

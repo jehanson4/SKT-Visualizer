@@ -31,10 +31,10 @@ class SK2E_Energy: SK2_SystemFigure {
     
     override func aboutToShowFigure() {
         super.aboutToShowFigure()
-        N_monitor = system.N.monitorChanges(baseFigure.invalidateNodes)
-        k_monitor = system.k.monitorChanges(baseFigure.invalidateNodes)
-        a1_monitor = system.a1.monitorChanges(baseFigure.invalidateData)
-        a2_monitor = system.a2.monitorChanges(baseFigure.invalidateData)
+        N_monitor = system.N.monitorChanges(nodesChanged)
+        k_monitor = system.k.monitorChanges(nodesChanged)
+        a1_monitor = system.a1.monitorChanges(dataChanged)
+        a2_monitor = system.a2.monitorChanges(dataChanged)
     }
     
     override func figureHasBeenHidden() {
@@ -45,4 +45,11 @@ class SK2E_Energy: SK2_SystemFigure {
         a2_monitor?.disconnect()
     }
     
+    func nodesChanged(_ sender: Any?) {
+        baseFigure.invalidateNodes()
+    }
+    
+    func dataChanged(_ sender: Any?) {
+        baseFigure.invalidateData()
+    }
 }

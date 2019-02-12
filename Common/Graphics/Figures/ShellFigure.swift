@@ -43,7 +43,7 @@ struct ShellPOV {
 // ==============================================================
 
 class ShellFigure : Figure {
-    
+
     // ================================================
     // Lifecycle
     
@@ -53,6 +53,16 @@ class ShellFigure : Figure {
         self.r0 = radius
     }
 
+    func aboutToShowFigure() {
+    }
+    
+    func figureHasBeenHidden() {
+        func teardownEffect(_ effect: Effect) {
+            effect.teardown()
+        }
+        effects?.visit(teardownEffect)
+    }
+    
     // ================================================
     // Basics
     
@@ -63,30 +73,7 @@ class ShellFigure : Figure {
 
     /// radius of the hemisphere
     let r0: Double
-    
-    // =================================================
-    // Calibration
-    
-    private var _autocalibrate: Bool = true
-    
-    var autocalibrate: Bool {
-        get { return _autocalibrate }
-        set (newValue) {
-            _autocalibrate = newValue
-            setAutocalibration(_autocalibrate)
-        }
-    }
-    
-    /// FOR OVERRIDE
-    func setAutocalibration(_ flag: Bool) {
-        // NOP
-    }
-    
-    /// FOR OVERRIDE
-    func calibrate() {
-        // NOP
-    }
-    
+        
     // =================================================
     // Effects
     
@@ -296,19 +283,6 @@ class ShellFigure : Figure {
 
     // ==================================================
     // Drawing
-    
-    /// FOR OVERRIDE
-    func aboutToShowFigure() {
-        // TODO
-    }
-    
-    func figureHasBeenHidden() {
-        debug("figureHasBeenHidden")
-        func teardownEffect(_ effect: Effect) {
-            effect.teardown()
-        }
-        effects?.visit(teardownEffect)
-    }
     
     func loadPreferences(namespace: String) {
         // TODO

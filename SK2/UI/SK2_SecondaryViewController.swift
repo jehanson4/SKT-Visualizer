@@ -14,7 +14,7 @@ class SK2_SecondaryViewController: UIViewController, UITextFieldDelegate, AppMod
     // Debugging
     
     let name = "SK2_SecondaryViewController"
-    var debugEnabled = true
+    var debugEnabled = false
     func debug(_ mtd: String, _ msg: String = "") {
         if (debugEnabled)  {
             print(name, mtd, msg)
@@ -95,8 +95,6 @@ class SK2_SecondaryViewController: UIViewController, UITextFieldDelegate, AppMod
     // ======================================================
     // Effects
     
-    var switchableEffectKeys: [String] = []
-
     @IBOutlet weak var effect1_Label: UILabel!
     @IBOutlet weak var effect1_Switch: UISwitch!
 
@@ -120,17 +118,16 @@ class SK2_SecondaryViewController: UIViewController, UITextFieldDelegate, AppMod
         let mtd = "setupEffects"
         debug(mtd, "entered")
         
-        var keys: [String] = []
+        var switchableEffects: [String] = []
         func addSwitchableKey(_ entry: RegistryEntry<Effect>) {
             if (entry.value.switchable) {
-                keys.append(entry.key)
+                switchableEffects.append(entry.key)
             }
         }
         figure?.effects?.visitEntries(addSwitchableKey)
-        switchableEffectKeys = keys
-        debug(mtd, "Found \(switchableEffectKeys.count) switchable effects")
+        debug(mtd, "Found \(switchableEffects.count) switchable effects")
 
-        let eCount = switchableEffectKeys.count
+        let eCount = switchableEffects.count
         let eLabels: [UILabel?]  = [
             effect1_Label,
             effect2_Label,
@@ -148,60 +145,38 @@ class SK2_SecondaryViewController: UIViewController, UITextFieldDelegate, AppMod
             effect6_Switch
         ]
         
-        if (eCount == 0) {
-            debug(mtd, "No effects")
-            for el in eLabels {
-                if (el != nil) {
-                    let eLabel = el!
-                    eLabel.text = nil
-                }
-            }
-            for es in eSwitches {
-                if (es != nil) {
-                    let eSwitch = es!
-                    eSwitch.isOn = false
-                    eSwitch.isEnabled = false
-                }
-            }
-            return
-        }
-        
         for i in 0..<eLabels.count {
             if (eLabels[i] == nil) {
                 continue
             }
             let eLabel = eLabels[i]!
-            eLabel.text = (i < eCount)
-                ? figure?.effects?.entry(key: switchableEffectKeys[i])?.name
-                : nil
+            if (i < eCount) {
+                let k = switchableEffects[i]
+                eLabel.text = figure?.effects?.entry(key: k)?.name
+            }
+            else {
+                eLabel.text = nil
+            }
         }
-        
         
         for i in 0..<eSwitches.count {
             if (eSwitches[i] == nil) {
                 continue
-                
             }
             let eSwitch = eSwitches[i]!
-            if (i >= eCount) {
+            if (i < eCount) {
+                let k = switchableEffects[i]
+                let entry = figure?.effects?.entry(key: k)
+                eSwitch.tag = (entry == nil) ? 0 : entry!.index+1
+                eSwitch.isEnabled = true
+                eSwitch.isHidden = false
+                eSwitch.isOn = entry?.value.enabled ?? false
+            }
+            else {
                 eSwitch.tag = 0
                 eSwitch.isEnabled = false
                 eSwitch.isHidden = true
-                continue
             }
-
-            let effect = figure?.effects?.entry(key: switchableEffectKeys[i])?.value
-            if (effect == nil) {
-                eSwitch.tag = 0
-                eSwitch.isEnabled = false
-                eSwitch.isHidden = true
-                continue
-            }
-            
-            eSwitch.tag = (i+1)
-            eSwitch.isEnabled = true
-            eSwitch.isHidden = false
-            eSwitch.isOn = effect!.enabled
         }
     }
     
@@ -210,13 +185,13 @@ class SK2_SecondaryViewController: UIViewController, UITextFieldDelegate, AppMod
     }
     
     @IBAction func effectSwitchFlipped(_ sender: UISwitch) {
-        debug("effectSwitchFlipped", "tag=\(sender.tag)")
+        debug("effectSwitchFlipped", "tag=\(sender.tag) on=\(sender.isOn)")
         if (sender.tag <= 0) {
             return
         }
         
-        let effectKey = switchableEffectKeys[sender.tag-1]
-        var effect = figure?.effects?.entry(key: effectKey)?.value
+        let idx = sender.tag-1
+        var effect = figure?.effects?.entry(index: idx)?.value
         if (effect != nil) {
             debug("effectSwitchFlipped", "effect=\(effect!.name)")
             effect!.enabled = sender.isOn

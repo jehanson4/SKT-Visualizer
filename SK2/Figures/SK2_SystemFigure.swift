@@ -13,13 +13,13 @@ import UIKit
 // SK2_SystemFigure
 // ========================================================================
 
-class SK2_SystemFigure: Figure {
+class SK2_SystemFigure: Figure, Calibrated {
     
     var name: String
     var info: String?
     var description: String { return nameAndInfo(self) }
     var group: String? = nil
-
+    
     var baseFigure: SK2_BaseFigure
     var colorSource: ColorSource?
     var relief: Relief?
@@ -45,12 +45,27 @@ class SK2_SystemFigure: Figure {
         baseFigure.calibrate()
     }
     
+    func invalidateCalibration() {
+        baseFigure.invalidateCalibration()
+    }
+    
+    func invalidateData() {
+        baseFigure.invalidateData()
+        baseFigure.invalidateCalibration()
+    }
+    
+    func invalidateNodes() {
+        baseFigure.invalidateNodes()
+    }
+    
     func aboutToShowFigure() {
         baseFigure.colorSource = self.colorSource
         baseFigure.relief = relief
+        baseFigure.aboutToShowFigure()
     }
     
     func figureHasBeenHidden() {
+        baseFigure.figureHasBeenHidden()
         baseFigure.colorSource = nil
         baseFigure.relief = nil
     }

@@ -91,6 +91,10 @@ class SK2_PFColorSource : ColorSource, Relief {
     }
 
     func findBounds() -> (min: Double, max: Double) {
+        if wCurr.count == 0 {
+            return (0, 1)
+        }
+        
         var tmpValue: Double  = clipToFinite(wCurr[0])
         var minValue: Double = tmpValue
         var maxValue: Double = tmpValue

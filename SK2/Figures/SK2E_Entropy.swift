@@ -29,8 +29,8 @@ class SK2E_Entropy: SK2_SystemFigure {
     
     override func aboutToShowFigure() {
         super.aboutToShowFigure()
-        N_monitor = system.N.monitorChanges(baseFigure.invalidateNodes)
-        k_monitor = system.k.monitorChanges(baseFigure.invalidateNodes)
+        N_monitor = system.N.monitorChanges(nodesChanged)
+        k_monitor = system.k.monitorChanges(nodesChanged)
     }
     
     override func figureHasBeenHidden() {
@@ -39,4 +39,7 @@ class SK2E_Entropy: SK2_SystemFigure {
         k_monitor?.disconnect()
     }
     
+    func nodesChanged(_ sender: Any?) {
+        baseFigure.invalidateNodes()
+    }
 }
