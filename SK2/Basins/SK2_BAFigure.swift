@@ -38,7 +38,10 @@ class SK2_BAOnShell: SK2_SystemFigure {
         self.system = system
         self.basinFinder = basinFinder
         super.init(name, nil, baseFigure)
-        super.colorSource = SK2_BAColorSource(basinFinder)
+        let ds = SK2_BAColorSource(basinFinder)
+        super.colorSource = ds
+        // LOOKS BAD
+        // super.relief = ds
     }
     
     override func aboutToShowFigure() {

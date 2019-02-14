@@ -436,6 +436,13 @@
 			path = Shaders;
 			sourceTree = "<group>";
 		};
+		8AC059E522155BA800EB6A1C /* Bifurcation */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Bifurcation;
+			sourceTree = "<group>";
+		};
 		8AC82CC221F5C8B700A75595 /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
@@ -456,6 +463,7 @@
 		8AC82CE421F9D9A900A75595 /* SK2 */ = {
 			isa = PBXGroup;
 			children = (
+				8AC059E522155BA800EB6A1C /* Bifurcation */,
 				8A2034E621ED2A6000A4C418 /* SK2_System.swift */,
 				8AE1BD152203EF4500D6A062 /* SK2_Factory.swift */,
 				8AB2A63221FCE92F00A46316 /* SK2_ShellGeometry.swift */,

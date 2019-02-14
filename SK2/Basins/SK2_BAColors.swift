@@ -21,7 +21,7 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 // SK2_BAColorSource
 // ==================================================================
 
-class SK2_BAColorSource : ColorSource {
+class SK2_BAColorSource : ColorSource, Relief {
     
     var autocalibrate: Bool = true
     
@@ -85,6 +85,23 @@ class SK2_BAColorSource : ColorSource {
         if (!calibrated) {
             calibrate()
         }
+    }
+    
+    func elevationAt(_ nodeIndex: Int) -> Double {
+        let nc = basinFinder.basinData.count
+        if (nodeIndex >= nc) {
+            debug("elevationAt", "Bad node index \(nodeIndex); nodeCount=\(nc)")
+            return 0
+        }
+        let nd = basinFinder.basinData[nodeIndex]
+        if (!nd.isClassified) {
+            return 0
+        }
+        if (nd.isBoundary!) {
+            return 1
+        }
+        let dToA = nd.distanceToAttractor!
+        return Double(dToA)/Double(basinFinder.expectedMaxDistanceToAttractor)
     }
     
     func colorAt(_ nodeIndex: Int) -> GLKVector4 {

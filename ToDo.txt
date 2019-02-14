@@ -2,6 +2,9 @@
 ToDo
 ==================================================================================
 
+[ ] better sync in basins. I'm still getting node-index ut of bounds and
+    crazy stripes
+
 [ ] plane POV doesn't recenter when you change N or k
 
 [ ] start, go to eq, pick a figure, change effects. switch from eq to dynamics,
@@ -21,9 +24,8 @@ update the UI correctly
     But maybe that's right...
 
 I think log dataprovider is wrong, it doesn't drain out of high-energy states
-but rather they all go up up up if you don't recalibrate
+but rather they all go up up up if you don't recalibrate. they should go DOWN, right?
 
-basins relief = norm'd distance to attractor
 
 
 ABOVE THE LINE
