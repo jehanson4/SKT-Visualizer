@@ -421,7 +421,7 @@ class ContinuousParameter: Parameter {
     }
     
     var stepSizeIncrementAsDouble: Double {
-        return powerOf10(0.1 * (maxAsDouble - minAsDouble))
+        return powerOf10(0.1 * _stepSize)
     }
     
     // =========================================

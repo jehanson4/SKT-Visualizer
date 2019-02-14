@@ -8,19 +8,22 @@
 
 import UIKit
 
+// =============================================
+// Debugging
+
+fileprivate var debugEnabled = false
+fileprivate func debug(_ mtd: String, _ msg: String = "") {
+    if (debugEnabled)  {
+        print("SK2_SecondaryViewController", mtd, msg)
+    }
+}
+
+// =============================================
+// SK2_SecondaryViewController
+// =============================================
+
 class SK2_SecondaryViewController: UIViewController, UITextFieldDelegate, AppModelUser {
     
-    // =============================================
-    // Debugging
-    
-    let name = "SK2_SecondaryViewController"
-    var debugEnabled = false
-    func debug(_ mtd: String, _ msg: String = "") {
-        if (debugEnabled)  {
-            print(name, mtd, msg)
-        }
-    }
-
     // =============================================
     // Basics
 
@@ -318,6 +321,8 @@ class SK2_SecondaryViewController: UIViewController, UITextFieldDelegate, AppMod
     }
 
     func delta_setup(_ param: Parameter?, _ tag: Int, _ label: UILabel?, _ text: UITextField?, _ stepper: UIStepper?) {
+        // This only does label, stepper max, and tag.
+        // delta_update does the rest.
         var pName = ""
         var pMax: Double = 1
         if (param != nil) {
@@ -339,10 +344,11 @@ class SK2_SecondaryViewController: UIViewController, UITextFieldDelegate, AppMod
     }
     
     func delta_update(_ param: Parameter?, _ text: UITextField?, _ stepper: UIStepper?) {
-        var pStepSizeString: String = "10"
-        var pStepSizeDouble: Double = 10
+        var pStepSizeString: String = ""
+        var pStepSizeDouble: Double = 1
         var pStepSizeIncr: Double = 0.1
         if (param != nil) {
+            debug("delta_update", "param: \(param!.name) tag=\(String(describing: text?.tag))")
             pStepSizeString = param!.stepSizeAsString
             pStepSizeDouble = param!.stepSizeAsDouble
             pStepSizeIncr = param!.stepSizeIncrementAsDouble

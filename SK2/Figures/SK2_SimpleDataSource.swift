@@ -36,8 +36,20 @@ class SK2_SimpleDataSource: ColorSource, Relief {
     var colorMap: ColorMap
     var zScale: Double = 1
     var zOffset: Double = 0
-    var autocalibrate: Bool = true
     
+    private var _autocalibrate: Bool = true
+    
+    var autocalibrate: Bool {
+        get { return _autocalibrate }
+        set(newValue) {
+            let invalidateNow = (newValue && !_autocalibrate)
+            _autocalibrate = newValue
+            if (invalidateNow) {
+                invalidateCalibration()
+            }
+        }
+    }
+
     var calibrated: Bool = false
     
     func calibrate() {
@@ -58,6 +70,7 @@ class SK2_SimpleDataSource: ColorSource, Relief {
     }
     
     func invalidateCalibration() {
+        debug("invalidateCalibration")
         calibrated = false
     }
     
@@ -66,6 +79,7 @@ class SK2_SimpleDataSource: ColorSource, Relief {
     }
     
     func refresh() {
+        debug("refresh", "autocalibrate=\(autocalibrate) calibrated=\(calibrated)")
         if (autocalibrate && !calibrated) {
             calibrate()
         }

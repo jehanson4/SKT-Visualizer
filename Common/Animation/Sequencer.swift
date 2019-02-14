@@ -83,6 +83,8 @@ protocol Sequencer : AnyObject, Named, ChangeMonitorEnabled {
     
     func sequencerHasBeenUninstalled()
     
+    func refreshDefaults()
+    
     func reset()
     
     func step()

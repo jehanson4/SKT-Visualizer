@@ -2,7 +2,6 @@
 Done
 ==================================================================================
 
-
 [SRW] (1) Models -> SK/2 Equilibrium
 Visualization -> Occupation on the Hemisphere
 Animation -> Sweep Over T (result: Animation selection doesn’t change)
@@ -28,3 +27,20 @@ Select To:, hit Backspace several times, then type .01. That doesn’t work; the
 --> keyborad scrolls. changed labels to clarify "LB and "UB"
 
 -------------------------
+2/13/2019
+
+[x] delta stepper not hooked in (for T)
+
+[x] autocalibrate is not working when geometry or physics changes
+occupation in plane or shell
+change N -> lump changes, but it goes away
+change a -> lump changes
+change T -> lump changes, colormap goes white
+
+[x] autocalibration changes are not pushed down to the effects
+
+[x] sweep doesn't update UB,LB,delta when re-show view w/o changing sequencer
+cf. ParameterSweep: we fix it when sequencer selection changes but not
+in the primarycontroller.sequencer_setup()
+
+

@@ -8,20 +8,19 @@
 
 import UIKit
 
+// ==========================================
+// Debug
+
+fileprivate var debugEnabled = false
+
+fileprivate func debug(_ mtd: String, _ msg: String = "") {
+    if (debugEnabled)  {
+        print("SK2_PrimaryViewController", mtd, msg)
+    }
+}
+
 class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModelUser {
 
-    // ==========================================
-    // Debug
-    
-    let name = "SK2_PrimaryViewController"
-    var debugEnabled = false
-
-    func debug(_ mtd: String, _ msg: String = "") {
-        if (debugEnabled)  {
-            print(name, mtd, msg)
-        }
-    }
-    
     // ===========================================
     // Basics
     
@@ -92,9 +91,6 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        
-        // If we're doing a seque to secondary controller and we disconnect things here,
-        // they don't get reconnected when we unwind.
         debug("viewWillDisappear", "disconnecting controls")
         visualization_teardown()
         modelParams_teardown()
@@ -413,8 +409,6 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
 
     // ===========================================
     // Animation: Sequencer
-
-    weak var sequencer: Sequencer? = nil
     
     @IBOutlet weak var sequencerSelectorButton: UIButton!
     
@@ -431,7 +425,7 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
         deltaText?.delegate = self
 
         let sequencerSelector = appPart.sequencerSelector
-        sequencer_update(nil)
+        sequencer_update(self)
         sequencerSelectionMonitor = sequencerSelector.monitorChanges(sequencer_update)
     }
     
@@ -442,16 +436,18 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
             let title = sequencerSelector.selection?.name ?? "(choose)"
             sequencerSelectorButton.setTitle(title, for: .normal)
         }
+
+        // animationController does this
+//        let oldSequencer = self.sequencer
+//        let newSequencer = sequencerSelector.selection?.value
+//        newSequencer?.aboutToInstallSequencer()
+//        self.sequencer = newSequencer
+//        if (oldSequencer != nil) {
+//            oldSequencer!.sequencerHasBeenUninstalled()
+//        }
         
-        let oldSequencer = self.sequencer
-        let newSequencer = sequencerSelector.selection?.value
-        newSequencer?.aboutToInstallSequencer()
-        self.sequencer = newSequencer
-        if (oldSequencer != nil) {
-            oldSequencer!.sequencerHasBeenUninstalled()
-        }
-        
-        if (self.sequencer == nil) {
+        let sequencer = sequencerSelector.selection?.value
+        if (sequencer == nil) {
             
             lbText?.text = ""
             lbText?.isEnabled = false
@@ -470,6 +466,8 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
         }
         else {
             let seq = sequencer!
+            seq.refreshDefaults()
+            
             lbText?.isEnabled = true
             
             lbStepper?.isEnabled = true
@@ -553,6 +551,7 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     @IBAction func lbTextEdited(_ sender: UITextField) {
         animation_shiftDown()
         let v2 = parseDouble(sender.text)
+        let sequencer = appPart.sequencerSelector.selection?.value
         if (sequencer != nil && v2 != nil) {
             sequencer!.lowerBound = v2!
         }
@@ -560,17 +559,20 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     }
 
     @IBAction func lbStep(_ sender: UIStepper) {
+        let sequencer = appPart.sequencerSelector.selection?.value
         sequencer?.lowerBound = sender.value
         lb_update()
     }
     
     func lb_update() {
+        let sequencer = appPart.sequencerSelector.selection?.value
         let lb = sequencer?.lowerBound
         if (lb == nil) {
             lbText?.text = ""
             lbStepper?.value = 0
         }
         else {
+            debug("lb_update", "lb=\(lb!)")
             lbText?.text =  basicString(lb!)
             lbStepper?.value = lb!
         }
@@ -579,6 +581,7 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     @IBAction func ubTextEdited(_ sender: UITextField) {
         animation_shiftDown()
         let v2 = parseDouble(sender.text)
+        let sequencer = appPart.sequencerSelector.selection?.value
         if (sequencer != nil && v2 != nil) {
             debug("ubTextEdited", "v2=\(String(describing: v2))")
             sequencer!.upperBound = v2!
@@ -587,11 +590,13 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     }
     
     @IBAction func ubStep(_ sender: UIStepper) {
+        let sequencer = appPart.sequencerSelector.selection?.value
         sequencer?.upperBound = sender.value
         ub_update()
     }
     
     func ub_update() {
+        let sequencer = appPart.sequencerSelector.selection?.value
         let ub = sequencer?.upperBound
         if (ub == nil) {
             ubText?.text = ""
@@ -607,6 +612,7 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     @IBAction func deltaTextEdited(_ sender: UITextField) {
         animation_shiftDown()
         let v2 = parseDouble(sender.text)
+        let sequencer = appPart.sequencerSelector.selection?.value
         if (sequencer != nil && v2 != nil) {
                 sequencer!.stepSize = v2!
         }
@@ -614,17 +620,20 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     }
     
     @IBAction func deltaStep(_ sender: UIStepper) {
+        let sequencer = appPart.sequencerSelector.selection?.value
         sequencer?.stepSize = sender.value
         delta_update()
     }
 
     func delta_update() {
+        let sequencer = appPart.sequencerSelector.selection?.value
         let delta = sequencer?.stepSize
         if (delta == nil) {
             deltaText?.text = ""
             deltaStepper?.value = 0
         }
         else {
+            debug("delta_update", "delta=\(delta!)")
             deltaText?.text = basicString(delta!)
             deltaStepper?.value = delta!
         }
@@ -637,6 +646,7 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     
     @IBAction func bcSelected(_ sender: UISegmentedControl) {
         // debug("bcSelected", "selectedSegmentIndex=" + String(sender.selectedSegmentIndex))
+        let sequencer = appPart.sequencerSelector.selection?.value
         if (sequencer != nil) {
             let newBC = BoundaryCondition(rawValue: sender.selectedSegmentIndex)
             if (newBC != nil) {
@@ -647,6 +657,7 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     }
     
     func bc_update() {
+        let sequencer = appPart.sequencerSelector.selection?.value
         bcSelector?.selectedSegmentIndex = sequencer?.boundaryCondition.rawValue ?? -1
     }
     
@@ -664,6 +675,7 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     @IBOutlet weak var playerSelector: UISegmentedControl!
     
     @IBAction func playerSelected(_ sender: UISegmentedControl) {
+        var sequencer = appPart.sequencerSelector.selection?.value
         let playerState = getPlayerState(sender.selectedSegmentIndex)
         if (sequencer != nil && playerState != nil) {
             setPlayerState(&sequencer!, playerState!)
@@ -674,6 +686,7 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     @IBOutlet weak var progressSlider: UISlider!
     
     @IBAction func progressSliderAction(_ sender: UISlider) {
+        let sequencer = appPart.sequencerSelector.selection?.value
         sequencer?.jumpTo(normalizedProgress: Double(sender.value))
         player_update(sequencer)
     }
@@ -682,6 +695,7 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     
     func player_update(_ sender: Any?) {
         debug("player_update")
+        let sequencer = appPart.sequencerSelector.selection?.value
         if (sequencer == nil) {
             playerSelector.isEnabled = false
             playerSelector.selectedSegmentIndex = -1

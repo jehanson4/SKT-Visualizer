@@ -107,14 +107,14 @@ class AppModel1 : AppModel {
     private var figureChangeMonitor: ChangeMonitor? = nil
 
     private func updateFigureChangeMonitor() {
-        debug("updateFigureChangeMonitor", "entered")
+        debug("updateFigureChangeMonitor", "starting")
         figureChangeMonitor?.disconnect()
         figureHasChanged(self)
         figureChangeMonitor = partSelector.selection?.value.figureSelector.monitorChanges(figureHasChanged)
     }
 
     private func figureHasChanged(_ sender: Any?) {
-        debug("figureHasChanged", "entered")
+        debug("figureHasChanged", "starting")
         graphicsController.figure = partSelector.selection?.value.figureSelector.selection?.value
     }
 
@@ -124,14 +124,14 @@ class AppModel1 : AppModel {
     private var sequencerChangeMonitor: ChangeMonitor? = nil
 
     private func updateSequencerChangeMonitor() {
-        debug("updateSequencerChangeMonitor", "entered")
+        debug("updateSequencerChangeMonitor", "starting")
         sequencerChangeMonitor?.disconnect()
         sequencerHasChanged(self)
         sequencerChangeMonitor = partSelector.selection?.value.sequencerSelector.monitorChanges(sequencerHasChanged)
     }
 
     private func sequencerHasChanged(_ sender: Any?) {
-        debug("sequencerChanged", "entered")
+        debug("sequencerChanged", "starting")
         animationController.sequencer = partSelector.selection?.value.sequencerSelector.selection?.value
     }
     
@@ -143,11 +143,6 @@ class AppModel1 : AppModel {
     var graphicsController: GraphicsController
     
     var workQueue: WorkQueue
-    
-    // TO BE DELETED
-    // var oldFactory: SKT_Factory
-    // var skt: SKTModel { return oldFactory.skt }
-    // var viz: VisualizationModel1 { return oldFactory.viz }
     
     // ================================================
     // Initializer

@@ -35,17 +35,42 @@ class ParameterSweep: Sequencer {
     let reversible: Bool = true
     
     init(_ param: Parameter, _ system: PhysicalSystem) {
-        self.name = "Sweep over " + param.name
+        self.name = "Parameter sweep: " + param.name
         self.param = param
         self.system = system
         
-        self._lowerBound = param.minAsDouble
-        self._upperBound = param.maxAsDouble
-        self._stepSize = param.stepSizeAsDouble
+        self._defaultLowerBound = param.minAsDouble
+        self._defaultUpperBound = param.maxAsDouble
+        self._defaultStepSize = param.stepSizeAsDouble
+        
+        self._lowerBound = self._defaultLowerBound
+        self._upperBound = self._defaultUpperBound
+        self._stepSize = self._defaultStepSize
     }
     
     func aboutToInstallSequencer() {
-        // NOP
+        refreshDefaults()
+    }
+    
+    func refreshDefaults() {
+
+        let lbIsDefault = (self._lowerBound == self._defaultLowerBound)
+        self._defaultLowerBound = param.minAsDouble
+        if (lbIsDefault) {
+            self._lowerBound = self._defaultLowerBound
+        }
+
+        let ubIsDefault = (self._upperBound == self._defaultUpperBound)
+        self._defaultUpperBound = param.maxAsDouble
+        if (ubIsDefault) {
+            self._upperBound = self._defaultUpperBound
+        }
+        
+        let stepSizeIsDefault = (self._stepSize == self._defaultStepSize)
+        self._defaultStepSize = param.stepSizeAsDouble
+        if (stepSizeIsDefault) {
+            self._stepSize = self._defaultStepSize
+        }
     }
     
     func sequencerHasBeenUninstalled() {
@@ -54,7 +79,11 @@ class ParameterSweep: Sequencer {
     
     // ================================================
     // Numeric properties
-    
+
+    private var _defaultLowerBound: Double
+    private var _defaultUpperBound: Double
+    private var _defaultStepSize: Double
+
     private var _lowerBound: Double
     private var _upperBound: Double
     private var _stepSize: Double

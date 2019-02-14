@@ -198,11 +198,9 @@ class SK2_ShellBase : ShellFigure, SK2_BaseFigure {
     var autocalibrate: Bool {
         get { return _autocalibrate }
         set(newValue) {
-            let invalidateNow = (newValue && !_autocalibrate)
             self._autocalibrate = newValue
-            if (invalidateNow) {
-                invalidateCalibration()
-            }
+            colorSource?.autocalibrate = _autocalibrate
+            relief?.autocalibrate = _autocalibrate
         }
     }
     
@@ -214,23 +212,36 @@ class SK2_ShellBase : ShellFigure, SK2_BaseFigure {
     }
 
     func invalidateCalibration() {
+        debug("invalidateCalibration", "starting")
         colorSource?.invalidateCalibration()
         relief?.invalidateCalibration()
     }
     
 
     func invalidateNodes() {
+        debug("invalidateNodes", "starting")
         net?.invalidateNodes()
         nodes?.invalidateNodes()
         meridians?.invalidateNodes()
         // TODO: surface
         // TODO: descentLines
+
+        // I had this, then I removed it, because I was thinking
+        // that the effectds should invalidate their data sources'
+        // calibrations. But that's not the case at present.
+        invalidateCalibration()
     }
     
     func invalidateData() {
+        debug("invalidateData", "starting")
         net?.invalidateData()
         nodes?.invalidateData()
         // TODO surface?.invalidateData()
         // TODO descentLines?.invalidateData()
+
+        // I had this, then I removed it, because I was thinking
+        // that the effectds should invalidate their data sources'
+        // calibrations. But that's not the case at present.
+        invalidateCalibration()
     }
 }

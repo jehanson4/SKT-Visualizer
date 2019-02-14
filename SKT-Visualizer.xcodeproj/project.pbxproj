@@ -82,7 +82,7 @@
 		8AB2A65321FF9A1400A46316 /* Meridians.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2A65221FF9A1400A46316 /* Meridians.swift */; };
 		8ABEEC3B20803A2F008E72F4 /* Surface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ABEEC3A20803A2F008E72F4 /* Surface.swift */; };
 		8AC059DE2210B25200EB6A1C /* OLD.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8AC059DD2210B25200EB6A1C /* OLD.storyboard */; };
-		8AC059E12211BFC900EB6A1C /* DoNotDo.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8AC059E02211BFC900EB6A1C /* DoNotDo.txt */; };
+		8AC059E12211BFC900EB6A1C /* ToNotDo.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8AC059E02211BFC900EB6A1C /* ToNotDo.txt */; };
 		8AC059E322137F3C00EB6A1C /* Done.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8AC059E222137F3C00EB6A1C /* Done.txt */; };
 		8AC82CC421F5D00E00A75595 /* Graphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CC321F5D00E00A75595 /* Graphics.swift */; };
 		8AC82CD921F6668000A75595 /* ShellFigure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CD821F6668000A75595 /* ShellFigure.swift */; };
@@ -210,7 +210,7 @@
 		8ABEEC3A20803A2F008E72F4 /* Surface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Surface.swift; sourceTree = "<group>"; };
 		8AC059DC221052A300EB6A1C /* coordinates.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = coordinates.md; sourceTree = "<group>"; };
 		8AC059DD2210B25200EB6A1C /* OLD.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = OLD.storyboard; path = OLD/UI/OLD.storyboard; sourceTree = SOURCE_ROOT; };
-		8AC059E02211BFC900EB6A1C /* DoNotDo.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = DoNotDo.txt; sourceTree = "<group>"; };
+		8AC059E02211BFC900EB6A1C /* ToNotDo.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ToNotDo.txt; sourceTree = "<group>"; };
 		8AC059E222137F3C00EB6A1C /* Done.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Done.txt; sourceTree = "<group>"; };
 		8AC82CC321F5D00E00A75595 /* Graphics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Graphics.swift; sourceTree = "<group>"; };
 		8AC82CD821F6668000A75595 /* ShellFigure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShellFigure.swift; sourceTree = "<group>"; };
@@ -290,8 +290,8 @@
 			isa = PBXGroup;
 			children = (
 				8AC059E222137F3C00EB6A1C /* Done.txt */,
-				8AC059E02211BFC900EB6A1C /* DoNotDo.txt */,
 				8AAF6DFE208167A800E4C9BF /* ToDo.txt */,
+				8AC059E02211BFC900EB6A1C /* ToNotDo.txt */,
 				8AE18F982099EC390086F127 /* _Notes */,
 				8ACE78902073CCDA00C29875 /* Frameworks */,
 				8AF98F95207FE7D60007688E /* LICENSE */,
@@ -679,7 +679,7 @@
 				8AF98F96207FE7D60007688E /* LICENSE in Resources */,
 				8ACB504420ACAE4400878612 /* busy.png in Resources */,
 				8A53B2A1208D9B380039C5D7 /* help.html in Resources */,
-				8AC059E12211BFC900EB6A1C /* DoNotDo.txt in Resources */,
+				8AC059E12211BFC900EB6A1C /* ToNotDo.txt in Resources */,
 				8A3BBBBF208BF29A00669227 /* splash.jpg in Resources */,
 				8AD8181D207C9BD900426C25 /* image1-40.png in Resources */,
 				8AE8AADD21C8737E00E90914 /* _newUI.txt in Resources */,

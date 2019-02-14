@@ -40,7 +40,12 @@ class AnimationController {
     var sequencer: Sequencer? {
         get { return _sequencer }
         set(newValue) {
+            let oldSequencer = _sequencer
+            _sequencer = nil
+            oldSequencer?.sequencerHasBeenUninstalled()
+            newValue?.aboutToInstallSequencer()
             _sequencer = newValue
+            
             if (_sequencer == nil) {
                 debug("removed sequencer")
             }

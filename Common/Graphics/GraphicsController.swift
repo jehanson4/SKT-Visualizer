@@ -13,7 +13,7 @@ import GLKit
 // Debugging
 // ========================================
 
-fileprivate let debugEnabled = true
+fileprivate let debugEnabled = false
 
 fileprivate func debug(_ mtd: String, _ msg: String = "") {
     if (debugEnabled) {
@@ -58,14 +58,14 @@ class GraphicsControllerV1: GraphicsController {
         set(newValue) {
             let oldFigure = _figure
             _figure = nil
+            oldFigure?.figureHasBeenHidden()
             if (oldFigure != nil) {
                 debug("Uninstalled figure \(oldFigure!.name)")
-                oldFigure!.figureHasBeenHidden()
             }
             if (newValue != nil) {
                 debug("Installing figure \(newValue!.name)")
-                newValue!.aboutToShowFigure()
             }
+            newValue?.aboutToShowFigure()
             _figure = newValue
         }
     }

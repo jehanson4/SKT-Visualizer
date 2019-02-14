@@ -50,6 +50,10 @@ class StepTimeseries: Sequencer {
         // NOP
     }
     
+    func refreshDefaults() {
+        // NOP
+    }
+    
     // ================================================
     // Numeric properties
     
