@@ -134,6 +134,36 @@ struct SK2D {
 }
 
 // ==============================================
+// SK2B
+// ==============================================
+
+struct SK2B {
+    
+    static var key = ""
+    static var name = "SK/2 Bifurcations"
+    static var info = "Qualitative changes in the 2-component SK model"
+    
+    static func makeFigures(_ system: SK2_System, _ generator: SK2_BDGenerator, _ blockBase: SK2_BlockBase) -> Registry<Figure>? {
+        let reg = Registry<Figure>()
+        
+        let bd = SK2_BDFigure("Bifurcation", system, generator, blockBase)
+        _ = reg.register(bd)
+        
+        return reg
+    }
+    
+    static func makeSequencers(_ system: SK2_System, _ workQueue: WorkQueue, _ generator: SK2_BDGenerator) -> Registry<Sequencer>? {
+        let reg = Registry<Sequencer>()
+
+        for key in system.parameters.entryKeys {
+            _ = reg.register(ParameterSweep(system.parameters.entry(key: key)!.value, system as PhysicalSystem))
+        }
+
+        return reg
+    }
+}
+
+// ==============================================
 // SK2_Factory
 // ==============================================
 
@@ -177,6 +207,10 @@ class SK2_Factory: AppPartFactory {
         let shellBase = SK2_ShellBase(system, radius)
         shellBase.installBaseEffects(workQueue, bgColor)
 
+        let blockSize: Double = 1
+        let blockBase = SK2_BlockBase(system, blockSize)
+        blockBase.installBaseEffects(workQueue, bgColor)
+        
         // =========================
         // SK2E parts and prefs
         
@@ -203,7 +237,7 @@ class SK2_Factory: AppPartFactory {
         SK2D.key = extendNamespace(namespace, "sk2d")
         
         let flow = SK2_PopulationFlow(system, workQueue)
-
+        
         let sk2dFigures: Registry<Figure>? = SK2D.makeFigures(system, flow, planeBase, shellBase)
         // TODO figure pref's
         
@@ -216,7 +250,27 @@ class SK2_Factory: AppPartFactory {
         sk2dPart.figures = sk2dFigures
         sk2dPart.sequencers = sk2dSequencers
         parts.append(sk2dPart)
+
+        // =========================
+        // SK2B parts and prefs
         
+        SK2B.key = extendNamespace(namespace, "sk2b")
+        
+        let generator = SK2_BDGenerator(system, workQueue)
+        
+        let sk2bFigures: Registry<Figure>? = SK2B.makeFigures(system, generator, blockBase)
+        // TODO figure pref's
+        
+        let sk2bSequencers: Registry<Sequencer>? = SK2B.makeSequencers(system, workQueue, generator)
+        // TODO sequencer pref's
+        
+        let sk2bPart = AppPart1(key: SK2B.key, name: SK2B.name, system: system)
+        sk2bPart.info = SK2B.info
+        sk2bPart.group = SK2_Factory.partGroup
+        sk2bPart.figures = sk2bFigures
+        sk2bPart.sequencers = sk2bSequencers
+        parts.append(sk2bPart)
+
         return (parts, prefs)
     }
     

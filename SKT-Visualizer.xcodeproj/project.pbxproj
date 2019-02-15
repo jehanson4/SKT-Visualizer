@@ -84,6 +84,13 @@
 		8AC059DE2210B25200EB6A1C /* OLD.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8AC059DD2210B25200EB6A1C /* OLD.storyboard */; };
 		8AC059E12211BFC900EB6A1C /* ToNotDo.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8AC059E02211BFC900EB6A1C /* ToNotDo.txt */; };
 		8AC059E322137F3C00EB6A1C /* Done.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8AC059E222137F3C00EB6A1C /* Done.txt */; };
+		8AC059E72216E57600EB6A1C /* SK2_BDFigure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC059E62216E57600EB6A1C /* SK2_BDFigure.swift */; };
+		8AC059E92216E5EB00EB6A1C /* SK2_BDGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC059E82216E5EB00EB6A1C /* SK2_BDGenerator.swift */; };
+		8AC059EB2216E8DD00EB6A1C /* SK2_BDModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC059EA2216E8DD00EB6A1C /* SK2_BDModel.swift */; };
+		8AC059ED2216EAA400EB6A1C /* SK2_BDBlockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC059EC2216EAA400EB6A1C /* SK2_BDBlockData.swift */; };
+		8AC059F12216ED4C00EB6A1C /* BlockFigure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC059F02216ED4C00EB6A1C /* BlockFigure.swift */; };
+		8AC059F32216EE2B00EB6A1C /* SK2_BlockBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC059F22216EE2B00EB6A1C /* SK2_BlockBase.swift */; };
+		8AC059F52216EF4B00EB6A1C /* NodesOnBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC059F42216EF4B00EB6A1C /* NodesOnBlock.swift */; };
 		8AC82CC421F5D00E00A75595 /* Graphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CC321F5D00E00A75595 /* Graphics.swift */; };
 		8AC82CD921F6668000A75595 /* ShellFigure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CD821F6668000A75595 /* ShellFigure.swift */; };
 		8AC82CE121F8874200A75595 /* GraphicsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CE021F8874200A75595 /* GraphicsController.swift */; };
@@ -212,6 +219,13 @@
 		8AC059DD2210B25200EB6A1C /* OLD.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = OLD.storyboard; path = OLD/UI/OLD.storyboard; sourceTree = SOURCE_ROOT; };
 		8AC059E02211BFC900EB6A1C /* ToNotDo.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ToNotDo.txt; sourceTree = "<group>"; };
 		8AC059E222137F3C00EB6A1C /* Done.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Done.txt; sourceTree = "<group>"; };
+		8AC059E62216E57600EB6A1C /* SK2_BDFigure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_BDFigure.swift; sourceTree = "<group>"; };
+		8AC059E82216E5EB00EB6A1C /* SK2_BDGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_BDGenerator.swift; sourceTree = "<group>"; };
+		8AC059EA2216E8DD00EB6A1C /* SK2_BDModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_BDModel.swift; sourceTree = "<group>"; };
+		8AC059EC2216EAA400EB6A1C /* SK2_BDBlockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_BDBlockData.swift; sourceTree = "<group>"; };
+		8AC059F02216ED4C00EB6A1C /* BlockFigure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockFigure.swift; sourceTree = "<group>"; };
+		8AC059F22216EE2B00EB6A1C /* SK2_BlockBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_BlockBase.swift; sourceTree = "<group>"; };
+		8AC059F42216EF4B00EB6A1C /* NodesOnBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodesOnBlock.swift; sourceTree = "<group>"; };
 		8AC82CC321F5D00E00A75595 /* Graphics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Graphics.swift; sourceTree = "<group>"; };
 		8AC82CD821F6668000A75595 /* ShellFigure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShellFigure.swift; sourceTree = "<group>"; };
 		8AC82CE021F8874200A75595 /* GraphicsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphicsController.swift; sourceTree = "<group>"; };
@@ -346,6 +360,7 @@
 			children = (
 				8AC82CD821F6668000A75595 /* ShellFigure.swift */,
 				8A9B14A7220DB88900A2CDAB /* PlaneFigure.swift */,
+				8AC059F02216ED4C00EB6A1C /* BlockFigure.swift */,
 			);
 			path = Figures;
 			sourceTree = "<group>";
@@ -362,6 +377,7 @@
 				8A9B14C9220F529400A2CDAB /* SK2E_Occupation.swift */,
 				8A9B14C3220F327300A2CDAB /* SK2_SystemFigure.swift */,
 				8A9B14C7220F427B00A2CDAB /* SK2_PlaneBase.swift */,
+				8AC059F22216EE2B00EB6A1C /* SK2_BlockBase.swift */,
 			);
 			path = Figures;
 			sourceTree = "<group>";
@@ -422,6 +438,7 @@
 				8A9B14AF220E0E2100A2CDAB /* NodesInPlane.swift */,
 				8A9B14BF220EF8F600A2CDAB /* ColorSwitch.swift */,
 				8A9B14C1220F145B00A2CDAB /* ReliefSwitch.swift */,
+				8AC059F42216EF4B00EB6A1C /* NodesOnBlock.swift */,
 			);
 			path = Effects;
 			sourceTree = "<group>";
@@ -439,6 +456,10 @@
 		8AC059E522155BA800EB6A1C /* Bifurcation */ = {
 			isa = PBXGroup;
 			children = (
+				8AC059E62216E57600EB6A1C /* SK2_BDFigure.swift */,
+				8AC059E82216E5EB00EB6A1C /* SK2_BDGenerator.swift */,
+				8AC059EA2216E8DD00EB6A1C /* SK2_BDModel.swift */,
+				8AC059EC2216EAA400EB6A1C /* SK2_BDBlockData.swift */,
 			);
 			path = Bifurcation;
 			sourceTree = "<group>";
@@ -463,11 +484,11 @@
 		8AC82CE421F9D9A900A75595 /* SK2 */ = {
 			isa = PBXGroup;
 			children = (
-				8AC059E522155BA800EB6A1C /* Bifurcation */,
 				8A2034E621ED2A6000A4C418 /* SK2_System.swift */,
 				8AE1BD152203EF4500D6A062 /* SK2_Factory.swift */,
 				8AB2A63221FCE92F00A46316 /* SK2_ShellGeometry.swift */,
 				8A8817652209118000523467 /* SK2_PlaneGeometry.swift */,
+				8AC059E522155BA800EB6A1C /* Bifurcation */,
 				8AB2A63921FE4F4500A46316 /* Flow */,
 				8AB2A62D21FCE1AA00A46316 /* Basins */,
 				8AB2A64021FEA84300A46316 /* Effects */,
@@ -731,6 +752,7 @@
 				8AB2A63D21FE4F6B00A46316 /* SK2_PFModel.swift in Sources */,
 				8AE48BBB2087857C001B5D11 /* GLUtils.swift in Sources */,
 				8A2A32D720AB881600D4D619 /* WorkQueue.swift in Sources */,
+				8AC059ED2216EAA400EB6A1C /* SK2_BDBlockData.swift in Sources */,
 				8A8817502207F21600523467 /* ParameterSweep.swift in Sources */,
 				8AB2A64721FEBF0800A46316 /* SK2_SimpleDataSource.swift in Sources */,
 				8A9B14C2220F145B00A2CDAB /* ReliefSwitch.swift in Sources */,
@@ -750,6 +772,8 @@
 				8AB2A63721FDEDEC00A46316 /* DiscreteSystem.swift in Sources */,
 				8A88174D220791D400523467 /* SK2_TertiaryViewController.swift in Sources */,
 				8A9B14A2220D2E0C00A2CDAB /* SK2_PFFigures.swift in Sources */,
+				8AC059EB2216E8DD00EB6A1C /* SK2_BDModel.swift in Sources */,
+				8AC059F32216EE2B00EB6A1C /* SK2_BlockBase.swift in Sources */,
 				8AD817FC207BFA9200426C25 /* InfoViewController.swift in Sources */,
 				8A88175A22085E3B00523467 /* SK2_PFSequencer.swift in Sources */,
 				8A591B3221E441FB00B802F8 /* SK2_PrimaryViewController.swift in Sources */,
@@ -763,6 +787,7 @@
 				8A9B14B2220E19E400A2CDAB /* DSPropertyColor.swift in Sources */,
 				8A2034DE21EB961300A4C418 /* SK2_SecondaryViewController.swift in Sources */,
 				8AB2A64221FEA8BF00A46316 /* NodesOnShell.swift in Sources */,
+				8AC059F12216ED4C00EB6A1C /* BlockFigure.swift in Sources */,
 				8AB2A63321FCE92F00A46316 /* SK2_ShellGeometry.swift in Sources */,
 				8A9B149E220C94AC00A2CDAB /* Dynamic.swift in Sources */,
 				8AA05A13208FCB58009417A6 /* ChangeSupport.swift in Sources */,
@@ -772,13 +797,16 @@
 				8A88175222084E2700523467 /* DescentLinesOnShell.swift in Sources */,
 				8AC82CF521FC9AED00A75595 /* AnimationController.swift in Sources */,
 				8A88175422085CFA00523467 /* SK2_BAColors.swift in Sources */,
+				8AC059E72216E57600EB6A1C /* SK2_BDFigure.swift in Sources */,
 				8AE1BD162203EF4500D6A062 /* SK2_Factory.swift in Sources */,
 				8A3C45C62086278900A1E9CD /* UniformColor.swift in Sources */,
 				8AC82CE121F8874200A75595 /* GraphicsController.swift in Sources */,
 				8A9B14C8220F427B00A2CDAB /* SK2_PlaneBase.swift in Sources */,
 				8AB2A62F21FCE1C100A46316 /* SK2_BANode.swift in Sources */,
+				8AC059F52216EF4B00EB6A1C /* NodesOnBlock.swift in Sources */,
 				8AE1BD12220097E300D6A062 /* SequencerSelectionViewController.swift in Sources */,
 				8A9B14CC220F543000A2CDAB /* SK2E_Entropy.swift in Sources */,
+				8AC059E92216E5EB00EB6A1C /* SK2_BDGenerator.swift in Sources */,
 				8A9B14BE220EE96A00A2CDAB /* SK2E_Energy.swift in Sources */,
 				8A9B14C6220F421800A2CDAB /* SK2_ShellBase.swift in Sources */,
 				8ACB504020AC92DC00878612 /* BusySpinner.swift in Sources */,

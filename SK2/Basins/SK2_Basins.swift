@@ -29,27 +29,17 @@ class SK2_Basins {
     
     var debugEnabled = false
     var infoEnabled = true
-    // var backingModel: AnyObject? { return system as AnyObject }
     
     var expectedMaxDistanceToAttractor: Int { return system.N.value / 2 }
     
     var basinData: [SK2_BasinData]? {
         get {
-            // sync() returns before sync actually happens, so this
-            // getter may return stale data. But at least an update
-            // is in the pipe.
-            // sync()
             return _basinData
         }
     }
     
     weak var system: SK2_System!
     weak var queue: WorkQueue!
-
-//    private var N_monitor: ChangeMonitor?
-//    private var k_monitor: ChangeMonitor?
-//    private var a1_monitor: ChangeMonitor?
-//    private var a2_monitor: ChangeMonitor?
 
     private var workingData: SK2_BAModel
     private var _basinData: [SK2_BasinData]?
@@ -74,10 +64,6 @@ class SK2_Basins {
         self._busy = false
         self._updatesDone = false
         
-//        self.N_monitor = system.N.monitorChanges(systemHasChanged)
-//        self.k_monitor = system.k.monitorChanges(systemHasChanged)
-//        self.a1_monitor = system.a1.monitorChanges(systemHasChanged)
-//        self.a2_monitor = system.a2.monitorChanges(systemHasChanged)
     }
     
     // =============================================
@@ -90,15 +76,15 @@ class SK2_Basins {
             return
         }
         let liveParams = SK2_Descriptor(system)
-        doSync(liveParams)
+        updateWorkingData(liveParams, true)
     }
     
-    private func doSync(_ liveParams: SK2_Descriptor) {
-        debug("sync", "submitting work item")
+    private func updateWorkingData(_ liveParams: SK2_Descriptor, _ doStep: Bool) {
+        debug("updateWorkingData", "submitting work item")
         self._busy = true
         queue.async {
             var changed = self.workingData.refresh(liveParams)
-            if (!changed) {
+            if (!changed && doStep) {
                 changed = self.workingData.step()
             }
             let modelParams = self.workingData.modelParams
@@ -107,46 +93,15 @@ class SK2_Basins {
                 self.updateLiveData(modelParams, changed, newBasinData)
             }
         }
-        debug("sync", "done")
+        debug("updateWorkingData", "done")
     }
-    
-//    func update() -> Bool {
-//        debug("update", "starting")
-//
-//        if self._busy {
-//            debug("update", "operation in progress: aborting")
-//            return false
-//        }
-//
-//        let liveParams = SK2_Descriptor(system)
-//        let wdParams = self.workingData.modelParams
-//        if (liveParams == wdParams && self._updatesDone) {
-//            debug("update", "no param change, updates are done: returning early")
-//            return false
-//        }
-//
-//        debug("update", "submitting work item")
-//        self._busy = true
-//        queue.async {
-//            var changed = self.workingData.refresh(liveParams)
-//            if (!changed) {
-//                changed = self.workingData.step()
-//            }
-//            let modelParams = self.workingData.modelParams
-//            let newBasinData = (changed) ? self.workingData.exportBasinData() : nil
-//            DispatchQueue.main.sync {
-//                self.updateLiveData(modelParams, newBasinData)
-//            }
-//        }
-//        return true
-//    }
     
     private func updateLiveData(_ modelParams: SK2_Descriptor, _ changed: Bool, _ newBasinData: [SK2_BasinData]?) {
         debug("updateLiveData", "starting")
         let liveParams = SK2_Descriptor(system)
         if (liveParams != modelParams) {
-            debug("updateLiveData", "Resyncing because new data is already stale")
-            doSync(liveParams)
+            debug("updateLiveData", "Resyncing because working data is already stale")
+            updateWorkingData(liveParams, false)
             return
         }
         self._busy = false
@@ -157,7 +112,7 @@ class SK2_Basins {
             self.fireChange()
         }
         else if (!self._updatesDone) {
-            debug("updateLiveData", "Background work is done. Updating done flag and firing change")
+            debug("updateLiveData", "Background work is done. Updating flag and firing change")
             self._updatesDone = true
             fireChange()
         }

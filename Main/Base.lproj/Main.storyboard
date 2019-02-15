@@ -112,7 +112,7 @@
                                                 <rect key="frame" x="16" y="0.0" width="256" height="92"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rca-ER-4OT">
-                                                        <rect key="frame" x="0.0" y="0.0" width="256" height="62"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="256" height="32"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                         <state key="normal" title="SK/2 Equilibrium ›"/>
                                                         <connections>
@@ -121,24 +121,22 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RUD-NF-Y2T">
-                                                        <rect key="frame" x="0.0" y="62" width="256" height="30"/>
+                                                        <rect key="frame" x="0.0" y="32" width="256" height="30"/>
                                                         <state key="normal" title="SK/2 Dynamics ›"/>
                                                         <connections>
                                                             <action selector="selectSK2D:" destination="bVF-Kc-23a" eventType="touchUpInside" id="AyB-dm-OP7"/>
                                                             <segue destination="pOT-RV-AeI" kind="show" identifier="segueToSK2D" id="WGP-mm-czg"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zyd-iM-ZCR">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zyd-iM-ZCR">
                                                         <rect key="frame" x="0.0" y="62" width="256" height="30"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <state key="normal" title="SK/2 Bifurcations ›"/>
+                                                        <connections>
+                                                            <action selector="selectSK2B:" destination="bVF-Kc-23a" eventType="touchUpInside" id="7hU-8X-2ES"/>
+                                                            <segue destination="pOT-RV-AeI" kind="show" id="7o2-9P-snc"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
-                                                <variation key="default">
-                                                    <mask key="subviews">
-                                                        <exclude reference="zyd-iM-ZCR"/>
-                                                    </mask>
-                                                </variation>
                                             </stackView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ywR-y2-aoe" userLabel="Right spacer">
                                                 <rect key="frame" x="272" y="0.0" width="16" height="92"/>

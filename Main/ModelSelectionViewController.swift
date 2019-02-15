@@ -69,13 +69,13 @@ class ModelSelectionViewController : UIViewController, AppModelUser {
     @IBAction func selectSK2D(_ sender: Any) {
         debug("selectSK2D")
         appModel?.partSelector.select(key: SK2D.key)
-
-        // TODO trigger the segue programmatically here
-        // then remove it from the storyboard
-        // self.navigationController?.pushViewController(nextViewController, animated: true)
-
     }
-    
+
+    @IBAction func selectSK2B(_ sender: Any) {
+        debug("selectSK2B")
+        appModel?.partSelector.select(key: SK2B.key)
+    }
+
     @IBAction func unwindToModelSelector(_ sender: UIStoryboardSegue) {
         debug("unwindToModelSelector")
     }

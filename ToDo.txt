@@ -2,7 +2,7 @@
 ToDo
 ==================================================================================
 
-
+[] blocks don't have color or relief. BlockFigure maybe not a basefigure?
 
 [2/13/19] start, go to eq, pick a figure, change effects. switch from eq to dynamics,
 choose initial figure that's got the same base as the eq one
@@ -20,22 +20,20 @@ but rather they all go up up up if you don't recalibrate. they should go DOWN, r
 
 [SRW 2/14/19] I suggest Parameter Sweep T as the default.
 
-- - - - -
-
-[?] delta T stepper gives nonsense value if you go down to 0
-
-[?] pop flow calibration goes black in the middle even when recalibrated.
-    But maybe that's right...
+[2/15/19] busy spinner doesn't show in plane figure
 
 
 ABOVE THE LINE
 ----------------------------------------------------------------------------------
 BELOW THE LINE
 
+[ ] ColorsSwitch effect got lost after monkey testing
 
-[ ] plane POV doesn't recenter when you change N or k
+[?] pop flow calibration goes black in the middle even when recalibrated.
+But maybe that's right...
+
+plane POV doesn't recenter when you change N or k
 need to find node "under" POV before & after
-
 
 option to save current model params as defaults
 
