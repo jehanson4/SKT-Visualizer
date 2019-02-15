@@ -23,12 +23,25 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 
 class SK2_BAColorSource : ColorSource, Relief {
     
-    var autocalibrate: Bool = true
+    private var _autocalibrate: Bool = true
     
+    var autocalibrate: Bool {
+        get { return _autocalibrate }
+        set(newValue) {
+            let invalidateNow = (newValue && !_autocalibrate)
+            _autocalibrate = newValue
+            if (invalidateNow) {
+                invalidateCalibration()
+            }
+        }
+    }
+    
+
     // EMPIRICAL
     var washoutFudgeFactor: GLfloat = 0.5
     
     weak var basinFinder: SK2_BasinsAndAttractors!
+    var myBasinData: [SK2_BasinData]? = nil
     var calibrated: Bool
     
     private var unclassified_color: GLKVector4 // gray
@@ -58,7 +71,12 @@ class SK2_BAColorSource : ColorSource, Relief {
             basin_colors.append(GLKVector4Make(rgb[0], rgb[1], rgb[2], 1))
         }
     }
-    
+
+    // MAYBE
+//    func invalidateBasinData() {
+//        self.myBasinData = nil
+//    }
+
     func invalidateCalibration() {
         calibrated = false
     }
@@ -77,23 +95,39 @@ class SK2_BAColorSource : ColorSource, Relief {
     }
     
     func refresh() {
-        debug("SK2_BAColorSource prepare", "calling basinFinder.update")
-        if (!basinFinder.updatesDone) {
-            _ = basinFinder.update()
-        }
+        
+        // TODO need to check HERE whether system & basinFinder are in sync
+        // so we can set flags for use in elevationAt and colorAt
+        // (flags say: no basin data so return 0 or gray.)
+    
+        //
+        // How 'about a basinFinder.invalidateNodes/Data?
+        // or self.invalidate....
+        //
+
+        // TODO only do this if we've marked our basinData as stale
+        //if (myBasinData == nil) {
+            myBasinData = basinFinder.basinData
+        //}
+        // if (!basinFinder.updatesDone) {
+            basinFinder.sync()
+        //}
             
-        if (!calibrated) {
+        if (!calibrated && autocalibrate) {
             calibrate()
         }
     }
     
     func elevationAt(_ nodeIndex: Int) -> Double {
-        let nc = basinFinder.basinData.count
+        if (myBasinData == nil) {
+            
+        }
+        let nc = basinFinder.basinData?.count ?? 0
         if (nodeIndex >= nc) {
             debug("elevationAt", "Bad node index \(nodeIndex); nodeCount=\(nc)")
             return 0
         }
-        let nd = basinFinder.basinData[nodeIndex]
+        let nd = myBasinData![nodeIndex]
         if (!nd.isClassified) {
             return 0
         }
@@ -106,13 +140,13 @@ class SK2_BAColorSource : ColorSource, Relief {
     
     func colorAt(_ nodeIndex: Int) -> GLKVector4 {
         // let nd = basinFinder.nodeData[nodeIndex]
-        let nc = basinFinder.basinData.count
+        let nc = basinFinder.basinData?.count ?? 0
         if (nodeIndex >= nc) {
             debug("colorAt", "Bad node index \(nodeIndex); nodeCount=\(nc)")
             return unclassified_color
         }
         
-        let nd = basinFinder.basinData[nodeIndex]
+        let nd = myBasinData![nodeIndex]
         // debug("colorAt", "node (\(nd.m),\(nd.n)) " + nd.dumpResettableState())
         if (!nd.isClassified) {
             return unclassified_color

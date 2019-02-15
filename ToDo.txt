@@ -2,36 +2,39 @@
 ToDo
 ==================================================================================
 
-[ ] better sync in basins. I'm still getting node-index ut of bounds and
-    crazy stripes
 
-[ ] plane POV doesn't recenter when you change N or k
 
-[ ] start, go to eq, pick a figure, change effects. switch from eq to dynamics,
+[2/13/19] start, go to eq, pick a figure, change effects. switch from eq to dynamics,
 choose initial figure that's got the same base as the eq one
 ...either desn't update the figure, or inherits its effects settings but doesn't
 update the UI correctly
 
+[2/13/19] I think log dataprovider is wrong, it doesn't drain out of high-energy states
+but rather they all go up up up if you don't recalibrate. they should go DOWN, right?
+
+[SRW 2/14/19] Do you think it would be good to make the surface opaque, so you don’t see the far side of the wireframe through the near side?
+
+[SRW 2/14/19] I had a crash a couple of times after Reset Parameters that I cannot reliably reproduce. FYI. Also, after one such crash, I restarted the program and the figure refused to appear. Closing and restarting the program fixed that.
+
+[SRW 2/14/19] On the rectangle, tap it for non-vertical perspective. Set N=2000, k0=1000, T=1000. Graphics glitch.
+
+[SRW 2/14/19] I suggest Parameter Sweep T as the default.
+
 - - - - -
 
-[?] delta T stepper gives nonsense value if you go down from 10
-
-[?] model params controls got disconnected after a bunch of model & figure changes
-...basins reset params didn't work
-...sequencer controls got disconnected
+[?] delta T stepper gives nonsense value if you go down to 0
 
 [?] pop flow calibration goes black in the middle even when recalibrated.
     But maybe that's right...
-
-I think log dataprovider is wrong, it doesn't drain out of high-energy states
-but rather they all go up up up if you don't recalibrate. they should go DOWN, right?
-
 
 
 ABOVE THE LINE
 ----------------------------------------------------------------------------------
 BELOW THE LINE
 
+
+[ ] plane POV doesn't recenter when you change N or k
+need to find node "under" POV before & after
 
 
 option to save current model params as defaults

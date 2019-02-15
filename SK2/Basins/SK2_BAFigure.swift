@@ -65,15 +65,18 @@ class SK2_BAOnShell: SK2_SystemFigure {
     }
     
     func nodesChanged(_ sender: Any?) {
-        baseFigure.invalidateNodes()
+        // super.invalidateNodes()
         basinFinder.sync()
     }
     
     func physicsChanged(_ sender: Any?) {
+        // super.invalidateCalibration()
         basinFinder.sync()
     }
     
     func basinsChanged(_ sender: Any?) {
-        baseFigure.invalidateData()
+        super.invalidateNodes()
+        super.invalidateData()
+        super.invalidateCalibration()
     }
 }

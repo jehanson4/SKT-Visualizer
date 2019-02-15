@@ -8,7 +8,7 @@
 
 import Foundation
 
-fileprivate var debugEnabled = false
+fileprivate var debugEnabled = true
 
 fileprivate func debug(_ mtd: String, _ msg: String = "") {
     if (debugEnabled) {
@@ -33,12 +33,12 @@ class SK2_BasinsAndAttractors {
     
     var expectedMaxDistanceToAttractor: Int { return system.N.value / 2 }
     
-    var basinData: [SK2_BasinData] {
+    var basinData: [SK2_BasinData]? {
         get {
             // sync() returns before sync actually happens, so this
             // getter may return stale data. But at least an update
             // is in the pipe.
-            sync()
+            // sync()
             return _basinData
         }
     }
@@ -46,13 +46,13 @@ class SK2_BasinsAndAttractors {
     weak var system: SK2_System!
     weak var queue: WorkQueue!
 
-    private var N_monitor: ChangeMonitor?
-    private var k_monitor: ChangeMonitor?
-    private var a1_monitor: ChangeMonitor?
-    private var a2_monitor: ChangeMonitor?
+//    private var N_monitor: ChangeMonitor?
+//    private var k_monitor: ChangeMonitor?
+//    private var a1_monitor: ChangeMonitor?
+//    private var a2_monitor: ChangeMonitor?
 
     private var workingData: SK2_BAModel
-    private var _basinData: [SK2_BasinData]
+    private var _basinData: [SK2_BasinData]?
     private var _busy: Bool
     private var _updatesDone: Bool
     
@@ -74,10 +74,10 @@ class SK2_BasinsAndAttractors {
         self._busy = false
         self._updatesDone = false
         
-        self.N_monitor = system.N.monitorChanges(systemHasChanged)
-        self.k_monitor = system.k.monitorChanges(systemHasChanged)
-        self.a1_monitor = system.a1.monitorChanges(systemHasChanged)
-        self.a2_monitor = system.a2.monitorChanges(systemHasChanged)
+//        self.N_monitor = system.N.monitorChanges(systemHasChanged)
+//        self.k_monitor = system.k.monitorChanges(systemHasChanged)
+//        self.a1_monitor = system.a1.monitorChanges(systemHasChanged)
+//        self.a2_monitor = system.a2.monitorChanges(systemHasChanged)
     }
     
     // =============================================
@@ -90,42 +90,11 @@ class SK2_BasinsAndAttractors {
             return
         }
         let liveParams = SK2_Descriptor(system)
-        let wdParams = self.workingData.modelParams
-        if (liveParams == wdParams && self._updatesDone) {
-            debug("sync", "no param change, updates are done: returning early")
-            return
-        }
-        
-        debug("sync", "submitting work item")
-        self._busy = true
-        queue.async {
-            let changed = self.workingData.refresh(liveParams)
-            let modelParams = self.workingData.modelParams
-            let newBasinData = (changed) ? self.workingData.exportBasinData() : nil
-            DispatchQueue.main.sync {
-                self.updateLiveData(modelParams, newBasinData)
-                self._busy = false
-            }
-        }
-        debug("sync", "done")
+        doSync(liveParams)
     }
     
-    func update() -> Bool {
-        debug("update", "starting")
-        
-        if self._busy {
-            debug("update", "operation in progress: aborting")
-            return false
-        }
-        
-        let liveParams = SK2_Descriptor(system)
-        let wdParams = self.workingData.modelParams
-        if (liveParams == wdParams && self._updatesDone) {
-            debug("update", "no param change, updates are done: returning early")
-            return false
-        }
-        
-        debug("update", "submitting work item")
+    private func doSync(_ liveParams: SK2_Descriptor) {
+        debug("sync", "submitting work item")
         self._busy = true
         queue.async {
             var changed = self.workingData.refresh(liveParams)
@@ -135,37 +104,74 @@ class SK2_BasinsAndAttractors {
             let modelParams = self.workingData.modelParams
             let newBasinData = (changed) ? self.workingData.exportBasinData() : nil
             DispatchQueue.main.sync {
-                self.updateLiveData(modelParams, newBasinData)
-                self._busy = false
+                self.updateLiveData(modelParams, changed, newBasinData)
             }
         }
-        return true
+        debug("sync", "done")
     }
     
-    private func updateLiveData(_ modelParams: SK2_Descriptor, _ newBasinData: [SK2_BasinData]?) {
+//    func update() -> Bool {
+//        debug("update", "starting")
+//
+//        if self._busy {
+//            debug("update", "operation in progress: aborting")
+//            return false
+//        }
+//
+//        let liveParams = SK2_Descriptor(system)
+//        let wdParams = self.workingData.modelParams
+//        if (liveParams == wdParams && self._updatesDone) {
+//            debug("update", "no param change, updates are done: returning early")
+//            return false
+//        }
+//
+//        debug("update", "submitting work item")
+//        self._busy = true
+//        queue.async {
+//            var changed = self.workingData.refresh(liveParams)
+//            if (!changed) {
+//                changed = self.workingData.step()
+//            }
+//            let modelParams = self.workingData.modelParams
+//            let newBasinData = (changed) ? self.workingData.exportBasinData() : nil
+//            DispatchQueue.main.sync {
+//                self.updateLiveData(modelParams, newBasinData)
+//            }
+//        }
+//        return true
+//    }
+    
+    private func updateLiveData(_ modelParams: SK2_Descriptor, _ changed: Bool, _ newBasinData: [SK2_BasinData]?) {
         debug("updateLiveData", "starting")
         let liveParams = SK2_Descriptor(system)
         if (liveParams != modelParams) {
-            debug("updateLiveData", "modelParams are stale, so discarding new basin data")
+            debug("updateLiveData", "Resyncing because new data is already stale")
+            doSync(liveParams)
             return
         }
-        if (newBasinData != nil) {
-            debug("updateLiveData", "newBasinData is not nil")
+        self._busy = false
+        if (changed) {
+            debug("updateLiveData", "Background work is not done. Updating basin data and firing change")
             self._updatesDone = false
-            self._basinData = newBasinData!
+            self._basinData = newBasinData
             self.fireChange()
         }
-        else {
-            debug("updateLiveData", "newBasinData is nil")
+        else if (!self._updatesDone) {
+            debug("updateLiveData", "Background work is done. Updating done flag and firing change")
             self._updatesDone = true
+            fireChange()
         }
+        else {
+            debug("updateLiveData", "Background work is done. Doing nothing")
+        }
+        
         debug("updateLiveData", "done")
     }
     
-    private func systemHasChanged(_ sender: Any?) {
-        debug("systemHasChanged")
-        sync()
-    }
+//    private func systemHasChanged(_ sender: Any?) {
+//        debug("systemHasChanged")
+//        sync()
+//    }
     
     // =============================================
     // Change monitoring

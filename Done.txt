@@ -43,4 +43,14 @@ change T -> lump changes, colormap goes white
 cf. ParameterSweep: we fix it when sequencer selection changes but not
 in the primarycontroller.sequencer_setup()
 
+[CNR] model params controls got disconnected after a bunch of model & figure changes
+...basins reset params didn't work
+...sequencer controls got disconnected
+
+---------------------------
+[2/14/19] better sync in basins. I'm still getting node-index ut of bounds and
+crazy stripes
+
+[x] no update -- do it in sync
+[x] sync -to- resync never change _busy value
 
