@@ -40,7 +40,7 @@ class SK2_BAColorSource : ColorSource, Relief {
     // EMPIRICAL
     var washoutFudgeFactor: GLfloat = 0.5
     
-    weak var basinFinder: SK2_BasinsAndAttractors!
+    weak var basinFinder: SK2_Basins!
     var myBasinData: [SK2_BasinData]? = nil
     var calibrated: Bool
     
@@ -50,7 +50,7 @@ class SK2_BAColorSource : ColorSource, Relief {
     
     private var washoutNorm: GLfloat = 1.0
     
-    init(_ basinFinder: SK2_BasinsAndAttractors, expectedBasinCount: Int = 4) {
+    init(_ basinFinder: SK2_Basins, expectedBasinCount: Int = 4) {
         self.basinFinder = basinFinder
         self.calibrated = false
         self.unclassified_color = GLKVector4Make(0.5, 0.5, 0.5, 1)

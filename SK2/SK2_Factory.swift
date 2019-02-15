@@ -27,7 +27,7 @@ struct SK2E {
     static var name = "SK/2 Equilibrium"
     static var info = "Equilibrium properties of the 2-component SK model"
     
-    static func makeFigures(_ system: SK2_System, _ basinFinder: SK2_BasinsAndAttractors, _ planeBase: SK2_PlaneBase, _ shellBase: SK2_ShellBase) -> Registry<Figure>? {
+    static func makeFigures(_ system: SK2_System, _ basinFinder: SK2_Basins, _ planeBase: SK2_PlaneBase, _ shellBase: SK2_ShellBase) -> Registry<Figure>? {
         let reg = Registry<Figure>()
         
         let energyInPlane = SK2E_Energy("Plane: Energy", nil, system, planeBase)
@@ -182,7 +182,7 @@ class SK2_Factory: AppPartFactory {
         
         SK2E.key = extendNamespace(namespace, "sk2e")
         
-        let basinFinder = SK2_BasinsAndAttractors(system, workQueue)
+        let basinFinder = SK2_Basins(system, workQueue)
 
         let sk2eFigures: Registry<Figure>? = SK2E.makeFigures(system, basinFinder, planeBase, shellBase)
         // TODO figure pref's

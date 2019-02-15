@@ -1,5 +1,5 @@
 //
-//  SK2_BasinsAndAttractors.swift
+//  SK2_Basins.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 1/26/19.
@@ -13,19 +13,19 @@ fileprivate var debugEnabled = true
 fileprivate func debug(_ mtd: String, _ msg: String = "") {
     if (debugEnabled) {
         if (Thread.current.isMainThread) {
-            print("SK2_BasinsAndAttractors [main]", mtd, ":",  msg)
+            print("SK2_Basins [main]", mtd, ":",  msg)
         }
         else {
-            print("SK2_BasinsAndAttractors [????]", mtd, ":",  msg)
+            print("SK2_Basins [????]", mtd, ":",  msg)
         }
     }
 }
 
 // ===============================================================
-// SK2_BasinsAndAttractors
+// SK2_Basins
 // ===============================================================
 
-class SK2_BasinsAndAttractors {
+class SK2_Basins {
     
     var debugEnabled = false
     var infoEnabled = true
