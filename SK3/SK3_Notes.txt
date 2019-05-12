@@ -1,0 +1,99 @@
+
+1. There are 3 isotropic energy minima at config's v1, v2, v3. Energy of vertex v is
+E(v) = f(a_1, d_1) + f(a_2, d_2) + f(a_3, d_3)
+where a_i is depth of minimum at v_i and d_i is distance between v and v_i.
+
+2. If we set any one of the a_i = 0, we get an SK2 lattice induced by the other 2. E.g., set a_3=0.
+Then we have the SK2 lattice induced by a_1 and a_2, in which each node collects vertices with given
+d_1 and d_2, and all different values of d_3. Let that SK2 lattice be in the x,y plane. We'll use
+the z direction to distinguish different values of d_3.
+
+3. Steve sez nodes are arranged in a BCC lattice. Edges go from center of the unit cube to each of
+the 8 corners.
+
+Let size of unit cube in BCC lattice = 2. Embed the nodes in simple cubic lattice of size 1. Edges
+are body-diagonals in this cubic lattice. Each simple cube contains 1 edge. If you project the
+edges along any of the 3 axes of the simple cubic lattice, the edges form the SK2 lattice. Note
+that it's on the diagonals.
+
+4. I want to come up with a description that works for both SK2 and SK3, but I'm getting confused
+about the diagonals. In SK2, the (m,n) transitions are real edges on a (topologically) square lattice.
+
+Start with SK2 that has a2=0, i.e., it's an SK1. The natural rep of SK1 is a line in which an edge
+is a move toward or away from the v1. Lay it out along the x axis. Note that it's N edges long.
+
+Now let a2 != 0 and spread out the nodes in the y axis according to d2. Note that v2 is pulled away
+from the line and forms a corner. It's as if you grab ahold of the SK1 point that holds v2 and pull.
+It spreads the line out into a net. You end up with a rectangle on a diagonal.
+
+TO SHOW: you actually do get a square lattice. I need to be clear in the SK2 case in order to
+validate it in the SK3 case.
+
+================================================
+
+4. IF they exiset at all, (m, n, s) coordinates map onto the BODY DIAGONAL edges of the true lattice,
+not moves along the edges of the simple cubic lattice. Call the latter a,b,c. Every body diagonal move
+changes all 3 of a,b,c by +/-1.
+
+It changes AT LEAST 1 of the m,n,s by +/- 1, but I think it has to sometimes or always change 2 of them.
+Maybe sometimes all three? Maybe it depends on which part of the octahedron you're in.
+
+counting argument: given 3 numbers there are 6 moves that change 1 number.How many are there that change 2?
+a+, b+
+a+, b-
+a+, c+
+a+, c-
+a-, b+
+a-, b-
+a-, c+
+a-, c-
+b+, c+
+b+, c-
+b-, c+
+b-, c-
+I count 12.
+
+How many that change all 3?
+a+, b+, c+
+a+, b+, c-
+a+, b-, c+
+a+, b-, c-
+a-, b+, c+
+a-, b+, c-
+a-, b-, c+
+a-, b-, c-
+...8
+
+But in our case, changing m but not n requires change of s. similarly changing n but not m.
+m+, s+
+m+, s-
+m-, s+
+m-, s-
+n+, s+
+n+, s-
+n-, s+
+n-, s-
+
+How can this be? It's not symmetrical: m and n never change together.
+
+5. think of it like this: start with an SK2 grid. Assign s=0 to all nodes with m+n even, s=1 to all with m+n odd.
+Now do it again with s=2 and s=3. repeat. Maybe we'll translate the origin down to the bottom of the octahedron.
+6. What are the bounds? I think Steve said the space was an octahedron.
+Put the s=0 sheet at the equator. Symmetry gives us the rest. Remember, all the edges are body diagonal
+so the v_1, v_3 subspace is a square standing on one corner.
+
+Ok, that's a way to get a BCC grid. But is it SK3?
+
+7. How many nodes are there? In SK2 we had k_max = N/2 and m_max = k and n_max = (N-k).
+We need to translate this into a linear "size".
+In SK2 the "size" was given by dimensions of the rectangle in the case k = k_max
+
+---------
+
+The number of distinct energy states is NOT simply a function of N. It's a function of N, k0, k1, k2.
+
+Ditto in SK2, where reducing with width increases the height so as to keep width + height = N. The number
+of distinct energy states is (width+1) * (height+1) = (k+1) * (N-k+1)
+
+---------
+NO I'm all wet about the energies: equi-energy contrib's are diagonals on the SK2 grid.

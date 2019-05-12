@@ -39,7 +39,8 @@ class DSPropertyColor: ColorSource {
     }
     
     func calibrate() {
-        _ = colorMap.calibrate(property.bounds)
+        let zz = property.bounds
+        _ = colorMap.calibrate(zz.min, zz.max)
         self.calibrated = true
     }
     

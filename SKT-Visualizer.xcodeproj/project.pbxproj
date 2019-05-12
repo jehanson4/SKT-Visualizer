@@ -43,6 +43,7 @@
 		8A88176222090F4400523467 /* SK2_PFInitializers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A88176122090F4400523467 /* SK2_PFInitializers.swift */; };
 		8A8817642209104200523467 /* SK2_PopulationFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A8817632209104200523467 /* SK2_PopulationFlow.swift */; };
 		8A8817662209118000523467 /* SK2_PlaneGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A8817652209118000523467 /* SK2_PlaneGeometry.swift */; };
+		8A97BBF422243EA100E520C9 /* SK3_Notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8A97BBF322243EA100E520C9 /* SK3_Notes.txt */; };
 		8A9B149C220C83AA00A2CDAB /* Timeseries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9B149B220C83AA00A2CDAB /* Timeseries.swift */; };
 		8A9B149E220C94AC00A2CDAB /* Dynamic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9B149D220C94AC00A2CDAB /* Dynamic.swift */; };
 		8A9B14A0220CF97F00A2CDAB /* SK2_BAFigure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9B149F220CF97F00A2CDAB /* SK2_BAFigure.swift */; };
@@ -91,6 +92,7 @@
 		8AC059F12216ED4C00EB6A1C /* BlockFigure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC059F02216ED4C00EB6A1C /* BlockFigure.swift */; };
 		8AC059F32216EE2B00EB6A1C /* SK2_BlockBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC059F22216EE2B00EB6A1C /* SK2_BlockBase.swift */; };
 		8AC059F52216EF4B00EB6A1C /* NodesOnBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC059F42216EF4B00EB6A1C /* NodesOnBlock.swift */; };
+		8AC059F722170C1E00EB6A1C /* Cube.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC059F622170C1E00EB6A1C /* Cube.swift */; };
 		8AC82CC421F5D00E00A75595 /* Graphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CC321F5D00E00A75595 /* Graphics.swift */; };
 		8AC82CD921F6668000A75595 /* ShellFigure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CD821F6668000A75595 /* ShellFigure.swift */; };
 		8AC82CE121F8874200A75595 /* GraphicsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CE021F8874200A75595 /* GraphicsController.swift */; };
@@ -177,6 +179,7 @@
 		8A88176122090F4400523467 /* SK2_PFInitializers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_PFInitializers.swift; sourceTree = "<group>"; };
 		8A8817632209104200523467 /* SK2_PopulationFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_PopulationFlow.swift; sourceTree = "<group>"; };
 		8A8817652209118000523467 /* SK2_PlaneGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_PlaneGeometry.swift; sourceTree = "<group>"; };
+		8A97BBF322243EA100E520C9 /* SK3_Notes.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = SK3_Notes.txt; sourceTree = "<group>"; };
 		8A9B149B220C83AA00A2CDAB /* Timeseries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timeseries.swift; sourceTree = "<group>"; };
 		8A9B149D220C94AC00A2CDAB /* Dynamic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dynamic.swift; sourceTree = "<group>"; };
 		8A9B149F220CF97F00A2CDAB /* SK2_BAFigure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_BAFigure.swift; sourceTree = "<group>"; };
@@ -226,6 +229,7 @@
 		8AC059F02216ED4C00EB6A1C /* BlockFigure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockFigure.swift; sourceTree = "<group>"; };
 		8AC059F22216EE2B00EB6A1C /* SK2_BlockBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_BlockBase.swift; sourceTree = "<group>"; };
 		8AC059F42216EF4B00EB6A1C /* NodesOnBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodesOnBlock.swift; sourceTree = "<group>"; };
+		8AC059F622170C1E00EB6A1C /* Cube.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cube.swift; sourceTree = "<group>"; };
 		8AC82CC321F5D00E00A75595 /* Graphics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Graphics.swift; sourceTree = "<group>"; };
 		8AC82CD821F6668000A75595 /* ShellFigure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShellFigure.swift; sourceTree = "<group>"; };
 		8AC82CE021F8874200A75595 /* GraphicsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphicsController.swift; sourceTree = "<group>"; };
@@ -351,6 +355,7 @@
 			isa = PBXGroup;
 			children = (
 				8AB2A62B21FCE0D500A46316 /* SK3_System.swift */,
+				8A97BBF322243EA100E520C9 /* SK3_Notes.txt */,
 			);
 			path = SK3;
 			sourceTree = "<group>";
@@ -588,6 +593,7 @@
 			children = (
 				8A9BA6B720ADD71F009C39BE /* InnerShell.swift */,
 				8A84313720726F0100F06B9B /* Axes.swift */,
+				8AC059F622170C1E00EB6A1C /* Cube.swift */,
 				8AD9DACA20914E3D0062457C /* Balls.swift */,
 				8ACE788C2072E51800C29875 /* Icosahedron.swift */,
 				8ACB503F20AC92DC00878612 /* BusySpinner.swift */,
@@ -720,6 +726,7 @@
 				8AC059E322137F3C00EB6A1C /* Done.txt in Resources */,
 				8AE18FA52099EFF30086F127 /* code.txt in Resources */,
 				8AD81825207C9BD900426C25 /* image1-76.png in Resources */,
+				8A97BBF422243EA100E520C9 /* SK3_Notes.txt in Resources */,
 				8A131C91207160100088F2FC /* _miscNotes.txt in Resources */,
 				8AC059DE2210B25200EB6A1C /* OLD.storyboard in Resources */,
 				8AD81821207C9BD900426C25 /* image1-1024.png in Resources */,
@@ -836,6 +843,7 @@
 				8A9BA6B820ADD71F009C39BE /* InnerShell.swift in Sources */,
 				8A9B14A0220CF97F00A2CDAB /* SK2_BAFigure.swift in Sources */,
 				8A88175822085D7500523467 /* SK2_PFColors.swift in Sources */,
+				8AC059F722170C1E00EB6A1C /* Cube.swift in Sources */,
 				8A88175622085D5A00523467 /* SK2_PFRules.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

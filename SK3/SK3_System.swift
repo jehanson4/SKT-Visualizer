@@ -78,6 +78,15 @@ class SK3_System: DiscreteSystem {
         setPoint: SK1_System.N_defaultSetPoint,
         stepSize: SK1_System.N_defaultStepSize
     )
+
+    // ===================================
+    // k0
+    //
+    // min = 1
+    // max = ?
+    
+    // ===================================
+    // k1
     
     // ===================================
     // a1

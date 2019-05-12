@@ -49,15 +49,28 @@ func powerOf10(_ x: Double) -> Double {
 
 /**
  ln(a choose b) for a > b > 0
- Stirling's approximation. Returns 0 on invalid input
+ For b <= 3 use exact formula for (a choose b)
+ For b >  3 use Stirling's approximation. Returns 0 on invalid input
  */
-func logBinomial(_ a:Int, _ b:Int) -> Double {
+func logBinomial(_ a: Int, _ b: Int) -> Double {
     if (a <= 0 || b <= 0 || a <= b) {
         return 0
     }
+    
     let aa = Double(a)
     let bb = Double(b)
     let cc = Double(a-b)
+
+    if (b == 1) {
+        return log(aa)
+    }
+    if (b == 2) {
+        return log(aa) + log(aa-1) - log(bb)
+    }
+    if (b == 3) {
+        return log(aa) + log(aa-1) + log(aa-2) - log(bb) - log(bb-1)
+    }
+    
     return aa * log(aa) - bb * log(bb) - cc * log(cc)
         + 0.5 * (log(aa) - log(bb) - log(cc) - log(twoPi))
 }

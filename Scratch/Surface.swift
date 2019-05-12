@@ -132,8 +132,12 @@ class Surface : GLKBaseEffect, Effect {
         indices = []
         let mMax = system.m_max
         let nMax = system.n_max
-        for m in 0..<mMax {
-            for n in 0..<nMax {
+        
+        // FIXME:
+        // These were 0..<mMax and 0..<nMax
+        // ...which might be right after all
+        for m in 0...mMax {
+            for n in 0...nMax {
                 
                 // v1->v2->v3->v4 is counterclockwise
                 let v1 = system.skToNodeIndex(m,n)

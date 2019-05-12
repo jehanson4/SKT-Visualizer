@@ -146,7 +146,10 @@ struct SK2B {
     static func makeFigures(_ system: SK2_System, _ generator: SK2_BDGenerator, _ blockBase: SK2_BlockBase) -> Registry<Figure>? {
         let reg = Registry<Figure>()
         
-        let bd = SK2_BDFigure("Bifurcation", system, generator, blockBase)
+        let bd = SK2_BDFigure("Sample Figure", system, generator, blockBase)
+        _ = bd.effects?.register(Icosahedron(enabled: true, switchable: true))
+        _ = bd.effects?.register(Axes(enabled: true, switchable: true))
+        _ = bd.effects?.register(Cube(enabled: true, switchable: true))
         _ = reg.register(bd)
         
         return reg

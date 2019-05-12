@@ -54,16 +54,18 @@ class SK2_PFColorSource : ColorSource, Relief {
     }
     
     func calibrate() {
-        let bounds = findBounds()
-        debug("calibrate", "bounds=\(bounds)")
+//        let bounds = findBounds()
+//        debug("calibrate", "bounds=\(zz)")
+//
+//
+//        _ = colorMap.calibrate(bounds.min, bounds.max)
+//
+//        calibrated = true
         
-        logzScale = subtractLogs(bounds.max, bounds.min)
-        logzOffset = bounds.min
-        
-        _ = colorMap.calibrate(bounds)
-        
-        calibrated = true
-        _ = colorMap.calibrate(flow.wBounds)
+        let zz = flow.wBounds
+        logzScale = subtractLogs(zz.max, zz.min)
+        logzOffset = zz.min
+        _ = colorMap.calibrate(zz.min, zz.max)
         calibrated = true
     }
     

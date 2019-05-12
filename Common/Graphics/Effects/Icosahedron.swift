@@ -57,7 +57,7 @@ class Icosahedron : GLKBaseEffect, Effect {
     }
     
     // EMPIRICAL
-    static let rFactor = 1.5
+    static let rFactor = 3.0
     
     static let gRatio = Double.constants.goldenRatio
     static let radius = rFactor * sqrt(1.0 + gRatio * gRatio)

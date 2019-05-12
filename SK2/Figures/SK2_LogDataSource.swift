@@ -9,7 +9,7 @@
 import Foundation
 import GLKit
 
-fileprivate let debugEnabled = false
+fileprivate let debugEnabled = true
 
 fileprivate func debug(_ mtd: String, _ msg: String = "") {
     if (debugEnabled) {
@@ -39,6 +39,7 @@ class SK2_LogDataSource: ColorSource, Relief {
     
     var logzScale: Double = 1
     var logzOffset: Double = 0
+    let logzMin: Double = -300
     
     private var _autocalibrate: Bool = true
     
@@ -62,7 +63,7 @@ class SK2_LogDataSource: ColorSource, Relief {
         logzScale = subtractLogs(bounds.max, bounds.min)
         logzOffset = bounds.min
         
-        _ = colorMap.calibrate(bounds)
+        _ = colorMap.calibrate(bounds.min, bounds.max)
         
         calibrated = true
     }
@@ -81,6 +82,13 @@ class SK2_LogDataSource: ColorSource, Relief {
         if (autocalibrate && !calibrated) {
             calibrate()
         }
+//        else {
+//            let zz1 = findBoundsAndSum1()
+//            debug("refresh", "data zz1 min=\(zz1.min) max=\(zz1.max) sum=\(zz1.sum) dt=\(zz1.dt)")
+//
+////            let zz2 = findBoundsAndSum2()
+////            debug("refresh", "data zz2 min=\(zz2.min) max=\(zz2.max) sum=\(zz2.sum) dt=\(zz2.dt)")
+//        }
     }
     
     func colorAt(_ nodeIndex: Int) -> GLKVector4 {
@@ -99,18 +107,20 @@ class SK2_LogDataSource: ColorSource, Relief {
     }
     
     func findBounds() -> (min: Double, max: Double) {
-        // var tmpValue: Double  = clipToFinite(getter(0,0))
-        var tmpValue: Double  = log(eps)
-
+        var tmpValue: Double  = Double.nan
         var minValue: Double = tmpValue
         var maxValue: Double = tmpValue
-        for m in 0..<system.m_max {
-            for n in 0..<system.n_max {
-                tmpValue = clipToFinite(getter(m,n))
-                if (tmpValue < minValue) {
+        for m in 0...system.m_max {
+            for n in 0...system.n_max {
+                tmpValue = getter(m,n)
+                if (!tmpValue.isFinite) {
+                    debug("findBounds: tmpValue(\(m), \(n)) = \(tmpValue)")
+                    continue
+                }
+                if (!minValue.isFinite || tmpValue < minValue) {
                     minValue = tmpValue
                 }
-                if (tmpValue > maxValue) {
+                if (!maxValue.isFinite || tmpValue > maxValue) {
                     maxValue = tmpValue
                 }
             }
@@ -118,5 +128,75 @@ class SK2_LogDataSource: ColorSource, Relief {
         return (min: minValue, max: maxValue)
     }
     
+    func findBoundsAndSum1() -> (min: Double, max: Double, sum: Double, dt: TimeInterval) {
+        var logTmp: Double  = Double.nan
+        var logMin: Double = Double.nan
+        var logMax: Double = Double.nan
+        var logSum: Double = Double.nan
+        let t0 = NSDate()
+        for m in 0...system.m_max {
+            for n in 0...system.n_max {
+                logTmp = getter(m,n)
+                if (!logTmp.isFinite) {
+                    debug("findBounds: tmpValue(\(m), \(n)) = \(logTmp)")
+                    continue
+                }
+                if (!logSum.isFinite) {
+                    logSum = logTmp
+                }
+                else {
+                    logSum = addLogs(logSum, logTmp)
+                }
+                if (!logMin.isFinite || logTmp < logMin) {
+                    logMin = logTmp
+                }
+                if (!logMax.isFinite || logTmp > logMax) {
+                    logMax = logTmp
+                }
+            }
+        }
+        let t1 = NSDate()
+        let dt = t1.timeIntervalSince(t0 as Date)
+        return (min: logMin, max: logMax, sum: logSum, dt: dt)
+    }
+
+//    func findBoundsAndSum2() -> (min: Double, max: Double, sum: Decimal, dt: TimeInterval) {
+//        var logTmp: Double  = Double.nan
+//        var logMin: Double = Double.nan
+//        var logMax: Double = Double.nan
+//        var logSum: Double = Double.nan
+//        var dLogTmp: Decimal = 0
+//        var dTmp: Decimal = 0
+//        var dSum: Decimal = 0
+//        let t0 = NSDate()
+//        for m in 0...system.m_max {
+//            for n in 0...system.n_max {
+//                logTmp = getter(m,n)
+//                if (!logTmp.isFinite) {
+//                    debug("findBounds: tmpValue(\(m), \(n)) = \(logTmp)")
+//                    continue
+//                }
+//
+//                dLogTmp = Decimal(logTmp)
+//                dTmp =
+//                tmpDecimal =
+//                if (!logSum.isFinite) {
+//                    logSum = logTmp
+//                }
+//                else {
+//                    logSum = addLogs(logSum, logTmp)
+//                }
+//                if (!logMin.isFinite || logTmp < logMin) {
+//                    logMin = logTmp
+//                }
+//                if (!logMax.isFinite || logTmp > logMax) {
+//                    logMax = logTmp
+//                }
+//            }
+//        }
+//        let t1 = NSDate()
+//        let dt = t1.timeIntervalSince(t0 as Date)
+//        return (min: logMin, max: logMax, sum: logSum, dt: dt)
+//    }
 }
 

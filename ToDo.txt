@@ -2,21 +2,26 @@
 ToDo
 ==================================================================================
 
-[] blocks don't have color or relief. BlockFigure maybe not a basefigure?
+[SRW] bifurcation. x,y are where occupation is high, but Z is energy not T
+
+[ ] bifurcation: sort nodes by occupation, color those in top Xth percentile
+
+[ ] blocks don't have color or relief. BlockFigure maybe not a basefigure?
 
 [2/13/19] start, go to eq, pick a figure, change effects. switch from eq to dynamics,
 choose initial figure that's got the same base as the eq one
-...either desn't update the figure, or inherits its effects settings but doesn't
+...either doesn't update the figure, or inherits its effects settings but doesn't
 update the UI correctly
 
-[2/13/19] I think log dataprovider is wrong, it doesn't drain out of high-energy states
-but rather they all go up up up if you don't recalibrate. they should go DOWN, right?
+[SRW 2/14/19] Do you think it would be good to make the surface opaque, so you don’t
+see the far side of the wireframe through the near side?
 
-[SRW 2/14/19] Do you think it would be good to make the surface opaque, so you don’t see the far side of the wireframe through the near side?
+[SRW 2/14/19] I had a crash a couple of times after Reset Parameters that I cannot
+reliably reproduce. FYI. Also, after one such crash, I restarted the program and the
+figure refused to appear. Closing and restarting the program fixed that.
 
-[SRW 2/14/19] I had a crash a couple of times after Reset Parameters that I cannot reliably reproduce. FYI. Also, after one such crash, I restarted the program and the figure refused to appear. Closing and restarting the program fixed that.
-
-[SRW 2/14/19] On the rectangle, tap it for non-vertical perspective. Set N=2000, k0=1000, T=1000. Graphics glitch.
+[SRW 2/14/19] On the rectangle, tap it for non-vertical perspective.
+Set N=2000, k0=1000, T=1000. Graphics glitch.
 
 [SRW 2/14/19] I suggest Parameter Sweep T as the default.
 

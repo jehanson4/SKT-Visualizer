@@ -18,6 +18,7 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 
 fileprivate let pi = Double.constants.pi
 fileprivate let twoPi = Double.constants.twoPi
+fileprivate let eps = Double.constants.eps
 
 // ==============================================================
 // SK2_Descriptor
@@ -270,8 +271,8 @@ class SK2_System: DS2_System, PreferenceSupport {
     // Parameter: T
     
     static let T_min: Double = 0
-    static let T_max: Double = 1000
-    static let T_defaultSetPoint: Double = 500
+    static let T_max: Double = 2000
+    static let T_defaultSetPoint: Double = 100
     static let T_defaultStepSize: Double = 10
     
     private var _T : Double
@@ -393,8 +394,11 @@ class SK2_System: DS2_System, PreferenceSupport {
     }
     
     func energy(_ m: Int, _ n: Int) -> Double {
-        let d1 = 0.5 * Double(_N) - Double(m + n)
-        let d2 = 0.5 * Double(_N) - Double(_k + n - m)
+        // d1 is linear function of manhattan distance from p0, which is (m+n)
+        // d2 is linear function of manhattan distande from p1, which is ( (k-m) + n )
+        // OLD eps is there so that energy is never 0 (which screws up the logOccupation bounds)
+        let d1 = Double(m + n)      - 0.5 * Double(_N)
+        let d2 = Double(_k - m + n) - 0.5 * Double(_N)
         return -(_a1 * d1 * d1  + _a2 * d2 * d2)
     }
     

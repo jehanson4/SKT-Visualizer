@@ -83,7 +83,7 @@ protocol ColorMap {
     var description: String? { get }
     
     /// returns true if the color mapping was changed by the calibration.
-    func calibrate(_ bounds: (min: Double, max: Double)) -> Bool
+    func calibrate(_ min: Double, _ max: Double) -> Bool
     
     func getColor(_ v: Double) -> GLKVector4
 }
@@ -110,16 +110,16 @@ class LinearColorMap : ColorMap {
         self.offset = 0
     }
     
-    func calibrate(_ bounds: (min: Double, max: Double)) -> Bool {
+    func calibrate(_ min: Double, _ max: Double) -> Bool {
         var newNorm: Double = self.norm
         var newOffset: Double = self.offset
-        if bounds.min >= bounds.max {
+        if !(min < max) {
             newNorm = 1
             newOffset = 0
         }
         else {
-            newNorm = 1.0 / (bounds.max - bounds.min)
-            newOffset = bounds.min
+            newNorm = 1.0 / (max - min)
+            newOffset = min
         }
         
         if (newNorm == norm && newOffset == offset) {
@@ -158,19 +158,19 @@ class LogColorMap : ColorMap {
         self.bounds = nil
     }
 
-    func calibrate(_ bounds: (min: Double, max: Double)) -> Bool {
-        if (self.bounds != nil && self.bounds!.min == bounds.min && self.bounds!.max == bounds.max) {
+    func calibrate(_ min: Double, _ max: Double) -> Bool {
+        if (self.bounds != nil && self.bounds!.min == min && self.bounds!.max == max) {
             return false
         }
-        self.bounds = bounds
+        self.bounds = (min, max)
 
         let logZZMax: Double = 100 // EMPIRICAL
         let logCC = log(Double(colors.count))
-        var tPrev = bounds.min
+        var tPrev = min
         
         thresholds = []
         for _ in 0..<colors.count {
-            let logZZ = bounds.max - tPrev - logCC
+            let logZZ = max - tPrev - logCC
             let t = (logZZ < logZZMax) ? (tPrev + log(exp(logZZ)+1.0)) : (tPrev + logZZ)
             thresholds.append(t)
             tPrev = t

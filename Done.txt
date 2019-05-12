@@ -47,6 +47,11 @@ in the primarycontroller.sequencer_setup()
 ...basins reset params didn't work
 ...sequencer controls got disconnected
 
+I think log dataprovider is wrong, it doesn't drain out of high-energy states
+but rather they all go up up up if you don't recalibrate. they should go DOWN, right?
+A: NO... It's b/c of temperature-dependence of partition function, which is the
+normalization constant for probabilities.
+
 ---------------------------
 [2/14/19] better sync in basins. I'm still getting node-index ut of bounds and
 crazy stripes
@@ -54,3 +59,5 @@ crazy stripes
 [x] no update -- do it in sync
 [x] sync -to- resync never change _busy value
 
+[ ] BUG: asymmetry in energy bounds calculation: set a1==0 get diff min that if a2==0
+for

@@ -9,7 +9,7 @@
 import Foundation
 import GLKit
 
-fileprivate let debugEnabled = false
+fileprivate let debugEnabled = true
 
 fileprivate func debug(_ mtd: String, _ msg: String = "") {
     if (debugEnabled) {
@@ -53,18 +53,18 @@ class SK2_SimpleDataSource: ColorSource, Relief {
     var calibrated: Bool = false
     
     func calibrate() {
-        let bounds = findBounds()
-        debug("calibrate", "bounds=\(bounds)")
+        let (min, max, sum) = findBoundsAndSum()
+        debug("calibrate", "min=\(min) max=\(max) sum=\(sum)")
         
-        let newOffset = bounds.min
-        let newScale = 1/(bounds.max - bounds.min)
+        let newOffset = min
+        let newScale = 1/(max - min)
         if (newOffset != zOffset || newScale != zScale) {
             zOffset = newOffset
             zScale = newScale
             debug("calibrate", "zScale=\(zScale), zOffset=\(zOffset)")
         }
         
-        _ = colorMap.calibrate(bounds)
+        _ = colorMap.calibrate(min, max)
         
         calibrated = true
     }
@@ -83,6 +83,10 @@ class SK2_SimpleDataSource: ColorSource, Relief {
         if (autocalibrate && !calibrated) {
             calibrate()
         }
+        else {
+            let (min, max, sum) = findBoundsAndSum()
+            debug("refresh", "min=\(min) max=\(max) sum=\(sum)")
+        }
     }
     
     func colorAt(_ nodeIndex: Int) -> GLKVector4 {
@@ -97,23 +101,28 @@ class SK2_SimpleDataSource: ColorSource, Relief {
         return z
     }
     
-    func findBounds() -> (min: Double, max: Double) {
-        var tmpValue: Double  = clipToFinite(getter(0,0))
-        
-        var minValue: Double = tmpValue
-        var maxValue: Double = tmpValue
-        for m in 0..<system.m_max {
-            for n in 0..<system.n_max {
-                tmpValue = clipToFinite(getter(m,n))
-                if (tmpValue < minValue) {
+    func findBoundsAndSum() -> (min: Double, max: Double, sum: Double) {
+        var tmpValue: Double  = Double.nan
+        var minValue: Double = Double.nan
+        var maxValue: Double = Double.nan
+        var sum: Double = 0
+        for m in 0...system.m_max {
+            for n in 0...system.n_max {
+                tmpValue = getter(m,n)
+                if (!tmpValue.isFinite) {
+                    debug("findBounds: tmpValue(\(m), \(n)) = \(tmpValue)")
+                    continue
+                }
+                sum += tmpValue
+                if (!minValue.isFinite || tmpValue < minValue) {
                     minValue = tmpValue
                 }
-                if (tmpValue > maxValue) {
+                if (!maxValue.isFinite || tmpValue > maxValue) {
                     maxValue = tmpValue
                 }
             }
         }
-        return (min: minValue, max: maxValue)
+        return (min: minValue, max: maxValue, sum: sum)
     }
     
 //    // ==========================================
