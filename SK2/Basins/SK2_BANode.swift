@@ -22,7 +22,9 @@ class SK2_BANode: DS2_Node, Hashable {
     
     let n: Int
     
-    var hashValue: Int { return nodeIndex }
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(nodeIndex)
+    }
     
     static func == (lhs: SK2_BANode, rhs: SK2_BANode) -> Bool {
         return lhs.nodeIndex == rhs.nodeIndex

@@ -138,6 +138,7 @@
 		8AF98F96207FE7D60007688E /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 8AF98F95207FE7D60007688E /* LICENSE */; };
 		8AF98FA1207FE8350007688E /* GraphicsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF98F9F207FE8350007688E /* GraphicsViewController.swift */; };
 		8AF98FA7207FE9CF0007688E /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 8AF98FA6207FE9CF0007688E /* README.md */; };
+		8AF9E95222889419009AFC7E /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AF9E95122889419009AFC7E /* WebKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -275,6 +276,7 @@
 		8AF98F95207FE7D60007688E /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		8AF98F9F207FE8350007688E /* GraphicsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphicsViewController.swift; sourceTree = "<group>"; };
 		8AF98FA6207FE9CF0007688E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		8AF9E95122889419009AFC7E /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -282,6 +284,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8AF9E95222889419009AFC7E /* WebKit.framework in Frameworks */,
 				8ACE78942073CCE500C29875 /* OpenGLES.framework in Frameworks */,
 				8ACE78922073CCDA00C29875 /* GLKit.framework in Frameworks */,
 			);
@@ -528,6 +531,7 @@
 		8ACE78902073CCDA00C29875 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8AF9E95122889419009AFC7E /* WebKit.framework */,
 				8ACE78932073CCE400C29875 /* OpenGLES.framework */,
 				8ACE78912073CCDA00C29875 /* GLKit.framework */,
 			);
@@ -679,7 +683,7 @@
 				TargetAttributes = {
 					8A1CF011207146510099DD97 = {
 						CreatedOnToolsVersion = 9.3;
-						LastSwiftMigration = 1010;
+						LastSwiftMigration = 1020;
 					};
 				};
 			};
@@ -999,7 +1003,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "self.SKT-Visualizer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
@@ -1019,7 +1023,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "self.SKT-Visualizer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
