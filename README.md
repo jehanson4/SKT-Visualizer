@@ -3,6 +3,11 @@
 ---
 ## Release Notes
 
+### Release Notes -- Version 1.0.12
+
+* conversion to Swift 5
+* placeholder for SK3 bifurcations
+
 ### Release Notes -- Version 1.0.11
 
 * relief
