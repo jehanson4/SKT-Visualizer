@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		8A131C91207160100088F2FC /* _miscNotes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8A131C90207160100088F2FC /* _miscNotes.txt */; };
+		8A19E9AB2303220300880C97 /* SK2E_LogOccupation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A19E9AA2303220300880C97 /* SK2E_LogOccupation.swift */; };
+		8A19E9AD2303296100880C97 /* SurfaceOnShell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A19E9AC2303296100880C97 /* SurfaceOnShell.swift */; };
+		8A19E9AF230329D300880C97 /* SurfaceInPlane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A19E9AE230329D300880C97 /* SurfaceInPlane.swift */; };
 		8A1CF016207146510099DD97 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1CF015207146510099DD97 /* AppDelegate.swift */; };
 		8A1CF01B207146520099DD97 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A1CF019207146510099DD97 /* Main.storyboard */; };
 		8A1CF01D207146540099DD97 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A1CF01C207146540099DD97 /* Assets.xcassets */; };
@@ -143,6 +146,9 @@
 
 /* Begin PBXFileReference section */
 		8A131C90207160100088F2FC /* _miscNotes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _miscNotes.txt; sourceTree = "<group>"; };
+		8A19E9AA2303220300880C97 /* SK2E_LogOccupation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK2E_LogOccupation.swift; sourceTree = "<group>"; };
+		8A19E9AC2303296100880C97 /* SurfaceOnShell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurfaceOnShell.swift; sourceTree = "<group>"; };
+		8A19E9AE230329D300880C97 /* SurfaceInPlane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurfaceInPlane.swift; sourceTree = "<group>"; };
 		8A1CF012207146510099DD97 /* SKT Visualizer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SKT Visualizer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A1CF015207146510099DD97 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8A1CF01A207146520099DD97 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -383,6 +389,7 @@
 				8A9B14BD220EE96A00A2CDAB /* SK2E_Energy.swift */,
 				8A9B14CB220F543000A2CDAB /* SK2E_Entropy.swift */,
 				8A9B14C9220F529400A2CDAB /* SK2E_Occupation.swift */,
+				8A19E9AA2303220300880C97 /* SK2E_LogOccupation.swift */,
 				8A9B14C3220F327300A2CDAB /* SK2_SystemFigure.swift */,
 				8A9B14C7220F427B00A2CDAB /* SK2_PlaneBase.swift */,
 				8AC059F22216EE2B00EB6A1C /* SK2_BlockBase.swift */,
@@ -447,6 +454,8 @@
 				8A9B14BF220EF8F600A2CDAB /* ColorSwitch.swift */,
 				8A9B14C1220F145B00A2CDAB /* ReliefSwitch.swift */,
 				8AC059F42216EF4B00EB6A1C /* NodesOnBlock.swift */,
+				8A19E9AC2303296100880C97 /* SurfaceOnShell.swift */,
+				8A19E9AE230329D300880C97 /* SurfaceInPlane.swift */,
 			);
 			path = Effects;
 			sourceTree = "<group>";
@@ -770,6 +779,7 @@
 				8A41B09C21F357F600DE38CB /* FigureSelectionViewController.swift in Sources */,
 				8A1CF016207146510099DD97 /* AppDelegate.swift in Sources */,
 				8A2034E721ED2A6000A4C418 /* SK2_System.swift in Sources */,
+				8A19E9AB2303220300880C97 /* SK2E_LogOccupation.swift in Sources */,
 				8A9B14CA220F529400A2CDAB /* SK2E_Occupation.swift in Sources */,
 				8AC82CEC21F9E36700A75595 /* Sequencer.swift in Sources */,
 				8A575FEE20804759002B9951 /* ColorMaps.swift in Sources */,
@@ -809,6 +819,8 @@
 				8AC82CF521FC9AED00A75595 /* AnimationController.swift in Sources */,
 				8A88175422085CFA00523467 /* SK2_BAColors.swift in Sources */,
 				8AC059E72216E57600EB6A1C /* SK2_BDFigure.swift in Sources */,
+				8A19E9AD2303296100880C97 /* SurfaceOnShell.swift in Sources */,
+				8A19E9AF230329D300880C97 /* SurfaceInPlane.swift in Sources */,
 				8AE1BD162203EF4500D6A062 /* SK2_Factory.swift in Sources */,
 				8A3C45C62086278900A1E9CD /* UniformColor.swift in Sources */,
 				8AC82CE121F8874200A75595 /* GraphicsController.swift in Sources */,

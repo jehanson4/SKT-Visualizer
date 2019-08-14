@@ -81,7 +81,7 @@ class SK2_ShellBase : ShellFigure, SK2_BaseFigure {
     private func installColors() {
         let cs = (_colorsAreShown) ? _colorSource : nil
         nodes?.colorSource = cs
-        // TODO surface.colorSource = cs
+        surface?.colorSource = cs
         
         // REDUNDANT
         // invalidateData(self)
@@ -115,8 +115,8 @@ class SK2_ShellBase : ShellFigure, SK2_BaseFigure {
         let r = (_reliefIsShown) ? _relief : nil
         net?.relief = r
         nodes?.relief = r
-        // TODO surface
-        // TODO descentLines
+        surface?.relief = r
+        // TODO descentLines?.relief = r
 
         // REDUNDANT
         // invalidateNodes(self)
@@ -128,8 +128,8 @@ class SK2_ShellBase : ShellFigure, SK2_BaseFigure {
     var net: NetOnShell!
     var nodes: NodesOnShell!
     var meridians: Meridians!
-    // TODO var surface: SurfaceOnShell!
-    // TODO var descentLines: DescentLinesOnShell?
+    var surface: SurfaceOnShell!
+    // TODO var descentLines: DescentLinesOnShell!
     
     func installBaseEffects(_ workQueue: WorkQueue, _ bgColor: GLKVector4) {
         let mtd = "intallBaseEffects"
@@ -138,14 +138,14 @@ class SK2_ShellBase : ShellFigure, SK2_BaseFigure {
             let busySpinner = BusySpinner(workQueue, enabled: true, switchable: false)
             _ = try effects?.register(busySpinner, key: BusySpinner.key)
         } catch {
-            debug(mtd, "Problem registring BusySpinner: \(error)")
+            debug(mtd, "Problem registering BusySpinner: \(error)")
         }
         
         do {
             let innerShell = InnerShell(geometry.radius, bgColor, enabled: true, switchable: false)
             _ = try effects?.register(innerShell, key: InnerShell.key)
         } catch {
-            warn(mtd, "Problem registring InnerShell: \(error)")
+            warn(mtd, "Problem registering InnerShell: \(error)")
         }
         
         do {
@@ -166,7 +166,7 @@ class SK2_ShellBase : ShellFigure, SK2_BaseFigure {
             net = NetOnShell(system, geometry, enabled: false, switchable: true)
             _ = try effects?.register(net, key: NetOnShell.key)
         } catch {
-            warn(mtd, "Problem registring NetOnShell: \(error)")
+            warn(mtd, "Problem registering NetOnShell: \(error)")
         }
         
         do {
@@ -174,17 +174,23 @@ class SK2_ShellBase : ShellFigure, SK2_BaseFigure {
             nodes.figure = self
             _ = try effects?.register(nodes, key: NodesOnShell.key)
         } catch {
-            warn(mtd, "Problem registring NodesOnShell: \(error)")
+            warn(mtd, "Problem registering NodesOnShell: \(error)")
         }
         
         do {
             meridians = Meridians(system, geometry, enabled: true, switchable: true)
             _ = try effects?.register(meridians, key: Meridians.key)
         } catch {
-            warn(mtd, "Problem registring Meridians: \(error)")
+            warn(mtd, "Problem registering Meridians: \(error)")
         }
         
-        // TODO surface
+        do {
+            surface = SurfaceOnShell(system, geometry, enabled: false, switchable: true)
+            _ = try effects?.register(surface, key: SurfaceOnShell.key)
+        } catch {
+            warn(mtd, "Problem registering SurfaceOnShell: \(error)")
+        }
+        
         // TODO descentLines
         
     }
@@ -223,8 +229,8 @@ class SK2_ShellBase : ShellFigure, SK2_BaseFigure {
         net?.invalidateNodes()
         nodes?.invalidateNodes()
         meridians?.invalidateNodes()
-        // TODO: surface
-        // TODO: descentLines
+        surface?.invalidateNodes()
+        // TODO: descentLines?.invalidateNodes()
 
         // I had this, then I removed it, because I was thinking
         // that the effectds should invalidate their data sources'
@@ -236,7 +242,7 @@ class SK2_ShellBase : ShellFigure, SK2_BaseFigure {
         debug("invalidateData", "starting")
         net?.invalidateData()
         nodes?.invalidateData()
-        // TODO surface?.invalidateData()
+        surface?.invalidateData()
         // TODO descentLines?.invalidateData()
 
         // I had this, then I removed it, because I was thinking

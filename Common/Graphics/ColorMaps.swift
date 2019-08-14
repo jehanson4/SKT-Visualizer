@@ -43,11 +43,51 @@ func defaultColors1() -> [GLKVector4] {
     return colors
 }
 
+func defaultColors2() -> [GLKVector4] {
+    let c0 = GLfloat(0.75)
+    let c1 = GLfloat(1.0)
+    let rgbArray: [[GLfloat]] = [
+        [c0,  0,  0],
+        [c0, c0,  0],
+        [0,  c0,  0],
+        [0,  c0, c0],
+        [0,   0, c0],
+        [c0,  0, c0],
+        
+        [c1,  0,  0],
+        [c1, c1,  0],
+        [0,  c1,  0],
+        [0,  c1, c1],
+        [0,   0, c1],
+        [c1,  0, c1],
+        
+        [c0,  0,  0],
+        [c0, c0,  0],
+        [0,  c0,  0],
+        [0,  c0, c0],
+        [0,   0, c0],
+        [c0,  0, c0],
+        
+        [c1,  0,  0],
+        [c1, c1,  0],
+        [0,  c1,  0],
+        [0,  c1, c1],
+        [0,   0, c1],
+        [c1,  0, c1]
+    ]
+    
+    var colors: [GLKVector4] = []
+    for rgb in rgbArray {
+        colors.append(GLKVector4Make(rgb[0], rgb[1], rgb[2], 1))
+    }
+    return colors
+}
+
 /**
  Downloaded from http://www.kennethmoreland.com/color-advice on 4/12/2018
  "smooth-cool-warm-table-float-0016.csv"
 */
-func defaultColors2() -> [GLKVector4] {
+func defaultColors3() -> [GLKVector4] {
     let rgbArray: [[GLfloat]] = [
         [0.0,0.334790850135,0.283084370265,0.756495219864],
         [0.0666666666667,0.406589846218,0.401078367748,0.853187184809],
@@ -105,7 +145,8 @@ class LinearColorMap : ColorMap {
     init() {
         self.under = GLKVector4Make(0,0,0,1)
         self.over = GLKVector4Make(1,1,1,1)
-        self.colors = defaultColors1()
+        // self.colors = defaultColors1()
+        self.colors = defaultColors2()
         self.norm = 1
         self.offset = 0
     }
@@ -151,7 +192,8 @@ class LogColorMap : ColorMap {
     private var bounds: (min: Double, max: Double)?
     
     init() {
-        self.colors = defaultColors1()
+        // self.colors = defaultColors1()
+        self.colors = defaultColors2()
         self.under = self.colors[0]
         self.over = GLKVector4Make(1,1,1,1)
         self.thresholds = []

@@ -30,35 +30,43 @@ struct SK2E {
     static func makeFigures(_ system: SK2_System, _ basinFinder: SK2_Basins, _ planeBase: SK2_PlaneBase, _ shellBase: SK2_ShellBase) -> Registry<Figure>? {
         let reg = Registry<Figure>()
         
-        let energyInPlane = SK2E_Energy("Plane: Energy", nil, system, planeBase)
+        let energyInPlane = SK2E_Energy("Plane: energy", nil, system, planeBase)
         energyInPlane.group = SK2_Factory.planeFigureGroup
         _ = reg.register(energyInPlane)
         
-        let entropyInPlane = SK2E_Entropy("Plane: Entropy", nil, system, planeBase)
+        let entropyInPlane = SK2E_Entropy("Plane: entropy", nil, system, planeBase)
         entropyInPlane.group = SK2_Factory.planeFigureGroup
         _ = reg.register(entropyInPlane)
         
-        let occupationInPlane = SK2E_Occupation("Plane: Occupation", nil, system, planeBase)
+        let occupationInPlane = SK2E_Occupation("Plane: occupation", nil, system, planeBase)
         occupationInPlane.group = SK2_Factory.planeFigureGroup
         _ = reg.register(occupationInPlane)
         
-        let basinsInPlane = SK2_BAOnShell("Plane: Steepest-descent basins", system, basinFinder, planeBase)
+        let logOccupationInPlane = SK2E_LogOccupation("Plane: log(occupation)", nil, system, planeBase)
+        logOccupationInPlane.group = SK2_Factory.planeFigureGroup
+        _ = reg.register(logOccupationInPlane)
+        
+        let basinsInPlane = SK2_BAOnShell("Plane: steepest-descent basins", system, basinFinder, planeBase)
         basinsInPlane.group = SK2_Factory.planeFigureGroup
         _ = reg.register(basinsInPlane)
         
-        let energyOnShell = SK2E_Energy("Shell: Energy", nil, system, shellBase)
+        let energyOnShell = SK2E_Energy("Shell: energy", nil, system, shellBase)
         energyOnShell.group = SK2_Factory.shellFigureGroup
         _ = reg.register(energyOnShell)
         
-        let entropyOnShell = SK2E_Entropy("Shell: Entropy", nil, system, shellBase)
+        let entropyOnShell = SK2E_Entropy("Shell: entropy", nil, system, shellBase)
         entropyOnShell.group = SK2_Factory.shellFigureGroup
         _ = reg.register(entropyOnShell)
         
-        let occupationOnShell = SK2E_Occupation("Shell: Occupation", nil, system, shellBase)
+        let occupationOnShell = SK2E_Occupation("Shell: occupation", nil, system, shellBase)
         occupationOnShell.group = SK2_Factory.shellFigureGroup
         _ = reg.register(occupationOnShell)
         
-        let basinsOnShell = SK2_BAOnShell("Shell: Steepest-descent basins", system, basinFinder, shellBase)
+        let logOccupationOnShell = SK2E_LogOccupation("Shell: log(occupation)", nil, system, shellBase)
+        logOccupationOnShell.group = SK2_Factory.shellFigureGroup
+        _ = reg.register(logOccupationOnShell)
+        
+        let basinsOnShell = SK2_BAOnShell("Shell: steepest-descent basins", system, basinFinder, shellBase)
         basinsOnShell.group = SK2_Factory.shellFigureGroup
         _ = reg.register(basinsOnShell)
         
@@ -88,12 +96,12 @@ struct SK2D {
     static func makeFigures(_ system: SK2_System, _ flow: SK2_PopulationFlow, _ planeBase: SK2_PlaneBase, _ shellBase: SK2_ShellBase) -> Registry<Figure>? {
         let reg = Registry<Figure>()
 
-        let flowInPlane = SK2_Population("Plane: Population", system, flow, planeBase)
+        let flowInPlane = SK2_Population("Plane: population", system, flow, planeBase)
         flowInPlane.group = SK2_Factory.planeFigureGroup
         _ = reg.register(flowInPlane)
         
 
-        let flowOnShell = SK2_Population("Shell: Population", system, flow, shellBase)
+        let flowOnShell = SK2_Population("Shell: population", system, flow, shellBase)
         flowOnShell.group = SK2_Factory.shellFigureGroup
         _ = reg.register(flowOnShell)
 

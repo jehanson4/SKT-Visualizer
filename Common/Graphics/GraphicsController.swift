@@ -104,17 +104,18 @@ class GraphicsControllerV1: GraphicsController {
         glClearColor(bg, bg, bg, bg)
         glClearDepthf(1.0)
         
-        glEnable(GLenum(GL_CULL_FACE))
         glFrontFace(GLenum(GL_CCW))
         // ?? glFrontFace(GLenum(GL_CW))
-        glCullFace(GLenum(GL_BACK))
         
+        glEnable(GLenum(GL_CULL_FACE))
+        glCullFace(GLenum(GL_BACK))
+        // ?? glCullFace(GLenum(GL_FRONT_AND_BACK))
+
         // For transparent objects
         glEnable(GLenum(GL_BLEND))
         glBlendFunc(GLenum(GL_SRC_ALPHA), GLenum(GL_ONE_MINUS_SRC_ALPHA))
         
         glEnable(GLenum(GL_DEPTH_TEST))
-        
         glDepthFunc(GLenum(GL_LEQUAL))
         // ?? glDepthFunc(GLenum(GL_GEQUAL))
 

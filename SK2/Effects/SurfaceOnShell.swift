@@ -1,44 +1,132 @@
 //
-//  Surface.swift
+//  SurfaceOnShell.swift
 //  SKT Visualizer
 //
-//  Created by James Hanson on 4/7/18.
-//  Copyright © 2018 James Hanson. All rights reserved.
+//  Created by James Hanson on 8/13/19.
+//  Copyright © 2019 James Hanson. All rights reserved.
 //
 
 import Foundation
 import GLKit
-#if os(iOS) || os(tvOS)
-import OpenGLES
-#else
-import OpenGL
-#endif
 
-// ==============================================================
-// Surface
-// ==============================================================
+fileprivate var debugEnabled = false
 
-class Surface : GLKBaseEffect, Effect {
+fileprivate func debug(_ mtd: String, _ msg : String = "") {
+    if (debugEnabled) {
+        if (msg.isEmpty) {
+            print("SurfaceOnShell", mtd)
+        }
+        else {
+            print("SurfaceOnShell", mtd, ":", msg)
+        }
+    }
+}
+
+// =========================================================
+// SurfaceOnShell
+// =========================================================
+
+class SurfaceOnShell : GLKBaseEffect, Effect {
     
-    func teardown() {
-        
+    // ============================================
+    // Lifecycle
+    
+    init(_ system: SK2_System, _ geometry: SK2_ShellGeometry, enabled: Bool, switchable: Bool) {
+        debug("init")
+        self.system = system
+        self.geometry = geometry
+        self.switchable = switchable
+        self._enabled = enabled
+        self._colorSource = UniformColor(r: 0, g: 0, b: 0)
+        super.init()
     }
     
+    deinit {
+        if (built) {
+            // Q: which of these is part of clean()?
+            glDeleteVertexArrays(1, &vertexArray)
+            deleteBuffers()
+        }
+    }
     
-    var debugEnabled = false
+    func teardown() {
+        if (built) {
+            debug("teardown")
+            // TODO
+            // built = false
+        }
+    }
     
-    static let key = "Surface"
+    // ============================================
+    // Basics
+    
+    static let key = "SurfaceOnShell"
     
     var name = "Surface"
     var info: String? = nil
-    var enabled = false
-    var switchable: Bool = true
-
-    private let enabledDefault: Bool
+    
+    var switchable: Bool
+    
+    private var _enabled: Bool
+    
+    var enabled: Bool {
+        get { return _enabled }
+        set(newValue) {
+            _enabled = newValue
+            if (!_enabled) {
+                teardown()
+            }
+        }
+    }
+    
+    weak var system: SK2_System!
+    weak var geometry: SK2_ShellGeometry!
+    
+    private var geometryIsStale: Bool = true
     private var built: Bool = false
-
-    // ====================================
+    
+    private var colorsAreStale = true
+    private var _colorSource: ColorSource?
+    private var _relief: Relief?
+    
+    var colorSource: ColorSource? {
+        get { return _colorSource }
+        set(newValue) {
+            debug("setting color source")
+            _colorSource = newValue
+            colorsAreStale = true
+        }
+    }
+    
+    var relief: Relief? {
+        get { return _relief }
+        set(newValue) {
+            debug("setting relief")
+            _relief = newValue
+            geometryIsStale = true
+        }
+    }
+    
+    func invalidateData() {
+        if (_colorSource != nil) {
+            colorsAreStale = true
+        }
+        if (_relief != nil) {
+            geometryIsStale = true
+        }
+    }
+    
+    func invalidateNodes() {
+        geometryIsStale = true
+    }
+    
+    // ==========================
     // GL stuff
+    
+//    enum VertexAttrib: GLint {
+//        case position = 0
+//        case color = 1
+//    }
     
     func setProjection(_ projectionMatrix: GLKMatrix4) {
         transform.projectionMatrix = projectionMatrix
@@ -48,10 +136,11 @@ class Surface : GLKBaseEffect, Effect {
         transform.modelviewMatrix = modelviewMatrix
     }
     
+    private var verticesAreStale = true
+    
     var vertices: [PNVertex] = []
     var indices: [GLuint] = []
     var colors: [GLKVector4] = []
-    // var colorFuncs: [() -> ()] = []
     
     var vertexArray: GLuint = 0
     var vertexBuffer: GLuint = 0
@@ -59,50 +148,15 @@ class Surface : GLKBaseEffect, Effect {
     var colorBuffer: GLuint = 0
     var indexBuffer: GLuint = 0
     
-    // ====================================
-    // SKT stuff
-    
-    weak var system: SK2_System!
-    var colorSource: ColorSource
-    var geometry: SK2_ShellGeometry
-    
-    private var colorsAreStale: Bool = false
-    
-    // var linearColorMap: ColorMap? = nil
-    // var logColorMap: ColorMap? = nil
-
-    // ====================================
-    // Initiailzers
-    // ====================================
-
-    init(_ system: SK2_System, _ geometry: SK2_ShellGeometry, _ colorSource: ColorSource, enabled: Bool) {
-        self.system = system
-        self.geometry = geometry
-        self.colorSource = colorSource
-        self.enabled = enabled
-        self.enabledDefault = enabled
-        super.init()
-
+    private func deleteBuffers() {
+        glDeleteBuffers(1, &vertexBuffer)
+        glDeleteBuffers(1, &normalBuffer)
+        glDeleteBuffers(1, &colorBuffer)
+        glDeleteBuffers(1, &indexBuffer)
     }
     
-    func releaseOptionalResources() {
-        // TODO
-    }
-    
-    deinit {
-        glDeleteVertexArrays(1, &vertexArray)
-        deleteBuffers()
-    }
-
-    private func colorSourceInstanceChanged(_ sender: Any?) {
-        markColorsAsStale()
-    }
-    
-    private func markColorsAsStale() {
-        colorsAreStale = true
-    }
-    
-    private func build() -> Bool {
+    private func build() {
+        debug("build")
         
         // color material. The colors themselves are in the color buffer
         
@@ -120,12 +174,13 @@ class Surface : GLKBaseEffect, Effect {
         glGenVertexArrays(1, &vertexArray)
         buildVertexAndColorData()
         createBuffers()
-        return true
+        built = true
     }
     
     private func buildVertexAndColorData() {
+        
         // vertices
-        self.vertices = geometry.buildPNVertexArray(nil)
+        self.vertices = geometry.buildPNVertexArray(relief)
         
         // indices
         
@@ -133,11 +188,8 @@ class Surface : GLKBaseEffect, Effect {
         let mMax = system.m_max
         let nMax = system.n_max
         
-        // FIXME:
-        // These were 0..<mMax and 0..<nMax
-        // ...which might be right after all
-        for m in 0...mMax {
-            for n in 0...nMax {
+        for m in 0..<mMax {
+            for n in 0..<nMax {
                 
                 // v1->v2->v3->v4 is counterclockwise
                 let v1 = system.skToNodeIndex(m,n)
@@ -153,59 +205,27 @@ class Surface : GLKBaseEffect, Effect {
                 indices.append(GLuint(v3))
                 
                 // counterclockwise again
-                indices.append(GLuint(v1))
                 indices.append(GLuint(v3))
                 indices.append(GLuint(v4))
+                indices.append(GLuint(v1))
             }
         }
-
-        // Fill array with black and set flag to force an update
+        
+        self.geometryIsStale = false
+        
+        // Fill colors array with black, then set flag to force an update
         
         let black = GLKVector4Make(0, 0, 0, 0)
         self.colors = Array(repeating: black, count: vertices.count)
         self.colorsAreStale = true
     }
     
-//    private func ensureColorsAreFresh() -> Bool {
-//        let mtd = "ensureColorsAreFresh"
-//        if (colorSources == nil) {
-//            debug(mtd, "cannot refresh colors: colorSources is nil")
-//            return false
-//        }
-//
-//        let colorSource = colorSources?.selection?.value
-//        if (colorSource == nil) {
-//            debug(mtd, "cannot refresh colors: colorSource is nil")
-//            return false
-//        }
-//
-//        // =============================
-//        // TODO: catch selection change
-//        // TODO: catch param change
-//        // =============================
-//
-//        var colorsRecomputed = false
-//        let cs = colorSource!
-//        debug(mtd, "calling colorSource.prepare(). colorSource: \(cs.name)")
-//        let colorSourceChanged = cs.prepare(colors.count)
-//        if (colorsAreStale) {
-//            colorsAreStale = false
-//            debug(mtd, "recomputing colors. colorSource: \(cs.name)")
-//            for i in 0..<colors.count {
-//                colors[i] = cs.colorAt(i)
-//            }
-//            colorsRecomputed = true
-//            debug(mtd, "colors recomputed. colorSource: \(cs.name)")
-//        }
-//        return colorsRecomputed
-//    }
-//
     private func createBuffers() {
         
         glBindVertexArray(vertexArray)
         
         // vertex buffer
-
+        
         let vbSize = MemoryLayout<PNVertex>.stride
         glGenBuffers(1, &vertexBuffer)
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), vertexBuffer)
@@ -247,96 +267,80 @@ class Surface : GLKBaseEffect, Effect {
         glGenBuffers(1, &indexBuffer)
         glBindBuffer(GLenum(GL_ELEMENT_ARRAY_BUFFER), indexBuffer)
         glBufferData(GLenum(GL_ELEMENT_ARRAY_BUFFER), ibSize * indices.count, indices, GLenum(GL_STATIC_DRAW))
-
+        
         // finish up
+        
         glBindVertexArray(0)
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), 0)
         glBindBuffer(GLenum(GL_ELEMENT_ARRAY_BUFFER), 0)
         
         let err = glGetError()
         if (err != 0) {
-            debug(String(format: "createBuffers: glError 0x%x", err))
+            debug(String(format: "build: glError 0x%x", err))
         }
         
     }
     
-    private func deleteBuffers() {
-        glDeleteBuffers(1, &vertexBuffer)
-        glDeleteBuffers(1, &normalBuffer)
-        glDeleteBuffers(1, &colorBuffer)
-        glDeleteBuffers(1, &indexBuffer)
-    }
+    // ===================================================
+    // Actual work
     
-    func reset() {
-        enabled = enabledDefault
-    }
-    
-    func calibrate() {
-        // TODO
-    }
-    
-        func prepareToShow() {
-        debug("prepareToShow")
-        // TODO
-    }
-    
-    var drawCounter = 0
-    
+    var drawCounter: Int = 0
     func draw() {
         let mtd = "draw[\(drawCounter)]"
-
+        
         if (!enabled) {
             return
         }
-
+        
         drawCounter += 1
-
+        
         let err0 = glGetError()
         if (err0 != 0) {
             debug(mtd, String(format:"entering: glError 0x%x", err0))
         }
-
+        
         if (!built) {
-            built = build()
+            build()
         }
         
-//        if (geometryIsStale) {
-//            debug(mtd, "geometry has changed. Rebuilding.")
-//            self.geometryChangeNumber = geometryChange
-//            self.physicsChangeNumber = physicsChange
-//
-//            // IMPORTANT
-//            self.colorsAreStale = true
-//
-//            deleteBuffers()
-//            buildVertexAndColorData()
-//
-//            // INEFFICIENT redundant copy colors to color buffer
-//            createBuffers()
-//
-//            debug(mtd, "done rebuilding")
-//        }
-//        else if (colorsAreStale) {
-//
-//            // IMPORTANT
-//            self.colorsAreStale = true
-//
-//            debug(mtd, "done rebuilding.")
-//        }
-
+        if (geometryIsStale) {
+            debug(mtd, "rebuilding")
+            
+            // IMPORTANT
+            self.colorsAreStale = true
+            
+            deleteBuffers()
+            buildVertexAndColorData()
+            
+            // INEFFICIENT redundant copy colors to color buffer
+            createBuffers()
+            
+            debug(mtd, "done rebuilding")
+        }
+        
         // DEBUG
         let err1 = glGetError()
         if (err1 != 0) {
             debug(mtd, String(format:"glError 0x%x", err0))
         }
         
+        
         var needsColorBufferUpdate = false
         if (colorsAreStale) {
-            colorsAreStale = false
-            colorSource.refresh()
-            debug(mtd, "getting updated colors")
-            for i in 0..<colors.count {
-                colors[i] = colorSource.colorAt(i)
+            if (colorSource == nil) {
+                debug(mtd, "resetting colors to black")
+                let black = GLKVector4Make(0, 0, 0, 0)
+                for i in 0..<colors.count {
+                    colors[i] = black
+                }
+            }
+            else {
+                debug(mtd, "rereading colors from color source")
+                let cs = colorSource!
+                cs.refresh()
+                for i in 0..<colors.count {
+                    colors[i] = cs.colorAt(i)
+                }
             }
             colorsAreStale = false
             needsColorBufferUpdate = true
@@ -350,19 +354,19 @@ class Surface : GLKBaseEffect, Effect {
             glBindBuffer(GLenum(GL_ARRAY_BUFFER), colorBuffer)
             glBufferSubData(GLenum(GL_ARRAY_BUFFER), 0, cbSize * colors.count, colors)
         }
-
+        
         prepareToDraw()
-
+        
         // DEBUG
         let err2 = glGetError()
         if (err2 != 0) {
             debug(mtd, String(format:"glError 0x%x", err0))
         }
-
-        debug(mtd, "drawing surface")
+        
+        
+        // debug(mtd, "drawing surface")
         glDrawElements(GLenum(GL_TRIANGLES), GLsizei(indices.count), GLenum(GL_UNSIGNED_INT), BUFFER_OFFSET(0))
         
-
         // DEBUG
         let err3 = glGetError()
         if (err3 != 0) {
@@ -371,13 +375,5 @@ class Surface : GLKBaseEffect, Effect {
         
         glBindVertexArray(0)
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), 0)
-
     }
-    
-    func debug(_ mtd: String, _ msg: String = "") {
-        if (debugEnabled) {
-            print(name, mtd, msg)
-        }
-    }
-
 }

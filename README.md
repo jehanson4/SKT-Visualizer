@@ -3,6 +3,12 @@
 ---
 ## Release Notes
 
+### Release Notes -- Version 1.0.13
+
+* add 'Surface' effect
+* add log(occupation) figure
+* fix bug in display of plane figures in flyover mode with relief enabled, in which back part of the figure was drawn in front.
+
 ### Release Notes -- Version 1.0.12
 
 * conversion to Swift 5

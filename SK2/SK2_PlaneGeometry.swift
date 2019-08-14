@@ -32,7 +32,7 @@ class SK2_PlaneGeometry {
         self.system = system
         self.gridSize = gridSize
         self.z0 = 0
-        self.zScale = gridSize/5
+        self.zScale = gridSize/3
     }
     
     private weak var system: SK2_System!
@@ -128,6 +128,57 @@ class SK2_PlaneGeometry {
         }
         return vertices
     }
+    
+    func buildPNVertexArray(_ relief: Relief?) -> [PNVertex] {
+        let mMax = system.m_max
+        let nMax = system.n_max
+        let gMax = (mMax > nMax) ? mMax : nMax
+        
+        let gridSpacing: Double = gridSize/Double(gMax)
+        let xOffset: Double = 0 // gridSize/2
+        let yOffset: Double = 0 // gridSize/2
+
+        var vertices: [PNVertex] = []
+        var px: GLfloat
+        var py: GLfloat
+        var pz: GLfloat
+        var nx: GLfloat
+        var ny: GLfloat
+        var nz: GLfloat
+        if (relief == nil) {
+            debug("buildPNVertexArray", "no relief")
+            pz = GLfloat(z0)
+            nz = GLfloat(z0 + 1)
+            for m in 0...mMax {
+                for n in 0...nMax {
+                    px = GLfloat(xOffset + Double(m)*gridSpacing)
+                    py = GLfloat(yOffset + Double(n)*gridSpacing)
+                    nx = px
+                    ny = py
+                    vertices.append(PNVertex(px, py, pz, nx, ny, nz))
+                }
+            }
+        }
+        else {
+            debug("buildPNVertexArray", "using relief")
+            let zSource = relief!
+            zSource.refresh()
+            nz = GLfloat(z0 + 1)
+            for m in 0...mMax {
+                for n in 0...nMax {
+                    px = GLfloat(xOffset + Double(m)*gridSpacing)
+                    py = GLfloat(yOffset + Double(n)*gridSpacing)
+                    pz = GLfloat(z0 + zScale * zSource.elevationAt(system.skToNodeIndex(m,n)))
+                    nx = px
+                    ny = py
+                    vertices.append(PNVertex(px, py, pz, nx, ny, nz))
+                }
+            }
+
+        }
+        return vertices
+    }
+    
     
 
 }

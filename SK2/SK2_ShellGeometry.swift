@@ -14,7 +14,7 @@ fileprivate let twoPi = Double.constants.twoPi
 fileprivate let piOver2 = Double.constants.piOver2
 fileprivate let eps = Double.constants.eps
 
-fileprivate var debugEnabled = true
+fileprivate var debugEnabled = false
 
 fileprivate func debug(_ mtd: String, _ msg: String = "") {
     if (debugEnabled) {
@@ -320,14 +320,31 @@ class SK2_ShellGeometry {
         return vertices
     }
 
-    func buildPNVertexArray() -> [PNVertex] {
+    func buildPNVertexArray(_ relief: Relief?) -> [PNVertex] {
         let mMax = system.m_max
         let nMax = system.n_max
         var vertices: [PNVertex] = []
-        for m in 0...mMax {
-            for n in 0...nMax {
-                let v = skToCartesian(m, n)
-                vertices.append(PNVertex(GLfloat(v.x), GLfloat(v.y), GLfloat(v.z), GLfloat(v.x), GLfloat(v.y), GLfloat(v.z)))
+        if (relief == nil) {
+            debug("buildPNVertexArray", "no relief")
+            for m in 0...mMax {
+                for n in 0...nMax {
+                    let v = skToCartesian(m, n)
+                    vertices.append(PNVertex(GLfloat(v.x), GLfloat(v.y), GLfloat(v.z), GLfloat(v.x), GLfloat(v.y), GLfloat(v.z)))
+                }
+            }
+        }
+        else {
+            debug("buildPNVertexArray", "using relief")
+            let rSource = relief!
+            rSource.refresh()
+            for m in 0...mMax {
+                for n in 0...nMax {
+                    var (r,p,t) = skToSpherical(m, n)
+                    let nodeIndex = system.skToNodeIndex(m, n)
+                    r += rScale * rSource.elevationAt(nodeIndex)
+                    let (x,y,z) = sphericalToCartesian(r, p, t)
+                    vertices.append(PNVertex(GLfloat(x), GLfloat(y), GLfloat(z), GLfloat(x), GLfloat(y), GLfloat(z)))
+                }
             }
         }
         return vertices

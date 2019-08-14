@@ -79,7 +79,7 @@ class SK2_PlaneBase : PlaneFigure, SK2_BaseFigure {
     private func installColors() {
         let cs = (_colorsAreShown) ? _colorSource : nil
         nodes?.colorSource = cs
-        // TODO surface.colorSource = cs
+        surface?.colorSource = cs
     }
     
     // =========================================
@@ -108,8 +108,8 @@ class SK2_PlaneBase : PlaneFigure, SK2_BaseFigure {
         let r = (_reliefIsShown) ? _relief : nil
         net?.relief = r
         nodes?.relief = r
-        // TODO surface
-        // TODO descentLines
+        surface?.relief = r
+        // TODO descentLines?.relief = r
     }
     
     // =========================================
@@ -117,8 +117,8 @@ class SK2_PlaneBase : PlaneFigure, SK2_BaseFigure {
     
     var net: NetInPlane!
     var nodes: NodesInPlane!
-    // TODO var surface
-    // TODO var descentLines
+    var surface: SurfaceInPlane!
+    // TODO var descentLines: DescentLinesInPlane!
     
     func installBaseEffects(_ workQueue: WorkQueue, _ bgColor: GLKVector4) {
         let mtd = "SK2_ShellBase.intallBaseEffects"
@@ -141,7 +141,7 @@ class SK2_PlaneBase : PlaneFigure, SK2_BaseFigure {
             let busySpinner = BusySpinner(workQueue, enabled: true, switchable: false)
             _ = try effects?.register(busySpinner, key: BusySpinner.key)
         } catch {
-            warn(mtd, "Problem registring BusySpinner: \(error)")
+            warn(mtd, "Problem registering BusySpinner: \(error)")
         }
         
         do {
@@ -155,7 +155,7 @@ class SK2_PlaneBase : PlaneFigure, SK2_BaseFigure {
             let reliefSwitch = ReliefSwitch(self)
             _ = try effects?.register(reliefSwitch, key: ReliefSwitch.key)
         } catch {
-            warn(mtd, "Problem registering reliefSwitch: \(error)")
+            warn(mtd, "Problem registering ReliefSwitch: \(error)")
         }
         
         do {
@@ -163,7 +163,7 @@ class SK2_PlaneBase : PlaneFigure, SK2_BaseFigure {
             net.zOffset = -0.0001
             _ = try effects?.register(net, key: NetInPlane.key)
         } catch {
-            warn(mtd, "Problem registring NetInPlane: \(error)")
+            warn(mtd, "Problem registering NetInPlane: \(error)")
         }
         
         do {
@@ -171,10 +171,16 @@ class SK2_PlaneBase : PlaneFigure, SK2_BaseFigure {
             _ = try effects?.register(nodes, key: NodesInPlane.key)
             nodes?.figure = self
         } catch {
-            warn(mtd, "Problem registring NodesInPlane: \(error)")
+            warn(mtd, "Problem registering NodesInPlane: \(error)")
         }
         
-        // TODO surface
+        do {
+            surface = SurfaceInPlane(system, geometry, enabled: false, switchable: true)
+            _ = try effects?.register(surface, key: SurfaceInPlane.key)
+        } catch {
+            warn(mtd, "Problem registering SurfaceInPlane: \(error)")
+        }
+        
         // TODO descentLines
         
     }
@@ -210,8 +216,8 @@ class SK2_PlaneBase : PlaneFigure, SK2_BaseFigure {
         debug("invalidateNodes", "starting")
         net?.invalidateNodes()
         nodes?.invalidateNodes()
-        // TODO: surface
-        // TODO: descentLines
+        surface?.invalidateNodes()
+        // TODO: descentLines?.invalidateNodes()
         
         // I had this, then I removed it, because I was thinking
         // that the effectds should invalidate their data sources'
@@ -223,7 +229,7 @@ class SK2_PlaneBase : PlaneFigure, SK2_BaseFigure {
         debug("invalidateData", "starting")
         net?.invalidateData()
         nodes?.invalidateData()
-        // TODO surface?.invalidateData()
+        surface?.invalidateData()
         // TODO descentLines?.invalidateData()
         
         // I had this, then I removed it, because I was thinking

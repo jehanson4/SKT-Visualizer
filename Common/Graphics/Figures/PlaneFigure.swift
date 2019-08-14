@@ -19,6 +19,7 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 
 fileprivate let eps = Double.constants.eps
 fileprivate let piOver4 = Double.constants.piOver4
+fileprivate let piOver2 = Double.constants.piOver2
 
 // ============================================================================
 // PlanePOV
@@ -263,7 +264,7 @@ class PlaneFigure : Figure {
     }
     
     // ===================================================
-    // Graphics, a/k/k GL coordinate transforms
+    // Graphics, a/k/a GL coordinate transforms
     
     private var _aspectRatio: Float = 0
     
@@ -299,17 +300,17 @@ class PlaneFigure : Figure {
 
         // To zoom we should change PROJECTION based on lookat distance -- e.g. pov.z if we're looking straight down
     
-        // Docco sez args are: left, right, bottom, top, near, far "in eye coordinates"
+        // Docco sez args to MakeOrtho are: left, right, bottom, top, near, far "in eye coordinates"
         // near = distance from camera to the front of the stage.
         // far = distance from camera to the back of the stage.
-        // these are +z direction
+        // 0 < near < far: these are +z direction
         
         var newMatrix: GLKMatrix4!
         if (pov.mode == .flyover) {
-            newMatrix = GLKMatrix4MakePerspective(GLfloat(piOver4), aspectRatio, GLfloat(eps), GLfloat(100*size))
+            newMatrix = GLKMatrix4MakePerspective(GLfloat(piOver4), aspectRatio, GLfloat(d/2), GLfloat(10*size))
         }
         else {
-            newMatrix = GLKMatrix4MakeOrtho(-d, d, -d/aspectRatio, d/aspectRatio, GLfloat(eps), GLfloat(100*size))
+            newMatrix = GLKMatrix4MakeOrtho(-d, d, -d/aspectRatio, d/aspectRatio, GLfloat(eps), GLfloat(10*size))
         }
         
         func applyProjectionMatrix(_ effect: inout Effect) {

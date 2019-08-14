@@ -31,7 +31,7 @@ class NodesOnShell: Effect {
     // ============================================
     // Lifecycle
     
-    /// need figure b/c pointize calculation depends on zoom
+    /// Also need to set figure b/c pointize calculation depends on zoom
     init(_ system: SK2_System, _ geometry: SK2_ShellGeometry, enabled: Bool, switchable: Bool) {
         debug("init")
         self.system = system
@@ -95,6 +95,7 @@ class NodesOnShell: Effect {
     var colorSource: ColorSource? {
         get { return _colorSource }
         set(newValue) {
+            debug("setting color source")
             _colorSource = newValue
             colorsAreStale = true
         }
@@ -103,6 +104,7 @@ class NodesOnShell: Effect {
     var relief: Relief? {
         get { return _relief }
         set(newValue) {
+            debug("setting relief")
             _relief = newValue
             geometryIsStale = true
         }
@@ -397,6 +399,7 @@ class NodesOnShell: Effect {
         var needsColorBufferUpdate = false
         if (colorsAreStale) {
             if (colorSource == nil) {
+                debug(mtd, "resetting colors to black")
                 let black = GLKVector4Make(0, 0, 0, 0)
                 for i in 0..<colors.count {
                     colors[i] = black
