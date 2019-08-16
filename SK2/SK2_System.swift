@@ -30,14 +30,16 @@ struct SK2_Descriptor: Equatable {
     let k: Int
     let a1: Double
     let a2: Double
-    let T: Double
+    // let T: Double
+    let beta: Double
     
     init() {
         self.N = SK2_System.N_defaultSetPoint
         self.k = SK2_System.k_defaultSetPoint
         self.a1 = SK2_System.a1_defaultSetPoint
         self.a2 = SK2_System.a2_defaultSetPoint
-        self.T = SK2_System.T_defaultSetPoint
+        // self.T = SK2_System.T_defaultSetPoint
+        self.beta = SK2_System.beta_defaultSetPoint
     }
     
     init(_ system: SK2_System) {
@@ -45,7 +47,8 @@ struct SK2_Descriptor: Equatable {
         self.k = system.k.value
         self.a1 = system.a1.value
         self.a2 = system.a2.value
-        self.T = system.T.value
+        // self.T = system.T.value
+        self.beta = system.beta.value
     }
     
     func matches(_ system: SK2_System) -> Bool {
@@ -53,7 +56,8 @@ struct SK2_Descriptor: Equatable {
             && (self.k == system.k.value)
             && (self.a1 == system.a1.value)
             && (self.a2 == system.a2.value)
-            && (self.T == system.T.value)
+            // && (self.T == system.T.value)
+            && (self.beta == system.beta.value)
     }
 }
 
@@ -71,7 +75,8 @@ class SK2_System: DS2_System, PreferenceSupport {
         self._k = SK2_System.k_defaultSetPoint
         self._a1 = SK2_System.a1_defaultSetPoint
         self._a2 = SK2_System.a2_defaultSetPoint
-        self._T = SK2_System.T_defaultSetPoint
+        // self._T = SK2_System.T_defaultSetPoint
+        self._beta = SK2_System.beta_defaultSetPoint
         updateDerivedProperties()
     }
     
@@ -80,7 +85,8 @@ class SK2_System: DS2_System, PreferenceSupport {
         self._k = desc.k
         self._a1 = desc.a1
         self._a2 = desc.a2
-        self._T = desc.T
+        // self._T = desc.T
+        self._beta = desc.beta
         updateDerivedProperties()
     }
     
@@ -137,7 +143,7 @@ class SK2_System: DS2_System, PreferenceSupport {
         return _N
     }
     
-    /// called by self.N
+    /// called by self.N. Don't validate the arg. DO fix k.
     private func _setN(_ newN: Int) {
         _N = newN
         if (_k > _N/2) {
@@ -178,7 +184,7 @@ class SK2_System: DS2_System, PreferenceSupport {
         return _k
     }
     
-    /// ONLY called by self.k
+    /// ONLY called by self.k. Don't validate the arg. DO fix N.
     private func _setK(_ k: Int) {
         _k = k
         if (_N < 2 * _k) {
@@ -218,7 +224,7 @@ class SK2_System: DS2_System, PreferenceSupport {
         return _a1
     }
     
-    /// ONLY called by self.a1
+    /// ONLY called by self.a1. Don't validate the arg
     private func _setA1(_ a1: Double) {
         _a1 = a1
         updateDerivedProperties()
@@ -249,7 +255,7 @@ class SK2_System: DS2_System, PreferenceSupport {
         return _a2
     }
     
-    /// ONLY called by self.a2
+    /// ONLY called by self.a2. Don't validate the arg.
     private func _setA2(_ a2: Double) {
         _a2 = a2
         updateDerivedProperties()
@@ -267,35 +273,69 @@ class SK2_System: DS2_System, PreferenceSupport {
     )
     
     
+//    // ===================================
+//    // Parameter: T
+//
+//    static let T_min: Double = eps
+//    static let T_max: Double = 1000
+//    static let T_defaultSetPoint: Double = 100
+//    static let T_defaultStepSize: Double = 10
+//
+//    private var _T : Double
+//
+//    private func _getT() -> Double {
+//        return _T
+//    }
+//
+//    /// ONLY called by self.T. Don't protect against bad args.
+//    private func _setT(_ T: Double) {
+//        _T = T
+//        updateDerivedProperties()
+//    }
+//
+//    lazy var T = ContinuousParameter(
+//        "T",
+//        _getT,
+//        _setT,
+//        min: SK2_System.T_min,
+//        max: SK2_System.T_max,
+//        info: "Temperature",
+//        setPoint: SK2_System.T_defaultSetPoint,
+//        stepSize: SK2_System.T_defaultStepSize
+//    )
+    
     // ===================================
-    // Parameter: T
-    
-    static let T_min: Double = 0
-    static let T_max: Double = 2000
-    static let T_defaultSetPoint: Double = 100
-    static let T_defaultStepSize: Double = 10
-    
-    private var _T : Double
-    
-    private func _getT() -> Double {
-        return _T
+    // Parameter: beta
+
+    static let beta_min: Double = 0
+    static let beta_max: Double = 1
+    static let beta_defaultSetPoint: Double = 0.01
+    static let beta_defaultStepSize: Double = 0.001
+
+    private var _beta : Double
+
+    private func _getBeta() -> Double {
+        return _beta
     }
-    
-    /// ONLY called by self.T
-    private func _setT(_ T: Double) {
-        _T = T
+
+    // Called only by self.beta. Don't protect against bad args
+    private func _setBeta(_ beta: Double) {
+        _beta = beta
         updateDerivedProperties()
     }
-    
-    lazy var T = ContinuousParameter(
-        "T",
-        _getT,
-        _setT,
-        min: SK2_System.T_min,
-        max: SK2_System.T_max,
-        info: "Temperature",
-        setPoint: SK2_System.T_defaultSetPoint,
-        stepSize: SK2_System.T_defaultStepSize
+
+
+    // FIXME: there's a beta among the derived properties. So it's either
+    // that or this.
+    lazy var beta = ContinuousParameter(
+        "\u{03B2}",
+        _getBeta,
+        _setBeta,
+        min: SK2_System.beta_min,
+        max: SK2_System.beta_max,
+        info: "Inv. Temperature",
+        setPoint: SK2_System.beta_defaultSetPoint,
+        stepSize: SK2_System.beta_defaultStepSize
     )
     
     // ===================================
@@ -309,13 +349,21 @@ class SK2_System: DS2_System, PreferenceSupport {
         _ = params.register(k)
         _ = params.register(a1)
         _ = params.register(a2)
-        _ = params.register(T)
+        // _ = params.register(T)
+        _ = params.register(beta)
         return params
     }
     
     /// returns true iff any parameter was changed
     func apply(_ desc: SK2_Descriptor) -> Bool {
-        if (desc.N == _N && desc.k == _k && desc.a1 == _a1 && desc.a2 == _a2 && desc.T == _T) {
+        if (desc.N == _N && desc.k == _k && desc.a1 == _a1 && desc.a2 == _a2) {
+            return false
+        }
+
+        // if (desc.T == _T) {
+        // return false
+        // }
+        if (desc.beta == _beta) {
             return false
         }
         
@@ -323,7 +371,8 @@ class SK2_System: DS2_System, PreferenceSupport {
         _k = desc.k
         _a1 = desc.a1
         _a2 = desc.a2
-        _T = desc.T
+        // _T = desc.T
+        _beta = desc.beta
         
         // Do this before any Parameter update so that guys
         // with ChangeMonitors will see the correct values
@@ -333,7 +382,8 @@ class SK2_System: DS2_System, PreferenceSupport {
         k.refresh()
         a1.refresh()
         a2.refresh()
-        T.refresh()
+        // T.refresh()
+        beta.refresh()
         return true
     }
     
@@ -357,7 +407,8 @@ class SK2_System: DS2_System, PreferenceSupport {
         k.refresh()
         a1.resetValue()
         a2.resetValue()
-        T.resetValue()
+        // T.resetValue()
+        beta.resetValue()
     }
 
     // =========================================
@@ -371,8 +422,8 @@ class SK2_System: DS2_System, PreferenceSupport {
     var cot_s0: Double = 0
     var s12_max: Double = 0
 
-    var beta: Double = 0
-    
+    // var beta: Double = 0
+    var T: Double = 0
     private func updateDerivedProperties() {
         nodeIndexModulus = _N - _k + 1
         skNorm = pi / Double(_N)
@@ -381,7 +432,8 @@ class SK2_System: DS2_System, PreferenceSupport {
         cot_s0 = 1.0/tan(s0)
         s12_max = twoPi - s0
         
-        beta = (_T > 0) ? 1/_T : Double.greatestFiniteMagnitude
+        // beta = (_T > 0) ? 1/_T : Double.greatestFiniteMagnitude
+        T = (_beta > 0) ? 1/_beta : Double.greatestFiniteMagnitude
     }
     
     // ======================================
@@ -419,7 +471,8 @@ class SK2_System: DS2_System, PreferenceSupport {
     }
     
     func logOccupation(_ m: Int, _ n: Int) -> Double {
-        return entropy(m, n) - beta * energy(m, n)
+        // return entropy(m, n) - beta * energy(m, n)
+        return entropy(m, n) - _beta * energy(m, n)
     }
     
     func logOccupation(_ m: Int, _ n: Int, forT t: Double) -> Double {

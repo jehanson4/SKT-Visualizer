@@ -20,8 +20,9 @@ class SK2E_LogOccupation: SK2_SystemFigure {
     var k_monitor: ChangeMonitor?
     var a1_monitor: ChangeMonitor?
     var a2_monitor: ChangeMonitor?
-    var T_monitor: ChangeMonitor?
-    
+    // var T_monitor: ChangeMonitor?
+    var beta_monitor: ChangeMonitor?
+
     init(_ name: String, _ info: String?, _ system: SK2_System, _ baseFigure: SK2_BaseFigure) {
         self.system = system
         super.init(name, info, baseFigure)
@@ -36,7 +37,8 @@ class SK2E_LogOccupation: SK2_SystemFigure {
         k_monitor = system.k.monitorChanges(nodesChanged)
         a1_monitor = system.a1.monitorChanges(dataChanged)
         a2_monitor = system.a2.monitorChanges(dataChanged)
-        T_monitor = system.T.monitorChanges(dataChanged)
+        // T_monitor = system.T.monitorChanges(dataChanged)
+        beta_monitor = system.beta.monitorChanges(dataChanged)
     }
     
     override func figureHasBeenHidden() {
@@ -45,7 +47,8 @@ class SK2E_LogOccupation: SK2_SystemFigure {
         k_monitor?.disconnect()
         a1_monitor?.disconnect()
         a2_monitor?.disconnect()
-        T_monitor?.disconnect()
+        // T_monitor?.disconnect()
+        beta_monitor?.disconnect()
     }
     
     func nodesChanged(_ sender: Any?) {

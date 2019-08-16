@@ -76,7 +76,8 @@ class SK2_PFModel {
         _ = system.k.monitorChanges(geometryChanged)
         _ = system.a1.monitorChanges(physicsChanged)
         _ = system.a2.monitorChanges(physicsChanged)
-        _ = system.T.monitorChanges(physicsChanged)
+        // _ = system.T.monitorChanges(physicsChanged)
+        _ = system.beta.monitorChanges(physicsChanged)
     }
     
     // =====================================

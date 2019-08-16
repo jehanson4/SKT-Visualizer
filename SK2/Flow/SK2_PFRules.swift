@@ -404,7 +404,8 @@ class SK2_MetropolisFlow : SK2_PFRule {
     
     func prepare(_ flow: SK2_PFModel) {
         system = flow.system
-        beta = (system.T.value > 0) ? 1/system.T.value : Double.greatestFiniteMagnitude
+        // beta = (system.T.value > 0) ? 1/system.T.value : Double.greatestFiniteMagnitude
+        beta = system.beta.value
     }
     
     func potentialAt(m: Int, n: Int) -> Double {

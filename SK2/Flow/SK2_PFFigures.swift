@@ -30,7 +30,8 @@ class SK2_Population : SK2_SystemFigure {
     private var k_monitor: ChangeMonitor?
     private var a1_monitor: ChangeMonitor?
     private var a2_monitor: ChangeMonitor?
-    private var T_monitor: ChangeMonitor?
+    // private var T_monitor: ChangeMonitor?
+    private var beta_monitor: ChangeMonitor?
     private var flowMonitor: ChangeMonitor?
     
     init(_ name: String,  _ system: SK2_System, _ flow: SK2_PopulationFlow, _ baseFigure: SK2_BaseFigure) {
@@ -48,7 +49,8 @@ class SK2_Population : SK2_SystemFigure {
         self.k_monitor = system?.k.monitorChanges(nodesChanged)
         self.a1_monitor = system?.a1.monitorChanges(physicsChanged)
         self.a2_monitor = system?.a2.monitorChanges(physicsChanged)
-        self.T_monitor = system?.T.monitorChanges(physicsChanged)
+        // self.T_monitor = system?.T.monitorChanges(physicsChanged)
+        self.beta_monitor = system?.beta.monitorChanges(physicsChanged)
         self.flowMonitor = flow.monitorChanges(flowChanged)
     }
     
@@ -57,7 +59,8 @@ class SK2_Population : SK2_SystemFigure {
         k_monitor?.disconnect()
         a1_monitor?.disconnect()
         a2_monitor?.disconnect()
-        T_monitor?.disconnect()
+        // T_monitor?.disconnect()
+        beta_monitor?.disconnect()
         flowMonitor?.disconnect()
         super.figureHasBeenHidden()
     }
