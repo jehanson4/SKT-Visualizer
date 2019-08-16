@@ -3,6 +3,10 @@
 ---
 ## Release Notes
 
+### Release Notes -- Version 1.0.14
+
+* replace "T" with "beta"
+
 ### Release Notes -- Version 1.0.13
 
 * add 'Surface' effect
