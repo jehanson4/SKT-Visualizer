@@ -25,7 +25,7 @@ Set N=2000, k0=1000, T=1000. Graphics glitch.
 
 [SRW 2/14/19] I suggest Parameter Sweep T as the default.
 
-[2/15/19] busy spinner doesn't show in plane figure
+[2/15/19] busy spinner doesn't show in plane figure.
 
 
 ABOVE THE LINE
