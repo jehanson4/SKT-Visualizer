@@ -21,7 +21,7 @@ reliably reproduce. FYI. Also, after one such crash, I restarted the program and
 figure refused to appear. Closing and restarting the program fixed that.
 
 [SRW 2/14/19] On the rectangle, tap it for non-vertical perspective.
-    Set N=2000, k0=1000, T=1000. Graphics glitch.
+Set N=2000, k0=1000, T=1000. Graphics glitch.
 
 [SRW 2/14/19] I suggest Parameter Sweep T as the default.
 
