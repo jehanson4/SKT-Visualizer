@@ -14,12 +14,9 @@ import MetalKit
 
 class MetalCube : MetalFigure {
     
-    init() {
-        super.init(name: "MetalCube")
+    init(device: MTLDevice) {
+        super.init(name: "MetalCube", group: "Demos", device: device)
     }
     
-    override func renderObjects(drawable: CAMetalDrawable) {
-       // TODO
-    }
 }
 

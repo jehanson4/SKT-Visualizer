@@ -20,9 +20,16 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 // MARK: - FigureViewControllerDelegate
 
 protocol FigureViewControllerDelegate : AnyObject {
+    
+    func handlePan(_ sender: UIPanGestureRecognizer)
+    
+    func handleTap(_ sender: UITapGestureRecognizer)
+    
+    func handlePinch(_ sender: UIPinchGestureRecognizer)
+    
     func updateView(bounds: CGRect)
-    func updateLogic(timeSinceLastUpdate: CFTimeInterval)
-    func renderObjects(drawable: CAMetalDrawable)
+    
+    func render(commandQueue: MTLCommandQueue, pipelineState: MTLRenderPipelineState, drawable: CAMetalDrawable)
 }
 
 // =======================================================
@@ -33,7 +40,9 @@ class FigureViewController : UIViewController, AppModelUser {
     var device: MTLDevice!
     var pipelineState: MTLRenderPipelineState!
     var commandQueue: MTLCommandQueue!
+
     var figure: FigureViewControllerDelegate?
+
     weak var appModel: AppModel!
 
     @IBOutlet weak var mtkView: MTKView! {
@@ -65,7 +74,7 @@ class FigureViewController : UIViewController, AppModelUser {
         
         commandQueue = device.makeCommandQueue()
         
-        figure = MetalFigure(name: "")
+        figure = MetalFigure(name: "", device: device)
         // ? updateView(self.view.bounds)
     }
     
@@ -75,10 +84,21 @@ class FigureViewController : UIViewController, AppModelUser {
         updateView(self.view.bounds)
     }
     
+    @IBAction func handlePan(_ sender: UIPanGestureRecognizer) {
+        self.figure?.handlePan(sender)
+    }
     
+    @IBAction func handleTap(_ sender: UITapGestureRecognizer) {
+        self.figure?.handleTap(sender)
+    }
+    
+    @IBAction func handlePinch(_ sender: UIPinchGestureRecognizer) {
+        self.figure?.handlePinch(sender)
+    }
+
     func render(_ drawable: CAMetalDrawable?) {
         guard let drawable = drawable else { return }
-        self.figure?.renderObjects(drawable: drawable)
+        self.figure?.render(commandQueue: commandQueue, pipelineState: pipelineState, drawable: drawable)
     }
     
     func updateView(_ bounds: CGRect) {
