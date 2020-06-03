@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8A0172EA2487F8B100D3C160 /* MetalCube.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0172E92487F8B100D3C160 /* MetalCube.swift */; };
+		8A0172EE2488029200D3C160 /* FigureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0172ED2488029200D3C160 /* FigureViewController.swift */; };
+		8A0172F02488032100D3C160 /* MetalFigure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0172EF2488032100D3C160 /* MetalFigure.swift */; };
+		8A0172F6248805F000D3C160 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 8A0172F5248805F000D3C160 /* Shaders.metal */; };
+		8A0172FA248809E600D3C160 /* BufferProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0172F9248809E600D3C160 /* BufferProvider.swift */; };
+		8A0172FE24880A3A00D3C160 /* Light.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0172FD24880A3A00D3C160 /* Light.swift */; };
+		8A01730024880A7200D3C160 /* Vertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0172FF24880A7200D3C160 /* Vertex.swift */; };
+		8A01730224880B0100D3C160 /* float4x4Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A01730124880B0100D3C160 /* float4x4Extensions.swift */; };
 		8A131C91207160100088F2FC /* _miscNotes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8A131C90207160100088F2FC /* _miscNotes.txt */; };
 		8A19E9AB2303220300880C97 /* SK2E_LogOccupation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A19E9AA2303220300880C97 /* SK2E_LogOccupation.swift */; };
 		8A19E9AD2303296100880C97 /* SurfaceOnShell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A19E9AC2303296100880C97 /* SurfaceOnShell.swift */; };
@@ -145,6 +153,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8A0172E92487F8B100D3C160 /* MetalCube.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalCube.swift; sourceTree = "<group>"; };
+		8A0172ED2488029200D3C160 /* FigureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FigureViewController.swift; sourceTree = "<group>"; };
+		8A0172EF2488032100D3C160 /* MetalFigure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalFigure.swift; sourceTree = "<group>"; };
+		8A0172F5248805F000D3C160 /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
+		8A0172F9248809E600D3C160 /* BufferProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BufferProvider.swift; sourceTree = "<group>"; };
+		8A0172FD24880A3A00D3C160 /* Light.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Light.swift; sourceTree = "<group>"; };
+		8A0172FF24880A7200D3C160 /* Vertex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vertex.swift; sourceTree = "<group>"; };
+		8A01730124880B0100D3C160 /* float4x4Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = float4x4Extensions.swift; sourceTree = "<group>"; };
 		8A131C90207160100088F2FC /* _miscNotes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _miscNotes.txt; sourceTree = "<group>"; };
 		8A19E9AA2303220300880C97 /* SK2E_LogOccupation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK2E_LogOccupation.swift; sourceTree = "<group>"; };
 		8A19E9AC2303296100880C97 /* SurfaceOnShell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurfaceOnShell.swift; sourceTree = "<group>"; };
@@ -324,6 +340,7 @@
 				8AF98F95207FE7D60007688E /* LICENSE */,
 				8A1CF013207146510099DD97 /* Products */,
 				8AF98FA6207FE9CF0007688E /* README.md */,
+				8A92D8E62487F841007F6649 /* Metal */,
 				8AF138B7207B8966001A88C6 /* Resources */,
 				8A9D599B208DFBD20022831B /* Main */,
 				8AE1BD1A22060E7200D6A062 /* Common */,
@@ -396,6 +413,22 @@
 			);
 			path = Figures;
 			sourceTree = "<group>";
+		};
+		8A92D8E62487F841007F6649 /* Metal */ = {
+			isa = PBXGroup;
+			children = (
+				8A0172E92487F8B100D3C160 /* MetalCube.swift */,
+				8A0172ED2488029200D3C160 /* FigureViewController.swift */,
+				8A0172EF2488032100D3C160 /* MetalFigure.swift */,
+				8A0172F5248805F000D3C160 /* Shaders.metal */,
+				8A0172F9248809E600D3C160 /* BufferProvider.swift */,
+				8A0172FD24880A3A00D3C160 /* Light.swift */,
+				8A0172FF24880A7200D3C160 /* Vertex.swift */,
+				8A01730124880B0100D3C160 /* float4x4Extensions.swift */,
+			);
+			name = Metal;
+			path = "/Users/jehanson/projects/SKT/SKT-Visualizer/Metal";
+			sourceTree = "<absolute>";
 		};
 		8A9D599B208DFBD20022831B /* Main */ = {
 			isa = PBXGroup;
@@ -798,15 +831,19 @@
 				8AD817FC207BFA9200426C25 /* InfoViewController.swift in Sources */,
 				8A88175A22085E3B00523467 /* SK2_PFSequencer.swift in Sources */,
 				8A591B3221E441FB00B802F8 /* SK2_PrimaryViewController.swift in Sources */,
+				8A01730224880B0100D3C160 /* float4x4Extensions.swift in Sources */,
 				8AB2A64521FEB24900A46316 /* Geometry.swift in Sources */,
 				8AB2A63521FCEB5800A46316 /* SK2_Basins.swift in Sources */,
 				8A8817642209104200523467 /* SK2_PopulationFlow.swift in Sources */,
 				8AC82CD921F6668000A75595 /* ShellFigure.swift in Sources */,
+				8A0172F02488032100D3C160 /* MetalFigure.swift in Sources */,
 				8A41A2F2208398E900CDDF28 /* NumericConstants.swift in Sources */,
 				8AB2A63B21FE4F5C00A46316 /* SK2_PFNode.swift in Sources */,
+				8A0172FE24880A3A00D3C160 /* Light.swift in Sources */,
 				8AB2A62C21FCE0D500A46316 /* SK3_System.swift in Sources */,
 				8A9B14B2220E19E400A2CDAB /* DSPropertyColor.swift in Sources */,
 				8A2034DE21EB961300A4C418 /* SK2_SecondaryViewController.swift in Sources */,
+				8A0172FA248809E600D3C160 /* BufferProvider.swift in Sources */,
 				8AB2A64221FEA8BF00A46316 /* NodesOnShell.swift in Sources */,
 				8AC059F12216ED4C00EB6A1C /* BlockFigure.swift in Sources */,
 				8AB2A63321FCE92F00A46316 /* SK2_ShellGeometry.swift in Sources */,
@@ -819,6 +856,7 @@
 				8AC82CF521FC9AED00A75595 /* AnimationController.swift in Sources */,
 				8A88175422085CFA00523467 /* SK2_BAColors.swift in Sources */,
 				8AC059E72216E57600EB6A1C /* SK2_BDFigure.swift in Sources */,
+				8A01730024880A7200D3C160 /* Vertex.swift in Sources */,
 				8A19E9AD2303296100880C97 /* SurfaceOnShell.swift in Sources */,
 				8A19E9AF230329D300880C97 /* SurfaceInPlane.swift in Sources */,
 				8AE1BD162203EF4500D6A062 /* SK2_Factory.swift in Sources */,
@@ -831,6 +869,7 @@
 				8A9B14CC220F543000A2CDAB /* SK2E_Entropy.swift in Sources */,
 				8AC059E92216E5EB00EB6A1C /* SK2_BDGenerator.swift in Sources */,
 				8A9B14BE220EE96A00A2CDAB /* SK2E_Energy.swift in Sources */,
+				8A0172F6248805F000D3C160 /* Shaders.metal in Sources */,
 				8A9B14C6220F421800A2CDAB /* SK2_ShellBase.swift in Sources */,
 				8ACB504020AC92DC00878612 /* BusySpinner.swift in Sources */,
 				8AD9DACB20914E3D0062457C /* Balls.swift in Sources */,
@@ -840,6 +879,7 @@
 				8A2034DC21EB76AC00A4C418 /* ButtonWithImage.swift in Sources */,
 				8AF98FA1207FE8350007688E /* GraphicsViewController.swift in Sources */,
 				8A9B149C220C83AA00A2CDAB /* Timeseries.swift in Sources */,
+				8A0172EA2487F8B100D3C160 /* MetalCube.swift in Sources */,
 				8A9B14B0220E0E2100A2CDAB /* NodesInPlane.swift in Sources */,
 				8A88176222090F4400523467 /* SK2_PFInitializers.swift in Sources */,
 				8A8817472207484800523467 /* UIUtils.swift in Sources */,
@@ -854,6 +894,7 @@
 				8AF59500208AC0420082C5DE /* AppModel.swift in Sources */,
 				8A9B14A6220DB58700A2CDAB /* NetInPlane.swift in Sources */,
 				8A9B14C4220F327300A2CDAB /* SK2_SystemFigure.swift in Sources */,
+				8A0172EE2488029200D3C160 /* FigureViewController.swift in Sources */,
 				8A9B14CE220F8FCF00A2CDAB /* SK2_LogDataSource.swift in Sources */,
 				8A8817662209118000523467 /* SK2_PlaneGeometry.swift in Sources */,
 				8A9BA6B820ADD71F009C39BE /* InnerShell.swift in Sources */,
