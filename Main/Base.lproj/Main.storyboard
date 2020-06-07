@@ -113,7 +113,7 @@
                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                         <state key="normal" title="Cube"/>
                                                         <connections>
-                                                            <action selector="selectSK2E:" destination="bVF-Kc-23a" eventType="touchUpInside" id="WY0-ls-8RP"/>
+                                                            <action selector="selectVisualization:" destination="bVF-Kc-23a" eventType="touchUpInside" id="y1B-RR-4zg"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -286,7 +286,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Models" id="1AI-u4-KIa">
                         <barButtonItem key="rightBarButtonItem" id="Xdx-3D-8Pg">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="detailDisclosure" lineBreakMode="middleTruncation" id="Mow-XO-q2V">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="detailDisclosure" lineBreakMode="middleTruncation" id="Mow-XO-q2V">
                                 <rect key="frame" x="279" y="13" width="25" height="24"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
@@ -452,6 +452,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oEx-YI-aVt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="7c8-fT-Elo">
+                    <connections>
+                        <action selector="handlePan:" destination="uLg-du-7MN" id="B3t-QE-Got"/>
+                    </connections>
+                </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-376" y="-862"/>
         </scene>

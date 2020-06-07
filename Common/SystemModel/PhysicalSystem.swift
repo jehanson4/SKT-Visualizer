@@ -25,6 +25,8 @@ protocol PhysicalProperty : AnyObject, Named, ChangeMonitorEnabled {
 
 protocol PhysicalSystem: AnyObject, Named {
 
+    // TODO var params: Parameter { get set }
+    
     var parameters: Registry<Parameter> { get }
     
     func resetAllParameters()

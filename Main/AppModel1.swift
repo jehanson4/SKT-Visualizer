@@ -158,7 +158,7 @@ class AppModel1 : AppModel {
         _preferenceSupportList = []
 
         // 2. Install the parts
-        
+                
         let sk1Factory = SK1_Factory("sk1")
         let (sk1Parts, sk1Prefs) = sk1Factory.makePartsAndPrefs(animationController, graphicsController, workQueue)
         for part in sk1Parts {

@@ -20,20 +20,22 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 // =======================================================
 // MARK: - MetalFigure
 
-class MetalFigure : Named, FigureViewControllerDelegate {
+class MetalFigure {
     
     var name: String
-    var info: String?
-    var description: String { return nameAndInfo(self) }
-    var group: String?
+    var description: String
+    var group: String
     
-    let light = Light(color: (1.0,1.0,1.0), ambientIntensity: 0.1, direction: (0.0, 0.0, 1.0), diffuseIntensity: 0.8, shininess: 10, specularIntensity: 2)
+    var light = Light(color: (1.0,1.0,1.0), ambientIntensity: 0.1, direction: (0.0, 0.0, 1.0), diffuseIntensity: 0.8, shininess: 10, specularIntensity: 2)
 
+    // background is dark gray so that figures can use true black
+    var clearColor = MTLClearColor(red: 0.1, green: 0.1, blue: 0.1, alpha: 1.0)
+    
     var bufferProvider: BufferProvider
     
-    init(name: String, info: String? = nil, group: String? = nil, device: MTLDevice) {
+    init(name: String, description: String, group: String, device: MTLDevice) {
         self.name = name
-        self.info = info
+        self.description = description
         self.group = group
         
         let sizeOfUniformsBuffer = MemoryLayout<Float>.size * float4x4.numberOfElements() * 2 + Light.size()
@@ -61,7 +63,7 @@ class MetalFigure : Named, FigureViewControllerDelegate {
     }
 
     func render(commandQueue: MTLCommandQueue, pipelineState: MTLRenderPipelineState, drawable: CAMetalDrawable) {
-        // TODO
+        // NOP -- for override
     }
     
     

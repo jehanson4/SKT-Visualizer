@@ -8,6 +8,7 @@
 
 import Foundation
 import MetalKit
+import os
 
 fileprivate let debugEnabled = true
 
@@ -16,41 +17,22 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
         print("FigureViewController", mtd, msg)
     }
 }
-// =======================================================
-// MARK: - FigureViewControllerDelegate
-
-protocol FigureViewControllerDelegate : AnyObject {
-    
-    func handlePan(_ sender: UIPanGestureRecognizer)
-    
-    func handleTap(_ sender: UITapGestureRecognizer)
-    
-    func handlePinch(_ sender: UIPinchGestureRecognizer)
-    
-    func updateView(bounds: CGRect)
-    
-    func render(commandQueue: MTLCommandQueue, pipelineState: MTLRenderPipelineState, drawable: CAMetalDrawable)
-}
 
 // =======================================================
 // MARK: - FigureViewController
 
-class FigureViewController : UIViewController, AppModelUser {
+class FigureViewController : UIViewController, AppModelUser, FigureUser21 {
     
-    var device: MTLDevice!
-    var pipelineState: MTLRenderPipelineState!
-    var commandQueue: MTLCommandQueue!
-
-    var figure: FigureViewControllerDelegate?
-
+    var graphics: Graphics21!
+    
+    private var defaultFigure: Figure21!
+    private weak var _installedFigure: Figure21!
     weak var appModel: AppModel!
 
     @IBOutlet weak var mtkView: MTKView! {
         didSet {
             mtkView.delegate = self
             mtkView.preferredFramesPerSecond = 60
-            // background is dark gray so that figures can use true black
-            mtkView.clearColor = MTLClearColor(red: 0.1, green: 0.1, blue: 0.1, alpha: 1.0)
         }
     }
     
@@ -58,51 +40,51 @@ class FigureViewController : UIViewController, AppModelUser {
         debug("viewDidLoad", "entered")
         super.viewDidLoad()
         
-        device = MTLCreateSystemDefaultDevice()
-        mtkView.device = device
-        
-        let defaultLibrary = device.makeDefaultLibrary()!
-        let fragmentProgram = defaultLibrary.makeFunction(name: "basic_fragment")
-        let vertexProgram = defaultLibrary.makeFunction(name: "basic_vertex")
-        
-        let pipelineStateDescriptor = MTLRenderPipelineDescriptor()
-        pipelineStateDescriptor.vertexFunction = vertexProgram
-        pipelineStateDescriptor.fragmentFunction = fragmentProgram
-        pipelineStateDescriptor.colorAttachments[0].pixelFormat = .bgra8Unorm
-        
-        pipelineState = try! device.makeRenderPipelineState(descriptor: pipelineStateDescriptor)
-        
-        commandQueue = device.makeCommandQueue()
-        
-        figure = MetalFigure(name: "", device: device)
-        // ? updateView(self.view.bounds)
+        graphics = Graphics21()
+        mtkView.device = graphics.device
+            
+        defaultFigure = EmptyFigure21()
+        installFigure(defaultFigure)
     }
     
-    override func viewDidLayoutSubviews() {
-        debug("viewDidLayoutSubviews", "entered")
-        super.viewDidLayoutSubviews()
-        updateView(self.view.bounds)
+//    override func viewDidLayoutSubviews() {
+//        debug("viewDidLayoutSubviews", "entered")
+//        super.viewDidLayoutSubviews()
+//        updateDrawableSize(self.view.bounds)
+//    }
+        
+    func installFigure(_ figure: Figure21?) {
+        if let newFigure = figure {
+            if let oldFigure = _installedFigure {
+                oldFigure.figureWillBeUninstalled()
+            }
+            newFigure.figureWillBeInstalled(graphics: graphics, drawableArea: self.view.bounds)
+            _installedFigure = newFigure
+        }
     }
     
     @IBAction func handlePan(_ sender: UIPanGestureRecognizer) {
-        self.figure?.handlePan(sender)
+        self._installedFigure?.handlePan(sender)
     }
     
     @IBAction func handleTap(_ sender: UITapGestureRecognizer) {
-        self.figure?.handleTap(sender)
+        self._installedFigure?.handleTap(sender)
     }
     
     @IBAction func handlePinch(_ sender: UIPinchGestureRecognizer) {
-        self.figure?.handlePinch(sender)
+        self._installedFigure?.handlePinch(sender)
     }
 
-    func render(_ drawable: CAMetalDrawable?) {
-        guard let drawable = drawable else { return }
-        self.figure?.render(commandQueue: commandQueue, pipelineState: pipelineState, drawable: drawable)
+    func updateDrawableArea(_ drawableArea: CGRect) {
+        self._installedFigure?.updateDrawableArea(drawableArea)
     }
     
-    func updateView(_ bounds: CGRect) {
-        self.figure?.updateView(bounds: bounds)
+    func render(_ drawable: CAMetalDrawable?) {
+        guard
+        let drawable = drawable,
+        let figure = self._installedFigure
+        else { return }
+        figure.render(drawable)
     }
     
 }
@@ -113,7 +95,7 @@ class FigureViewController : UIViewController, AppModelUser {
 extension FigureViewController : MTKViewDelegate {
     
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
-        updateView(view.bounds)
+        updateDrawableArea(view.bounds)
     }
     
     func draw(in view: MTKView) {

@@ -46,14 +46,19 @@ protocol AppPartFactory {
 
 protocol AppModel: AnyObject {
     
+    /// OLD
     var parts: Registry<AppPart> { get }
     
+    /// OLD
     var partSelector: Selector<AppPart> { get }
     
+    /// OLD
     var animationController: AnimationController { get }
     
+    /// OLD
     var graphicsController: GraphicsController { get set }
 
+    /// OLD
     var workQueue: WorkQueue { get }
     
     func savePreferences()
@@ -67,6 +72,5 @@ protocol AppModel: AnyObject {
 protocol AppModelUser {
     
     var appModel: AppModel! { get set }
-    
 }
 

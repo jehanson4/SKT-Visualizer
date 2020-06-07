@@ -8,7 +8,7 @@
 
 import UIKit
 
-fileprivate var debugEnabled = false
+fileprivate var debugEnabled = true
 
 fileprivate func debug(_ mtd: String, _ msg: String = "") {
     if (debugEnabled) {
@@ -20,9 +20,10 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 // ModelSelectionViewController
 // =============================================================
 
-class ModelSelectionViewController : UIViewController, AppModelUser {
+class ModelSelectionViewController : UIViewController, AppModelUser, AppModelUser21 {
             
     weak var appModel: AppModel!
+    weak var appModel21: AppModel21!
     
     override func viewDidLoad() {
         let mtd = "viewDidLoad"
@@ -60,6 +61,15 @@ class ModelSelectionViewController : UIViewController, AppModelUser {
     }
     
     @IBOutlet weak var oldUIButton: UIButton!
+
+    @IBAction func selectVisualization(_ sender: UIButton) {
+        guard
+            let name = sender.titleLabel?.text,
+            let selector = appModel21?.visualizations
+        else { return }
+        
+        _ = selector.select(name: name)
+    }
     
     @IBAction func selectSK2E(_ sender: Any) {
         debug("selectSK2E")
@@ -87,24 +97,13 @@ class ModelSelectionViewController : UIViewController, AppModelUser {
         // TODO what about disconnecting monitors?
         // NOT HERE: do it in 'delete' phase.
         
-        if (segue.destination is AppModelUser) {
-            var d2 = segue.destination as! AppModelUser
-            if (d2.appModel != nil) {
-                debug(mtdName, "destination's appModel is already set")
-            }
-            else if (self.appModel == nil) {
-                debug(mtdName, "cannot set destination's appModel since ours is nil")
-            }
-            else {
-                debug(mtdName, "setting destination's appModel")
-                d2.appModel = self.appModel                
-            }
-            
-        }
-        else {
-            debug(mtdName, "destination is not an app model user")
+        if var d2 = segue.destination as? AppModelUser21 {
+            d2.appModel21 = self.appModel21
         }
         
+        if var d3 = segue.destination as? AppModelUser {
+            d3.appModel = self.appModel
+        }
     }
     
 }
