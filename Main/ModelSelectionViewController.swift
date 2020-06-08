@@ -66,9 +66,20 @@ class ModelSelectionViewController : UIViewController, AppModelUser, AppModelUse
         guard
             let name = sender.titleLabel?.text,
             let selector = appModel21?.visualizations
-        else { return }
-        
-        _ = selector.select(name: name)
+        else {
+            debug("selectVisualization", "failed guard")
+            return
+            
+        }
+
+        debug("selectVisualization", "...selecting \(name)")
+        let newSelectionName = selector.select(name: name)?.name
+        if (newSelectionName == name) {
+            debug("selection succeeded")
+        }
+        else {
+            debug("selection failed")
+        }
     }
     
     @IBAction func selectSK2E(_ sender: Any) {

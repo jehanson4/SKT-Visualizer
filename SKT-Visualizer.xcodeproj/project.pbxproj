@@ -306,6 +306,7 @@
 		8AD9DAC020914E010062457C /* TexturedFragmentShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TexturedFragmentShader.glsl; sourceTree = "<group>"; };
 		8AD9DAC220914E010062457C /* PointSpriteVertexShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PointSpriteVertexShader.glsl; sourceTree = "<group>"; };
 		8AD9DACA20914E3D0062457C /* Balls.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Balls.swift; sourceTree = "<group>"; };
+		8AE0B827248E987F008753B5 /* DevNotes.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = DevNotes.md; sourceTree = "<group>"; };
 		8AE18F9B2099ED8A0086F127 /* backgroundCalculation.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = backgroundCalculation.txt; sourceTree = "<group>"; };
 		8AE18F9D2099ED8A0086F127 /* lookAndFeel.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = lookAndFeel.txt; sourceTree = "<group>"; };
 		8AE18FA42099EFF30086F127 /* code.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = code.txt; sourceTree = "<group>"; };
@@ -347,6 +348,7 @@
 			isa = PBXGroup;
 			children = (
 				8A022083248BCEDB00F3A91D /* Design21.md */,
+				8AE0B827248E987F008753B5 /* DevNotes.md */,
 				8A022079248BBD8700F3A91D /* AppConstants21.swift */,
 				8A022084248BD84E00F3A91D /* Graphics21.swift */,
 				8A022086248BD8D200F3A91D /* Figure21.swift */,

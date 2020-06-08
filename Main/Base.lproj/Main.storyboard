@@ -111,7 +111,7 @@
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ilr-Kx-54C">
                                                         <rect key="frame" x="0.0" y="0.0" width="256" height="92"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                        <state key="normal" title="Cube"/>
+                                                        <state key="normal" title="Demos"/>
                                                         <connections>
                                                             <action selector="selectVisualization:" destination="bVF-Kc-23a" eventType="touchUpInside" id="y1B-RR-4zg"/>
                                                         </connections>

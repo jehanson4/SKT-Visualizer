@@ -17,14 +17,17 @@ class Demos21 : Visualization21 {
         let registry = Registry21<Figure21>()
         var figures = [Figure21]()
         
-        figures.append(CubeFigure21())
+        let cube = CubeFigure21()
+        figures.append(cube)
         
-        for var f in figures {
+        for f in figures {
             let entry = registry.register(hint: f.name, value: f)
             f.name = entry.name
         }
 
-        return Selector21<Figure21>(registry)
+        let selector =  Selector21<Figure21>(registry)
+        _ = selector.select(name: cube.name)
+        return selector
     }
     
 }

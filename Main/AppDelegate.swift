@@ -9,16 +9,17 @@
 import os
 import UIKit
 
+fileprivate var debugEnabled: Bool = true
+
+fileprivate func debug(_ mtd: String, _ msg: String = "") {
+    if (debugEnabled) {
+        print("AppDelegate", mtd, msg)
+    }
+}
+
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, AppModel21 {
-    
-    var debugEnabled: Bool = false
-    
-    private func debug(_ mtd: String, _ msg: String = "") {
-        if (debugEnabled) {
-            print("AppDelegate", mtd, msg)
-        }
-    }
     
     var window: UIWindow?
     var appModel: AppModel?
@@ -77,10 +78,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppModel21 {
         guard let splitViewController = controller as? UISplitViewController,
             let leftNavController = splitViewController.viewControllers.first as? UINavigationController,
             var masterViewController = leftNavController.topViewController as? AppModelUser,
+            var masterViewController21 = leftNavController.topViewController as? AppModelUser21,
             let detailViewController = splitViewController.viewControllers.last as? FigureUser21
             else { fatalError() }
         
         masterViewController.appModel = self.appModel
+        masterViewController21.appModel21 = self
+
         self.figureUser = detailViewController
     }
     
@@ -101,12 +105,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppModel21 {
     }
     
     func visualizationChanged(_ sender: Any) {
+        debug("visualizationChanged", "entered")
         figureChangeMonitor?.disconnect()
-        figureChangeMonitor = self.visualizations.selection?.value.figures.monitorChanges(figureChanged)
+        if let newVisualization = self.visualizations.selection?.value {
+            // Q: do we need to tell newVisualization to do something here?
+            figureChangeMonitor = newVisualization.figures.monitorChanges(figureChanged)
+        }
+        else {
+            figureChangeMonitor = nil
+        }
         figureChanged(self)
     }
     
     func figureChanged(_ sender: Any) {
+        debug("figureChanged", "entered")
         figureUser?.installFigure(visualizations.selection?.value.figures.selection?.value)
     }
 }

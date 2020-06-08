@@ -8,6 +8,7 @@
 
 import Foundation
 import MetalKit
+import os
 
 class EmptyFigure21 : Figure21 {
     
@@ -17,6 +18,7 @@ class EmptyFigure21 : Figure21 {
     var pipelineState: MTLRenderPipelineState!
     
     func figureWillBeInstalled(graphics: Graphics21, drawableArea: CGRect) {
+        os_log("EmptyFigure21.figureWillBeInstalled: entered")
         self.graphics = graphics
         
         let fragmentProgram = graphics.defaultLibrary.makeFunction(name: "basic_fragment")
@@ -31,6 +33,7 @@ class EmptyFigure21 : Figure21 {
     }
     
     func figureWillBeUninstalled() {
+        os_log("EmptyFigure21.figureWillBeUninstalled: nop")
     }
     
     func render(_ drawable: CAMetalDrawable) {
@@ -50,19 +53,19 @@ class EmptyFigure21 : Figure21 {
     }
     
     func updateDrawableArea(_ drawableArea: CGRect) {
-        // NOP
+        os_log("EmptyFigure21.updateDrawableArea: nop")
     }
     
     func handlePan(_ sender: UIPanGestureRecognizer) {
-        // NOP
+        os_log("EmptyFigure21.handlePan: nop")
     }
     
     func handleTap(_ sender: UITapGestureRecognizer) {
-        // NOP
+        os_log("EmptyFigure21.handleTap: nop")
     }
     
     func handlePinch(_ sender: UIPinchGestureRecognizer) {
-        // NOP
+        os_log("EmptyFigure21.handlePinch: nop")
     }
 
 
