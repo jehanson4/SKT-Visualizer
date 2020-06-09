@@ -41,17 +41,17 @@ change-size
 
 ### Figure
 
-Renders content to the Metal View in the FigureViewController. Figures may have Effects.
+Renders content to the Metal View in the FigureViewController.
 
-A figure has a name and a group.
+A Figure has a name and a group.
 
-A Figure is lightweight until installed. setup and teardown methods.
+A Figure is lightweight until installed.
 
-For this version, gestures are setup in the FigureViewController class and the Figure
-API has methods for all supported gestures. The reason for this is that I don't know how
-make the connections programmatically
+A Figure has setup and teardown methods.
 
-Figures with Effects maintain a Registry of available effects and a list of currently enabled ones.
+A Figure sets up its own support for gestures
+
+A Figures may have Effects. Figures with Effects maintain a Registry of available effects and a list of currently enabled ones.
 It has a default set of enabled ones for first-time setup
 
 User preferences:

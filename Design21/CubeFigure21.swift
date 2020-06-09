@@ -37,6 +37,10 @@ class CubeFigure21: Figure21 {
     var rotationZ: Float = 0.0
     var scale: Float     = 1.0
 
+    let panSensivity:Float = 1.0
+    var lastPanLocation: CGPoint!
+    var pan: UIPanGestureRecognizer? = nil
+    
     init() {
         
         // dummy value to be replaced
@@ -51,6 +55,9 @@ class CubeFigure21: Figure21 {
         os_log("CubeFigure21.figureWillBeInstalled: entered")
         self.graphics = graphics
         
+        self.pan = UIPanGestureRecognizer(target: self, action: #selector(CubeFigure21._doPan))
+        graphics.view.addGestureRecognizer(pan!)
+
         self.updateDrawableArea(drawableArea)
 
         let vertices = _makeVertices()
@@ -81,6 +88,8 @@ class CubeFigure21: Figure21 {
         os_log("CubeFigure21.figureWillBeUninstalled: entered")
         self.vertexBuffer = nil
         self.bufferProvider = nil
+        self.graphics?.view.removeGestureRecognizer(pan!)
+
     }
     
     func render(_ drawable: CAMetalDrawable) {
@@ -121,18 +130,20 @@ class CubeFigure21: Figure21 {
         self.projectionMatrix = float4x4.makePerspectiveViewAngle(float4x4.degrees(toRad: 85.0), aspectRatio: Float(drawableArea.width / drawableArea.height), nearZ: 0.01, farZ: 100.0)
     }
     
-    func handlePan(_ sender: UIPanGestureRecognizer) {
-        // NOP
+    @objc func _doPan(panGesture: UIPanGestureRecognizer) {
+      if panGesture.state == UIGestureRecognizer.State.changed {
+        let pointInView = panGesture.location(in: self.graphics!.view)
+        let xDelta = Float((lastPanLocation.x - pointInView.x)/self.graphics!.view.bounds.width) * panSensivity
+        let yDelta = Float((lastPanLocation.y - pointInView.y)/self.graphics!.view.bounds.height) * panSensivity
+        self.rotationY -= xDelta
+        self.rotationX -= yDelta
+        self.modelViewMatrix.rotateAroundX(rotationX, y: rotationY, z: rotationZ)
+        lastPanLocation = pointInView
+      } else if panGesture.state == UIGestureRecognizer.State.began {
+        lastPanLocation = panGesture.location(in: self.graphics!.view)
+      }
     }
-    
-    func handleTap(_ sender: UITapGestureRecognizer) {
-        // NOP
-    }
-    
-    func handlePinch(_ sender: UIPinchGestureRecognizer) {
-        // NOP
-    }
-    
+
     private func _makeVertices() -> Array<Vertex> {
         //Front
         let A = Vertex(x: -1.0, y:   1.0, z:   1.0, r:  1.0, g:  0.0, b:  0.0, a:  1.0, s: 0.25, t: 0.25, nX: 0.0, nY: 0.0, nZ: 1.0)

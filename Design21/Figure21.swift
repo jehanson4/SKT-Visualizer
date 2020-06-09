@@ -26,12 +26,6 @@ protocol Figure21 : AnyObject {
 
     func updateDrawableArea(_ drawableArea: CGRect)
     
-    func handlePan(_ sender: UIPanGestureRecognizer)
-    
-    func handleTap(_ sender: UITapGestureRecognizer)
-    
-    func handlePinch(_ sender: UIPinchGestureRecognizer)
-
 }
 
 // =======================================================

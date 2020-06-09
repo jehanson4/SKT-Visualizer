@@ -17,11 +17,13 @@ struct Graphics21 {
     let device: MTLDevice
     let defaultLibrary: MTLLibrary
     let commandQueue: MTLCommandQueue
-
-    init() {
-        device = MTLCreateSystemDefaultDevice()!
-        defaultLibrary = device.makeDefaultLibrary()!
-        commandQueue = device.makeCommandQueue()!
+    let view: UIView
+    
+    init(view: UIView) {
+        self.device = MTLCreateSystemDefaultDevice()!
+        self.defaultLibrary = device.makeDefaultLibrary()!
+        self.commandQueue = device.makeCommandQueue()!
+        self.view = view
     }
 }
 

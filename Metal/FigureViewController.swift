@@ -40,7 +40,7 @@ class FigureViewController : UIViewController, AppModelUser, FigureUser21 {
         debug("viewDidLoad", "entered")
         super.viewDidLoad()
         
-        graphics = Graphics21()
+        graphics = Graphics21(view: self.view)
         mtkView.device = graphics.device
             
         defaultFigure = EmptyFigure21()
@@ -63,18 +63,6 @@ class FigureViewController : UIViewController, AppModelUser, FigureUser21 {
         }
     }
     
-    @IBAction func handlePan(_ sender: UIPanGestureRecognizer) {
-        self._installedFigure?.handlePan(sender)
-    }
-    
-    @IBAction func handleTap(_ sender: UITapGestureRecognizer) {
-        self._installedFigure?.handleTap(sender)
-    }
-    
-    @IBAction func handlePinch(_ sender: UIPinchGestureRecognizer) {
-        self._installedFigure?.handlePinch(sender)
-    }
-
     func updateDrawableArea(_ drawableArea: CGRect) {
         self._installedFigure?.updateDrawableArea(drawableArea)
     }

@@ -56,17 +56,4 @@ class EmptyFigure21 : Figure21 {
         os_log("EmptyFigure21.updateDrawableArea: nop")
     }
     
-    func handlePan(_ sender: UIPanGestureRecognizer) {
-        os_log("EmptyFigure21.handlePan: nop")
-    }
-    
-    func handleTap(_ sender: UITapGestureRecognizer) {
-        os_log("EmptyFigure21.handleTap: nop")
-    }
-    
-    func handlePinch(_ sender: UIPinchGestureRecognizer) {
-        os_log("EmptyFigure21.handlePinch: nop")
-    }
-
-
 }
