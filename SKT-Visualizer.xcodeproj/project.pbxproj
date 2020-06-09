@@ -147,6 +147,8 @@
 		8AD9DACB20914E3D0062457C /* Balls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AD9DACA20914E3D0062457C /* Balls.swift */; };
 		8AE0B82B248FC4DE008753B5 /* Icosahedron21.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE0B82A248FC4DE008753B5 /* Icosahedron21.swift */; };
 		8AE0B82D248FC4F3008753B5 /* Cube21.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE0B82C248FC4F3008753B5 /* Cube21.swift */; };
+		8AE0B82F248FEB3C008753B5 /* DemoStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8AE0B82E248FEB3C008753B5 /* DemoStoryboard.storyboard */; };
+		8AE0B831248FEEB6008753B5 /* DemosPrimaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE0B830248FEEB6008753B5 /* DemosPrimaryViewController.swift */; };
 		8AE18F9F2099ED8A0086F127 /* backgroundCalculation.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8AE18F9B2099ED8A0086F127 /* backgroundCalculation.txt */; };
 		8AE18FA12099ED8A0086F127 /* lookAndFeel.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8AE18F9D2099ED8A0086F127 /* lookAndFeel.txt */; };
 		8AE18FA52099EFF30086F127 /* code.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8AE18FA42099EFF30086F127 /* code.txt */; };
@@ -309,6 +311,8 @@
 		8AE0B827248E987F008753B5 /* DevNotes.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = DevNotes.md; sourceTree = "<group>"; };
 		8AE0B82A248FC4DE008753B5 /* Icosahedron21.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Icosahedron21.swift; sourceTree = "<group>"; };
 		8AE0B82C248FC4F3008753B5 /* Cube21.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cube21.swift; sourceTree = "<group>"; };
+		8AE0B82E248FEB3C008753B5 /* DemoStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = DemoStoryboard.storyboard; sourceTree = "<group>"; };
+		8AE0B830248FEEB6008753B5 /* DemosPrimaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemosPrimaryViewController.swift; sourceTree = "<group>"; };
 		8AE18F9B2099ED8A0086F127 /* backgroundCalculation.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = backgroundCalculation.txt; sourceTree = "<group>"; };
 		8AE18F9D2099ED8A0086F127 /* lookAndFeel.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = lookAndFeel.txt; sourceTree = "<group>"; };
 		8AE18FA42099EFF30086F127 /* code.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = code.txt; sourceTree = "<group>"; };
@@ -345,6 +349,8 @@
 				8A022090248BEB6400F3A91D /* Demos21.swift */,
 				8AE0B82A248FC4DE008753B5 /* Icosahedron21.swift */,
 				8AE0B82C248FC4F3008753B5 /* Cube21.swift */,
+				8AE0B82E248FEB3C008753B5 /* DemoStoryboard.storyboard */,
+				8AE0B830248FEEB6008753B5 /* DemosPrimaryViewController.swift */,
 			);
 			path = Demos;
 			sourceTree = "<group>";
@@ -844,6 +850,7 @@
 				8AD81820207C9BD900426C25 /* image1-60@2x.png in Resources */,
 				8A1CF020207146540099DD97 /* LaunchScreen.storyboard in Resources */,
 				8A75424A20A8CC5100A2BFAD /* about.html in Resources */,
+				8AE0B82F248FEB3C008753B5 /* DemoStoryboard.storyboard in Resources */,
 				8AD81824207C9BD900426C25 /* image1-20@3x.png in Resources */,
 				8A88174B220757C000523467 /* SK2_Storyboard.storyboard in Resources */,
 				8AD81827207C9BD900426C25 /* Contents.json in Resources */,
@@ -955,6 +962,7 @@
 				8AB2A65121FF8C8C00A46316 /* NetOnShell.swift in Sources */,
 				8A75B690208A317D00EACD13 /* Registry.swift in Sources */,
 				8ACE789E2073F7A400C29875 /* Utils.swift in Sources */,
+				8AE0B831248FEEB6008753B5 /* DemosPrimaryViewController.swift in Sources */,
 				8A4654C021E8E38300EE2B26 /* PhysicalSystem.swift in Sources */,
 				8AA05A11208FC14E009417A6 /* AppModel1.swift in Sources */,
 				8AB2A63121FCE40E00A46316 /* SK2_BAModel.swift in Sources */,

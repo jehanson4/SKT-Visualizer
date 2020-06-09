@@ -57,15 +57,14 @@ class Icosahedron21: Figure21 {
         os_log("Icosahedron21.figureWillBeInstalled: entered")
         self.graphics = graphics
         
-        self.pan = UIPanGestureRecognizer(target: self, action: #selector(Icosahedron21._doPan))
-        graphics.view.addGestureRecognizer(pan!)
-        
         self.updateDrawableArea(drawableArea)
-        
         self.makeDataBuffers()
+        self.setupGestures()
         
-        let sizeOfUniformsBuffer = MemoryLayout<Float>.size * float4x4.numberOfElements() * 2 + Light.size()
-        self.bufferProvider = BufferProvider(device: graphics.device, inflightBuffersCount: 3, sizeOfUniformsBuffer: sizeOfUniformsBuffer)
+        if (self.bufferProvider == nil) {
+            let sizeOfUniformsBuffer = MemoryLayout<Float>.size * float4x4.numberOfElements() * 2 + Light.size()
+            self.bufferProvider = BufferProvider(device: graphics.device, inflightBuffersCount: 3, sizeOfUniformsBuffer: sizeOfUniformsBuffer)
+        }
         
         let fragmentProgram = graphics.defaultLibrary.makeFunction(name: "basic_fragment")
         let vertexProgram = graphics.defaultLibrary.makeFunction(name: "basic_vertex")
@@ -80,10 +79,9 @@ class Icosahedron21: Figure21 {
     
     func figureWillBeUninstalled() {
         os_log("Icosahedron21.figureWillBeUninstalled: entered")
+        self.teardownGestures()
         self.vertexBuffer = nil
         self.indexBuffer = nil
-        self.bufferProvider = nil
-        self.graphics?.view.removeGestureRecognizer(pan!)
         
     }
     
@@ -143,11 +141,21 @@ class Icosahedron21: Figure21 {
         }
     }
     
+    private func setupGestures() {
+        self.pan = UIPanGestureRecognizer(target: self, action: #selector(Icosahedron21._doPan))
+        graphics.view.addGestureRecognizer(pan!)
+    }
+
+    private func teardownGestures() {
+        self.graphics?.view.removeGestureRecognizer(pan!)
+        self.pan = nil
+    }
     
     private func makeDataBuffers() {
         
-        // rFactor is EMPIRICAL
+        // rFactor is EMPIRICAL governing overall size. Its value is relative to projection matrix.
         let rFactor = 1.0
+        
         let gRatio = Double.constants.goldenRatio
         let radius = rFactor * sqrt(1.0 + gRatio * gRatio)
         let c0 = Float(0.0)

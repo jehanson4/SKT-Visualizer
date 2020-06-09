@@ -87,7 +87,6 @@ class Cube21: Figure21 {
     func figureWillBeUninstalled() {
         os_log("Cube21.figureWillBeUninstalled: entered")
         self.vertexBuffer = nil
-        self.bufferProvider = nil
         self.graphics?.view.removeGestureRecognizer(pan!)
         
     }
