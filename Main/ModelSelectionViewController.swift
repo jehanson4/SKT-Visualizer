@@ -66,19 +66,15 @@ class ModelSelectionViewController : UIViewController, AppModelUser, AppModelUse
         guard
             let name = sender.titleLabel?.text,
             let selector = appModel21?.visualizations
-        else {
-            debug("selectVisualization", "failed guard")
-            return
-            
-        }
+        else { return }
 
         debug("selectVisualization", "...selecting \(name)")
         let newSelectionName = selector.select(name: name)?.name
         if (newSelectionName == name) {
-            debug("selection succeeded")
+            debug("...selection succeeded")
         }
         else {
-            debug("selection failed")
+            debug("...selection failed")
         }
     }
     
@@ -105,7 +101,7 @@ class ModelSelectionViewController : UIViewController, AppModelUser, AppModelUse
         let mtdName = "prepare for segue"
         debug(mtdName, "destination: \(segue.destination.title ?? "(no title)")")
         
-        // TODO what about disconnecting monitors?
+        // TODO what about disconnecting change monitors?
         // NOT HERE: do it in 'delete' phase.
         
         if var d2 = segue.destination as? AppModelUser21 {

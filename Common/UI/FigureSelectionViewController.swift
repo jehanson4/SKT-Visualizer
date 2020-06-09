@@ -12,7 +12,7 @@ import UIKit
 // FigureSelectionViewController
 // ===================================================================
 
-class FigureSelectionViewController: UITableViewController, AppModelUser {
+class FigureSelectionViewController: UITableViewController, AppModelUser, AppModelUser21 {
 
     // =====================================
     // Debug
@@ -31,7 +31,9 @@ class FigureSelectionViewController: UITableViewController, AppModelUser {
     
     weak var appModel: AppModel!
     weak var figureSelector: Selector<Figure>!
-    
+
+    weak var appModel21: AppModel21!
+
     // =====================================
     // Lifecycle
 
@@ -109,17 +111,30 @@ class FigureSelectionViewController: UITableViewController, AppModelUser {
         button.tag = row
         button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
         
-        let entryKey = figureSelector!.registry.entryKeys[row]
-        let entryName = figureSelector!.registry.entry(key: entryKey)!.name
-        button.setTitle(entryName, for: .normal)
-        // button.setTitleColor(UIColor.black, for: .normal)
-        // button.layer.borderWidth = 1
-        // button.layer.borderColor = UIColor.lightGray.cgColor
-
-        let selectedRow = figureSelector!.selection?.index
-        if (selectedRow != nil && selectedRow! == row) {
-            button.isSelected = true
-            // button.layer.backgroundColor = UIColor.lightGray.cgColor
+        if (figureSelector != nil) {
+            let entryKey = figureSelector!.registry.entryKeys[row]
+            let entryName = figureSelector!.registry.entry(key: entryKey)!.name
+            button.setTitle(entryName, for: .normal)
+            // button.setTitleColor(UIColor.black, for: .normal)
+            // button.layer.borderWidth = 1
+            // button.layer.borderColor = UIColor.lightGray.cgColor
+            
+            let selectedRow = figureSelector!.selection?.index
+            if (selectedRow != nil && selectedRow! == row) {
+                button.isSelected = true
+                // button.layer.backgroundColor = UIColor.lightGray.cgColor
+            }
+        }
+        else if let figureSelector21 = appModel21?.visualizations.selection?.value.figures {
+            let entryName = figureSelector21.registry.names[row]
+            button.setTitle(entryName, for: .normal)
+            
+            // Inefficient!
+            if let selectedRow = figureSelector21.selection?.index {
+                if (selectedRow == row) {
+                    button.isSelected = true
+                }
+            }
         }
     }
     
