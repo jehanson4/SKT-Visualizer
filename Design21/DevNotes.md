@@ -37,9 +37,28 @@ For selection changes, may as well continue to use ChangeMonitors. They need to 
 Each visualization has "user preferences" that get written on application shutdown and read on subsequent startup. Because we're not choosing an initial visualization (see above), there's no user preference for selected visualization name.
 
 
+### SK/2
 
+#### Sharing code and state
 
+There are multiple visuallzations, each with its own set of figures: SK/2 Equilibrium, Dynamics, Bifurcations. In the first two, the figures are the same shell and plane figures as always. Bifurcations figures are yet to be designed.
 
+Let us share one system among all visualizations, so that user may switch among them without having to set system parameters in each.
 
+>       class SK2_System { ... }
 
+That means that we need to have single factory for all of SK/2. Use a static method because we only use it once. Put it in a class for future-proofing and familiarity.
 
+>       class SK2_Factory {
+>           static func makeVisualizations() -> [Visualization] { ... }
+>       }
+
+The various figures share more than just the system, but what and how much they share varies. E.g., sometimes only the vertex colors differ. We want them to share code and we need to split out the different dimensions along which they vary: colors, vertex and index arrays, default vertex positions, mod's due to Relief, etc.
+
+*Q: Do we also want to share state among the figures? E.g., the vertex and index arrays?*
+
+A: No, at least for now. It introduces a lot of complexity for an uncertain benefit, and there will still be cases where we need to rebuild everything from scratch sometimes--e.g., change to N. 
+
+*Q: for the vertex data, do we want to interleave it, a la Vertex class?*
+
+A: This guy [ https://metalbyexample.com/vertex-descriptors ] has a good answer: no. And use a vertex descriptor. 

@@ -2,6 +2,7 @@
 //  Icosahedron21.swift
 //  SKT Visualizer
 //
+// Demo figure that uses index array.
 //  Created by James Hanson on 6/9/20.
 //  Copyright © 2020 James Hanson. All rights reserved.
 //
@@ -23,7 +24,7 @@ class Icosahedron21: Figure21 {
     var vertexBuffer: MTLBuffer? = nil
     var indexBuffer: MTLBuffer? = nil
     var indexCount: Int = 0
-    var bufferProvider: BufferProvider? = nil
+    lazy var bufferProvider: BufferProvider = createBufferProvider()
     
     let light = Light(color: (1.0,1.0,1.0), ambientIntensity: 0.1, direction: (0.0, 0.0, 1.0), diffuseIntensity: 0.8, shininess: 10, specularIntensity: 2)
     
@@ -60,12 +61,7 @@ class Icosahedron21: Figure21 {
         self.updateDrawableArea(drawableArea)
         self.makeDataBuffers()
         self.setupGestures()
-        
-        if (self.bufferProvider == nil) {
-            let sizeOfUniformsBuffer = MemoryLayout<Float>.size * float4x4.numberOfElements() * 2 + Light.size()
-            self.bufferProvider = BufferProvider(device: graphics.device, inflightBuffersCount: 3, sizeOfUniformsBuffer: sizeOfUniformsBuffer)
-        }
-        
+                
         let fragmentProgram = graphics.defaultLibrary.makeFunction(name: "basic_fragment")
         let vertexProgram = graphics.defaultLibrary.makeFunction(name: "basic_vertex")
         
@@ -87,7 +83,7 @@ class Icosahedron21: Figure21 {
     
     func render(_ drawable: CAMetalDrawable) {
         
-        _ = bufferProvider!.avaliableResourcesSemaphore.wait(timeout: DispatchTime.distantFuture)
+        _ = bufferProvider.avaliableResourcesSemaphore.wait(timeout: DispatchTime.distantFuture)
         
         let renderPassDescriptor = MTLRenderPassDescriptor()
         renderPassDescriptor.colorAttachments[0].texture = drawable.texture
@@ -97,7 +93,7 @@ class Icosahedron21: Figure21 {
         
         let commandBuffer = graphics.commandQueue.makeCommandBuffer()!
         commandBuffer.addCompletedHandler { (_) in
-            self.bufferProvider!.avaliableResourcesSemaphore.signal()
+            self.bufferProvider.avaliableResourcesSemaphore.signal()
         }
         
         let renderEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor)!
@@ -105,7 +101,7 @@ class Icosahedron21: Figure21 {
         renderEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
         renderEncoder.setCullMode(MTLCullMode.front)
         
-        let uniformBuffer = bufferProvider!.nextUniformsBuffer(projectionMatrix: projectionMatrix, modelViewMatrix: modelViewMatrix, light: light)
+        let uniformBuffer = bufferProvider.nextUniformsBuffer(projectionMatrix: projectionMatrix, modelViewMatrix: modelViewMatrix, light: light)
         
         renderEncoder.setVertexBuffer(uniformBuffer, offset: 0, index: 1)
         renderEncoder.setFragmentBuffer(uniformBuffer, offset: 0, index: 1)
@@ -221,4 +217,11 @@ class Icosahedron21: Figure21 {
         indexBuffer = graphics.device.makeBuffer(bytes: indexData, length: MemoryLayout<UInt16>.size * indexData.count , options: [])
 
     }
+    
+    func createBufferProvider() -> BufferProvider {
+        let sizeOfUniformsBuffer = MemoryLayout<Float>.size * float4x4.numberOfElements() * 2 + Light.size()
+        return BufferProvider(device: graphics.device, inflightBuffersCount: 3, sizeOfUniformsBuffer: sizeOfUniformsBuffer)
+    }
+    
+
 }

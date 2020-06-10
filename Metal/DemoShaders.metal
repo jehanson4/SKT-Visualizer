@@ -1,5 +1,5 @@
 //
-//  Shaders.metal
+//  DemoShaders.metal
 //  SKT Visualizer
 //
 //  Created by James Hanson on 6/3/20.
@@ -24,7 +24,7 @@ struct VertexOut {
   float3 normal;
 };
 
-struct Light{
+struct Light {
   packed_float3 color;      // 0 - 2
   float ambientIntensity;   // 3
   packed_float3 direction;  // 4 - 6
@@ -78,14 +78,14 @@ fragment float4 basic_fragment(VertexOut interpolated [[stage_in]],
   float4 ambientColor = float4(light.color * light.ambientIntensity, 1);
 
   // Diffuse
-  float diffuseFactor = max(0.0,dot(interpolated.normal, light.direction));
-  float4 diffuseColor = float4(light.color * light.diffuseIntensity * diffuseFactor ,1.0);
+  float diffuseFactor = max(0.0, dot(interpolated.normal, light.direction));
+  float4 diffuseColor = float4(light.color * light.diffuseIntensity * diffuseFactor, 1.0);
 
   // Specular
   float3 eye = normalize(interpolated.fragmentPosition);
   float3 reflection = reflect(light.direction, interpolated.normal);
   float specularFactor = pow(max(0.0, dot(reflection, eye)), light.shininess);
-  float4 specularColor = float4(light.color * light.specularIntensity * specularFactor ,1.0);
+  float4 specularColor = float4(light.color * light.specularIntensity * specularFactor, 1.0);
 
   // IGNORE Texture
   // float4 color = tex2D.sample(sampler2D, interpolated.texCoord);
