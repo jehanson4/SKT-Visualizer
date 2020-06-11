@@ -21,6 +21,10 @@ struct Light {
         return MemoryLayout<Float>.size * 12
     }
     
+    static func rawSize() -> Int {
+        return MemoryLayout<Float>.size * 10
+    }
+    
     func raw() -> [Float] {
         let raw = [color.0, color.1, color.2, ambientIntensity, direction.0, direction.1, direction.2, diffuseIntensity, shininess, specularIntensity]
         return raw

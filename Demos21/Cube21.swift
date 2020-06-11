@@ -117,7 +117,7 @@ class Cube21: Figure21 {
         renderEncoder.setFragmentBuffer(uniformBuffer, offset: 0, index: 1)
         
         renderEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: vertexCount, instanceCount: vertexCount/3)
-        
+
         renderEncoder.endEncoding()
         
         commandBuffer.present(drawable)
@@ -196,8 +196,7 @@ class Cube21: Figure21 {
     }
     
     func createBufferProvider() -> BufferProvider {
-        let sizeOfUniformsBuffer = MemoryLayout<Float>.size * float4x4.numberOfElements() * 2 + Light.size()
-        return BufferProvider(device: graphics.device, inflightBuffersCount: 3, sizeOfUniformsBuffer: sizeOfUniformsBuffer)
+        return BufferProvider(device: graphics.device, inflightBuffersCount: 3)
     }
     
 

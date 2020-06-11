@@ -21,9 +21,9 @@ class Cloud21: Figure21 {
     var graphics: Graphics21!
     var pipelineState: MTLRenderPipelineState!
     
-    var vertexCount: Int = 0
+    let pointSize: Float = 10.0
+    let vertexCount: Int = 2500
     var vertexCoordinateBuffer: MTLBuffer? = nil
-    var vertexNormalBuffer: MTLBuffer? = nil
     var vertexColorBuffer: MTLBuffer? = nil
     
     lazy var bufferProvider: BufferProvider = createBufferProvider()
@@ -63,21 +63,17 @@ class Cloud21: Figure21 {
         self.updateDrawableArea(drawableArea)
         self.setupGestures()
         self.makeDataBuffers()
-
+        
         let vertexDescriptor = MTLVertexDescriptor()
         vertexDescriptor.attributes[0].format = .float3
         vertexDescriptor.attributes[0].bufferIndex = 0
         vertexDescriptor.attributes[0].offset = 0
-        vertexDescriptor.attributes[1].format = .float3
+        vertexDescriptor.attributes[1].format = .float4
         vertexDescriptor.attributes[1].bufferIndex = 1
         vertexDescriptor.attributes[1].offset = 0
-        vertexDescriptor.attributes[2].format = .float4
-        vertexDescriptor.attributes[2].bufferIndex = 2
-        vertexDescriptor.attributes[2].offset = 0
         vertexDescriptor.layouts[0].stride = MemoryLayout<SIMD3<Float>>.stride
-        vertexDescriptor.layouts[1].stride = MemoryLayout<SIMD3<Float>>.stride
-        vertexDescriptor.layouts[2].stride = MemoryLayout<SIMD4<Float>>.stride
-
+        vertexDescriptor.layouts[1].stride = MemoryLayout<SIMD4<Float>>.stride
+        
         let fragmentProgram = graphics.defaultLibrary.makeFunction(name: "cloud_fragment")
         let vertexProgram = graphics.defaultLibrary.makeFunction(name: "cloud_vertex")
         
@@ -94,7 +90,6 @@ class Cloud21: Figure21 {
         os_log("Cloud21.figureWillBeUninstalled: entered")
         self.teardownGestures()
         self.vertexCoordinateBuffer = nil
-        self.vertexNormalBuffer = nil
         self.vertexColorBuffer = nil
         
     }
@@ -117,16 +112,14 @@ class Cloud21: Figure21 {
         let renderEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor)!
         renderEncoder.setRenderPipelineState(pipelineState)
         renderEncoder.setVertexBuffer(vertexCoordinateBuffer, offset: 0, index: 0)
-        renderEncoder.setVertexBuffer(vertexNormalBuffer, offset: 0, index: 1)
-        renderEncoder.setVertexBuffer(vertexColorBuffer, offset: 0, index: 2)
-        renderEncoder.setCullMode(MTLCullMode.front)
+        renderEncoder.setVertexBuffer(vertexColorBuffer, offset: 0, index: 1)
         
-        let uniformBuffer = bufferProvider.nextUniformsBuffer(projectionMatrix: projectionMatrix, modelViewMatrix: modelViewMatrix, light: light)
+        let uniformBuffer = bufferProvider.nextUniformsBuffer(projectionMatrix: projectionMatrix, modelViewMatrix: modelViewMatrix, light: light, pointSize: self.pointSize)
         
-        renderEncoder.setVertexBuffer(uniformBuffer, offset: 0, index: 3)
-        renderEncoder.setFragmentBuffer(uniformBuffer, offset: 0, index: 3)
+        renderEncoder.setVertexBuffer(uniformBuffer, offset: 0, index: 2)
+        renderEncoder.setFragmentBuffer(uniformBuffer, offset: 0, index: 2)
         
-        renderEncoder.drawPrimitives(type: .point, vertexStart: 0, vertexCount: vertexCount, instanceCount: 1)
+        renderEncoder.drawPrimitives(type: .point, vertexStart: 0, vertexCount: vertexCount)
         
         renderEncoder.endEncoding()
         
@@ -161,44 +154,35 @@ class Cloud21: Figure21 {
         self.pan = UIPanGestureRecognizer(target: self, action: #selector(Icosahedron21._doPan))
         graphics.view.addGestureRecognizer(pan!)
     }
-
+    
     private func teardownGestures() {
         self.graphics?.view.removeGestureRecognizer(pan!)
         self.pan = nil
     }
     
     func makeDataBuffers() {
-        
-        vertexCount = 3
-        
-        let vertexCoords: [SIMD3<Float>] = [
-            SIMD3<Float>(1.0, 0.0, 0.0),
-            SIMD3<Float>(0.0, 1.0, 0.0),
-            SIMD3<Float>(0.0, 0.0, 1.0)
-        ]
+                
+        var vertexCoords = [SIMD3<Float>]()
+        var vertexColors = [SIMD4<Float>]()
+        for _ in 0..<vertexCount {
+            let x = Float.random(in: -1 ... 1)
+            let y = Float.random(in: -1 ... 1)
+            let z = Float.random(in: -1 ... 1)
+            let r = 0.5 * (x+1.0)
+            let g = 0.5 * (y+1.0)
+            let b = 0.5 * (z+1.0)
+            vertexCoords.append(SIMD3<Float>(x,y,z))
+            vertexColors.append(SIMD4<Float>(r,g,b,1.0))
+        }
 
-        let vertexNormals: [SIMD3<Float>] = [
-            SIMD3<Float>(1.0, 0.0, 0.0),
-            SIMD3<Float>(0.0, 1.0, 0.0),
-            SIMD3<Float>(0.0, 0.0, 1.0)
-        ]
-
-        let vertexColors: [SIMD4<Float>] = [
-            SIMD4<Float>(1.0, 0.0, 0.0, 1.0),
-            SIMD4<Float>(0.0, 1.0, 0.0, 1.0),
-            SIMD4<Float>(0.0, 0.0, 1.0, 1.0)
-        ]
-        
         self.vertexCoordinateBuffer = graphics.device.makeBuffer(bytes: vertexCoords, length: vertexCoords.count * MemoryLayout<SIMD3<Float>>.size, options: [])!
-        self.vertexNormalBuffer = graphics.device.makeBuffer(bytes: vertexNormals, length: vertexNormals.count * MemoryLayout<SIMD3<Float>>.size, options: [])!
         self.vertexColorBuffer = graphics.device.makeBuffer(bytes: vertexColors, length: vertexColors.count * MemoryLayout<SIMD4<Float>>.size, options: [])!
-
+        
     }
     
     func createBufferProvider() -> BufferProvider {
-        let sizeOfUniformsBuffer = MemoryLayout<Float>.size * float4x4.numberOfElements() * 2 + Light.size()
-        return BufferProvider(device: graphics.device, inflightBuffersCount: 3, sizeOfUniformsBuffer: sizeOfUniformsBuffer)
+        return BufferProvider(device: graphics.device, inflightBuffersCount: 3)
     }
     
-
+    
 }

@@ -10,14 +10,18 @@ import Metal
 import simd
 
 class BufferProvider : NSObject {
-  
-  var avaliableResourcesSemaphore: DispatchSemaphore
+
+    // Size of buffer, including madding due to memory-alignment
+    // = size of 2 matrices + size of Light + size of float + padding
+    let uniformsBufferSize: Int = _calcBufSize()
+    
+    var avaliableResourcesSemaphore: DispatchSemaphore
 
   let inflightBuffersCount: Int
   private var uniformsBuffers: [MTLBuffer]
   private var avaliableBufferIndex: Int = 0
   
-  init(device:MTLDevice, inflightBuffersCount: Int, sizeOfUniformsBuffer: Int) {
+  init(device:MTLDevice, inflightBuffersCount: Int) {
       
     avaliableResourcesSemaphore = DispatchSemaphore(value: inflightBuffersCount)
 
@@ -25,7 +29,7 @@ class BufferProvider : NSObject {
     uniformsBuffers = [MTLBuffer]()
       
     for _ in 0...inflightBuffersCount-1 {
-      let uniformsBuffer = device.makeBuffer(length: sizeOfUniformsBuffer, options: [])
+      let uniformsBuffer = device.makeBuffer(length: uniformsBufferSize, options: [])
       uniformsBuffers.append(uniformsBuffer!)
     }
   }
@@ -36,20 +40,28 @@ class BufferProvider : NSObject {
     }
   }
 
-  func nextUniformsBuffer(projectionMatrix: float4x4, modelViewMatrix: float4x4, light: Light) -> MTLBuffer {
+    func nextUniformsBuffer(projectionMatrix: float4x4, modelViewMatrix: float4x4, light: Light, pointSize: Float = 1.0) -> MTLBuffer {
 
     let buffer = uniformsBuffers[avaliableBufferIndex]
     let bufferPointer = buffer.contents()
-      
+    var bufferOffset = 0
+
     var projectionMatrix = projectionMatrix
     var modelViewMatrix = modelViewMatrix
+    var pointSize = pointSize
         
-    memcpy(bufferPointer, &modelViewMatrix, MemoryLayout<Float>.size*float4x4.numberOfElements())
-    memcpy(bufferPointer + MemoryLayout<Float>.size*float4x4.numberOfElements(), &projectionMatrix, MemoryLayout<Float>.size*float4x4.numberOfElements())
-    memcpy(bufferPointer + 2*MemoryLayout<Float>.size*float4x4.numberOfElements(), light.raw(), Light.size())
-
+        
+    let float4x4Size = MemoryLayout<Float>.size*float4x4.numberOfElements()
+    memcpy(bufferPointer + bufferOffset, &modelViewMatrix, float4x4Size)
+    bufferOffset += float4x4Size
     
-    memcpy(bufferPointer + 2*MemoryLayout<Float>.size*float4x4.numberOfElements(), light.raw(), Light.size())
+    memcpy(bufferPointer + bufferOffset, &projectionMatrix, float4x4Size)
+    bufferOffset += float4x4Size
+        
+    memcpy(bufferPointer + bufferOffset, light.raw(), Light.rawSize())
+    bufferOffset += Light.rawSize()
+    
+    memcpy(bufferPointer + bufferOffset, &pointSize, MemoryLayout<Float>.size)
 
     avaliableBufferIndex += 1
     if avaliableBufferIndex == inflightBuffersCount{
@@ -58,4 +70,12 @@ class BufferProvider : NSObject {
       
     return buffer
   }
+    
+    private static func _calcBufSize() -> Int {
+        let floatSize = MemoryLayout<Float>.size
+        let float4x4Size = MemoryLayout<Float>.size*float4x4.numberOfElements()
+        let lightSize = Light.rawSize()
+        let padding = float4x4Size - lightSize - floatSize
+        return 2*float4x4Size + lightSize + floatSize + padding
+    }
 }

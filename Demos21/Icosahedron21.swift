@@ -219,8 +219,7 @@ class Icosahedron21: Figure21 {
     }
     
     func createBufferProvider() -> BufferProvider {
-        let sizeOfUniformsBuffer = MemoryLayout<Float>.size * float4x4.numberOfElements() * 2 + Light.size()
-        return BufferProvider(device: graphics.device, inflightBuffersCount: 3, sizeOfUniformsBuffer: sizeOfUniformsBuffer)
+        return BufferProvider(device: graphics.device, inflightBuffersCount: 3)
     }
     
 

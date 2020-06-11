@@ -34,6 +34,7 @@ struct Uniforms{
     float4x4 modelMatrix;
     float4x4 projectionMatrix;
     Light light;
+    float pointSize;
 };
 
 
@@ -110,55 +111,35 @@ fragment float4 basic_fragment(VertexOut interpolated [[stage_in]],
 
 struct CloudVertexIn {
     float3 position [[attribute(0)]];
-    float3 normal   [[attribute(1)]];
-    float4 color    [[attribute(2)]];
+    float4 color    [[attribute(1)]];
 };
 
 struct CloudVertexOut {
     float4 position [[position]];
     float  pointSize [[point_size]];
     float3 fragmentPosition;
-    float3 normal;
     float4 color;
 };
 
-vertex CloudVertexOut cloud_vertex(
-                                   const device CloudVertexIn* vertex_array [[ buffer(0) ]],
-                                   const device Uniforms&  uniforms    [[ buffer(3) ]],
-                                   unsigned int vid [[ vertex_id ]]) {
+vertex CloudVertexOut cloud_vertex(CloudVertexIn vertexIn [[stage_in]],
+                                   const device Uniforms&  uniforms    [[ buffer(2) ]]) {
     
     float4x4 mv_Matrix = uniforms.modelMatrix;
     float4x4 proj_Matrix = uniforms.projectionMatrix;
-    CloudVertexIn vertexIn = vertex_array[vid];
     
     CloudVertexOut vertexOut;
     vertexOut.position = proj_Matrix * mv_Matrix * float4(vertexIn.position,1);
-    vertexOut.pointSize = 0.5;
+    vertexOut.pointSize = uniforms.pointSize;
     vertexOut.fragmentPosition = (mv_Matrix * float4(vertexIn.position,1)).xyz;
     
     vertexOut.color = vertexIn.color;
-    vertexOut.normal = (mv_Matrix * float4(vertexIn.normal, 0.0)).xyz;
     
     return vertexOut;
 }
 
 fragment float4 cloud_fragment(CloudVertexOut interpolated [[stage_in]],
-                               const device Uniforms&  uniforms    [[ buffer(3) ]]) {
+                               const device Uniforms&  uniforms    [[ buffer(2) ]]) {
     
-    // Ambient
-    Light light = uniforms.light;
-    float4 ambientColor = float4(light.color * light.ambientIntensity, 1);
-    
-    // Diffuse
-    float diffuseFactor = max(0.0, dot(interpolated.normal, light.direction));
-    float4 diffuseColor = float4(light.color * light.diffuseIntensity * diffuseFactor, 1.0);
-    
-    // Specular
-    float3 eye = normalize(interpolated.fragmentPosition);
-    float3 reflection = reflect(light.direction, interpolated.normal);
-    float specularFactor = pow(max(0.0, dot(reflection, eye)), light.shininess);
-    float4 specularColor = float4(light.color * light.specularIntensity * specularFactor, 1.0);
-    
-    return interpolated.color * (ambientColor + diffuseColor + specularColor);
+    return interpolated.color;
 }
 

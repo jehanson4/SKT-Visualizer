@@ -38,8 +38,7 @@ class MetalFigure {
         self.description = description
         self.group = group
         
-        let sizeOfUniformsBuffer = MemoryLayout<Float>.size * float4x4.numberOfElements() * 2 + Light.size()
-        self.bufferProvider = BufferProvider(device: device, inflightBuffersCount: 3, sizeOfUniformsBuffer: sizeOfUniformsBuffer)
+        self.bufferProvider = BufferProvider(device: device, inflightBuffersCount: 3)
     }
     
     func resetPOV() {
