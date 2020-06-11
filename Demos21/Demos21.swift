@@ -19,14 +19,15 @@ class Demos21 : Visualization21 {
         
         figures.append(Cube21())
         figures.append(Icosahedron21())
-        
+        figures.append(Cloud21())
+
         for f in figures {
             let entry = registry.register(hint: f.name, value: f)
             f.name = entry.name
         }
 
         let selector =  Selector21<Figure21>(registry)
-        _ = selector.select(index: registry.entries.count-1)
+        _ = selector.select(index: 0)
         return selector
     }
     

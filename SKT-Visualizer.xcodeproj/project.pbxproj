@@ -152,6 +152,7 @@
 		8AE0B83D249054BD008753B5 /* SK2_Factory21.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE0B83C249054BD008753B5 /* SK2_Factory21.swift */; };
 		8AE0B83F249055A1008753B5 /* SK2_Equilibrium21.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE0B83E249055A1008753B5 /* SK2_Equilibrium21.swift */; };
 		8AE0B84B24916B5C008753B5 /* SK2_PlaneGeometry21.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE0B84A24916B5C008753B5 /* SK2_PlaneGeometry21.swift */; };
+		8AE0B84D24925B64008753B5 /* Cloud21.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE0B84C24925B64008753B5 /* Cloud21.swift */; };
 		8AE18F9F2099ED8A0086F127 /* backgroundCalculation.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8AE18F9B2099ED8A0086F127 /* backgroundCalculation.txt */; };
 		8AE18FA12099ED8A0086F127 /* lookAndFeel.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8AE18F9D2099ED8A0086F127 /* lookAndFeel.txt */; };
 		8AE18FA52099EFF30086F127 /* code.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8AE18FA42099EFF30086F127 /* code.txt */; };
@@ -319,6 +320,7 @@
 		8AE0B83C249054BD008753B5 /* SK2_Factory21.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_Factory21.swift; sourceTree = "<group>"; };
 		8AE0B83E249055A1008753B5 /* SK2_Equilibrium21.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_Equilibrium21.swift; sourceTree = "<group>"; };
 		8AE0B84A24916B5C008753B5 /* SK2_PlaneGeometry21.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_PlaneGeometry21.swift; sourceTree = "<group>"; };
+		8AE0B84C24925B64008753B5 /* Cloud21.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cloud21.swift; sourceTree = "<group>"; };
 		8AE18F9B2099ED8A0086F127 /* backgroundCalculation.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = backgroundCalculation.txt; sourceTree = "<group>"; };
 		8AE18F9D2099ED8A0086F127 /* lookAndFeel.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = lookAndFeel.txt; sourceTree = "<group>"; };
 		8AE18FA42099EFF30086F127 /* code.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = code.txt; sourceTree = "<group>"; };
@@ -355,6 +357,7 @@
 				8A022090248BEB6400F3A91D /* Demos21.swift */,
 				8AE0B82A248FC4DE008753B5 /* Icosahedron21.swift */,
 				8AE0B82C248FC4F3008753B5 /* Cube21.swift */,
+				8AE0B84C24925B64008753B5 /* Cloud21.swift */,
 				8AE0B82E248FEB3C008753B5 /* DemoStoryboard.storyboard */,
 				8AE0B830248FEEB6008753B5 /* DemosPrimaryViewController.swift */,
 				8A0172F5248805F000D3C160 /* DemoShaders.metal */,
@@ -925,6 +928,7 @@
 				8AB2A63521FCEB5800A46316 /* SK2_Basins.swift in Sources */,
 				8A022089248BD94400F3A91D /* Visualization21.swift in Sources */,
 				8A8817642209104200523467 /* SK2_PopulationFlow.swift in Sources */,
+				8AE0B84D24925B64008753B5 /* Cloud21.swift in Sources */,
 				8AC82CD921F6668000A75595 /* ShellFigure.swift in Sources */,
 				8A0172F02488032100D3C160 /* MetalFigure.swift in Sources */,
 				8A41A2F2208398E900CDDF28 /* NumericConstants.swift in Sources */,

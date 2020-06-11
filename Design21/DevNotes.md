@@ -61,4 +61,4 @@ A: No, at least for now. It introduces a lot of complexity for an uncertain bene
 
 *Q: for the vertex data, do we want to interleave it, a la Vertex class?*
 
-A: This guy [ https://metalbyexample.com/vertex-descriptors ] has a good answer: no. And use a vertex descriptor. 
+A: This guy <https://metalbyexample.com/vertex-descriptors> has a good answer: no. And use a vertex descriptor. 

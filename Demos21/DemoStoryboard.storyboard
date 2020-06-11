@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="d5F-Wu-dkm">
-                                <rect key="frame" x="362.5" y="100" width="85" height="60"/>
+                                <rect key="frame" x="362.5" y="100" width="85" height="90"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LBF-YO-tYh">
                                         <rect key="frame" x="0.0" y="0.0" width="85" height="30"/>
@@ -31,6 +31,13 @@
                                         <state key="normal" title="Icosahedron"/>
                                         <connections>
                                             <action selector="selectFigure:" destination="rmf-D5-nVA" eventType="touchUpInside" id="e1f-sR-5Sm"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dER-gf-vT0" userLabel="Cloud">
+                                        <rect key="frame" x="0.0" y="60" width="85" height="30"/>
+                                        <state key="normal" title="Cloud"/>
+                                        <connections>
+                                            <action selector="selectFigure:" destination="rmf-D5-nVA" eventType="touchUpInside" id="54d-Je-3JO"/>
                                         </connections>
                                     </button>
                                 </subviews>
