@@ -7,9 +7,13 @@
 //
 
 import Foundation
+import MetalKit
 
 protocol Effect21 {
     
     var name: String { get set }
     var enabled: Bool { get set }
+    var switchable: Bool { get }
+    
+    func render(_ drawable: CAMetalDrawable)
 }

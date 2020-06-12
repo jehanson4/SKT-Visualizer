@@ -103,12 +103,20 @@
                                                 <rect key="frame" x="16" y="0.0" width="256" height="92"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ilr-Kx-54C">
-                                                        <rect key="frame" x="0.0" y="0.0" width="256" height="92"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="256" height="60"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                         <state key="normal" title="Demos"/>
                                                         <connections>
                                                             <action selector="selectVisualization:" destination="bVF-Kc-23a" eventType="touchUpInside" id="y1B-RR-4zg"/>
                                                             <segue destination="pVW-W7-hpD" kind="show" id="5oU-BS-xMm"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H5k-0H-g6r">
+                                                        <rect key="frame" x="0.0" y="60" width="256" height="32"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                        <state key="normal" title="SK/2 Equilibrium"/>
+                                                        <connections>
+                                                            <action selector="selectVisualization:" destination="bVF-Kc-23a" eventType="touchUpInside" id="1Iw-iL-mwE"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>

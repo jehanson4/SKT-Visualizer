@@ -94,6 +94,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppModel21 {
         var visualizations = [Visualization21]()
         visualizations.append(Demos21())
         
+        visualizations += SK2_Factory21.createVisualizations()
+
         for var v in visualizations {
             let entry = registry.register(hint: v.name, value: v)
             v.name = entry.name

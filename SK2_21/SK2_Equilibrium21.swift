@@ -21,9 +21,7 @@ class SK2_Equilibrium21 : Visualization21 {
     private func _initFigures() -> Selector21<Figure21> {
         let registry = Registry21<Figure21>()
         var figures = [Figure21]()
-        
-        figures.append(Cube21())
-        figures.append(Icosahedron21())
+                
         
         for f in figures {
             let entry = registry.register(hint: f.name, value: f)
@@ -31,7 +29,6 @@ class SK2_Equilibrium21 : Visualization21 {
         }
 
         let selector =  Selector21<Figure21>(registry)
-        _ = selector.select(index: registry.entries.count-1)
         return selector
     }
     

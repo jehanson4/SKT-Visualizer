@@ -54,13 +54,12 @@ class FigureViewController : UIViewController, AppModelUser, FigureUser21 {
 //    }
         
     func installFigure(_ figure: Figure21?) {
-        if let newFigure = figure {
+        let newFigure: Figure21 = figure ?? defaultFigure
             if let oldFigure = _installedFigure {
                 oldFigure.figureWillBeUninstalled()
             }
-            newFigure.figureWillBeInstalled(graphics: graphics, drawableArea: self.view.bounds)
-            _installedFigure = newFigure
-        }
+        newFigure.figureWillBeInstalled(graphics: graphics, drawableArea: self.view.bounds)
+        _installedFigure = newFigure
     }
     
     func updateDrawableArea(_ drawableArea: CGRect) {
