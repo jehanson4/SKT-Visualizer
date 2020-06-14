@@ -87,10 +87,11 @@
 		8AA05A19208FFFD4009417A6 /* MagicStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA05A18208FFFD4009417A6 /* MagicStrings.swift */; };
 		8AA1F1B62492E5DB0075C7D9 /* CompositeFigure20.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA1F1B52492E5DB0075C7D9 /* CompositeFigure20.swift */; };
 		8AA1F1BC249398850075C7D9 /* DS_ColorSource20.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA1F1BB249398850075C7D9 /* DS_ColorSource20.swift */; };
-		8AA1F1BE24939EFE0075C7D9 /* SK2_Geometry20.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA1F1BD24939EFE0075C7D9 /* SK2_Geometry20.swift */; };
-		8AA1F1C02493A0040075C7D9 /* SK2_NetEffect20.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA1F1BF2493A0040075C7D9 /* SK2_NetEffect20.swift */; };
+		8AA1F1BE24939EFE0075C7D9 /* SK2_Geometry_20.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA1F1BD24939EFE0075C7D9 /* SK2_Geometry_20.swift */; };
+		8AA1F1C02493A0040075C7D9 /* SK2_NetEffect_20.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA1F1BF2493A0040075C7D9 /* SK2_NetEffect_20.swift */; };
 		8AA1F1C22493B01A0075C7D9 /* DS_ElevationSource20.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA1F1C12493B01A0075C7D9 /* DS_ElevationSource20.swift */; };
-		8AA1F1CA249668DB0075C7D9 /* SK2_Figure20.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA1F1C9249668DB0075C7D9 /* SK2_Figure20.swift */; };
+		8AA1F1CA249668DB0075C7D9 /* SK2_SystemFigure_20.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA1F1C9249668DB0075C7D9 /* SK2_SystemFigure_20.swift */; };
+		8AA1F1CC2496817C0075C7D9 /* SK2_NodesEffect_20.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA1F1CB2496817C0075C7D9 /* SK2_NodesEffect_20.swift */; };
 		8AAF6DFF208167A800E4C9BF /* ToDo.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8AAF6DFE208167A800E4C9BF /* ToDo.txt */; };
 		8AB2A62C21FCE0D500A46316 /* SK3_System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2A62B21FCE0D500A46316 /* SK3_System.swift */; };
 		8AB2A62F21FCE1C100A46316 /* SK2_BANode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2A62E21FCE1C100A46316 /* SK2_BANode.swift */; };
@@ -153,9 +154,9 @@
 		8AE0B82D248FC4F3008753B5 /* Cube21.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE0B82C248FC4F3008753B5 /* Cube21.swift */; };
 		8AE0B82F248FEB3C008753B5 /* DemoStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8AE0B82E248FEB3C008753B5 /* DemoStoryboard.storyboard */; };
 		8AE0B831248FEEB6008753B5 /* DemosPrimaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE0B830248FEEB6008753B5 /* DemosPrimaryViewController.swift */; };
-		8AE0B83D249054BD008753B5 /* SK2_Factory21.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE0B83C249054BD008753B5 /* SK2_Factory21.swift */; };
-		8AE0B83F249055A1008753B5 /* SK2_Equilibrium21.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE0B83E249055A1008753B5 /* SK2_Equilibrium21.swift */; };
-		8AE0B84B24916B5C008753B5 /* SK2_PlaneGeometry21.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE0B84A24916B5C008753B5 /* SK2_PlaneGeometry21.swift */; };
+		8AE0B83D249054BD008753B5 /* SK2_Factory_20.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE0B83C249054BD008753B5 /* SK2_Factory_20.swift */; };
+		8AE0B83F249055A1008753B5 /* SK2_Equilibrium_20.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE0B83E249055A1008753B5 /* SK2_Equilibrium_20.swift */; };
+		8AE0B84B24916B5C008753B5 /* SK2_PlaneGeometry_20.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE0B84A24916B5C008753B5 /* SK2_PlaneGeometry_20.swift */; };
 		8AE0B84D24925B64008753B5 /* Cloud21.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE0B84C24925B64008753B5 /* Cloud21.swift */; };
 		8AE18F9F2099ED8A0086F127 /* backgroundCalculation.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8AE18F9B2099ED8A0086F127 /* backgroundCalculation.txt */; };
 		8AE18FA12099ED8A0086F127 /* lookAndFeel.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8AE18F9D2099ED8A0086F127 /* lookAndFeel.txt */; };
@@ -257,10 +258,11 @@
 		8AA05A18208FFFD4009417A6 /* MagicStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagicStrings.swift; sourceTree = "<group>"; };
 		8AA1F1B52492E5DB0075C7D9 /* CompositeFigure20.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompositeFigure20.swift; sourceTree = "<group>"; };
 		8AA1F1BB249398850075C7D9 /* DS_ColorSource20.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DS_ColorSource20.swift; sourceTree = "<group>"; };
-		8AA1F1BD24939EFE0075C7D9 /* SK2_Geometry20.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_Geometry20.swift; sourceTree = "<group>"; };
-		8AA1F1BF2493A0040075C7D9 /* SK2_NetEffect20.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_NetEffect20.swift; sourceTree = "<group>"; };
+		8AA1F1BD24939EFE0075C7D9 /* SK2_Geometry_20.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_Geometry_20.swift; sourceTree = "<group>"; };
+		8AA1F1BF2493A0040075C7D9 /* SK2_NetEffect_20.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_NetEffect_20.swift; sourceTree = "<group>"; };
 		8AA1F1C12493B01A0075C7D9 /* DS_ElevationSource20.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DS_ElevationSource20.swift; sourceTree = "<group>"; };
-		8AA1F1C9249668DB0075C7D9 /* SK2_Figure20.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_Figure20.swift; sourceTree = "<group>"; };
+		8AA1F1C9249668DB0075C7D9 /* SK2_SystemFigure_20.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_SystemFigure_20.swift; sourceTree = "<group>"; };
+		8AA1F1CB2496817C0075C7D9 /* SK2_NodesEffect_20.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_NodesEffect_20.swift; sourceTree = "<group>"; };
 		8AAF6DFE208167A800E4C9BF /* ToDo.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ToDo.txt; sourceTree = "<group>"; };
 		8AB2A62B21FCE0D500A46316 /* SK3_System.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK3_System.swift; sourceTree = "<group>"; };
 		8AB2A62E21FCE1C100A46316 /* SK2_BANode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_BANode.swift; sourceTree = "<group>"; };
@@ -325,9 +327,9 @@
 		8AE0B82C248FC4F3008753B5 /* Cube21.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cube21.swift; sourceTree = "<group>"; };
 		8AE0B82E248FEB3C008753B5 /* DemoStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = DemoStoryboard.storyboard; sourceTree = "<group>"; };
 		8AE0B830248FEEB6008753B5 /* DemosPrimaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemosPrimaryViewController.swift; sourceTree = "<group>"; };
-		8AE0B83C249054BD008753B5 /* SK2_Factory21.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_Factory21.swift; sourceTree = "<group>"; };
-		8AE0B83E249055A1008753B5 /* SK2_Equilibrium21.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_Equilibrium21.swift; sourceTree = "<group>"; };
-		8AE0B84A24916B5C008753B5 /* SK2_PlaneGeometry21.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_PlaneGeometry21.swift; sourceTree = "<group>"; };
+		8AE0B83C249054BD008753B5 /* SK2_Factory_20.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_Factory_20.swift; sourceTree = "<group>"; };
+		8AE0B83E249055A1008753B5 /* SK2_Equilibrium_20.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_Equilibrium_20.swift; sourceTree = "<group>"; };
+		8AE0B84A24916B5C008753B5 /* SK2_PlaneGeometry_20.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_PlaneGeometry_20.swift; sourceTree = "<group>"; };
 		8AE0B84C24925B64008753B5 /* Cloud21.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cloud21.swift; sourceTree = "<group>"; };
 		8AE18F9B2099ED8A0086F127 /* backgroundCalculation.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = backgroundCalculation.txt; sourceTree = "<group>"; };
 		8AE18F9D2099ED8A0086F127 /* lookAndFeel.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = lookAndFeel.txt; sourceTree = "<group>"; };
@@ -359,7 +361,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		8A0173032489165600D3C160 /* Demos21 */ = {
+		8A0173032489165600D3C160 /* Demos_20 */ = {
 			isa = PBXGroup;
 			children = (
 				8A0172F9248809E600D3C160 /* DemoBufferProvider.swift */,
@@ -372,7 +374,7 @@
 				8A0172F5248805F000D3C160 /* DemoShaders.metal */,
 				8A0172FF24880A7200D3C160 /* Vertex.swift */,
 			);
-			path = Demos21;
+			path = Demos_20;
 			sourceTree = "<group>";
 		};
 		8A022082248BCEBD00F3A91D /* Design20 */ = {
@@ -433,8 +435,8 @@
 			children = (
 				8A022095248D150900F3A91D /* Design19 */,
 				8A022082248BCEBD00F3A91D /* Design20 */,
-				8A0173032489165600D3C160 /* Demos21 */,
-				8AE0B837249053D8008753B5 /* SK2_21 */,
+				8A0173032489165600D3C160 /* Demos_20 */,
+				8AE0B837249053D8008753B5 /* SK2_20 */,
 				8ACE78902073CCDA00C29875 /* Frameworks */,
 				8AF98F95207FE7D60007688E /* LICENSE */,
 				8A1CF013207146510099DD97 /* Products */,
@@ -703,17 +705,18 @@
 			path = AppIcon.appiconset;
 			sourceTree = "<group>";
 		};
-		8AE0B837249053D8008753B5 /* SK2_21 */ = {
+		8AE0B837249053D8008753B5 /* SK2_20 */ = {
 			isa = PBXGroup;
 			children = (
-				8AE0B83C249054BD008753B5 /* SK2_Factory21.swift */,
-				8AE0B83E249055A1008753B5 /* SK2_Equilibrium21.swift */,
-				8AE0B84A24916B5C008753B5 /* SK2_PlaneGeometry21.swift */,
-				8AA1F1BD24939EFE0075C7D9 /* SK2_Geometry20.swift */,
-				8AA1F1BF2493A0040075C7D9 /* SK2_NetEffect20.swift */,
-				8AA1F1C9249668DB0075C7D9 /* SK2_Figure20.swift */,
+				8AE0B83C249054BD008753B5 /* SK2_Factory_20.swift */,
+				8AE0B83E249055A1008753B5 /* SK2_Equilibrium_20.swift */,
+				8AE0B84A24916B5C008753B5 /* SK2_PlaneGeometry_20.swift */,
+				8AA1F1BD24939EFE0075C7D9 /* SK2_Geometry_20.swift */,
+				8AA1F1BF2493A0040075C7D9 /* SK2_NetEffect_20.swift */,
+				8AA1F1CB2496817C0075C7D9 /* SK2_NodesEffect_20.swift */,
+				8AA1F1C9249668DB0075C7D9 /* SK2_SystemFigure_20.swift */,
 			);
-			path = SK2_21;
+			path = SK2_20;
 			sourceTree = "<group>";
 		};
 		8AE1BD1922060E0D00D6A062 /* Effects */ = {
@@ -893,7 +896,7 @@
 				8AB2A64721FEBF0800A46316 /* SK2_SimpleDataSource.swift in Sources */,
 				8A9B14C2220F145B00A2CDAB /* ReliefSwitch.swift in Sources */,
 				8A41B09C21F357F600DE38CB /* FigureSelectionViewController.swift in Sources */,
-				8AE0B83F249055A1008753B5 /* SK2_Equilibrium21.swift in Sources */,
+				8AE0B83F249055A1008753B5 /* SK2_Equilibrium_20.swift in Sources */,
 				8A1CF016207146510099DD97 /* AppDelegate.swift in Sources */,
 				8A2034E721ED2A6000A4C418 /* SK2_System.swift in Sources */,
 				8A19E9AB2303220300880C97 /* SK2E_LogOccupation.swift in Sources */,
@@ -904,7 +907,7 @@
 				8AB2A65321FF9A1400A46316 /* Meridians.swift in Sources */,
 				8A9B14C0220EF8F600A2CDAB /* ColorSwitch.swift in Sources */,
 				8ACE788D2072E51800C29875 /* Icosahedron.swift in Sources */,
-				8AA1F1BE24939EFE0075C7D9 /* SK2_Geometry20.swift in Sources */,
+				8AA1F1BE24939EFE0075C7D9 /* SK2_Geometry_20.swift in Sources */,
 				8AE1BD182203FD5E00D6A062 /* SK1_Factory.swift in Sources */,
 				8A9B14A8220DB88900A2CDAB /* PlaneFigure.swift in Sources */,
 				8A591B3421E6902500B802F8 /* ModelSelectionViewController.swift in Sources */,
@@ -926,7 +929,7 @@
 				8A8817642209104200523467 /* SK2_PopulationFlow.swift in Sources */,
 				8AE0B84D24925B64008753B5 /* Cloud21.swift in Sources */,
 				8AC82CD921F6668000A75595 /* ShellFigure.swift in Sources */,
-				8AA1F1C02493A0040075C7D9 /* SK2_NetEffect20.swift in Sources */,
+				8AA1F1C02493A0040075C7D9 /* SK2_NetEffect_20.swift in Sources */,
 				8A41A2F2208398E900CDDF28 /* NumericConstants.swift in Sources */,
 				8AB2A63B21FE4F5C00A46316 /* SK2_PFNode.swift in Sources */,
 				8A0172FE24880A3A00D3C160 /* Light.swift in Sources */,
@@ -951,7 +954,7 @@
 				8AC059E72216E57600EB6A1C /* SK2_BDFigure.swift in Sources */,
 				8A01730024880A7200D3C160 /* Vertex.swift in Sources */,
 				8A19E9AD2303296100880C97 /* SurfaceOnShell.swift in Sources */,
-				8AA1F1CA249668DB0075C7D9 /* SK2_Figure20.swift in Sources */,
+				8AA1F1CA249668DB0075C7D9 /* SK2_SystemFigure_20.swift in Sources */,
 				8A19E9AF230329D300880C97 /* SurfaceInPlane.swift in Sources */,
 				8AE1BD162203EF4500D6A062 /* SK2_Factory.swift in Sources */,
 				8A3C45C62086278900A1E9CD /* UniformColor.swift in Sources */,
@@ -976,6 +979,7 @@
 				8A2034DC21EB76AC00A4C418 /* ButtonWithImage.swift in Sources */,
 				8AF98FA1207FE8350007688E /* GraphicsViewController.swift in Sources */,
 				8A9B149C220C83AA00A2CDAB /* Timeseries.swift in Sources */,
+				8AA1F1CC2496817C0075C7D9 /* SK2_NodesEffect_20.swift in Sources */,
 				8A9B14B0220E0E2100A2CDAB /* NodesInPlane.swift in Sources */,
 				8AA1F1B62492E5DB0075C7D9 /* CompositeFigure20.swift in Sources */,
 				8A88176222090F4400523467 /* SK2_PFInitializers.swift in Sources */,
@@ -995,7 +999,7 @@
 				8A9B14C4220F327300A2CDAB /* SK2_SystemFigure.swift in Sources */,
 				8A0172EE2488029200D3C160 /* FigureViewController.swift in Sources */,
 				8A02208D248BE6A300F3A91D /* EmptyFigure20.swift in Sources */,
-				8AE0B83D249054BD008753B5 /* SK2_Factory21.swift in Sources */,
+				8AE0B83D249054BD008753B5 /* SK2_Factory_20.swift in Sources */,
 				8A9B14CE220F8FCF00A2CDAB /* SK2_LogDataSource.swift in Sources */,
 				8AE0B82D248FC4F3008753B5 /* Cube21.swift in Sources */,
 				8A8817662209118000523467 /* SK2_PlaneGeometry.swift in Sources */,
@@ -1003,7 +1007,7 @@
 				8A9B14A0220CF97F00A2CDAB /* SK2_BAFigure.swift in Sources */,
 				8A88175822085D7500523467 /* SK2_PFColors.swift in Sources */,
 				8AC059F722170C1E00EB6A1C /* Cube.swift in Sources */,
-				8AE0B84B24916B5C008753B5 /* SK2_PlaneGeometry21.swift in Sources */,
+				8AE0B84B24916B5C008753B5 /* SK2_PlaneGeometry_20.swift in Sources */,
 				8A88175622085D5A00523467 /* SK2_PFRules.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -11,7 +11,7 @@ import simd
 
 class DemoBufferProvider : NSObject {
 
-    // Size of buffer, including madding due to memory-alignment
+    // Size of buffer, including padding due to memory-alignment
     // = size of 2 matrices + size of Light + size of float + padding
     let uniformsBufferSize: Int = _calcBufSize()
     

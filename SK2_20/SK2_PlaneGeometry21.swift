@@ -27,10 +27,67 @@ fileprivate let eps = Double.constants.eps
 fileprivate let piOver4 = Double.constants.piOver4
 fileprivate let piOver2 = Double.constants.piOver2
 
+// ============================================================================
+// MARK: - PlanePOV_20
+
+struct PlanePOV_20: CustomStringConvertible {
+
+    static let yFactor: Float = 2
+    
+    enum Mode {
+        case satellite
+        case flyover
+    }
+    
+    let mode: Mode
+    
+    let x: Float
+    let y: Float
+    let z: Float
+    
+    let xLookat: Float
+    let yLookat: Float
+    let zLookat: Float
+
+    init(_ x: Float, _ y: Float, _ z: Float, _ mode: Mode) {
+        self.mode = mode
+        self.x = x
+        self.y = y
+        self.z = z
+        
+        switch(mode) {
+        case .flyover:
+            xLookat = x
+            yLookat = y + PlanePOV_20.yFactor * z
+            zLookat = 0
+        case .satellite:
+            xLookat = x
+            yLookat = y
+            zLookat = 0
+        }
+    }
+    
+    var description: String {
+        return "(\(x), \(y), \(z), \(mode))"
+    }
+
+    static func transform(_ pov: PlanePOV_20, toMode: Mode) -> PlanePOV_20 {
+        if (pov.mode == .flyover && toMode == .satellite) {
+            return PlanePOV_20(pov.x, pov.y + PlanePOV_20.yFactor * pov.z, pov.z, toMode)
+        }
+        if (pov.mode == .satellite && toMode == .flyover) {
+            return PlanePOV_20(pov.x, pov.y - PlanePOV_20.yFactor * pov.z, pov.z, toMode)
+        }
+        // if none of the above
+        return pov
+    }
+}
+
+
 // =======================================================
 // MARK: - SK2_PlaneGeometry20
 
-class SK2_PlaneGeometry21: SK2_Geometry20 {
+class SK2_PlaneGeometry_20: SK2_Geometry20 {
     
     let gridCenter: SIMD3<Float> = SIMD3<Float>(0.0, 0.0, 0.0)
     let gridSize: Float
@@ -38,14 +95,14 @@ class SK2_PlaneGeometry21: SK2_Geometry20 {
     // let zOffset: Float
     let zScale: Float
     
-    var pov_default: PlanePOV {
+    var pov_default: PlanePOV_20 {
         get { return _pov_default }
         set(newValue) {
             _pov_default = fixPOV(newValue)
         }
     }
     
-    var pov: PlanePOV {
+    var pov: PlanePOV_20 {
         get { return _pov }
         set(newValue) {
             _pov = fixPOV(newValue)
@@ -55,8 +112,8 @@ class SK2_PlaneGeometry21: SK2_Geometry20 {
     }
     
     private var _graphicsStale: Bool = true
-    private var _pov_default: PlanePOV
-    private var _pov: PlanePOV
+    private var _pov_default: PlanePOV_20
+    private var _pov: PlanePOV_20
     private var _projectionMatrix: float4x4
     private var _modelViewMatrix: float4x4
     
@@ -89,7 +146,7 @@ class SK2_PlaneGeometry21: SK2_Geometry20 {
         self.z0 = 0
         self.zScale = gridSize/3
         
-        self._pov_default = PlanePOV(Double(gridSize)/2, Double(gridSize)/2, Double(gridSize)*3/5, .satellite)
+        self._pov_default = PlanePOV_20(gridSize/2, gridSize/2, gridSize*3/5, .satellite)
         self._pov = self._pov_default
         
         // LEFTOVERS
@@ -186,11 +243,11 @@ class SK2_PlaneGeometry21: SK2_Geometry20 {
         _graphicsStale = true
     }
 
-    private func fixPOV(_ pov: PlanePOV) -> PlanePOV {
+    private func fixPOV(_ pov: PlanePOV_20) -> PlanePOV_20 {
         let x2 = pov.x // clip(pov.x, 0, size)
         let y2 = pov.y // clip(pov.y, 0, size)
-        let z2 = (pov.z > eps) ? pov.z : eps
-        return PlanePOV(x2, y2, z2, pov.mode)
+        let z2 = (pov.z > AppConstants20.epsilon) ? pov.z : AppConstants20.epsilon
+        return PlanePOV_20(x2, y2, z2, pov.mode)
     }
     
     private func refreshGraphics() {
@@ -200,7 +257,7 @@ class SK2_PlaneGeometry21: SK2_Geometry20 {
     }
     func connectGestures(_ view: UIView) {
         
-        let newPan = UIPanGestureRecognizer(target: self, action: #selector(SK2_PlaneGeometry21.doPan))
+        let newPan = UIPanGestureRecognizer(target: self, action: #selector(SK2_PlaneGeometry_20.doPan))
         self.pan = newPan
         view.addGestureRecognizer(newPan)
 

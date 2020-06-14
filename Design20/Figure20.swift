@@ -22,9 +22,12 @@ protocol Figure20 : AnyObject {
     
     func figureWillBeUninstalled()
 
+    func updateDrawableArea(_ drawableArea: CGRect)
+
+    func updateContent(_ date: Date)
+
     func render(_ drawable: CAMetalDrawable)
 
-    func updateDrawableArea(_ drawableArea: CGRect)
     
 }
 

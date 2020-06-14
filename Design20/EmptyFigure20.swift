@@ -36,6 +36,14 @@ class EmptyFigure20 : Figure20 {
         os_log("EmptyFigure21.figureWillBeUninstalled: nop")
     }
     
+    func updateDrawableArea(_ drawableArea: CGRect) {
+        // NOP
+    }
+    
+    func updateContent(_ date: Date) {
+        // NOP
+    }
+
     func render(_ drawable: CAMetalDrawable) {
         let renderPassDescriptor = MTLRenderPassDescriptor()
         renderPassDescriptor.colorAttachments[0].texture = drawable.texture
@@ -50,10 +58,6 @@ class EmptyFigure20 : Figure20 {
         
         commandBuffer.present(drawable)
         commandBuffer.commit()
-    }
-    
-    func updateDrawableArea(_ drawableArea: CGRect) {
-        os_log("EmptyFigure21.updateDrawableArea: nop")
     }
     
 }

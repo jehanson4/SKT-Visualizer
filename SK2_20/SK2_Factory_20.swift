@@ -8,7 +8,7 @@
 
 import Foundation
 
-class SK2_Factory21 {
+class SK2_Factory_20 {
     
     static func createVisualizations() -> [Visualization20] {
         
@@ -16,7 +16,7 @@ class SK2_Factory21 {
         
         var visualizations = [Visualization20]()
         
-        visualizations.append(SK2_Equilibrium21(system))
+        visualizations.append(SK2_Equilibrium_20(system))
         
         return visualizations
     }

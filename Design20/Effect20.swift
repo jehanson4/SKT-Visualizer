@@ -15,6 +15,8 @@ protocol Effect20 {
     var enabled: Bool { get set }
     var switchable: Bool { get }
     
+    func updateContent(_ date: Date)
+    
     func render(modelViewMatrix: float4x4, projectionMatrix: float4x4, drawable: CAMetalDrawable)
     
     func teardown()

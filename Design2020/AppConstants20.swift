@@ -24,6 +24,7 @@ struct AppConstants20 {
     static let SK2B_VISUALIZATION_NAME = "SK/2 Bifurcation"
 
     static let NET_EFFECT_NAME = "Net"
+    static let NODES_EFFECT_NAME = "Nodes"
 
     /// Off-black because we use true black in figures
     static let clearColor = MTLClearColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1.0)

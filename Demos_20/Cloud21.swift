@@ -23,10 +23,16 @@ class Cloud21: Figure20 {
     
     let pointSize: Float = 10.0
     let vertexCount: Int = 2500
+    var vertexCoords: [SIMD3<Float>]? = nil
+    var vertexColors: [SIMD4<Float>]? = nil
+    
     var vertexCoordinateBuffer: MTLBuffer? = nil
     var vertexColorBuffer: MTLBuffer? = nil
     
     lazy var bufferProvider: DemoBufferProvider = createBufferProvider()
+    
+    private var lastMoveDate: Date = Date()
+    private let moveInterval: TimeInterval = 0.01667
     
     let light = Light(color: (1.0,1.0,1.0), ambientIntensity: 0.1, direction: (0.0, 0.0, 1.0), diffuseIntensity: 0.8, shininess: 10, specularIntensity: 2)
     
@@ -89,6 +95,7 @@ class Cloud21: Figure20 {
     func figureWillBeUninstalled() {
         os_log("Cloud21.figureWillBeUninstalled: entered")
         self.teardownGestures()
+        self.vertexCoords = nil
         self.vertexCoordinateBuffer = nil
         self.vertexColorBuffer = nil
         
@@ -122,13 +129,19 @@ class Cloud21: Figure20 {
         renderEncoder.drawPrimitives(type: .point, vertexStart: 0, vertexCount: vertexCount)
         
         renderEncoder.endEncoding()
-        
         commandBuffer.present(drawable)
         commandBuffer.commit()
     }
     
     func updateDrawableArea(_ drawableArea: CGRect) {
         self.projectionMatrix = float4x4.makePerspectiveViewAngle(float4x4.degrees(toRad: 85.0), aspectRatio: Float(drawableArea.width / drawableArea.height), nearZ: 0.01, farZ: 100.0)
+    }
+    
+    func updateContent(_ date: Date) {
+        if (date.timeIntervalSince(lastMoveDate) >= moveInterval) {
+            lastMoveDate = date
+            moveVertices()
+        }
     }
     
     @objc func _doPan(panGesture: UIPanGestureRecognizer) {
@@ -160,10 +173,11 @@ class Cloud21: Figure20 {
         self.pan = nil
     }
     
+    
     func makeDataBuffers() {
                 
-        var vertexCoords = [SIMD3<Float>]()
-        var vertexColors = [SIMD4<Float>]()
+        var coords = [SIMD3<Float>]()
+        var colors = [SIMD4<Float>]()
         for _ in 0..<vertexCount {
             let x = Float.random(in: -1 ... 1)
             let y = Float.random(in: -1 ... 1)
@@ -171,15 +185,37 @@ class Cloud21: Figure20 {
             let r = 0.5 * (x+1.0)
             let g = 0.5 * (y+1.0)
             let b = 0.5 * (z+1.0)
-            vertexCoords.append(SIMD3<Float>(x,y,z))
-            vertexColors.append(SIMD4<Float>(r,g,b,1.0))
+            coords.append(SIMD3<Float>(x,y,z))
+            colors.append(SIMD4<Float>(r,g,b,1.0))
         }
-
-        self.vertexCoordinateBuffer = graphics.device.makeBuffer(bytes: vertexCoords, length: vertexCoords.count * MemoryLayout<SIMD3<Float>>.size, options: [])!
-        self.vertexColorBuffer = graphics.device.makeBuffer(bytes: vertexColors, length: vertexColors.count * MemoryLayout<SIMD4<Float>>.size, options: [])!
+        self.vertexCoords = coords
+        // self.vertexColors = colors
+        
+        self.vertexCoordinateBuffer = graphics.device.makeBuffer(bytes: coords, length: coords.count * MemoryLayout<SIMD3<Float>>.size, options: [])!
+        self.vertexColorBuffer = graphics.device.makeBuffer(bytes: colors, length: colors.count * MemoryLayout<SIMD4<Float>>.size, options: [])!
         
     }
     
+    func moveVertices() {
+        guard
+            var vertexCoords = self.vertexCoords,
+            let bufferPointer = self.vertexCoordinateBuffer?.contents()
+            else { return }
+        
+        // os_log("moveVertices: moving")
+        let d0: Float = -0.01
+        let d1: Float = -1 * d0
+        for i in 0..<vertexCount {
+            let prev = vertexCoords[i]
+            let x = prev.x + Float.random(in: d0 ... d1)
+            let y = prev.y + Float.random(in: d0 ... d1)
+            let z = prev.z + Float.random(in: d0 ... d1)
+            vertexCoords[i] = SIMD3<Float>(x, y, z)
+        }
+        
+        memcpy(bufferPointer, &vertexCoords, vertexCount * MemoryLayout<SIMD3<Float>>.size)
+    }
+
     func createBufferProvider() -> DemoBufferProvider {
         return DemoBufferProvider(device: graphics.device, inflightBuffersCount: 3)
     }

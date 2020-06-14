@@ -128,6 +128,10 @@ class Cube21: Figure20 {
         self.projectionMatrix = float4x4.makePerspectiveViewAngle(float4x4.degrees(toRad: 85.0), aspectRatio: Float(drawableArea.width / drawableArea.height), nearZ: 0.01, farZ: 100.0)
     }
     
+    func updateContent(_ date: Date) {
+        // NOP
+    }
+    
     @objc func _doPan(panGesture: UIPanGestureRecognizer) {
         guard
             let view = self.graphics?.view

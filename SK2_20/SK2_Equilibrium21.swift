@@ -8,16 +8,16 @@
 
 import Foundation
 
-class SK2_Equilibrium21 : Visualization20 {
+class SK2_Equilibrium_20 : Visualization20 {
     
     var name = AppConstants20.SK2E_VISUALIZATION_NAME
     var system:  SK2_System
-    var planeGeometry: SK2_PlaneGeometry21
+    var planeGeometry: SK2_PlaneGeometry_20
     lazy var figures: Selector20<Figure20> = _initFigures()
 
     init(_ system: SK2_System) {
         self.system = system
-        self.planeGeometry = SK2_PlaneGeometry21()
+        self.planeGeometry = SK2_PlaneGeometry_20()
     }
     
     private func _initFigures() -> Selector20<Figure20> {

@@ -24,7 +24,6 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 class FigureViewController : UIViewController, AppModelUser {
     
     var graphics: Graphics20!
-    
     private var defaultFigure: Figure20!
     private weak var _installedFigure: Figure20!
     weak var appModel: AppModel!
@@ -66,6 +65,10 @@ class FigureViewController : UIViewController, AppModelUser {
         self._installedFigure?.updateDrawableArea(drawableArea)
     }
     
+    func updateContent(_ date: Date) {
+        self._installedFigure?.updateContent(date)
+    }
+    
     func render(_ drawable: CAMetalDrawable?) {
         guard
         let drawable = drawable,
@@ -86,6 +89,7 @@ extension FigureViewController : MTKViewDelegate {
     }
     
     func draw(in view: MTKView) {
+        updateContent(Date())
         render(view.currentDrawable)
     }
 }
