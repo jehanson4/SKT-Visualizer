@@ -10,15 +10,15 @@ import Foundation
 import MetalKit
 
 // =======================================================
-// MARK: - Figure21
+// MARK: - Figure20
 
-protocol Figure21 : AnyObject {
+protocol Figure20 : AnyObject {
     
     var name: String { get set }
     
     var group: String { get set }
     
-    func figureWillBeInstalled(graphics: Graphics21, drawableArea: CGRect)
+    func figureWillBeInstalled(graphics: Graphics20, drawableArea: CGRect)
     
     func figureWillBeUninstalled()
 
@@ -26,12 +26,5 @@ protocol Figure21 : AnyObject {
 
     func updateDrawableArea(_ drawableArea: CGRect)
     
-}
-
-// =======================================================
-// MARK: - FigureUser21
-
-protocol FigureUser21 {
-    func installFigure(_ figure: Figure21?)
 }
 

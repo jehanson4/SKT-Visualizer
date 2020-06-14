@@ -11,6 +11,9 @@ import MetalKit
 
 struct AppConstants20 {
     
+    /// Tiny nonzero value used to avoid division by zero when calculating node positions etc.
+    static let epsilon: Float =  1e-12
+
     static let DEMOS_VISUALIZATION_NAME = "Demos"
     static let CUBE_FIGURE_NAME = "Cube"
     static let ICOSAHEDRON_FIGURE_NAME = "Icosahedron"
@@ -19,6 +22,8 @@ struct AppConstants20 {
     static let SK2E_VISUALIZATION_NAME = "SK/2 Equilibrium"
     static let SK2D_VISUALIZATION_NAME = "SK/2 Dynamics"
     static let SK2B_VISUALIZATION_NAME = "SK/2 Bifurcation"
+
+    static let NET_EFFECT_NAME = "Net"
 
     /// Off-black because we use true black in figures
     static let clearColor = MTLClearColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1.0)

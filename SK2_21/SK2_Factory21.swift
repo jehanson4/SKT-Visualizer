@@ -10,11 +10,11 @@ import Foundation
 
 class SK2_Factory21 {
     
-    static func createVisualizations() -> [Visualization21] {
+    static func createVisualizations() -> [Visualization20] {
         
         let system = SK2_System()
         
-        var visualizations = [Visualization21]()
+        var visualizations = [Visualization20]()
         
         visualizations.append(SK2_Equilibrium21(system))
         

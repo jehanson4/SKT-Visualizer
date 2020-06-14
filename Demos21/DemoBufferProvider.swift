@@ -9,7 +9,7 @@
 import Metal
 import simd
 
-class BufferProvider : NSObject {
+class DemoBufferProvider : NSObject {
 
     // Size of buffer, including madding due to memory-alignment
     // = size of 2 matrices + size of Light + size of float + padding

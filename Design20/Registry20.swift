@@ -9,9 +9,9 @@
 import Foundation
 
 // =======================================================
-// MARK: - RegistryEntry21
+// MARK: - RegistryEntry20
 
-class RegistryEntry21<T> {
+class RegistryEntry20<T> {
     
     let index: Int
     let name: String
@@ -25,33 +25,33 @@ class RegistryEntry21<T> {
 }
 
 // =======================================================================
-// MARK: - RegistryError21
+// MARK: - RegistryError20
 
-enum RegistryError21: Error {
+enum RegistryError20: Error {
     case nameInUse(_ name: String)
 }
 
 // =======================================================
-// MARK: - Registry21
+// MARK: - Registry20
 
-class Registry21<T> {
+class Registry20<T> {
     
-    var entries = [String: RegistryEntry21<T>]()
+    var entries = [String: RegistryEntry20<T>]()
     var names = [String]()
     
-    func register(name: String, value: T) throws -> RegistryEntry21<T> {
+    func register(name: String, value: T) throws -> RegistryEntry20<T> {
         if (entries[name] != nil) {
-            throw RegistryError21.nameInUse(name)
+            throw RegistryError20.nameInUse(name)
         }
         return addEntry(name, value)
     }
     
-    func register(hint: String? = nil, value: T) -> RegistryEntry21<T> {
+    func register(hint: String? = nil, value: T) -> RegistryEntry20<T> {
         return addEntry(findUnusedName(hint), value)
     }
     
-    private func addEntry(_ name: String, _ value: T) -> RegistryEntry21<T> {
-        let newEntry =  RegistryEntry21(index: entries.count, name: name, value: value)
+    private func addEntry(_ name: String, _ value: T) -> RegistryEntry20<T> {
+        let newEntry =  RegistryEntry20(index: entries.count, name: name, value: value)
         entries[name] = newEntry
         names.append(name)
         return newEntry
@@ -71,25 +71,25 @@ class Registry21<T> {
     
 
 // =======================================================
-// MARK: - Selector21
+// MARK: - Selector20
 
-class Selector21<T>  : ChangeMonitorEnabled {
+class Selector20<T>  : ChangeMonitorEnabled {
     
-    var registry: Registry21<T>
-    var selection: RegistryEntry21<T>?
+    var registry: Registry20<T>
+    var selection: RegistryEntry20<T>?
     private lazy var changeMonitorSupport = ChangeMonitorSupport()
 
-    init(_ registry: Registry21<T>) {
+    init(_ registry: Registry20<T>) {
         self.registry = registry
         self.selection = nil
     }
     
-    func select(index: Int) -> RegistryEntry21<T>? {
+    func select(index: Int) -> RegistryEntry20<T>? {
         return (index >= 0 && index < registry.names.count) ? select(name: registry.names[index]) : nil
     }
 
-    func select(name: String) -> RegistryEntry21<T>? {
-        if let newSelection: RegistryEntry21<T> = registry.entries[name] {
+    func select(name: String) -> RegistryEntry20<T>? {
+        if let newSelection: RegistryEntry20<T> = registry.entries[name] {
             if (newSelection.name != selection?.name) {
                 selection = newSelection
                 changeMonitorSupport.fire()

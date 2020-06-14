@@ -11,9 +11,9 @@ import MetalKit
 import os
 import simd
 
-protocol FigureWithEffects21: Figure21 {
+protocol CompositeFigure20: Figure20 {
     
-    var effects: Registry21<Effect21> { get }
+    var effects: Registry20<Effect20> { get }
 
 }
 

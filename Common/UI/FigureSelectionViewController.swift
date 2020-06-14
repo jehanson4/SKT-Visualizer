@@ -32,7 +32,7 @@ class FigureSelectionViewController: UITableViewController, AppModelUser, AppMod
     weak var appModel: AppModel!
     weak var figureSelector: Selector<Figure>!
 
-    weak var appModel21: AppModel21!
+    weak var appModel21: AppModel20!
 
     // =====================================
     // Lifecycle

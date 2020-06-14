@@ -8,10 +8,10 @@
 
 import Foundation
 
-protocol Visualization21 {
+protocol Visualization20 {
     
     var name: String { get set }
     
-    var figures: Selector21<Figure21> { get }
+    var figures: Selector20<Figure20> { get }
     
 }

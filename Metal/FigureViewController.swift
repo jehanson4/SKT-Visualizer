@@ -21,12 +21,12 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 // =======================================================
 // MARK: - FigureViewController
 
-class FigureViewController : UIViewController, AppModelUser, FigureUser21 {
+class FigureViewController : UIViewController, AppModelUser {
     
-    var graphics: Graphics21!
+    var graphics: Graphics20!
     
-    private var defaultFigure: Figure21!
-    private weak var _installedFigure: Figure21!
+    private var defaultFigure: Figure20!
+    private weak var _installedFigure: Figure20!
     weak var appModel: AppModel!
 
     @IBOutlet weak var mtkView: MTKView! {
@@ -40,10 +40,10 @@ class FigureViewController : UIViewController, AppModelUser, FigureUser21 {
         debug("viewDidLoad", "entered")
         super.viewDidLoad()
         
-        graphics = Graphics21(view: self.view)
+        graphics = Graphics20(view: self.view)
         mtkView.device = graphics.device
             
-        defaultFigure = EmptyFigure21()
+        defaultFigure = EmptyFigure20()
         installFigure(defaultFigure)
     }
     
@@ -53,8 +53,8 @@ class FigureViewController : UIViewController, AppModelUser, FigureUser21 {
 //        updateDrawableSize(self.view.bounds)
 //    }
         
-    func installFigure(_ figure: Figure21?) {
-        let newFigure: Figure21 = figure ?? defaultFigure
+    func installFigure(_ figure: Figure20?) {
+        let newFigure: Figure20 = figure ?? defaultFigure
             if let oldFigure = _installedFigure {
                 oldFigure.figureWillBeUninstalled()
             }

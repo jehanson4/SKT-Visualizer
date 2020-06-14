@@ -23,7 +23,7 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 class ModelSelectionViewController : UIViewController, AppModelUser, AppModelUser21 {
             
     weak var appModel: AppModel!
-    weak var appModel21: AppModel21!
+    weak var appModel21: AppModel20!
     
     override func viewDidLoad() {
         let mtd = "viewDidLoad"

@@ -9,11 +9,13 @@
 import Foundation
 import MetalKit
 
-protocol Effect21 {
+protocol Effect20 {
     
     var name: String { get set }
     var enabled: Bool { get set }
     var switchable: Bool { get }
     
-    func render(_ drawable: CAMetalDrawable)
+    func render(modelViewMatrix: float4x4, projectionMatrix: float4x4, drawable: CAMetalDrawable)
+    
+    func teardown()
 }

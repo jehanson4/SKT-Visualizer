@@ -1,5 +1,5 @@
 //
-//  Graphics21.swift
+//  Graphics20.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 6/6/20.
@@ -10,9 +10,9 @@ import Foundation
 import MetalKit
 
 // =====================================================
-// MARK: - Graphics21
+// MARK: - Graphics20
 
-struct Graphics21 {
+struct Graphics20 {
     
     let device: MTLDevice
     let defaultLibrary: MTLLibrary

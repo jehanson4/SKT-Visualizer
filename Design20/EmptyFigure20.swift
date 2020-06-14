@@ -10,14 +10,14 @@ import Foundation
 import MetalKit
 import os
 
-class EmptyFigure21 : Figure21 {
+class EmptyFigure20 : Figure20 {
     
     var name: String = ""
     var group: String = ""
-    var graphics: Graphics21!
+    var graphics: Graphics20!
     var pipelineState: MTLRenderPipelineState!
     
-    func figureWillBeInstalled(graphics: Graphics21, drawableArea: CGRect) {
+    func figureWillBeInstalled(graphics: Graphics20, drawableArea: CGRect) {
         os_log("EmptyFigure21.figureWillBeInstalled: entered")
         self.graphics = graphics
         
@@ -40,7 +40,7 @@ class EmptyFigure21 : Figure21 {
         let renderPassDescriptor = MTLRenderPassDescriptor()
         renderPassDescriptor.colorAttachments[0].texture = drawable.texture
         renderPassDescriptor.colorAttachments[0].loadAction = .clear
-        renderPassDescriptor.colorAttachments[0].clearColor = AppConstants21.clearColor
+        renderPassDescriptor.colorAttachments[0].clearColor = AppConstants20.clearColor
         renderPassDescriptor.colorAttachments[0].storeAction = .store
 
         let commandBuffer = graphics.commandQueue.makeCommandBuffer()!

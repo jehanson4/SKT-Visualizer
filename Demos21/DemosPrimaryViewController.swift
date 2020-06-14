@@ -11,7 +11,7 @@ import UIKit
 import os
 class DemosPrimaryViewController: UIViewController, AppModelUser21 {
     
-    var appModel21: AppModel21!
+    var appModel21: AppModel20!
     
     override func viewDidLoad() {
         super.viewDidLoad()

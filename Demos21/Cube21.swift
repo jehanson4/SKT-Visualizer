@@ -13,17 +13,17 @@ import MetalKit
 import os
 import simd
 
-class Cube21: Figure21 {
+class Cube21: Figure20 {
     
-    var name = AppConstants21.CUBE_FIGURE_NAME
-    var group = AppConstants21.DEMOS_VISUALIZATION_NAME
+    var name = AppConstants20.CUBE_FIGURE_NAME
+    var group = AppConstants20.DEMOS_VISUALIZATION_NAME
     
-    var graphics: Graphics21!
+    var graphics: Graphics20!
     var pipelineState: MTLRenderPipelineState!
     
     var vertexCount: Int = 0
     var vertexBuffer: MTLBuffer? = nil
-    lazy var bufferProvider: BufferProvider = createBufferProvider()
+    lazy var bufferProvider: DemoBufferProvider = createBufferProvider()
     
     let light = Light(color: (1.0,1.0,1.0), ambientIntensity: 0.1, direction: (0.0, 0.0, 1.0), diffuseIntensity: 0.8, shininess: 10, specularIntensity: 2)
     
@@ -53,7 +53,7 @@ class Cube21: Figure21 {
         modelViewMatrix.rotateAroundX(float4x4.degrees(toRad: 25), y: 0.0, z: 0.0)
     }
     
-    func figureWillBeInstalled(graphics: Graphics21, drawableArea: CGRect) {
+    func figureWillBeInstalled(graphics: Graphics20, drawableArea: CGRect) {
         os_log("Cube21.figureWillBeInstalled: entered")
         self.graphics = graphics
         
@@ -97,7 +97,7 @@ class Cube21: Figure21 {
         let renderPassDescriptor = MTLRenderPassDescriptor()
         renderPassDescriptor.colorAttachments[0].texture = drawable.texture
         renderPassDescriptor.colorAttachments[0].loadAction = .clear
-        renderPassDescriptor.colorAttachments[0].clearColor = AppConstants21.clearColor
+        renderPassDescriptor.colorAttachments[0].clearColor = AppConstants20.clearColor
         renderPassDescriptor.colorAttachments[0].storeAction = .store
         
         let commandBuffer = graphics.commandQueue.makeCommandBuffer()!
@@ -195,8 +195,8 @@ class Cube21: Figure21 {
         return verticesArray
     }
     
-    func createBufferProvider() -> BufferProvider {
-        return BufferProvider(device: graphics.device, inflightBuffersCount: 3)
+    func createBufferProvider() -> DemoBufferProvider {
+        return DemoBufferProvider(device: graphics.device, inflightBuffersCount: 3)
     }
     
 

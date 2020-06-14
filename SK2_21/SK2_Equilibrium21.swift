@@ -8,27 +8,34 @@
 
 import Foundation
 
-class SK2_Equilibrium21 : Visualization21 {
+class SK2_Equilibrium21 : Visualization20 {
     
-    var name = AppConstants21.SK2E_VISUALIZATION_NAME
+    var name = AppConstants20.SK2E_VISUALIZATION_NAME
     var system:  SK2_System
-    lazy var figures: Selector21<Figure21> = _initFigures()
+    var planeGeometry: SK2_PlaneGeometry21
+    lazy var figures: Selector20<Figure20> = _initFigures()
 
     init(_ system: SK2_System) {
         self.system = system
+        self.planeGeometry = SK2_PlaneGeometry21()
     }
     
-    private func _initFigures() -> Selector21<Figure21> {
-        let registry = Registry21<Figure21>()
-        var figures = [Figure21]()
+    private func _initFigures() -> Selector20<Figure20> {
+        let registry = Registry20<Figure20>()
+        var figures = [Figure20]()
                 
+        let samplePlane = SK2_Figure20(name: "Sample Plane", group: self.name, system: self.system, geometry: self.planeGeometry)
+        let netName = AppConstants20.NET_EFFECT_NAME
+        _ = samplePlane.effects.register(hint: netName, value: SK2_NetEffect20(name: netName, geometry: planeGeometry))
+        figures.append(samplePlane)
         
         for f in figures {
             let entry = registry.register(hint: f.name, value: f)
             f.name = entry.name
         }
 
-        let selector =  Selector21<Figure21>(registry)
+        let selector =  Selector20<Figure20>(registry)
+        _ = selector.select(index: 0)
         return selector
     }
     

@@ -19,13 +19,13 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, AppModel21 {
+class AppDelegate: UIResponder, UIApplicationDelegate, AppModel20 {
     
     var window: UIWindow?
     var appModel: AppModel?
-    var figureUser: FigureUser21!
+    var figureViewController: FigureViewController!
     
-    lazy var visualizations: Selector21<Visualization21> = _loadVisualizations()
+    lazy var visualizations: Selector20<Visualization20> = _loadVisualizations()
     private var visualizationChangeMonitor: ChangeMonitor? = nil
     private var figureChangeMonitor: ChangeMonitor? = nil
     
@@ -79,19 +79,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppModel21 {
             let leftNavController = splitViewController.viewControllers.first as? UINavigationController,
             var masterViewController = leftNavController.topViewController as? AppModelUser,
             var masterViewController21 = leftNavController.topViewController as? AppModelUser21,
-            let detailViewController = splitViewController.viewControllers.last as? FigureUser21
+            let detailViewController = splitViewController.viewControllers.last as? FigureViewController
             else { fatalError() }
         
         masterViewController.appModel = self.appModel
         masterViewController21.appModel21 = self
 
-        self.figureUser = detailViewController
+        self.figureViewController = detailViewController
     }
     
-    private func _loadVisualizations() -> Selector21<Visualization21> {
-        let registry = Registry21<Visualization21>()
+    private func _loadVisualizations() -> Selector20<Visualization20> {
+        let registry = Registry20<Visualization20>()
         
-        var visualizations = [Visualization21]()
+        var visualizations = [Visualization20]()
         visualizations.append(Demos21())
         
         visualizations += SK2_Factory21.createVisualizations()
@@ -101,7 +101,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppModel21 {
             v.name = entry.name
         }
         
-        let selector = Selector21<Visualization21>(registry)
+        let selector = Selector20<Visualization20>(registry)
         visualizationChangeMonitor = selector.monitorChanges(visualizationChanged)
         return selector
     }
@@ -121,7 +121,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppModel21 {
     
     func figureChanged(_ sender: Any) {
         debug("figureChanged", "entered")
-        figureUser?.installFigure(visualizations.selection?.value.figures.selection?.value)
+        figureViewController?.installFigure(visualizations.selection?.value.figures.selection?.value)
     }
 }
 
