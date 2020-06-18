@@ -17,7 +17,7 @@ protocol Effect20 {
     
     func updateContent(_ date: Date)
     
-    func render(modelViewMatrix: float4x4, projectionMatrix: float4x4, drawable: CAMetalDrawable)
+    func render(figureModelViewMatrix: float4x4, projectionMatrix: float4x4, drawable: CAMetalDrawable)
     
     func teardown()
 }

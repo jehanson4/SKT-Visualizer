@@ -4,6 +4,43 @@
 
 ### Metal support
 
+Some articles:
+
+1. <https://developer.apple.com/documentation/metal/basic_tasks_and_concepts/using_metal_to_draw_a_view_s_contents>
+    * talks about setting device and clearColor on a MTLView
+    * introduces the delegate
+    * sez you GET the render pass descriptor from the view!
+2. triple buffering:
+  * <https://developer.apple.com/documentation/metal/synchronization/synchronizing_cpu_and_gpu_work>
+3. Reusing vertex data
+ * <https://developer.apple.com/documentation/metal/generating_multiple_output_vertex_streams_from_one_input_stream>
+ * "vertex amplification"
+ * "layered rendering"
+ * "texture slides"
+ * <https://developer.apple.com/documentation/metal/mtlrenderpassdescriptor/rendering_to_multiple_texture_slices_in_a_draw_command>
+4. Depth testing -- "depth texture" or "depth buffer"
+ * <https://developer.apple.com/documentation/metal/calculating_primitive_visibility_using_depth_testing>
+ * When I'm trying to make sufe the node goes on top of the net, and the descent line goes on top of the node, I can use the order in which I submit commands to the command queue
+ 
+<https://developer.apple.com/videos/play/wwdc2019/611/>
+
+<https://developer.apple.com/videos/play/wwdc2019/606/>
+
+Modern Rendering with Metal
+<https://developer.apple.com/videos/play/wwdc2019/601>
+* Deferred rendering: 1st pass does geometry, then 2nd pass does lighting. Not something I need.
+
+
+This page <https://developer.apple.com/documentation/metal/mtlrendercommandencoder> sez: render pass
+1. create render command encoder
+2. create render pipeline state incl setting shader func's
+etc.
+
+Metal best practices (archived, from 2017) sez:
+* create 1 command queue at startup
+* create 1 render pipeline state (early on) and reuse it
+    * note that it includes the names of vertex and fragment functions
+
 #### Figure and FigureViewController
 
 I would prefer to keep the Metal dependencies as localized as possible. They need to be in at least two places:
@@ -63,6 +100,9 @@ The various figures share more than just the system, but what and how much they 
 
 > A: This guy <https://metalbyexample.com/vertex-descriptors> has a good answer: no. And use a vertex descriptor. 
 
+
+#### Geometry 
+
 All the SK/2 figures designed to date have effects, some switchable and some not. Some of the effects are at least conceptually independent of whether it's a plane or a shell figure. I'd like to abstract the 'geometry' that sets node positions and normals in such a way that I only need one class for, say a Net or Surface or Nodes effect, which may be used in either shell or plane figures. (Note however that some effects do depend on which kind of figure it is: Meridians, for example.)
 
 Let's abstract the geometrical stuff this way:
@@ -109,23 +149,157 @@ Despite its disadvantages, let's go with #2:
 >           var radius: Float = 1.0
 >       }
 
-
 *Q: Can we generalize the geometry beyond SK2? Should we?*
 
 > A: definitely can, but it's premature because we don't have any examples to tell us how. We'd fall into the trap of **False Generality**. Let's wait until we have a non-SK2 system for which we need a plane or shell figure, then retrofit it in.
 
-Effects should then be given the geometric objects they need in order to render:
+#### Effects
 
->       protocol Effect {
->           func render(..., projectionMatrix: float4x4, modelViewMatrix: float4x4, ...) { ... }
+*Q: in Design19, you turn the rellief on and off via an Effect. How will it work in Design20?*
+
+> A: Same way, though the internal details may be different. TBD.
+
+In Design19, each effect did its own rendering, maintained its own vertex/normal/color data, managed its own buffers, etc.
+I think that's not the right way to go. Effects should basically be named switches that modify a code path that follows the
+HelloMetal demo. E.g., there's a single pipeline descriptor.
+
+I would also like to have them own their own data and generate their own render commands. But I don't want redundant copying
+of node coordinates. I could make the effects' data objects settable:
+>           protocol DS_NodeEffecct {
+>               var nodeCoords: [SIMD3<Float>] { get set }
+>           }
+
+An effect that has data needs to manage the associated MTLBuffer, but the buffers and indices need to be known to the figure
+in order to create the pipline state. I have a fixed finite set of effect-data-arrays. So I should ebed the buffer indices as named constants.
+>           class SK2_Figure_20 {
+>               static let NODE_COORDINATES_BUFFER_INDEX = 0
+>               ...
+>           }
+
+Note that I'd have to know its buffer too, and keep track of whether the buffer's content is stale
+
+If I'm going to use triple buffering then I'll want a BufferProvider class as well. To avoid unnecessary copying I need to be cagey about whether to copy the data or not . . . maybe version numbers? I think I'll want something that does all the buffer management stuff in one place. That way I can start with simple code (that does unnecessary copying) and improve it.
+
+Assume vertexDescriptor and pipelineDescriptor and pipelineState are all set up when figure is installed. That sets all the buffer indices and the shader commands.
+
+Possible to create & configure more than one pipeline
+
+commandBuffer.commit(...) is the thing that puts the commandbuffer (with its commands) on the queue. Time-ordering is enforced at the commandBuffer level. commin(...) happens after present(drawable)
+
+I start a render pass. I create a renderPassDescriptor, if that's common across all effects (I assume it is). Then I have each effect that draws something add an entry to the command queue--i.e., it creates a commandBuffer and renderEncoder, sets them up, and adds the command to the queue.
+
+There's some common stuff that is done to all renderEncoders. Who does that stuff?
+
+How does the code change when I'm putting multiple things onto the command queue?  . . . the answer was in one of the Apple examples. . . .
+
+How do I get UI-driven change in Relief enablement to cause invalidation of node coordinates?
+
+### SK2_Figure_20
+
+All these different things are mixed up together:
+1. effects switch on and off
+2. diff physical quantities depend on different system params
+3. different effects use different vertex/index/normal/color data & associated buffers
+4. would v much like to be able to drop a new effect into the figure w/o having to rewrite everything
+5. POV changes and data changes occur separately
+
+maybe my lazy-calculation stuff is a bad idea? Let's take it as a design challenge.
+
+POV changes work like this:
+1. geometry maintains the matrices.
+2. marks them stale when POV changes
+3. at beginning of render pass, updates them iff stale
+4. Iff they change, the new values get copied into the uniforms 
+
+X changes work like this:
+1. something maintains the X data
+2. it marks them stale when dependencies change
+3. at beginning of render pass, updates them iff stale
+4. Iff they change, the new values get copied into the correct buffer(s)
+
+>       BufferManager {
+>       }
+>       
+>       Figure {
+>           var bufferManagers: [String: BufferManager]
 >       }
 
+#### RenderingContext
 
->       protocol SK2_Something {
->           var projectionMatrix: float4x4
->           var figureViewMatrix: float4x4
->           func setupGestures(...)
->           func teardownGestures(...)
+Some blogger uses a 'rendering context' somewhere. That's the right abstration.
+
+Context needs to be an aggregation, because of Meridians. Thre needs to be a way for the shell geometry
+to add meridians to the list of effects, and have meridians add a specialized part/aspect/facet to the context.
+
+Ability to dynamically add facets means that the context needs to dynamically calculate the index for the facet's buffer.
+
+I suppose each facet will be a specialized subclass of the 'facet' protocol.
+
+There also needs to be a way to update the list of which parts of the context are needed by the enabled effects.
+We can clear the list at the beginning of the update step then active effects turn on the things they need.
+
+Note that the context's facets are very much like the figure's effects.
+
+>       procotol SK2_RenderingContextFacet_20 {
+>           var name: String { get }
+>           var enabled: Bool { get set }
+>
+>           func install(in context: SK2_RenderingContext_20)
+>           func update(...)
+>       }
+>
+>       protocol SK2_Effect_20 {
+>           func installFacets(in context: SK2_RenderingContext_20)
+>           func enableFacets(in context: SK2_RenderingContext_20)
+>           func render(context: SK2_RenderingContext_20, ...)
+>       }
+>
+
+Cf. 'managed buffers' https://developer.apple.com/documentation/metal/buffers
+
+*Q: how to force deallocation?*
+
+>       struct BufferData {
+>           buffer: MTLBuffer?
+>           bufferIndex: Int
+>       }
+>
+>       class SK2_RenderingContext_20 {
+>           
+>           var facets: [String: SK2_RenderingContextFacet_20]
+>
+>           /// an effect will call this when creating a new facet
+>           func createBuffer() -> BufferData { ... }
+>       
+>           
+>           func update() { // have all enabled facets update themselves }
+>           
+>       }
+>
+>       class SK2_Figure_20 {
+>
+>           func update(...) {
+>               context.reset()
+>               for effect in effects {
+>                   if (effect.enabled) {
+>                       effect.updateActiveAspects(context)
+>                   }
+>               }
+>               context.update()
+>           }
+>
+>           func render(...) {
+>               for effect in effects {
+>                   effect.render(context, ...)
+>               }
+>           }
 >       }
 
-Ok so far, but it's intimately connected to the geometry because of the worldViewMatrix. Maybe we should replace worldViewMatrix with a bounding box.
+Repackage with convenience methods as desired.
+
+
+
+
+ 
+
+

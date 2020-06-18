@@ -62,8 +62,8 @@ class Icosahedron21: Figure20 {
         self.makeDataBuffers()
         self.setupGestures()
                 
-        let fragmentProgram = graphics.defaultLibrary.makeFunction(name: "basic_fragment")
-        let vertexProgram = graphics.defaultLibrary.makeFunction(name: "basic_vertex")
+        let fragmentProgram = graphics.library.makeFunction(name: "basic_fragment")
+        let vertexProgram = graphics.library.makeFunction(name: "basic_vertex")
         
         let pipelineStateDescriptor = MTLRenderPipelineDescriptor()
         pipelineStateDescriptor.vertexFunction = vertexProgram

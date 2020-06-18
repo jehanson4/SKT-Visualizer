@@ -72,8 +72,8 @@ class Cube21: Figure20 {
         let dataSize = vertexData.count * MemoryLayout.size(ofValue: vertexData[0])
         vertexBuffer = graphics.device.makeBuffer(bytes: vertexData, length: dataSize, options: [])!
 
-        let fragmentProgram = graphics.defaultLibrary.makeFunction(name: "basic_fragment")
-        let vertexProgram = graphics.defaultLibrary.makeFunction(name: "basic_vertex")
+        let fragmentProgram = graphics.library.makeFunction(name: "basic_fragment")
+        let vertexProgram = graphics.library.makeFunction(name: "basic_vertex")
         
         let pipelineStateDescriptor = MTLRenderPipelineDescriptor()
         pipelineStateDescriptor.vertexFunction = vertexProgram

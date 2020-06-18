@@ -10,16 +10,17 @@ import Foundation
 import UIKit
 import simd
 
-protocol SK2_Geometry_20 {
+protocol SK2_Geometry_20: AnyObject {
         
+    var builtinEffects: [Effect20]? { get }
+    
     var projectionMatrix: float4x4 { get }
     var modelViewMatrix: float4x4 { get }
     
-    func buildVertexCoordinates(system: SK2_System, relief: DS_ElevationSource20?) -> [SIMD3<Float>]
-    func buildVertexNormals(system: SK2_System, relief: DS_ElevationSource20?) -> [SIMD3<Float>]
+    func updateNodeCoordinates(system: SK2_System, relief: DS_ElevationSource20?, array: [SIMD3<Float>]?) -> [SIMD3<Float>]
 
-    func updateDrawableArea(_ drawableArea: CGRect)
-
+    func updateGeometry(drawableArea: CGRect)
+    
     func resetPOV()
     func connectGestures(_ view: UIView)
     func disconnectGestures(_ view: UIView)

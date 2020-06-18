@@ -39,7 +39,7 @@ class FigureViewController : UIViewController, AppModelUser {
         debug("viewDidLoad", "entered")
         super.viewDidLoad()
         
-        graphics = Graphics20(view: self.view)
+        graphics = Graphics20(view: mtkView)
         mtkView.device = graphics.device
             
         defaultFigure = EmptyFigure20()

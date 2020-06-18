@@ -14,16 +14,16 @@ import MetalKit
 
 struct Graphics20 {
     
+    let view: MTKView
     let device: MTLDevice
-    let defaultLibrary: MTLLibrary
+    let library: MTLLibrary
     let commandQueue: MTLCommandQueue
-    let view: UIView
     
-    init(view: UIView) {
-        self.device = MTLCreateSystemDefaultDevice()!
-        self.defaultLibrary = device.makeDefaultLibrary()!
-        self.commandQueue = device.makeCommandQueue()!
+    init(view: MTKView) {
         self.view = view
+        self.device = MTLCreateSystemDefaultDevice()!
+        self.library = device.makeDefaultLibrary()!
+        self.commandQueue = device.makeCommandQueue()!
     }
 }
 

@@ -10,12 +10,21 @@ import Foundation
 import MetalKit
 
 // =======================================================
+// MARK - Effect20
+
+protocol Effect20: NamedObject20 {
+    
+    var enabled: Bool { get set }
+    
+    var switchable: Bool { get }
+
+}
+
+// =======================================================
 // MARK: - Figure20
 
-protocol Figure20 : AnyObject {
-    
-    var name: String { get set }
-    
+protocol Figure20 : NamedObject20 {
+        
     var group: String { get set }
     
     func figureWillBeInstalled(graphics: Graphics20, drawableArea: CGRect)
@@ -27,7 +36,6 @@ protocol Figure20 : AnyObject {
     func updateContent(_ date: Date)
 
     func render(_ drawable: CAMetalDrawable)
-
     
 }
 

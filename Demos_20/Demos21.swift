@@ -22,8 +22,7 @@ class Demos21 : Visualization20 {
         figures.append(Cloud21())
 
         for f in figures {
-            let entry = registry.register(hint: f.name, value: f)
-            f.name = entry.name
+            _ = registry.register(hint: f.name, value: f)
         }
 
         let selector =  Selector20<Figure20>(registry)

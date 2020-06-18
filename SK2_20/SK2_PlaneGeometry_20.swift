@@ -24,7 +24,7 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 // MARK: - PlanePOV_20
 
 struct PlanePOV_20: CustomStringConvertible {
-
+    
     static let yFactor: Float = 2
     
     enum Mode {
@@ -41,7 +41,7 @@ struct PlanePOV_20: CustomStringConvertible {
     let xLookat: Float
     let yLookat: Float
     let zLookat: Float
-
+    
     init(_ x: Float, _ y: Float, _ z: Float, _ mode: Mode) {
         self.mode = mode
         self.x = x
@@ -63,7 +63,7 @@ struct PlanePOV_20: CustomStringConvertible {
     var description: String {
         return "(\(x), \(y), \(z), \(mode))"
     }
-
+    
     static func transform(_ pov: PlanePOV_20, toMode: Mode) -> PlanePOV_20 {
         if (pov.mode == .flyover && toMode == .satellite) {
             return PlanePOV_20(pov.x, pov.y + PlanePOV_20.yFactor * pov.z, pov.z, toMode)
@@ -78,7 +78,7 @@ struct PlanePOV_20: CustomStringConvertible {
 
 
 // =======================================================
-// MARK: - SK2_PlaneGeometry20
+// MARK: - SK2_PlaneGeometry_20
 
 class SK2_PlaneGeometry_20: SK2_Geometry_20 {
     
@@ -104,6 +104,8 @@ class SK2_PlaneGeometry_20: SK2_Geometry_20 {
         }
     }
     
+    var builtinEffects: [Effect20]? = nil
+    
     private var _graphicsStale: Bool = true
     private var _pov_default: PlanePOV_20
     private var _pov: PlanePOV_20
@@ -113,25 +115,25 @@ class SK2_PlaneGeometry_20: SK2_Geometry_20 {
     var projectionMatrix: float4x4 {
         get {
             if _graphicsStale {
-                refreshGraphics()
+                _refreshGraphics()
             }
             return _projectionMatrix
         }
     }
-
+    
     var modelViewMatrix: float4x4  {
-           get {
+        get {
             if (_graphicsStale) {
-               refreshGraphics()
+                _refreshGraphics()
             }
-               return _projectionMatrix
-           }
-       }
+            return _projectionMatrix
+        }
+    }
     
     var lastPanLocation: CGPoint!
     var pan: UIPanGestureRecognizer? = nil
     
-
+    
     init() {
         
         self.gridSize = 1.0
@@ -147,89 +149,70 @@ class SK2_PlaneGeometry_20: SK2_Geometry_20 {
         self._modelViewMatrix = float4x4()
         self._modelViewMatrix.translate(0.0, y: 0.0, z: -4)
         self._modelViewMatrix.rotateAroundX(float4x4.degrees(toRad: 25), y: 0.0, z: 0.0)
-
+        
     }
     
-    func buildVertexCoordinates(system: SK2_System, relief: DS_ElevationSource20?) -> [SIMD3<Float>] {
-        let mMax = system.m_max
-        let nMax = system.n_max
-        let gMax = (mMax > nMax) ? mMax : nMax
-        let gridSpacing: Float = gridSize/Float(gMax)
-
-        let xOffset: Float = 0 // gridSize/2
-        let yOffset: Float = 0 // gridSize/2
-        let zOffset: Float = 0 // TODO identify what this should be
-        let z1 = z0 + zOffset
-        var coords = [SIMD3<Float>]()
-        
+    func updateNodeCoordinates(system: SK2_System, relief: DS_ElevationSource20?, array: [SIMD3<Float>]?) -> [SIMD3<Float>] {
+        var coords = (array?.count == system.nodeCount) ? array! : [SIMD3<Float>](repeating: SIMD3<Float>(0,0,0), count: system.nodeCount)
         if let relief = relief {
-            debug("buildVertexCoordinates", "using relief")
-            relief.refresh()
-            for m in 0...mMax {
-                for n in 0...nMax {
-                    coords.append(SIMD3<Float>(
-                        xOffset + Float(m)*gridSpacing,
-                        yOffset + Float(n)*gridSpacing,
-                        z1 + zScale * relief.elevationAt(nodeIndex: system.skToNodeIndex(m,n))))
-                }
-            }
+            _setNodeCoordinates(system, relief, &coords)
         }
         else {
-            debug("buildVertexCoordinates", "relief is nil")
-            for m in 0...mMax {
-                for n in 0...nMax {
-                    coords.append(SIMD3<Float>(
-                        xOffset + Float(m)*gridSpacing,
-                        yOffset + Float(n)*gridSpacing,
-                        z1))
-                }
-            }
+            _setNodeCoordinates(system, &coords)
         }
         return coords
     }
 
-    func buildVertexNormals(system: SK2_System, relief: DS_ElevationSource20?) -> [SIMD3<Float>] {
+    private func _setNodeCoordinates(_ system: SK2_System, _ coords: inout [SIMD3<Float>]) {
         let mMax = system.m_max
         let nMax = system.n_max
         let gMax = (mMax > nMax) ? mMax : nMax
         let gridSpacing: Float = gridSize/Float(gMax)
+        
         let xOffset: Float = 0 // gridSize/2
         let yOffset: Float = 0 // gridSize/2
         let zOffset: Float = 0 // TODO identify what this should be
         let z1 = z0 + zOffset
-        var normals = [SIMD3<Float>]()
         
-        if let relief = relief {
-            debug("buildVertexNormalData", "using relief")
-            relief.refresh()
-            for m in 0...mMax {
-                for n in 0...nMax {
-                    // FIXME these are copied from coords
-                    normals.append(SIMD3<Float>(
-                        xOffset + Float(m)*gridSpacing,
-                        yOffset + Float(n)*gridSpacing,
-                        z1 + zScale * relief.elevationAt(nodeIndex: system.skToNodeIndex(m,n))))
-                }
+        var nodeIndex = 0
+        for m in 0...mMax {
+            for n in 0...nMax {
+                coords[nodeIndex] = SIMD3<Float>(
+                    xOffset + Float(m)*gridSpacing,
+                    yOffset + Float(n)*gridSpacing,
+                    z1)
+                nodeIndex += 1
             }
         }
-        else {
-            debug("buildVertexNormalData", "no relief")
-            for m in 0...mMax {
-                for n in 0...nMax {
-                    // FIXME these are copied from coords
-                    normals.append(SIMD3<Float>(
-                        xOffset + Float(m)*gridSpacing,
-                        yOffset + Float(n)*gridSpacing,
-                        z1))
-                }
-            }
-        }
-        return normals
-
+        
     }
-
-    func updateDrawableArea(_ drawableArea: CGRect) {
-        debug("updateDrawableArea", "entered")
+    
+    private func _setNodeCoordinates(_ system: SK2_System, _ relief: DS_ElevationSource20, _ coords: inout [SIMD3<Float>]) {
+        let mMax = system.m_max
+        let nMax = system.n_max
+        let gMax = (mMax > nMax) ? mMax : nMax
+        let gridSpacing: Float = gridSize/Float(gMax)
+        
+        let xOffset: Float = 0 // gridSize/2
+        let yOffset: Float = 0 // gridSize/2
+        let zOffset: Float = 0 // TODO identify what this should be
+        let z1 = z0 + zOffset
+        
+        relief.refresh()
+        var nodeIndex = 0
+        for m in 0...mMax {
+            for n in 0...nMax {
+                coords[nodeIndex] = SIMD3<Float>(
+                    xOffset + Float(m)*gridSpacing,
+                    yOffset + Float(n)*gridSpacing,
+                    z1 + zScale * relief.elevationAt(nodeIndex: nodeIndex))
+                nodeIndex += 1
+            }
+        }
+    }
+        
+    func updateGeometry(drawableArea: CGRect) {
+        _graphicsStale = true
     }
     
     func resetPOV() {
@@ -239,7 +222,7 @@ class SK2_PlaneGeometry_20: SK2_Geometry_20 {
         // updateModelview()
         _graphicsStale = true
     }
-
+    
     private func fixPOV(_ pov: PlanePOV_20) -> PlanePOV_20 {
         let x2 = pov.x // clip(pov.x, 0, size)
         let y2 = pov.y // clip(pov.y, 0, size)
@@ -247,17 +230,18 @@ class SK2_PlaneGeometry_20: SK2_Geometry_20 {
         return PlanePOV_20(x2, y2, z2, pov.mode)
     }
     
-    private func refreshGraphics() {
+    private func _refreshGraphics() {
         // TODO
         _graphicsStale = false
         
     }
+    
     func connectGestures(_ view: UIView) {
         
         let newPan = UIPanGestureRecognizer(target: self, action: #selector(SK2_PlaneGeometry_20.doPan))
         self.pan = newPan
         view.addGestureRecognizer(newPan)
-
+        
         // TODO pinch
         
         // TODO tap
@@ -267,18 +251,18 @@ class SK2_PlaneGeometry_20: SK2_Geometry_20 {
         if let pan = self.pan {
             view.removeGestureRecognizer(pan)
         }
-
+        
         // TODO pinch
         
         // TODO tap
     }
     
-
-
+    
+    
     @objc func doPan(panGesture: UIPanGestureRecognizer) {
         guard
             let view = panGesture.view
-        else { return }
+            else { return }
         
         if panGesture.state == UIGestureRecognizer.State.began {
             lastPanLocation = panGesture.location(in: view)
@@ -299,6 +283,6 @@ class SK2_PlaneGeometry_20: SK2_Geometry_20 {
             pov = PlanePOV_20(x2, y2, pov.z, pov.mode)
         }
     }
-
-
+    
+    
 }

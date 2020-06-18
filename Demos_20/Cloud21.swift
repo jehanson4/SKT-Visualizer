@@ -21,8 +21,8 @@ class Cloud21: Figure20 {
     var graphics: Graphics20!
     var pipelineState: MTLRenderPipelineState!
     
-    let pointSize: Float = 10.0
-    let vertexCount: Int = 2500
+    let pointSize: Float = 100.0
+    let vertexCount: Int = 25
     var vertexCoords: [SIMD3<Float>]? = nil
     var vertexColors: [SIMD4<Float>]? = nil
     
@@ -80,8 +80,8 @@ class Cloud21: Figure20 {
         vertexDescriptor.layouts[0].stride = MemoryLayout<SIMD3<Float>>.stride
         vertexDescriptor.layouts[1].stride = MemoryLayout<SIMD4<Float>>.stride
         
-        let fragmentProgram = graphics.defaultLibrary.makeFunction(name: "cloud_fragment")
-        let vertexProgram = graphics.defaultLibrary.makeFunction(name: "cloud_vertex")
+        let fragmentProgram = graphics.library.makeFunction(name: "cloud_fragment")
+        let vertexProgram = graphics.library.makeFunction(name: "cloud_vertex")
         
         let pipelineStateDescriptor = MTLRenderPipelineDescriptor()
         pipelineStateDescriptor.vertexDescriptor = vertexDescriptor
@@ -112,7 +112,7 @@ class Cloud21: Figure20 {
         renderPassDescriptor.colorAttachments[0].storeAction = .store
         
         let commandBuffer = graphics.commandQueue.makeCommandBuffer()!
-        commandBuffer.addCompletedHandler { (_) in
+        commandBuffer.addCompletedHandler { _ in
             self.bufferProvider.avaliableResourcesSemaphore.signal()
         }
         
@@ -127,7 +127,8 @@ class Cloud21: Figure20 {
         renderEncoder.setFragmentBuffer(uniformBuffer, offset: 0, index: 2)
         
         renderEncoder.drawPrimitives(type: .point, vertexStart: 0, vertexCount: vertexCount)
-        
+        // renderEncoder.drawPrimitives(type: .line, vertexStart: 0, vertexCount: vertexCount)
+
         renderEncoder.endEncoding()
         commandBuffer.present(drawable)
         commandBuffer.commit()

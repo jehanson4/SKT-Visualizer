@@ -1,25 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
-   <Group
-      location = "group:/Users/jehanson/projects/SKT/SKT-Visualizer/Metal"
-      name = "Metal">
-      <FileRef
-         location = "group:FigureViewController.swift">
-      </FileRef>
-      <FileRef
-         location = "group:Shaders.metal">
-      </FileRef>
-      <FileRef
-         location = "group:Light.swift">
-      </FileRef>
-      <FileRef
-         location = "group:Vertex.swift">
-      </FileRef>
-      <FileRef
-         location = "group:MetalFigure.swift">
-      </FileRef>
-   </Group>
    <FileRef
       location = "self:">
    </FileRef>

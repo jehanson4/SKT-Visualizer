@@ -9,6 +9,14 @@
 import Foundation
 
 // =======================================================
+// MARK: - NamedObject20
+
+
+protocol NamedObject20: AnyObject {
+    var name: String { get set }
+}
+
+// =======================================================
 // MARK: - RegistryEntry20
 
 class RegistryEntry20<T> {
@@ -47,7 +55,12 @@ class Registry20<T> {
     }
     
     func register(hint: String? = nil, value: T) -> RegistryEntry20<T> {
-        return addEntry(findUnusedName(hint), value)
+        let name = findUnusedName(hint)
+        let entry = addEntry(name, value)
+        if let namedValue = value as? NamedObject20 {
+            namedValue.name = name
+        }
+        return entry
     }
     
     private func addEntry(_ name: String, _ value: T) -> RegistryEntry20<T> {
