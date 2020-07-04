@@ -15,14 +15,34 @@ struct ShellPOV_20 {
 }
 
 class SK2_Meridians_20 : Effect20 {
-    var name: String = "Meridians"
-    var switchable: Bool = true
+ 
+    static var effectName = "Meridians"
+    
+    var name: String = effectName
+    
+    let switchable: Bool = true
+    
     var enabled: Bool = true
+    
+    func setup(_ graphics: Graphics20) {
+        // TODO
+    }
+    
+    func updateContent(_ date: Date) {
+        // TODO
+    }
+
+    func render(_ drawable: CAMetalDrawable) {
+        // TODO
+    }
+
+    func teardown() {
+        // TODO
+    }
+
 }
 
 class SK2_ShellGeometry_20: SK2_Geometry_20 {
-
-    lazy var builtinEffects: [Effect20]? = _createEffects()
     
     private var _graphicsStale: Bool = true
     private var _pov_default: ShellPOV_20
@@ -66,7 +86,7 @@ class SK2_ShellGeometry_20: SK2_Geometry_20 {
         // TODO
     }
     
-    func updateNodeCoordinates(system: SK2_System, relief: DS_ElevationSource20?, array: [SIMD3<Float>]?) -> [SIMD3<Float>] {
+    func makeNodeCoordinates(system: SK2_System, relief: DS_ElevationSource20?, array: [SIMD3<Float>]?) -> [SIMD3<Float>] {
         var coords = (array?.count == system.nodeCount) ? array! : [SIMD3<Float>](repeating: SIMD3<Float>(0,0,0), count: system.nodeCount)
         if let relief = relief {
             _setNodeCoordinates(system, relief, &coords)
@@ -101,7 +121,7 @@ class SK2_ShellGeometry_20: SK2_Geometry_20 {
         // TODO
     }
     
-    private func _createEffects() -> [Effect20]? {
+    func makeEffects() -> [Effect20]? {
         var effects = [Effect20]()
         effects.append(SK2_Meridians_20())
         return effects

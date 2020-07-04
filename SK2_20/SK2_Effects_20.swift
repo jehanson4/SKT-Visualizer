@@ -13,34 +13,98 @@ import MetalKit
 // ========================================================================
 // MARK: - SK2_ReliefEffect_20
 
-class SK2_ReliefEffect_20: RenderEffect20 {
+class SK2_ReliefEffect_20: Effect20 {
+    
     
     static let effectName = "Relief"
     
     var name: String = effectName
+    
     var switchable: Bool = true
-    var enabled: Bool = true
     
-    func installFacets(context: RenderContext20) {
+    var enabled: Bool {
+        get {
+            return figure?.reliefEnabled ?? false
+        }
+        set(newValue) {
+            figure?.reliefEnabled = newValue
+        }
+    }
+    
+    weak var figure: SK2_Figure_20?
+    
+    init(figure: SK2_Figure_20) {
+        self.figure = figure
+    }
+    
+    func setup(_ graphics: Graphics20) {
         // NOP
     }
     
-    func activateFacets(context: RenderContext20) {
+    func updateContent(_ date: Date) {
         // NOP
     }
     
-    func render(context: RenderContext20, drawable: CAMetalDrawable) {
+    func render(_ drawable: CAMetalDrawable) {
         // NOP
     }
     
+    func teardown() {
+        // NOP
+    }
+    
+}
+
+// ========================================================================
+// MARK: - SK2_ColorsEffect_20
+
+class SK2_ColorsEffect_20: Effect20 {
+    
+    
+    static let effectName = "Colors"
+    
+    var name: String = effectName
+    
+    var switchable: Bool = true
+    
+    var enabled: Bool {
+        get {
+            return figure?.colorsEnabled ?? false
+        }
+        set(newValue) {
+            figure?.colorsEnabled = newValue
+        }
+    }
+    
+    weak var figure: SK2_Figure_20?
+    
+    init(figure: SK2_Figure_20) {
+        self.figure = figure
+    }
+    
+    func setup(_ graphics: Graphics20) {
+        // NOP
+    }
+    
+    func updateContent(_ date: Date) {
+        // NOP
+    }
+    
+    func render(_ drawable: CAMetalDrawable) {
+        // NOP
+    }
+    
+    func teardown() {
+        // NOP
+    }
     
 }
 
 // ========================================================================
 // MARK: - SK2_NodesEffect_20
 
-class SK2_NodesEffect_20: RenderEffect20 {
-    
+class SK2_NodesEffect_20: SK2_SystemEffect_20 {
+
     static let effectName = "Nodes"
     
     var name: String = effectName
@@ -49,57 +113,50 @@ class SK2_NodesEffect_20: RenderEffect20 {
 
     var _system: SK2_System
     var _geometry: SK2_Geometry_20
+    var _pipelineState: MTLRenderPipelineState? = nil
     
     init(system: SK2_System, geometry: SK2_Geometry_20) {
         self._system = system
         self._geometry = geometry
     }
     
-    func installFacets(context: RenderContext20) {
-        if (!context.isInstalled(facet: SK2_NodeCoordinates20.facetName)) {
-            context.install(facet: SK2_NodeCoordinates20(system: _system, geometry: _geometry))
-        }
-        if (!context.isInstalled(facet: SK2_NodeColors20.facetName)) {
-            context.install(facet: SK2_NodeColors20(system: _system))
-        }
-        if (!context.isInstalled(facet: SK2_Uniforms20.facetName)) {
-            context.install(facet: SK2_Uniforms20(geometry: _geometry))
-        }
+    func setup(_ graphics: Graphics20) {
+        
+        let fragmentProgram = graphics.library.makeFunction(name: "basic_fragment")
+        let vertexProgram = graphics.library.makeFunction(name: "basic_vertex")
+        
+        let pipelineStateDescriptor = MTLRenderPipelineDescriptor()
+        pipelineStateDescriptor.vertexFunction = vertexProgram
+        pipelineStateDescriptor.fragmentFunction = fragmentProgram
+        pipelineStateDescriptor.colorAttachments[0].pixelFormat = .bgra8Unorm
+        
+        self._pipelineState = try! graphics.device.makeRenderPipelineState(descriptor: pipelineStateDescriptor)
+
+        // TODO create buffers etc
     }
     
-    func activateFacets(context: RenderContext20) {
-        context.get(facet: SK2_NodeCoordinates20.facetName)?.active = true
-        context.get(facet: SK2_NodeColors20.facetName)?.active = true
-        context.get(facet: SK2_Uniforms20.facetName)?.active = true
+    func topologyChanged(system: SK2_System, geometry: SK2_Geometry_20) {
+        // TODO
     }
     
-    func render(context: RenderContext20, drawable: CAMetalDrawable) {
-        
-        let renderPassDescriptor = MTLRenderPassDescriptor()
-        renderPassDescriptor.colorAttachments[0].texture = drawable.texture
-        renderPassDescriptor.colorAttachments[0].loadAction = .clear
-        renderPassDescriptor.colorAttachments[0].clearColor = AppConstants20.clearColor
-        renderPassDescriptor.colorAttachments[0].storeAction = .store
-
-        let commandBuffer = context.commandQueue.makeCommandBuffer()!
-        let renderEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor)!
-        renderEncoder.setRenderPipelineState(context.pipelineState)
-        
-        let nodeCoords = context.get(facet: SK2_NodeCoordinates20.facetName) as! SK2_NodeCoordinates20
-        renderEncoder.setVertexBuffer(nodeCoords.buffer, offset: 0, index: nodeCoords.bufferIndex)
-
-        let nodeColors = context.get(facet: SK2_NodeColors20.facetName) as! SK2_NodeColors20
-        renderEncoder.setVertexBuffer(nodeColors.buffer, offset: 0, index: nodeColors.bufferIndex)
-
-        let uniforms = context.get(facet: SK2_Uniforms20.facetName) as! SK2_Uniforms20
-        renderEncoder.setVertexBuffer(uniforms.buffer, offset: 0, index: uniforms.bufferIndex)
-        renderEncoder.setFragmentBuffer(uniforms.buffer, offset: 0, index: uniforms.bufferIndex)
-        
-        renderEncoder.drawPrimitives(type: .point, vertexStart: 0, vertexCount: nodeCoords.vertexCount)
-        
-        renderEncoder.endEncoding()
-        commandBuffer.present(drawable)
-        commandBuffer.commit()
+    func nodeDataChanged(system: SK2_System, geometry: SK2_Geometry_20) {
+        // TODO
     }
+
+    func updateContent(_ date: Date) {
+        // TODO
+    }
+    
+    func render(_ drawable: CAMetalDrawable) {
+        // TODO
+    }
+    
+    func teardown() {
+        // TODO
+        // discard pipeline state
+        // free buffers
+        // etc
+    }
+    
 }
 

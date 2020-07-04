@@ -29,8 +29,6 @@
 		8A1CF01B207146520099DD97 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A1CF019207146510099DD97 /* Main.storyboard */; };
 		8A1CF01D207146540099DD97 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A1CF01C207146540099DD97 /* Assets.xcassets */; };
 		8A1CF020207146540099DD97 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A1CF01E207146540099DD97 /* LaunchScreen.storyboard */; };
-		8A1F1DAA249B9D93002DB549 /* RenderEngine20.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1F1DA9249B9D93002DB549 /* RenderEngine20.swift */; };
-		8A1F1DAE249BA907002DB549 /* SK2_RenderFacets20.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1F1DAD249BA907002DB549 /* SK2_RenderFacets20.swift */; };
 		8A2034DC21EB76AC00A4C418 /* ButtonWithImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2034DB21EB76AC00A4C418 /* ButtonWithImage.swift */; };
 		8A2034DE21EB961300A4C418 /* SK2_SecondaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2034DD21EB961300A4C418 /* SK2_SecondaryViewController.swift */; };
 		8A2034E221ED0F4E00A4C418 /* SK1_System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2034E121ED0F4E00A4C418 /* SK1_System.swift */; };
@@ -202,8 +200,6 @@
 		8A1CF01C207146540099DD97 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8A1CF01F207146540099DD97 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8A1CF021207146540099DD97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8A1F1DA9249B9D93002DB549 /* RenderEngine20.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderEngine20.swift; sourceTree = "<group>"; };
-		8A1F1DAD249BA907002DB549 /* SK2_RenderFacets20.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_RenderFacets20.swift; sourceTree = "<group>"; };
 		8A2034DB21EB76AC00A4C418 /* ButtonWithImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonWithImage.swift; sourceTree = "<group>"; };
 		8A2034DD21EB961300A4C418 /* SK2_SecondaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK2_SecondaryViewController.swift; sourceTree = "<group>"; };
 		8A2034E121ED0F4E00A4C418 /* SK1_System.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK1_System.swift; sourceTree = "<group>"; };
@@ -398,7 +394,6 @@
 				8A01730124880B0100D3C160 /* float4x4Extensions.swift */,
 				8AA1F1BB249398850075C7D9 /* DS_ColorSource20.swift */,
 				8AA1F1C12493B01A0075C7D9 /* DS_ElevationSource20.swift */,
-				8A1F1DA9249B9D93002DB549 /* RenderEngine20.swift */,
 			);
 			path = Design20;
 			sourceTree = "<group>";
@@ -716,7 +711,6 @@
 				8AE0B84A24916B5C008753B5 /* SK2_PlaneGeometry_20.swift */,
 				8AA1F1BD24939EFE0075C7D9 /* SK2_Geometry_20.swift */,
 				8AA1F1C9249668DB0075C7D9 /* SK2_Figure_20.swift */,
-				8A1F1DAD249BA907002DB549 /* SK2_RenderFacets20.swift */,
 				8A79EF372498F0C100646EBB /* SK2_Effects_20.swift */,
 				8A79EF2F24983B6200646EBB /* SK2_DataSources.swift */,
 				8A79EF3124983ED100646EBB /* SK2_Shaders.metal */,
@@ -904,7 +898,6 @@
 				8A9B14C2220F145B00A2CDAB /* ReliefSwitch.swift in Sources */,
 				8A41B09C21F357F600DE38CB /* FigureSelectionViewController.swift in Sources */,
 				8AE0B83F249055A1008753B5 /* SK2_Equilibrium_20.swift in Sources */,
-				8A1F1DAA249B9D93002DB549 /* RenderEngine20.swift in Sources */,
 				8A1CF016207146510099DD97 /* AppDelegate.swift in Sources */,
 				8A79EF3224983ED100646EBB /* SK2_Shaders.metal in Sources */,
 				8A2034E721ED2A6000A4C418 /* SK2_System.swift in Sources */,
@@ -967,7 +960,6 @@
 				8AA1F1CA249668DB0075C7D9 /* SK2_Figure_20.swift in Sources */,
 				8A19E9AF230329D300880C97 /* SurfaceInPlane.swift in Sources */,
 				8AE1BD162203EF4500D6A062 /* SK2_Factory.swift in Sources */,
-				8A1F1DAE249BA907002DB549 /* SK2_RenderFacets20.swift in Sources */,
 				8A3C45C62086278900A1E9CD /* UniformColor.swift in Sources */,
 				8AC82CE121F8874200A75595 /* GraphicsController.swift in Sources */,
 				8A9B14C8220F427B00A2CDAB /* SK2_PlaneBase.swift in Sources */,

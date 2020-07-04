@@ -14,11 +14,19 @@ import MetalKit
 
 protocol Effect20: NamedObject20 {
     
-    var enabled: Bool { get set }
-    
     var switchable: Bool { get }
 
+    var enabled: Bool { get set }
+    
+    func setup(_ graphics: Graphics20)
+    
+    func updateContent(_ date: Date)
+
+    func render(_ drawable: CAMetalDrawable)
+
+    func teardown()
 }
+
 
 // =======================================================
 // MARK: - Figure20

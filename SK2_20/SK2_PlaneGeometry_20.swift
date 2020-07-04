@@ -152,7 +152,11 @@ class SK2_PlaneGeometry_20: SK2_Geometry_20 {
         
     }
     
-    func updateNodeCoordinates(system: SK2_System, relief: DS_ElevationSource20?, array: [SIMD3<Float>]?) -> [SIMD3<Float>] {
+    func makeEffects() -> [Effect20]? {
+        return nil
+    }
+    
+    func makeNodeCoordinates(system: SK2_System, relief: DS_ElevationSource20?, array: [SIMD3<Float>]?) -> [SIMD3<Float>] {
         var coords = (array?.count == system.nodeCount) ? array! : [SIMD3<Float>](repeating: SIMD3<Float>(0,0,0), count: system.nodeCount)
         if let relief = relief {
             _setNodeCoordinates(system, relief, &coords)

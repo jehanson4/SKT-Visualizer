@@ -298,8 +298,97 @@ Cf. 'managed buffers' https://developer.apple.com/documentation/metal/buffers
 Repackage with convenience methods as desired.
 
 
+*Q: Can we delegate the creation of the pipeline state and the facets to another object?*
+> A: Perhaps. The set of facets is determined by the set of effects and the geometry.
+>   * the delegate must contain the geometry
+>   * the delegate must create the effects as well as the facets
+
+Given all that, it's more of a configurer/builder than a delegate.  It doesn't need to be an attribute in the renderEngine class. SK_Figure creates a render engine, so it can configure it too. The figure can create all the facets and the effects and the pipeline state.
+
+But remember, there are effects and/or facets contributed by the geometry. They have buffers too, and the vertex descriptor needs to be told about them. The Figure can create the pipeline state and pass it to the render engine. But it will need to do it via API calls on the facets and the geometry. The geometry should have 'installFacets' member and the facets its installs should participate in creating the vertex descriptor.
+
+The figure sets the vertex and fragment functions and some other things on the pipeline state, then has the facets set up the vertex descriptor.
+It can create a list of facets, including any that it gets from the geometry.
+
+The way I've got it now is this:
+1. figure creates render engine
+2. figure installs the effects in the engine. It gets some from the geometry.
+4. When each effect is installed, it immediately creates any as-yet-uncreated facets it needs and installs then in the engine. This means that the only place where all extant facets are available is the engine's facet registry.
+5. each facet allocates/manages its buffers. It gets its buffer indices from the engine **at facet installation time**.
+6. figure creates the context's pipeline state. It sets the vertex and fragment function. It assembles the vertex descriptor with help from the facets installed in the engine. It passes the pipeline state object to the engine.
+
+That's so damn complicated!
+
+The last item is icky. It's got too much back-and-forth between the engine and the figure. I would be much happier if the engine created the pipeline state, using the facets in its registry plus any other info it needs.
+
+We can do that by passing vertex and fragment function names to the render engine.
+Call it a SimpleRenderEngine? Single pipe etc.
+
+*Q: if we go around dynamically adding things to the vertex descriptor, how will our shader functions work?*
+
+> A: **They wont.** We can deal with the unforms by having the figure create the uniforms buffer right before installing the facets. That way it'll always have buffer index 0. **That does not help with the vertex positions** Different effects will use different metal buffers to store vertex position data. (Meridians being the defining example).
+
+### Back to the drawing board.
+
+**Here's the set of SK2 effects:**
+
+  * Points
+    * uses node coords + buffer, node colors + buffer, basic shaders, point size
+    * vertices are node positions
+    * uniforms: { modelview matrix, projection matrix, point size, colors enabled, white color }
+    * shader func's: use point size; depending on whether colors enabled, use vertex color or white color
+  * Surface
+    * differs from Points by using an index array for drawing triangles; and does not use point siz
+    * needs a metal buffer for index array
+    * Does it need its own shader func's? If so then it needs its own pipeline
+    * it should NOT recalculate node coords or colors, tho.
+  * Net
+    * uses node coords + buffer, segment index array + buffer, monochrome shaders (white color)
+  * Descent Lines
+    * uses its own segment coords (derived from node coords) + buffer, monochrome (white color)
+  * Meridians
+    * uses its own segment coords + buffer, maybe index array, monochrome (blue color)
+    * has its own pipeline
+  * Busy spinner
+    * shows its own texture . . . therefore its own shader functions 
+    * has its own pipeline
+  * Relief switch
+    * sets a parameter that modifies output of other effects
+    * no pipeline
+  * Color switch
+    * sets a parameter that modifies output of other effects
+    * no pipeline
+  * plane-figure POV mode switch (include this to make sure design is generalizable)
+    * sets a parameter that modifies output of other effects
+    * no pipeline
+
+----
+
+Could set up multiple pipelines and use simple shader func's that have their buffer indices represented as literals in the source code
+That won't let Meridians be handled generically -- its index is set at the Figure level, not geometry level. Not too happy about that!
+
+Q: **sharing of node coordinates** -- let's do it. But how?
 
 
- 
+Any given figure will have effects and it will have been initialized with color provider (which does not change ever) and relief provider (ditto)
+SO why not also give it a coordinate provider, aka geometry.
+  * geometry knows *how* to calculate 'em
+  * which component knows *when or whether* to calculate 'em?
+
+Depending on the nature of the relief and the sequencer, it may or may not have to recalculate....ever But a sequencer that doesn't change the data is a boring edge case so don't design to it.
+
+a typical effect needs its own idiosyncratic data in one way or another.
+
+Forget the facets.
+
+SOME effects have pipelines, some do not.
+pipelines are owned by effects. no sharing of pipeline state between effects
+No sharing of buffers between effects.
+Sharing of node coords is done under management of the figure. The figure holds an array of node coords, which is only updated on demand.
+
+No 'rendering engine' -- embed it in the Figure class
+use Graphics20 in place of RenderContext20
+rename Gaphics20 in fact
+
 
 

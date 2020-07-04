@@ -37,15 +37,16 @@ class SK2_Equilibrium_20 : Visualization20 {
     }
     
     private func makeSamplePlane() -> Figure20 {
-        let samplePlane = SK2_Figure_20(name: "Sample Plane", group: self.name, system: self.system, geometry: self.planeGeometry)
+        let dummySource = SK2_DummySource()
+        let samplePlane = SK2_Figure_20(name: "Sample Plane", group: self.name, system: self.system, geometry: self.planeGeometry, colorSource: dummySource, relief: dummySource)
         
-        let nodesName = AppConstants20.NODES_EFFECT_NAME
-        let nodesEffect = SK2_NodesEffect_20(name: nodesName, system: system, geometry: planeGeometry)
+        let nodesEffect = SK2_NodesEffect_20(system: system, geometry: planeGeometry)
         nodesEffect.enabled = true
-        _ = samplePlane.effects.register(hint: nodesName, value: nodesEffect)
+        _ = samplePlane.effects.register(hint: nodesEffect.name, value: nodesEffect)
         
-//        let reliefEffect = SK2_ReliefEffect_20(geometry: planeGeometry);
-//        _ = samplePlane.effects.register(hint: reliefEffect.name, value: reliefEffect)
+        let reliefEffect = SK2_ReliefEffect_20(figure: samplePlane)
+        reliefEffect.enabled = true
+        _ = samplePlane.effects.register(hint: reliefEffect.name, value: reliefEffect)
 
         return samplePlane
     }

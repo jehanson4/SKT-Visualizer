@@ -10,14 +10,23 @@
 using namespace metal;
 
 
-struct Uniforms {
+struct SK2_Uniforms {
     
 };
 
-struct VertexIn {
+struct SK2_VertexIn {
     
 };
 
-struct VertexOut {
-    
+struct SK2_VertexOut {
+    float4 position [[position]];
+    float  pointSize [[point_size]];
+    float3 fragmentPosition;
+    float4 color;
 };
+
+vertex SK2_VertexOut sk2_vertex(SK2_VertexIn vertexIn [[stage_in]],
+const device SK2_Uniforms&  uniforms    [[ buffer(0) ]]) {
+    
+    // TODO
+}
