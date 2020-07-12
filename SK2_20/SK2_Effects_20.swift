@@ -8,13 +8,59 @@
 
 import Foundation
 import MetalKit
+import os
 
+// =============================================================
+// MARK: - SK2_SystemEffect_20
+
+protocol SK2_SystemEffect_20 : Effect20 {
+    
+    func topologyChanged(system: SK2_System, geometry: SK2_Geometry_20)
+    
+    func nodeDataChanged(system: SK2_System, geometry: SK2_Geometry_20)
+    
+}
+
+
+// ========================================================================
+// MARK: - SK2_MeridiansEffect_20
+
+class SK2_MeridiansEffect_20 : Effect20 {
+ 
+    static let effectName = "Meridians"
+    
+    var name: String = effectName
+    
+    let switchable: Bool = true
+    
+    var enabled: Bool = true
+    
+    init(figure: SK2_Figure_20) {
+        // NOP
+    }
+    
+    func setup(_ graphics: Graphics20) {
+        // TODO
+    }
+    
+    func updateContent(_ date: Date) {
+        // TODO
+    }
+
+    func render(_ drawable: CAMetalDrawable) {
+        // TODO
+    }
+
+    func teardown() {
+        // TODO
+    }
+
+}
 
 // ========================================================================
 // MARK: - SK2_ReliefEffect_20
 
 class SK2_ReliefEffect_20: Effect20 {
-    
     
     static let effectName = "Relief"
     
@@ -111,21 +157,36 @@ class SK2_NodesEffect_20: SK2_SystemEffect_20 {
     var switchable: Bool = true
     var enabled: Bool = true
 
-    var _system: SK2_System
-    var _geometry: SK2_Geometry_20
+    var _figure: SK2_Figure_20
     var _pipelineState: MTLRenderPipelineState? = nil
     
-    init(system: SK2_System, geometry: SK2_Geometry_20) {
-        self._system = system
-        self._geometry = geometry
+    init(figure: SK2_Figure_20) {
+        self._figure = figure
     }
     
     func setup(_ graphics: Graphics20) {
+        os_log("SK2_NodesEffect_20.setup: %s: entered", self.name)
+                
+        // Q: can we do this over and over?
+        // A: let's try it and see.
+        let fragmentProgram = graphics.library.makeFunction(name: "sk2_nodes_fragment")
+        let vertexProgram = graphics.library.makeFunction(name: "sk2_nodes_vertex")
         
-        let fragmentProgram = graphics.library.makeFunction(name: "basic_fragment")
-        let vertexProgram = graphics.library.makeFunction(name: "basic_vertex")
+        let vertexDescriptor = MTLVertexDescriptor()
+        vertexDescriptor.attributes[0].format = .float3
+        vertexDescriptor.attributes[0].bufferIndex = 0
+        vertexDescriptor.attributes[0].offset = 0
+        vertexDescriptor.attributes[1].format = .float4
+        vertexDescriptor.attributes[1].bufferIndex = 1
+        vertexDescriptor.attributes[1].offset = 0
+        vertexDescriptor.layouts[0].stride = MemoryLayout<SIMD3<Float>>.stride
+        vertexDescriptor.layouts[1].stride = MemoryLayout<SIMD4<Float>>.stride
+
+        // vertex buffer attributes: 0 = float3 position, 1 = float4 color, 2 = float3 normal
+        // vertex buffer indices: 0 = position, 1 = color, 2 = normal, 3 = uniforms
         
         let pipelineStateDescriptor = MTLRenderPipelineDescriptor()
+        pipelineStateDescriptor.vertexDescriptor = vertexDescriptor
         pipelineStateDescriptor.vertexFunction = vertexProgram
         pipelineStateDescriptor.fragmentFunction = fragmentProgram
         pipelineStateDescriptor.colorAttachments[0].pixelFormat = .bgra8Unorm
@@ -136,22 +197,59 @@ class SK2_NodesEffect_20: SK2_SystemEffect_20 {
     }
     
     func topologyChanged(system: SK2_System, geometry: SK2_Geometry_20) {
-        // TODO
+        // NOP
     }
     
     func nodeDataChanged(system: SK2_System, geometry: SK2_Geometry_20) {
-        // TODO
+        // NOP
     }
 
     func updateContent(_ date: Date) {
-        // TODO
+        _figure.updateNodeCoordinates()
+        _figure.updateNodeColors()
+        _figure.updateNodeUniforms()
     }
     
     func render(_ drawable: CAMetalDrawable) {
-        // TODO
+        guard
+            let graphics = _figure.graphics,
+            let pipelineState = _pipelineState
+            else { return }
+        
+//        _ = bufferProvider.avaliableResourcesSemaphore.wait(timeout: DispatchTime.distantFuture)
+
+        let renderPassDescriptor = MTLRenderPassDescriptor()
+        renderPassDescriptor.colorAttachments[0].texture = drawable.texture
+        renderPassDescriptor.colorAttachments[0].loadAction = .clear
+        renderPassDescriptor.colorAttachments[0].clearColor = AppConstants20.clearColor
+        renderPassDescriptor.colorAttachments[0].storeAction = .store
+        
+        let commandBuffer = graphics.commandQueue.makeCommandBuffer()!
+//        commandBuffer.addCompletedHandler { _ in
+//            self.bufferProvider.avaliableResourcesSemaphore.signal()
+//        }
+        
+        let renderEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor)!
+        renderEncoder.setRenderPipelineState(pipelineState)
+        renderEncoder.setVertexBuffer(_figure.nodeCoordinateBuffer, offset: 0, index: 0)
+        renderEncoder.setVertexBuffer(_figure.nodeColorBuffer, offset: 0, index: 1)
+        
+//        let uniformBuffer = bufferProvider.nextUniformsBuffer(projectionMatrix: projectionMatrix, modelViewMatrix: modelViewMatrix, light: light, pointSize: self.pointSize)
+//
+        renderEncoder.setVertexBuffer(_figure.nodeUniformsBuffer, offset: 0, index: 3)
+        renderEncoder.setFragmentBuffer(_figure.nodeUniformsBuffer, offset: 0, index: 3)
+        
+        renderEncoder.drawPrimitives(type: .point, vertexStart: 0, vertexCount: _figure.nodeCount)
+
+        renderEncoder.endEncoding()
+        commandBuffer.present(drawable)
+        commandBuffer.commit()
+
     }
     
     func teardown() {
+        os_log("%s teardown: entered", self.name)
+        
         // TODO
         // discard pipeline state
         // free buffers

@@ -10,14 +10,20 @@ import Foundation
 
 class SK2_Equilibrium_20 : Visualization20 {
     
-    var name = AppConstants20.SK2E_VISUALIZATION_NAME
+    static let visualizationName = AppConstants20.SK2E_VISUALIZATION_NAME
+   
+    var name = visualizationName
+    
     var system:  SK2_System
-    var planeGeometry: SK2_PlaneGeometry_20
+    var plane: SK2_PlaneGeometry_20
+    var shell: SK2_ShellGeometry_20
+    
     lazy var figures: Selector20<Figure20> = _initFigures()
 
     init(_ system: SK2_System) {
         self.system = system
-        self.planeGeometry = SK2_PlaneGeometry_20()
+        self.plane = SK2_PlaneGeometry_20()
+        self.shell = SK2_ShellGeometry_20()
     }
     
     private func _initFigures() -> Selector20<Figure20> {
@@ -25,6 +31,7 @@ class SK2_Equilibrium_20 : Visualization20 {
         var figures = [Figure20]()
                 
         figures.append(makeSamplePlane())
+        figures.append(makeSampleShell())
         
         for f in figures {
             let entry = registry.register(hint: f.name, value: f)
@@ -38,9 +45,9 @@ class SK2_Equilibrium_20 : Visualization20 {
     
     private func makeSamplePlane() -> Figure20 {
         let dummySource = SK2_DummySource()
-        let samplePlane = SK2_Figure_20(name: "Sample Plane", group: self.name, system: self.system, geometry: self.planeGeometry, colorSource: dummySource, relief: dummySource)
+        let samplePlane = SK2_Figure_20(name: "Sample Plane", group: self.name, system: self.system, geometry: self.plane, colorSource: dummySource, relief: dummySource)
         
-        let nodesEffect = SK2_NodesEffect_20(system: system, geometry: planeGeometry)
+        let nodesEffect = SK2_NodesEffect_20(figure: samplePlane)
         nodesEffect.enabled = true
         _ = samplePlane.effects.register(hint: nodesEffect.name, value: nodesEffect)
         
@@ -51,4 +58,23 @@ class SK2_Equilibrium_20 : Visualization20 {
         return samplePlane
     }
     
+    private func makeSampleShell() -> Figure20 {
+        let dummySource = SK2_DummySource()
+        let sampleShell = SK2_Figure_20(name: "Sample Shell", group: self.name, system: self.system, geometry: self.shell, colorSource: dummySource, relief: dummySource)
+        
+        let nodesEffect = SK2_NodesEffect_20(figure: sampleShell)
+        nodesEffect.enabled = true
+        _ = sampleShell.effects.register(hint: nodesEffect.name, value: nodesEffect)
+        
+        let reliefEffect = SK2_ReliefEffect_20(figure: sampleShell)
+        reliefEffect.enabled = true
+        _ = sampleShell.effects.register(hint: reliefEffect.name, value: reliefEffect)
+
+        let meridiansEffect = SK2_MeridiansEffect_20(figure: sampleShell)
+        meridiansEffect.enabled = true
+        _ = sampleShell.effects.register(hint: meridiansEffect.name, value: meridiansEffect)
+        
+        return sampleShell
+
+    }
 }

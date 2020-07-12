@@ -16,11 +16,11 @@ Some articles:
  * <https://developer.apple.com/documentation/metal/generating_multiple_output_vertex_streams_from_one_input_stream>
  * "vertex amplification"
  * "layered rendering"
- * "texture slides"
+ * "texture slices"
  * <https://developer.apple.com/documentation/metal/mtlrenderpassdescriptor/rendering_to_multiple_texture_slices_in_a_draw_command>
 4. Depth testing -- "depth texture" or "depth buffer"
  * <https://developer.apple.com/documentation/metal/calculating_primitive_visibility_using_depth_testing>
- * When I'm trying to make sufe the node goes on top of the net, and the descent line goes on top of the node, I can use the order in which I submit commands to the command queue
+ * When I'm trying to make sure the node goes on top of the net, and the descent line goes on top of the node, I can use the order in which I submit commands to the command queue
  
 <https://developer.apple.com/videos/play/wwdc2019/611/>
 
@@ -52,8 +52,8 @@ Let's try this:
 * Figure has method that passes those objects in, which FigureViewController calls when the figure is installed in the controller. Define it in a protocol to be adopted by FigureViewController.
 * Figure also needs a method to permit it to free up memory from a figure that's being replaced
 
-        protocol FigureUser {
-            func installFigure(_ figure: Figure?)
+        class FigureViewController {
+            func installFigure(_ figure: Figure?) { ... }
         }
 
         protocol Figure {
@@ -98,7 +98,8 @@ The various figures share more than just the system, but what and how much they 
 
 *Q: for the vertex data, do we want to interleave it, a la Vertex class?*
 
-> A: This guy <https://metalbyexample.com/vertex-descriptors> has a good answer: no. And use a vertex descriptor. 
+> A: This guy <https://metalbyexample.com/vertex-descriptors> has a good answer: no. 
+> He also talks about using a vertex descriptor. 
 
 
 #### Geometry 
@@ -155,38 +156,18 @@ Despite its disadvantages, let's go with #2:
 
 #### Effects
 
-*Q: in Design19, you turn the rellief on and off via an Effect. How will it work in Design20?*
-
-> A: Same way, though the internal details may be different. TBD.
 
 In Design19, each effect did its own rendering, maintained its own vertex/normal/color data, managed its own buffers, etc.
-I think that's not the right way to go. Effects should basically be named switches that modify a code path that follows the
-HelloMetal demo. E.g., there's a single pipeline descriptor.
+I don't yet see how to do that in Design20.
 
-I would also like to have them own their own data and generate their own render commands. But I don't want redundant copying
-of node coordinates. I could make the effects' data objects settable:
->           protocol DS_NodeEffecct {
->               var nodeCoords: [SIMD3<Float>] { get set }
->           }
+Note that the shell geometry has two effects specific to it: InnerShell and Meridians. Each one has its own set of vertex and color data and its own (set of) Metal buffer(s) and its own pipeline therefore. Because we want the figure code to be agnostic w/r/t geometry, we need to be able to add these two effects, with their vertex data and buffers, in a generic way. This means that **some** effects, at least, have their own pipelines.
 
-An effect that has data needs to manage the associated MTLBuffer, but the buffers and indices need to be known to the figure
-in order to create the pipline state. I have a fixed finite set of effect-data-arrays. So I should ebed the buffer indices as named constants.
->           class SK2_Figure_20 {
->               static let NODE_COORDINATES_BUFFER_INDEX = 0
->               ...
->           }
-
-Note that I'd have to know its buffer too, and keep track of whether the buffer's content is stale
-
-If I'm going to use triple buffering then I'll want a BufferProvider class as well. To avoid unnecessary copying I need to be cagey about whether to copy the data or not . . . maybe version numbers? I think I'll want something that does all the buffer management stuff in one place. That way I can start with simple code (that does unnecessary copying) and improve it.
-
-Assume vertexDescriptor and pipelineDescriptor and pipelineState are all set up when figure is installed. That sets all the buffer indices and the shader commands.
-
-Possible to create & configure more than one pipeline
-
-commandBuffer.commit(...) is the thing that puts the commandbuffer (with its commands) on the queue. Time-ordering is enforced at the commandBuffer level. commin(...) happens after present(drawable)
-
-I start a render pass. I create a renderPassDescriptor, if that's common across all effects (I assume it is). Then I have each effect that draws something add an entry to the command queue--i.e., it creates a commandBuffer and renderEncoder, sets them up, and adds the command to the queue.
+What makes a pipeline?
+  * vetex and fragment functions
+  * references to buffers
+  * other config parameters
+  
+commandBuffer.commit(...) is the thing that puts the commandbuffer (with its commands) on the queue. Time-ordering is enforced at the commandBuffer level. commit(...) happens after present(drawable)
 
 There's some common stuff that is done to all renderEncoders. Who does that stuff?
 
@@ -227,108 +208,10 @@ X changes work like this:
 #### RenderingContext
 
 Some blogger uses a 'rendering context' somewhere. That's the right abstration.
-
-Context needs to be an aggregation, because of Meridians. Thre needs to be a way for the shell geometry
-to add meridians to the list of effects, and have meridians add a specialized part/aspect/facet to the context.
-
-Ability to dynamically add facets means that the context needs to dynamically calculate the index for the facet's buffer.
-
-I suppose each facet will be a specialized subclass of the 'facet' protocol.
-
-There also needs to be a way to update the list of which parts of the context are needed by the enabled effects.
-We can clear the list at the beginning of the update step then active effects turn on the things they need.
-
-Note that the context's facets are very much like the figure's effects.
-
->       procotol SK2_RenderingContextFacet_20 {
->           var name: String { get }
->           var enabled: Bool { get set }
->
->           func install(in context: SK2_RenderingContext_20)
->           func update(...)
->       }
->
->       protocol SK2_Effect_20 {
->           func installFacets(in context: SK2_RenderingContext_20)
->           func enableFacets(in context: SK2_RenderingContext_20)
->           func render(context: SK2_RenderingContext_20, ...)
->       }
->
+It's what I'm calling 'Graphics20'
 
 Cf. 'managed buffers' https://developer.apple.com/documentation/metal/buffers
 
-*Q: how to force deallocation?*
-
->       struct BufferData {
->           buffer: MTLBuffer?
->           bufferIndex: Int
->       }
->
->       class SK2_RenderingContext_20 {
->           
->           var facets: [String: SK2_RenderingContextFacet_20]
->
->           /// an effect will call this when creating a new facet
->           func createBuffer() -> BufferData { ... }
->       
->           
->           func update() { // have all enabled facets update themselves }
->           
->       }
->
->       class SK2_Figure_20 {
->
->           func update(...) {
->               context.reset()
->               for effect in effects {
->                   if (effect.enabled) {
->                       effect.updateActiveAspects(context)
->                   }
->               }
->               context.update()
->           }
->
->           func render(...) {
->               for effect in effects {
->                   effect.render(context, ...)
->               }
->           }
->       }
-
-Repackage with convenience methods as desired.
-
-
-*Q: Can we delegate the creation of the pipeline state and the facets to another object?*
-> A: Perhaps. The set of facets is determined by the set of effects and the geometry.
->   * the delegate must contain the geometry
->   * the delegate must create the effects as well as the facets
-
-Given all that, it's more of a configurer/builder than a delegate.  It doesn't need to be an attribute in the renderEngine class. SK_Figure creates a render engine, so it can configure it too. The figure can create all the facets and the effects and the pipeline state.
-
-But remember, there are effects and/or facets contributed by the geometry. They have buffers too, and the vertex descriptor needs to be told about them. The Figure can create the pipeline state and pass it to the render engine. But it will need to do it via API calls on the facets and the geometry. The geometry should have 'installFacets' member and the facets its installs should participate in creating the vertex descriptor.
-
-The figure sets the vertex and fragment functions and some other things on the pipeline state, then has the facets set up the vertex descriptor.
-It can create a list of facets, including any that it gets from the geometry.
-
-The way I've got it now is this:
-1. figure creates render engine
-2. figure installs the effects in the engine. It gets some from the geometry.
-4. When each effect is installed, it immediately creates any as-yet-uncreated facets it needs and installs then in the engine. This means that the only place where all extant facets are available is the engine's facet registry.
-5. each facet allocates/manages its buffers. It gets its buffer indices from the engine **at facet installation time**.
-6. figure creates the context's pipeline state. It sets the vertex and fragment function. It assembles the vertex descriptor with help from the facets installed in the engine. It passes the pipeline state object to the engine.
-
-That's so damn complicated!
-
-The last item is icky. It's got too much back-and-forth between the engine and the figure. I would be much happier if the engine created the pipeline state, using the facets in its registry plus any other info it needs.
-
-We can do that by passing vertex and fragment function names to the render engine.
-Call it a SimpleRenderEngine? Single pipe etc.
-
-*Q: if we go around dynamically adding things to the vertex descriptor, how will our shader functions work?*
-
-> A: **They wont.** We can deal with the unforms by having the figure create the uniforms buffer right before installing the facets. That way it'll always have buffer index 0. **That does not help with the vertex positions** Different effects will use different metal buffers to store vertex position data. (Meridians being the defining example).
-
-### Back to the drawing board.
 
 **Here's the set of SK2 effects:**
 
@@ -388,7 +271,9 @@ Sharing of node coords is done under management of the figure. The figure holds 
 
 No 'rendering engine' -- embed it in the Figure class
 use Graphics20 in place of RenderContext20
-rename Gaphics20 in fact
+rename Gaphics20 -> RenderContext
 
 
-
+Pipelines and shaders
+the render pipeline descriptor assigns buffer pointer + bufferIndex
+the shader functions have attributes like <code>[[ buffer(0) ]]</code>

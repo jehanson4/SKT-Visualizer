@@ -14,33 +14,6 @@ struct ShellPOV_20 {
     // TODO
 }
 
-class SK2_Meridians_20 : Effect20 {
- 
-    static var effectName = "Meridians"
-    
-    var name: String = effectName
-    
-    let switchable: Bool = true
-    
-    var enabled: Bool = true
-    
-    func setup(_ graphics: Graphics20) {
-        // TODO
-    }
-    
-    func updateContent(_ date: Date) {
-        // TODO
-    }
-
-    func render(_ drawable: CAMetalDrawable) {
-        // TODO
-    }
-
-    func teardown() {
-        // TODO
-    }
-
-}
 
 class SK2_ShellGeometry_20: SK2_Geometry_20 {
     
@@ -121,9 +94,4 @@ class SK2_ShellGeometry_20: SK2_Geometry_20 {
         // TODO
     }
     
-    func makeEffects() -> [Effect20]? {
-        var effects = [Effect20]()
-        effects.append(SK2_Meridians_20())
-        return effects
-    }
 }

@@ -1,5 +1,5 @@
 //
-//  Registry21.swift
+//  Registry.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 6/7/20.

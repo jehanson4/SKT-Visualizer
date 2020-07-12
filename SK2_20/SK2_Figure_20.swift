@@ -12,35 +12,48 @@ import MetalKit
 import os
 
 // =============================================================
-// MARK: - SK2_SystemEffect_20
-
-protocol SK2_SystemEffect_20 : Effect20 {
-    
-    func topologyChanged(system: SK2_System, geometry: SK2_Geometry_20)
-    
-    func nodeDataChanged(system: SK2_System, geometry: SK2_Geometry_20)
-    
-}
-
-// =============================================================
 // MARK: - SK2_Figure_20
 
 class SK2_Figure_20 : Figure20 {
-    
-    // TODO: depth & slices for effects
-    
+        
     var name: String
     var group: String
     var system: SK2_System
     var geometry: SK2_Geometry_20
     
-    // MAYBE
-    private var _nodeCoordinates: [SIMD3<Float>]? = nil
-    private var _nodeCoordinatesStale: Bool = true
+    let light = Light(color: (1.0,1.0,1.0), ambientIntensity: 0.1, direction: (0.0, 0.0, 1.0), diffuseIntensity: 0.8, shininess: 10, specularIntensity: 2)
+    
+    
+    var nodeCount: Int {
+        return system.nodeCount
+    }
 
-    // MAYBE
-    private var _nodeColors: [SIMD4<Float>]? = nil
+    var nodeCoordinateBuffer: MTLBuffer {
+        updateNodeCoordinates()
+        return _nodeCoordinateBuffer!
+    }
+    
+    private var _nodeCoordinatesStale: Bool = true
+    private var _nodeCoordinateArray: [SIMD3<Float>]? = nil
+    private var _nodeCoordinateBuffer: MTLBuffer? = nil
+    
+
+    var nodeColorBuffer: MTLBuffer {
+        updateNodeColors()
+        return _nodeColorBuffer!
+    }
+    
     private var _nodeColorsStale: Bool = true
+    private var _nodeColorArray: [SIMD4<Float>]? = nil
+    private var _nodeColorBuffer: MTLBuffer? = nil
+
+    var nodeUniformsBuffer: MTLBuffer {
+        updateNodeUniforms()
+        return _nodeUniformsBuffer!
+    }
+    
+    private var _nodeUniformsStale: Bool = true
+    private var _nodeUniformsBuffer: MTLBuffer? = nil
 
     var colorSource: DS_ColorSource20
     var colorsEnabled: Bool = true
@@ -59,12 +72,10 @@ class SK2_Figure_20 : Figure20 {
         self.geometry = geometry
         self.colorSource = colorSource
         self.relief = relief
-        
-        
     }
 
     func figureWillBeInstalled(graphics: Graphics20, drawableArea: CGRect) {
-        os_log("SK2_SystemFigure_20.figureWillBeInstalled: entered")
+        os_log("SK2_Figure_20.figureWillBeInstalled: %s: entered", self.name)
         
         // OK
         self.graphics = graphics
@@ -87,7 +98,7 @@ class SK2_Figure_20 : Figure20 {
     }
     
     func figureWillBeUninstalled() {
-        os_log("SK2_SystemFigure_20.figureWillBeUninstalled: entered")
+        os_log("SK2_Figure_20.figureWillBeUninstalled: %s: entered", self.name)
         
         for entry in effects.entries {
             entry.value.value.teardown()
@@ -102,6 +113,87 @@ class SK2_Figure_20 : Figure20 {
     
     func updateDrawableArea(_ drawableArea: CGRect) {
         geometry.updateGeometry(drawableArea: drawableArea)
+    }
+    
+    func updateNodeCoordinates() {
+        if (!_nodeCoordinatesStale) {
+            return
+        }
+        
+        let r2 : DS_ElevationSource20? = (reliefEnabled) ? relief : nil
+        _nodeCoordinateArray = geometry.makeNodeCoordinates(system: system, relief: r2, array: _nodeCoordinateArray)
+        let newBufLen = _nodeCoordinateArray!.count * MemoryLayout<SIMD3<Float>>.size
+        let oldBufLen = _nodeCoordinateBuffer?.length ?? 0
+        if (newBufLen == oldBufLen) {
+            memcpy(self._nodeCoordinateBuffer?.contents(), &_nodeCoordinateArray, newBufLen)
+        }
+        else {
+            _nodeCoordinateBuffer = graphics!.device.makeBuffer(bytes: _nodeCoordinateArray!, length: newBufLen, options: [])!
+        }
+        _nodeCoordinatesStale = false
+    }
+    
+    func updateNodeColors() {
+        if (!_nodeColorsStale) {
+            return
+        }
+        
+        let newNodeCount = system.nodeCount
+        let whiteColor = SIMD4<Float>(0,0,0,0)
+        if (_nodeColorArray?.count != newNodeCount) {
+            if (colorsEnabled) {
+                _nodeColorArray = [SIMD4<Float>]()
+                _nodeColorArray?.reserveCapacity(newNodeCount)
+                var array = _nodeColorArray!
+                for i in 0..<newNodeCount {
+                    array.append(colorSource.colorAt(nodeIndex: i))
+                }
+            }
+            else {
+                _nodeColorArray = [SIMD4<Float>](repeating: whiteColor, count: newNodeCount)
+            }
+        }
+        else {
+            if (colorsEnabled) {
+                var array = _nodeColorArray!
+                for i in 0..<newNodeCount {
+                    array[i] = colorSource.colorAt(nodeIndex: i)
+                }
+            }
+            else {
+                var array = _nodeColorArray!
+                for i in 0..<newNodeCount {
+                    array[i] = whiteColor
+                }
+            }
+
+        }
+        
+        let oldBufLen = _nodeColorBuffer?.length ?? 0
+        let newBufLen = _nodeColorArray!.count * MemoryLayout<SIMD4<Float>>.size
+        if (oldBufLen == newBufLen) {
+            memcpy(self._nodeColorBuffer?.contents(), &_nodeColorArray, newBufLen)
+        }
+        else {
+            _nodeColorBuffer = graphics!.device.makeBuffer(bytes: _nodeColorArray!, length: newBufLen, options: [])!
+        }
+        _nodeColorsStale = false
+    }
+    
+    func updateNodeUniforms() {
+        if (!_nodeUniformsStale) {
+            return
+        }
+        
+        // TODO: copy using same layout as SK2_Uniforms in SK2_Shaders.metal:
+        // 1. geometry.projectionMatrix
+        // 2. geometry.modelViewMatrix
+        // 3. self.light
+        // 4. geometry.pointSize
+        //
+        // ACTUALLY I'd rather have light be a CONSTANT defined in the metal file. . . .
+        
+        _nodeUniformsStale = false
     }
     
     func updateContent(_ date: Date) {
@@ -123,14 +215,15 @@ class SK2_Figure_20 : Figure20 {
     }
     
     func connectSystemMonitors() {
-        // FOR OVERRIDE
+        // NOP; FOR OVERRIDE
     }
     
     func disconnectSystemMonitors() {
-        // FOR OVERRIDE
+        // NOP; FOR OVERRIDE
     }
     
     func topologyChanged() {
+        // MAYBE we don't need this?
         for entry in effects.entries {
             if let effect = entry.value.value as? SK2_SystemEffect_20 {
                 if (effect.enabled) {
@@ -141,6 +234,7 @@ class SK2_Figure_20 : Figure20 {
     }
     
     func nodeDataChanged() {
+        // MAYBE we don't need this?
         for entry in effects.entries {
             if let effect = entry.value.value as? SK2_SystemEffect_20 {
                 if (effect.enabled) {
