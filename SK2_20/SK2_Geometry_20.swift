@@ -16,6 +16,8 @@ protocol SK2_Geometry_20: AnyObject {
     
     var modelViewMatrix: float4x4 { get }
         
+    var pointSize: Float { get }
+    
     func makeNodeCoordinates(system: SK2_System, relief: DS_ElevationSource20?, array: [SIMD3<Float>]?) -> [SIMD3<Float>]
 
     func updateGeometry(drawableArea: CGRect)

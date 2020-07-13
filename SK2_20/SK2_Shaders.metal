@@ -10,27 +10,9 @@
 using namespace metal;
 
 
-struct Light {
-    packed_float3 color;      // 0 - 2
-    float ambientIntensity;   // 3
-    packed_float3 direction;  // 4 - 6
-    float diffuseIntensity;   // 7
-    float shininess;          // 8
-    float specularIntensity;  // 9
-    
-    /*
-     _______________________
-     |0 1 2 3|4 5 6 7|8 9    |
-     -----------------------
-     |       |       |       |
-     | chunk0| chunk1| chunk2|
-     */
-};
-
 struct SK2_Uniforms {
     float4x4 modelViewMatrix;
     float4x4 projectionMatrix;
-    Light light;
     float pointSize;
 
 };

@@ -126,8 +126,13 @@ class SK2_PlaneGeometry_20: SK2_Geometry_20 {
             if (_graphicsStale) {
                 _refreshGraphics()
             }
-            return _projectionMatrix
+            return _modelViewMatrix
         }
+    }
+    
+    var pointSize: Float {
+        // TODO estimate it
+        return 10
     }
     
     var lastPanLocation: CGPoint!
@@ -147,8 +152,8 @@ class SK2_PlaneGeometry_20: SK2_Geometry_20 {
         // LEFTOVERS
         self._projectionMatrix = float4x4.makePerspectiveViewAngle(float4x4.degrees(toRad: 85.0), aspectRatio: 1.0, nearZ: 0.01, farZ: 100.0)
         self._modelViewMatrix = float4x4()
-        self._modelViewMatrix.translate(0.0, y: 0.0, z: -4)
-        self._modelViewMatrix.rotateAroundX(float4x4.degrees(toRad: 25), y: 0.0, z: 0.0)
+        self._modelViewMatrix.translate(0.0, y: 0.0, z: -100)
+        // self._modelViewMatrix.rotateAroundX(float4x4.degrees(toRad: 25), y: 0.0, z: 0.0)
         
     }
         

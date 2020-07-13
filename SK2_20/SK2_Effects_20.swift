@@ -192,8 +192,6 @@ class SK2_NodesEffect_20: SK2_SystemEffect_20 {
         pipelineStateDescriptor.colorAttachments[0].pixelFormat = .bgra8Unorm
         
         self._pipelineState = try! graphics.device.makeRenderPipelineState(descriptor: pipelineStateDescriptor)
-
-        // TODO create buffers etc
     }
     
     func topologyChanged(system: SK2_System, geometry: SK2_Geometry_20) {
@@ -205,12 +203,14 @@ class SK2_NodesEffect_20: SK2_SystemEffect_20 {
     }
 
     func updateContent(_ date: Date) {
+        os_log("SK2_NodesEffect_20.updateContent: entered. name=%s", self.name)
         _figure.updateNodeCoordinates()
         _figure.updateNodeColors()
         _figure.updateNodeUniforms()
     }
     
     func render(_ drawable: CAMetalDrawable) {
+        os_log("SK2_NodesEffect_20.render: %s: entered", self.name)
         guard
             let graphics = _figure.graphics,
             let pipelineState = _pipelineState
@@ -245,6 +245,7 @@ class SK2_NodesEffect_20: SK2_SystemEffect_20 {
         commandBuffer.present(drawable)
         commandBuffer.commit()
 
+        os_log("SK2_NodesEffect_20.render: %s: exiting", self.name)
     }
     
     func teardown() {

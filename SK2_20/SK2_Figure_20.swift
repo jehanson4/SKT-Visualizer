@@ -21,9 +21,6 @@ class SK2_Figure_20 : Figure20 {
     var system: SK2_System
     var geometry: SK2_Geometry_20
     
-    let light = Light(color: (1.0,1.0,1.0), ambientIntensity: 0.1, direction: (0.0, 0.0, 1.0), diffuseIntensity: 0.8, shininess: 10, specularIntensity: 2)
-    
-    
     var nodeCount: Int {
         return system.nodeCount
     }
@@ -75,22 +72,22 @@ class SK2_Figure_20 : Figure20 {
     }
 
     func figureWillBeInstalled(graphics: Graphics20, drawableArea: CGRect) {
-        os_log("SK2_Figure_20.figureWillBeInstalled: %s: entered", self.name)
+        os_log("SK2_Figure_20.figureWillBeInstalled: entered. name=%s", self.name)
         
-        // OK
         self.graphics = graphics
         
-        
-        // OK
+        let float4x4Size = MemoryLayout<Float>.size*float4x4.numberOfElements()
+        let colorSize = MemoryLayout<Float>.size
+        let padding = float4x4Size-colorSize
+        let bufLen = 2*float4x4Size + colorSize + padding
+        _nodeUniformsBuffer = graphics.device.makeBuffer(length: bufLen, options: [])!
+
         geometry.connectGestures(graphics.view)
         
-        // OK
         self.updateDrawableArea(drawableArea)
         
-        // OK
         self.connectSystemMonitors()
 
-        // OK
         for entry in effects.entries {
             entry.value.value.setup(graphics)
         }
@@ -98,7 +95,7 @@ class SK2_Figure_20 : Figure20 {
     }
     
     func figureWillBeUninstalled() {
-        os_log("SK2_Figure_20.figureWillBeUninstalled: %s: entered", self.name)
+        os_log("SK2_Figure_20.figureWillBeUninstalled: entered. name=%s", self.name)
         
         for entry in effects.entries {
             entry.value.value.teardown()
@@ -109,6 +106,18 @@ class SK2_Figure_20 : Figure20 {
         if let graphics = self.graphics {
             geometry.disconnectGestures(graphics.view)
         }
+        
+        _nodeCoordinatesStale = true
+        _nodeCoordinateArray = nil
+        _nodeCoordinateBuffer = nil
+
+        _nodeColorsStale = true
+        _nodeColorArray = nil
+        _nodeColorBuffer = nil
+
+        _nodeUniformsStale = true
+        _nodeUniformsBuffer = nil
+
     }
     
     func updateDrawableArea(_ drawableArea: CGRect) {
@@ -116,24 +125,28 @@ class SK2_Figure_20 : Figure20 {
     }
     
     func updateNodeCoordinates() {
+        os_log("SK2_Figure_20.updateNodeCoordinates: entered. name=%s, stale=%d: entered", self.name, self._nodeCoordinatesStale)
         if (!_nodeCoordinatesStale) {
             return
         }
         
         let r2 : DS_ElevationSource20? = (reliefEnabled) ? relief : nil
         _nodeCoordinateArray = geometry.makeNodeCoordinates(system: system, relief: r2, array: _nodeCoordinateArray)
-        let newBufLen = _nodeCoordinateArray!.count * MemoryLayout<SIMD3<Float>>.size
         let oldBufLen = _nodeCoordinateBuffer?.length ?? 0
+        let newBufLen = _nodeCoordinateArray!.count * MemoryLayout<SIMD3<Float>>.size
         if (newBufLen == oldBufLen) {
+            os_log("SK2_Figure_20.updateNodeCoordinates: updating coord buffer contents. name=%s", self.name)
             memcpy(self._nodeCoordinateBuffer?.contents(), &_nodeCoordinateArray, newBufLen)
         }
         else {
+            os_log("SK2_Figure_20.updateNodeCoordinates: creating coord buffer. name=%s", self.name)
             _nodeCoordinateBuffer = graphics!.device.makeBuffer(bytes: _nodeCoordinateArray!, length: newBufLen, options: [])!
         }
         _nodeCoordinatesStale = false
     }
     
     func updateNodeColors() {
+        os_log("SK2_Figure_20.updateNodeColors: entered. name=%s, nodeColorsStale=%d", self.name, self._nodeColorsStale)
         if (!_nodeColorsStale) {
             return
         }
@@ -141,19 +154,21 @@ class SK2_Figure_20 : Figure20 {
         let newNodeCount = system.nodeCount
         let whiteColor = SIMD4<Float>(0,0,0,0)
         if (_nodeColorArray?.count != newNodeCount) {
+            os_log("SK2_Figure_20.updateNodeColors: creating color array. name=%s nodeCount=%d", self.name, newNodeCount)
             if (colorsEnabled) {
-                _nodeColorArray = [SIMD4<Float>]()
-                _nodeColorArray?.reserveCapacity(newNodeCount)
-                var array = _nodeColorArray!
+                var array = [SIMD4<Float>]()
+                    array.reserveCapacity(newNodeCount)
                 for i in 0..<newNodeCount {
                     array.append(colorSource.colorAt(nodeIndex: i))
                 }
+                _nodeColorArray = array
             }
             else {
                 _nodeColorArray = [SIMD4<Float>](repeating: whiteColor, count: newNodeCount)
             }
         }
         else {
+            os_log("SK2_Figure_20.updateNodeColors: updating color array content. name=%s", self.name)
             if (colorsEnabled) {
                 var array = _nodeColorArray!
                 for i in 0..<newNodeCount {
@@ -166,15 +181,18 @@ class SK2_Figure_20 : Figure20 {
                     array[i] = whiteColor
                 }
             }
-
         }
+        os_log("SK2_Figure_20.updateNodeColors: color array length=%d", _nodeColorArray!.count)
+
         
         let oldBufLen = _nodeColorBuffer?.length ?? 0
         let newBufLen = _nodeColorArray!.count * MemoryLayout<SIMD4<Float>>.size
         if (oldBufLen == newBufLen) {
+            os_log("SK2_Figure_20.updateNodeColors: updating color buffer contents. name=%s", self.name)
             memcpy(self._nodeColorBuffer?.contents(), &_nodeColorArray, newBufLen)
         }
         else {
+            os_log("SK2_Figure_20.updateNodeColors: creating color buffer. name=%s", self.name)
             _nodeColorBuffer = graphics!.device.makeBuffer(bytes: _nodeColorArray!, length: newBufLen, options: [])!
         }
         _nodeColorsStale = false
@@ -185,14 +203,22 @@ class SK2_Figure_20 : Figure20 {
             return
         }
         
-        // TODO: copy using same layout as SK2_Uniforms in SK2_Shaders.metal:
-        // 1. geometry.projectionMatrix
-        // 2. geometry.modelViewMatrix
-        // 3. self.light
-        // 4. geometry.pointSize
-        //
-        // ACTUALLY I'd rather have light be a CONSTANT defined in the metal file. . . .
+
+        let bufferPointer = _nodeUniformsBuffer!.contents()
+        var bufferOffset = 0
+        var projectionMatrix = geometry.projectionMatrix
+        var modelViewMatrix = geometry.modelViewMatrix
+        var pointSize = geometry.pointSize
         
+        let float4x4Size = MemoryLayout<Float>.size*float4x4.numberOfElements()
+        memcpy(bufferPointer + bufferOffset, &modelViewMatrix, float4x4Size)
+        bufferOffset += float4x4Size
+        
+        memcpy(bufferPointer + bufferOffset, &projectionMatrix, float4x4Size)
+        bufferOffset += float4x4Size
+            
+        memcpy(bufferPointer + bufferOffset, &pointSize, MemoryLayout<Float>.size)
+
         _nodeUniformsStale = false
     }
     

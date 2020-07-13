@@ -37,8 +37,13 @@ class SK2_ShellGeometry_20: SK2_Geometry_20 {
             if (_graphicsStale) {
                 _refreshGraphics()
             }
-            return _projectionMatrix
+            return _modelViewMatrix
         }
+    }
+    
+    var pointSize: Float {
+        // TODO estimate it
+        return 100
     }
     
     init() {
