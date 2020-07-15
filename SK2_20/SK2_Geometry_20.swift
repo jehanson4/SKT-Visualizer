@@ -15,11 +15,11 @@ protocol SK2_Geometry_20: AnyObject {
     var projectionMatrix: float4x4 { get }
     
     var modelViewMatrix: float4x4 { get }
-        
-    var pointSize: Float { get }
-    
+            
     func makeNodeCoordinates(system: SK2_System, relief: DS_ElevationSource20?, array: [SIMD3<Float>]?) -> [SIMD3<Float>]
 
+    func estimatePointSize(system: SK2_System) -> Float
+    
     func updateGeometry(drawableArea: CGRect)
     
     func resetPOV()

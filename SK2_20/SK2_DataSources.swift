@@ -16,7 +16,7 @@ class SK2_DummySource : DS_ColorSource20, DS_ElevationSource20 {
     let dummyColor: SIMD4<Float>
     
     init() {
-        dummyColor = SIMD4<Float>(0,0,0,1)
+        dummyColor = SIMD4<Float>(1,0,0,1)
     }
     
     func refresh() {

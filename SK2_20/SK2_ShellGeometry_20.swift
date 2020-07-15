@@ -41,11 +41,6 @@ class SK2_ShellGeometry_20: SK2_Geometry_20 {
         }
     }
     
-    var pointSize: Float {
-        // TODO estimate it
-        return 100
-    }
-    
     init() {
 
         self._pov_default = ShellPOV_20()
@@ -62,6 +57,11 @@ class SK2_ShellGeometry_20: SK2_Geometry_20 {
     
     private func _refreshGraphics() {
         // TODO
+    }
+    
+    func estimatePointSize(system: SK2_System) -> Float {
+        // TODO estimate it
+        return 100
     }
     
     func makeNodeCoordinates(system: SK2_System, relief: DS_ElevationSource20?, array: [SIMD3<Float>]?) -> [SIMD3<Float>] {

@@ -52,6 +52,28 @@ class SK2_Figure_20 : Figure20 {
     private var _nodeUniformsStale: Bool = true
     private var _nodeUniformsBuffer: MTLBuffer? = nil
 
+    let netIndexType = MTLIndexType.uint16
+    
+    var netIndexBuffer: MTLBuffer {
+        updateNetIndices()
+        return _netIndexBuffer!
+    }
+    
+    var netLineArrayOffsets: [Int] {
+        updateNetIndices()
+        return _netLineArrayOffsets!
+    }
+    
+    var netLineArrayLengths: [Int] {
+        updateNetIndices()
+        return _netLineArrayLengths!
+    }
+    
+    private var _netIndicesStale: Bool = true
+    private var _netIndexBuffer: MTLBuffer? = nil
+    private var _netLineArrayOffsets: [Int]? = nil
+    private var _netLineArrayLengths: [Int]? = nil
+    
     var colorSource: DS_ColorSource20
     var colorsEnabled: Bool = true
     
@@ -117,6 +139,9 @@ class SK2_Figure_20 : Figure20 {
 
         _nodeUniformsStale = true
         _nodeUniformsBuffer = nil
+        
+        _netIndicesStale = true
+        _netIndexBuffer = nil
 
     }
     
@@ -125,11 +150,13 @@ class SK2_Figure_20 : Figure20 {
     }
     
     func updateNodeCoordinates() {
-        os_log("SK2_Figure_20.updateNodeCoordinates: entered. name=%s, stale=%d: entered", self.name, self._nodeCoordinatesStale)
+        // os_log("SK2_Figure_20.updateNodeCoordinates: entered. name=%s, stale=%d: entered", self.name, self._nodeCoordinatesStale)
         if (!_nodeCoordinatesStale) {
             return
         }
-        
+
+        os_log("SK2_Figure_20.updateNodeCoordinates: updating. name=%s", self.name)
+
         let r2 : DS_ElevationSource20? = (reliefEnabled) ? relief : nil
         _nodeCoordinateArray = geometry.makeNodeCoordinates(system: system, relief: r2, array: _nodeCoordinateArray)
         let oldBufLen = _nodeCoordinateBuffer?.length ?? 0
@@ -146,11 +173,13 @@ class SK2_Figure_20 : Figure20 {
     }
     
     func updateNodeColors() {
-        os_log("SK2_Figure_20.updateNodeColors: entered. name=%s, nodeColorsStale=%d", self.name, self._nodeColorsStale)
+        // os_log("SK2_Figure_20.updateNodeColors: entered. name=%s, nodeColorsStale=%d", self.name, self._nodeColorsStale)
         if (!_nodeColorsStale) {
             return
         }
-        
+
+        os_log("SK2_Figure_20.updateNodeColors: updating. name=%s", self.name)
+
         let newNodeCount = system.nodeCount
         let whiteColor = SIMD4<Float>(0,0,0,0)
         if (_nodeColorArray?.count != newNodeCount) {
@@ -199,16 +228,18 @@ class SK2_Figure_20 : Figure20 {
     }
     
     func updateNodeUniforms() {
+        // os_log("SK2_Figure_20.updateNodeUniforms: entered. name=%s, nodeUniformsStale=%d", self.name, self._nodeUniformsStale)
         if (!_nodeUniformsStale) {
             return
         }
         
+//        os_log("SK2_Figure_20.updateNodeUniforms: updating. name=%s", self.name)
 
         let bufferPointer = _nodeUniformsBuffer!.contents()
         var bufferOffset = 0
         var projectionMatrix = geometry.projectionMatrix
         var modelViewMatrix = geometry.modelViewMatrix
-        var pointSize = geometry.pointSize
+        var pointSize = geometry.estimatePointSize(system: system)
         
         let float4x4Size = MemoryLayout<Float>.size*float4x4.numberOfElements()
         memcpy(bufferPointer + bufferOffset, &modelViewMatrix, float4x4Size)
@@ -219,7 +250,62 @@ class SK2_Figure_20 : Figure20 {
             
         memcpy(bufferPointer + bufferOffset, &pointSize, MemoryLayout<Float>.size)
 
-        _nodeUniformsStale = false
+        // update it every frame
+        // _nodeUniformsStale = false
+        
+    //    os_log("SK2_Figure_20.updateNodeUniforms: updated")
+    }
+    
+    func updateNetIndices() {
+        os_log("SK2_Figure_20.updateNetIndices: entered. name=%s, netIndicesStale=%d", self.name, self._netIndicesStale)
+        if (!_netIndicesStale) {
+            return
+        }
+
+        let mMax = system.m_max
+        let nMax = system.n_max
+        let lineCount = mMax + nMax + 2
+        let indexCount = 2 * system.nodeCount
+
+        var lineArrayOffsets = [Int]()
+        lineArrayOffsets.reserveCapacity(lineCount)
+        
+        var lineArrayLengths = [Int]()
+        lineArrayLengths.reserveCapacity(lineCount)
+        
+        var indexData = [UInt16]()
+        indexData.reserveCapacity(indexCount)
+        
+        var nextIndex = 0
+                
+        // =========================================
+        // verticals: m=const
+            
+        for m in 0...mMax {
+            lineArrayOffsets.append(nextIndex)
+            lineArrayLengths.append(nMax+1)
+            for n in 0...nMax {
+                indexData.append(UInt16(system.skToNodeIndex(m, n)))
+                nextIndex += 1
+            }
+        }
+            
+        // ==============================================
+        // horizontals: n=const
+            
+        for n in 0...nMax {
+            lineArrayOffsets.append(nextIndex)
+            lineArrayLengths.append(mMax+1)
+            for m in 0...mMax {
+                indexData.append(UInt16(system.skToNodeIndex(m, n)))
+                nextIndex += 1
+            }
+        }
+        
+        _netLineArrayOffsets = lineArrayOffsets
+        _netLineArrayLengths = lineArrayLengths
+        _netIndexBuffer = graphics!.device.makeBuffer(bytes: indexData, length: indexData.count)
+        _netIndicesStale = false
     }
     
     func updateContent(_ date: Date) {

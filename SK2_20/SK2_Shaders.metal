@@ -20,7 +20,6 @@ struct SK2_Uniforms {
 struct SK2_VertexIn {
     float3 position [[attribute(0)]];
     float4 color    [[attribute(1)]];
-    float3 normal   [[attribute(2)]];
 };
 
 struct SK2_VertexOut {
@@ -31,7 +30,7 @@ struct SK2_VertexOut {
 };
 
 vertex SK2_VertexOut sk2_nodes_vertex(SK2_VertexIn vertexIn [[stage_in]],
-                                      const device SK2_Uniforms&  uniforms [[ buffer(3) ]]) {
+                                      const device SK2_Uniforms&  uniforms [[ buffer(2) ]]) {
     
     float4x4 mv_Matrix = uniforms.modelViewMatrix;
     float4x4 proj_Matrix = uniforms.projectionMatrix;
@@ -47,6 +46,7 @@ vertex SK2_VertexOut sk2_nodes_vertex(SK2_VertexIn vertexIn [[stage_in]],
 }
 
 fragment float4 sk2_nodes_fragment(SK2_VertexOut interpolated           [[ stage_in ]],
-                                   const device SK2_Uniforms&  uniforms [[ buffer(3) ]]) {
+                                   const device SK2_Uniforms&  uniforms [[ buffer(2) ]]) {
     return interpolated.color;
 }
+

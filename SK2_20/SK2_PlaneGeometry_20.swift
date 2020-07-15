@@ -99,7 +99,6 @@ class SK2_PlaneGeometry_20: SK2_Geometry_20 {
         get { return _pov }
         set(newValue) {
             _pov = fixPOV(newValue)
-            // updateModelview()
             _graphicsStale = true
         }
     }
@@ -111,6 +110,12 @@ class SK2_PlaneGeometry_20: SK2_Geometry_20 {
     private var _pov: PlanePOV_20
     private var _projectionMatrix: float4x4
     private var _modelViewMatrix: float4x4
+    
+    // EMPIRICAL
+    let pointSizeMax: Float = 32
+
+    // EMPIRICAL
+    let pointSizeScaleFactor: Float = 350
     
     var projectionMatrix: float4x4 {
         get {
@@ -130,14 +135,14 @@ class SK2_PlaneGeometry_20: SK2_Geometry_20 {
         }
     }
     
-    var pointSize: Float {
-        // TODO estimate it
-        return 10
-    }
-    
     var lastPanLocation: CGPoint!
     var pan: UIPanGestureRecognizer? = nil
     
+    var pinch_initialY: Float = 0
+    var pinch_initialZ: Float = 0
+    var pinch: UIPinchGestureRecognizer? = nil
+    
+    var tap: UITapGestureRecognizer? = nil
     
     init() {
         
@@ -146,74 +151,66 @@ class SK2_PlaneGeometry_20: SK2_Geometry_20 {
         self.z0 = 0
         self.zScale = gridSize/3
         
-        self._pov_default = PlanePOV_20(gridSize/2, gridSize/2, gridSize*3/5, .satellite)
+        self._pov_default = PlanePOV_20(0, 0, gridSize*3/5, .satellite)
         self._pov = self._pov_default
         
-        // LEFTOVERS
-        self._projectionMatrix = float4x4.makePerspectiveViewAngle(float4x4.degrees(toRad: 85.0), aspectRatio: 1.0, nearZ: 0.01, farZ: 100.0)
-        self._modelViewMatrix = float4x4()
-        self._modelViewMatrix.translate(0.0, y: 0.0, z: -100)
-        // self._modelViewMatrix.rotateAroundX(float4x4.degrees(toRad: 25), y: 0.0, z: 0.0)
         
+        // Temporary
+        let d = _pov.z
+        let aspectRatio: Float = 1
+        self._projectionMatrix = float4x4.makeOrtho(-d, d, -d/aspectRatio, d/aspectRatio, AppConstants20.epsilon, 10*gridSize)
+        self._modelViewMatrix = float4x4.makeLookAt(_pov.x, _pov.y, _pov.z, _pov.xLookat, _pov.yLookat, _pov.zLookat, 0, 1, 0)
     }
         
-    func makeNodeCoordinates(system: SK2_System, relief: DS_ElevationSource20?, array: [SIMD3<Float>]?) -> [SIMD3<Float>] {
-        var coords = (array?.count == system.nodeCount) ? array! : [SIMD3<Float>](repeating: SIMD3<Float>(0,0,0), count: system.nodeCount)
-        if let relief = relief {
-            _setNodeCoordinates(system, relief, &coords)
-        }
-        else {
-            _setNodeCoordinates(system, &coords)
-        }
-        return coords
-    }
-
-    private func _setNodeCoordinates(_ system: SK2_System, _ coords: inout [SIMD3<Float>]) {
+    func estimatePointSize(system: SK2_System) -> Float {
         let mMax = system.m_max
         let nMax = system.n_max
         let gMax = (mMax > nMax) ? mMax : nMax
-        let gridSpacing: Float = gridSize/Float(gMax)
-        
-        let xOffset: Float = 0 // gridSize/2
-        let yOffset: Float = 0 // gridSize/2
-        let zOffset: Float = 0 // TODO identify what this should be
-        let z1 = z0 + zOffset
-        
-        var nodeIndex = 0
-        for m in 0...mMax {
-            for n in 0...nMax {
-                coords[nodeIndex] = SIMD3<Float>(
-                    xOffset + Float(m)*gridSpacing,
-                    yOffset + Float(n)*gridSpacing,
-                    z1)
-                nodeIndex += 1
-            }
-        }
-        
+        let gridSpacing = gridSize/Float(gMax)
+        let pts = pointSizeScaleFactor * gridSpacing / pov.z
+        return clip(pts, 1, pointSizeMax)
+
     }
     
-    private func _setNodeCoordinates(_ system: SK2_System, _ relief: DS_ElevationSource20, _ coords: inout [SIMD3<Float>]) {
+    func makeNodeCoordinates(system: SK2_System, relief: DS_ElevationSource20?, array: [SIMD3<Float>]?) -> [SIMD3<Float>] {
+        var coords = (array?.count == system.nodeCount) ? array! : [SIMD3<Float>](repeating: SIMD3<Float>(0,0,0), count: system.nodeCount)
+
         let mMax = system.m_max
         let nMax = system.n_max
         let gMax = (mMax > nMax) ? mMax : nMax
         let gridSpacing: Float = gridSize/Float(gMax)
         
-        let xOffset: Float = 0 // gridSize/2
-        let yOffset: Float = 0 // gridSize/2
+        let xOffset: Float = -gridSize/2
+        let yOffset: Float = -gridSize/2
         let zOffset: Float = 0 // TODO identify what this should be
         let z1 = z0 + zOffset
         
-        relief.refresh()
-        var nodeIndex = 0
-        for m in 0...mMax {
-            for n in 0...nMax {
-                coords[nodeIndex] = SIMD3<Float>(
-                    xOffset + Float(m)*gridSpacing,
-                    yOffset + Float(n)*gridSpacing,
-                    z1 + zScale * relief.elevationAt(nodeIndex: nodeIndex))
-                nodeIndex += 1
+        if let relief = relief {
+            relief.refresh()
+            var nodeIndex = 0
+            for m in 0...mMax {
+                for n in 0...nMax {
+                    coords[nodeIndex] = SIMD3<Float>(
+                        xOffset + Float(m)*gridSpacing,
+                        yOffset + Float(n)*gridSpacing,
+                        z1 + zScale * relief.elevationAt(nodeIndex: nodeIndex))
+                    nodeIndex += 1
+                }
             }
         }
+        else {
+            var nodeIndex = 0
+            for m in 0...mMax {
+                for n in 0...nMax {
+                    coords[nodeIndex] = SIMD3<Float>(
+                        xOffset + Float(m)*gridSpacing,
+                        yOffset + Float(n)*gridSpacing,
+                        z1)
+                    nodeIndex += 1
+                }
+            }
+        }
+        return coords
     }
         
     func updateGeometry(drawableArea: CGRect) {
@@ -222,21 +219,42 @@ class SK2_PlaneGeometry_20: SK2_Geometry_20 {
     
     func resetPOV() {
         // debug("resetPOV")
+        // Use private variable here. That means we have to mark graphics as stale
         _pov = _pov_default
-        // projectionHack = 0
-        // updateModelview()
         _graphicsStale = true
     }
     
     private func fixPOV(_ pov: PlanePOV_20) -> PlanePOV_20 {
-        let x2 = pov.x // clip(pov.x, 0, size)
-        let y2 = pov.y // clip(pov.y, 0, size)
+        let x2 = pov.x // OR MAYBE clip(pov.x, 0, size)
+        let y2 = pov.y // OR MAYBE clip(pov.y, 0, size)
         let z2 = (pov.z > AppConstants20.epsilon) ? pov.z : AppConstants20.epsilon
         return PlanePOV_20(x2, y2, z2, pov.mode)
     }
     
     private func _refreshGraphics() {
-        // TODO
+        os_log("PlaneGeometry: refreshing graphics")
+                
+        let d: Float = pov.z
+        let aspectRatio: Float = 1 // FIXME calculate it
+        
+        
+            
+        var newProjectionMatrix: float4x4!
+        if (pov.mode == .flyover) {
+            newProjectionMatrix = float4x4.makePerspectiveViewAngle(float4x4.degrees(toRad: 45.0), aspectRatio: aspectRatio, nearZ: d/2, farZ: 10*gridSize)
+        }
+        else {
+            // Docco sez args are: left, right, bottom, top, near, far "in eye coordinates"
+            // near = distance from camera to the front of the stage.
+            // far = distance from camera to the back of the stage.
+            // 0 < near < far: these are +z direction
+            newProjectionMatrix = float4x4.makeOrtho(-d, d, -d/aspectRatio, d/aspectRatio, AppConstants20.epsilon, 10*gridSize)
+        }
+
+        let newModelViewMatrix = float4x4.makeLookAt(pov.x, pov.y, pov.z, pov.xLookat, pov.yLookat, pov.zLookat, 0, 1, 0)
+        
+        _projectionMatrix = newProjectionMatrix
+        _modelViewMatrix = newModelViewMatrix
         _graphicsStale = false
         
     }
@@ -247,47 +265,120 @@ class SK2_PlaneGeometry_20: SK2_Geometry_20 {
         self.pan = newPan
         view.addGestureRecognizer(newPan)
         
-        // TODO pinch
+        let newPinch = UIPinchGestureRecognizer(target: self, action: #selector(SK2_PlaneGeometry_20.doPinch))
+        self.pinch = newPinch
+        view.addGestureRecognizer(newPinch)
         
-        // TODO tap
+        let newTap = UITapGestureRecognizer(target: self, action: #selector(SK2_PlaneGeometry_20.doTap))
+        self.tap = newTap
+        view.addGestureRecognizer(newTap)
     }
     
     func disconnectGestures(_ view: UIView) {
         if let pan = self.pan {
             view.removeGestureRecognizer(pan)
         }
-        
-        // TODO pinch
-        
-        // TODO tap
+        if let pinch = self.pinch {
+            view.removeGestureRecognizer(pinch)
+        }
+        if let tap = self.tap {
+            view.removeGestureRecognizer(tap)
+        }
     }
     
+    @objc func doPan(gesture: UIPanGestureRecognizer) {
+        switch(pov.mode) {
+        case .flyover:
+            flyoverPan(gesture)
+        case .satellite:
+            satellitePan(gesture)
+        }
+    }
     
-    
-    @objc func doPan(panGesture: UIPanGestureRecognizer) {
+    func flyoverPan(_ gesture: UIPanGestureRecognizer) {
+        debug("flyoverPan", "initial pov=\(pov)")
         guard
-            let view = panGesture.view
+            let view = gesture.view
             else { return }
         
-        if panGesture.state == UIGestureRecognizer.State.began {
-            lastPanLocation = panGesture.location(in: view)
+        if gesture.state == .began {
+            lastPanLocation = gesture.location(in: view)
         }
-        else if panGesture.state == UIGestureRecognizer.State.changed {
+        else if gesture.state == .changed {
             let bounds = view.bounds
-            let delta = panGesture.translation(in: view)
-            var x2: Float
-            var y2: Float
-            switch pov.mode {
-            case .flyover:
-                x2 = Float(lastPanLocation.x - delta.x) / Float(bounds.maxX)
-                y2 = Float(lastPanLocation.y - delta.y) / Float(bounds.maxY)
-            case .satellite:
-                x2 = Float(lastPanLocation.x - delta.x) / Float(bounds.maxX)
-                y2 = Float(lastPanLocation.y - delta.y) / Float(bounds.maxY)
-            }
+            let delta = gesture.translation(in: view)
+            let x2 = Float(lastPanLocation.x - delta.x) / Float(bounds.maxX)
+            let y2 = Float(lastPanLocation.y - delta.y) / Float(bounds.maxY)
+            // pov setter marks graphics stale
             pov = PlanePOV_20(x2, y2, pov.z, pov.mode)
         }
     }
+
+    func satellitePan(_ gesture: UIPanGestureRecognizer) {
+        debug("satellitePan", "initial pov=\(pov)")
+        guard
+            let view = gesture.view
+            else { return }
+        
+        if gesture.state == .began {
+            lastPanLocation = gesture.location(in: view)
+        }
+        else if gesture.state == .changed {
+            let bounds = view.bounds
+            let delta = gesture.translation(in: view)
+            let x2 = Float(lastPanLocation.x - delta.x) / Float(bounds.maxX)
+            let y2 = Float(lastPanLocation.y - delta.y) / Float(bounds.maxY)
+            // pov setter marks graphics stale
+            pov = PlanePOV_20(x2, y2, pov.z, pov.mode)
+        }
+    }
+
+    @objc func doPinch(gesture: UIPinchGestureRecognizer) {
+        switch(pov.mode) {
+        case .flyover:
+            flyoverPinch(gesture)
+        case .satellite:
+            satellitePinch(gesture)
+        }
+    }
     
-    
+    func flyoverPinch(_ gesture: UIPinchGestureRecognizer) {
+        debug("flyoverPinch", "initial pov=\(pov)")
+
+        if gesture.state == .began {
+            pinch_initialZ = pov.z
+            pinch_initialY = pov.y
+        }
+        else if gesture.state == .changed {
+            // We want to move along the line of sight.
+            // if z changes by dz then y changes by -PlanePOV.yFactor * dz
+            let newZ = pinch_initialZ / Float(gesture.scale)
+            let newY = pinch_initialY - PlanePOV_20.yFactor * (newZ - pinch_initialZ)
+            pov = PlanePOV_20(pov.x, newY, newZ, pov.mode)
+        }
+    }
+
+    func satellitePinch(_ gesture: UIPinchGestureRecognizer) {
+        debug("satellitePinch", "initial pov=\(pov)")
+        if gesture.state == .began {
+            pinch_initialZ = pov.z
+        }
+        else if gesture.state == .changed {
+            let newZ = pinch_initialZ / Float(gesture.scale)
+            pov = PlanePOV_20(pov.x, pov.y, newZ, pov.mode)
+        }
+    }
+
+    @objc func doTap(gesture: UITapGestureRecognizer) {
+        switch(pov.mode) {
+        case .flyover:
+            debug("doTap", "switching to satellite mode")
+            // pov setter marks graphics stale
+            pov = PlanePOV_20.transform(pov, toMode: .satellite)
+        case .satellite:
+            debug("doTap", "switching to flyover mode")
+            pov = PlanePOV_20.transform(pov, toMode: .flyover)
+        }
+    }
+
 }
