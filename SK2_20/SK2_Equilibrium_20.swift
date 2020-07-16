@@ -8,7 +8,7 @@
 
 import Foundation
 
-class SK2_Equilibrium_20 : Visualization20 {
+class SK2_Equilibrium_20 : SK2_Visualization_20 {
     
     static let visualizationName = AppConstants20.SK2E_VISUALIZATION_NAME
    

@@ -36,6 +36,10 @@ class EmptyFigure20 : Figure20 {
         os_log("EmptyFigure21.figureWillBeUninstalled: nop")
     }
     
+    func resetPOV() {
+        // NOP
+    }
+    
     func updateDrawableArea(_ drawableArea: CGRect) {
         // NOP
     }

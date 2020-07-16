@@ -134,6 +134,12 @@ class Cloud21: Figure20 {
         commandBuffer.commit()
     }
     
+    func resetPOV() {
+        modelViewMatrix = float4x4()
+        modelViewMatrix.translate(0.0, y: 0.0, z: -4)
+        modelViewMatrix.rotateAroundX(float4x4.degrees(toRad: 25), y: 0.0, z: 0.0)
+    }
+    
     func updateDrawableArea(_ drawableArea: CGRect) {
         self.projectionMatrix = float4x4.makePerspectiveViewAngle(float4x4.degrees(toRad: 85.0), aspectRatio: Float(drawableArea.width / drawableArea.height), nearZ: 0.01, farZ: 100.0)
     }

@@ -123,6 +123,7 @@
                                                         <state key="normal" title="SK/2 Equilibrium"/>
                                                         <connections>
                                                             <action selector="selectVisualization:" destination="bVF-Kc-23a" eventType="touchUpInside" id="1Iw-iL-mwE"/>
+                                                            <segue destination="aVf-8L-zHf" kind="show" id="mfo-3z-hRh"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -375,6 +376,16 @@
             </objects>
             <point key="canvasLocation" x="393" y="-861"/>
         </scene>
+        <!--SK2_Storyboard_20-->
+        <scene sceneID="3NU-LH-14X">
+            <objects>
+                <viewControllerPlaceholder storyboardName="SK2_Storyboard_20" id="aVf-8L-zHf" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="1YO-a1-e4D"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Gbl-Xz-uBh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="945" y="-1739"/>
+        </scene>
         <!--Master Navigation Controller-->
         <scene sceneID="jzL-Fv-J3k">
             <objects>
@@ -448,7 +459,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Ov-d1-4Na" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="937" y="-1756"/>
+            <point key="canvasLocation" x="945" y="-1820"/>
         </scene>
         <!--SK2_Storyboard-->
         <scene sceneID="ncs-bM-tTG">

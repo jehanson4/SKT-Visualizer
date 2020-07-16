@@ -45,5 +45,6 @@ protocol Figure20 : NamedObject20 {
 
     func render(_ drawable: CAMetalDrawable)
     
+    func resetPOV()
 }
 

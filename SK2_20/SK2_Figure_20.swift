@@ -354,6 +354,10 @@ class SK2_Figure_20 : Figure20 {
         commandBuffer.commit()
     }
     
+    func resetPOV() {
+        self.geometry.resetPOV()
+    }
+    
     func connectSystemMonitors() {
         // NOP; FOR OVERRIDE
     }
