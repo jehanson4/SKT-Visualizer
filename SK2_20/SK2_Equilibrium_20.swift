@@ -51,9 +51,9 @@ class SK2_Equilibrium_20 : Visualization20 {
         nodesEffect.enabled = true
         _ = samplePlane.effects.register(hint: nodesEffect.name, value: nodesEffect)
         
-//        let netEffect = SK2_NetEffect_20(figure: samplePlane)
-//        netEffect.enabled = true
-//        _ = samplePlane.effects.register(hint: netEffect.name, value: netEffect)
+        let netEffect = SK2_NetEffect_20(figure: samplePlane)
+        netEffect.enabled = true
+        _ = samplePlane.effects.register(hint: netEffect.name, value: netEffect)
         
         let reliefEffect = SK2_ReliefEffect_20(figure: samplePlane)
         reliefEffect.enabled = true

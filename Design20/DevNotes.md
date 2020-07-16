@@ -277,3 +277,12 @@ rename Gaphics20 -> RenderContext
 Pipelines and shaders
 the render pipeline descriptor assigns buffer pointer + bufferIndex
 the shader functions have attributes like <code>[[ buffer(0) ]]</code>
+
+----
+
+1 'present' using drawable per frame
+
+so if I have multiple pipeline states / render encoders, I use them to create multiple commands and put them into the same queue. 
+Then after they're all in the queue I do 'commit'.
+
+

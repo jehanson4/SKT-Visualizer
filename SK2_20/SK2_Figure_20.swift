@@ -53,6 +53,7 @@ class SK2_Figure_20 : Figure20 {
     private var _nodeUniformsBuffer: MTLBuffer? = nil
 
     let netIndexType = MTLIndexType.uint16
+    let netIndexSize = MemoryLayout<UInt16>.size
     
     var netIndexBuffer: MTLBuffer {
         updateNetIndices()
@@ -257,11 +258,12 @@ class SK2_Figure_20 : Figure20 {
     }
     
     func updateNetIndices() {
-        os_log("SK2_Figure_20.updateNetIndices: entered. name=%s, netIndicesStale=%d", self.name, self._netIndicesStale)
+        // os_log("SK2_Figure_20.updateNetIndices: entered. name=%s, netIndicesStale=%d", self.name, self._netIndicesStale)
         if (!_netIndicesStale) {
             return
         }
 
+        os_log("SK2_Figure_20.updateNetIndices: updating. name=%s", self.name)
         let mMax = system.m_max
         let nMax = system.n_max
         let lineCount = mMax + nMax + 2
@@ -304,7 +306,7 @@ class SK2_Figure_20 : Figure20 {
         
         _netLineArrayOffsets = lineArrayOffsets
         _netLineArrayLengths = lineArrayLengths
-        _netIndexBuffer = graphics!.device.makeBuffer(bytes: indexData, length: indexData.count)
+        _netIndexBuffer = graphics!.device.makeBuffer(bytes: indexData, length: indexData.count * MemoryLayout<UInt16>.size)
         _netIndicesStale = false
     }
     
@@ -318,12 +320,38 @@ class SK2_Figure_20 : Figure20 {
     }
 
     func render(_ drawable: CAMetalDrawable) {
+        guard
+            let graphics = graphics
+            else { return }
+        
+        //        _ = bufferProvider.avaliableResourcesSemaphore.wait(timeout: DispatchTime.distantFuture)
+
+                let renderPassDescriptor = MTLRenderPassDescriptor()
+                renderPassDescriptor.colorAttachments[0].texture = drawable.texture
+                renderPassDescriptor.colorAttachments[0].loadAction = .clear
+                renderPassDescriptor.colorAttachments[0].clearColor = AppConstants20.clearColor
+                renderPassDescriptor.colorAttachments[0].storeAction = .store
+                
+                let commandBuffer = graphics.commandQueue.makeCommandBuffer()!
+        
+        //        commandBuffer.addCompletedHandler { _ in
+        //            self.bufferProvider.avaliableResourcesSemaphore.signal()
+        //        }
+                
+                
+        let renderEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor)!
+                
+
         for entry in effects.entries {
             let effect = entry.value.value
             if (effect.enabled) {
-                effect.render(drawable)
+                effect.render(renderEncoder)
             }
         }
+
+        renderEncoder.endEncoding()
+        commandBuffer.present(drawable)
+        commandBuffer.commit()
     }
     
     func connectSystemMonitors() {

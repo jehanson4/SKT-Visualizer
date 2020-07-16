@@ -47,7 +47,7 @@ class SK2_MeridiansEffect_20 : Effect20 {
         // TODO
     }
 
-    func render(_ drawable: CAMetalDrawable) {
+    func render(_ renderEncoder: MTLRenderCommandEncoder) {
         // TODO
     }
 
@@ -91,7 +91,7 @@ class SK2_ReliefEffect_20: Effect20 {
         // NOP
     }
     
-    func render(_ drawable: CAMetalDrawable) {
+    func render(_ renderEncoder: MTLRenderCommandEncoder) {
         // NOP
     }
     
@@ -136,7 +136,7 @@ class SK2_ColorsEffect_20: Effect20 {
         // NOP
     }
     
-    func render(_ drawable: CAMetalDrawable) {
+    func render(_ renderEncoder: MTLRenderCommandEncoder) {
         // NOP
     }
     
@@ -209,12 +209,30 @@ class SK2_NodesEffect_20: SK2_SystemEffect_20 {
         _figure.updateNodeUniforms()
     }
     
+    func render(_ renderEncoder: MTLRenderCommandEncoder) {
+        guard
+            let pipelineState = _pipelineState
+            else { return }
+        
+        renderEncoder.setRenderPipelineState(pipelineState)
+        renderEncoder.setVertexBuffer(_figure.nodeCoordinateBuffer, offset: 0, index: 0)
+        renderEncoder.setVertexBuffer(_figure.nodeColorBuffer, offset: 0, index: 1)
+                
+        //        let uniformBuffer = bufferProvider.nextUniformsBuffer(projectionMatrix: projectionMatrix, modelViewMatrix: modelViewMatrix, light: light, pointSize: self.pointSize)
+        //
+                renderEncoder.setVertexBuffer(_figure.nodeUniformsBuffer, offset: 0, index: 2)
+                renderEncoder.setFragmentBuffer(_figure.nodeUniformsBuffer, offset: 0, index: 2)
+                
+                renderEncoder.drawPrimitives(type: .point, vertexStart: 0, vertexCount: _figure.nodeCount)
+    }
+
+    // OLD AND BROKEN
     func render(_ drawable: CAMetalDrawable) {
         // os_log("SK2_NodesEffect_20.render: %s: entered", self.name)
         guard
-            let graphics = _figure.graphics,
-            let pipelineState = _pipelineState
+            let graphics = _figure.graphics
             else { return }
+    
         
 //        _ = bufferProvider.avaliableResourcesSemaphore.wait(timeout: DispatchTime.distantFuture)
 
@@ -230,17 +248,9 @@ class SK2_NodesEffect_20: SK2_SystemEffect_20 {
 //        }
         
         let renderEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor)!
-        renderEncoder.setRenderPipelineState(pipelineState)
-        renderEncoder.setVertexBuffer(_figure.nodeCoordinateBuffer, offset: 0, index: 0)
-        renderEncoder.setVertexBuffer(_figure.nodeColorBuffer, offset: 0, index: 1)
-        
-//        let uniformBuffer = bufferProvider.nextUniformsBuffer(projectionMatrix: projectionMatrix, modelViewMatrix: modelViewMatrix, light: light, pointSize: self.pointSize)
-//
-        renderEncoder.setVertexBuffer(_figure.nodeUniformsBuffer, offset: 0, index: 2)
-        renderEncoder.setFragmentBuffer(_figure.nodeUniformsBuffer, offset: 0, index: 2)
-        
-        renderEncoder.drawPrimitives(type: .point, vertexStart: 0, vertexCount: _figure.nodeCount)
 
+        self.render(renderEncoder)
+        
         renderEncoder.endEncoding()
         commandBuffer.present(drawable)
         commandBuffer.commit()
@@ -282,22 +292,21 @@ class SK2_NetEffect_20: SK2_SystemEffect_20 {
                 
         // Q: can we do this over and over?
         // A: let's try it and see.
-        let fragmentProgram = graphics.library.makeFunction(name: "sk2_nodes_fragment")
-        let vertexProgram = graphics.library.makeFunction(name: "sk2_nodes_vertex")
+        let fragmentProgram = graphics.library.makeFunction(name: "sk2_net_fragment")
+        let vertexProgram = graphics.library.makeFunction(name: "sk2_net_vertex")
         
         let vertexDescriptor = MTLVertexDescriptor()
+
         vertexDescriptor.attributes[0].format = .float3
         vertexDescriptor.attributes[0].bufferIndex = 0
         vertexDescriptor.attributes[0].offset = 0
-        vertexDescriptor.attributes[1].format = .float4
-        vertexDescriptor.attributes[1].bufferIndex = 1
-        vertexDescriptor.attributes[1].offset = 0
         vertexDescriptor.layouts[0].stride = MemoryLayout<SIMD3<Float>>.stride
-        vertexDescriptor.layouts[1].stride = MemoryLayout<SIMD4<Float>>.stride
 
-        // vertex buffer attributes: 0 = float3 position . . . .
-        // vertex buffer indices: 0 = position, . . ., 3 = uniforms
-        
+//        vertexDescriptor.attributes[1].format = .float4
+//        vertexDescriptor.attributes[1].bufferIndex = 1
+//        vertexDescriptor.attributes[1].offset = 0
+//        vertexDescriptor.layouts[1].stride = MemoryLayout<SIMD4<Float>>.stride
+
         let pipelineStateDescriptor = MTLRenderPipelineDescriptor()
         pipelineStateDescriptor.vertexDescriptor = vertexDescriptor
         pipelineStateDescriptor.vertexFunction = vertexProgram
@@ -322,14 +331,53 @@ class SK2_NetEffect_20: SK2_SystemEffect_20 {
         _figure.updateNetIndices()
     }
     
+    func render(_ renderEncoder: MTLRenderCommandEncoder) {
+        guard
+            let pipelineState = _pipelineState
+            else { return }
+
+                // BEGIN effect-specific code
+                
+                renderEncoder.setRenderPipelineState(pipelineState)
+                renderEncoder.setVertexBuffer(_figure.nodeCoordinateBuffer, offset: 0, index: 0)
+                
+                renderEncoder.setVertexBuffer(_figure.nodeUniformsBuffer, offset: 0, index: 2)
+                renderEncoder.setFragmentBuffer(_figure.nodeUniformsBuffer, offset: 0, index: 2)
+                
+                let netIndexBuffer = _figure.netIndexBuffer
+                let netIndexType = _figure.netIndexType
+                let netIndexSize = _figure.netIndexSize
+                let lineArrayLengths = _figure.netLineArrayLengths
+                let lineArrayOffsets = _figure.netLineArrayOffsets
+                let lineCount = lineArrayLengths.count
+                for line in 0..<lineCount {
+                    renderEncoder.drawIndexedPrimitives(type: .lineStrip, indexCount: lineArrayLengths[line], indexType: netIndexType, indexBuffer: netIndexBuffer, indexBufferOffset: netIndexSize * lineArrayOffsets[line])
+                 
+                    // LEFTOVERS
+        //            // debug("draw","line " + String(line+1) + " of " + String(lineCount))
+        //
+        //            glDrawElements(GLenum(GL_LINE_STRIP),
+        //                           lineArrayLengths[line],
+        //                           GLenum(GL_UNSIGNED_INT),
+        //                           lineArrayOffsets[line])
+        //            let err = glGetError()
+        //            if (err != 0) {
+        //                debug(String(format:"draw: glError 0x%x", err))
+        //                break
+        //            }
+                }
+
+                // END effect-specific code
+    }
+    
+    // OLD AND WRONG
     func render(_ drawable: CAMetalDrawable) {
         // os_log("SK2_NetEffect_20.render: %s: entered", self.name)
         guard
-            let graphics = _figure.graphics,
-            let pipelineState = _pipelineState
+            let graphics = _figure.graphics
             else { return }
-        
-        
+
+
 //        _ = bufferProvider.avaliableResourcesSemaphore.wait(timeout: DispatchTime.distantFuture)
 
         let renderPassDescriptor = MTLRenderPassDescriptor()
@@ -337,49 +385,27 @@ class SK2_NetEffect_20: SK2_SystemEffect_20 {
         renderPassDescriptor.colorAttachments[0].loadAction = .clear
         renderPassDescriptor.colorAttachments[0].clearColor = AppConstants20.clearColor
         renderPassDescriptor.colorAttachments[0].storeAction = .store
-        
+
         let commandBuffer = graphics.commandQueue.makeCommandBuffer()!
 //        commandBuffer.addCompletedHandler { _ in
 //            self.bufferProvider.avaliableResourcesSemaphore.signal()
 //        }
-        
-        
+
+
         let renderEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor)!
-        renderEncoder.setRenderPipelineState(pipelineState)
-        renderEncoder.setVertexBuffer(_figure.nodeCoordinateBuffer, offset: 0, index: 0)
-        
-        renderEncoder.setVertexBuffer(_figure.nodeUniformsBuffer, offset: 0, index: 3)
-        renderEncoder.setFragmentBuffer(_figure.nodeUniformsBuffer, offset: 0, index: 3)
-        
-        let netIndexBuffer = _figure.netIndexBuffer
-        let netIndexType = _figure.netIndexType
-        let lineArrayLengths = _figure.netLineArrayLengths
-        let lineArrayOffsets = _figure.netLineArrayOffsets
-        let lineCount = lineArrayLengths.count
-        for line in 0..<lineCount {
-            renderEncoder.drawIndexedPrimitives(type: .lineStrip, indexCount: lineArrayLengths[line], indexType: netIndexType, indexBuffer: netIndexBuffer, indexBufferOffset: lineArrayOffsets[line])
-         
-            // LEFTOVERS
-//            // debug("draw","line " + String(line+1) + " of " + String(lineCount))
-//
-//            glDrawElements(GLenum(GL_LINE_STRIP),
-//                           lineArrayLengths[line],
-//                           GLenum(GL_UNSIGNED_INT),
-//                           lineArrayOffsets[line])
-//            let err = glGetError()
-//            if (err != 0) {
-//                debug(String(format:"draw: glError 0x%x", err))
-//                break
-//            }
-        }
+
+        self.render(renderEncoder)
+        // Interwebz sez: reuse the same encoder for the next effect. Set its pipeline state to a new value.
 
         renderEncoder.endEncoding()
+
+
         commandBuffer.present(drawable)
         commandBuffer.commit()
 
         // os_log("SK2_NetEffect_20.render: %s: exiting", self.name)
     }
-    
+
     func teardown() {
         os_log("%s teardown: entered", self.name)
         

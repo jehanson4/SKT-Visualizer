@@ -22,7 +22,7 @@ protocol Effect20: NamedObject20 {
     
     func updateContent(_ date: Date)
 
-    func render(_ drawable: CAMetalDrawable)
+    func render(_ renderCommandEncoder: MTLRenderCommandEncoder)
 
     func teardown()
 }
