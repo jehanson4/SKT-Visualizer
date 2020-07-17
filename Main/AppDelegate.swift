@@ -78,18 +78,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppModel20 {
         guard let splitViewController = controller as? UISplitViewController,
             let leftNavController = splitViewController.viewControllers.first as? UINavigationController,
             var masterViewController = leftNavController.topViewController as? AppModelUser,
-            var masterViewController21 = leftNavController.topViewController as? AppModelUser21,
+            var masterViewController21 = leftNavController.topViewController as? AppModelUser20,
             let detailViewController = splitViewController.viewControllers.last as? FigureViewController
             else { fatalError() }
         
         masterViewController.appModel = self.appModel
-        masterViewController21.appModel21 = self
+        masterViewController21.appModel20 = self
 
         self.figureViewController = detailViewController
     }
     
     private func _loadVisualizations() -> Selector20<Visualization20> {
-        let registry = Registry20<Visualization20>()
+        let registry = Registry<Visualization20>()
         
         var visualizations = [Visualization20]()
         visualizations.append(Demos21())

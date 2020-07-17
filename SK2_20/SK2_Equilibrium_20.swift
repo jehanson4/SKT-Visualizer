@@ -19,7 +19,9 @@ class SK2_Equilibrium_20 : SK2_Visualization_20 {
     var shell: SK2_ShellGeometry_20
     
     lazy var figures: Selector20<Figure20> = _initFigures()
-
+    
+    lazy var sequencers: Selector20<Sequencer20> = _initSequencers()
+    
     init(_ system: SK2_System) {
         self.system = system
         self.plane = SK2_PlaneGeometry_20()
@@ -27,18 +29,34 @@ class SK2_Equilibrium_20 : SK2_Visualization_20 {
     }
     
     private func _initFigures() -> Selector20<Figure20> {
-        let registry = Registry20<Figure20>()
+        let registry = Registry<Figure20>()
         var figures = [Figure20]()
                 
         figures.append(makeSamplePlane())
         figures.append(makeSampleShell())
         
-        for f in figures {
-            let entry = registry.register(hint: f.name, value: f)
-            f.name = entry.name
+        for figure in figures {
+            let entry = registry.register(hint: figure.name, value: figure)
+            figure.name = entry.name
         }
 
         let selector =  Selector20<Figure20>(registry)
+        _ = selector.select(index: 0)
+        return selector
+    }
+    
+    private func _initSequencers() -> Selector20<Sequencer20> {
+        let registry = Registry<Sequencer20>()
+        var sequencers = [Sequencer20]()
+        
+        // add elems to sequencers array
+        
+        for sequencer in sequencers {
+            let entry = registry.register(hint: sequencer.name, value: sequencer)
+            sequencer.name = entry.name
+        }
+        
+        let selector = Selector20<Sequencer20>(registry)
         _ = selector.select(index: 0)
         return selector
     }

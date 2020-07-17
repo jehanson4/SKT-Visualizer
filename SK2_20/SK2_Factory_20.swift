@@ -8,11 +8,6 @@
 
 import Foundation
 
-protocol SK2_Visualization_20 : Visualization20 {
-    var system: SK2_System { get }
-}
-
-
 class SK2_Factory_20 {
     
     static func createVisualizations() -> [Visualization20] {

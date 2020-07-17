@@ -27,8 +27,8 @@ class SK2_TertiaryViewController: UIViewController, UITextFieldDelegate, AppMode
     weak var appModel: AppModel!
     weak var appPart: AppPart!
     weak var system: SK2_System!
-    var figure: Figure? = nil
-    var sequencer: Sequencer? = nil
+    var figure: Figure19? = nil
+    var sequencer: Sequencer19? = nil
     
     override func viewDidLoad() {
         let mtd = "viewDidLoad"

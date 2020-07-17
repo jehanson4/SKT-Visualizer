@@ -13,7 +13,7 @@ import GLKit
 // SK2_BaseFigure
 // =====================================================
 
-protocol SK2_BaseFigure: Figure, Calibrated {
+protocol SK2_BaseFigure: Figure19, Calibrated {
     
     var colorsAreShown: Bool { get set }
 

@@ -83,7 +83,7 @@ class SK2_Figure_20 : Figure20 {
             
     var graphics: Graphics20?
         
-    lazy var effects: Registry20<Effect20> = Registry20<Effect20>()
+    lazy var effects: Registry<Effect20> = Registry<Effect20>()
     
     init(name: String, group: String, system: SK2_System, geometry: SK2_Geometry_20, colorSource: DS_ColorSource20, relief: DS_ElevationSource20) {
         self.name = name

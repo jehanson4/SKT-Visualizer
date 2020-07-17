@@ -208,10 +208,10 @@ class SK3_System: DiscreteSystem {
     // ===========================================
     // Parameters
     
-    lazy var parameters: Registry<Parameter> = _initParams()
+    lazy var parameters: Registry19<Parameter> = _initParams()
     
-    private func _initParams() -> Registry<Parameter> {
-        let params = Registry<Parameter>()
+    private func _initParams() -> Registry19<Parameter> {
+        let params = Registry19<Parameter>()
         _ = params.register(N)
 
         // TODO separations

@@ -49,7 +49,7 @@ struct BlockPOV {
 // BlockFigure
 // ==============================================================
 
-class BlockFigure : Figure {
+class BlockFigure : Figure19 {
     
     // ================================================
     // Lifecycle
@@ -87,7 +87,7 @@ class BlockFigure : Figure {
     // =================================================
     // Effects
     
-    lazy var effects: Registry<Effect>? =  Registry<Effect>()
+    lazy var effects: Registry19<Effect>? =  Registry19<Effect>()
     
     // EMPIRICAL
     let pointSizeMax: GLfloat = 32

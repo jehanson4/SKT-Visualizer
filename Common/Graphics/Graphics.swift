@@ -21,16 +21,16 @@ protocol Graphics {
 }
 
 // ===========================================================================
-// Figure
+// Figure19
 // ===========================================================================
 
-protocol Figure: AnyObject, Named, PreferenceSupport {
+protocol Figure19: AnyObject, Named, PreferenceSupport {
     
     var group: String? { get set }
     
     func resetPOV()
     
-    var effects: Registry<Effect>? { get }
+    var effects: Registry19<Effect>? { get }
     
     /// Size of a point sprite appropriate for a given spacing between points.
     /// Point sprites should be small but should not overlap.

@@ -27,8 +27,8 @@ struct SK2E {
     static var name = "SK/2 Equilibrium"
     static var info = "Equilibrium properties of the 2-component SK model"
     
-    static func makeFigures(_ system: SK2_System, _ basinFinder: SK2_Basins, _ planeBase: SK2_PlaneBase, _ shellBase: SK2_ShellBase) -> Registry<Figure>? {
-        let reg = Registry<Figure>()
+    static func makeFigures(_ system: SK2_System, _ basinFinder: SK2_Basins, _ planeBase: SK2_PlaneBase, _ shellBase: SK2_ShellBase) -> Registry19<Figure19>? {
+        let reg = Registry19<Figure19>()
         
         let energyInPlane = SK2E_Energy("Plane: energy", nil, system, planeBase)
         energyInPlane.group = SK2_Factory.planeFigureGroup
@@ -73,8 +73,8 @@ struct SK2E {
         return reg
     }
     
-    static func makeSequencers(_ system: SK2_System) -> Registry<Sequencer>? {
-        let reg = Registry<Sequencer>()
+    static func makeSequencers(_ system: SK2_System) -> Registry19<Sequencer19>? {
+        let reg = Registry19<Sequencer19>()
         for key in system.parameters.entryKeys {
             _ = reg.register(ParameterSweep(system.parameters.entry(key: key)!.value, system as PhysicalSystem))
         }
@@ -93,8 +93,8 @@ struct SK2D {
     static var name = "SK/2 Dynamics"
     static var info = "Simulated population dynamics of the 2-component SK model"
         
-    static func makeFigures(_ system: SK2_System, _ flow: SK2_PopulationFlow, _ planeBase: SK2_PlaneBase, _ shellBase: SK2_ShellBase) -> Registry<Figure>? {
-        let reg = Registry<Figure>()
+    static func makeFigures(_ system: SK2_System, _ flow: SK2_PopulationFlow, _ planeBase: SK2_PlaneBase, _ shellBase: SK2_ShellBase) -> Registry19<Figure19>? {
+        let reg = Registry19<Figure19>()
 
         let flowInPlane = SK2_Population("Plane: population", system, flow, planeBase)
         flowInPlane.group = SK2_Factory.planeFigureGroup
@@ -108,8 +108,8 @@ struct SK2D {
         return reg
     }
 
-    static func makeSequencers(_ system: SK2_System, _ workQueue: WorkQueue, _ flow: SK2_PopulationFlow) -> Registry<Sequencer>? {
-        let reg = Registry<Sequencer>()
+    static func makeSequencers(_ system: SK2_System, _ workQueue: WorkQueue, _ flow: SK2_PopulationFlow) -> Registry19<Sequencer19>? {
+        let reg = Registry19<Sequencer19>()
         
         let ic = SK2_EquilibriumPopulation()
         
@@ -151,20 +151,20 @@ struct SK2B {
     static var name = "SK/2 Bifurcations"
     static var info = "Qualitative changes in the 2-component SK model"
     
-    static func makeFigures(_ system: SK2_System, _ generator: SK2_BDGenerator, _ blockBase: SK2_BlockBase) -> Registry<Figure>? {
-        let reg = Registry<Figure>()
+    static func makeFigures(_ system: SK2_System, _ generator: SK2_BDGenerator, _ blockBase: SK2_BlockBase) -> Registry19<Figure19>? {
+        let reg = Registry19<Figure19>()
         
         let bd = SK2_BDFigure("Sample Figure", system, generator, blockBase)
-        _ = bd.effects?.register(Icosahedron(enabled: true, switchable: true))
+        _ = bd.effects?.register(Icosahedron19(enabled: true, switchable: true))
         _ = bd.effects?.register(Axes(enabled: true, switchable: true))
-        _ = bd.effects?.register(Cube(enabled: true, switchable: true))
+        _ = bd.effects?.register(Cube19(enabled: true, switchable: true))
         _ = reg.register(bd)
         
         return reg
     }
     
-    static func makeSequencers(_ system: SK2_System, _ workQueue: WorkQueue, _ generator: SK2_BDGenerator) -> Registry<Sequencer>? {
-        let reg = Registry<Sequencer>()
+    static func makeSequencers(_ system: SK2_System, _ workQueue: WorkQueue, _ generator: SK2_BDGenerator) -> Registry19<Sequencer19>? {
+        let reg = Registry19<Sequencer19>()
 
         for key in system.parameters.entryKeys {
             _ = reg.register(ParameterSweep(system.parameters.entry(key: key)!.value, system as PhysicalSystem))
@@ -229,10 +229,10 @@ class SK2_Factory: AppPartFactory {
         
         let basinFinder = SK2_Basins(system, workQueue)
 
-        let sk2eFigures: Registry<Figure>? = SK2E.makeFigures(system, basinFinder, planeBase, shellBase)
+        let sk2eFigures: Registry19<Figure19>? = SK2E.makeFigures(system, basinFinder, planeBase, shellBase)
         // TODO figure pref's
         
-        let sk2eSequencers: Registry<Sequencer>? = SK2E.makeSequencers(system)
+        let sk2eSequencers: Registry19<Sequencer19>? = SK2E.makeSequencers(system)
         // TODO sequencer pref's
 
         let sk2ePart = AppPart1(key: SK2E.key, name: SK2E.name, system: system)
@@ -249,10 +249,10 @@ class SK2_Factory: AppPartFactory {
         
         let flow = SK2_PopulationFlow(system, workQueue)
         
-        let sk2dFigures: Registry<Figure>? = SK2D.makeFigures(system, flow, planeBase, shellBase)
+        let sk2dFigures: Registry19<Figure19>? = SK2D.makeFigures(system, flow, planeBase, shellBase)
         // TODO figure pref's
         
-        let sk2dSequencers: Registry<Sequencer>? = SK2D.makeSequencers(system, workQueue, flow)
+        let sk2dSequencers: Registry19<Sequencer19>? = SK2D.makeSequencers(system, workQueue, flow)
         // TODO sequencer pref's
         
         let sk2dPart = AppPart1(key: SK2D.key, name: SK2D.name, system: system)
@@ -269,10 +269,10 @@ class SK2_Factory: AppPartFactory {
         
         let generator = SK2_BDGenerator(system, workQueue)
         
-        let sk2bFigures: Registry<Figure>? = SK2B.makeFigures(system, generator, blockBase)
+        let sk2bFigures: Registry19<Figure19>? = SK2B.makeFigures(system, generator, blockBase)
         // TODO figure pref's
         
-        let sk2bSequencers: Registry<Sequencer>? = SK2B.makeSequencers(system, workQueue, generator)
+        let sk2bSequencers: Registry19<Sequencer19>? = SK2B.makeSequencers(system, workQueue, generator)
         // TODO sequencer pref's
         
         let sk2bPart = AppPart1(key: SK2B.key, name: SK2B.name, system: system)

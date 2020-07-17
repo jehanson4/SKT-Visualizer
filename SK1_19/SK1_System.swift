@@ -122,8 +122,8 @@ class SK1_System: DiscreteSystem, PreferenceSupport {
     
     lazy var parameters = _initParameters()
     
-    private func _initParameters() -> Registry<Parameter> {
-        let params = Registry<Parameter>()
+    private func _initParameters() -> Registry19<Parameter> {
+        let params = Registry19<Parameter>()
         _ = params.register(N)
         _ = params.register(a)
         _ = params.register(T)

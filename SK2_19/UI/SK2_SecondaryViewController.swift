@@ -31,8 +31,8 @@ class SK2_SecondaryViewController: UIViewController, UITextFieldDelegate, AppMod
     weak var appPart: AppPart!
     weak var system: SK2_System!
     
-    var figure: Figure? = nil
-    var sequencer: Sequencer? = nil
+    var figure: Figure19? = nil
+    var sequencer: Sequencer19? = nil
     
     override func viewDidLoad() {
         let mtd = "viewDidLoad"
@@ -122,7 +122,7 @@ class SK2_SecondaryViewController: UIViewController, UITextFieldDelegate, AppMod
         debug(mtd, "entered")
         
         var switchableEffects: [String] = []
-        func addSwitchableKey(_ entry: RegistryEntry<Effect>) {
+        func addSwitchableKey(_ entry: RegistryEntry19<Effect>) {
             if (entry.value.switchable) {
                 switchableEffects.append(entry.key)
             }

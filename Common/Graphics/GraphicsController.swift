@@ -31,7 +31,7 @@ protocol GraphicsController {
         
     var graphics: Graphics? { get }
     
-    var figure: Figure? { get set }
+    var figure: Figure19? { get set }
     
     func setupGraphics(_ graphics: Graphics)
     
@@ -53,7 +53,7 @@ class GraphicsControllerV1: GraphicsController {
     // ===============================================
     // Figure
     
-    var figure: Figure? {
+    var figure: Figure19? {
         get { return _figure }
         set(newValue) {
             let oldFigure = _figure
@@ -69,7 +69,7 @@ class GraphicsControllerV1: GraphicsController {
             _figure = newValue
         }
     }
-    var _figure: Figure? = nil
+    var _figure: Figure19? = nil
     
     // ========================================
     // Graphics

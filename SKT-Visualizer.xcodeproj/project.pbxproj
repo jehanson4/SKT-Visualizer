@@ -20,7 +20,7 @@
 		8A02208D248BE6A300F3A91D /* EmptyFigure20.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A02208C248BE6A300F3A91D /* EmptyFigure20.swift */; };
 		8A02208F248BE9FA00F3A91D /* AppModel20.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A02208E248BE9FA00F3A91D /* AppModel20.swift */; };
 		8A022091248BEB6400F3A91D /* Demos21.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A022090248BEB6400F3A91D /* Demos21.swift */; };
-		8A022097248D1A3000F3A91D /* Registry20.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A022096248D1A3000F3A91D /* Registry20.swift */; };
+		8A022097248D1A3000F3A91D /* Registry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A022096248D1A3000F3A91D /* Registry.swift */; };
 		8A131C91207160100088F2FC /* _miscNotes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8A131C90207160100088F2FC /* _miscNotes.txt */; };
 		8A19E9AB2303220300880C97 /* SK2E_LogOccupation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A19E9AA2303220300880C97 /* SK2E_LogOccupation.swift */; };
 		8A19E9AD2303296100880C97 /* SurfaceOnShell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A19E9AC2303296100880C97 /* SurfaceOnShell.swift */; };
@@ -45,7 +45,7 @@
 		8A591B3221E441FB00B802F8 /* SK2_PrimaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A591B3121E441FB00B802F8 /* SK2_PrimaryViewController.swift */; };
 		8A591B3421E6902500B802F8 /* ModelSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A591B3321E6902500B802F8 /* ModelSelectionViewController.swift */; };
 		8A75424A20A8CC5100A2BFAD /* about.html in Resources */ = {isa = PBXBuildFile; fileRef = 8A75424920A8CC5100A2BFAD /* about.html */; };
-		8A75B690208A317D00EACD13 /* Registry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B68F208A317D00EACD13 /* Registry.swift */; };
+		8A75B690208A317D00EACD13 /* Registry19.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B68F208A317D00EACD13 /* Registry19.swift */; };
 		8A79EF3024983B6200646EBB /* SK2_DataSources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A79EF2F24983B6200646EBB /* SK2_DataSources.swift */; };
 		8A79EF3224983ED100646EBB /* SK2_Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 8A79EF3124983ED100646EBB /* SK2_Shaders.metal */; };
 		8A79EF382498F0C100646EBB /* SK2_Effects_20.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A79EF372498F0C100646EBB /* SK2_Effects_20.swift */; };
@@ -117,15 +117,15 @@
 		8AC059F12216ED4C00EB6A1C /* BlockFigure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC059F02216ED4C00EB6A1C /* BlockFigure.swift */; };
 		8AC059F32216EE2B00EB6A1C /* SK2_BlockBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC059F22216EE2B00EB6A1C /* SK2_BlockBase.swift */; };
 		8AC059F52216EF4B00EB6A1C /* NodesOnBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC059F42216EF4B00EB6A1C /* NodesOnBlock.swift */; };
-		8AC059F722170C1E00EB6A1C /* Cube.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC059F622170C1E00EB6A1C /* Cube.swift */; };
+		8AC059F722170C1E00EB6A1C /* Cube19.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC059F622170C1E00EB6A1C /* Cube19.swift */; };
 		8AC82CC421F5D00E00A75595 /* Graphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CC321F5D00E00A75595 /* Graphics.swift */; };
 		8AC82CD921F6668000A75595 /* ShellFigure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CD821F6668000A75595 /* ShellFigure.swift */; };
 		8AC82CE121F8874200A75595 /* GraphicsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CE021F8874200A75595 /* GraphicsController.swift */; };
-		8AC82CEC21F9E36700A75595 /* Sequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CEB21F9E36700A75595 /* Sequencer.swift */; };
+		8AC82CEC21F9E36700A75595 /* Sequencer19.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CEB21F9E36700A75595 /* Sequencer19.swift */; };
 		8AC82CF521FC9AED00A75595 /* AnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC82CF421FC9AED00A75595 /* AnimationController.swift */; };
 		8ACB504020AC92DC00878612 /* BusySpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB503F20AC92DC00878612 /* BusySpinner.swift */; };
 		8ACB504420ACAE4400878612 /* busy.png in Resources */ = {isa = PBXBuildFile; fileRef = 8ACB504320ACAE4300878612 /* busy.png */; };
-		8ACE788D2072E51800C29875 /* Icosahedron.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACE788C2072E51800C29875 /* Icosahedron.swift */; };
+		8ACE788D2072E51800C29875 /* Icosahedron19.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACE788C2072E51800C29875 /* Icosahedron19.swift */; };
 		8ACE78922073CCDA00C29875 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ACE78912073CCDA00C29875 /* GLKit.framework */; };
 		8ACE78942073CCE500C29875 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ACE78932073CCE400C29875 /* OpenGLES.framework */; };
 		8ACE789E2073F7A400C29875 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACE789D2073F7A400C29875 /* Utils.swift */; };
@@ -169,6 +169,19 @@
 		8AE8AADD21C8737E00E90914 /* _newUI.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8AE8AADC21C8737D00E90914 /* _newUI.txt */; };
 		8AEC295124C108420050C96F /* SK2_PrimaryViewController20.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEC295024C108420050C96F /* SK2_PrimaryViewController20.swift */; };
 		8AEC295324C10ACD0050C96F /* SK2_Storyboard_20.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8AEC295224C10ACD0050C96F /* SK2_Storyboard_20.storyboard */; };
+		8AEC295524C1C4CB0050C96F /* SK2_Visualization_20.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEC295424C1C4CB0050C96F /* SK2_Visualization_20.swift */; };
+		8AEC295724C1CD200050C96F /* Sequencer20.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEC295624C1CD200050C96F /* Sequencer20.swift */; };
+		8AEC295B24C1D4140050C96F /* AnimationController20.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEC295A24C1D4140050C96F /* AnimationController20.swift */; };
+		8AEC296324C1F3440050C96F /* DSModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEC296224C1F3440050C96F /* DSModel.swift */; };
+		8AEC296524C1F3560050C96F /* DSParam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEC296424C1F3560050C96F /* DSParam.swift */; };
+		8AEC296724C1F37E0050C96F /* Visualization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEC296624C1F37E0050C96F /* Visualization.swift */; };
+		8AEC296924C1F4300050C96F /* Sequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEC296824C1F4300050C96F /* Sequencer.swift */; };
+		8AEC296D24C1F7860050C96F /* Selector20.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEC296C24C1F7860050C96F /* Selector20.swift */; };
+		8AEC297024C1FF9F0050C96F /* Figure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEC296F24C1FF9F0050C96F /* Figure.swift */; };
+		8AEC297224C1FFE20050C96F /* RenderContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEC297124C1FFE20050C96F /* RenderContext.swift */; };
+		8AEC297624C201D20050C96F /* NamedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEC297524C201D20050C96F /* NamedObject.swift */; };
+		8AEC297824C201F00050C96F /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEC297724C201F00050C96F /* Selector.swift */; };
+		8AEC298024C20E800050C96F /* SK2Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEC297F24C20E800050C96F /* SK2Model.swift */; };
 		8AF59500208AC0420082C5DE /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF594FF208AC0420082C5DE /* AppModel.swift */; };
 		8AF98F96207FE7D60007688E /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 8AF98F95207FE7D60007688E /* LICENSE */; };
 		8AF98FA1207FE8350007688E /* GraphicsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF98F9F207FE8350007688E /* GraphicsViewController.swift */; };
@@ -178,11 +191,11 @@
 
 /* Begin PBXFileReference section */
 		8A0172ED2488029200D3C160 /* FigureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FigureViewController.swift; path = ../Metal/FigureViewController.swift; sourceTree = "<group>"; };
-		8A0172F5248805F000D3C160 /* DemoShaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; name = DemoShaders.metal; path = ../Metal/DemoShaders.metal; sourceTree = "<group>"; };
+		8A0172F5248805F000D3C160 /* DemoShaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = DemoShaders.metal; sourceTree = "<group>"; };
 		8A0172F9248809E600D3C160 /* DemoBufferProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoBufferProvider.swift; sourceTree = "<group>"; };
 		8A0172FD24880A3A00D3C160 /* Light.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Light.swift; sourceTree = "<group>"; };
 		8A0172FF24880A7200D3C160 /* Vertex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vertex.swift; sourceTree = "<group>"; };
-		8A01730124880B0100D3C160 /* float4x4Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = float4x4Extensions.swift; path = ../Metal/float4x4Extensions.swift; sourceTree = "<group>"; };
+		8A01730124880B0100D3C160 /* float4x4Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = float4x4Extensions.swift; sourceTree = "<group>"; };
 		8A022079248BBD8700F3A91D /* AppConstants20.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppConstants20.swift; path = ../Design2020/AppConstants20.swift; sourceTree = "<group>"; };
 		8A022083248BCEDB00F3A91D /* Design20.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Design20.md; sourceTree = "<group>"; };
 		8A022084248BD84E00F3A91D /* Graphics20.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Graphics20.swift; sourceTree = "<group>"; };
@@ -191,7 +204,7 @@
 		8A02208C248BE6A300F3A91D /* EmptyFigure20.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyFigure20.swift; sourceTree = "<group>"; };
 		8A02208E248BE9FA00F3A91D /* AppModel20.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel20.swift; sourceTree = "<group>"; };
 		8A022090248BEB6400F3A91D /* Demos21.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Demos21.swift; sourceTree = "<group>"; };
-		8A022096248D1A3000F3A91D /* Registry20.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registry20.swift; sourceTree = "<group>"; };
+		8A022096248D1A3000F3A91D /* Registry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registry.swift; sourceTree = "<group>"; };
 		8A131C90207160100088F2FC /* _miscNotes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _miscNotes.txt; sourceTree = "<group>"; };
 		8A19E9AA2303220300880C97 /* SK2E_LogOccupation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK2E_LogOccupation.swift; sourceTree = "<group>"; };
 		8A19E9AC2303296100880C97 /* SurfaceOnShell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurfaceOnShell.swift; sourceTree = "<group>"; };
@@ -218,7 +231,7 @@
 		8A591B3121E441FB00B802F8 /* SK2_PrimaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK2_PrimaryViewController.swift; sourceTree = "<group>"; };
 		8A591B3321E6902500B802F8 /* ModelSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelSelectionViewController.swift; sourceTree = "<group>"; };
 		8A75424920A8CC5100A2BFAD /* about.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = about.html; sourceTree = "<group>"; };
-		8A75B68F208A317D00EACD13 /* Registry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registry.swift; sourceTree = "<group>"; };
+		8A75B68F208A317D00EACD13 /* Registry19.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registry19.swift; sourceTree = "<group>"; };
 		8A79EF2F24983B6200646EBB /* SK2_DataSources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_DataSources.swift; sourceTree = "<group>"; };
 		8A79EF3124983ED100646EBB /* SK2_Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = SK2_Shaders.metal; sourceTree = "<group>"; };
 		8A79EF372498F0C100646EBB /* SK2_Effects_20.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_Effects_20.swift; sourceTree = "<group>"; };
@@ -291,15 +304,15 @@
 		8AC059F02216ED4C00EB6A1C /* BlockFigure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockFigure.swift; sourceTree = "<group>"; };
 		8AC059F22216EE2B00EB6A1C /* SK2_BlockBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_BlockBase.swift; sourceTree = "<group>"; };
 		8AC059F42216EF4B00EB6A1C /* NodesOnBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodesOnBlock.swift; sourceTree = "<group>"; };
-		8AC059F622170C1E00EB6A1C /* Cube.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cube.swift; sourceTree = "<group>"; };
+		8AC059F622170C1E00EB6A1C /* Cube19.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cube19.swift; sourceTree = "<group>"; };
 		8AC82CC321F5D00E00A75595 /* Graphics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Graphics.swift; sourceTree = "<group>"; };
 		8AC82CD821F6668000A75595 /* ShellFigure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShellFigure.swift; sourceTree = "<group>"; };
 		8AC82CE021F8874200A75595 /* GraphicsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphicsController.swift; sourceTree = "<group>"; };
-		8AC82CEB21F9E36700A75595 /* Sequencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sequencer.swift; sourceTree = "<group>"; };
+		8AC82CEB21F9E36700A75595 /* Sequencer19.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sequencer19.swift; sourceTree = "<group>"; };
 		8AC82CF421FC9AED00A75595 /* AnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationController.swift; sourceTree = "<group>"; };
 		8ACB503F20AC92DC00878612 /* BusySpinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusySpinner.swift; sourceTree = "<group>"; };
 		8ACB504320ACAE4300878612 /* busy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = busy.png; sourceTree = "<group>"; };
-		8ACE788C2072E51800C29875 /* Icosahedron.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Icosahedron.swift; sourceTree = "<group>"; };
+		8ACE788C2072E51800C29875 /* Icosahedron19.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Icosahedron19.swift; sourceTree = "<group>"; };
 		8ACE78912073CCDA00C29875 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		8ACE78932073CCE400C29875 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		8ACE789D2073F7A400C29875 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
@@ -344,6 +357,20 @@
 		8AE8AADC21C8737D00E90914 /* _newUI.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _newUI.txt; sourceTree = "<group>"; };
 		8AEC295024C108420050C96F /* SK2_PrimaryViewController20.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK2_PrimaryViewController20.swift; sourceTree = "<group>"; };
 		8AEC295224C10ACD0050C96F /* SK2_Storyboard_20.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SK2_Storyboard_20.storyboard; sourceTree = "<group>"; };
+		8AEC295424C1C4CB0050C96F /* SK2_Visualization_20.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_Visualization_20.swift; sourceTree = "<group>"; };
+		8AEC295624C1CD200050C96F /* Sequencer20.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sequencer20.swift; sourceTree = "<group>"; };
+		8AEC295A24C1D4140050C96F /* AnimationController20.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationController20.swift; sourceTree = "<group>"; };
+		8AEC296124C1EA0A0050C96F /* DevNotes.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = DevNotes.md; sourceTree = "<group>"; };
+		8AEC296224C1F3440050C96F /* DSModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSModel.swift; sourceTree = "<group>"; };
+		8AEC296424C1F3560050C96F /* DSParam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSParam.swift; sourceTree = "<group>"; };
+		8AEC296624C1F37E0050C96F /* Visualization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Visualization.swift; sourceTree = "<group>"; };
+		8AEC296824C1F4300050C96F /* Sequencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sequencer.swift; sourceTree = "<group>"; };
+		8AEC296C24C1F7860050C96F /* Selector20.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Selector20.swift; sourceTree = "<group>"; };
+		8AEC296F24C1FF9F0050C96F /* Figure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Figure.swift; sourceTree = "<group>"; };
+		8AEC297124C1FFE20050C96F /* RenderContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderContext.swift; sourceTree = "<group>"; };
+		8AEC297524C201D20050C96F /* NamedObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamedObject.swift; sourceTree = "<group>"; };
+		8AEC297724C201F00050C96F /* Selector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Selector.swift; sourceTree = "<group>"; };
+		8AEC297F24C20E800050C96F /* SK2Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2Model.swift; sourceTree = "<group>"; };
 		8AF594FF208AC0420082C5DE /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
 		8AF98F95207FE7D60007688E /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		8AF98F9F207FE8350007688E /* GraphicsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphicsViewController.swift; sourceTree = "<group>"; };
@@ -375,8 +402,8 @@
 				8AE0B84C24925B64008753B5 /* Cloud21.swift */,
 				8AE0B82E248FEB3C008753B5 /* DemoStoryboard.storyboard */,
 				8AE0B830248FEEB6008753B5 /* DemosPrimaryViewController.swift */,
-				8A0172F5248805F000D3C160 /* DemoShaders.metal */,
 				8A0172FF24880A7200D3C160 /* Vertex.swift */,
+				8A0172F5248805F000D3C160 /* DemoShaders.metal */,
 			);
 			path = Demos_20;
 			sourceTree = "<group>";
@@ -393,11 +420,12 @@
 				8A02208C248BE6A300F3A91D /* EmptyFigure20.swift */,
 				8A02208E248BE9FA00F3A91D /* AppModel20.swift */,
 				8A0172ED2488029200D3C160 /* FigureViewController.swift */,
-				8A022096248D1A3000F3A91D /* Registry20.swift */,
 				8A0172FD24880A3A00D3C160 /* Light.swift */,
-				8A01730124880B0100D3C160 /* float4x4Extensions.swift */,
 				8AA1F1BB249398850075C7D9 /* DS_ColorSource20.swift */,
 				8AA1F1C12493B01A0075C7D9 /* DS_ElevationSource20.swift */,
+				8AEC295624C1CD200050C96F /* Sequencer20.swift */,
+				8AEC295A24C1D4140050C96F /* AnimationController20.swift */,
+				8AEC296C24C1F7860050C96F /* Selector20.swift */,
 			);
 			path = Design20;
 			sourceTree = "<group>";
@@ -405,6 +433,8 @@
 		8A022095248D150900F3A91D /* Design19 */ = {
 			isa = PBXGroup;
 			children = (
+				8A75B68F208A317D00EACD13 /* Registry19.swift */,
+				8AC82CEB21F9E36700A75595 /* Sequencer19.swift */,
 				8AC059E222137F3C00EB6A1C /* Done.txt */,
 				8AAF6DFE208167A800E4C9BF /* ToDo.txt */,
 				8AC059E02211BFC900EB6A1C /* ToNotDo.txt */,
@@ -421,12 +451,11 @@
 		8A0C09A220716B050017AC4C /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				8A41B08F21F0ACA500DE38CB /* Parameters.swift */,
 				8A41A2F1208398E900CDDF28 /* NumericConstants.swift */,
-				8A75B68F208A317D00EACD13 /* Registry.swift */,
 				8ACE789D2073F7A400C29875 /* Utils.swift */,
 				8AA05A12208FCB58009417A6 /* ChangeSupport.swift */,
 				8A2A32D620AB881600D4D619 /* WorkQueue.swift */,
-				8A41B08F21F0ACA500DE38CB /* Parameters.swift */,
 				8AB2A64421FEB24900A46316 /* Geometry.swift */,
 			);
 			path = Utilities;
@@ -436,19 +465,21 @@
 			isa = PBXGroup;
 			children = (
 				8A022095248D150900F3A91D /* Design19 */,
+				8AE1BD1A22060E7200D6A062 /* Common */,
+				8A2034E021ED0F3400A4C418 /* SK1_19 */,
+				8AC82CE421F9D9A900A75595 /* SK2_19 */,
+				8A41B09121F0BF0300DE38CB /* SK3_19 */,
 				8A022082248BCEBD00F3A91D /* Design20 */,
 				8A0173032489165600D3C160 /* Demos_20 */,
 				8AE0B837249053D8008753B5 /* SK2_20 */,
+				8AEC296024C1E44F0050C96F /* Design21 */,
+				8AEC297E24C20E5B0050C96F /* SK2 */,
 				8ACE78902073CCDA00C29875 /* Frameworks */,
 				8AF98F95207FE7D60007688E /* LICENSE */,
 				8A1CF013207146510099DD97 /* Products */,
 				8AF98FA6207FE9CF0007688E /* README.md */,
 				8AF138B7207B8966001A88C6 /* Resources */,
 				8A9D599B208DFBD20022831B /* Main */,
-				8AE1BD1A22060E7200D6A062 /* Common */,
-				8A2034E021ED0F3400A4C418 /* SK1 */,
-				8AC82CE421F9D9A900A75595 /* SK2 */,
-				8A41B09121F0BF0300DE38CB /* SK3 */,
 				8A3C45B72086185B00A1E9CD /* Scratch */,
 			);
 			sourceTree = "<group>";
@@ -461,13 +492,13 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		8A2034E021ED0F3400A4C418 /* SK1 */ = {
+		8A2034E021ED0F3400A4C418 /* SK1_19 */ = {
 			isa = PBXGroup;
 			children = (
 				8A2034E121ED0F4E00A4C418 /* SK1_System.swift */,
 				8AE1BD172203FD5E00D6A062 /* SK1_Factory.swift */,
 			);
-			path = SK1;
+			path = SK1_19;
 			sourceTree = "<group>";
 		};
 		8A3C45B72086185B00A1E9CD /* Scratch */ = {
@@ -479,13 +510,13 @@
 			path = Scratch;
 			sourceTree = "<group>";
 		};
-		8A41B09121F0BF0300DE38CB /* SK3 */ = {
+		8A41B09121F0BF0300DE38CB /* SK3_19 */ = {
 			isa = PBXGroup;
 			children = (
 				8AB2A62B21FCE0D500A46316 /* SK3_System.swift */,
 				8A97BBF322243EA100E520C9 /* SK3_Notes.txt */,
 			);
-			path = SK3;
+			path = SK3_19;
 			sourceTree = "<group>";
 		};
 		8A88174E2207F18100523467 /* Figures */ = {
@@ -617,7 +648,7 @@
 			path = Graphics;
 			sourceTree = "<group>";
 		};
-		8AC82CE421F9D9A900A75595 /* SK2 */ = {
+		8AC82CE421F9D9A900A75595 /* SK2_19 */ = {
 			isa = PBXGroup;
 			children = (
 				8A2034E621ED2A6000A4C418 /* SK2_System.swift */,
@@ -631,7 +662,7 @@
 				8A88176B220B710900523467 /* Figures */,
 				8AC82CE721F9DA4000A75595 /* UI */,
 			);
-			path = SK2;
+			path = SK2_19;
 			sourceTree = "<group>";
 		};
 		8AC82CE721F9DA4000A75595 /* UI */ = {
@@ -648,7 +679,6 @@
 		8AC82CED21F9E41A00A75595 /* Animation */ = {
 			isa = PBXGroup;
 			children = (
-				8AC82CEB21F9E36700A75595 /* Sequencer.swift */,
 				8AC82CF421FC9AED00A75595 /* AnimationController.swift */,
 				8A88174F2207F21600523467 /* ParameterSweep.swift */,
 				8A9B149B220C83AA00A2CDAB /* Timeseries.swift */,
@@ -721,6 +751,7 @@
 				8A79EF2F24983B6200646EBB /* SK2_DataSources.swift */,
 				8A79EF3124983ED100646EBB /* SK2_Shaders.metal */,
 				8A79EF3B2498F5E000646EBB /* SK2_ShellGeometry_20.swift */,
+				8AEC295424C1C4CB0050C96F /* SK2_Visualization_20.swift */,
 			);
 			path = SK2_20;
 			sourceTree = "<group>";
@@ -730,9 +761,9 @@
 			children = (
 				8A9BA6B720ADD71F009C39BE /* InnerShell.swift */,
 				8A84313720726F0100F06B9B /* Axes.swift */,
-				8AC059F622170C1E00EB6A1C /* Cube.swift */,
+				8AC059F622170C1E00EB6A1C /* Cube19.swift */,
 				8AD9DACA20914E3D0062457C /* Balls.swift */,
-				8ACE788C2072E51800C29875 /* Icosahedron.swift */,
+				8ACE788C2072E51800C29875 /* Icosahedron19.swift */,
 				8ACB503F20AC92DC00878612 /* BusySpinner.swift */,
 			);
 			path = Effects;
@@ -748,6 +779,40 @@
 				8A0C09A220716B050017AC4C /* Utilities */,
 			);
 			path = Common;
+			sourceTree = "<group>";
+		};
+		8AEC296024C1E44F0050C96F /* Design21 */ = {
+			isa = PBXGroup;
+			children = (
+				8AEC296124C1EA0A0050C96F /* DevNotes.md */,
+				8AEC296E24C1F7EA0050C96F /* Utils */,
+				8AEC296224C1F3440050C96F /* DSModel.swift */,
+				8AEC296424C1F3560050C96F /* DSParam.swift */,
+				8AEC296824C1F4300050C96F /* Sequencer.swift */,
+				8AEC296624C1F37E0050C96F /* Visualization.swift */,
+				8AEC296F24C1FF9F0050C96F /* Figure.swift */,
+				8AEC297124C1FFE20050C96F /* RenderContext.swift */,
+			);
+			path = Design21;
+			sourceTree = "<group>";
+		};
+		8AEC296E24C1F7EA0050C96F /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				8A01730124880B0100D3C160 /* float4x4Extensions.swift */,
+				8A022096248D1A3000F3A91D /* Registry.swift */,
+				8AEC297524C201D20050C96F /* NamedObject.swift */,
+				8AEC297724C201F00050C96F /* Selector.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		8AEC297E24C20E5B0050C96F /* SK2 */ = {
+			isa = PBXGroup;
+			children = (
+				8AEC297F24C20E800050C96F /* SK2Model.swift */,
+			);
+			path = SK2;
 			sourceTree = "<group>";
 		};
 		8AF138B7207B8966001A88C6 /* Resources */ = {
@@ -897,6 +962,7 @@
 			files = (
 				8AB2A63D21FE4F6B00A46316 /* SK2_PFModel.swift in Sources */,
 				8AE48BBB2087857C001B5D11 /* GLUtils.swift in Sources */,
+				8AEC297824C201F00050C96F /* Selector.swift in Sources */,
 				8A2A32D720AB881600D4D619 /* WorkQueue.swift in Sources */,
 				8AC059ED2216EAA400EB6A1C /* SK2_BDBlockData.swift in Sources */,
 				8A79EF3024983B6200646EBB /* SK2_DataSources.swift in Sources */,
@@ -911,18 +977,20 @@
 				8A2034E721ED2A6000A4C418 /* SK2_System.swift in Sources */,
 				8A19E9AB2303220300880C97 /* SK2E_LogOccupation.swift in Sources */,
 				8A9B14CA220F529400A2CDAB /* SK2E_Occupation.swift in Sources */,
-				8AC82CEC21F9E36700A75595 /* Sequencer.swift in Sources */,
+				8AC82CEC21F9E36700A75595 /* Sequencer19.swift in Sources */,
 				8A575FEE20804759002B9951 /* ColorMaps.swift in Sources */,
-				8A022097248D1A3000F3A91D /* Registry20.swift in Sources */,
+				8A022097248D1A3000F3A91D /* Registry.swift in Sources */,
 				8AB2A65321FF9A1400A46316 /* Meridians.swift in Sources */,
 				8A9B14C0220EF8F600A2CDAB /* ColorSwitch.swift in Sources */,
-				8ACE788D2072E51800C29875 /* Icosahedron.swift in Sources */,
+				8ACE788D2072E51800C29875 /* Icosahedron19.swift in Sources */,
 				8AA1F1BE24939EFE0075C7D9 /* SK2_Geometry_20.swift in Sources */,
 				8AE1BD182203FD5E00D6A062 /* SK1_Factory.swift in Sources */,
+				8AEC296D24C1F7860050C96F /* Selector20.swift in Sources */,
 				8A9B14A8220DB88900A2CDAB /* PlaneFigure.swift in Sources */,
 				8A591B3421E6902500B802F8 /* ModelSelectionViewController.swift in Sources */,
 				8A41B09021F0ACA500DE38CB /* Parameters.swift in Sources */,
 				8AB2A63721FDEDEC00A46316 /* DiscreteSystem.swift in Sources */,
+				8AEC296324C1F3440050C96F /* DSModel.swift in Sources */,
 				8A88174D220791D400523467 /* SK2_TertiaryViewController.swift in Sources */,
 				8A9B14A2220D2E0C00A2CDAB /* SK2_PFFigures.swift in Sources */,
 				8AC059EB2216E8DD00EB6A1C /* SK2_BDModel.swift in Sources */,
@@ -931,6 +999,7 @@
 				8A022085248BD84E00F3A91D /* Graphics20.swift in Sources */,
 				8AD817FC207BFA9200426C25 /* InfoViewController.swift in Sources */,
 				8A88175A22085E3B00523467 /* SK2_PFSequencer.swift in Sources */,
+				8AEC297024C1FF9F0050C96F /* Figure.swift in Sources */,
 				8A591B3221E441FB00B802F8 /* SK2_PrimaryViewController.swift in Sources */,
 				8A01730224880B0100D3C160 /* float4x4Extensions.swift in Sources */,
 				8A02207A248BBD8700F3A91D /* AppConstants20.swift in Sources */,
@@ -949,11 +1018,13 @@
 				8A2034DE21EB961300A4C418 /* SK2_SecondaryViewController.swift in Sources */,
 				8A0172FA248809E600D3C160 /* DemoBufferProvider.swift in Sources */,
 				8AB2A64221FEA8BF00A46316 /* NodesOnShell.swift in Sources */,
+				8AEC296524C1F3560050C96F /* DSParam.swift in Sources */,
 				8A022091248BEB6400F3A91D /* Demos21.swift in Sources */,
 				8AC059F12216ED4C00EB6A1C /* BlockFigure.swift in Sources */,
 				8AB2A63321FCE92F00A46316 /* SK2_ShellGeometry.swift in Sources */,
 				8A9B149E220C94AC00A2CDAB /* Dynamic.swift in Sources */,
 				8AA05A13208FCB58009417A6 /* ChangeSupport.swift in Sources */,
+				8AEC298024C20E800050C96F /* SK2Model.swift in Sources */,
 				8A84313820726F0100F06B9B /* Axes.swift in Sources */,
 				8A79EF382498F0C100646EBB /* SK2_Effects_20.swift in Sources */,
 				8A9B14AC220DBCBF00A2CDAB /* UniformElevation.swift in Sources */,
@@ -978,8 +1049,10 @@
 				8AA1F1C22493B01A0075C7D9 /* DS_ElevationSource20.swift in Sources */,
 				8A9B14CC220F543000A2CDAB /* SK2E_Entropy.swift in Sources */,
 				8AC059E92216E5EB00EB6A1C /* SK2_BDGenerator.swift in Sources */,
+				8AEC295B24C1D4140050C96F /* AnimationController20.swift in Sources */,
 				8A9B14BE220EE96A00A2CDAB /* SK2E_Energy.swift in Sources */,
 				8A0172F6248805F000D3C160 /* DemoShaders.metal in Sources */,
+				8AEC297624C201D20050C96F /* NamedObject.swift in Sources */,
 				8A9B14C6220F421800A2CDAB /* SK2_ShellBase.swift in Sources */,
 				8ACB504020AC92DC00878612 /* BusySpinner.swift in Sources */,
 				8AD9DACB20914E3D0062457C /* Balls.swift in Sources */,
@@ -988,12 +1061,14 @@
 				8AA05A19208FFFD4009417A6 /* MagicStrings.swift in Sources */,
 				8A2034DC21EB76AC00A4C418 /* ButtonWithImage.swift in Sources */,
 				8AF98FA1207FE8350007688E /* GraphicsViewController.swift in Sources */,
+				8AEC296724C1F37E0050C96F /* Visualization.swift in Sources */,
 				8A9B149C220C83AA00A2CDAB /* Timeseries.swift in Sources */,
 				8A9B14B0220E0E2100A2CDAB /* NodesInPlane.swift in Sources */,
 				8A88176222090F4400523467 /* SK2_PFInitializers.swift in Sources */,
 				8A8817472207484800523467 /* UIUtils.swift in Sources */,
+				8AEC296924C1F4300050C96F /* Sequencer.swift in Sources */,
 				8AB2A65121FF8C8C00A46316 /* NetOnShell.swift in Sources */,
-				8A75B690208A317D00EACD13 /* Registry.swift in Sources */,
+				8A75B690208A317D00EACD13 /* Registry19.swift in Sources */,
 				8ACE789E2073F7A400C29875 /* Utils.swift in Sources */,
 				8AE0B831248FEEB6008753B5 /* DemosPrimaryViewController.swift in Sources */,
 				8A4654C021E8E38300EE2B26 /* PhysicalSystem.swift in Sources */,
@@ -1011,10 +1086,13 @@
 				8A9B14CE220F8FCF00A2CDAB /* SK2_LogDataSource.swift in Sources */,
 				8AE0B82D248FC4F3008753B5 /* Cube21.swift in Sources */,
 				8A8817662209118000523467 /* SK2_PlaneGeometry.swift in Sources */,
+				8AEC297224C1FFE20050C96F /* RenderContext.swift in Sources */,
 				8A9BA6B820ADD71F009C39BE /* InnerShell.swift in Sources */,
+				8AEC295724C1CD200050C96F /* Sequencer20.swift in Sources */,
 				8A9B14A0220CF97F00A2CDAB /* SK2_BAFigure.swift in Sources */,
+				8AEC295524C1C4CB0050C96F /* SK2_Visualization_20.swift in Sources */,
 				8A88175822085D7500523467 /* SK2_PFColors.swift in Sources */,
-				8AC059F722170C1E00EB6A1C /* Cube.swift in Sources */,
+				8AC059F722170C1E00EB6A1C /* Cube19.swift in Sources */,
 				8AE0B84B24916B5C008753B5 /* SK2_PlaneGeometry_20.swift in Sources */,
 				8A88175622085D5A00523467 /* SK2_PFRules.swift in Sources */,
 			);

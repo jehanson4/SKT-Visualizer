@@ -37,7 +37,7 @@ class AnimationController {
     // ========================================
     // Sequencer
     
-    var sequencer: Sequencer? {
+    var sequencer: Sequencer19? {
         get { return _sequencer }
         set(newValue) {
             let oldSequencer = _sequencer
@@ -55,7 +55,7 @@ class AnimationController {
         }
     }
     
-    private weak var _sequencer: Sequencer? = nil
+    private weak var _sequencer: Sequencer19? = nil
     
     // ========================================
     // Step rate

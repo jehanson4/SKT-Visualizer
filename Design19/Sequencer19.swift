@@ -1,5 +1,5 @@
 //
-//  Sequencer.swift
+//  Sequencer19.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 1/24/19.
@@ -8,44 +8,12 @@
 
 import Foundation
 
-// ==============================================================================
-// Direction
-// ==============================================================================
-
-enum Direction: Int {
-    case forward = 0
-    case reverse = 1
-    case stopped = 2
-    
-    static func name(_ dir: Direction) -> String {
-        return directionNames[dir.rawValue]
-    }
-}
-
-private let directionNames = ["forward", "reverse", "stopped"]
-
-// ==============================================================================
-// BoundaryCondition
-// ==============================================================================
-
-enum BoundaryCondition: Int {
-    case sticky = 0
-    case elastic = 1
-    case periodic = 2
-    
-    static func name(_ bc: BoundaryCondition) -> String {
-        return boundaryConditionNames[bc.rawValue]
-    }
-}
-
-private let boundaryConditionNames = ["sticky", "elastic", "periodic"]
-
 // =============================================================================
-// Sequencer
+// Sequencer19
 // =============================================================================
 
 // TODO can I get away with NOT requiring all sequencers to have PreferenceSupport?
-protocol Sequencer : AnyObject, Named, ChangeMonitorEnabled {
+protocol Sequencer19 : AnyObject, Named, ChangeMonitorEnabled {
         
     var enabled: Bool { get set }
     

@@ -1,5 +1,5 @@
 //
-//  Cube.swift
+//  Cube19.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 2/15/19.
@@ -18,7 +18,7 @@ fileprivate var debugEnabled = false
 
 fileprivate func debug(_ mtd: String, _ msg: String = "") {
     if (debugEnabled) {
-        print("Cube", mtd, msg)
+        print("Cube19", mtd, msg)
     }
 }
 
@@ -26,7 +26,7 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 // Axes
 // ====================================================================
 
-class Cube : GLKBaseEffect, Effect {
+class Cube19 : GLKBaseEffect, Effect {
     
     static let key = "Cube"
     

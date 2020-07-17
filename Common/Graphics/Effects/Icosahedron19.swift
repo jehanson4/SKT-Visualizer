@@ -1,5 +1,5 @@
 //
-//  Icosahedron.swift
+//  Icosahedron19.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 4/2/18.
@@ -18,15 +18,15 @@ fileprivate var debugEnabled = false
 
 fileprivate func debug(_ mtd: String, _ msg: String = "") {
     if (debugEnabled) {
-        print("Icosahedron", mtd, msg)
+        print("Icosahedron19", mtd, msg)
     }
 }
 
 // ===========================================================
-// Icosahedron
+// Icosahedron19
 // ===========================================================
 
-class Icosahedron : GLKBaseEffect, Effect {
+class Icosahedron19 : GLKBaseEffect, Effect {
     
     static let key = "Icosahedron"
     

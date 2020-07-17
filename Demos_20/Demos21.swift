@@ -14,7 +14,7 @@ class Demos21 : Visualization20 {
     lazy var figures: Selector20<Figure20> = _initFigures()
 
     private func _initFigures() -> Selector20<Figure20> {
-        let registry = Registry20<Figure20>()
+        let registry = Registry<Figure20>()
         var figures = [Figure20]()
         
         figures.append(Cube21())

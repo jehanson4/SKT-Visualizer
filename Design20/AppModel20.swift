@@ -19,7 +19,7 @@ protocol AppModel20 : AnyObject {
 // =======================================================
 // MARK: - AppModelUser20
 
-protocol AppModelUser21 {
+protocol AppModelUser20 {
     
-    var appModel21 : AppModel20! { get set }
+    var appModel20 : AppModel20! { get set }
 }

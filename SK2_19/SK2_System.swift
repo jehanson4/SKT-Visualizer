@@ -343,8 +343,8 @@ class SK2_System: DS2_System, PreferenceSupport {
     
     lazy var parameters = _initParameters()
     
-    private func _initParameters() -> Registry<Parameter> {
-        let params = Registry<Parameter>()
+    private func _initParameters() -> Registry19<Parameter> {
+        let params = Registry19<Parameter>()
         _ = params.register(N)
         _ = params.register(k)
         _ = params.register(a1)

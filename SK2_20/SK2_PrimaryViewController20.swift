@@ -19,14 +19,16 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
     }
 }
 
-class SK2_PrimaryViewController20: UIViewController, UITextFieldDelegate, AppModelUser21 {
+class SK2_PrimaryViewController20: UIViewController, UITextFieldDelegate, AppModelUser20 {
 
     // ===========================================
     // Basics
     
-    weak var appModel21 : AppModel20!
-    weak var visualization: Visualization20!
-    weak var system: SK2_System!
+    weak var appModel20 : AppModel20!
+    weak var visualization: SK2_Visualization_20!
+    
+    // TODO use this!
+    var animationController: AnimationController20!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,10 +36,9 @@ class SK2_PrimaryViewController20: UIViewController, UITextFieldDelegate, AppMod
         let mtd = "viewDidLoad"
         debug(mtd, "entered")
         
-        if let visualization = appModel21.visualizations.selection?.value as? SK2_Visualization_20 {
+        if let visualization = appModel20.visualizations.selection?.value as? SK2_Visualization_20 {
             self.visualization = visualization
             self.title = visualization.name
-            self.system = visualization.system
             visualization_setup()
             modelParams_setup()
             sequencer_setup()
@@ -52,17 +53,17 @@ class SK2_PrimaryViewController20: UIViewController, UITextFieldDelegate, AppMod
         debug(mtdName, "destination: \(segue.destination.title ?? "(no title)")")
         
         // HACK HACK HACK HACK
-        if (segue.destination is AppModelUser21) {
-            var d2 = segue.destination as! AppModelUser21
-            if (self.appModel21 == nil) {
+        if (segue.destination is AppModelUser20) {
+            var d2 = segue.destination as! AppModelUser20
+            if (self.appModel20 == nil) {
                 debug(mtdName, "our own appModel is nil")
             }
-            else if (d2.appModel21 != nil) {
+            else if (d2.appModel20 != nil) {
                 debug(mtdName, "destination's appModel is already set")
             }
             else {
                 debug(mtdName, "setting destination's appModel")
-                d2.appModel21 = self.appModel21
+                d2.appModel20 = self.appModel20
             }
         }
         else {
@@ -152,10 +153,9 @@ class SK2_PrimaryViewController20: UIViewController, UITextFieldDelegate, AppMod
 
     @IBAction func toggleAutocalibration(_ sender: Any?) {
         debug("toggleAutocalibration") 
-        var calibratedFigure = visualization.figures.selection?.value as? Calibrated
-        if (calibratedFigure != nil) {
-            let prev = calibratedFigure!.autocalibrate
-            calibratedFigure!.autocalibrate = !prev
+        if var calibratedFigure = visualization.figures.selection?.value as? Calibrated {
+            let prev = calibratedFigure.autocalibrate
+            calibratedFigure.autocalibrate = !prev
         }
         updateFigureControls()
     }
@@ -165,16 +165,15 @@ class SK2_PrimaryViewController20: UIViewController, UITextFieldDelegate, AppMod
         // ? reset isEnabled
         // ? snapshot isEnabled
         
-        var calibratedFigure = visualization.figures.selection?.value as? Calibrated
-        if (calibratedFigure == nil) {
-            // ? recalibrateButton.isEnabled = false
-            // ? autocalibrateButton?.isEnabled = false
-        }
-        else {
+        if let calibratedFigure = visualization.figures.selection?.value as? Calibrated {
             // ? recalibrateButton.isEnabled = true
             // ? autocalibrateButton?.isEnabled = true
-            let acTitle = calibratedFigure!.autocalibrate ? "\u{2713} Autocalibrate" : "Autocalibrate"
+            let acTitle = calibratedFigure.autocalibrate ? "\u{2713} Autocalibrate" : "Autocalibrate"
             autocalibrateButton?.setTitle(acTitle, for: .normal)
+        }
+        else {
+            // ? recalibrateButton.isEnabled = false
+            // ? autocalibrateButton?.isEnabled = false
         }
     }
     
@@ -231,11 +230,11 @@ class SK2_PrimaryViewController20: UIViewController, UITextFieldDelegate, AppMod
         UIView.commitAnimations()
         
         debug("param_edited", "tag=\(sender.tag)")
-        let pCount = system.parameters.entryCount
+        let pCount = visualization.system.parameters.entryCount
         if (sender.tag <= 0 || sender.tag > pCount) {
             return
         }
-        let param = system.parameters.entry(index: (sender.tag-1))?.value
+        let param = visualization.system.parameters.entry(index: (sender.tag-1))?.value
         if (param != nil && sender.text != nil) {
             param!.applyValue(sender.text!)
         }
@@ -243,12 +242,12 @@ class SK2_PrimaryViewController20: UIViewController, UITextFieldDelegate, AppMod
     
     @IBAction func param_step(_ sender: UIStepper) {
         debug("param_step", "tag=\(sender.tag)")
-        let pCount = system.parameters.entryCount
+        let pCount = visualization.system.parameters.entryCount
         if (sender.tag <= 0 || sender.tag > pCount) {
             return
         }
         
-        let param = system.parameters.entry(index: (sender.tag-1))?.value
+        let param = visualization.system.parameters.entry(index: (sender.tag-1))?.value
         if (param != nil) {
             debug("param_step", "applying value. param=\(String(describing: param?.name)) value=\(sender.value)")
             param!.applyValue(sender.value)
@@ -305,7 +304,8 @@ class SK2_PrimaryViewController20: UIViewController, UITextFieldDelegate, AppMod
     func modelParams_setup() {
         debug("modelParams_setup", "entered")
 
-        let pCount = system.parameters.entryCount
+        let params = visualization.system.parameters
+        let pCount = params.entryCount
         
         var idx: Int = 0
         var param: Parameter? = nil
@@ -313,31 +313,31 @@ class SK2_PrimaryViewController20: UIViewController, UITextFieldDelegate, AppMod
         
         // param1
         idx = 0
-        param = (pCount > idx) ? system.parameters.entry(index: idx)?.value : nil
+        param = (pCount > idx) ? params.entry(index: idx)?.value : nil
         tag = (pCount > idx) ? (idx+1) : 0
         param1_monitor = param_setup(param, tag, param1_label, param1_text, param1_stepper)
 
         // param2
         idx = 1
-        param = (pCount > idx) ? system.parameters.entry(index: idx)?.value : nil
+        param = (pCount > idx) ? params.entry(index: idx)?.value : nil
         tag = (pCount > idx) ? (idx+1) : 0
         param2_monitor = param_setup(param, tag, param2_label, param2_text, param2_stepper)
 
         // param3
         idx = 2
-        param = (pCount > idx) ? system.parameters.entry(index: idx)?.value : nil
+        param = (pCount > idx) ? params.entry(index: idx)?.value : nil
         tag = (pCount > idx) ? (idx+1) : 0
         param3_monitor = param_setup(param, tag, param3_label, param3_text, param3_stepper)
 
         // param4
         idx = 3
-        param = (pCount > idx) ? system.parameters.entry(index: idx)?.value : nil
+        param = (pCount > idx) ? params.entry(index: idx)?.value : nil
         tag = (pCount > idx) ? (idx+1) : 0
         param4_monitor = param_setup(param, tag, param4_label, param4_text, param4_stepper)
 
         // param5
         idx = 4
-        param = (pCount > idx) ? system.parameters.entry(index: idx)?.value : nil
+        param = (pCount > idx) ? params.entry(index: idx)?.value : nil
         tag = (pCount > idx) ? (idx+1) : 0
         param5_monitor = param_setup(param, tag, param5_label, param5_text, param5_stepper)
         
@@ -347,33 +347,35 @@ class SK2_PrimaryViewController20: UIViewController, UITextFieldDelegate, AppMod
     func modelParams_update(_ sender: Any?) {
         debug("modelParams_update", "entered")
         
-        let pCount = system.parameters.entryCount
+        let params = visualization.system.parameters
+        let pCount = params.entryCount
+
         var idx: Int = 0
         var param: Parameter? = nil
         
         // param1
         idx = 0
-        param = (pCount > idx) ? system.parameters.entry(index: idx)?.value : nil
+        param = (pCount > idx) ? params.entry(index: idx)?.value : nil
         param_update(param, param1_text, param1_stepper)
         
         // param2
         idx = 1
-        param = (pCount > idx) ? system.parameters.entry(index: idx)?.value : nil
+        param = (pCount > idx) ? params.entry(index: idx)?.value : nil
         param_update(param, param2_text, param2_stepper)
         
         // param3
         idx = 2
-        param = (pCount > idx) ? system.parameters.entry(index: idx)?.value : nil
+        param = (pCount > idx) ? params.entry(index: idx)?.value : nil
         param_update(param, param3_text, param3_stepper)
         
         // param4
         idx = 3
-        param = (pCount > idx) ? system.parameters.entry(index: idx)?.value : nil
+        param = (pCount > idx) ? params.entry(index: idx)?.value : nil
         param_update(param, param4_text, param4_stepper)
         
         // param5
         idx = 4
-        param = (pCount > idx) ? system.parameters.entry(index: idx)?.value : nil
+        param = (pCount > idx) ? params.entry(index: idx)?.value : nil
         param_update(param, param5_text, param5_stepper)
 
     }
@@ -389,9 +391,7 @@ class SK2_PrimaryViewController20: UIViewController, UITextFieldDelegate, AppMod
     
     @IBAction func resetModelParams(_ sender: Any) {
         debug("resetModelParams")
-        if (system != nil) {
-            system!.resetAllParameters()
-        }
+        visualization.system.resetAllParameters()
     }
 
     // ===========================================
@@ -411,19 +411,25 @@ class SK2_PrimaryViewController20: UIViewController, UITextFieldDelegate, AppMod
         ubText?.delegate = self
         deltaText?.delegate = self
 
-//        let sequencerSelector = appPart.sequencerSelector
-//        sequencer_update(self)
-//        sequencerSelectionMonitor = sequencerSelector.monitorChanges(sequencer_update)
+        if let sequencerSelector = visualization.sequencers.selection?.value {
+            sequencer_update(self)
+            
+            // TODO
+            // sequencerSelectionMonitor = sequencerSelector.monitorChanges(sequencer_update)
+        }
     }
     
     /// called when selected sequencer changes
     func sequencer_update(_ sender: Any?) {
-//        let sequencerSelector = appPart.sequencerSelector
-//        if (sequencerSelectorButton != nil) {
-//            let title = sequencerSelector.selection?.name ?? "(choose)"
-//            sequencerSelectorButton.setTitle(title, for: .normal)
-//        }
+        if let sequencer = visualization.sequencers.selection?.value {
+            sequencerSelectorButton.setTitle(sequencer.name, for: .normal)
 
+        }
+        else {
+            
+        }
+        
+// TODO
         // animationController does this
 //        let oldSequencer = self.sequencer
 //        let newSequencer = sequencerSelector.selection?.value
@@ -537,32 +543,30 @@ class SK2_PrimaryViewController20: UIViewController, UITextFieldDelegate, AppMod
     
     @IBAction func lbTextEdited(_ sender: UITextField) {
         animation_shiftDown()
-//        let v2 = parseDouble(sender.text)
-//        let sequencer = appPart.sequencerSelector.selection?.value
-//        if (sequencer != nil && v2 != nil) {
-//            sequencer!.lowerBound = v2!
-//        }
+        if let v2 = parseDouble(sender.text),
+            let sequencer = visualization.sequencers.selection?.value {
+            sequencer.lowerBound = v2
+        }
         lb_update()
     }
 
     @IBAction func lbStep(_ sender: UIStepper) {
-//        let sequencer = appPart.sequencerSelector.selection?.value
-//        sequencer?.lowerBound = sender.value
+        if let sequencer = visualization.sequencers.selection?.value {
+            sequencer.lowerBound = sender.value
+        }
         lb_update()
     }
     
     func lb_update() {
-//        let sequencer = appPart.sequencerSelector.selection?.value
-//        let lb = sequencer?.lowerBound
-//        if (lb == nil) {
-//            lbText?.text = ""
-//            lbStepper?.value = 0
-//        }
-//        else {
-//            debug("lb_update", "lb=\(lb!)")
-//            lbText?.text =  basicString(lb!)
-//            lbStepper?.value = lb!
-//        }
+        if let lb = visualization.sequencers.selection?.value.lowerBound {
+            debug("lb_update", "lb=\(lb)")
+            lbText?.text =  basicString(lb)
+            lbStepper?.value = lb
+        }
+        else {
+            lbText?.text = ""
+            lbStepper?.value = 0
+        }
     }
     
     @IBAction func ubTextEdited(_ sender: UITextField) {
@@ -711,7 +715,7 @@ class SK2_PrimaryViewController20: UIViewController, UITextFieldDelegate, AppMod
         return PlayerState(rawValue: s)
     }
     
-    private func getPlayerState(_ seq: Sequencer) -> PlayerState {
+    private func getPlayerState(_ seq: Sequencer19) -> PlayerState {
         switch (seq.direction) {
         case .reverse:
             return (seq.enabled) ? .runBackward : .stepBackward
@@ -722,7 +726,7 @@ class SK2_PrimaryViewController20: UIViewController, UITextFieldDelegate, AppMod
         }
     }
     
-    private func setPlayerState(_ seq: inout Sequencer, _ state: PlayerState) {
+    private func setPlayerState(_ seq: inout Sequencer19, _ state: PlayerState) {
         // There must be a better way....
         switch (state) {
         case  .runBackward:

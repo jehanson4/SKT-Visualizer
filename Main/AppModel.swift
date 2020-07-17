@@ -19,11 +19,11 @@ protocol AppPart: Named, AnyObject {
     
     var system: PhysicalSystem { get }
     
-    var figures: Registry<Figure>? { get set }
-    var figureSelector: Selector<Figure> { get }
+    var figures: Registry19<Figure19>? { get set }
+    var figureSelector: Selector19<Figure19> { get }
     
-    var sequencers: Registry<Sequencer>? { get set }
-    var sequencerSelector: Selector<Sequencer> { get }
+    var sequencers: Registry19<Sequencer19>? { get set }
+    var sequencerSelector: Selector19<Sequencer19> { get }
 }
 
 // =========================================================
@@ -47,10 +47,10 @@ protocol AppPartFactory {
 protocol AppModel: AnyObject {
     
     /// OLD
-    var parts: Registry<AppPart> { get }
+    var parts: Registry19<AppPart> { get }
     
     /// OLD
-    var partSelector: Selector<AppPart> { get }
+    var partSelector: Selector19<AppPart> { get }
     
     /// OLD
     var animationController: AnimationController { get }

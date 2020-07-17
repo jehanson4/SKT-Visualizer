@@ -8,8 +8,7 @@
 
 import Foundation
 
-protocol Visualization20: NamedObject20 {
-        
-    var figures: Selector20<Figure20> { get }
+protocol Visualization20: NamedObject {
     
+    var figures: Selector20<Figure20> { get }
 }

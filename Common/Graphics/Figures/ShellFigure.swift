@@ -42,7 +42,7 @@ struct ShellPOV {
 // ShellFigure
 // ==============================================================
 
-class ShellFigure : Figure {
+class ShellFigure : Figure19 {
 
     // ================================================
     // Lifecycle
@@ -77,7 +77,7 @@ class ShellFigure : Figure {
     // =================================================
     // Effects
     
-    lazy var effects: Registry<Effect>? =  Registry<Effect>()
+    lazy var effects: Registry19<Effect>? =  Registry19<Effect>()
     
     // EMPIRICAL
     let pointSizeMax: GLfloat = 32

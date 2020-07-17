@@ -12,7 +12,7 @@ import MetalKit
 // =======================================================
 // MARK - Effect20
 
-protocol Effect20: NamedObject20 {
+protocol Effect20: NamedObject {
     
     var switchable: Bool { get }
 
@@ -31,7 +31,7 @@ protocol Effect20: NamedObject20 {
 // =======================================================
 // MARK: - Figure20
 
-protocol Figure20 : NamedObject20 {
+protocol Figure20 : NamedObject {
         
     var group: String { get set }
     

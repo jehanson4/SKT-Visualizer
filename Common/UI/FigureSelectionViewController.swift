@@ -12,7 +12,7 @@ import UIKit
 // FigureSelectionViewController
 // ===================================================================
 
-class FigureSelectionViewController: UITableViewController, AppModelUser, AppModelUser21 {
+class FigureSelectionViewController: UITableViewController, AppModelUser, AppModelUser20 {
 
     // =====================================
     // Debug
@@ -30,9 +30,9 @@ class FigureSelectionViewController: UITableViewController, AppModelUser, AppMod
     // Model
     
     weak var appModel: AppModel!
-    weak var figureSelector: Selector<Figure>!
+    weak var figureSelector: Selector19<Figure19>!
 
-    weak var appModel21: AppModel20!
+    weak var appModel20: AppModel20!
 
     // =====================================
     // Lifecycle
@@ -125,7 +125,7 @@ class FigureSelectionViewController: UITableViewController, AppModelUser, AppMod
                 // button.layer.backgroundColor = UIColor.lightGray.cgColor
             }
         }
-        else if let figureSelector21 = appModel21?.visualizations.selection?.value.figures {
+        else if let figureSelector21 = appModel20?.visualizations.selection?.value.figures {
             let entryName = figureSelector21.registry.names[row]
             button.setTitle(entryName, for: .normal)
             

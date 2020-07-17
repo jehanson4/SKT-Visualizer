@@ -723,7 +723,7 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
         return PlayerState(rawValue: s)
     }
     
-    private func getPlayerState(_ seq: Sequencer) -> PlayerState {
+    private func getPlayerState(_ seq: Sequencer19) -> PlayerState {
         switch (seq.direction) {
         case .reverse:
             return (seq.enabled) ? .runBackward : .stepBackward
@@ -734,7 +734,7 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
         }
     }
     
-    private func setPlayerState(_ seq: inout Sequencer, _ state: PlayerState) {
+    private func setPlayerState(_ seq: inout Sequencer19, _ state: PlayerState) {
         // There must be a better way....
         switch (state) {
         case  .runBackward:

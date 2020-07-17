@@ -1,5 +1,5 @@
 //
-//  Registry.swift
+//  Registry19.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 4/20/18.
@@ -12,7 +12,7 @@ import Foundation
 // RegistryEntry
 // =======================================================================
 
-class RegistryEntry<T> {
+class RegistryEntry19<T> {
     var index: Int
     var key: String
     var name: String
@@ -30,15 +30,15 @@ class RegistryEntry<T> {
 // RegistryError
 // =======================================================================
 
-enum RegistryError: Error {
+enum RegistryError19: Error {
     case keyInUse(key: String)
 }
 
 // =======================================================================
-// Registry
+// Registry19
 // =======================================================================
 
-class Registry<T> : ChangeMonitorEnabled {
+class Registry19<T> : ChangeMonitorEnabled {
 
     var entryNames: Set<String> {
         if (_entryNames == nil) {
@@ -52,43 +52,43 @@ class Registry<T> : ChangeMonitorEnabled {
     var entryKeys: [String] { return _entryKeys }
 
     private var _entryKeys: [String] = []
-    private var _entriesByKey = [String: RegistryEntry<T>]()
+    private var _entriesByKey = [String: RegistryEntry19<T>]()
     private var _entryNames: Set<String>? = nil
     
     func keyInUse(_ key: String) -> Bool {
         return (_entriesByKey[key] != nil)
     }
     
-    func entry(key: String) -> RegistryEntry<T>? {
+    func entry(key: String) -> RegistryEntry19<T>? {
         return _entriesByKey[key]
     }
     
-    func entry(index: Int) -> RegistryEntry<T>? {
+    func entry(index: Int) -> RegistryEntry19<T>? {
         return _entriesByKey[_entryKeys[index]]
     }
 
-    func register(_ t: T, name: String, key: String) throws -> RegistryEntry<T>? {
+    func register(_ t: T, name: String, key: String) throws -> RegistryEntry19<T>? {
         if (_entriesByKey[key] != nil) {
-            throw RegistryError.keyInUse(key: key)
+            throw RegistryError19.keyInUse(key: key)
         }
         return install(key, name, t)
     }
     
-    func register(_ t: T, nameHint: String? = nil, key: String) throws -> RegistryEntry<T> {
+    func register(_ t: T, nameHint: String? = nil, key: String) throws -> RegistryEntry19<T> {
         if (_entriesByKey[key] != nil) {
-            throw RegistryError.keyInUse(key: key)
+            throw RegistryError19.keyInUse(key: key)
         }
         let hint2 = (t is Named && nameHint == nil) ? (t as! Named).name : nameHint
         let name = findUniqueName(hint2)
         return install(key, name, t)
     }
     
-    func register(_ t: T, name: String, _ keyHint: String? = nil) -> RegistryEntry<T>? {
+    func register(_ t: T, name: String, _ keyHint: String? = nil) -> RegistryEntry19<T>? {
         let key = findUniqueKey(keyHint)
         return install(key, name, t)
     }
     
-    func register(_ t: T, nameHint: String? = nil, _ keyHint: String? = nil) -> RegistryEntry<T> {
+    func register(_ t: T, nameHint: String? = nil, _ keyHint: String? = nil) -> RegistryEntry19<T> {
         let hint2 = (t is Named && nameHint == nil) ? (t as! Named).name : nameHint
         let name = findUniqueName(hint2)
         let key = findUniqueKey(keyHint)
@@ -104,9 +104,9 @@ class Registry<T> : ChangeMonitorEnabled {
     }
     
     /// key and name are assumed unused
-    private func install(_ key: String, _ name: String, _ t: T) -> RegistryEntry<T> {
+    private func install(_ key: String, _ name: String, _ t: T) -> RegistryEntry19<T> {
         let index = _entryKeys.count
-        let newEntry = RegistryEntry<T>(index, key, name, t)
+        let newEntry = RegistryEntry19<T>(index, key, name, t)
 
 //        _entryNames.append(name)
 //        _entries[name] = newEntry
@@ -122,7 +122,7 @@ class Registry<T> : ChangeMonitorEnabled {
     }
     
     /// Visits each restry entry
-    func visitEntries(_ visitor: @escaping (RegistryEntry<T>) -> ()) {
+    func visitEntries(_ visitor: @escaping (RegistryEntry19<T>) -> ()) {
         for ee in _entriesByKey {
             visitor(ee.value)
         }
@@ -179,7 +179,7 @@ class Registry<T> : ChangeMonitorEnabled {
 // Selector
 // =======================================================================
 
-class Selector<T> : ChangeMonitorEnabled {
+class Selector19<T> : ChangeMonitorEnabled {
 
     // =================================
     // Initializers
@@ -188,21 +188,21 @@ class Selector<T> : ChangeMonitorEnabled {
         // self.registry = Registry<T>()
     }
     
-    init(_ registry: Registry<T>) {
+    init(_ registry: Registry19<T>) {
         self.registry = registry
     }
     
     // =============================
     // Registry
     
-    var registry: Registry<T>!
+    var registry: Registry19<T>!
     
     // =============================
     // Selection
     
-    var selection: RegistryEntry<T>? { return _selection }
+    var selection: RegistryEntry19<T>? { return _selection }
     
-    private var _selection: RegistryEntry<T>? = nil
+    private var _selection: RegistryEntry19<T>? = nil
     
     func clearSelection() {
         let changed = (_selection != nil)
@@ -242,7 +242,7 @@ class Selector<T> : ChangeMonitorEnabled {
 // RegistryWithSelection
 // =======================================================================
 
-class RegistryWithSelection<T> : ChangeMonitorEnabled {
+class RegistryWithSelection19<T> : ChangeMonitorEnabled {
 
     // =============================
     // Entries
@@ -252,21 +252,21 @@ class RegistryWithSelection<T> : ChangeMonitorEnabled {
 
     private var _entryNames: [String] = []
 
-    private var _entries = [String: RegistryEntry<T>]()
+    private var _entries = [String: RegistryEntry19<T>]()
 
-    func entry(_ name: String) -> RegistryEntry<T>? {
+    func entry(_ name: String) -> RegistryEntry19<T>? {
         return _entries[name]
     }
 
-    func entry(_ index: Int) -> RegistryEntry<T>? {
+    func entry(_ index: Int) -> RegistryEntry19<T>? {
         return _entries[entryNames[index]]
     }
 
-    func register(_ t: T, nameHint: String? = nil) -> RegistryEntry<T> {
+    func register(_ t: T, nameHint: String? = nil) -> RegistryEntry19<T> {
         let name = findUniqueName(nameHint)
         let key: String = ""
         let index = entryNames.count
-        let newEntry = RegistryEntry<T>(index, key, name, t)
+        let newEntry = RegistryEntry19<T>(index, key, name, t)
         _entryNames.append(name)
         _entries[name] = newEntry
         changeMonitorSupport.fire()
@@ -274,7 +274,7 @@ class RegistryWithSelection<T> : ChangeMonitorEnabled {
     }
 
     /// Visits each restry entry
-    func visitEntries(_ visitor: @escaping (RegistryEntry<T>) -> ()) {
+    func visitEntries(_ visitor: @escaping (RegistryEntry19<T>) -> ()) {
         for ee in _entries {
             visitor(ee.value)
         }
@@ -312,9 +312,9 @@ class RegistryWithSelection<T> : ChangeMonitorEnabled {
     // with registry as var
     // =================================
 
-    var selection: RegistryEntry<T>? { return _selection }
+    var selection: RegistryEntry19<T>? { return _selection }
 
-    private var _selection: RegistryEntry<T>? = nil
+    private var _selection: RegistryEntry19<T>? = nil
 
     func clearSelection() {
         let changed = (_selection != nil)

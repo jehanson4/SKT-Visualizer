@@ -20,10 +20,10 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 // ModelSelectionViewController
 // =============================================================
 
-class ModelSelectionViewController : UIViewController, AppModelUser, AppModelUser21 {
+class ModelSelectionViewController : UIViewController, AppModelUser, AppModelUser20 {
             
     weak var appModel: AppModel!
-    weak var appModel21: AppModel20!
+    weak var appModel20: AppModel20!
     
     override func viewDidLoad() {
         let mtd = "viewDidLoad"
@@ -65,7 +65,7 @@ class ModelSelectionViewController : UIViewController, AppModelUser, AppModelUse
     @IBAction func selectVisualization(_ sender: UIButton) {
         guard
             let name = sender.titleLabel?.text,
-            let selector = appModel21?.visualizations
+            let selector = appModel20?.visualizations
         else { return }
 
         debug("selectVisualization", "...selecting \(name)")
@@ -104,8 +104,8 @@ class ModelSelectionViewController : UIViewController, AppModelUser, AppModelUse
         // TODO what about disconnecting change monitors?
         // NOT HERE: do it in 'delete' phase.
         
-        if var d2 = segue.destination as? AppModelUser21 {
-            d2.appModel21 = self.appModel21
+        if var d2 = segue.destination as? AppModelUser20 {
+            d2.appModel20 = self.appModel20
         }
         
         if var d3 = segue.destination as? AppModelUser {

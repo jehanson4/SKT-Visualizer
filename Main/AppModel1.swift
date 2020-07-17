@@ -37,7 +37,7 @@ class AppPart1: AppPart {
     
     let system: PhysicalSystem
     
-    var figures: Registry<Figure>? {
+    var figures: Registry19<Figure19>? {
         get {
             return figureSelector.registry
         }
@@ -48,9 +48,9 @@ class AppPart1: AppPart {
         }
     }
     
-    var figureSelector: Selector<Figure>
+    var figureSelector: Selector19<Figure19>
     
-    var sequencers: Registry<Sequencer>? {
+    var sequencers: Registry19<Sequencer19>? {
         get {
             return sequencerSelector.registry
         }
@@ -61,14 +61,14 @@ class AppPart1: AppPart {
         }
     }
     
-    var sequencerSelector: Selector<Sequencer>
+    var sequencerSelector: Selector19<Sequencer19>
     
     init(key: String, name: String, system: PhysicalSystem) {
         self.key = key
         self.name = name
         self.system = system
-        self.figureSelector = Selector<Figure>()
-        self.sequencerSelector = Selector<Sequencer>()
+        self.figureSelector = Selector19<Figure19>()
+        self.sequencerSelector = Selector19<Sequencer19>()
     }
 }
 
@@ -81,9 +81,9 @@ class AppModel1 : AppModel {
     // ================================================
     // Parts
     
-    var parts: Registry<AppPart> { return partSelector.registry }
+    var parts: Registry19<AppPart> { return partSelector.registry }
     
-    var partSelector: Selector<AppPart>
+    var partSelector: Selector19<AppPart>
     
     private var partChangeMonitor: ChangeMonitor!
     
@@ -154,7 +154,7 @@ class AppModel1 : AppModel {
         workQueue = WorkQueue()
         animationController = AnimationController(workQueue)
         graphicsController = GraphicsControllerV1()
-        partSelector = Selector<AppPart>(Registry<AppPart>())
+        partSelector = Selector19<AppPart>(Registry19<AppPart>())
         _preferenceSupportList = []
 
         // 2. Install the parts

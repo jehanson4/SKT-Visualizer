@@ -13,7 +13,7 @@ import UIKit
 // SK2_SystemFigure
 // ========================================================================
 
-class SK2_SystemFigure: Figure, Calibrated {
+class SK2_SystemFigure: Figure19, Calibrated {
     
     var name: String
     var info: String?
@@ -74,7 +74,7 @@ class SK2_SystemFigure: Figure, Calibrated {
         return baseFigure.estimatePointSize(spacing)
     }
     
-    var effects: Registry<Effect>? {
+    var effects: Registry19<Effect>? {
         get { return baseFigure.effects }
     }
     

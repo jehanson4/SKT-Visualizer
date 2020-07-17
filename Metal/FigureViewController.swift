@@ -79,9 +79,6 @@ class FigureViewController : UIViewController, AppModelUser {
     
 }
 
-// =======================================================
-// MARK: - MTKViewDelegate
-
 extension FigureViewController : MTKViewDelegate {
     
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {

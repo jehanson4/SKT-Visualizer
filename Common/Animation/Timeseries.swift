@@ -20,7 +20,7 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 // StepTimeseries
 // ===============================================================
 
-class StepTimeseries: Sequencer {
+class StepTimeseries: Sequencer19 {
     
     // ========================================
     // Basics

@@ -1,5 +1,5 @@
 //
-//  Registry.swift
+//  Registry21.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 6/7/20.
@@ -7,14 +7,6 @@
 //
 
 import Foundation
-
-// =======================================================
-// MARK: - NamedObject20
-
-
-protocol NamedObject20: AnyObject {
-    var name: String { get set }
-}
 
 // =======================================================
 // MARK: - RegistryEntry20
@@ -55,12 +47,7 @@ class Registry20<T> {
     }
     
     func register(hint: String? = nil, value: T) -> RegistryEntry20<T> {
-        let name = findUnusedName(hint)
-        let entry = addEntry(name, value)
-        if let namedValue = value as? NamedObject20 {
-            namedValue.name = name
-        }
-        return entry
+        return addEntry(findUnusedName(hint), value)
     }
     
     private func addEntry(_ name: String, _ value: T) -> RegistryEntry20<T> {
@@ -84,9 +71,9 @@ class Registry20<T> {
     
 
 // =======================================================
-// MARK: - Selector20
+// MARK: - Selector21
 
-class Selector20<T>  : ChangeMonitorEnabled {
+class Selector21<T>  : ChangeMonitorEnabled {
     
     var registry: Registry20<T>
     var selection: RegistryEntry20<T>?
