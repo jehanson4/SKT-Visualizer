@@ -14,7 +14,7 @@ class SK2_Equilibrium_20 : SK2_Visualization_20 {
    
     var name = visualizationName
     
-    var system:  SK2_System
+    var system:  SK2_System19
     var plane: SK2_PlaneGeometry_20
     var shell: SK2_ShellGeometry_20
     
@@ -22,7 +22,7 @@ class SK2_Equilibrium_20 : SK2_Visualization_20 {
     
     lazy var sequencers: Selector20<Sequencer20> = _initSequencers()
     
-    init(_ system: SK2_System) {
+    init(_ system: SK2_System19) {
         self.system = system
         self.plane = SK2_PlaneGeometry_20()
         self.shell = SK2_ShellGeometry_20()

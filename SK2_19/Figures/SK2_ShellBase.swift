@@ -44,12 +44,12 @@ class SK2_ShellBase : ShellFigure, SK2_BaseFigure {
     // =========================================
     // Basics
     
-    var system: SK2_System
-    var geometry: SK2_ShellGeometry
+    var system: SK2_System19
+    var geometry: SK2_ShellGeometry19
     
-    init(_ system: SK2_System, _ radius: Double) {
+    init(_ system: SK2_System19, _ radius: Double) {
         self.system = system
-        self.geometry = SK2_ShellGeometry(system, radius)
+        self.geometry = SK2_ShellGeometry19(system, radius)
         self._autocalibrate = true
         super.init("shellBase", nil, radius)
     }

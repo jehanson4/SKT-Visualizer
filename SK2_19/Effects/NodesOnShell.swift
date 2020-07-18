@@ -32,7 +32,7 @@ class NodesOnShell: Effect {
     // Lifecycle
     
     /// Also need to set figure b/c pointize calculation depends on zoom
-    init(_ system: SK2_System, _ geometry: SK2_ShellGeometry, enabled: Bool, switchable: Bool) {
+    init(_ system: SK2_System19, _ geometry: SK2_ShellGeometry19, enabled: Bool, switchable: Bool) {
         debug("init")
         self.system = system
         self.geometry = geometry
@@ -81,8 +81,8 @@ class NodesOnShell: Effect {
         }
     }
     
-    weak var system: SK2_System!
-    weak var geometry: SK2_ShellGeometry!
+    weak var system: SK2_System19!
+    weak var geometry: SK2_ShellGeometry19!
     weak var figure: ShellFigure!
 
     private var geometryIsStale: Bool = true

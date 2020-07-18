@@ -29,7 +29,7 @@ class SK2_SecondaryViewController: UIViewController, UITextFieldDelegate, AppMod
 
     weak var appModel: AppModel!
     weak var appPart: AppPart!
-    weak var system: SK2_System!
+    weak var system: SK2_System19!
     
     var figure: Figure19? = nil
     var sequencer: Sequencer19? = nil
@@ -50,7 +50,7 @@ class SK2_SecondaryViewController: UIViewController, UITextFieldDelegate, AppMod
             self.title = appPart.name
 
             debug(mtd, "currently selected part = \(String(describing: appPart))")
-            system = appPart.system as? SK2_System
+            system = appPart.system as? SK2_System19
 
             figure = appPart.figureSelector.selection?.value
             debug(mtd, "currently selected figure = \(String(describing: figure))")

@@ -15,16 +15,16 @@ import UIKit
 
 class SK2E_Energy: SK2_SystemFigure {
     
-    var system: SK2_System
+    var system: SK2_System19
     var N_monitor: ChangeMonitor?
     var k_monitor: ChangeMonitor?
     var a1_monitor: ChangeMonitor?
     var a2_monitor: ChangeMonitor?
     
-    init(_ name: String, _ info: String?, _ system: SK2_System, _ baseFigure: SK2_BaseFigure) {
+    init(_ name: String, _ info: String?, _ system: SK2_System19, _ baseFigure: SK2_BaseFigure) {
         self.system = system
         super.init(name, info, baseFigure)
-        let ds = SK2_SimpleDataSource(system, system.energy)
+        let ds = SK2_SimpleDataSource19(system, system.energy)
         super.colorSource = ds
         super.relief = ds
     }

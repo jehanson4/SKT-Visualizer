@@ -47,8 +47,8 @@ class NetOnShell: GLKBaseEffect, Effect {
 
     var rOffset: Double = 0
 
-    var system: SK2_System
-    var geometry: SK2_ShellGeometry
+    var system: SK2_System19
+    var geometry: SK2_ShellGeometry19
     var N_monitor: ChangeMonitor? = nil
     var k_monitor: ChangeMonitor? = nil
     var geometryIsStale: Bool = true
@@ -95,7 +95,7 @@ class NetOnShell: GLKBaseEffect, Effect {
     var lineArrayOffsets: [UnsafeRawPointer?] = []
     var built: Bool = false
     
-    init(_ system: SK2_System, _ geometry: SK2_ShellGeometry, enabled: Bool, switchable: Bool) {
+    init(_ system: SK2_System19, _ geometry: SK2_ShellGeometry19, enabled: Bool, switchable: Bool) {
         self.system = system
         self.geometry = geometry
         self._enabled = enabled

@@ -1,5 +1,5 @@
 //
-//  SK2_System.swift
+//  SK2_System19.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 1/14/19.
@@ -12,7 +12,7 @@ fileprivate var debugEnabled = false
 
 fileprivate func debug(_ mtd: String, _ msg: String = "") {
     if (debugEnabled)  {
-        print("SK2_System", mtd, msg)
+        print("SK2_System19", mtd, msg)
     }
 }
 
@@ -34,15 +34,15 @@ struct SK2_Descriptor: Equatable {
     let beta: Double
     
     init() {
-        self.N = SK2_System.N_defaultSetPoint
-        self.k = SK2_System.k_defaultSetPoint
-        self.a1 = SK2_System.a1_defaultSetPoint
-        self.a2 = SK2_System.a2_defaultSetPoint
+        self.N = SK2_System19.N_defaultSetPoint
+        self.k = SK2_System19.k_defaultSetPoint
+        self.a1 = SK2_System19.a1_defaultSetPoint
+        self.a2 = SK2_System19.a2_defaultSetPoint
         // self.T = SK2_System.T_defaultSetPoint
-        self.beta = SK2_System.beta_defaultSetPoint
+        self.beta = SK2_System19.beta_defaultSetPoint
     }
     
-    init(_ system: SK2_System) {
+    init(_ system: SK2_System19) {
         self.N = system.N.value
         self.k = system.k.value
         self.a1 = system.a1.value
@@ -51,7 +51,7 @@ struct SK2_Descriptor: Equatable {
         self.beta = system.beta.value
     }
     
-    func matches(_ system: SK2_System) -> Bool {
+    func matches(_ system: SK2_System19) -> Bool {
         return (self.N == system.N.value)
             && (self.k == system.k.value)
             && (self.a1 == system.a1.value)
@@ -62,21 +62,21 @@ struct SK2_Descriptor: Equatable {
 }
 
 // ==============================================================
-// SK2_System
+// SK2_System19
 // ==============================================================
 
-class SK2_System: DS2_System, PreferenceSupport {
+class SK2_System19: DS2_System, PreferenceSupport {
     
     // ===================================
     // Initializers
     
     init() {
-        self._N = SK2_System.N_defaultSetPoint
-        self._k = SK2_System.k_defaultSetPoint
-        self._a1 = SK2_System.a1_defaultSetPoint
-        self._a2 = SK2_System.a2_defaultSetPoint
+        self._N = SK2_System19.N_defaultSetPoint
+        self._k = SK2_System19.k_defaultSetPoint
+        self._a1 = SK2_System19.a1_defaultSetPoint
+        self._a2 = SK2_System19.a2_defaultSetPoint
         // self._T = SK2_System.T_defaultSetPoint
-        self._beta = SK2_System.beta_defaultSetPoint
+        self._beta = SK2_System19.beta_defaultSetPoint
         updateDerivedProperties()
     }
     
@@ -162,19 +162,19 @@ class SK2_System: DS2_System, PreferenceSupport {
         "N",
         _getN,
         _setN,
-        min: SK2_System.N_min,
-        max: SK2_System.N_max,
+        min: SK2_System19.N_min,
+        max: SK2_System19.N_max,
         info: "Number of spins in the SK system",
-        setPoint: SK2_System.N_defaultSetPoint,
-        stepSize: SK2_System.N_defaultStepSize
+        setPoint: SK2_System19.N_defaultSetPoint,
+        stepSize: SK2_System19.N_defaultStepSize
     )
     
     // ===================================
     // Parameter: k
     
     static let k_min: Int = 1
-    static let k_max: Int = SK2_System.N_max/2
-    static let k_defaultSetPoint: Int = SK2_System.N_defaultSetPoint/2
+    static let k_max: Int = SK2_System19.N_max/2
+    static let k_defaultSetPoint: Int = SK2_System19.N_defaultSetPoint/2
     static let k_defaultStepSize: Int = 1
     
     /// DO NOT set this. It's non-private for speed.
@@ -203,11 +203,11 @@ class SK2_System: DS2_System, PreferenceSupport {
         "k",
         _getK,
         _setK,
-        min: SK2_System.k_min,
-        max: SK2_System.k_max,
+        min: SK2_System19.k_min,
+        max: SK2_System19.k_max,
         info: "Distance between energy minima",
-        setPoint: SK2_System.k_defaultSetPoint,
-        stepSize: SK2_System.k_defaultStepSize
+        setPoint: SK2_System19.k_defaultSetPoint,
+        stepSize: SK2_System19.k_defaultStepSize
     )
     
     // ===================================
@@ -234,11 +234,11 @@ class SK2_System: DS2_System, PreferenceSupport {
         "a\u{2081}",
         self._getA1,
         self._setA1,
-        min: SK2_System.a1_min,
-        max: SK2_System.a1_max,
+        min: SK2_System19.a1_min,
+        max: SK2_System19.a1_max,
         info: "Depth of energy well #1",
-        setPoint: SK2_System.a1_defaultSetPoint,
-        stepSize: SK2_System.a1_defaultStepSize
+        setPoint: SK2_System19.a1_defaultSetPoint,
+        stepSize: SK2_System19.a1_defaultStepSize
     )
     
     // ===================================
@@ -265,11 +265,11 @@ class SK2_System: DS2_System, PreferenceSupport {
         "a\u{2082}",
         self._getA2,
         self._setA2,
-        min: SK2_System.a2_min,
-        max: SK2_System.a2_max,
+        min: SK2_System19.a2_min,
+        max: SK2_System19.a2_max,
         info: "Depth of energy well #1",
-        setPoint: SK2_System.a2_defaultSetPoint,
-        stepSize: SK2_System.a2_defaultStepSize
+        setPoint: SK2_System19.a2_defaultSetPoint,
+        stepSize: SK2_System19.a2_defaultStepSize
     )
     
     
@@ -331,11 +331,11 @@ class SK2_System: DS2_System, PreferenceSupport {
         "\u{03B2}",
         _getBeta,
         _setBeta,
-        min: SK2_System.beta_min,
-        max: SK2_System.beta_max,
+        min: SK2_System19.beta_min,
+        max: SK2_System19.beta_max,
         info: "Inv. Temperature",
-        setPoint: SK2_System.beta_defaultSetPoint,
-        stepSize: SK2_System.beta_defaultStepSize
+        setPoint: SK2_System19.beta_defaultSetPoint,
+        stepSize: SK2_System19.beta_defaultStepSize
     )
     
     // ===================================
@@ -413,7 +413,7 @@ class SK2_System: DS2_System, PreferenceSupport {
 
     // =========================================
     // Derived variables. Some are only useful
-    // on the shell. See SK2_ShellGeometry
+    // on the shell. See SK2_ShellGeometry19
     
     var nodeIndexModulus: Int = 0
     var skNorm: Double = 0

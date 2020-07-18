@@ -25,14 +25,14 @@ fileprivate let eps = Double.eps
 
 class SK2_LogDataSource: ColorSource, Relief {
     
-    init(_ system: SK2_System,
+    init(_ system: SK2_System19,
          _ getter: @escaping (_ m: Int, _ n: Int) -> Double) {
         self.system = system
         self.getter = getter
         self.colorMap = LogColorMap()
     }
     
-    weak var system: SK2_System!
+    weak var system: SK2_System19!
     
     var getter: (_ m: Int, _ n: Int) -> Double
     var colorMap: ColorMap

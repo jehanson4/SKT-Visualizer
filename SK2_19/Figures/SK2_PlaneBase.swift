@@ -44,12 +44,12 @@ class SK2_PlaneBase : PlaneFigure, SK2_BaseFigure {
     // =========================================
     // Basics
     
-    var system: SK2_System
-    var geometry: SK2_PlaneGeometry
+    var system: SK2_System19
+    var geometry: SK2_PlaneGeometry19
     
-    init(_ system: SK2_System, _ gridSize: Double) {
+    init(_ system: SK2_System19, _ gridSize: Double) {
         self.system = system
-        self.geometry = SK2_PlaneGeometry(system, gridSize)
+        self.geometry = SK2_PlaneGeometry19(system, gridSize)
         self._autocalibrate = true
         super.init("planeBase", nil, gridSize)
     }

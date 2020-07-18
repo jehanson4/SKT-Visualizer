@@ -26,7 +26,7 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     
     weak var appModel: AppModel!
     weak var appPart: AppPart!
-    weak var system: SK2_System!
+    weak var system: SK2_System19!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,7 +45,7 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
             self.title = appPart.name
             
             debug(mtd, "currently selected part = \(String(describing: appPart))")
-            system = appPart.system as? SK2_System
+            system = appPart.system as? SK2_System19
         }
         
 

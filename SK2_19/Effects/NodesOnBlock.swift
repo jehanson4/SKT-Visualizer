@@ -48,13 +48,13 @@ class NodesOnBlock: Effect {
         }
     }
     
-    weak var system: SK2_System!
-    weak var geometry: SK2_PlaneGeometry!
+    weak var system: SK2_System19!
+    weak var geometry: SK2_PlaneGeometry19!
     
     /// need figure for pointize calculation
     weak var figure: BlockFigure!
 
-    init(_ system: SK2_System, _ geometry: SK2_PlaneGeometry, enabled: Bool, switchable: Bool) {
+    init(_ system: SK2_System19, _ geometry: SK2_PlaneGeometry19, enabled: Bool, switchable: Bool) {
         debug("init")
         self.system = system
         self.geometry = geometry

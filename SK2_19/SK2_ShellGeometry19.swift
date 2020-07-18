@@ -1,5 +1,5 @@
 //
-//  SK2_ShellGeometry.swift
+//  SK2_ShellGeometry19.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 1/26/19.
@@ -19,19 +19,19 @@ fileprivate var debugEnabled = false
 fileprivate func debug(_ mtd: String, _ msg: String = "") {
     if (debugEnabled) {
         if (Thread.current.isMainThread) {
-            print("SK2_ShellGeometry", "[main]", mtd, msg)
+            print("SK2_ShellGeometry19", "[main]", mtd, msg)
         }
         else {
-            print("SK2_ShellGeometry", "[????]", mtd, msg)
+            print("SK2_ShellGeometry19", "[????]", mtd, msg)
         }
     }
 }
 
 // ======================================================
-// SK2_ShellPoint
+// SK2_ShellPoint19
 // ======================================================
 
-struct SK2_ShellPoint : DS2_Node {
+struct SK2_ShellPoint19 : DS2_Node {
     
     let nodeIndex: Int
     let m: Int
@@ -53,43 +53,43 @@ struct SK2_ShellPoint : DS2_Node {
         return nodeIndex
     }
     
-    static func == (lhs: SK2_ShellPoint, rhs: SK2_ShellPoint) -> Bool {
+    static func == (lhs: SK2_ShellPoint19, rhs: SK2_ShellPoint19) -> Bool {
         return lhs.nodeIndex == rhs.nodeIndex
     }
 
 }
 
 // ======================================================
-// SK2_ShellGeometry
+// SK2_ShellGeometry19
 // ======================================================
 
-class SK2_ShellGeometry {
+class SK2_ShellGeometry19 {
 
-    init(_ system: SK2_System, _ radius: Double) {
+    init(_ system: SK2_System19, _ radius: Double) {
         self.system = system
         self.radius = radius
         self.rScale = radius/4
     }
     
-    private weak var system: SK2_System!
+    private weak var system: SK2_System19!
     
     let radius: Double
     let rScale: Double
     
-    var p1: SK2_ShellPoint {
+    var p1: SK2_ShellPoint19 {
         let m: Int = 0
         let n: Int = 0
         let nodeIndex = system.skToNodeIndex(m, n)
         let sph = skToSpherical(m, n)
-        return SK2_ShellPoint(nodeIndex, m, n, r: sph.r, phi: sph.phi, thetaE: sph.thetaE)
+        return SK2_ShellPoint19(nodeIndex, m, n, r: sph.r, phi: sph.phi, thetaE: sph.thetaE)
     }
     
-    var p2: SK2_ShellPoint {
+    var p2: SK2_ShellPoint19 {
         let m: Int = system.k.value
         let n: Int = 0
         let nodeIndex = system.skToNodeIndex(m, n)
         let sph = skToSpherical(m, n)
-        return SK2_ShellPoint(nodeIndex, m, n, r: sph.r, phi: sph.phi, thetaE: sph.thetaE)
+        return SK2_ShellPoint19(nodeIndex, m, n, r: sph.r, phi: sph.phi, thetaE: sph.thetaE)
 
     }
     

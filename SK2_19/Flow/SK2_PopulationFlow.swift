@@ -77,7 +77,7 @@ class SK2_PopulationFlow : DiscreteTimeDynamic, ChangeMonitorEnabled {
         }
     }
     
-    weak var system: SK2_System!
+    weak var system: SK2_System19!
     weak var workQueue: WorkQueue!
     
     private var workingData: SK2_PFModel
@@ -88,7 +88,7 @@ class SK2_PopulationFlow : DiscreteTimeDynamic, ChangeMonitorEnabled {
     
     private var bgTaskCounter: Int = 0
     
-    init(_ system: SK2_System, _ workQueue: WorkQueue, _ ic: SK2_PFInitializer? = nil, _ rule: SK2_PFRule? = nil) {
+    init(_ system: SK2_System19, _ workQueue: WorkQueue, _ ic: SK2_PFInitializer? = nil, _ rule: SK2_PFRule? = nil) {
         self.system = system
         self.workQueue = workQueue
         let desc = SK2_Descriptor(system)

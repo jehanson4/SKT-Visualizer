@@ -23,7 +23,7 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 
 class SK2_Population : SK2_SystemFigure {
     
-    var system: SK2_System!
+    var system: SK2_System19!
     var flow: SK2_PopulationFlow!
     
     private var N_monitor: ChangeMonitor?
@@ -34,7 +34,7 @@ class SK2_Population : SK2_SystemFigure {
     private var beta_monitor: ChangeMonitor?
     private var flowMonitor: ChangeMonitor?
     
-    init(_ name: String,  _ system: SK2_System, _ flow: SK2_PopulationFlow, _ baseFigure: SK2_BaseFigure) {
+    init(_ name: String,  _ system: SK2_System19, _ flow: SK2_PopulationFlow, _ baseFigure: SK2_BaseFigure) {
         self.system = system
         self.flow = flow
         super.init(name, nil, baseFigure)

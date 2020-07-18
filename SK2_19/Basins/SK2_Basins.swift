@@ -38,7 +38,7 @@ class SK2_Basins {
         }
     }
     
-    weak var system: SK2_System!
+    weak var system: SK2_System19!
     weak var queue: WorkQueue!
 
     private var workingData: SK2_BAModel
@@ -54,7 +54,7 @@ class SK2_Basins {
     // Initializing
     // =====================================
     
-    init(_ system: SK2_System, _ workQueue: WorkQueue) {
+    init(_ system: SK2_System19, _ workQueue: WorkQueue) {
         self.system = system
         self.queue = workQueue
 

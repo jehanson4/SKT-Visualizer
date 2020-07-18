@@ -17,11 +17,11 @@ class SK2_BDModel {
     
     var modelParams: SK2_Descriptor
     
-    private var system: SK2_System
+    private var system: SK2_System19
 
     init(_ modelParams: SK2_Descriptor) {
         self.modelParams = modelParams
-        self.system = SK2_System()
+        self.system = SK2_System19()
         _ = self.system.apply(modelParams)
     }
     

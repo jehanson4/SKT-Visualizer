@@ -1,5 +1,5 @@
 //
-//  SK2_PlaneGeometry.swift
+//  SK2_PlaneGeometry19.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 2/4/19.
@@ -14,28 +14,28 @@ fileprivate var debugEnabled = false
 fileprivate func debug(_ mtd: String, _ msg: String = "") {
     if (debugEnabled) {
         if (Thread.current.isMainThread) {
-            print("SK2_PlaneGeometry", "[main]", mtd, msg)
+            print("SK2_PlaneGeometry19", "[main]", mtd, msg)
         }
         else {
-            print("SK2_PlaneGeometry", "[????]", mtd, msg)
+            print("SK2_PlaneGeometry19", "[????]", mtd, msg)
         }
     }
 }
 
 // ==========================================================
-// SK2_PlaneGeometry
+// SK2_PlaneGeometry19
 // ==========================================================
 
-class SK2_PlaneGeometry {
+class SK2_PlaneGeometry19 {
     
-    init(_ system: SK2_System, _ gridSize: Double) {
+    init(_ system: SK2_System19, _ gridSize: Double) {
         self.system = system
         self.gridSize = gridSize
         self.z0 = 0
         self.zScale = gridSize/3
     }
     
-    private weak var system: SK2_System!
+    private weak var system: SK2_System19!
     
     let gridSize: Double
     let z0: Double

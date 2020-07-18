@@ -57,10 +57,10 @@ class DescentLinesOnShell : GLKBaseEffect, Effect {
     private var rebuildNeeded: Bool = true
     private var bufferUpdateNeeded: Bool = true
     
-    private weak var sk2: SK2_System!
-    private weak var geometry: SK2_ShellGeometry!
+    private weak var sk2: SK2_System19!
+    private weak var geometry: SK2_ShellGeometry19!
     
-    init(_ system: SK2_System, _ geometry: SK2_ShellGeometry, enabled: Bool, switchable: Bool) {
+    init(_ system: SK2_System19, _ geometry: SK2_ShellGeometry19, enabled: Bool, switchable: Bool) {
         self.sk2 = system
         self.geometry = geometry
         self.switchable = switchable

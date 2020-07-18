@@ -30,11 +30,11 @@ class SK2_BDGenerator: ChangeMonitorEnabled {
     // =======================================
     // Basics
     
-    private var system: SK2_System
+    private var system: SK2_System19
     private var queue: WorkQueue
     private var workingModel: SK2_BDModel
     
-    init(_ system: SK2_System, _ queue: WorkQueue) {
+    init(_ system: SK2_System19, _ queue: WorkQueue) {
         self.system = system
         self.queue = queue
         let desc = SK2_Descriptor(system)

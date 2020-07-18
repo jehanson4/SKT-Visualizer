@@ -44,12 +44,12 @@ class SK2_BlockBase : BlockFigure, SK2_BaseFigure {
     // =========================================
     // Basics
     
-    var system: SK2_System
-    var geometry: SK2_PlaneGeometry
+    var system: SK2_System19
+    var geometry: SK2_PlaneGeometry19
     
-    init(_ system: SK2_System, _ size: Double) {
+    init(_ system: SK2_System19, _ size: Double) {
         self.system = system
-        self.geometry = SK2_PlaneGeometry(system, size)
+        self.geometry = SK2_PlaneGeometry19(system, size)
         self._autocalibrate = true
         super.init("BlockBase", nil, size)
     }

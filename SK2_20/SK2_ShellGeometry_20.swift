@@ -59,12 +59,12 @@ class SK2_ShellGeometry_20: SK2_Geometry_20 {
         // TODO
     }
     
-    func estimatePointSize(system: SK2_System) -> Float {
+    func estimatePointSize(system: SK2_System19) -> Float {
         // TODO estimate it
         return 100
     }
     
-    func makeNodeCoordinates(system: SK2_System, relief: DS_ElevationSource20?, array: [SIMD3<Float>]?) -> [SIMD3<Float>] {
+    func makeNodeCoordinates(system: SK2_System19, relief: DS_ElevationSource20?, array: [SIMD3<Float>]?) -> [SIMD3<Float>] {
         var coords = (array?.count == system.nodeCount) ? array! : [SIMD3<Float>](repeating: SIMD3<Float>(0,0,0), count: system.nodeCount)
         if let relief = relief {
             _setNodeCoordinates(system, relief, &coords)
@@ -75,11 +75,11 @@ class SK2_ShellGeometry_20: SK2_Geometry_20 {
         return coords
     }
     
-    private func _setNodeCoordinates(_ system: SK2_System, _ coords: inout [SIMD3<Float>]) {
+    private func _setNodeCoordinates(_ system: SK2_System19, _ coords: inout [SIMD3<Float>]) {
         // TODO
     }
     
-    private func _setNodeCoordinates(_ system: SK2_System, _ relief: DS_ElevationSource20, _ coords: inout [SIMD3<Float>]) {
+    private func _setNodeCoordinates(_ system: SK2_System19, _ relief: DS_ElevationSource20, _ coords: inout [SIMD3<Float>]) {
         // TODO
     }
 

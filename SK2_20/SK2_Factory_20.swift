@@ -12,7 +12,7 @@ class SK2_Factory_20 {
     
     static func createVisualizations() -> [Visualization20] {
         
-        let system = SK2_System()
+        let system = SK2_System19()
         
         var visualizations = [Visualization20]()
         

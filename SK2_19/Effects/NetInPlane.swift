@@ -47,8 +47,8 @@ class NetInPlane: GLKBaseEffect, Effect {
     
     var zOffset: Double = 0
     
-    var system: SK2_System
-    var geometry: SK2_PlaneGeometry
+    var system: SK2_System19
+    var geometry: SK2_PlaneGeometry19
     var _relief: Relief?
     
     var relief: Relief? {
@@ -95,7 +95,7 @@ class NetInPlane: GLKBaseEffect, Effect {
     var lineArrayOffsets: [UnsafeRawPointer?] = []
     var built: Bool = false
 
-    init(_ system: SK2_System, _ geometry: SK2_PlaneGeometry, enabled: Bool, switchable: Bool) {
+    init(_ system: SK2_System19, _ geometry: SK2_PlaneGeometry19, enabled: Bool, switchable: Bool) {
         self.system = system
         self.geometry = geometry
         self._relief = nil

@@ -23,14 +23,14 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 
 class SK2_SimpleDataSource19: ColorSource, Relief {
     
-    init(_ system: SK2_System,
+    init(_ system: SK2_System19,
          _ getter: @escaping (_ m: Int, _ n: Int) -> Double) {
         self.system = system
         self.getter = getter
         self.colorMap = LinearColorMap()
     }
     
-    weak var system: SK2_System!
+    weak var system: SK2_System19!
     
     var getter: (_ m: Int, _ n: Int) -> Double
     var colorMap: ColorMap

@@ -40,7 +40,7 @@ class SK2_BAModel: DiscreteTimeDynamic {
 
     var modelParams: SK2_Descriptor
     
-    private var system: SK2_System
+    private var system: SK2_System19
     private var n_max: Int
     private var m_max: Int
     private var rebuildNeeded: Bool
@@ -60,7 +60,7 @@ class SK2_BAModel: DiscreteTimeDynamic {
     
     init(_ modelParams: SK2_Descriptor) {
         self.modelParams = modelParams
-        self.system = SK2_System()
+        self.system = SK2_System19()
         _ = self.system.apply(modelParams)
         self.n_max = system.n_max
         self.m_max = system.m_max

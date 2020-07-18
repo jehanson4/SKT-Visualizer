@@ -41,7 +41,7 @@ class SK2_PFModel {
         }
     }
     
-    var system: SK2_System
+    var system: SK2_System19
     var ic: SK2_PFInitializer
     var rule: SK2_PFRule
     var stepNumber: Int
@@ -63,7 +63,7 @@ class SK2_PFModel {
     // Inializer
     
     init(_ desc: SK2_Descriptor, _ ic: SK2_PFInitializer, _ rule: SK2_PFRule) {
-        self.system = SK2_System(desc)
+        self.system = SK2_System19(desc)
         self.nodes = []
         self.ic = ic
         self.rule = rule

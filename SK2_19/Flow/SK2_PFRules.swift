@@ -51,7 +51,7 @@ class SK2_SteepestDescentFirstMatch : SK2_PFRule {
     var description: String { return nameAndInfo(self) }
     
     
-    private weak var system: SK2_System!
+    private weak var system: SK2_System19!
     
     func prepare(_ flow: SK2_PFModel) {
         system = flow.system
@@ -90,7 +90,7 @@ class SK2_SteepestDescentLastMatch : SK2_PFRule {
     var info: String? = nil
     var description: String { return nameAndInfo(self) }
     
-    private weak var system: SK2_System!
+    private weak var system: SK2_System19!
     
     func prepare(_ flow: SK2_PFModel) {
         system = flow.system
@@ -130,7 +130,7 @@ class SK2_SteepestDescentEqualDivision : SK2_PFRule {
     var info: String? = nil
     var description: String { return nameAndInfo(self) }
     
-    private weak var system: SK2_System!
+    private weak var system: SK2_System19!
 
     func prepare(_ flow: SK2_PFModel) {
         system = flow.system
@@ -207,7 +207,7 @@ class SK2_AnyDescentEqualDivision : SK2_PFRule {
     var info: String? = nil
     var description: String { return nameAndInfo(self) }
     
-    private weak var system: SK2_System!
+    private weak var system: SK2_System19!
 
     func prepare(_ flow: SK2_PFModel) {
         system = flow.system
@@ -295,7 +295,7 @@ class SK2_ProportionalDescent : SK2_PFRule {
     var info: String? = nil
     var description: String { return nameAndInfo(self) }
     
-    private weak var system: SK2_System!
+    private weak var system: SK2_System19!
     
     func prepare(_ flow: SK2_PFModel) {
         system = flow.system
@@ -398,7 +398,7 @@ class SK2_MetropolisFlow : SK2_PFRule {
     // EMPIRICAL
     let pAccept_equalEnergy: Double = 0.5
     
-    private weak var system: SK2_System!
+    private weak var system: SK2_System19!
     
     private var beta: Double = 0
     

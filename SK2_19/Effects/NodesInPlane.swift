@@ -42,7 +42,7 @@ class NodesInPlane: Effect {
     // Lifecycle
     
     /// We need the figure's POV for setting size of nodes
-    init(_ system: SK2_System, _ geometry: SK2_PlaneGeometry, enabled: Bool, switchable: Bool) {
+    init(_ system: SK2_System19, _ geometry: SK2_PlaneGeometry19, enabled: Bool, switchable: Bool) {
         debug("init")
         self.system = system
         self.geometry = geometry
@@ -93,9 +93,9 @@ class NodesInPlane: Effect {
     
     private var built: Bool = false
     
-    private weak var system: SK2_System!
+    private weak var system: SK2_System19!
     weak var figure: PlaneFigure!
-    private var geometry: SK2_PlaneGeometry
+    private var geometry: SK2_PlaneGeometry19
     
     private var geometryIsStale: Bool = true
     

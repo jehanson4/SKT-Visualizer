@@ -33,7 +33,7 @@ class SK2_UniformPopulation : SK2_PFInitializer {
     var info: String? = nil
     var description: String { return nameAndInfo(self) }
     
-    weak var system: SK2_System!
+    weak var system: SK2_System19!
     
     func prepare(_ flow: SK2_PFModel) {
         self.system = flow.system
@@ -59,7 +59,7 @@ class SK2_EquilibriumPopulation : SK2_PFInitializer {
     /// so I can buid UI controls for it
     var T0: Double = 10000
     
-    weak var system: SK2_System!
+    weak var system: SK2_System19!
 
     func prepare(_ flow: SK2_PFModel) {
         self.system = flow.system

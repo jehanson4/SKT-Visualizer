@@ -89,8 +89,8 @@ class Meridians:  GLKBaseEffect, Effect {
     
     private var _showSecondaries: Bool = true
     
-    weak var system: SK2_System!
-    weak var geometry: SK2_ShellGeometry!
+    weak var system: SK2_System19!
+    weak var geometry: SK2_ShellGeometry19!
 
     private var geometryIsStale = true
     
@@ -102,7 +102,7 @@ class Meridians:  GLKBaseEffect, Effect {
     private var vertexArray: GLuint = 0
     private var vertexBuffer: GLuint = 0
     
-    init(_ sk2: SK2_System, _ geometry: SK2_ShellGeometry, enabled: Bool, switchable: Bool) {
+    init(_ sk2: SK2_System19, _ geometry: SK2_ShellGeometry19, enabled: Bool, switchable: Bool) {
         self.system = sk2
         self.geometry = geometry
         self.switchable = switchable

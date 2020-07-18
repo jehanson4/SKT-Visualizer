@@ -25,7 +25,7 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 
 class SK2_BDFigure : SK2_SystemFigure {
     
-    var system: SK2_System!
+    var system: SK2_System19!
     var generator: SK2_BDGenerator!
     
     private var N_monitor: ChangeMonitor?
@@ -36,7 +36,7 @@ class SK2_BDFigure : SK2_SystemFigure {
     private var beta_monitor: ChangeMonitor?
     private var generatorMonitor: ChangeMonitor?
     
-    init(_ name: String,  _ system: SK2_System, _ generator: SK2_BDGenerator, _ baseFigure: SK2_BaseFigure) {
+    init(_ name: String,  _ system: SK2_System19, _ generator: SK2_BDGenerator, _ baseFigure: SK2_BaseFigure) {
         self.system = system
         self.generator = generator
         super.init(name, nil, baseFigure)

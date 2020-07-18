@@ -27,7 +27,7 @@ struct SK2E {
     static var name = "SK/2 Equilibrium"
     static var info = "Equilibrium properties of the 2-component SK model"
     
-    static func makeFigures(_ system: SK2_System, _ basinFinder: SK2_Basins, _ planeBase: SK2_PlaneBase, _ shellBase: SK2_ShellBase) -> Registry19<Figure19>? {
+    static func makeFigures(_ system: SK2_System19, _ basinFinder: SK2_Basins, _ planeBase: SK2_PlaneBase, _ shellBase: SK2_ShellBase) -> Registry19<Figure19>? {
         let reg = Registry19<Figure19>()
         
         let energyInPlane = SK2E_Energy("Plane: energy", nil, system, planeBase)
@@ -73,7 +73,7 @@ struct SK2E {
         return reg
     }
     
-    static func makeSequencers(_ system: SK2_System) -> Registry19<Sequencer19>? {
+    static func makeSequencers(_ system: SK2_System19) -> Registry19<Sequencer19>? {
         let reg = Registry19<Sequencer19>()
         for key in system.parameters.entryKeys {
             _ = reg.register(ParameterSweep(system.parameters.entry(key: key)!.value, system as PhysicalSystem))
@@ -93,7 +93,7 @@ struct SK2D {
     static var name = "SK/2 Dynamics"
     static var info = "Simulated population dynamics of the 2-component SK model"
         
-    static func makeFigures(_ system: SK2_System, _ flow: SK2_PopulationFlow, _ planeBase: SK2_PlaneBase, _ shellBase: SK2_ShellBase) -> Registry19<Figure19>? {
+    static func makeFigures(_ system: SK2_System19, _ flow: SK2_PopulationFlow, _ planeBase: SK2_PlaneBase, _ shellBase: SK2_ShellBase) -> Registry19<Figure19>? {
         let reg = Registry19<Figure19>()
 
         let flowInPlane = SK2_Population("Plane: population", system, flow, planeBase)
@@ -108,7 +108,7 @@ struct SK2D {
         return reg
     }
 
-    static func makeSequencers(_ system: SK2_System, _ workQueue: WorkQueue, _ flow: SK2_PopulationFlow) -> Registry19<Sequencer19>? {
+    static func makeSequencers(_ system: SK2_System19, _ workQueue: WorkQueue, _ flow: SK2_PopulationFlow) -> Registry19<Sequencer19>? {
         let reg = Registry19<Sequencer19>()
         
         let ic = SK2_EquilibriumPopulation()
@@ -151,7 +151,7 @@ struct SK2B {
     static var name = "SK/2 Bifurcations"
     static var info = "Qualitative changes in the 2-component SK model"
     
-    static func makeFigures(_ system: SK2_System, _ generator: SK2_BDGenerator, _ blockBase: SK2_BlockBase) -> Registry19<Figure19>? {
+    static func makeFigures(_ system: SK2_System19, _ generator: SK2_BDGenerator, _ blockBase: SK2_BlockBase) -> Registry19<Figure19>? {
         let reg = Registry19<Figure19>()
         
         let bd = SK2_BDFigure("Sample Figure", system, generator, blockBase)
@@ -163,7 +163,7 @@ struct SK2B {
         return reg
     }
     
-    static func makeSequencers(_ system: SK2_System, _ workQueue: WorkQueue, _ generator: SK2_BDGenerator) -> Registry19<Sequencer19>? {
+    static func makeSequencers(_ system: SK2_System19, _ workQueue: WorkQueue, _ generator: SK2_BDGenerator) -> Registry19<Sequencer19>? {
         let reg = Registry19<Sequencer19>()
 
         for key in system.parameters.entryKeys {
@@ -200,7 +200,7 @@ class SK2_Factory: AppPartFactory {
         // =========================
         // System
         
-        let system = SK2_System()
+        let system = SK2_System19()
         let systemNS = extendNamespace(namespace, "system")
         system.loadPreferences(namespace: systemNS)
         prefs.append( (systemNS, system) )

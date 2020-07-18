@@ -23,7 +23,7 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 
 class SK2_BAOnShell: SK2_SystemFigure {
     
-    weak var system: SK2_System!
+    weak var system: SK2_System19!
     private var basinFinder: SK2_Basins!
     
     private var N_monitor: ChangeMonitor?
@@ -33,7 +33,7 @@ class SK2_BAOnShell: SK2_SystemFigure {
     private var basinMonitor: ChangeMonitor?
 
 
-    init(_ name: String, _ system: SK2_System, _ basinFinder: SK2_Basins, _ baseFigure: SK2_BaseFigure) {
+    init(_ name: String, _ system: SK2_System19, _ basinFinder: SK2_Basins, _ baseFigure: SK2_BaseFigure) {
         debug("SK2_BAOnShell.init")
         self.system = system
         self.basinFinder = basinFinder
