@@ -9,10 +9,10 @@
 import Foundation
 import GLKit
 
-fileprivate let pi = Double.constants.pi
-fileprivate let twoPi = Double.constants.twoPi
-fileprivate let piOver2 = Double.constants.piOver2
-fileprivate let eps = Double.constants.eps
+fileprivate let pi = Double.pi
+fileprivate let twoPi = Double.twoPi
+fileprivate let piOver2 = Double.piOver2
+fileprivate let eps = Double.eps
 
 fileprivate var debugEnabled = false
 

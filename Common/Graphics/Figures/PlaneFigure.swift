@@ -17,9 +17,9 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
     }
 }
 
-fileprivate let eps = Double.constants.eps
-fileprivate let piOver4 = Double.constants.piOver4
-fileprivate let piOver2 = Double.constants.piOver2
+fileprivate let eps = Double.eps
+fileprivate let piOver4 = Double.piOver4
+fileprivate let piOver2 = Double.piOver2
 
 // ============================================================================
 // PlanePOV

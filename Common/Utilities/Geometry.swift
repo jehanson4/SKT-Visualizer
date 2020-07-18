@@ -8,7 +8,7 @@
 
 import Foundation
 
-fileprivate let piOver2 = Double.constants.piOver2
+fileprivate let piOver2 = Double.piOver2
 
 class Geometry {
     

@@ -139,9 +139,9 @@ class InnerShell : GLKBaseEffect, Effect {
         let pPoints: Int = 100
         let tPoints: Int = 25
         
-        let pIncr = Double.constants.twoPi / Double(pPoints)
-        let tIncr = Double.constants.piOver2 / Double(tPoints)
-        let piOver2 = Double.constants.piOver2
+        let pIncr = Double.twoPi / Double(pPoints)
+        let tIncr = Double.piOver2 / Double(tPoints)
+        let piOver2 = Double.piOver2
         
         // Rings of latitude
         for t in 0..<tPoints {

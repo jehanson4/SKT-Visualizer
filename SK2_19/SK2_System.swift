@@ -16,9 +16,9 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
     }
 }
 
-fileprivate let pi = Double.constants.pi
-fileprivate let twoPi = Double.constants.twoPi
-fileprivate let eps = Double.constants.eps
+fileprivate let pi = Double.pi
+fileprivate let twoPi = Double.twoPi
+fileprivate let eps = Double.eps
 
 // ==============================================================
 // SK2_Descriptor

@@ -149,8 +149,8 @@ class Meridians:  GLKBaseEffect, Effect {
         lineStarts = []
         lineVertexCounts = []
         
-        let pi = Double.constants.pi
-        let piOver2 = Double.constants.piOver2
+        let pi = Double.pi
+        let piOver2 = Double.piOver2
         
         let phi1 = geometry.p1.phi
         let phi2 = geometry.p2.phi
@@ -179,7 +179,7 @@ class Meridians:  GLKBaseEffect, Effect {
         primaryLines.append(lineStarts.count)
         
         let r = geometry.radius + rOffset
-        let thetaE_incr = Double.constants.piOver2/(Double(segmentCount))
+        let thetaE_incr = Double.piOver2/(Double(segmentCount))
         
         lineStarts.append(GLint(vertices.count))
         lineVertexCounts.append(GLsizei(segmentCount+1))
@@ -196,7 +196,7 @@ class Meridians:  GLKBaseEffect, Effect {
         secondaryLines.append(lineStarts.count)
         
         let r = geometry.radius + rOffset
-        let thetaE_incr = Double.constants.piOver2/(Double(segmentCount))
+        let thetaE_incr = Double.piOver2/(Double(segmentCount))
         
         lineStarts.append(GLint(vertices.count))
         lineVertexCounts.append(GLsizei(segmentCount+1))

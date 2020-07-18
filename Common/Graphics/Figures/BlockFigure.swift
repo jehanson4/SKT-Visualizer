@@ -17,7 +17,7 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
     }
 }
 
-fileprivate var eps = Double.constants.eps
+fileprivate var eps = Double.eps
 
 // ============================================================================
 // BlockPOV
@@ -114,8 +114,8 @@ class BlockFigure : Figure19 {
     
     /// pov's r = rFactor * r0
     // static let pov_rFactor = 1.25
-    // static let pov_defaultPhi = Double.constants.piOver4
-    // static let pov_defaultThetaE = Double.constants.piOver4
+    // static let pov_defaultPhi = Double.piOver4
+    // static let pov_defaultThetaE = Double.piOver4
     // static let pov_defaultZoom = 1.0
     
     private var _pov_default: BlockPOV
@@ -158,17 +158,17 @@ class BlockFigure : Figure19 {
         }
         
         while (phi2 < 0) {
-            phi2  += Double.constants.twoPi
+            phi2  += Double.twoPi
         }
-        while (phi2 >= Double.constants.twoPi) {
-            phi2 -= Double.constants.twoPi
+        while (phi2 >= Double.twoPi) {
+            phi2 -= Double.twoPi
         }
         
-        if (thetaE2 <= -Double.constants.piOver2) {
-            thetaE2 = -Double.constants.piOver2 + Double.constants.eps
+        if (thetaE2 <= -Double.piOver2) {
+            thetaE2 = -Double.piOver2 + Double.eps
         }
-        if (thetaE2 >= Double.constants.piOver2) {
-            thetaE2 = Double.constants.piOver2 - Double.constants.eps
+        if (thetaE2 >= Double.piOver2) {
+            thetaE2 = Double.piOver2 - Double.eps
         }
         
         return BlockPOV(r2, phi2, thetaE2, pov.xLookat, pov.yLookat, pov.zLookat)

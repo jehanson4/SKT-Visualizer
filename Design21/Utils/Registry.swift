@@ -45,7 +45,7 @@ class Registry<T> {
      
         If value is not a NamedObject, choose a unique name based on defaultHint
      */
-    func register(value: T) -> RegistryEntry<T> {
+    func register(_ value: T) -> RegistryEntry<T> {
         if let namedValue = value as? NamedObject {
             let name = _findUnusedName(namedValue.name)
             namedValue.name = name

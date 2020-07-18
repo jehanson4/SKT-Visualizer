@@ -40,8 +40,8 @@ class BusySpinner : Effect {
     }
     
     static let c0 = GLfloat(0.0)
-    static let c1 = GLfloat(1.0 / sqrt(1.0 + Double.constants.goldenRatio * Double.constants.goldenRatio))
-    static let c2 = GLfloat(Double.constants.goldenRatio / sqrt(1.0 + Double.constants.goldenRatio * Double.constants.goldenRatio))
+    static let c1 = GLfloat(1.0 / sqrt(1.0 + Double.goldenRatio * Double.goldenRatio))
+    static let c2 = GLfloat(Double.goldenRatio / sqrt(1.0 + Double.goldenRatio * Double.goldenRatio))
     
     // EMPIRICAL
     static let vertices1: [[GLfloat]] = [

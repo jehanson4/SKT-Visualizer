@@ -17,7 +17,7 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
     }
 }
 
-fileprivate let eps = Double.constants.eps
+fileprivate let eps = Double.eps
 
 // ====================================================
 // SK2_LogDataSource

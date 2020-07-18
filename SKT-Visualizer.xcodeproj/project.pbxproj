@@ -36,7 +36,6 @@
 		8A2A32D720AB881600D4D619 /* WorkQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2A32D620AB881600D4D619 /* WorkQueue.swift */; };
 		8A3BBBBF208BF29A00669227 /* splash.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8A3BBBBE208BF29A00669227 /* splash.jpg */; };
 		8A3C45C62086278900A1E9CD /* UniformColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3C45C52086278900A1E9CD /* UniformColor.swift */; };
-		8A41A2F2208398E900CDDF28 /* NumericConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A41A2F1208398E900CDDF28 /* NumericConstants.swift */; };
 		8A41B09021F0ACA500DE38CB /* Parameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A41B08F21F0ACA500DE38CB /* Parameters.swift */; };
 		8A41B09C21F357F600DE38CB /* FigureSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A41B09B21F357F600DE38CB /* FigureSelectionViewController.swift */; };
 		8A4654C021E8E38300EE2B26 /* PhysicalSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4654BF21E8E38300EE2B26 /* PhysicalSystem.swift */; };
@@ -173,7 +172,6 @@
 		8AEC295724C1CD200050C96F /* Sequencer20.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEC295624C1CD200050C96F /* Sequencer20.swift */; };
 		8AEC295B24C1D4140050C96F /* AnimationController20.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEC295A24C1D4140050C96F /* AnimationController20.swift */; };
 		8AEC296324C1F3440050C96F /* DSModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEC296224C1F3440050C96F /* DSModel.swift */; };
-		8AEC296524C1F3560050C96F /* DSParam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEC296424C1F3560050C96F /* DSParam.swift */; };
 		8AEC296724C1F37E0050C96F /* Visualization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEC296624C1F37E0050C96F /* Visualization.swift */; };
 		8AEC296924C1F4300050C96F /* Sequencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEC296824C1F4300050C96F /* Sequencer.swift */; };
 		8AEC296D24C1F7860050C96F /* Selector20.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEC296C24C1F7860050C96F /* Selector20.swift */; };
@@ -182,6 +180,11 @@
 		8AEC297624C201D20050C96F /* NamedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEC297524C201D20050C96F /* NamedObject.swift */; };
 		8AEC297824C201F00050C96F /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEC297724C201F00050C96F /* Selector.swift */; };
 		8AEC298024C20E800050C96F /* SK2Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEC297F24C20E800050C96F /* SK2Model.swift */; };
+		8AEC298224C242FB0050C96F /* SK2Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEC298124C242FB0050C96F /* SK2Factory.swift */; };
+		8AEC298624C250210050C96F /* PropertyChange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEC298524C250210050C96F /* PropertyChange.swift */; };
+		8AEC298C24C334860050C96F /* MathUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEC298B24C334860050C96F /* MathUtils.swift */; };
+		8AEC298E24C339780050C96F /* StringUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEC298D24C339780050C96F /* StringUtils.swift */; };
+		8AEC299024C339940050C96F /* DoubleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEC298F24C339930050C96F /* DoubleExtensions.swift */; };
 		8AF59500208AC0420082C5DE /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF594FF208AC0420082C5DE /* AppModel.swift */; };
 		8AF98F96207FE7D60007688E /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 8AF98F95207FE7D60007688E /* LICENSE */; };
 		8AF98FA1207FE8350007688E /* GraphicsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF98F9F207FE8350007688E /* GraphicsViewController.swift */; };
@@ -222,7 +225,6 @@
 		8A2A32D620AB881600D4D619 /* WorkQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkQueue.swift; sourceTree = "<group>"; };
 		8A3BBBBE208BF29A00669227 /* splash.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = splash.jpg; sourceTree = "<group>"; };
 		8A3C45C52086278900A1E9CD /* UniformColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniformColor.swift; sourceTree = "<group>"; };
-		8A41A2F1208398E900CDDF28 /* NumericConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumericConstants.swift; sourceTree = "<group>"; };
 		8A41B08F21F0ACA500DE38CB /* Parameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parameters.swift; sourceTree = "<group>"; };
 		8A41B09B21F357F600DE38CB /* FigureSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FigureSelectionViewController.swift; sourceTree = "<group>"; };
 		8A4654BF21E8E38300EE2B26 /* PhysicalSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicalSystem.swift; sourceTree = "<group>"; };
@@ -362,7 +364,6 @@
 		8AEC295A24C1D4140050C96F /* AnimationController20.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationController20.swift; sourceTree = "<group>"; };
 		8AEC296124C1EA0A0050C96F /* DevNotes.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = DevNotes.md; sourceTree = "<group>"; };
 		8AEC296224C1F3440050C96F /* DSModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSModel.swift; sourceTree = "<group>"; };
-		8AEC296424C1F3560050C96F /* DSParam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSParam.swift; sourceTree = "<group>"; };
 		8AEC296624C1F37E0050C96F /* Visualization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Visualization.swift; sourceTree = "<group>"; };
 		8AEC296824C1F4300050C96F /* Sequencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sequencer.swift; sourceTree = "<group>"; };
 		8AEC296C24C1F7860050C96F /* Selector20.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Selector20.swift; sourceTree = "<group>"; };
@@ -371,6 +372,11 @@
 		8AEC297524C201D20050C96F /* NamedObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamedObject.swift; sourceTree = "<group>"; };
 		8AEC297724C201F00050C96F /* Selector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Selector.swift; sourceTree = "<group>"; };
 		8AEC297F24C20E800050C96F /* SK2Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2Model.swift; sourceTree = "<group>"; };
+		8AEC298124C242FB0050C96F /* SK2Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2Factory.swift; sourceTree = "<group>"; };
+		8AEC298524C250210050C96F /* PropertyChange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyChange.swift; sourceTree = "<group>"; };
+		8AEC298B24C334860050C96F /* MathUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathUtils.swift; sourceTree = "<group>"; };
+		8AEC298D24C339780050C96F /* StringUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringUtils.swift; sourceTree = "<group>"; };
+		8AEC298F24C339930050C96F /* DoubleExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleExtensions.swift; sourceTree = "<group>"; };
 		8AF594FF208AC0420082C5DE /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
 		8AF98F95207FE7D60007688E /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		8AF98F9F207FE8350007688E /* GraphicsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphicsViewController.swift; sourceTree = "<group>"; };
@@ -451,9 +457,8 @@
 		8A0C09A220716B050017AC4C /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				8A41B08F21F0ACA500DE38CB /* Parameters.swift */,
-				8A41A2F1208398E900CDDF28 /* NumericConstants.swift */,
 				8ACE789D2073F7A400C29875 /* Utils.swift */,
+				8A41B08F21F0ACA500DE38CB /* Parameters.swift */,
 				8AA05A12208FCB58009417A6 /* ChangeSupport.swift */,
 				8A2A32D620AB881600D4D619 /* WorkQueue.swift */,
 				8AB2A64421FEB24900A46316 /* Geometry.swift */,
@@ -787,7 +792,6 @@
 				8AEC296124C1EA0A0050C96F /* DevNotes.md */,
 				8AEC296E24C1F7EA0050C96F /* Utils */,
 				8AEC296224C1F3440050C96F /* DSModel.swift */,
-				8AEC296424C1F3560050C96F /* DSParam.swift */,
 				8AEC296824C1F4300050C96F /* Sequencer.swift */,
 				8AEC296624C1F37E0050C96F /* Visualization.swift */,
 				8AEC296F24C1FF9F0050C96F /* Figure.swift */,
@@ -799,10 +803,14 @@
 		8AEC296E24C1F7EA0050C96F /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				8AEC298F24C339930050C96F /* DoubleExtensions.swift */,
 				8A01730124880B0100D3C160 /* float4x4Extensions.swift */,
-				8A022096248D1A3000F3A91D /* Registry.swift */,
+				8AEC298B24C334860050C96F /* MathUtils.swift */,
 				8AEC297524C201D20050C96F /* NamedObject.swift */,
+				8AEC298524C250210050C96F /* PropertyChange.swift */,
+				8A022096248D1A3000F3A91D /* Registry.swift */,
 				8AEC297724C201F00050C96F /* Selector.swift */,
+				8AEC298D24C339780050C96F /* StringUtils.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -811,6 +819,7 @@
 			isa = PBXGroup;
 			children = (
 				8AEC297F24C20E800050C96F /* SK2Model.swift */,
+				8AEC298124C242FB0050C96F /* SK2Factory.swift */,
 			);
 			path = SK2;
 			sourceTree = "<group>";
@@ -1009,7 +1018,6 @@
 				8A8817642209104200523467 /* SK2_PopulationFlow.swift in Sources */,
 				8AE0B84D24925B64008753B5 /* Cloud21.swift in Sources */,
 				8AC82CD921F6668000A75595 /* ShellFigure.swift in Sources */,
-				8A41A2F2208398E900CDDF28 /* NumericConstants.swift in Sources */,
 				8AB2A63B21FE4F5C00A46316 /* SK2_PFNode.swift in Sources */,
 				8A0172FE24880A3A00D3C160 /* Light.swift in Sources */,
 				8A02208F248BE9FA00F3A91D /* AppModel20.swift in Sources */,
@@ -1018,7 +1026,6 @@
 				8A2034DE21EB961300A4C418 /* SK2_SecondaryViewController.swift in Sources */,
 				8A0172FA248809E600D3C160 /* DemoBufferProvider.swift in Sources */,
 				8AB2A64221FEA8BF00A46316 /* NodesOnShell.swift in Sources */,
-				8AEC296524C1F3560050C96F /* DSParam.swift in Sources */,
 				8A022091248BEB6400F3A91D /* Demos21.swift in Sources */,
 				8AC059F12216ED4C00EB6A1C /* BlockFigure.swift in Sources */,
 				8AB2A63321FCE92F00A46316 /* SK2_ShellGeometry.swift in Sources */,
@@ -1033,10 +1040,12 @@
 				8A88175222084E2700523467 /* DescentLinesOnShell.swift in Sources */,
 				8AC82CF521FC9AED00A75595 /* AnimationController.swift in Sources */,
 				8A88175422085CFA00523467 /* SK2_BAColors.swift in Sources */,
+				8AEC298624C250210050C96F /* PropertyChange.swift in Sources */,
 				8AC059E72216E57600EB6A1C /* SK2_BDFigure.swift in Sources */,
 				8A01730024880A7200D3C160 /* Vertex.swift in Sources */,
 				8A19E9AD2303296100880C97 /* SurfaceOnShell.swift in Sources */,
 				8AA1F1CA249668DB0075C7D9 /* SK2_Figure_20.swift in Sources */,
+				8AEC298C24C334860050C96F /* MathUtils.swift in Sources */,
 				8A19E9AF230329D300880C97 /* SurfaceInPlane.swift in Sources */,
 				8AE1BD162203EF4500D6A062 /* SK2_Factory.swift in Sources */,
 				8A3C45C62086278900A1E9CD /* UniformColor.swift in Sources */,
@@ -1064,6 +1073,7 @@
 				8AEC296724C1F37E0050C96F /* Visualization.swift in Sources */,
 				8A9B149C220C83AA00A2CDAB /* Timeseries.swift in Sources */,
 				8A9B14B0220E0E2100A2CDAB /* NodesInPlane.swift in Sources */,
+				8AEC298224C242FB0050C96F /* SK2Factory.swift in Sources */,
 				8A88176222090F4400523467 /* SK2_PFInitializers.swift in Sources */,
 				8A8817472207484800523467 /* UIUtils.swift in Sources */,
 				8AEC296924C1F4300050C96F /* Sequencer.swift in Sources */,
@@ -1089,11 +1099,13 @@
 				8AEC297224C1FFE20050C96F /* RenderContext.swift in Sources */,
 				8A9BA6B820ADD71F009C39BE /* InnerShell.swift in Sources */,
 				8AEC295724C1CD200050C96F /* Sequencer20.swift in Sources */,
+				8AEC299024C339940050C96F /* DoubleExtensions.swift in Sources */,
 				8A9B14A0220CF97F00A2CDAB /* SK2_BAFigure.swift in Sources */,
 				8AEC295524C1C4CB0050C96F /* SK2_Visualization_20.swift in Sources */,
 				8A88175822085D7500523467 /* SK2_PFColors.swift in Sources */,
 				8AC059F722170C1E00EB6A1C /* Cube19.swift in Sources */,
 				8AE0B84B24916B5C008753B5 /* SK2_PlaneGeometry_20.swift in Sources */,
+				8AEC298E24C339780050C96F /* StringUtils.swift in Sources */,
 				8A88175622085D5A00523467 /* SK2_PFRules.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

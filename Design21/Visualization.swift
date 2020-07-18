@@ -9,7 +9,7 @@
 import Foundation
 
 // =================================================================
-// MARK: - Visualiation
+// MARK: - Visualization
 
 protocol Visualization: NamedObject {
     

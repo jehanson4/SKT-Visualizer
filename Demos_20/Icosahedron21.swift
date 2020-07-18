@@ -162,7 +162,7 @@ class Icosahedron21: Figure20 {
         // rFactor is EMPIRICAL governing overall size. Its value is relative to projection matrix.
         let rFactor = 1.0
         
-        let gRatio = Double.constants.goldenRatio
+        let gRatio = Double.goldenRatio
         let radius = rFactor * sqrt(1.0 + gRatio * gRatio)
         let c0 = Float(0.0)
         let c1 = Float(1.0/radius)
