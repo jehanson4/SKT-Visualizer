@@ -15,7 +15,7 @@ struct ShellPOV_20 {
 }
 
 
-class SK2_ShellGeometry_20: SK2Geometry {
+class SK2_ShellGeometry_20: SK2Geometry20 {
     
     private var _graphicsStale: Bool = true
     private var _pov_default: ShellPOV_20

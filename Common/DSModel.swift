@@ -53,7 +53,7 @@ protocol DSParam: NamedObject {
 // MARK: - DSModel
 
 /// Something that is visualized. "DS" stands for "Dynamical System".
-protocol DSModel: PropertyChangeMonitor {
+protocol DSModel {
     
     var params: Registry<DSParam> { get }
     
@@ -64,7 +64,7 @@ protocol DSModel: PropertyChangeMonitor {
 /// =================================================
 // MARK: - DSObservable
 
-/// Provides visualization data, e.g., about a DSModel
+/// Provides visualization data. E.g., provides data about a DSModel to a Figure
 protocol DSObservable: NamedObject {
     
     var autocalibrate: Bool { get set }

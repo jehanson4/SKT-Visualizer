@@ -12,7 +12,7 @@ import Foundation
 // UniformElevation
 // =========================================================
 
-class UniformElevation: Relief {
+class UniformElevation: Relief19 {
     
     var z: Double
     var autocalibrate: Bool = true

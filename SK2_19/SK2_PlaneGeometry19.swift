@@ -49,7 +49,7 @@ class SK2_PlaneGeometry19 {
         return gridSize/Double(gMax)
     }
     
-    func buildVertexCoordinateArray(_ relief: Relief?, _ zOffset: Double = 0) -> [GLfloat] {
+    func buildVertexCoordinateArray(_ relief: Relief19?, _ zOffset: Double = 0) -> [GLfloat] {
         let mMax = system.m_max
         let nMax = system.n_max
         let gMax = (mMax > nMax) ? mMax : nMax
@@ -88,7 +88,7 @@ class SK2_PlaneGeometry19 {
         return vertexCoords
     }
     
-    func buildVertexArray4(_ relief: Relief?, _ zOffset: Double = 0) -> [GLKVector4] {
+    func buildVertexArray4(_ relief: Relief19?, _ zOffset: Double = 0) -> [GLKVector4] {
         let mMax = system.m_max
         let nMax = system.n_max
         let gMax = (mMax > nMax) ? mMax : nMax
@@ -129,7 +129,7 @@ class SK2_PlaneGeometry19 {
         return vertices
     }
     
-    func buildPNVertexArray(_ relief: Relief?) -> [PNVertex] {
+    func buildPNVertexArray(_ relief: Relief19?) -> [PNVertex] {
         let mMax = system.m_max
         let nMax = system.n_max
         let gMax = (mMax > nMax) ? mMax : nMax

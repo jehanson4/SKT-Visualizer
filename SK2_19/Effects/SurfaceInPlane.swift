@@ -85,10 +85,10 @@ class SurfaceInPlane : GLKBaseEffect, Effect19 {
     private var built: Bool = false
     
     private var colorsAreStale = true
-    private var _colorSource: ColorSource?
-    private var _relief: Relief?
+    private var _colorSource: ColorSource19?
+    private var _relief: Relief19?
     
-    var colorSource: ColorSource? {
+    var colorSource: ColorSource19? {
         get { return _colorSource }
         set(newValue) {
             _colorSource = newValue
@@ -96,7 +96,7 @@ class SurfaceInPlane : GLKBaseEffect, Effect19 {
         }
     }
     
-    var relief: Relief? {
+    var relief: Relief19? {
         get { return _relief }
         set(newValue) {
             _relief = newValue

@@ -250,7 +250,7 @@ class SK2_ShellGeometry19 {
      returns array containing x,y,z values of nodes,
      in node index order defined by the given geometry.
      */
-    func buildVertexCoordinateArray(_ relief: Relief?, _ rOffset: Double = 0) -> [GLfloat] {
+    func buildVertexCoordinateArray(_ relief: Relief19?, _ rOffset: Double = 0) -> [GLfloat] {
         let mMax = system.m_max
         let nMax = system.n_max
         var vertexCoords: [GLfloat] = Array(repeating: 0, count: 3 * system.nodeCount)
@@ -291,7 +291,7 @@ class SK2_ShellGeometry19 {
         return vertexCoords
     }
     
-    func buildVertexArray4(_ relief: Relief?) -> [GLKVector4] {
+    func buildVertexArray4(_ relief: Relief19?) -> [GLKVector4] {
         let mMax = system.m_max
         let nMax = system.n_max
         var vertices: [GLKVector4] = []
@@ -320,7 +320,7 @@ class SK2_ShellGeometry19 {
         return vertices
     }
 
-    func buildPNVertexArray(_ relief: Relief?) -> [PNVertex] {
+    func buildPNVertexArray(_ relief: Relief19?) -> [PNVertex] {
         let mMax = system.m_max
         let nMax = system.n_max
         var vertices: [PNVertex] = []

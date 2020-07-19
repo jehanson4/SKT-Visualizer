@@ -49,9 +49,9 @@ class NetInPlane: GLKBaseEffect, Effect19 {
     
     var system: SK2_System19
     var geometry: SK2_PlaneGeometry19
-    var _relief: Relief?
+    var _relief: Relief19?
     
-    var relief: Relief? {
+    var relief: Relief19? {
         get { return _relief }
         set(newValue) {
             _relief = newValue

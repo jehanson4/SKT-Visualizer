@@ -88,7 +88,7 @@ class SK2_BlockBase : BlockFigure, SK2_BaseFigure {
         set(newValue) {}
     }
     
-    var colorSource: ColorSource? = nil
+    var colorSource: ColorSource19? = nil
     
     // =========================================
     // Relief
@@ -98,7 +98,7 @@ class SK2_BlockBase : BlockFigure, SK2_BaseFigure {
         set(newValue) {}
     }
     
-    var relief: Relief? = nil
+    var relief: Relief19? = nil
     
     
     // ==============================================================

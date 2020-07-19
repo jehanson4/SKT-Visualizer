@@ -21,7 +21,7 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 // SK2_BAColorSource
 // ==================================================================
 
-class SK2_BAColorSource : ColorSource, Relief {
+class SK2_BAColorSource : ColorSource19, Relief19 {
     
     private var _autocalibrate: Bool = true
     

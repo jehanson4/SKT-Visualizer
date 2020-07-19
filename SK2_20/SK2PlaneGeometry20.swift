@@ -20,67 +20,67 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
     }
 }
 
-// ============================================================================
-// MARK: - SK2PlanePOV
-
-struct SK2PlanePOV: CustomStringConvertible {
-    
-    static let yFactor: Float = 2
-    
-    enum Mode {
-        case satellite
-        case flyover
-    }
-    
-    let mode: Mode
-    
-    let x: Float
-    let y: Float
-    let z: Float
-    
-    let xLookat: Float
-    let yLookat: Float
-    let zLookat: Float
-    
-    init(_ x: Float, _ y: Float, _ z: Float, _ mode: Mode) {
-        self.mode = mode
-        self.x = x
-        self.y = y
-        self.z = z
-        
-        switch(mode) {
-        case .flyover:
-            xLookat = x
-            yLookat = y + SK2PlanePOV.yFactor * z
-            zLookat = 0
-        case .satellite:
-            xLookat = x
-            yLookat = y
-            zLookat = 0
-        }
-    }
-    
-    var description: String {
-        return "(\(x), \(y), \(z), \(mode))"
-    }
-    
-    static func transform(_ pov: SK2PlanePOV, toMode: Mode) -> SK2PlanePOV {
-        if (pov.mode == .flyover && toMode == .satellite) {
-            return SK2PlanePOV(pov.x, pov.y + SK2PlanePOV.yFactor * pov.z, pov.z, toMode)
-        }
-        if (pov.mode == .satellite && toMode == .flyover) {
-            return SK2PlanePOV(pov.x, pov.y - SK2PlanePOV.yFactor * pov.z, pov.z, toMode)
-        }
-        // if none of the above
-        return pov
-    }
-}
-
+//// ============================================================================
+//// MARK: - SK2PlanePOV
+//
+//struct SK2PlanePOV: CustomStringConvertible {
+//    
+//    static let yFactor: Float = 2
+//    
+//    enum Mode {
+//        case satellite
+//        case flyover
+//    }
+//    
+//    let mode: Mode
+//    
+//    let x: Float
+//    let y: Float
+//    let z: Float
+//    
+//    let xLookat: Float
+//    let yLookat: Float
+//    let zLookat: Float
+//    
+//    init(_ x: Float, _ y: Float, _ z: Float, _ mode: Mode) {
+//        self.mode = mode
+//        self.x = x
+//        self.y = y
+//        self.z = z
+//        
+//        switch(mode) {
+//        case .flyover:
+//            xLookat = x
+//            yLookat = y + SK2PlanePOV.yFactor * z
+//            zLookat = 0
+//        case .satellite:
+//            xLookat = x
+//            yLookat = y
+//            zLookat = 0
+//        }
+//    }
+//    
+//    var description: String {
+//        return "(\(x), \(y), \(z), \(mode))"
+//    }
+//    
+//    static func transform(_ pov: SK2PlanePOV, toMode: Mode) -> SK2PlanePOV {
+//        if (pov.mode == .flyover && toMode == .satellite) {
+//            return SK2PlanePOV(pov.x, pov.y + SK2PlanePOV.yFactor * pov.z, pov.z, toMode)
+//        }
+//        if (pov.mode == .satellite && toMode == .flyover) {
+//            return SK2PlanePOV(pov.x, pov.y - SK2PlanePOV.yFactor * pov.z, pov.z, toMode)
+//        }
+//        // if none of the above
+//        return pov
+//    }
+//}
+//
 
 // =======================================================
-// MARK: - SK2PlaneGeometry
+// MARK: - SK2PlaneGeometry20
 
-class SK2PlaneGeometry: SK2Geometry {
+class SK2PlaneGeometry20: SK2Geometry20 {
     
     let gridCenter: SIMD3<Float> = SIMD3<Float>(0.0, 0.0, 0.0)
     let gridSize: Float = 1
@@ -102,7 +102,7 @@ class SK2PlaneGeometry: SK2Geometry {
             _graphicsStale = true
         }
     }
-    
+        
     private var _graphicsStale: Bool = true
     private var _pov_default: SK2PlanePOV
     private var _pov: SK2PlanePOV
@@ -111,7 +111,7 @@ class SK2PlaneGeometry: SK2Geometry {
     
     // EMPIRICAL
     let pointSizeMax: Float = 32
-    
+
     // EMPIRICAL
     let pointSizeScaleFactor: Float = 350
     
@@ -159,22 +159,22 @@ class SK2PlaneGeometry: SK2Geometry {
         self._projectionMatrix = float4x4.makeOrtho(-d, d, -d/aspectRatio, d/aspectRatio, AppConstants20.epsilon, 10*gridSize)
         self._modelViewMatrix = float4x4.makeLookAt(_pov.x, _pov.y, _pov.z, _pov.xLookat, _pov.yLookat, _pov.zLookat, 0, 1, 0)
     }
-    
-    func estimatePointSize(model: SK2Model) -> Float {
-        let mMax = model.m_max
-        let nMax = model.n_max
+        
+    func estimatePointSize(system: SK2_System19) -> Float {
+        let mMax = system.m_max
+        let nMax = system.n_max
         let gMax = (mMax > nMax) ? mMax : nMax
         let gridSpacing = gridSize/Float(gMax)
         let pts = pointSizeScaleFactor * gridSpacing / pov.z
         return clip(pts, 1, pointSizeMax)
-        
+
     }
     
-    func makeNodeCoordinates(model: SK2Model, relief: (_ nodeIndex: Int) -> Float, array: [SIMD3<Float>]?) -> [SIMD3<Float>] {
-        var coords = (array?.count == model.nodeCount) ? array! : [SIMD3<Float>](repeating: SIMD3<Float>(0,0,0), count: model.nodeCount)
-        
-        let mMax = model.m_max
-        let nMax = model.n_max
+    func makeNodeCoordinates(system: SK2_System19, relief: DS_ElevationSource20?, array: [SIMD3<Float>]?) -> [SIMD3<Float>] {
+        var coords = (array?.count == system.nodeCount) ? array! : [SIMD3<Float>](repeating: SIMD3<Float>(0,0,0), count: system.nodeCount)
+
+        let mMax = system.m_max
+        let nMax = system.n_max
         let gMax = (mMax > nMax) ? mMax : nMax
         let gridSpacing: Float = gridSize/Float(gMax)
         
@@ -183,19 +183,34 @@ class SK2PlaneGeometry: SK2Geometry {
         let zOffset: Float = 0 // TODO identify what this should be
         let z1 = z0 + zOffset
         
-        var nodeIndex = 0
-        for m in 0...mMax {
-            for n in 0...nMax {
-                coords[nodeIndex] = SIMD3<Float>(
-                    xOffset + Float(m)*gridSpacing,
-                    yOffset + Float(n)*gridSpacing,
-                    z1 + zScale * relief(nodeIndex))
-                nodeIndex += 1
+        if let relief = relief {
+            relief.refresh()
+            var nodeIndex = 0
+            for m in 0...mMax {
+                for n in 0...nMax {
+                    coords[nodeIndex] = SIMD3<Float>(
+                        xOffset + Float(m)*gridSpacing,
+                        yOffset + Float(n)*gridSpacing,
+                        z1 + zScale * relief.elevationAt(nodeIndex: nodeIndex))
+                    nodeIndex += 1
+                }
+            }
+        }
+        else {
+            var nodeIndex = 0
+            for m in 0...mMax {
+                for n in 0...nMax {
+                    coords[nodeIndex] = SIMD3<Float>(
+                        xOffset + Float(m)*gridSpacing,
+                        yOffset + Float(n)*gridSpacing,
+                        z1)
+                    nodeIndex += 1
+                }
             }
         }
         return coords
     }
-    
+        
     func updateGeometry(drawableArea: CGRect) {
         _graphicsStale = true
     }
@@ -216,10 +231,10 @@ class SK2PlaneGeometry: SK2Geometry {
     
     private func _refreshGraphics() {
         os_log("PlaneGeometry: refreshing graphics")
-        
+                
         let d: Float = pov.z
         let aspectRatio: Float = 1 // FIXME calculate it
-        
+            
         var newProjectionMatrix: float4x4!
         if (pov.mode == .flyover) {
             newProjectionMatrix = float4x4.makePerspectiveViewAngle(float4x4.degrees(toRad: 45.0), aspectRatio: aspectRatio, nearZ: d/2, farZ: 10*gridSize)
@@ -231,7 +246,7 @@ class SK2PlaneGeometry: SK2Geometry {
             // 0 < near < far: these are +z direction
             newProjectionMatrix = float4x4.makeOrtho(-d, d, -d/aspectRatio, d/aspectRatio, AppConstants20.epsilon, d)
         }
-        
+
         let newModelViewMatrix = float4x4.makeLookAt(pov.x, pov.y, pov.z, pov.xLookat, pov.yLookat, pov.zLookat, 0, 1, 0)
         
         _projectionMatrix = newProjectionMatrix
@@ -296,7 +311,7 @@ class SK2PlaneGeometry: SK2Geometry {
             debug("flyoverPan", "new pov=\(pov)")
         }
     }
-    
+
     func satellitePan(_ gesture: UIPanGestureRecognizer) {
         debug("satellitePan", "initial pov=\(pov)")
         guard
@@ -317,7 +332,7 @@ class SK2PlaneGeometry: SK2Geometry {
             debug("satellitePan", "new pov=\(pov)")
         }
     }
-    
+
     @objc func doPinch(gesture: UIPinchGestureRecognizer) {
         switch(pov.mode) {
         case .flyover:
@@ -329,7 +344,7 @@ class SK2PlaneGeometry: SK2Geometry {
     
     func flyoverPinch(_ gesture: UIPinchGestureRecognizer) {
         debug("flyoverPinch", "initial pov=\(pov)")
-        
+
         if gesture.state == .began {
             pinch_initialZ = pov.z
             pinch_initialY = pov.y
@@ -343,7 +358,7 @@ class SK2PlaneGeometry: SK2Geometry {
             debug("flyoverPinch", "new pov=\(pov)")
         }
     }
-    
+
     func satellitePinch(_ gesture: UIPinchGestureRecognizer) {
         debug("satellitePinch", "initial pov=\(pov)")
         if gesture.state == .began {
@@ -355,7 +370,7 @@ class SK2PlaneGeometry: SK2Geometry {
             debug("satellitePinch", "new pov=\(pov)")
         }
     }
-    
+
     @objc func doTap(gesture: UITapGestureRecognizer) {
         switch(pov.mode) {
         case .flyover:
@@ -368,5 +383,5 @@ class SK2PlaneGeometry: SK2Geometry {
         }
         debug("doTap", "new pov=\(pov)")
     }
-    
+
 }

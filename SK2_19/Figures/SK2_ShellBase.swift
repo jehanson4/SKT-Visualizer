@@ -58,7 +58,7 @@ class SK2_ShellBase : ShellFigure, SK2_BaseFigure {
     // Colors
     
     private var _colorsAreShown: Bool = true
-    private var _colorSource: ColorSource? = nil
+    private var _colorSource: ColorSource19? = nil
     
     var colorsAreShown: Bool {
         get { return _colorsAreShown }
@@ -70,7 +70,7 @@ class SK2_ShellBase : ShellFigure, SK2_BaseFigure {
         }
     }
     
-    var colorSource: ColorSource? {
+    var colorSource: ColorSource19? {
         get { return (_colorsAreShown) ? _colorSource : nil }
         set(newValue) {
             _colorSource = newValue
@@ -100,7 +100,7 @@ class SK2_ShellBase : ShellFigure, SK2_BaseFigure {
         }
     }
     
-    var relief: Relief? {
+    var relief: Relief19? {
         get { return _relief }
         set(newValue) {
             _relief = newValue
@@ -109,7 +109,7 @@ class SK2_ShellBase : ShellFigure, SK2_BaseFigure {
     }
     
     private var _reliefIsShown: Bool = false
-    private var _relief: Relief? = nil
+    private var _relief: Relief19? = nil
     
     private func installRelief() {
         let r = (_reliefIsShown) ? _relief : nil

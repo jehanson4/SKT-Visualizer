@@ -63,7 +63,7 @@ class Surface : GLKBaseEffect, Effect19 {
     // SKT stuff
     
     weak var system: SK2_System19!
-    var colorSource: ColorSource
+    var colorSource: ColorSource19
     var geometry: SK2_ShellGeometry19
     
     private var colorsAreStale: Bool = false
@@ -75,7 +75,7 @@ class Surface : GLKBaseEffect, Effect19 {
     // Initiailzers
     // ====================================
 
-    init(_ system: SK2_System19, _ geometry: SK2_ShellGeometry19, _ colorSource: ColorSource, enabled: Bool) {
+    init(_ system: SK2_System19, _ geometry: SK2_ShellGeometry19, _ colorSource: ColorSource19, enabled: Bool) {
         self.system = system
         self.geometry = geometry
         self.colorSource = colorSource

@@ -21,8 +21,8 @@ class SK2_SystemFigure: Figure19, Calibrated {
     var group: String? = nil
     
     var baseFigure: SK2_BaseFigure
-    var colorSource: ColorSource?
-    var relief: Relief?
+    var colorSource: ColorSource19?
+    var relief: Relief19?
     
     init(_ name: String, _ info: String?, _ baseFigure: SK2_BaseFigure) {
         self.name = name

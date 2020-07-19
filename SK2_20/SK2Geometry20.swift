@@ -13,15 +13,15 @@ import UIKit
 // ==============================================================
 // MARK: - SK2Geometry
 
-protocol SK2Geometry: AnyObject {
+protocol SK2Geometry20: AnyObject {
             
     var projectionMatrix: float4x4 { get }
     
     var modelViewMatrix: float4x4 { get }
             
-    func makeNodeCoordinates(model: SK2Model, relief: (_ nodeIndex: Int) -> Float, array: [SIMD3<Float>]?) -> [SIMD3<Float>]
+    func makeNodeCoordinates(system: SK2_System19, relief: DS_ElevationSource20?, array: [SIMD3<Float>]?) -> [SIMD3<Float>]
 
-    func estimatePointSize(model: SK2Model) -> Float
+    func estimatePointSize(system: SK2_System19) -> Float
     
     func updateGeometry(drawableArea: CGRect)
     

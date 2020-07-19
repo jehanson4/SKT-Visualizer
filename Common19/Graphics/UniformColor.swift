@@ -9,7 +9,7 @@
 import Foundation
 import GLKit
 
-class UniformColor : ColorSource {
+class UniformColor : ColorSource19 {
     
     let alpha: GLfloat = 1.0
     var autocalibrate: Bool = true

@@ -17,11 +17,11 @@ protocol SK2_BaseFigure: Figure19, Calibrated {
     
     var colorsAreShown: Bool { get set }
 
-    var colorSource: ColorSource? { get set }
+    var colorSource: ColorSource19? { get set }
     
     var reliefIsShown: Bool { get set }
 
-    var relief: Relief? { get set }
+    var relief: Relief19? { get set }
     
     func invalidateNodes()
     

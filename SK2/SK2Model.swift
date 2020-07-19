@@ -317,7 +317,7 @@ class SK2_beta: DSParam {
 // =======================================================
 // MARK: - SK2Model
 
-class SK2Model : DSModel {
+class SK2Model : DSModel, PropertyChangeMonitor {
     
     static let N_name: String = "N"
     let N_min: Int = 2
@@ -585,6 +585,33 @@ class SK2Model : DSModel {
         return _propertyChangeSupport.monitorProperties(callback)
     }
     
+    private func _initParams() -> Registry<DSParam> {
+        let registry = Registry<DSParam>()
+        _ = registry.register(SK2_N(self))
+        _ = registry.register(SK2_k(self))
+        _ = registry.register(SK2_alpha1(self))
+        _ = registry.register(SK2_alpha2(self))
+        _ = registry.register(SK2_beta(self))
+        return registry
+    }
+    
+    private func _paramChanged(_ properties: String...) {
+        _updateDerivedProperties()
+        let event = PropertyChangeEvent(properties: properties)
+        _propertyChangeSupport.firePropertyChange(event)
+    }
+    
+    private func _updateDerivedProperties() {
+        _nodeIndexModulus = _N - _k + 1
+    }
+
+}
+
+/// Support for  simple observables
+/// Has to be in this file in order to get access to private variables
+///
+extension SK2Model {
+    
     func energy(_ nodeIndex: Int) -> Double {
         let m = nodeIndex / _nodeIndexModulus
         let n = nodeIndex - (m * _nodeIndexModulus)
@@ -610,38 +637,18 @@ class SK2Model : DSModel {
         return logBinomial(_k, m) + logBinomial(_N - _k, n)
     }
     
-    func logOccupation(_ nodeIndex: Int) -> Double {
+    func logEquilibriumOccupation(_ nodeIndex: Int) -> Double {
         let m = nodeIndex / _nodeIndexModulus
         let n = nodeIndex - (m * _nodeIndexModulus)
-        return logOccupation(m, n)
+        return logEquilibriumOccupation(m, n)
     }
     
-    func logOccupation(_ m: Int, _ n: Int) -> Double {
+    func logEquilibriumOccupation(_ m: Int, _ n: Int) -> Double {
         return entropy(m, n) - _beta * energy(m, n)
     }
     
-    func logOccupation(_ m: Int, _ n: Int, forBeta b: Double) -> Double {
+    func logEquilibriumOccupation(_ m: Int, _ n: Int, forBeta b: Double) -> Double {
         return entropy(m, n) - b * energy(m, n)
-    }
-    
-    private func _initParams() -> Registry<DSParam> {
-        let registry = Registry<DSParam>()
-        _ = registry.register(SK2_N(self))
-        _ = registry.register(SK2_k(self))
-        _ = registry.register(SK2_alpha1(self))
-        _ = registry.register(SK2_alpha2(self))
-        _ = registry.register(SK2_beta(self))
-        return registry
-    }
-    
-    private func _paramChanged(_ properties: String...) {
-        _updateDerivedProperties()
-        let event = PropertyChangeEvent(properties: properties)
-        _propertyChangeSupport.firePropertyChange(event)
-    }
-    
-    private func _updateDerivedProperties() {
-        _nodeIndexModulus = _N - _k + 1
     }
     
 }

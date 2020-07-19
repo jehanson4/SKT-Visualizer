@@ -34,7 +34,7 @@ struct SK2E {
         energyInPlane.group = SK2_Factory.planeFigureGroup
         _ = reg.register(energyInPlane)
         
-        let entropyInPlane = SK2E_Entropy("Plane: entropy", nil, system, planeBase)
+        let entropyInPlane = SK2E_Entropy19("Plane: entropy", nil, system, planeBase)
         entropyInPlane.group = SK2_Factory.planeFigureGroup
         _ = reg.register(entropyInPlane)
         
@@ -54,7 +54,7 @@ struct SK2E {
         energyOnShell.group = SK2_Factory.shellFigureGroup
         _ = reg.register(energyOnShell)
         
-        let entropyOnShell = SK2E_Entropy("Shell: entropy", nil, system, shellBase)
+        let entropyOnShell = SK2E_Entropy19("Shell: entropy", nil, system, shellBase)
         entropyOnShell.group = SK2_Factory.shellFigureGroup
         _ = reg.register(entropyOnShell)
         

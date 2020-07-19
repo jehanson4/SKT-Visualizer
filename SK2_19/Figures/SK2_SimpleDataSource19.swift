@@ -21,7 +21,7 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 // SK2_SimpleDataSource
 // ====================================================
 
-class SK2_SimpleDataSource19: ColorSource, Relief {
+class SK2_SimpleDataSource19: ColorSource19, Relief19 {
     
     init(_ system: SK2_System19,
          _ getter: @escaping (_ m: Int, _ n: Int) -> Double) {

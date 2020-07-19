@@ -13,7 +13,7 @@ import GLKit
 // DSPropertyColor
 // ===================================================================
 
-class DSPropertyColor: ColorSource {
+class DSPropertyColor: ColorSource19 {
 
     // ===================================
     // Initializer

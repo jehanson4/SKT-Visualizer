@@ -23,7 +23,7 @@ fileprivate let eps = Double.eps
 // SK2_LogDataSource
 // ====================================================
 
-class SK2_LogDataSource: ColorSource, Relief {
+class SK2_LogDataSource: ColorSource19, Relief19 {
     
     init(_ system: SK2_System19,
          _ getter: @escaping (_ m: Int, _ n: Int) -> Double) {

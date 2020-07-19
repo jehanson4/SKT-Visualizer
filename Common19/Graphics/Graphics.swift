@@ -107,20 +107,20 @@ protocol DataProvider: Calibrated {
 }
 
 // ==============================================================================
-// ColorSource
+// ColorSource19
 // ==============================================================================
 
-protocol ColorSource : DataProvider {
+protocol ColorSource19 : DataProvider {
     
     /// Returns the color of the given node
     func colorAt(_ nodeIndex: Int) -> GLKVector4
 }
 
 // ==============================================================================
-// Relief
+// Relief19
 // ==============================================================================
 
-protocol Relief : DataProvider {
+protocol Relief19 : DataProvider {
     
     /// Returns the normalized elevation of the given node, in the range is [0, 1].
     func elevationAt(_ nodeIndex: Int) -> Double

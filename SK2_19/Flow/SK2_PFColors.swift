@@ -21,7 +21,7 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 // SK2_PFColorSource
 // ======================================================================
 
-class SK2_PFColorSource : ColorSource, Relief {
+class SK2_PFColorSource : ColorSource19, Relief19 {
     
     var logzScale: Double = 1
 

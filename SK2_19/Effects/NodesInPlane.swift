@@ -107,7 +107,7 @@ class NodesInPlane: Effect19 {
     // ==========================
     // Data sources
     
-    var colorSource: ColorSource? {
+    var colorSource: ColorSource19? {
         get { return _colorSource }
         set(newValue) {
             _colorSource = newValue
@@ -115,7 +115,7 @@ class NodesInPlane: Effect19 {
         }
     }
     
-    private var _colorSource: ColorSource? = nil
+    private var _colorSource: ColorSource19? = nil
     
     private var colorsAreStale = true
     
@@ -124,9 +124,9 @@ class NodesInPlane: Effect19 {
         colorsAreStale = true
     }
     
-    var _relief: Relief?
+    var _relief: Relief19?
     
-    var relief: Relief? {
+    var relief: Relief19? {
         get { return _relief }
         set(newValue) {
             _relief = newValue

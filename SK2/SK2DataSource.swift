@@ -11,7 +11,7 @@ import Foundation
 // ==================================================
 // MARK: SK2DataSource
 
-protocol SK2Observable: DSObservable, PropertyChangeMonitor {
+protocol SK2Observable: DSObservable {
     
     /// ASSUMES data source has been refreshed
     func colorAt(_ nodeIndex: Int) -> SIMD4<Float>

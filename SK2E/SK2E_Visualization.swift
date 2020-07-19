@@ -33,7 +33,10 @@ class SK2E_Visualization : Visualization {
         let registry = Registry<Figure>()
         
         let energy = SK2E_Energy(model)
-        _ = registry.register(SK2Figure("Energy in Plane", model, planeGeometry,  dataSource: energy))
+        _ = registry.register(SK2ReducedSpaceFigure("Plane: Energy", model, planeGeometry,  dataSource: energy))
+        
+        let entropy = SK2E_Entropy(model)
+        _ = registry.register(SK2ReducedSpaceFigure("Plane: Entropy", model, planeGeometry,  dataSource: entropy))
         
         return Selector<Figure>(registry)
     }

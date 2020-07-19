@@ -63,7 +63,7 @@ class NetOnShell: GLKBaseEffect, Effect19 {
         }
     }
     
-    var relief: Relief? {
+    var relief: Relief19? {
         get { return _relief }
         set(newValue) {
             _relief = newValue
@@ -71,7 +71,7 @@ class NetOnShell: GLKBaseEffect, Effect19 {
         }
     }
     
-    var _relief: Relief?
+    var _relief: Relief19?
     
     func setProjection(_ projectionMatrix: GLKMatrix4) {
         transform.projectionMatrix = projectionMatrix
