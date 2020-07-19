@@ -26,7 +26,7 @@ fileprivate func debug(_ mtd: String, _ msg : String = "") {
 // NodesOnShell
 // =========================================================
 
-class NodesOnShell: Effect {
+class NodesOnShell: Effect19 {
     
     // ============================================
     // Lifecycle

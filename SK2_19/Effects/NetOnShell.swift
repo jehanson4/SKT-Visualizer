@@ -21,7 +21,7 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 // NetOnShell
 // =============================================================
 
-class NetOnShell: GLKBaseEffect, Effect {
+class NetOnShell: GLKBaseEffect, Effect19 {
     
     
     // ===========================================

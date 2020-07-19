@@ -27,13 +27,13 @@ class SK2_SimpleDataSource19: ColorSource, Relief {
          _ getter: @escaping (_ m: Int, _ n: Int) -> Double) {
         self.system = system
         self.getter = getter
-        self.colorMap = LinearColorMap()
+        self.colorMap = LinearColorMap19()
     }
     
     weak var system: SK2_System19!
     
     var getter: (_ m: Int, _ n: Int) -> Double
-    var colorMap: ColorMap
+    var colorMap: ColorMap19
     var zScale: Double = 1
     var zOffset: Double = 0
     

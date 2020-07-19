@@ -21,7 +21,7 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 // DescentLinesOnShell
 // ============================================================================
 
-class DescentLinesOnShell : GLKBaseEffect, Effect {
+class DescentLinesOnShell : GLKBaseEffect, Effect19 {
     
     // =============================================
     // Basics

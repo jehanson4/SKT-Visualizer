@@ -57,7 +57,7 @@ class ShellFigure : Figure19 {
     }
     
     func figureHasBeenHidden() {
-        func teardownEffect(_ effect: Effect) {
+        func teardownEffect(_ effect: Effect19) {
             effect.teardown()
         }
         effects?.visit(teardownEffect)
@@ -77,7 +77,7 @@ class ShellFigure : Figure19 {
     // =================================================
     // Effects
     
-    lazy var effects: Registry19<Effect>? =  Registry19<Effect>()
+    lazy var effects: Registry19<Effect19>? =  Registry19<Effect19>()
     
     // EMPIRICAL
     let pointSizeMax: GLfloat = 32
@@ -253,7 +253,7 @@ class ShellFigure : Figure19 {
         let d = GLfloat(d0)
         let newMatrix = GLKMatrix4MakeOrtho(-d, d, -d/aspectRatio, d/aspectRatio, nff*d, -nff*d)
         
-        func applyProjectionMatrix(_ effect: inout Effect) {
+        func applyProjectionMatrix(_ effect: inout Effect19) {
             debug("updateProjection", "applyProjectionMatrix to effect:" + effect.name)
             effect.setProjection(newMatrix)
         }
@@ -274,7 +274,7 @@ class ShellFigure : Figure19 {
         let scaleMatrix = GLKMatrix4MakeScale(zz, zz, zz)
         let newMatrix = GLKMatrix4Multiply(scaleMatrix, lookatMatrix)
         
-        func applyModelviewMatrix(_ effect: inout Effect) {
+        func applyModelviewMatrix(_ effect: inout Effect19) {
             debug("updateModelview", "applyModelviewMatrix to effect:" + effect.name)
             effect.setModelview(newMatrix)
         }
@@ -296,7 +296,7 @@ class ShellFigure : Figure19 {
         aspectRatio = (drawableHeight > 0) ? Float(drawableWidth)/Float(drawableHeight) : 0
         updateGraphics()
         
-        func drawEffect(_ effect: Effect) {
+        func drawEffect(_ effect: Effect19) {
             effect.draw()
         }
         effects!.visit(drawEffect)

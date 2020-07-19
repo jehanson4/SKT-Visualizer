@@ -18,7 +18,7 @@ class DSPropertyColor: ColorSource {
     // ===================================
     // Initializer
     
-    init(_ property: DSProperty, _ colorMap: ColorMap) {
+    init(_ property: DSProperty, _ colorMap: ColorMap19) {
         self.property = property
         self.propertyMonitor = property.monitorChanges(propertyHasChanged)
         self.colorMap = colorMap
@@ -27,7 +27,7 @@ class DSPropertyColor: ColorSource {
     var autocalibrate: Bool = true
     weak var property: DSProperty!
     var propertyMonitor: ChangeMonitor?
-    var colorMap: ColorMap!
+    var colorMap: ColorMap19!
     private var calibrated: Bool = false
 
     func propertyHasChanged(_ sender: Any?) {

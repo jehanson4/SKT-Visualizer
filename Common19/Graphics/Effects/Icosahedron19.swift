@@ -26,7 +26,7 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 // Icosahedron19
 // ===========================================================
 
-class Icosahedron19 : GLKBaseEffect, Effect {
+class Icosahedron19 : GLKBaseEffect, Effect19 {
     
     static let key = "Icosahedron"
     

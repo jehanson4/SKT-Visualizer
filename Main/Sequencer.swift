@@ -44,4 +44,42 @@ private let boundaryConditionNames = ["sticky", "elastic", "periodic"]
 
 protocol Sequencer: NamedObject {
     
+    var enabled: Bool { get set }
+    
+    var upperBound: Double { get set }
+
+    var upperBoundMax: Double { get }
+    
+    var upperBoundIncrement: Double { get }
+    
+    var lowerBound: Double { get set }
+    
+    var lowerBoundMax: Double { get }
+    
+    var lowerBoundIncrement: Double { get }
+    
+    var stepSize: Double { get set }
+    
+    var stepSizeMax: Double { get }
+    
+    var stepSizeIncrement: Double { get }
+    
+    var boundaryCondition: BoundaryCondition { get set }
+    
+    var reversible: Bool { get }
+    
+    var direction: Direction { get set }
+    
+    /// in the interval [lowerBound, upperBound]
+    var progress: Double { get }
+    
+    /// a fraction of the inverval between the bounds
+    var normalizedProgress: Double { get}
+
+    func step()
+    
+    func reverse()
+    
+    func jumpTo(normalizedProgress: Double)
+
 }

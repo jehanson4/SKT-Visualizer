@@ -22,10 +22,10 @@ fileprivate let piOver4 = Double.piOver4
 fileprivate let piOver2 = Double.piOver2
 
 // ============================================================================
-// PlanePOV
+// PlanePOV19
 // ============================================================================
 
-struct PlanePOV: CustomStringConvertible {
+struct PlanePOV19: CustomStringConvertible {
 
     static let yFactor: Double = 2
     
@@ -53,7 +53,7 @@ struct PlanePOV: CustomStringConvertible {
         switch(mode) {
         case .flyover:
             xLookat = x
-            yLookat = y + PlanePOV.yFactor * z
+            yLookat = y + PlanePOV19.yFactor * z
             zLookat = 0
         case .satellite:
             xLookat = x
@@ -67,12 +67,12 @@ struct PlanePOV: CustomStringConvertible {
         return "(\(x), \(y), \(z), \(mode)"
     }
 
-    static func transform(_ pov: PlanePOV, toMode: Mode) -> PlanePOV {
+    static func transform(_ pov: PlanePOV19, toMode: Mode) -> PlanePOV19 {
         if (pov.mode == .flyover && toMode == .satellite) {
-            return PlanePOV(pov.x, pov.y + PlanePOV.yFactor * pov.z, pov.z, toMode)
+            return PlanePOV19(pov.x, pov.y + PlanePOV19.yFactor * pov.z, pov.z, toMode)
         }
         if (pov.mode == .satellite && toMode == .flyover) {
-            return PlanePOV(pov.x, pov.y - PlanePOV.yFactor * pov.z, pov.z, toMode)
+            return PlanePOV19(pov.x, pov.y - PlanePOV19.yFactor * pov.z, pov.z, toMode)
         }
         // if none of the above
         return pov
@@ -104,7 +104,7 @@ class PlaneFigure : Figure19 {
         self.info = info
         self.size = size
         
-        _pov_default = PlanePOV(size/2, size/2, 3*size/5, .satellite)
+        _pov_default = PlanePOV19(size/2, size/2, 3*size/5, .satellite)
         _pov = _pov_default
         
     }
@@ -114,7 +114,7 @@ class PlaneFigure : Figure19 {
     
     func figureHasBeenHidden() {
         debug("figureHasBeenHidden")
-        func teardownEffect(_ effect: Effect) {
+        func teardownEffect(_ effect: Effect19) {
             effect.teardown()
         }
         effects?.visit(teardownEffect)
@@ -124,7 +124,7 @@ class PlaneFigure : Figure19 {
     // =================================================
     // Effects
     
-    lazy var effects: Registry19<Effect>? =  Registry19<Effect>()
+    lazy var effects: Registry19<Effect19>? =  Registry19<Effect19>()
     
     // EMPIRICAL
     let pointSizeMax: GLfloat = 32
@@ -139,17 +139,17 @@ class PlaneFigure : Figure19 {
     // ===================================================
     // POV
     
-    private var _pov_default: PlanePOV
-    private var _pov: PlanePOV
+    private var _pov_default: PlanePOV19
+    private var _pov: PlanePOV19
     
-    var pov_default: PlanePOV {
+    var pov_default: PlanePOV19 {
         get { return _pov_default }
         set(newValue) {
             _pov_default = fixPOV(newValue)
         }
     }
     
-    var pov: PlanePOV {
+    var pov: PlanePOV19 {
         get { return _pov }
         set(newValue) {
             _pov = fixPOV(newValue)
@@ -166,11 +166,11 @@ class PlaneFigure : Figure19 {
         markGraphicsStale()
     }
     
-    private func fixPOV(_ pov: PlanePOV) -> PlanePOV {
+    private func fixPOV(_ pov: PlanePOV19) -> PlanePOV19 {
         let x2 = pov.x // clip(pov.x, 0, size)
         let y2 = pov.y // clip(pov.y, 0, size)
         let z2 = (pov.z > eps) ? pov.z : eps
-        return PlanePOV(x2, y2, z2, pov.mode)
+        return PlanePOV19(x2, y2, z2, pov.mode)
     }
     
     // ===================================================
@@ -204,7 +204,7 @@ class PlaneFigure : Figure19 {
         let delta = sender.translation(in: sender.view)
         let x2 = pan_initialX - Double(delta.x) / Double(bounds.maxX)
         let y2 = pan_initialY + Double(delta.y) / Double(bounds.maxY)
-        pov = PlanePOV(x2, y2, pov.z, pov.mode)
+        pov = PlanePOV19(x2, y2, pov.z, pov.mode)
     }
     
     func satellitePan(_ sender: UIPanGestureRecognizer) {
@@ -217,7 +217,7 @@ class PlaneFigure : Figure19 {
         let delta = sender.translation(in: sender.view)
         let x2 = pan_initialX - Double(delta.x) / Double(bounds.maxX)
         let y2 = pan_initialY + Double(delta.y) / Double(bounds.maxY)
-        pov = PlanePOV(x2, y2, pov.z, pov.mode)
+        pov = PlanePOV19(x2, y2, pov.z, pov.mode)
     }
     
     func handlePinch(_ sender: UIPinchGestureRecognizer) {
@@ -240,8 +240,8 @@ class PlaneFigure : Figure19 {
         // We want to move along the line of sight.
         // if z changes by dz then y changes by -PlanePOV.yFactor * dz
         let newZ = (pinch_initialZ / Double(sender.scale))
-        let newY = pinch_initialY - PlanePOV.yFactor * (newZ - pinch_initialZ)
-        pov = PlanePOV(pov.x, newY, newZ, pov.mode)
+        let newY = pinch_initialY - PlanePOV19.yFactor * (newZ - pinch_initialZ)
+        pov = PlanePOV19(pov.x, newY, newZ, pov.mode)
     }
     
     func satellitePinch(_ sender: UIPinchGestureRecognizer) {
@@ -250,16 +250,16 @@ class PlaneFigure : Figure19 {
             pinch_initialZ = pov.z
         }
         let newZ = (pinch_initialZ / Double(sender.scale))
-        pov = PlanePOV(pov.x, pov.y, newZ, pov.mode)
+        pov = PlanePOV19(pov.x, pov.y, newZ, pov.mode)
     }
     
     func handleTap(_ sender: UITapGestureRecognizer) {
         debug("handleTap")
         switch(pov.mode) {
         case .flyover:
-            pov = PlanePOV.transform(pov, toMode: .satellite)
+            pov = PlanePOV19.transform(pov, toMode: .satellite)
         case .satellite:
-            pov = PlanePOV.transform(pov, toMode: .flyover)
+            pov = PlanePOV19.transform(pov, toMode: .flyover)
         }
     }
     
@@ -313,7 +313,7 @@ class PlaneFigure : Figure19 {
             newMatrix = GLKMatrix4MakeOrtho(-d, d, -d/aspectRatio, d/aspectRatio, GLfloat(eps), GLfloat(10*size))
         }
         
-        func applyProjectionMatrix(_ effect: inout Effect) {
+        func applyProjectionMatrix(_ effect: inout Effect19) {
             // debug("updateProjection", "applyProjectionMatrix to effect:" + effect.name)
             effect.setProjection(newMatrix)
         }
@@ -346,7 +346,7 @@ class PlaneFigure : Figure19 {
         // let scaleMatrix = GLKMatrix4MakeScale(zz, zz, zz)
         // let newMatrix = GLKMatrix4Multiply(scaleMatrix, lookatMatrix)
         let newMatrix = lookatMatrix
-        func applyModelviewMatrix(_ effect: inout Effect) {
+        func applyModelviewMatrix(_ effect: inout Effect19) {
             // debug("updateModelview", "applyModelviewMatrix to effect:" + effect.name)
             effect.setModelview(newMatrix)
         }
@@ -368,7 +368,7 @@ class PlaneFigure : Figure19 {
         aspectRatio = (drawableHeight > 0) ? Float(drawableWidth)/Float(drawableHeight) : 0
         updateGraphics()
         
-        func drawEffect(_ effect: Effect) {
+        func drawEffect(_ effect: Effect19) {
             effect.draw()
         }
         effects!.visit(drawEffect)

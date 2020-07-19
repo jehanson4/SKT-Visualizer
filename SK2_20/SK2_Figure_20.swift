@@ -19,7 +19,7 @@ class SK2_Figure_20 : Figure20 {
     var name: String
     var group: String
     var system: SK2_System19
-    var geometry: SK2_Geometry_20
+    var geometry: SK2Geometry
     
     var nodeCount: Int {
         return system.nodeCount
@@ -85,7 +85,7 @@ class SK2_Figure_20 : Figure20 {
         
     lazy var effects: Registry<Effect20> = Registry<Effect20>()
     
-    init(name: String, group: String, system: SK2_System19, geometry: SK2_Geometry_20, colorSource: DS_ColorSource20, relief: DS_ElevationSource20) {
+    init(name: String, group: String, system: SK2_System19, geometry: SK2Geometry, colorSource: DS_ColorSource20, relief: DS_ElevationSource20) {
         self.name = name
         self.group = group
         self.system = system

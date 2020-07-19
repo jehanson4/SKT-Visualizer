@@ -25,7 +25,7 @@ fileprivate func debug(_ mtd: String, _ msg : String = "") {
 // SurfaceInPlane
 // =========================================================
 
-class SurfaceInPlane : GLKBaseEffect, Effect {
+class SurfaceInPlane : GLKBaseEffect, Effect19 {
     
     // ============================================
     // Lifecycle

@@ -30,7 +30,7 @@ protocol Figure19: AnyObject, Named, PreferenceSupport {
     
     func resetPOV()
     
-    var effects: Registry19<Effect>? { get }
+    var effects: Registry19<Effect19>? { get }
     
     /// Size of a point sprite appropriate for a given spacing between points.
     /// Point sprites should be small but should not overlap.
@@ -53,10 +53,10 @@ protocol Figure19: AnyObject, Named, PreferenceSupport {
 }
 
 // ==============================================================================
-// Effect
+// Effect19
 // ==============================================================================
 
-protocol Effect: Named {
+protocol Effect19: Named {
     
     static var key: String { get }
     

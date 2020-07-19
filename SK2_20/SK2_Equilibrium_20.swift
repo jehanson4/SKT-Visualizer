@@ -15,7 +15,7 @@ class SK2_Equilibrium_20 : SK2_Visualization_20 {
     var name = visualizationName
     
     var system:  SK2_System19
-    var plane: SK2_PlaneGeometry_20
+    var plane: SK2PlaneGeometry
     var shell: SK2_ShellGeometry_20
     
     lazy var figures: Selector20<Figure20> = _initFigures()
@@ -24,7 +24,7 @@ class SK2_Equilibrium_20 : SK2_Visualization_20 {
     
     init(_ system: SK2_System19) {
         self.system = system
-        self.plane = SK2_PlaneGeometry_20()
+        self.plane = SK2PlaneGeometry()
         self.shell = SK2_ShellGeometry_20()
     }
     

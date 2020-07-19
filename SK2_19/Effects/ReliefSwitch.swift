@@ -14,7 +14,7 @@ import GLKit
 
 /// Shoehorns on/off switch for relief into the set of effects so we
 /// can show it in the UI
-class ReliefSwitch: Effect {
+class ReliefSwitch: Effect19 {
     
     static var key: String = "Relief"
     

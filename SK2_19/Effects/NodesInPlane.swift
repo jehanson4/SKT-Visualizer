@@ -36,7 +36,7 @@ fileprivate func debug(_ mtd: String, _ msg : String = "") {
 // NodesInPlane
 // =========================================================
 
-class NodesInPlane: Effect {
+class NodesInPlane: Effect19 {
     
     // ============================================
     // Lifecycle

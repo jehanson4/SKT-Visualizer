@@ -22,7 +22,7 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 // NetInPlane
 // =============================================================
 
-class NetInPlane: GLKBaseEffect, Effect {
+class NetInPlane: GLKBaseEffect, Effect19 {
     
     // ===========================================
     // Basics

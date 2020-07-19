@@ -122,7 +122,7 @@ class SK2_SecondaryViewController: UIViewController, UITextFieldDelegate, AppMod
         debug(mtd, "entered")
         
         var switchableEffects: [String] = []
-        func addSwitchableKey(_ entry: RegistryEntry19<Effect>) {
+        func addSwitchableKey(_ entry: RegistryEntry19<Effect19>) {
             if (entry.value.switchable) {
                 switchableEffects.append(entry.key)
             }

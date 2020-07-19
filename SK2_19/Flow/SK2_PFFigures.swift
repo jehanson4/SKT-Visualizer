@@ -38,7 +38,7 @@ class SK2_Population : SK2_SystemFigure {
         self.system = system
         self.flow = flow
         super.init(name, nil, baseFigure)
-        let ds = SK2_PFColorSource(flow, LogColorMap())
+        let ds = SK2_PFColorSource(flow, LogColorMap19())
         super.colorSource = ds
         super.relief = ds
     }

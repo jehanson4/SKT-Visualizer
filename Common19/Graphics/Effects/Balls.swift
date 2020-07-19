@@ -1,8 +1,8 @@
 //
-//  Busy.swift
+//  Balls.swift
 //  SKT Visualizer
 //
-//  Created by James Hanson on 5/16/18.
+//  Created by James Hanson on 4/2/18.
 //  Copyright © 2018 James Hanson. All rights reserved.
 //
 
@@ -18,41 +18,64 @@ fileprivate var debugEnabled = false
 
 fileprivate func debug(_ mtd: String, _ msg: String = "") {
     if (debugEnabled) {
-        print("BusySpinner", mtd, msg)
+        print("Balls", mtd, msg)
     }
 }
-// ===========================================
-// Busy
-// ===========================================
 
-class BusySpinner : Effect {
+// ==============================================================
+// Balls
+// ==============================================================
+
+class Balls : Effect19 {
     
-    static let key = "BusySpinner"
-    var name: String = "BusySpinner"
+    // ==========================================
+    // Basics
+    
+    static let key = "Balls"
+    var name = "Balls"
     var info: String? = nil
     var description: String { return nameAndInfo(self) }
 
-    var switchable: Bool { return false }
-    
+    var switchable: Bool
+
     var enabled: Bool {
-        get { return true}
-        set(newValue) { /* IGNORE */ }
+        get { return _enabled }
+        set(newValue) {
+            _enabled = newValue
+            if (!_enabled) {
+                teardown()
+            }
+        }
     }
+
+    private var _enabled: Bool
+    private var built: Bool = false
+
+
+    // ===============================================
+    // Constants
     
     static let c0 = GLfloat(0.0)
     static let c1 = GLfloat(1.0 / sqrt(1.0 + Double.goldenRatio * Double.goldenRatio))
     static let c2 = GLfloat(Double.goldenRatio / sqrt(1.0 + Double.goldenRatio * Double.goldenRatio))
     
-    // EMPIRICAL
     static let vertices1: [[GLfloat]] = [
-        [-1.1, 1.2, 0.0, 1.0]
+        [0.0, 0.0, 0.0, 1.0]
     ]
     static let colors1: [[GLfloat]] = [
         [1.0, 1.0, 1.0, 1.0]
     ]
     
-    private var active: Bool
-    private var queueMonitor: ChangeMonitor? = nil
+    static let vertices2: [[GLfloat]] = [
+        [0.33, 0.0, 0.0, 1.0],
+        [0.0, 0.67, 0.0, 1.0],
+        [0.0, 0.0, 1.0, 1.0]
+    ]
+    static let colors2: [[GLfloat]] = [
+        [1.0, 0.0, 0.0, 1.0],
+        [0.0, 1.0, 0.0, 1.0],
+        [0.0, 0.0, 1.0, 1.0]
+    ]
     
     // ==========================
     // GL stuff
@@ -63,25 +86,24 @@ class BusySpinner : Effect {
     }
     
     let vertexShader = "PointSpriteVertexShader.glsl"
-    let fragmentShader = "TexturedFragmentShader.glsl"
-    let textureFile = "busy.png"
+    let fragmentShader = "SimpleFragmentShader.glsl"
     
     private var programHandle: GLuint = 0
     private var modelViewMatrixUniform : Int32 = 0
     private var projectionMatrixUniform : Int32 = 0
     private var pointSizeUniform : Int32 = 0
-    
+
+    var projectionMatrix: GLKMatrix4 = GLKMatrix4Identity
+    var modelviewMatrix: GLKMatrix4 = GLKMatrix4Identity
+
     func setProjection(_ projectionMatrix: GLKMatrix4) {
         self.projectionMatrix = projectionMatrix
     }
     
     func setModelview(_ modelviewMatrix: GLKMatrix4) {
-        // NOP
+        self.modelviewMatrix = modelviewMatrix
     }
-    
-    var projectionMatrix: GLKMatrix4 = GLKMatrix4Identity
-    var modelviewMatrix: GLKMatrix4  = GLKMatrix4Identity
-    
+
     var pointSize: GLfloat = 48
     
     var vertices: [GLKVector4]
@@ -90,46 +112,30 @@ class BusySpinner : Effect {
     var vertexArray: GLuint = 0
     var vertexBuffer: GLuint = 0
     var colorBuffer: GLuint = 0
-    var texture: GLuint = 0
     
-    var built: Bool = false
-    var rotationCounter: Int = 0
-    var drawsSinceStateChange: Int = 0
-    var maxDrawsWhenInactive: Int = 2
-    
-    // ======================================
+    // ====================================================
     // Initializer
-
-    init(_ workQueue: WorkQueue, enabled: Bool, switchable: Bool) {
-        self.active = false
-        self.vertices = []
-        self.colors = []
-        self.queueMonitor = workQueue.monitorChanges(updateBusyState)
-
-        let vv = BusySpinner.vertices1
-        let cc = BusySpinner.colors1
+    
+    init(enabled: Bool, switchable: Bool) {
+        self._enabled = enabled
+        self.switchable = switchable
         
+        let vv = Balls.vertices2
+        let cc = Balls.colors2
+        
+        vertices = []
+        colors = []
         for v in vv {
             vertices.append(GLKVector4Make(v[0], v[1], v[2], v[3]))
         }
         for c in cc {
             colors.append(GLKVector4Make(c[0], c[1], c[2], c[3]))
         }
-
     }
     
-    private func updateBusyState(_ sender: Any?) {
-        let prev = self.active
-        self.active = (sender as? WorkQueue)?.busy ?? false
-        if (prev != self.active) {
-            debug("updateBusyState", "\(prev) => \(active)")
-            self.drawsSinceStateChange = 0
-        }
-    }
-    
-    private func build() -> Bool {
+    private func build() {
+        debug("building")
         
-        loadTexture(textureFile)
         compile(vertexShader, fragmentShader)
         
         glBindVertexArray(vertexArray)
@@ -170,64 +176,50 @@ class BusySpinner : Effect {
             debug(String(format: "createBuffers: glError 0x%x", err))
         }
         
-        return true
+        built = true
+    }
+    
+    func teardown() {
+        if (built) {
+            debug("cleaning")
+            // TODO
+        }
     }
     
     deinit {
-        glDeleteProgram(programHandle)
-        glDeleteVertexArrays(1, &vertexArray)
-        glDeleteBuffers(1, &vertexBuffer)
-        glDeleteBuffers(1, &colorBuffer)
-    }
-    
-    func releaseOptionalResources() {
-        // TODO
-    }
-    
-    func teardown() {}
-    
-    func reset() {}
-    
-    func calibrate() {
-        // TODO
-    }
-    
-    func prepareToShow() {
-        debug("prepareToShow")
-        // TODO
+        if (built) {
+            glDeleteProgram(programHandle)
+            glDeleteVertexArrays(1, &vertexArray)
+            glDeleteBuffers(1, &vertexBuffer)
+            glDeleteBuffers(1, &colorBuffer)
+        }
     }
     
     func prepareToDraw() {
         glUseProgram(programHandle)
         glUniformMatrix4fv(projectionMatrixUniform, 1, GLboolean(GL_FALSE), projectionMatrix.array)
-
-        rotationCounter = (rotationCounter + 1) % 8
-        debug("prepareToDraw", "rotationCounter=\(rotationCounter)")
-        
-        // FIXME I want to set up the modelview matrix based on rotaionCounter, not on the POV
         glUniformMatrix4fv(modelViewMatrixUniform, 1, GLboolean(GL_FALSE), modelviewMatrix.array)
-
         glUniform1f(pointSizeUniform, pointSize)
         
     }
-
+    
+    var drawCounter: Int = 0
     func draw() {
-        drawsSinceStateChange += 1
-        debug("draw", "drawsSinceStateChange=\(drawsSinceStateChange)")
-        if (!active && drawsSinceStateChange > maxDrawsWhenInactive) {
+        if (!enabled) {
             return
         }
-        
-
         if (!built) {
-            built = build()
+            build()
         }
         
         glBindVertexArray(vertexArray)
         prepareToDraw()
-        glDrawArrays(GLenum(GL_POINTS), 0, GLsizei(vertices.count))
-        glBindVertexArray(0)
         
+        drawCounter += 1
+        debug("draw[\(drawCounter)]")
+        glDrawArrays(GLenum(GL_POINTS), 0, GLsizei(vertices.count))
+        
+        glBindVertexArray(0)
         let err = glGetError()
         if (err != 0) {
             debug(String(format: "draw glError: 0x%x", err))
@@ -237,19 +229,6 @@ class BusySpinner : Effect {
     // ========================================
     // Shader
     // ========================================
-    
-    // Copied from Texture
-    func loadTexture(_ filename: String) {
-        
-        let path = Bundle.main.path(forResource: filename, ofType: nil)!
-        let option = [ GLKTextureLoaderOriginBottomLeft: true]
-        do {
-            let info = try GLKTextureLoader.texture(withContentsOfFile: path, options: option as [String : NSNumber]?)
-            self.texture = info.name
-        } catch {
-            debug("loadTexture", "problem getting texture")
-        }
-    }
     
     // Copied from AnimatedCube
     func compile(_ vertexShader: String, _ fragmentShader: String) {
@@ -326,5 +305,6 @@ class BusySpinner : Effect {
             exit(1)
         }
     }
-
+    
+    
 }

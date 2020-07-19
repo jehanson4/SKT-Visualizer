@@ -14,7 +14,7 @@ import GLKit
 
 /// Shoehorns on/off switch for colors into the set of effects so we
 /// can show it in the UI
-class ColorSwitch: Effect {
+class ColorSwitch: Effect19 {
     
     static var key: String = "Colors"
     

@@ -21,9 +21,9 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 }
 
 // ============================================================================
-// MARK: - PlanePOV
+// MARK: - SK2PlanePOV
 
-struct PlanePOV: CustomStringConvertible {
+struct SK2PlanePOV: CustomStringConvertible {
     
     static let yFactor: Float = 2
     
@@ -51,7 +51,7 @@ struct PlanePOV: CustomStringConvertible {
         switch(mode) {
         case .flyover:
             xLookat = x
-            yLookat = y + PlanePOV.yFactor * z
+            yLookat = y + SK2PlanePOV.yFactor * z
             zLookat = 0
         case .satellite:
             xLookat = x
@@ -64,12 +64,12 @@ struct PlanePOV: CustomStringConvertible {
         return "(\(x), \(y), \(z), \(mode))"
     }
     
-    static func transform(_ pov: PlanePOV, toMode: Mode) -> PlanePOV {
+    static func transform(_ pov: SK2PlanePOV, toMode: Mode) -> SK2PlanePOV {
         if (pov.mode == .flyover && toMode == .satellite) {
-            return PlanePOV(pov.x, pov.y + PlanePOV.yFactor * pov.z, pov.z, toMode)
+            return SK2PlanePOV(pov.x, pov.y + SK2PlanePOV.yFactor * pov.z, pov.z, toMode)
         }
         if (pov.mode == .satellite && toMode == .flyover) {
-            return PlanePOV(pov.x, pov.y - PlanePOV.yFactor * pov.z, pov.z, toMode)
+            return SK2PlanePOV(pov.x, pov.y - SK2PlanePOV.yFactor * pov.z, pov.z, toMode)
         }
         // if none of the above
         return pov
@@ -78,7 +78,7 @@ struct PlanePOV: CustomStringConvertible {
 
 
 // =======================================================
-// MARK: - SK2_PlaneGeometry_20
+// MARK: - SK2PlaneGeometry
 
 class SK2PlaneGeometry: SK2Geometry {
     
@@ -88,26 +88,24 @@ class SK2PlaneGeometry: SK2Geometry {
     // let zOffset: Float
     let zScale: Float
     
-    var pov_default: PlanePOV {
+    var pov_default: SK2PlanePOV {
         get { return _pov_default }
         set(newValue) {
             _pov_default = fixPOV(newValue)
         }
     }
     
-    var pov: PlanePOV {
+    var pov: SK2PlanePOV {
         get { return _pov }
         set(newValue) {
             _pov = fixPOV(newValue)
             _graphicsStale = true
         }
     }
-    
-    var builtinEffects: [Effect20]? = nil
-    
+        
     private var _graphicsStale: Bool = true
-    private var _pov_default: PlanePOV
-    private var _pov: PlanePOV
+    private var _pov_default: SK2PlanePOV
+    private var _pov: SK2PlanePOV
     private var _projectionMatrix: float4x4
     private var _modelViewMatrix: float4x4
     
@@ -151,7 +149,7 @@ class SK2PlaneGeometry: SK2Geometry {
         self.z0 = 0
         self.zScale = gridSize/3
         
-        self._pov_default = PlanePOV(0, 0, gridSize*3/5, .satellite)
+        self._pov_default = SK2PlanePOV(0, 0, gridSize*3/5, .satellite)
         self._pov = self._pov_default
         
         
@@ -224,11 +222,11 @@ class SK2PlaneGeometry: SK2Geometry {
         _graphicsStale = true
     }
     
-    private func fixPOV(_ pov: PlanePOV) -> PlanePOV {
+    private func fixPOV(_ pov: SK2PlanePOV) -> SK2PlanePOV {
         let x2 = pov.x // OR MAYBE clip(pov.x, 0, size)
         let y2 = pov.y // OR MAYBE clip(pov.y, 0, size)
         let z2 = (pov.z > AppConstants20.epsilon) ? pov.z : AppConstants20.epsilon
-        return PlanePOV(x2, y2, z2, pov.mode)
+        return SK2PlanePOV(x2, y2, z2, pov.mode)
     }
     
     private func _refreshGraphics() {
@@ -309,7 +307,7 @@ class SK2PlaneGeometry: SK2Geometry {
             let y2 = pan_initialY + Float(delta.y) / Float(bounds.maxY)
             
             // pov setter marks graphics stale
-            pov = PlanePOV(x2, y2, pov.z, pov.mode)
+            pov = SK2PlanePOV(x2, y2, pov.z, pov.mode)
             debug("flyoverPan", "new pov=\(pov)")
         }
     }
@@ -330,7 +328,7 @@ class SK2PlaneGeometry: SK2Geometry {
             let x2 = pan_initialX - Float(delta.x) / Float(bounds.maxX)
             let y2 = pan_initialY + Float(delta.y) / Float(bounds.maxY)
             // pov setter marks graphics stale
-            pov = PlanePOV(x2, y2, pov.z, pov.mode)
+            pov = SK2PlanePOV(x2, y2, pov.z, pov.mode)
             debug("satellitePan", "new pov=\(pov)")
         }
     }
@@ -353,10 +351,10 @@ class SK2PlaneGeometry: SK2Geometry {
         }
         else if gesture.state == .changed {
             // We want to move along the line of sight.
-            // if z changes by dz then y changes by -PlanePOV.yFactor * dz
+            // if z changes by dz then y changes by -SK2PlanePOV.yFactor * dz
             let newZ = pinch_initialZ / Float(gesture.scale)
-            let newY = pinch_initialY - PlanePOV.yFactor * (newZ - pinch_initialZ)
-            pov = PlanePOV(pov.x, newY, newZ, pov.mode)
+            let newY = pinch_initialY - SK2PlanePOV.yFactor * (newZ - pinch_initialZ)
+            pov = SK2PlanePOV(pov.x, newY, newZ, pov.mode)
             debug("flyoverPinch", "new pov=\(pov)")
         }
     }
@@ -368,7 +366,7 @@ class SK2PlaneGeometry: SK2Geometry {
         }
         else if gesture.state == .changed {
             let newZ = pinch_initialZ / Float(gesture.scale)
-            pov = PlanePOV(pov.x, pov.y, newZ, pov.mode)
+            pov = SK2PlanePOV(pov.x, pov.y, newZ, pov.mode)
             debug("satellitePinch", "new pov=\(pov)")
         }
     }
@@ -378,10 +376,10 @@ class SK2PlaneGeometry: SK2Geometry {
         case .flyover:
             debug("doTap", "switching to satellite mode")
             // pov setter marks graphics stale
-            pov = PlanePOV.transform(pov, toMode: .satellite)
+            pov = SK2PlanePOV.transform(pov, toMode: .satellite)
         case .satellite:
             debug("doTap", "switching to flyover mode")
-            pov = PlanePOV.transform(pov, toMode: .flyover)
+            pov = SK2PlanePOV.transform(pov, toMode: .flyover)
         }
         debug("doTap", "new pov=\(pov)")
     }

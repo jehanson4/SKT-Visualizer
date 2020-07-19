@@ -26,7 +26,7 @@ fileprivate func debug(_ mtd: String, _ msg : String = "") {
 // SurfaceOnShell
 // =========================================================
 
-class SurfaceOnShell : GLKBaseEffect, Effect {
+class SurfaceOnShell : GLKBaseEffect, Effect19 {
     
     // ============================================
     // Lifecycle

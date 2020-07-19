@@ -26,7 +26,7 @@ fileprivate func debug(_ mtd: String, _ msg : String = "") {
 // NodesOnBlock
 // =========================================================
 
-class NodesOnBlock: Effect {
+class NodesOnBlock: Effect19 {
     
     static let key: String = "NodesOnBlock"
     

@@ -30,7 +30,7 @@ struct SK2E {
     static func makeFigures(_ system: SK2_System19, _ basinFinder: SK2_Basins, _ planeBase: SK2_PlaneBase, _ shellBase: SK2_ShellBase) -> Registry19<Figure19>? {
         let reg = Registry19<Figure19>()
         
-        let energyInPlane = SK2E_Energy("Plane: energy", nil, system, planeBase)
+        let energyInPlane = SK2E_Energy19("Plane: energy", nil, system, planeBase)
         energyInPlane.group = SK2_Factory.planeFigureGroup
         _ = reg.register(energyInPlane)
         
@@ -50,7 +50,7 @@ struct SK2E {
         basinsInPlane.group = SK2_Factory.planeFigureGroup
         _ = reg.register(basinsInPlane)
         
-        let energyOnShell = SK2E_Energy("Shell: energy", nil, system, shellBase)
+        let energyOnShell = SK2E_Energy19("Shell: energy", nil, system, shellBase)
         energyOnShell.group = SK2_Factory.shellFigureGroup
         _ = reg.register(energyOnShell)
         

@@ -117,7 +117,7 @@ func defaultColors3() -> [GLKVector4] {
 // ==============================================================================
 // ==============================================================================
 
-protocol ColorMap {
+protocol ColorMap19 {
     
     var name: String { get }
     var description: String? { get }
@@ -131,7 +131,7 @@ protocol ColorMap {
 // ==============================================================================
 // ==============================================================================
 
-class LinearColorMap : ColorMap {
+class LinearColorMap19 : ColorMap19 {
     
     let name: String = "Linear"
     var description: String? = "Colors cover equal-size intervals"
@@ -180,7 +180,7 @@ class LinearColorMap : ColorMap {
 // ==============================================================================
 // ==============================================================================
 
-class LogColorMap : ColorMap {
+class LogColorMap19 : ColorMap19 {
     
     let name: String = "Log"
     var description: String? = "Colors follow a logarithmic scale"

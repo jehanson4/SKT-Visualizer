@@ -29,13 +29,13 @@ class SK2_LogDataSource: ColorSource, Relief {
          _ getter: @escaping (_ m: Int, _ n: Int) -> Double) {
         self.system = system
         self.getter = getter
-        self.colorMap = LogColorMap()
+        self.colorMap = LogColorMap19()
     }
     
     weak var system: SK2_System19!
     
     var getter: (_ m: Int, _ n: Int) -> Double
-    var colorMap: ColorMap
+    var colorMap: ColorMap19
     
     var logzScale: Double = 1
     var logzOffset: Double = 0

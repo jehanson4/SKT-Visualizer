@@ -21,7 +21,7 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 // Meridians
 // ==================================================================
 
-class Meridians:  GLKBaseEffect, Effect {
+class Meridians:  GLKBaseEffect, Effect19 {
 
     static let key = "Meridians"
     

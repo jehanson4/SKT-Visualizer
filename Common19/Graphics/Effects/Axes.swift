@@ -26,7 +26,7 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 // Axes
 // ====================================================================
 
-class Axes : GLKBaseEffect, Effect {
+class Axes : GLKBaseEffect, Effect19 {
     
     static let key = "Axes"
     

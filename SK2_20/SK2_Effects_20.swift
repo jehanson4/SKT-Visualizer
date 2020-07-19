@@ -15,9 +15,9 @@ import os
 
 protocol SK2_SystemEffect_20 : Effect20 {
     
-    func topologyChanged(system: SK2_System19, geometry: SK2_Geometry_20)
+    func topologyChanged(system: SK2_System19, geometry: SK2Geometry)
     
-    func nodeDataChanged(system: SK2_System19, geometry: SK2_Geometry_20)
+    func nodeDataChanged(system: SK2_System19, geometry: SK2Geometry)
     
 }
 
@@ -194,11 +194,11 @@ class SK2_NodesEffect_20: SK2_SystemEffect_20 {
         self._pipelineState = try! graphics.device.makeRenderPipelineState(descriptor: pipelineStateDescriptor)
     }
     
-    func topologyChanged(system: SK2_System19, geometry: SK2_Geometry_20) {
+    func topologyChanged(system: SK2_System19, geometry: SK2Geometry) {
         // NOP
     }
     
-    func nodeDataChanged(system: SK2_System19, geometry: SK2_Geometry_20) {
+    func nodeDataChanged(system: SK2_System19, geometry: SK2Geometry) {
         // NOP
     }
 
@@ -316,11 +316,11 @@ class SK2_NetEffect_20: SK2_SystemEffect_20 {
         self._pipelineState = try! graphics.device.makeRenderPipelineState(descriptor: pipelineStateDescriptor)
     }
     
-    func topologyChanged(system: SK2_System19, geometry: SK2_Geometry_20) {
+    func topologyChanged(system: SK2_System19, geometry: SK2Geometry) {
         // NOP
     }
     
-    func nodeDataChanged(system: SK2_System19, geometry: SK2_Geometry_20) {
+    func nodeDataChanged(system: SK2_System19, geometry: SK2Geometry) {
         // NOP
     }
 

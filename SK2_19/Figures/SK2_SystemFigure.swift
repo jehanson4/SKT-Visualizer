@@ -74,7 +74,7 @@ class SK2_SystemFigure: Figure19, Calibrated {
         return baseFigure.estimatePointSize(spacing)
     }
     
-    var effects: Registry19<Effect>? {
+    var effects: Registry19<Effect19>? {
         get { return baseFigure.effects }
     }
     

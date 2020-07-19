@@ -18,7 +18,7 @@ import OpenGL
 // Surface
 // ==============================================================
 
-class Surface : GLKBaseEffect, Effect {
+class Surface : GLKBaseEffect, Effect19 {
     
     func teardown() {
         

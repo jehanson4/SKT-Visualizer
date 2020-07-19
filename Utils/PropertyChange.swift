@@ -15,7 +15,7 @@ import Foundation
 /**
  Fires property change events to registered callbacks.
  */
-protocol PropertyChangeMonitor {
+protocol PropertyChangeMonitor: AnyObject {
     
     func monitorProperties(_ callback: @escaping (PropertyChangeEvent) -> ()) -> PropertyChangeHandle?
 
@@ -40,10 +40,10 @@ protocol PropertyChangeHandle {
  */
 class PropertyChangeEvent {
     
-    let properties: [String]
+    let properties: Set<String>
     
     init(properties: [String]) {
-        self.properties = properties
+        self.properties = Set<String>(properties)
     }
 }
 

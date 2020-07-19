@@ -35,7 +35,7 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 // InnerShell
 // ==============================================================
 
-class InnerShell : GLKBaseEffect, Effect {
+class InnerShell : GLKBaseEffect, Effect19 {
 
     // ================================================
     // Basics

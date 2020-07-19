@@ -33,13 +33,13 @@ class SK2_PFColorSource : ColorSource, Relief {
     
     var flow: SK2_PopulationFlow!
   
-    var colorMap: LogColorMap
+    var colorMap: LogColorMap19
     
     // population 'weight' of a node
     private var wCurr: [Double]
     let wEmpty: [Double] = []
 
-    init(_ flow: SK2_PopulationFlow, _ colorMap: LogColorMap) {
+    init(_ flow: SK2_PopulationFlow, _ colorMap: LogColorMap19) {
         self.flow = flow
         self.colorMap = colorMap
         self.wCurr = wEmpty

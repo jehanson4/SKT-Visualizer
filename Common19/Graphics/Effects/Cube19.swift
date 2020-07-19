@@ -26,7 +26,7 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 // Axes
 // ====================================================================
 
-class Cube19 : GLKBaseEffect, Effect {
+class Cube19 : GLKBaseEffect, Effect19 {
     
     static let key = "Cube"
     

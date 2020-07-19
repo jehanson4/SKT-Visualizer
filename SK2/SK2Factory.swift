@@ -15,8 +15,11 @@ class SK2Factory {
     
     static func createVisualizations() -> [Visualization] {
         var visualizations = [Visualization]()
-        var sk2Model = SK2Model()
-
+        let model = SK2Model()
+        let planeGeometry = SK2PlaneGeometry()
+        
+        visualizations.append(SK2E_Visualization(model, planeGeometry))
+        
         return visualizations
     }
 }

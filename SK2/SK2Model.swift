@@ -317,7 +317,7 @@ class SK2_beta: DSParam {
 // =======================================================
 // MARK: - SK2Model
 
-class SK2Model : DSModel, PropertyChangeMonitor {
+class SK2Model : DSModel {
     
     static let N_name: String = "N"
     let N_min: Int = 2

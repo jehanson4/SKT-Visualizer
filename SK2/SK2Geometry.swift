@@ -1,16 +1,19 @@
 //
-//  SK2_Geometry21.swift
+//  SK2Geometry.swift
 //  SKT Visualizer
 //
-//  Created by James Hanson on 6/12/20.
+//  Created by James Hanson on 7/18/20.
 //  Copyright © 2020 James Hanson. All rights reserved.
 //
 
 import Foundation
-import UIKit
 import simd
+import UIKit
 
-protocol SK2_Geometry_20: AnyObject {
+// ==============================================================
+// MARK: - SK2Geometry
+
+protocol SK2Geometry: AnyObject {
             
     var projectionMatrix: float4x4 { get }
     
