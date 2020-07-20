@@ -109,7 +109,7 @@ class SK2E_SimpleObservable: SK2ReducedSpaceObservable {
         return colorMap.getColor(getter(nodeIndex))
     }
     
-    func valueAt(nodeIndex: Int) -> Float {
+    func elevationAt(nodeIndex: Int) -> Float {
         return Float(clip( zScale * (getter(nodeIndex) - zOffset), 0, 1))
     }
     
@@ -188,3 +188,11 @@ class SK2E_Entropy: SK2E_SimpleObservable {
     }
 
 }
+
+// ======================================================
+// TODO: LogOccupation
+
+// ======================================================
+// TODO: Occupation
+
+

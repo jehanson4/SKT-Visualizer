@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SK2_TertiaryViewController: UIViewController, UITextFieldDelegate, AppModelUser {
+class SK2_TertiaryViewController19: UIViewController, UITextFieldDelegate, AppModelUser {
     
     // =============================================
     // Debugging
@@ -24,7 +24,7 @@ class SK2_TertiaryViewController: UIViewController, UITextFieldDelegate, AppMode
     // =============================================
     // Basics
     
-    weak var appModel: AppModel!
+    weak var appModel: AppModel19!
     weak var appPart: AppPart!
     weak var system: SK2_System19!
     var figure: Figure19? = nil

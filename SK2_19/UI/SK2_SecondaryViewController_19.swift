@@ -22,12 +22,12 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 // SK2_SecondaryViewController
 // =============================================
 
-class SK2_SecondaryViewController: UIViewController, UITextFieldDelegate, AppModelUser {
+class SK2_SecondaryViewController19: UIViewController, UITextFieldDelegate, AppModelUser {
     
     // =============================================
     // Basics
 
-    weak var appModel: AppModel!
+    weak var appModel: AppModel19!
     weak var appPart: AppPart!
     weak var system: SK2_System19!
     

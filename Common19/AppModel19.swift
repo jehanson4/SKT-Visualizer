@@ -1,5 +1,5 @@
 //
-//  AppModel.swift
+//  AppModel19.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 4/20/18.
@@ -41,10 +41,10 @@ protocol AppPartFactory {
 }
 
 // =========================================================
-// AppModel
+// AppModel19
 // =========================================================
 
-protocol AppModel: AnyObject {
+protocol AppModel19: AnyObject {
     
     /// OLD
     var parts: Registry19<AppPart> { get }
@@ -71,6 +71,6 @@ protocol AppModel: AnyObject {
 
 protocol AppModelUser {
     
-    var appModel: AppModel! { get set }
+    var appModel: AppModel19! { get set }
 }
 

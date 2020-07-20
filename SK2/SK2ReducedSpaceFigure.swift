@@ -14,9 +14,11 @@ import MetalKit
 
 protocol SK2ReducedSpaceObservable: DSObservable, PropertyChangeMonitor {
     
+    var nodeCount: Int { get }
+    
     /// Call this method inside a loop iterating over the nodes.
     /// ASSUMES refresh() has been called.
-    func valueAt(nodeIndex: Int) -> Float
+    func elevationAt(nodeIndex: Int) -> Float
 
     /// Call this method inside a loop iterating over the nodes.
     /// ASSUMES refresh() has been called.
@@ -24,25 +26,86 @@ protocol SK2ReducedSpaceObservable: DSObservable, PropertyChangeMonitor {
 
 }
 
+// ============================================================
+// MARK: NodeCoordinateManager
 
+struct NodeCoordinateManager {
+    
+    var reliefEnabled: Bool = true
+    var nodeCoordinates = [SIMD3<Float>]()
+    var nodeCoordinateBuffer: MTLBuffer? = nil
+    
+    func invalidate() {
+        // TODO
+    }
+    
+    func refresh(geometry: SK2Geometry, observable: SK2ReducedSpaceObservable) {
+        // TODO
+    }
+}
+
+// ============================================================
+// MARK: NodeColorManager
+
+struct NodeColorManager {
+    
+    var colorsEnabled: Bool = true
+    var nodeColorBuffer: MTLBuffer?
+
+    func refresh(observable: SK2ReducedSpaceObservable) {
+        // TODO
+    }
+}
+
+// ============================================================
+// MARK: NodeUniformsManager
+
+struct NodeUniformsManager {
+    
+    var nodeUniformsBuffer: MTLBuffer?
+    
+    func refresh() {
+        // TODO
+    }
+}
 // ============================================================
 // MARK: - SK2ReducedSpaceFigure
 
+/// Displays the nodes of the SK2Model. Nodes may be shown in color and/or relief as given by  by an observable
 class SK2ReducedSpaceFigure : Figure {
     
     var name: String
     weak var model: SK2Model!
     weak var geometry: SK2Geometry!
-    weak var dataSource: SK2ReducedSpaceObservable!
+    weak var observable: SK2ReducedSpaceObservable!
     var renderContext: RenderContext!
     
     lazy var effects: Registry<Effect> = _initEffects()
     
-    init(_ name: String, _ model: SK2Model, _ geometry: SK2Geometry, dataSource: SK2ReducedSpaceObservable? = nil) {
+    var nodeCoords: NodeCoordinateManager
+    var nodeColors: NodeColorManager
+    var nodeUniforms: NodeUniformsManager
+    
+    var reliefEnabled: Bool {
+        get { return _reliefEnabled }
+        set(newValue) {
+            if (newValue != _reliefEnabled) {
+                nodeCoords.invalidate()
+                _reliefEnabled = newValue
+            }
+        }
+    }
+    
+    private var _reliefEnabled: Bool = true
+    
+    init(_ name: String, _ model: SK2Model, _ geometry: SK2Geometry, _ observable: SK2ReducedSpaceObservable? = nil) {
         self.name = name
         self.model = model
         self.geometry = geometry
-        self.dataSource = dataSource
+        self.observable = observable
+        self.nodeCoords = NodeCoordinateManager()
+        self.nodeColors = NodeColorManager()
+        self.nodeUniforms = NodeUniformsManager()
     }
     
     func figureWillBeInstalled(_ context: RenderContext) {
@@ -50,13 +113,23 @@ class SK2ReducedSpaceFigure : Figure {
         updateDrawableArea(context.view.bounds)
         geometry.connectGestures(renderContext.view)
 
-        // TODO
+        if let context = renderContext {
+            for entry in effects.entries {
+                entry.value.value.setup(context)
+            }
+        }
+        
+        // TODO what else?
     }
     
     func figureWasUninstalled() {
         geometry.disconnectGestures(renderContext.view)
 
-        // TODO
+        for entry in effects.entries {
+            entry.value.value.teardown()
+        }
+
+        // TODO what else?
     }
     
     func updateDrawableArea(_ drawableArea: CGRect) {
@@ -64,11 +137,18 @@ class SK2ReducedSpaceFigure : Figure {
     }
     
     func updateContent(_ date: Date) {
-        // TODO
+
+        for entry in effects.entries {
+            entry.value.value.update(date)
+        }
+
+        // TODO what else?
     }
     
     func render(_ drawable: CAMetalDrawable) {
-        // TODO
+        // TODO create command encoder
+        // TODO encode effects' render commands
+        // TODO what else?
     }
     
     func resetPOV() {
@@ -78,7 +158,9 @@ class SK2ReducedSpaceFigure : Figure {
     private func _initEffects() -> Registry<Effect> {
         let registry = Registry<Effect>()
         
-        // TODO add effects
+        _ = registry.register(SK2NetEffect(self))
+        _ = registry.register(SK2NodesEffect(self))
+        _ = registry.register(SK2ReliefSwitch(self))
         
         return registry
     }

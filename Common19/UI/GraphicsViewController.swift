@@ -35,7 +35,7 @@ class GraphicsViewController: GLKViewController, AppModelUser, Graphics {
     // ============================================
     // AppModel etc
     
-    weak var appModel: AppModel!
+    weak var appModel: AppModel19!
     var context: GLContext!
     
     func takeSnapshot() -> UIImage {

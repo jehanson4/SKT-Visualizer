@@ -18,6 +18,13 @@ protocol Effect: NamedObject {
 
     var enabled: Bool { get set }
     
+    func setup(_ context: RenderContext)
+    
+    func teardown()
+    
+    func update(_ date: Date)
+    
+    func encodeCommands(_ encoder: MTLRenderCommandEncoder)
 }
 
 // ===============================================================
@@ -25,7 +32,7 @@ protocol Effect: NamedObject {
 
 protocol Figure: NamedObject {
    
-    var effects: Registry<Effect> { get }
+    var effects: Registry<Effect>? { get }
     
     func figureWillBeInstalled(_ context: RenderContext)
     

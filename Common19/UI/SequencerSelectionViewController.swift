@@ -29,7 +29,7 @@ class SequencerSelectionViewController2: UITableViewController, AppModelUser {
     // =====================================
     // Model
     
-    weak var appModel: AppModel!
+    weak var appModel: AppModel19!
     weak var sequencerSelector: Selector19<Sequencer19>!
     
     // =====================================

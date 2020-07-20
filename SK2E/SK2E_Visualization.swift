@@ -11,10 +11,9 @@ import Foundation
 // ===================================================================
 // MARK: - SK2E_Visualization
 
-class SK2E_Visualization : Visualization {
+class SK2E_Visualization : SK2Visualization {
     
-
-    static let visualizationName = "SK2 Equilibrium"
+    static let visualizationName = "SK2/Equilibrium"
     
     var name: String = visualizationName
     var model: SK2Model
@@ -33,10 +32,10 @@ class SK2E_Visualization : Visualization {
         let registry = Registry<Figure>()
         
         let energy = SK2E_Energy(model)
-        _ = registry.register(SK2ReducedSpaceFigure("Plane: Energy", model, planeGeometry,  dataSource: energy))
+        _ = registry.register(SK2ReducedSpaceFigure("Plane: Energy", model, planeGeometry, energy))
         
         let entropy = SK2E_Entropy(model)
-        _ = registry.register(SK2ReducedSpaceFigure("Plane: Entropy", model, planeGeometry,  dataSource: entropy))
+        _ = registry.register(SK2ReducedSpaceFigure("Plane: Entropy", model, planeGeometry, entropy))
         
         return Selector<Figure>(registry)
     }

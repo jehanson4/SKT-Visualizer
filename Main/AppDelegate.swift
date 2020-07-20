@@ -22,7 +22,7 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 class AppDelegate: UIResponder, UIApplicationDelegate, AppModel20 {
     
     var window: UIWindow?
-    var appModel: AppModel?
+    var appModel: AppModel19?
     var figureViewController: FigureViewController!
     
     lazy var visualizations: Selector20<Visualization20> = _loadVisualizations()

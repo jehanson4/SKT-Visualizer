@@ -9,10 +9,10 @@
 import UIKit
 
 // ===================================================================
-// FigureSelectionViewController
+// FigureSelectionViewController19
 // ===================================================================
 
-class FigureSelectionViewController: UITableViewController, AppModelUser, AppModelUser20 {
+class FigureSelectionViewController19: UITableViewController, AppModelUser, AppModelUser20 {
 
     // =====================================
     // Debug
@@ -29,7 +29,7 @@ class FigureSelectionViewController: UITableViewController, AppModelUser, AppMod
     // =====================================
     // Model
     
-    weak var appModel: AppModel!
+    weak var appModel: AppModel19!
     weak var figureSelector: Selector19<Figure19>!
 
     weak var appModel20: AppModel20!

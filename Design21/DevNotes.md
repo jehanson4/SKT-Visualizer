@@ -32,3 +32,8 @@ Change in any model param (or more than one)
         2 node colors
         3 node positions
         
+### Effects
+
+#### MISC
+
+  * setup(context: RenderContext) -- the arg is so that we can implement BusySpinner once for all figures

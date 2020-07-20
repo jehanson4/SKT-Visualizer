@@ -76,7 +76,7 @@ class AppPart1: AppPart {
 // AppModel1
 // ============================================================
 
-class AppModel1 : AppModel {
+class AppModel1 : AppModel19 {
 
     // ================================================
     // Parts

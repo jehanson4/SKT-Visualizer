@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import os
 
 // ==========================================
 // Debug
@@ -19,69 +20,26 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
     }
 }
 
-class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModelUser {
+
+class SK2ReducedSpaceViewController1: UIViewController, UITextFieldDelegate {
 
     // ===========================================
     // Basics
     
-    weak var appModel: AppModel!
-    weak var appPart: AppPart!
-    weak var system: SK2_System19!
+    weak var sk2: SK2VisualizationModel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let mtd = "viewDidLoad"
-        debug(mtd, "entered")
-        
-        if (appModel == nil) {
-            debug(mtd, "appModel is nil")
-        }
+        guard
+            let v = AppModel.visualizations.selection?.value as? SK2Visualization
         else {
-            debug(mtd, "appModel has been set")
-            appPart = appModel!.partSelector.selection?.value
-          
-            debug(mtd, "setting navigation bar title")
-            self.title = appPart.name
-            
-            debug(mtd, "currently selected part = \(String(describing: appPart))")
-            system = appPart.system as? SK2_System19
+            os_log("SK2Visualization is not selected")
         }
         
-
-        if (system == nil) {
-            debug(mtd, "system is nil")
-        }
-        else {
-            debug(mtd, "system has been set")
-            visualization_setup()
-            modelParams_setup()
-            sequencer_setup()
-        }
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let mtdName = "prepare for segue"
-        debug(mtdName, "destination: \(segue.destination.title ?? "(no title)")")
-        
-        // HACK HACK HACK HACK
-        if (segue.destination is AppModelUser) {
-            var d2 = segue.destination as! AppModelUser
-            if (self.appModel == nil) {
-                debug(mtdName, "our own appModel is nil")
-            }
-            else if (d2.appModel != nil) {
-                debug(mtdName, "destination's appModel is already set")
-            }
-            else {
-                debug(mtdName, "setting destination's appModel")
-                d2.appModel = self.appModel
-            }
-        }
-        else {
-            debug(mtdName, "destination is not an AppModelUser")
-        }
-        
+        self.sk2 = v
+        self.title = sk2.name
+        setup()
     }
     
     override func didReceiveMemoryWarning() {
@@ -91,11 +49,7 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        debug("viewWillDisappear", "disconnecting controls")
-        visualization_teardown()
-        modelParams_teardown()
-        sequencer_teardown()
-
+        teardown()
         super.viewWillDisappear(animated)
     }
     
@@ -106,10 +60,38 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     }
     
     @IBAction func unwindToSK2_Primary(_ sender: UIStoryboardSegue) {
-        debug("unwindToSK2_Primary. reconnecting controls")
+        setup()
+    }
+    
+    func setup() {
+        
+        // Figure section
+        
+        UIUtils.addBorder(figureSelectorButton)
+        let figureSelector = appPart.figureSelector
+        figureSelector_update(figureSelector)
+        figureSelectionMonitor = figureSelector.monitorChanges(figureSelector_update)
+
+        // Model section
+        
+        // Sequencer section
+        
         visualization_setup()
         modelParams_setup()
         sequencer_setup()
+    }
+        
+    func teardown() {
+        
+    // Figure section
+
+    figureSelectionMonitor?.disconnect()
+    
+    // Model section
+    // TODO
+    
+    // Sequencer section
+    // TODO
     }
     
     // ===========================================
@@ -119,19 +101,6 @@ class SK2_PrimaryViewController: UIViewController, UITextFieldDelegate, AppModel
     @IBOutlet weak var autocalibrateButton: UIButton!
     
     var figureSelectionMonitor: ChangeMonitor? = nil
-    
-    func visualization_setup() {
-        debug("visualization_setup")
-        UIUtils.addBorder(figureSelectorButton)
-        let figureSelector = appPart.figureSelector
-        figureSelector_update(figureSelector)
-        figureSelectionMonitor = figureSelector.monitorChanges(figureSelector_update)
-    }
-    
-    func visualization_teardown() {
-        debug("visualization_teardown")
-        figureSelectionMonitor?.disconnect()
-    }
     
     /// called when selected figure changes
     func figureSelector_update(_ sender: Any?) {
