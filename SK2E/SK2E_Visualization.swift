@@ -13,7 +13,7 @@ import Foundation
 
 class SK2E_Visualization : SK2Visualization {
     
-    static let visualizationName = "SK2/Equilibrium"
+    static let visualizationName = "SK/2 Equilibrium"
     
     var name: String = visualizationName
     var model: SK2Model

@@ -173,14 +173,14 @@
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                                 <connections>
-                                                                    <action selector="param_beginEdit:" destination="1Ul-i5-KtM" eventType="editingDidBegin" id="fRA-Q1-Eep"/>
-                                                                    <action selector="param_edited:" destination="1Ul-i5-KtM" eventType="editingDidEnd" id="7Vp-kC-sPU"/>
+                                                                    <action selector="N_beginEditing:" destination="1Ul-i5-KtM" eventType="editingDidBegin" id="5DI-oe-bgA"/>
+                                                                    <action selector="N_doneEditing:" destination="1Ul-i5-KtM" eventType="editingDidEnd" id="QdZ-XK-Xkf"/>
                                                                 </connections>
                                                             </textField>
                                                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="oyO-Gh-GfD">
                                                                 <rect key="frame" x="217" y="0.0" width="94" height="32"/>
                                                                 <connections>
-                                                                    <action selector="param_step:" destination="1Ul-i5-KtM" eventType="valueChanged" id="PK9-El-CnF"/>
+                                                                    <action selector="N_step:" destination="1Ul-i5-KtM" eventType="valueChanged" id="UTx-nm-Emy"/>
                                                                 </connections>
                                                             </stepper>
                                                         </subviews>
@@ -202,14 +202,14 @@
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                                 <connections>
-                                                                    <action selector="param_beginEdit:" destination="1Ul-i5-KtM" eventType="editingDidBegin" id="KCc-al-SIC"/>
-                                                                    <action selector="param_edited:" destination="1Ul-i5-KtM" eventType="editingDidEnd" id="nci-vN-BTd"/>
+                                                                    <action selector="k_beginEditing:" destination="1Ul-i5-KtM" eventType="editingDidBegin" id="fc1-JQ-Kl6"/>
+                                                                    <action selector="k_doneEditing:" destination="1Ul-i5-KtM" eventType="editingDidEnd" id="lzv-F2-QqQ"/>
                                                                 </connections>
                                                             </textField>
                                                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="ExS-VI-VxA">
                                                                 <rect key="frame" x="217" y="0.0" width="94" height="32"/>
                                                                 <connections>
-                                                                    <action selector="param_step:" destination="1Ul-i5-KtM" eventType="valueChanged" id="Ieu-FC-v45"/>
+                                                                    <action selector="k_step:" destination="1Ul-i5-KtM" eventType="valueChanged" id="Lb1-wN-1pN"/>
                                                                 </connections>
                                                             </stepper>
                                                         </subviews>
@@ -231,14 +231,14 @@
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                                 <connections>
-                                                                    <action selector="param_beginEdit:" destination="1Ul-i5-KtM" eventType="editingDidBegin" id="ogH-U6-Imn"/>
-                                                                    <action selector="param_edited:" destination="1Ul-i5-KtM" eventType="editingDidEnd" id="ljn-dQ-4JB"/>
+                                                                    <action selector="alpha1_beginEditing:" destination="1Ul-i5-KtM" eventType="editingDidBegin" id="MEB-Z6-0TG"/>
+                                                                    <action selector="alpha1_doneEditing:" destination="1Ul-i5-KtM" eventType="editingDidEnd" id="u5C-gk-D1i"/>
                                                                 </connections>
                                                             </textField>
                                                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="6Ka-oC-cW2">
                                                                 <rect key="frame" x="217" y="0.0" width="94" height="32"/>
                                                                 <connections>
-                                                                    <action selector="param_step:" destination="1Ul-i5-KtM" eventType="valueChanged" id="lC4-b6-Am0"/>
+                                                                    <action selector="alpha1_step:" destination="1Ul-i5-KtM" eventType="valueChanged" id="4l9-Tc-XxP"/>
                                                                 </connections>
                                                             </stepper>
                                                         </subviews>
@@ -260,14 +260,14 @@
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                                 <connections>
-                                                                    <action selector="param_beginEdit:" destination="1Ul-i5-KtM" eventType="editingDidBegin" id="cBg-I7-jTe"/>
-                                                                    <action selector="param_edited:" destination="1Ul-i5-KtM" eventType="editingDidEnd" id="TtW-fQ-8K7"/>
+                                                                    <action selector="alpha2_beginEditing:" destination="1Ul-i5-KtM" eventType="editingDidBegin" id="deO-pY-1Us"/>
+                                                                    <action selector="alpha2_doneEditing:" destination="1Ul-i5-KtM" eventType="editingDidEnd" id="1aZ-TQ-Nli"/>
                                                                 </connections>
                                                             </textField>
                                                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="yKm-Go-gmY">
                                                                 <rect key="frame" x="217" y="0.0" width="94" height="32"/>
                                                                 <connections>
-                                                                    <action selector="param_step:" destination="1Ul-i5-KtM" eventType="valueChanged" id="2as-uq-mpq"/>
+                                                                    <action selector="alpha2_step:" destination="1Ul-i5-KtM" eventType="valueChanged" id="7O5-fr-vpH"/>
                                                                 </connections>
                                                             </stepper>
                                                         </subviews>
@@ -289,14 +289,14 @@
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                                 <connections>
-                                                                    <action selector="param_beginEdit:" destination="1Ul-i5-KtM" eventType="editingDidBegin" id="qbn-gS-TAH"/>
-                                                                    <action selector="param_edited:" destination="1Ul-i5-KtM" eventType="editingDidEnd" id="dRa-E1-vnR"/>
+                                                                    <action selector="beta_beginEditing:" destination="1Ul-i5-KtM" eventType="editingDidBegin" id="0Gx-KF-MKm"/>
+                                                                    <action selector="beta_doneEditing:" destination="1Ul-i5-KtM" eventType="editingDidEnd" id="ePO-MX-xOb"/>
                                                                 </connections>
                                                             </textField>
                                                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="71N-AQ-KgN">
                                                                 <rect key="frame" x="217" y="0.0" width="94" height="32"/>
                                                                 <connections>
-                                                                    <action selector="param_step:" destination="1Ul-i5-KtM" eventType="valueChanged" id="ANu-He-BAx"/>
+                                                                    <action selector="beta_step:" destination="1Ul-i5-KtM" eventType="valueChanged" id="Qyc-7c-N5M"/>
                                                                 </connections>
                                                             </stepper>
                                                         </subviews>
@@ -602,28 +602,28 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="N_field" destination="frD-IN-KfI" id="LRh-xe-q8j"/>
+                        <outlet property="N_label" destination="FQU-WY-5g1" id="Wfq-4p-uST"/>
+                        <outlet property="N_stepper" destination="oyO-Gh-GfD" id="QV7-SY-gcT"/>
+                        <outlet property="alpha1_field" destination="dGa-Ix-rWA" id="JwD-vL-B5J"/>
+                        <outlet property="alpha1_label" destination="hw3-Hh-BID" id="FLI-05-kaV"/>
+                        <outlet property="alpha1_stepper" destination="6Ka-oC-cW2" id="xVN-gt-5Kn"/>
+                        <outlet property="alpha2_field" destination="kDt-Gj-ldN" id="0qj-Mh-nsV"/>
+                        <outlet property="alpha2_label" destination="N4R-7C-zJc" id="Epc-ld-Pp2"/>
+                        <outlet property="alpha2_stepper" destination="yKm-Go-gmY" id="2Nn-zY-kgF"/>
                         <outlet property="autocalibrateButton" destination="l1P-8m-Ta9" id="X2J-Q5-a4G"/>
                         <outlet property="bcSelector" destination="qOJ-1R-dAz" id="fVZ-Lz-NJc"/>
+                        <outlet property="beta_field" destination="iQo-YS-LVq" id="ndP-fm-D96"/>
+                        <outlet property="beta_label" destination="kst-3W-Z0j" id="CAn-IL-8g9"/>
+                        <outlet property="beta_stepper" destination="71N-AQ-KgN" id="nH6-eI-m9U"/>
                         <outlet property="deltaStepper" destination="iPb-xT-o65" id="CFm-wq-uHm"/>
                         <outlet property="deltaText" destination="JS0-19-oSI" id="wkL-7s-yqK"/>
                         <outlet property="figureSelectorButton" destination="aDJ-qV-Xi8" id="bW5-5U-sS6"/>
+                        <outlet property="k_field" destination="pPz-tb-NiU" id="2rP-14-a0c"/>
+                        <outlet property="k_label" destination="zwF-sD-j8X" id="CTK-3z-gTp"/>
+                        <outlet property="k_stepper" destination="ExS-VI-VxA" id="F3u-NC-oPK"/>
                         <outlet property="lbStepper" destination="6Dj-bX-Xeh" id="HZ9-dd-7XM"/>
                         <outlet property="lbText" destination="qKI-UR-443" id="g9T-KC-wFt"/>
-                        <outlet property="param1_label" destination="FQU-WY-5g1" id="9M3-Gc-0ce"/>
-                        <outlet property="param1_stepper" destination="oyO-Gh-GfD" id="ldr-dd-dPt"/>
-                        <outlet property="param1_text" destination="frD-IN-KfI" id="2Vu-cc-ens"/>
-                        <outlet property="param2_label" destination="zwF-sD-j8X" id="cki-wH-DDg"/>
-                        <outlet property="param2_stepper" destination="ExS-VI-VxA" id="UcX-gP-i41"/>
-                        <outlet property="param2_text" destination="pPz-tb-NiU" id="1YW-IJ-LuR"/>
-                        <outlet property="param3_label" destination="hw3-Hh-BID" id="pmB-u2-yjy"/>
-                        <outlet property="param3_stepper" destination="6Ka-oC-cW2" id="b4X-cD-BC8"/>
-                        <outlet property="param3_text" destination="dGa-Ix-rWA" id="P9Y-0v-iru"/>
-                        <outlet property="param4_label" destination="N4R-7C-zJc" id="LtQ-HO-a9M"/>
-                        <outlet property="param4_stepper" destination="yKm-Go-gmY" id="Fr8-fr-av8"/>
-                        <outlet property="param4_text" destination="kDt-Gj-ldN" id="7JR-6X-gDX"/>
-                        <outlet property="param5_label" destination="kst-3W-Z0j" id="N6e-oP-wtJ"/>
-                        <outlet property="param5_stepper" destination="71N-AQ-KgN" id="SMY-QO-Odv"/>
-                        <outlet property="param5_text" destination="iQo-YS-LVq" id="biw-rW-wqV"/>
                         <outlet property="playerSelector" destination="o7I-x5-9yq" id="MMo-zl-Ton"/>
                         <outlet property="progressLabel" destination="vbo-sS-CDZ" id="N24-xP-yVJ"/>
                         <outlet property="progressSlider" destination="YyL-vR-Olk" id="iFT-7b-6sQ"/>

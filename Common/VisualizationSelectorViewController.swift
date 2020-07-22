@@ -16,17 +16,20 @@ import os
 
 class VisualizationSelectorViewController : UIViewController {
             
+    
+    
     @IBAction func selectVisualization(_ sender: UIButton) {
         guard
             let name = sender.titleLabel?.text,
             let selector = AppModel.visualizations
         else { return }
 
+        
         if let newSelection = selector.select(name: name) {
             os_log("Selected visualization: name=%s", newSelection.name)
         }
         else {
-            os_log("Failure selecting visualization: name=%s", name)
+            os_log("Unable to select visualization: name=%s", name)
         }
     }
     

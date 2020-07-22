@@ -26,7 +26,8 @@ class Selector<T> {
 
     func select(name: String) -> RegistryEntry<T>? {
         if let newSelection = registry.entries[name] {
-            return newSelection
+            selection = newSelection
+            return selection
         }
         else {
             return nil

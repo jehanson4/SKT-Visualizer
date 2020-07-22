@@ -36,7 +36,12 @@ class SK2ReducedSpaceViewController1: UIViewController, UITextFieldDelegate {
         guard
             let v = AppModel.visualizations.selection?.value as? SK2Visualization
         else {
-            os_log("SK2Visualization is not selected")
+            if let vName = AppModel.visualizations.selection?.name {
+                os_log("Non-SK2 visualization is selected: %s", vName)
+            }
+            else {
+                os_log("No visualization is selected")
+            }
             return
         }
         
@@ -354,15 +359,15 @@ class SK2ReducedSpaceViewController1: UIViewController, UITextFieldDelegate {
     
     @IBAction func N_doneEditing(_ sender: Any?) {
         shiftView(dy: modelControls_yShift)
-        if let x = parseInt(N_field.text) {
-            model!.N_value = x
+        if let x = parseInt(N_field.text), let model = model {
+            model.N_value = x
         }
         modelControls_update()
     }
     
     @IBAction func N_step(_ sender: Any?) {
-        if let x = N_stepper?.value {
-            model!.N_value = Int(x)
+        if let x = N_stepper?.value, let model = model {
+            model.N_value = Int(x)
         }
         modelControls_update()
     }
@@ -380,15 +385,15 @@ class SK2ReducedSpaceViewController1: UIViewController, UITextFieldDelegate {
     
     @IBAction func k_doneEditing(_ sender: Any?) {
         shiftView(dy: modelControls_yShift)
-        if let x = parseInt(k_field.text) {
-            model!.k_value = x
+        if let x = parseInt(k_field.text), let model = model {
+            model.k_value = x
         }
         modelControls_update()
     }
     
     @IBAction func k_step(_ sender: Any?) {
-        if let x = k_stepper?.value {
-            model!.k_value = Int(x)
+        if let x = k_stepper?.value, let model = model {
+            model.k_value = Int(x)
         }
         modelControls_update()
     }
@@ -406,15 +411,15 @@ class SK2ReducedSpaceViewController1: UIViewController, UITextFieldDelegate {
     
     @IBAction func alpha1_doneEditing(_ sender: Any?) {
         shiftView(dy: modelControls_yShift)
-        if let x = parseDouble(alpha1_field.text) {
-            model!.alpha1_value = x
+        if let x = parseDouble(alpha1_field.text), let model = model {
+            model.alpha1_value = x
         }
         modelControls_update()
     }
     
     @IBAction func alpha1_step(_ sender: Any?) {
-        if let x = alpha1_stepper?.value {
-            model!.alpha1_value = x
+        if let x = alpha1_stepper?.value, let model = model {
+            model.alpha1_value = x
         }
         modelControls_update()
     }
@@ -432,15 +437,15 @@ class SK2ReducedSpaceViewController1: UIViewController, UITextFieldDelegate {
     
     @IBAction func alpha2_doneEditing(_ sender: Any?) {
         shiftView(dy: modelControls_yShift)
-        if let x = parseDouble(alpha2_field.text) {
-            model!.alpha2_value = x
+        if let x = parseDouble(alpha2_field.text), let model = model {
+            model.alpha2_value = x
         }
         modelControls_update()
     }
     
     @IBAction func alpha2_step(_ sender: Any?) {
-        if let x = alpha2_stepper?.value {
-            model!.alpha2_value = x
+        if let x = alpha2_stepper?.value, let model = model {
+            model.alpha2_value = x
         }
         modelControls_update()
     }
@@ -458,15 +463,15 @@ class SK2ReducedSpaceViewController1: UIViewController, UITextFieldDelegate {
     
     @IBAction func beta_doneEditing(_ sender: Any?) {
         shiftView(dy: modelControls_yShift)
-        if let x = parseDouble(beta_field.text) {
-            model!.beta_value = x
+        if let x = parseDouble(beta_field.text), let model = model {
+            model.beta_value = x
         }
         modelControls_update()
     }
     
     @IBAction func beta_step(_ sender: Any?) {
-        if let x = beta_stepper?.value {
-            model!.beta_value = x
+        if let x = beta_stepper?.value, let model = model {
+            model.beta_value = x
         }
         modelControls_update()
     }
