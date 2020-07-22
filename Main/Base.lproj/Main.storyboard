@@ -108,12 +108,19 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Lr0-Dc-QOL" userLabel="SK2 Body Stack View">
                                                 <rect key="frame" x="16" y="0.0" width="256" height="92"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QL8-DV-673">
-                                                        <rect key="frame" x="0.0" y="0.0" width="256" height="92"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QL8-DV-673">
+                                                        <rect key="frame" x="0.0" y="0.0" width="256" height="62"/>
                                                         <state key="normal" title="SK/2 Equilibrium"/>
                                                         <connections>
                                                             <action selector="selectVisualization:" destination="bVF-Kc-23a" eventType="touchUpInside" id="HtP-5W-1bq"/>
                                                             <segue destination="pOT-RV-AeI" kind="show" id="pra-uF-Cey"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dUA-Xo-4hZ">
+                                                        <rect key="frame" x="0.0" y="62" width="256" height="30"/>
+                                                        <state key="normal" title="SK2T Button"/>
+                                                        <connections>
+                                                            <action selector="selectVisualization:" destination="bVF-Kc-23a" eventType="touchUpInside" id="guF-bs-JYW"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -219,6 +226,10 @@
                             </button>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="sk2eButton" destination="QL8-DV-673" id="ufm-9t-YmC"/>
+                        <outlet property="sk2tButton" destination="dUA-Xo-4hZ" id="cmK-NH-J45"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J32-6H-LNw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

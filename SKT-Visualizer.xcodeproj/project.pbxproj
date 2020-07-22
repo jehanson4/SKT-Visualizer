@@ -34,6 +34,8 @@
 		8A2034E721ED2A6000A4C418 /* SK2_System19.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2034E621ED2A6000A4C418 /* SK2_System19.swift */; };
 		8A25077E24C5CF4000D2CFBF /* FigureSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A25077D24C5CF4000D2CFBF /* FigureSelectorViewController.swift */; };
 		8A25078124C87E4000D2CFBF /* BasicShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 8A25078024C87E4000D2CFBF /* BasicShaders.metal */; };
+		8A25078424C8C20700D2CFBF /* SK2T_Visualization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A25078324C8C20700D2CFBF /* SK2T_Visualization.swift */; };
+		8A25078824C8C32700D2CFBF /* SK2T_Population.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A25078724C8C32700D2CFBF /* SK2T_Population.swift */; };
 		8A2A32D720AB881600D4D619 /* WorkQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2A32D620AB881600D4D619 /* WorkQueue.swift */; };
 		8A3BBBBF208BF29A00669227 /* splash.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8A3BBBBE208BF29A00669227 /* splash.jpg */; };
 		8A3C45C62086278900A1E9CD /* UniformColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3C45C52086278900A1E9CD /* UniformColor.swift */; };
@@ -236,6 +238,8 @@
 		8A2034E621ED2A6000A4C418 /* SK2_System19.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_System19.swift; sourceTree = "<group>"; };
 		8A25077D24C5CF4000D2CFBF /* FigureSelectorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FigureSelectorViewController.swift; sourceTree = "<group>"; };
 		8A25078024C87E4000D2CFBF /* BasicShaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = BasicShaders.metal; sourceTree = "<group>"; };
+		8A25078324C8C20700D2CFBF /* SK2T_Visualization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2T_Visualization.swift; sourceTree = "<group>"; };
+		8A25078724C8C32700D2CFBF /* SK2T_Population.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2T_Population.swift; sourceTree = "<group>"; };
 		8A2A32D620AB881600D4D619 /* WorkQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkQueue.swift; sourceTree = "<group>"; };
 		8A3BBBBE208BF29A00669227 /* splash.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = splash.jpg; sourceTree = "<group>"; };
 		8A3C45C52086278900A1E9CD /* UniformColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniformColor.swift; sourceTree = "<group>"; };
@@ -506,6 +510,7 @@
 				8AEC296E24C1F7EA0050C96F /* Utils */,
 				8AEC297E24C20E5B0050C96F /* SK2 */,
 				8A25077F24C5D05F00D2CFBF /* SK2E */,
+				8A25078224C8C18D00D2CFBF /* SK2T */,
 				8ACE78902073CCDA00C29875 /* Frameworks */,
 				8AF98F95207FE7D60007688E /* LICENSE */,
 				8A1CF013207146510099DD97 /* Products */,
@@ -541,6 +546,15 @@
 				8ADDF1DD24C3535600098217 /* SK2E_Visualization.swift */,
 			);
 			path = SK2E;
+			sourceTree = "<group>";
+		};
+		8A25078224C8C18D00D2CFBF /* SK2T */ = {
+			isa = PBXGroup;
+			children = (
+				8A25078324C8C20700D2CFBF /* SK2T_Visualization.swift */,
+				8A25078724C8C32700D2CFBF /* SK2T_Population.swift */,
+			);
+			path = SK2T;
 			sourceTree = "<group>";
 		};
 		8A3C45B72086185B00A1E9CD /* Scratch */ = {
@@ -1145,11 +1159,13 @@
 				8ACE789E2073F7A400C29875 /* Utils.swift in Sources */,
 				8AE0B831248FEEB6008753B5 /* DemosPrimaryViewController.swift in Sources */,
 				8A4654C021E8E38300EE2B26 /* PhysicalSystem.swift in Sources */,
+				8A25078424C8C20700D2CFBF /* SK2T_Visualization.swift in Sources */,
 				8AA05A11208FC14E009417A6 /* AppModel1.swift in Sources */,
 				8AB2A63121FCE40E00A46316 /* SK2_BAModel.swift in Sources */,
 				8A2034E221ED0F4E00A4C418 /* SK1_System.swift in Sources */,
 				8ADDF21124C5B6E000098217 /* SK2_SecondaryViewController_19.swift in Sources */,
 				8A022087248BD8D200F3A91D /* Figure20.swift in Sources */,
+				8A25078824C8C32700D2CFBF /* SK2T_Population.swift in Sources */,
 				8ADDF21324C5B6FB00098217 /* SK2_TertiaryViewController_19.swift in Sources */,
 				8A88175C2208628700523467 /* SK2_BasinData.swift in Sources */,
 				8AF59500208AC0420082C5DE /* AppModel19.swift in Sources */,

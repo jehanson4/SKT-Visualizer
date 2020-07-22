@@ -1,5 +1,5 @@
 //
-//  SK2_PrimaryViewController.swift
+//  SK2ReducedSpaceViewController1.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 1/7/19.
@@ -10,19 +10,11 @@ import UIKit
 import os
 
 // ===========================================================
-// MARK: - N_Controller
-// ===========================================================
-
-class N_Controller {
-    
-}
-
-// ===========================================================
 // MARK: - SK2ReducedSpaceViewController1
 // ===========================================================
 
 class SK2ReducedSpaceViewController1: UIViewController, UITextFieldDelegate {
-
+    
     // ===========================================
     // Basics
     
@@ -32,17 +24,17 @@ class SK2ReducedSpaceViewController1: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         guard
             let v = AppModel.visualizations.selection?.value as? SK2Visualization
-        else {
-            if let vName = AppModel.visualizations.selection?.name {
-                os_log("Non-SK2 visualization is selected: %s", vName)
-            }
             else {
-                os_log("No visualization is selected")
-            }
-            return
+                if let vName = AppModel.visualizations.selection?.name {
+                    os_log("Non-SK2 visualization is selected: %s", vName)
+                }
+                else {
+                    os_log("No visualization is selected")
+                }
+                return
         }
         
         self.visualization = v
@@ -51,11 +43,11 @@ class SK2ReducedSpaceViewController1: UIViewController, UITextFieldDelegate {
         setup()
     }
     
-//    override func didReceiveMemoryWarning() {
-//        // debug("didReceiveMemoryWarning")
-//        super.didReceiveMemoryWarning()
-//        // Dispose of any resources that can be recreated.
-//    }
+    //    override func didReceiveMemoryWarning() {
+    //        // debug("didReceiveMemoryWarning")
+    //        super.didReceiveMemoryWarning()
+    //        // Dispose of any resources that can be recreated.
+    //    }
     
     override func viewWillDisappear(_ animated: Bool) {
         teardown()
@@ -73,14 +65,16 @@ class SK2ReducedSpaceViewController1: UIViewController, UITextFieldDelegate {
     }
     
     func setup() {
+        figureControls_setup()
         modelControls_setup()
         
         setupFigureSection()
         setupAnimationSection()
         
     }
-        
+    
     func teardown() {
+        figureControls_teardown()
         modelControls_teardown()
         
         teardownFigureSection()
@@ -101,12 +95,24 @@ class SK2ReducedSpaceViewController1: UIViewController, UITextFieldDelegate {
     }
     
     // ===========================================
-    // Figure section
+    // MARK: - Figure controls
     
     @IBOutlet weak var figureSelectorButton: UIButton!
     @IBOutlet weak var autocalibrateButton: UIButton!
     
     var figureSelectionMonitor: ChangeMonitor? = nil
+    
+    func figureControls_setup() {
+        
+    }
+    
+    func figureControls_update() {
+        
+    }
+    
+    func figureControls_teardown() {
+        
+    }
     
     func setupFigureSection() {
         UIUtils.addBorder(figureSelectorButton)
@@ -115,17 +121,17 @@ class SK2ReducedSpaceViewController1: UIViewController, UITextFieldDelegate {
             
             // TODO: decide if we want this!
             // figureSelectionMonitor = figureSelector.monitorChanges(figureSelector_update)
-
+            
         }
-
-
+        
+        
     }
     
     func teardownFigureSection() {
         
         // TODO decide if we want this
         // figureSelectionMonitor?.disconnect()
-
+        
     }
     
     /// called when selected figure changes
@@ -136,7 +142,7 @@ class SK2ReducedSpaceViewController1: UIViewController, UITextFieldDelegate {
         updateFigureControls()
     }
     
-    @IBAction func calibrate(_ sender: Any) {
+    @IBAction func recalibrate(_ sender: Any) {
         if let figure = visualization.figures.selection?.value as? SK2ReducedSpaceFigure {
             figure.observable.recalibrate()
         }
@@ -148,6 +154,14 @@ class SK2ReducedSpaceViewController1: UIViewController, UITextFieldDelegate {
         }
     }
     
+    @IBAction func toggleAutocalibration(_ sender: Any?) {
+        if let figure = visualization.figures.selection?.value as? SK2ReducedSpaceFigure {
+            let prev = figure.observable.autocalibrate
+            figure.observable.autocalibrate = !prev
+        }
+        updateFigureControls()
+    }
+    
     @IBAction func takeSnapshot(_ sender: Any) {
         
         // from https://www.hackingwithswift.com/example-code/media/how-to-render-a-uiview-to-a-uiimage:
@@ -156,23 +170,15 @@ class SK2ReducedSpaceViewController1: UIViewController, UITextFieldDelegate {
         //     view.drawHierarchy(in: view.bounds, afterScreenUpdates: true)
         // }
         // TODO
-//        if let context = AppModel.figureController.renderContext {
-            
-//            let texture = context.view.currentDrawable!.texture
-//
-//        }
-//        let image: UIImage? = appModel?.graphicsController.graphics?.takeSnapshot()
-//        if (image != nil) {
-//            UIImageWriteToSavedPhotosAlbum(image!, nil, nil, nil)
-//        }
-    }
-
-    @IBAction func toggleAutocalibration(_ sender: Any?) {
-        if let figure = visualization.figures.selection?.value as? SK2ReducedSpaceFigure {
-            let prev = figure.observable.autocalibrate
-            figure.observable.autocalibrate = !prev
-        }
-        updateFigureControls()
+        //        if let context = AppModel.figureController.renderContext {
+        
+        //            let texture = context.view.currentDrawable!.texture
+        //
+        //        }
+        //        let image: UIImage? = appModel?.graphicsController.graphics?.takeSnapshot()
+        //        if (image != nil) {
+        //            UIImageWriteToSavedPhotosAlbum(image!, nil, nil, nil)
+        //        }
     }
     
     func updateFigureControls() {
@@ -192,148 +198,58 @@ class SK2ReducedSpaceViewController1: UIViewController, UITextFieldDelegate {
     let modelControls_yShift: CGFloat = 72
     
     func modelControls_setup() {
+        N_label.text = SK2Model.N_name
+        N_field.delegate = self
+        N_stepper.minimumValue = Double(SK2Model.N_min)
+        N_stepper.maximumValue = Double(SK2Model.N_max)
         
-        // ==============================
-        // N
+        k_label.text = SK2Model.k_name
+        k_field.delegate = self
+        k_stepper.minimumValue = Double(SK2Model.k_min)
+        k_stepper.maximumValue = Double(SK2Model.k_max)
         
-        if let N_label = N_label {
-            N_label.text = SK2Model.N_name
-        }
-        if let N_field = N_field {
-            N_field.delegate = self
-            N_field.text = basicString(model!.N_value)
-        }
-            
-        if let N_stepper = N_stepper {
-            N_stepper.minimumValue = Double(model!.N_min)
-            N_stepper.maximumValue = Double(model!.N_max)
-            N_stepper.stepValue = Double(model!.N_stepSize)
-        }
-
+        alpha1_label.text = SK2Model.alpha1_name
+        alpha1_field.delegate = self
+        alpha1_stepper.minimumValue = Double(SK2Model.alpha1_min)
+        alpha1_stepper.maximumValue = Double(SK2Model.alpha1_max)
         
-        // ================================
-        // k
+        alpha2_label.text = SK2Model.alpha2_name
+        alpha2_field.delegate = self
+        alpha2_stepper.minimumValue = Double(SK2Model.alpha2_min)
+        alpha2_stepper.maximumValue = Double(SK2Model.alpha2_max)
         
-        if let k_label = k_label {
-            k_label.text = SK2Model.k_name
-        }
-        if let k_field = k_field {
-            k_field.delegate = self
-            k_field.text = basicString(model!.k_value)
-        }
-            
-        if let k_stepper = k_stepper {
-            k_stepper.minimumValue = Double(model!.k_min)
-            k_stepper.maximumValue = Double(model!.k_max)
-            k_stepper.stepValue = Double(model!.k_stepSize)
-        }
+        beta_label.text = SK2Model.beta_name
+        beta_field.delegate = self
+        beta_stepper.minimumValue = Double(SK2Model.beta_min)
+        beta_stepper.maximumValue = Double(SK2Model.beta_max)
         
-        // =================================
-        // alpha1
-        
-        if let alpha1_label = alpha1_label {
-            alpha1_label.text = SK2Model.alpha1_name
-        }
-        if let alpha1_field = alpha1_field {
-            alpha1_field.delegate = self
-            alpha1_field.text = basicString(model!.alpha1_value)
-        }
-            
-        if let alpha1_stepper = alpha1_stepper {
-            alpha1_stepper.minimumValue = Double(model!.alpha1_min)
-            alpha1_stepper.maximumValue = Double(model!.alpha1_max)
-            alpha1_stepper.stepValue = Double(model!.alpha1_stepSize)
-        }
-
-        // =================================
-        // alpha2
-        
-        if let alpha2_label = alpha2_label {
-            alpha2_label.text = SK2Model.alpha2_name
-        }
-        if let alpha2_field = alpha2_field {
-            alpha2_field.delegate = self
-            alpha2_field.text = basicString(model!.alpha2_value)
-        }
-            
-        if let alpha2_stepper = alpha2_stepper {
-            alpha2_stepper.minimumValue = Double(model!.alpha2_min)
-            alpha2_stepper.maximumValue = Double(model!.alpha2_max)
-            alpha2_stepper.stepValue = Double(model!.alpha2_stepSize)
-        }
-
-        // =================================
-        // beta
-        
-        if let beta_label = beta_label {
-            beta_label.text = SK2Model.beta_name
-        }
-        if let beta_field = beta_field {
-            beta_field.delegate = self
-            beta_field.text = basicString(model!.beta_value)
-        }
-            
-        if let beta_stepper = beta_stepper {
-            beta_stepper.minimumValue = Double(model!.beta_min)
-            beta_stepper.maximumValue = Double(model!.beta_max)
-            beta_stepper.stepValue = Double(model!.beta_stepSize)
-        }
-
-        modelPropertyChangeHandle = model.monitorProperties(modelControls_update)
+        modelControls_update()
+        modelPropertyChangeHandle = model?.monitorProperties(modelPropertyChange) ?? nil
     }
     
-    func modelControls_update(_ sender: Any? = nil) {
+    func modelControls_update() {
+        guard let model = model
+            else { return }
         
-        // ==================================
-        // N
+        N_field.text = basicString(model.N_value)
+        N_stepper.value = Double(model.N_value)
+        N_stepper.stepValue = Double(model.N_stepSize)
         
-        if let N_field = N_field {
-            N_field.text = basicString(model!.N_value)
-        }
-        if let N_stepper = N_stepper {
-            N_stepper.stepValue = Double(model!.N_stepSize)
-        }
+        k_field.text = basicString(model.k_value)
+        k_stepper.value = Double(model.k_value)
+        k_stepper.stepValue = Double(model.k_stepSize)
         
-        // ==================================
-        // k
+        alpha1_field.text = basicString(model.alpha1_value)
+        alpha1_stepper.value = model.alpha1_value
+        alpha1_stepper.stepValue = model.alpha1_stepSize
         
-        if let k_field = k_field {
-            k_field.text = basicString(model!.k_value)
-        }
-        if let k_stepper = k_stepper {
-            k_stepper.stepValue = Double(model!.k_stepSize)
-        }
-
-        // ==================================
-        // alpha1
+        alpha2_field.text = basicString(model.alpha2_value)
+        alpha2_stepper.value = model.alpha2_value
+        alpha2_stepper.stepValue = model.alpha2_stepSize
         
-        if let alpha1_field = alpha1_field {
-            alpha1_field.text = basicString(model!.alpha1_value)
-        }
-        if let alpha1_stepper = alpha1_stepper {
-            alpha1_stepper.stepValue = model!.alpha1_stepSize
-        }
-
-        // ==================================
-        // alpha2
-        
-        if let alpha2_field = alpha2_field {
-            alpha2_field.text = basicString(model!.alpha2_value)
-        }
-        if let alpha2_stepper = alpha2_stepper {
-            alpha2_stepper.stepValue = model!.alpha2_stepSize
-        }
-
-        // ==================================
-        // beta
-        
-        if let beta_field = beta_field {
-            beta_field.text = basicString(model!.beta_value)
-        }
-        if let beta_stepper = beta_stepper {
-            beta_stepper.stepValue = model!.beta_stepSize
-        }
-
+        beta_field.text = basicString(model.beta_value)
+        beta_stepper.value = model.beta_value
+        beta_stepper.stepValue = model.beta_stepSize
     }
     
     func modelControls_teardown() {
@@ -342,147 +258,140 @@ class SK2ReducedSpaceViewController1: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func resetModelParams(_ sender: Any) {
-        model!.resetParameters()
+        model?.resetParameters()
     }
-
-
+    
+    func modelPropertyChange(_ event: PropertyChangeEvent) {
+        modelControls_update()
+    }
+    
     // ===============================================
     // MARK: - N Controls
     
     @IBOutlet weak var N_label: UILabel!
     @IBOutlet weak var N_field: UITextField!
     @IBOutlet weak var N_stepper: UIStepper!
-
+    
     @IBAction func N_beginEditing(_ sender: Any?) {
         shiftView(dy: -modelControls_yShift)
     }
     
     @IBAction func N_doneEditing(_ sender: Any?) {
         shiftView(dy: modelControls_yShift)
-        if let x = parseInt(N_field.text), let model = model {
-            model.N_value = x
+        if let x = parseInt(N_field.text) {
+            model?.N_value = x
         }
-        modelControls_update()
     }
     
     @IBAction func N_step(_ sender: Any?) {
-        if let x = N_stepper?.value, let model = model {
-            model.N_value = Int(x)
+        if let x = N_stepper?.value {
+            model?.N_value = Int(x)
         }
-        modelControls_update()
     }
-
+    
     // ===========================================
     // MARK: - k Controls
     
     @IBOutlet weak var k_label: UILabel!
     @IBOutlet weak var k_field: UITextField!
     @IBOutlet weak var k_stepper: UIStepper!
-
+    
     @IBAction func k_beginEditing(_ sender: Any?) {
         shiftView(dy: -modelControls_yShift)
     }
     
     @IBAction func k_doneEditing(_ sender: Any?) {
         shiftView(dy: modelControls_yShift)
-        if let x = parseInt(k_field.text), let model = model {
-            model.k_value = x
+        if let x = parseInt(k_field.text) {
+            model?.k_value = x
         }
-        modelControls_update()
     }
     
     @IBAction func k_step(_ sender: Any?) {
-        if let x = k_stepper?.value, let model = model {
-            model.k_value = Int(x)
+        if let x = k_stepper?.value {
+            model?.k_value = Int(x)
         }
-        modelControls_update()
     }
-
+    
     // ===========================================
     // MARK: - alpha1 Controls
     
     @IBOutlet weak var alpha1_label: UILabel!
     @IBOutlet weak var alpha1_field: UITextField!
     @IBOutlet weak var alpha1_stepper: UIStepper!
-
+    
     @IBAction func alpha1_beginEditing(_ sender: Any?) {
         shiftView(dy: -modelControls_yShift)
     }
     
     @IBAction func alpha1_doneEditing(_ sender: Any?) {
         shiftView(dy: modelControls_yShift)
-        if let x = parseDouble(alpha1_field.text), let model = model {
-            model.alpha1_value = x
+        if let x = parseDouble(alpha1_field.text) {
+            model?.alpha1_value = x
         }
-        modelControls_update()
     }
     
     @IBAction func alpha1_step(_ sender: Any?) {
-        if let x = alpha1_stepper?.value, let model = model {
-            model.alpha1_value = x
+        if let x = alpha1_stepper?.value {
+            model?.alpha1_value = x
         }
-        modelControls_update()
     }
-
+    
     // ===========================================
     // MARK: - alpha2 Controls
     
     @IBOutlet weak var alpha2_label: UILabel!
     @IBOutlet weak var alpha2_field: UITextField!
     @IBOutlet weak var alpha2_stepper: UIStepper!
-
+    
     @IBAction func alpha2_beginEditing(_ sender: Any?) {
         shiftView(dy: -modelControls_yShift)
     }
     
     @IBAction func alpha2_doneEditing(_ sender: Any?) {
         shiftView(dy: modelControls_yShift)
-        if let x = parseDouble(alpha2_field.text), let model = model {
-            model.alpha2_value = x
+        if let x = parseDouble(alpha2_field.text) {
+            model?.alpha2_value = x
         }
-        modelControls_update()
     }
     
     @IBAction func alpha2_step(_ sender: Any?) {
-        if let x = alpha2_stepper?.value, let model = model {
-            model.alpha2_value = x
+        if let x = alpha2_stepper?.value {
+            model?.alpha2_value = x
         }
-        modelControls_update()
     }
-
+    
     // ===========================================
     // MARK: - beta Controls
     
     @IBOutlet weak var beta_label: UILabel!
     @IBOutlet weak var beta_field: UITextField!
     @IBOutlet weak var beta_stepper: UIStepper!
-
+    
     @IBAction func beta_beginEditing(_ sender: Any?) {
         shiftView(dy: -modelControls_yShift)
     }
     
     @IBAction func beta_doneEditing(_ sender: Any?) {
         shiftView(dy: modelControls_yShift)
-        if let x = parseDouble(beta_field.text), let model = model {
-            model.beta_value = x
+        if let x = parseDouble(beta_field.text)  {
+            model?.beta_value = x
         }
-        modelControls_update()
     }
     
     @IBAction func beta_step(_ sender: Any?) {
-        if let x = beta_stepper?.value, let model = model {
-            model.beta_value = x
+        if let x = beta_stepper?.value {
+            model?.beta_value = x
         }
-        modelControls_update()
     }
-
+    
     // ===========================================
     // Animation: Sequencer
     
     @IBOutlet weak var sequencerSelectorButton: UIButton!
     
     var sequencerSelectionMonitor: ChangeMonitor? = nil
-
+    
     var sequencerChangeMonitor: ChangeMonitor? = nil
     
     func setupAnimationSection() {
@@ -492,14 +401,14 @@ class SK2ReducedSpaceViewController1: UIViewController, UITextFieldDelegate {
         lbText?.delegate = self
         ubText?.delegate = self
         deltaText?.delegate = self
-
+        
         // TODO decide if we want the sequencer selector to throw property change events
-//        if let sequencers = visualization.sequencers {
-//
-//        }
-//        let sequencerSelector = appPart.sequencerSelector
-//        sequencer_update(self)
-//        sequencerSelectionMonitor = sequencerSelector.monitorChanges(sequencer_update)
+        //        if let sequencers = visualization.sequencers {
+        //
+        //        }
+        //        let sequencerSelector = appPart.sequencerSelector
+        //        sequencer_update(self)
+        //        sequencerSelectionMonitor = sequencerSelector.monitorChanges(sequencer_update)
     }
     
     /// called when selected sequencer changes
@@ -507,7 +416,7 @@ class SK2ReducedSpaceViewController1: UIViewController, UITextFieldDelegate {
         if let button = sequencerSelectorButton {
             button.setTitle(visualization.sequencers.selection?.name ?? "(choose)", for: .normal)
         }
-
+        
         if let seq = visualization.sequencers.selection?.value {
             
             // TODO decide if we want this after all
@@ -541,7 +450,7 @@ class SK2ReducedSpaceViewController1: UIViewController, UITextFieldDelegate {
             bcSelector?.setEnabled(seq.reversible,
                                    forSegmentAt: BoundaryCondition.elastic.rawValue)
             bc_update()
-
+            
             player_update(seq)
         }
         else {
@@ -561,13 +470,13 @@ class SK2ReducedSpaceViewController1: UIViewController, UITextFieldDelegate {
             bcSelector?.selectedSegmentIndex = -1
             
             player_update(nil)
-
+            
         }
         
         // TODO decide if we want to do it this way
-//        sequencerChangeMonitor?.disconnect()
-//        sequencerChangeMonitor = sequencer?.monitorChanges(player_update)
-
+        //        sequencerChangeMonitor?.disconnect()
+        //        sequencerChangeMonitor = sequencer?.monitorChanges(player_update)
+        
         
     }
     
@@ -575,7 +484,7 @@ class SK2ReducedSpaceViewController1: UIViewController, UITextFieldDelegate {
         // debug("sequencer_teardown", "entered")
         // TODO decide if we want to do it this way
         sequencerSelectionMonitor?.disconnect()
-
+        
         sequencerChangeMonitor?.disconnect()
     }
     
@@ -584,7 +493,7 @@ class SK2ReducedSpaceViewController1: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var lbText: UITextField!
     @IBOutlet weak var lbStepper: UIStepper!
-
+    
     @IBOutlet weak var ubText: UITextField!
     @IBOutlet weak var ubStepper: UIStepper!
     
@@ -610,7 +519,7 @@ class SK2ReducedSpaceViewController1: UIViewController, UITextFieldDelegate {
         }
         lb_update()
     }
-
+    
     @IBAction func lbStep(_ sender: UIStepper) {
         if let sequencer = visualization?.sequencers.selection?.value {
             sequencer.lowerBound = sender.value
@@ -673,7 +582,7 @@ class SK2ReducedSpaceViewController1: UIViewController, UITextFieldDelegate {
         }
         delta_update()
     }
-
+    
     func delta_update() {
         if let sequencer = visualization?.sequencers.selection?.value {
             let delta = sequencer.stepSize
@@ -715,7 +624,7 @@ class SK2ReducedSpaceViewController1: UIViewController, UITextFieldDelegate {
         case stepForward = 3
         case runForward = 4
     }
-
+    
     @IBOutlet weak var playerSelector: UISegmentedControl!
     
     private func getPlayerState(_ s: Int) -> PlayerState? {
@@ -748,7 +657,7 @@ class SK2ReducedSpaceViewController1: UIViewController, UITextFieldDelegate {
             
             progressSlider.isEnabled = true
             progressSlider.value = Float(seq.normalizedProgress)
-
+            
             progressLabel.text = basicString(seq.progress)
         }
         else {

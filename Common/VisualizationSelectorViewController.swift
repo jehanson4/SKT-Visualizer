@@ -16,7 +16,17 @@ import os
 
 class VisualizationSelectorViewController : UIViewController {
             
-    
+    @IBOutlet weak var sk2eButton: UIButton!
+    @IBOutlet weak var sk2tButton: UIButton!
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        sk2eButton.setTitle(SK2E_Visualization.visualizationName, for: .normal)
+        sk2tButton.setTitle(SK2T_Visualization.visualizationName, for: .normal)
+
+
+    }
     
     @IBAction func selectVisualization(_ sender: UIButton) {
         guard

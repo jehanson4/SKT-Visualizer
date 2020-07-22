@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import os
 
 //// =======================================================
 //// MARK: - SK2_N
@@ -482,8 +483,8 @@ class SK2Model : DSModel, PropertyChangeMonitor {
     // MARK: - N
     
     static let N_name: String = "N"
-    let N_min: Int = 2
-    let N_max: Int = 10000
+    static let N_min: Int = 2
+    static let N_max: Int = 10000
     private var _N_setPoint: Int = 100
     private var _N_stepSize: Int = 1
     private var _N_value: Int = 100
@@ -491,7 +492,7 @@ class SK2Model : DSModel, PropertyChangeMonitor {
     var N_setPoint: Int {
         get { return _N_setPoint }
         set(newValue) {
-            let x = clip(newValue, N_min, N_max)
+            let x = clip(newValue, SK2Model.N_min, SK2Model.N_max)
             if (x != _N_setPoint) {
                 _N_setPoint = x
             }
@@ -510,10 +511,10 @@ class SK2Model : DSModel, PropertyChangeMonitor {
     var N_value: Int {
         get { return _N_value }
         set(newValue) {
-            let N_new = clip(newValue, N_min, N_max)
+            let N_new = clip(newValue, SK2Model.N_min, SK2Model.N_max)
             if (N_new != _N_value) {
                 _N_value = N_new
-                let k_new = clip(_k_value, k_min, _N_value/2)
+                let k_new = clip(_k_value, SK2Model.k_min, _N_value/2)
                 if (k_new != _k_value) {
                     _k_value = k_new
                     _paramChanged(SK2Model.N_name, SK2Model.k_name)
@@ -529,8 +530,8 @@ class SK2Model : DSModel, PropertyChangeMonitor {
     // MARK: - k
 
     static let k_name: String = "k"
-    let k_min: Int = 1
-    let k_max: Int = 5000000
+    static let k_min: Int = 1
+    static let k_max: Int = 5000000
     private var _k_setPoint: Int = 50
     private var _k_stepSize: Int = 1
     private var _k_value: Int = 100
@@ -539,7 +540,7 @@ class SK2Model : DSModel, PropertyChangeMonitor {
     var k_setPoint: Int {
         get { return _k_setPoint }
         set(newValue) {
-            let x = clip(newValue, k_min, k_max)
+            let x = clip(newValue, SK2Model.k_min, SK2Model.k_max)
             if (x != _k_setPoint) {
                 _k_setPoint = x
             }
@@ -558,10 +559,10 @@ class SK2Model : DSModel, PropertyChangeMonitor {
     var k_value: Int {
         get { return _k_value }
         set(newValue) {
-            let k_new = clip(newValue, k_min, k_max)
+            let k_new = clip(newValue, SK2Model.k_min, SK2Model.k_max)
             if (k_new != _k_value) {
                 _k_value = k_new
-                let N_new = clip(_N_value, 2*_k_value, N_max)
+                let N_new = clip(_N_value, 2*_k_value, SK2Model.N_max)
                 if (N_new != _N_value) {
                     _N_value = N_new
                     _paramChanged(SK2Model.N_name, SK2Model.k_name)
@@ -576,9 +577,9 @@ class SK2Model : DSModel, PropertyChangeMonitor {
     // =====================================================
     // MARK: - alpha1
     
-    static let alpha1_name: String = "\u{03B2}\u{2081}"
-    let alpha1_min: Double = 0
-    let alpha1_max: Double = 1
+    static let alpha1_name: String = "\u{03B1}\u{2081}"
+    static let alpha1_min: Double = 0
+    static let alpha1_max: Double = 1
     var _alpha1_setPoint: Double = 1
     var _alpha1_stepSize: Double = 0.01
     var _alpha1_value: Double = 1
@@ -586,7 +587,7 @@ class SK2Model : DSModel, PropertyChangeMonitor {
     var alpha1_setPoint: Double {
         get { return _alpha1_setPoint }
         set(newValue) {
-            let x = clip(newValue, alpha1_min, alpha1_max)
+            let x = clip(newValue, SK2Model.alpha1_min, SK2Model.alpha1_max)
             if (x != _alpha1_setPoint) {
                 _alpha1_setPoint = x
             }
@@ -605,7 +606,7 @@ class SK2Model : DSModel, PropertyChangeMonitor {
     var alpha1_value: Double {
         get { return _alpha1_value }
         set(newValue) {
-            let x = clip(newValue, alpha1_min, alpha1_max)
+            let x = clip(newValue, SK2Model.alpha1_min, SK2Model.alpha1_max)
             if (x != _alpha1_value) {
                 _alpha1_value = x
                 _paramChanged(SK2Model.alpha1_name)
@@ -616,9 +617,9 @@ class SK2Model : DSModel, PropertyChangeMonitor {
     // =====================================================
     // MARK: alpha2
     
-    static let alpha2_name: String = "\u{03B2}\u{2082}"
-    let alpha2_min: Double = 0
-    let alpha2_max: Double = 1
+    static let alpha2_name: String = "\u{03B1}\u{2082}"
+    static let alpha2_min: Double = 0
+    static let alpha2_max: Double = 1
     private var _alpha2_setPoint: Double = 1
     private var _alpha2_stepSize: Double = 0.01
     private var _alpha2_value: Double = 1
@@ -626,7 +627,7 @@ class SK2Model : DSModel, PropertyChangeMonitor {
     var alpha2_setPoint: Double {
         get { return _alpha2_setPoint }
         set(newValue) {
-            let x = clip(newValue, alpha2_min, alpha2_max)
+            let x = clip(newValue, SK2Model.alpha2_min, SK2Model.alpha2_max)
             if (x !=  _alpha2_setPoint) {
                 _alpha2_setPoint = x
             }
@@ -645,7 +646,7 @@ class SK2Model : DSModel, PropertyChangeMonitor {
     var alpha2_value: Double {
         get { return _alpha2_value }
         set(newValue) {
-            let x = clip(newValue, alpha2_min, alpha2_max)
+            let x = clip(newValue, SK2Model.alpha2_min, SK2Model.alpha2_max)
             if (x != _alpha2_value) {
                 _alpha2_value = x
                 _paramChanged(SK2Model.alpha2_name)
@@ -657,8 +658,8 @@ class SK2Model : DSModel, PropertyChangeMonitor {
     // MARK: beta
     
     static let beta_name: String = "\u{03B2}"
-    let beta_min: Double = 1e-6
-    let beta_max: Double = 1e6
+    static let beta_min: Double = 1e-6
+    static let beta_max: Double = 1e6
     private var _beta_setPoint: Double = 100
     private var _beta_stepSize: Double = 1
     private var _beta_value: Double = 100
@@ -666,7 +667,7 @@ class SK2Model : DSModel, PropertyChangeMonitor {
     var beta_setPoint: Double {
         get { return _beta_setPoint }
         set(newValue) {
-            let x = clip(newValue, beta_min, beta_max)
+            let x = clip(newValue, SK2Model.beta_min, SK2Model.beta_max)
             if (x != _beta_setPoint) {
                 _beta_setPoint = x
             }
@@ -685,7 +686,7 @@ class SK2Model : DSModel, PropertyChangeMonitor {
     var beta_value: Double {
         get { return _beta_value }
         set(newValue) {
-            let x = clip(newValue, beta_min, beta_max)
+            let x = clip(newValue, SK2Model.beta_min, SK2Model.beta_max)
             if (x != _beta_value) {
                 _beta_value = x
                 _paramChanged(SK2Model.beta_name)

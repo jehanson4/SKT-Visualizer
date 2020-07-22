@@ -81,7 +81,9 @@ class PropertyChangeSupport : PropertyChangeMonitor {
     private var _handles = [Int: Handle]()
     
     func monitorProperties(_ callback: @escaping (PropertyChangeEvent) -> ()) -> PropertyChangeHandle? {
-        let handle = Handle(_nextID, self, callback)
+        let id = _nextID
+        let handle = Handle(id, self, callback)
+        _handles[id] = handle
         _nextID += 1
         return handle
     }

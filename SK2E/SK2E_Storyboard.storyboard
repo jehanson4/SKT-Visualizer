@@ -71,14 +71,14 @@
                                                                 <rect key="frame" x="0.0" y="0.0" width="155.5" height="110"/>
                                                                 <state key="normal" title="Recalibrate"/>
                                                                 <connections>
-                                                                    <action selector="calibrate:" destination="1Ul-i5-KtM" eventType="touchUpInside" id="F4q-go-qqL"/>
+                                                                    <action selector="recalibrate:" destination="1Ul-i5-KtM" eventType="touchUpInside" id="2u2-xB-qZX"/>
                                                                 </connections>
                                                             </button>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l0N-Ae-IOl">
                                                                 <rect key="frame" x="155.5" y="0.0" width="155.5" height="110"/>
                                                                 <state key="normal" title="Reset POV"/>
                                                                 <connections>
-                                                                    <action selector="resetPOV:" destination="1Ul-i5-KtM" eventType="touchUpInside" id="6Bj-ad-1Dh"/>
+                                                                    <action selector="resetPOV:" destination="1Ul-i5-KtM" eventType="touchUpInside" id="50K-TH-CWI"/>
                                                                 </connections>
                                                             </button>
                                                         </subviews>
@@ -90,14 +90,14 @@
                                                                 <rect key="frame" x="0.0" y="0.0" width="155.5" height="30"/>
                                                                 <state key="normal" title="Autocalibrate"/>
                                                                 <connections>
-                                                                    <action selector="toggleAutocalibration:" destination="1Ul-i5-KtM" eventType="touchUpInside" id="JfG-8r-mP6"/>
+                                                                    <action selector="toggleAutocalibration:" destination="1Ul-i5-KtM" eventType="touchUpInside" id="fQr-zv-cfm"/>
                                                                 </connections>
                                                             </button>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K8e-dM-aCD">
                                                                 <rect key="frame" x="155.5" y="0.0" width="155.5" height="30"/>
                                                                 <state key="normal" title="Take snapshot"/>
                                                                 <connections>
-                                                                    <action selector="takeSnapshot:" destination="1Ul-i5-KtM" eventType="touchUpInside" id="gLG-MP-Hku"/>
+                                                                    <action selector="takeSnapshot:" destination="1Ul-i5-KtM" eventType="touchUpInside" id="Gic-3b-j2B"/>
                                                                 </connections>
                                                             </button>
                                                         </subviews>
@@ -611,14 +611,14 @@
                         <outlet property="alpha2_field" destination="kDt-Gj-ldN" id="0qj-Mh-nsV"/>
                         <outlet property="alpha2_label" destination="N4R-7C-zJc" id="Epc-ld-Pp2"/>
                         <outlet property="alpha2_stepper" destination="yKm-Go-gmY" id="2Nn-zY-kgF"/>
-                        <outlet property="autocalibrateButton" destination="l1P-8m-Ta9" id="X2J-Q5-a4G"/>
+                        <outlet property="autocalibrateButton" destination="l1P-8m-Ta9" id="zjT-jp-BsF"/>
                         <outlet property="bcSelector" destination="qOJ-1R-dAz" id="fVZ-Lz-NJc"/>
                         <outlet property="beta_field" destination="iQo-YS-LVq" id="ndP-fm-D96"/>
                         <outlet property="beta_label" destination="kst-3W-Z0j" id="CAn-IL-8g9"/>
                         <outlet property="beta_stepper" destination="71N-AQ-KgN" id="nH6-eI-m9U"/>
                         <outlet property="deltaStepper" destination="iPb-xT-o65" id="CFm-wq-uHm"/>
                         <outlet property="deltaText" destination="JS0-19-oSI" id="wkL-7s-yqK"/>
-                        <outlet property="figureSelectorButton" destination="aDJ-qV-Xi8" id="bW5-5U-sS6"/>
+                        <outlet property="figureSelectorButton" destination="aDJ-qV-Xi8" id="z8B-72-uQy"/>
                         <outlet property="k_field" destination="pPz-tb-NiU" id="2rP-14-a0c"/>
                         <outlet property="k_label" destination="zwF-sD-j8X" id="CTK-3z-gTp"/>
                         <outlet property="k_stepper" destination="ExS-VI-VxA" id="F3u-NC-oPK"/>
@@ -637,10 +637,10 @@
             </objects>
             <point key="canvasLocation" x="1927" y="-4773"/>
         </scene>
-        <!--SK/2E Figures-->
+        <!--FigureSelectorViewController-->
         <scene sceneID="iUy-u6-KrA">
             <objects>
-                <tableViewController title="SK/2E Figures" clearsSelectionOnViewWillAppear="NO" id="22o-zh-LZs" customClass="FigureSelectionViewController19" customModule="SKT_Visualizer" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="SK/2E Figures" clearsSelectionOnViewWillAppear="NO" id="22o-zh-LZs" userLabel="FigureSelectorViewController" customClass="FigureSelectorViewController" customModule="SKT_Visualizer" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="hIe-5b-6mF">
                         <rect key="frame" x="0.0" y="0.0" width="256" height="492"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

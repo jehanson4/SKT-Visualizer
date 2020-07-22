@@ -14,7 +14,7 @@ import UIKit
 
 class EmptyFigure: Figure {
 
-    var name: String = ""
+    var name: String = "EmptyFigure"
     
     var effects: Registry<Effect>? = nil
     var context: RenderContext? = nil

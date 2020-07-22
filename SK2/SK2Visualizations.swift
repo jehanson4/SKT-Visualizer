@@ -26,6 +26,7 @@ class SK2VisualizationFactory {
         let planeGeometry = SK2PlaneGeometry()
         
         visualizations.append(SK2E_Visualization(model, planeGeometry))
+        visualizations.append(SK2T_Visualization(model, planeGeometry))
         
         return visualizations
     }
