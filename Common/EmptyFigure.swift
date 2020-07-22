@@ -23,9 +23,12 @@ class EmptyFigure: Figure {
     func figureWillBeInstalled(_ context: RenderContext) {
         self.context = context
         
+        let vertexProgram = context.library.makeFunction(name: "basic_vertex")
+        let fragmentProgram = context.library.makeFunction(name: "basic_fragment")
+
         let pipelineStateDescriptor = MTLRenderPipelineDescriptor()
-        // pipelineStateDescriptor.vertexFunction = vertexProgram
-        // pipelineStateDescriptor.fragmentFunction = fragmentProgram
+        pipelineStateDescriptor.vertexFunction = vertexProgram
+        pipelineStateDescriptor.fragmentFunction = fragmentProgram
         pipelineStateDescriptor.colorAttachments[0].pixelFormat = .bgra8Unorm
         
         pipelineState = try! context.device.makeRenderPipelineState(descriptor: pipelineStateDescriptor)

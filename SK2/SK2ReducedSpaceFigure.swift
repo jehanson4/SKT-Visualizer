@@ -19,17 +19,17 @@ protocol SK2ReducedSpaceObservable: DSObservable, PropertyChangeMonitor {
     /// Call this method inside a loop iterating over the nodes.
     /// ASSUMES refresh() has been called.
     func elevationAt(nodeIndex: Int) -> Float
-
+    
     /// Call this method inside a loop iterating over the nodes.
     /// ASSUMES refresh() has been called.
     func colorAt(nodeIndex: Int) -> SIMD4<Float>
-
+    
 }
 
 // ============================================================
-// MARK: NodeCoordinateManager
+// MARK: NodeCoordinatesController
 
-struct NodeCoordinateManager {
+struct NodeCoordinatesController {
     
     var reliefEnabled: Bool = true
     var nodeCoordinates = [SIMD3<Float>]()
@@ -45,22 +45,22 @@ struct NodeCoordinateManager {
 }
 
 // ============================================================
-// MARK: NodeColorManager
+// MARK: NodeColorsController
 
-struct NodeColorManager {
+struct NodeColorsController {
     
     var colorsEnabled: Bool = true
     var nodeColorBuffer: MTLBuffer?
-
+    
     func refresh(observable: SK2ReducedSpaceObservable) {
         // TODO
     }
 }
 
 // ============================================================
-// MARK: NodeUniformsManager
+// MARK: NodeUniformsController
 
-struct NodeUniformsManager {
+struct NodeUniformsController {
     
     var nodeUniformsBuffer: MTLBuffer?
     
@@ -80,11 +80,11 @@ class SK2ReducedSpaceFigure : Figure {
     weak var observable: SK2ReducedSpaceObservable!
     var renderContext: RenderContext!
     
-    lazy var effects: Registry<Effect> = _initEffects()
+    lazy var effects: Registry<Effect>? = _initEffects()
     
-    var nodeCoords: NodeCoordinateManager
-    var nodeColors: NodeColorManager
-    var nodeUniforms: NodeUniformsManager
+    var nodeCoords: NodeCoordinatesController
+    var nodeColors: NodeColorsController
+    var nodeUniforms: NodeUniformsController
     
     var reliefEnabled: Bool {
         get { return _reliefEnabled }
@@ -103,17 +103,17 @@ class SK2ReducedSpaceFigure : Figure {
         self.model = model
         self.geometry = geometry
         self.observable = observable
-        self.nodeCoords = NodeCoordinateManager()
-        self.nodeColors = NodeColorManager()
-        self.nodeUniforms = NodeUniformsManager()
+        self.nodeCoords = NodeCoordinatesController()
+        self.nodeColors = NodeColorsController()
+        self.nodeUniforms = NodeUniformsController()
     }
     
     func figureWillBeInstalled(_ context: RenderContext) {
         renderContext = context
         updateDrawableArea(context.view.bounds)
         geometry.connectGestures(renderContext.view)
-
-        if let context = renderContext {
+        
+        if let context = renderContext, let effects = effects {
             for entry in effects.entries {
                 entry.value.value.setup(context)
             }
@@ -124,11 +124,13 @@ class SK2ReducedSpaceFigure : Figure {
     
     func figureWasUninstalled() {
         geometry.disconnectGestures(renderContext.view)
-
-        for entry in effects.entries {
-            entry.value.value.teardown()
+        
+        if let effects = effects {
+            for entry in effects.entries {
+                entry.value.value.teardown()
+            }
         }
-
+        
         // TODO what else?
     }
     
@@ -137,17 +139,18 @@ class SK2ReducedSpaceFigure : Figure {
     }
     
     func updateContent(_ date: Date) {
-
-        for entry in effects.entries {
-            entry.value.value.update(date)
+        
+        if let effects = effects {
+            for entry in effects.entries {
+                entry.value.value.update(date)
+            }
         }
-
         // TODO what else?
     }
     
     func render(_ drawable: CAMetalDrawable) {
         // TODO create command encoder
-        // TODO encode effects' render commands
+        // TODO have effects do their stuff
         // TODO what else?
     }
     

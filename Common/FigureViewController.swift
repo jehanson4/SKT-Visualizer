@@ -13,8 +13,9 @@ import os
 // =======================================================
 // MARK: - FigureViewController
 
-class FigureViewController : UIViewController {
+class FigureViewController : UIViewController, FigureController {
     
+    var renderContext: RenderContext?
     var defaultFigure: Figure!
     weak var installedFigure: Figure!
 
@@ -28,17 +29,18 @@ class FigureViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        AppModel.figureViewController = self
-        AppModel.renderContext = RenderContext(view: mtkView)
-        mtkView.device = AppModel.renderContext.device
-            
+        renderContext = RenderContext(view: mtkView)
+        mtkView.device = renderContext!.device
+        AppModel.figureController = self
+
         defaultFigure = EmptyFigure()
         installFigure(defaultFigure)
     }
     
     func installFigure(_ figure: Figure?) {
         guard
-            let newFigure = figure
+            let newFigure = figure,
+            let context = AppModel.figureController.renderContext
             else { return }
         
         if let oldFigure = installedFigure {
@@ -48,7 +50,7 @@ class FigureViewController : UIViewController {
             installedFigure = nil
             oldFigure.figureWasUninstalled()
         }
-        newFigure.figureWillBeInstalled(AppModel.renderContext)
+        newFigure.figureWillBeInstalled(context)
         installedFigure = newFigure
         os_log("Installed figure: %s", newFigure.name)
     }
@@ -69,7 +71,13 @@ extension FigureViewController : MTKViewDelegate {
             let drawable = view.currentDrawable
         else { return }
         
+        // ===============
+        // TODO use a semaphore!
+        // ensure that content updates are completed before render command is issued
+        // ===============
+        
         figure.updateContent(Date())
+        
         figure.render(drawable)
     }
 }

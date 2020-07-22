@@ -114,7 +114,7 @@
                                                         <state key="normal" title="SK/2 Equilibrium ›"/>
                                                         <connections>
                                                             <action selector="selectSK2E:" destination="bVF-Kc-23a" eventType="touchUpInside" id="QVx-bC-f0h"/>
-                                                            <segue destination="pOT-RV-AeI" kind="show" identifier="segueToSK2E" id="Eh7-cP-QOM"/>
+                                                            <segue destination="pOT-RV-AeI" kind="show" id="TTk-af-kyn"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -307,42 +307,6 @@
             </objects>
             <point key="canvasLocation" x="-376" y="-1667"/>
         </scene>
-        <!--Graphics View Controller-->
-        <scene sceneID="ABm-an-9fd">
-            <objects>
-                <glkViewController storyboardIdentifier="GraphicsViewController" definesPresentationContext="YES" preferredFramesPerSecond="30" id="LwZ-pv-TfX" userLabel="Graphics View Controller" customClass="GraphicsViewController" customModule="SKT_Visualizer" customModuleProvider="target" sceneMemberID="viewController">
-                    <glkView key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" enableSetNeedsDisplay="NO" id="26b-Eu-dbg">
-                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <gestureRecognizers/>
-                        <viewLayoutGuide key="safeArea" id="Mth-bt-HLi"/>
-                        <connections>
-                            <outlet property="delegate" destination="LwZ-pv-TfX" id="JFP-ot-Y1a"/>
-                            <outletCollection property="gestureRecognizers" destination="LIf-ms-30V" appends="YES" id="iHX-lY-7Z8"/>
-                            <outletCollection property="gestureRecognizers" destination="UDA-ef-piJ" appends="YES" id="FiK-YU-2hn"/>
-                            <outletCollection property="gestureRecognizers" destination="Qug-MO-haS" appends="YES" id="RpF-O5-P4Z"/>
-                        </connections>
-                    </glkView>
-                </glkViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="qmt-2t-YRW" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <panGestureRecognizer minimumNumberOfTouches="1" maximumNumberOfTouches="1" id="LIf-ms-30V">
-                    <connections>
-                        <action selector="handlePan:" destination="LwZ-pv-TfX" id="Aul-xZ-eqy"/>
-                    </connections>
-                </panGestureRecognizer>
-                <tapGestureRecognizer id="UDA-ef-piJ">
-                    <connections>
-                        <action selector="handleTap:" destination="LwZ-pv-TfX" id="qph-qE-fm6"/>
-                    </connections>
-                </tapGestureRecognizer>
-                <pinchGestureRecognizer id="Qug-MO-haS">
-                    <connections>
-                        <action selector="handlePinch:" destination="LwZ-pv-TfX" id="fsD-NM-fag"/>
-                    </connections>
-                </pinchGestureRecognizer>
-            </objects>
-            <point key="canvasLocation" x="363" y="2"/>
-        </scene>
         <!--Split View Controller-->
         <scene sceneID="gMr-bh-oVR">
             <objects>
@@ -356,10 +320,12 @@
             </objects>
             <point key="canvasLocation" x="-1212" y="-1233"/>
         </scene>
-        <!--SK2_Storyboard-->
+        <!--SK2E_Storyboard-->
         <scene sceneID="ncs-bM-tTG">
             <objects>
-                <viewControllerPlaceholder storyboardName="SK2_Storyboard" id="pOT-RV-AeI" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardIdentifier="SK2E_Storyboard" storyboardName="SK2E_Storyboard" id="pOT-RV-AeI" userLabel="SK2E_Storyboard" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="7QL-nh-hNi"/>
+                </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZMk-MP-bdz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="934" y="-1628"/>

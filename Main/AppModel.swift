@@ -12,10 +12,16 @@ struct AppModel {
     
     static var visualizations:Selector<Visualization>! = _loadVisualizations()
     
-    static var figureViewController: FigureViewController!
+    static var figureController: FigureController!
     
-    static var renderContext: RenderContext!
-
+    static func loadPreferences() {
+        // TODO
+    }
+    
+    static func savePreferences() {
+        // TODO
+    }
+    
     private static func _loadVisualizations() -> Selector<Visualization> {
         let registry = Registry<Visualization>()
         

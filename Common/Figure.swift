@@ -40,10 +40,20 @@ protocol Figure: NamedObject {
 
     func updateDrawableArea(_ drawableArea: CGRect)
 
+    /// ALL content updates here
     func updateContent(_ date: Date)
 
+    /// ONLY rendering commands here
     func render(_ drawable: CAMetalDrawable)
     
-    func resetPOV()
+}
 
+// ===============================================================
+// MARK: - FigureController
+
+protocol FigureController {
+    
+    var renderContext: RenderContext? { get }
+    
+    func installFigure(_ figure: Figure?)
 }

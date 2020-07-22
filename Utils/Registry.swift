@@ -40,6 +40,18 @@ class Registry<T> {
     var entries = [String: RegistryEntry<T>]()
     var names = [String]()
     
+    var entryCount: Int {
+        return entries.count
+    }
+    
+    func entry(name: String) -> RegistryEntry<T>? {
+        return entries[name]
+    }
+    
+    func entry(index: Int) -> RegistryEntry<T>? {
+        return entries[names[index]]
+    }
+    
     /**
         This will **change the value's name** if value is a NamedObject and the original name is in use.
      

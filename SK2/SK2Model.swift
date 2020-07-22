@@ -8,310 +8,469 @@
 
 import Foundation
 
-// =======================================================
-// MARK: - SK2_N
-
-class SK2_N: DSParam {
-    
-    var name: String
-    var model: SK2Model
-    
-    init(_ model: SK2Model) {
-        self.name = SK2Model.N_name
-        self.model = model
-    }
-    
-    var valueString: String {
-        return basicString(model.N)
-    }
-    
-    var minString: String {
-        return basicString(model.N_min)
-    }
-    
-    var maxString: String {
-        return basicString(model.N_max)
-    }
-    
-    var setPointString: String {
-        return basicString(model.N_setPoint)
-    }
-    
-    var stepSizeString: String {
-        return basicString(model.N_stepSize)
-    }
-    
-    func assignValue(_ value: String) {
-        if let x = parseInt(value) {
-            model.N = x
-        }
-    }
-    
-    func assignSetPoint(_ setPoint: String) {
-        if let x = parseInt(setPoint) {
-            model.N_setPoint = x
-        }
-    }
-    
-    func assignStepSize(_ stepSize: String) {
-        if let x = parseInt(stepSize) {
-            model.N_stepSize = x
-        }
-    }
-    
-    func reset() {
-        model.N = model.N_setPoint
-    }
-    
-    func incr(_ steps: Int) {
-        model.N = model.N + steps * model.N_stepSize
-    }
-    
-}
-
-// =======================================================
-// MARK: - SK2_k
-
-class SK2_k: DSParam {
-    
-    var name: String
-    var model: SK2Model
-    
-    init(_ model: SK2Model) {
-        self.name = SK2Model.k_name
-        self.model = model
-    }
-    
-    var valueString: String {
-        return basicString(model.k)
-    }
-    
-    var minString: String {
-        return basicString(model.k_min)
-    }
-    
-    var maxString: String {
-        return basicString(model.k_max)
-    }
-    
-    var setPointString: String {
-        return basicString(model.k_setPoint)
-    }
-    
-    var stepSizeString: String {
-        return basicString(model.k_stepSize)
-    }
-    
-    func assignValue(_ value: String) {
-        if let x = parseInt(value) {
-            model.k = x
-        }
-    }
-    
-    func assignSetPoint(_ setPoint: String) {
-        if let x = parseInt(setPoint) {
-            model.k_setPoint = x
-        }
-    }
-    
-    func assignStepSize(_ stepSize: String) {
-        if let x = parseInt(stepSize) {
-            model.k_stepSize = x
-        }
-    }
-    
-    func reset() {
-        model.k = model.k_setPoint
-    }
-    
-    func incr(_ steps: Int) {
-        model.k = model.k + steps * model.k_stepSize
-    }
-}
-
-// =======================================================
-// MARK: - SK2_alpha1
-
-class SK2_alpha1: DSParam {
-    
-    var name: String
-    var model: SK2Model
-    
-    init(_ model: SK2Model) {
-        self.name = SK2Model.alpha1_name
-        self.model = model
-    }
-    
-    var valueString: String {
-        return basicString(model.alpha1)
-    }
-    
-    var minString: String {
-        return basicString(model.alpha1_min)
-    }
-    
-    var maxString: String {
-        return basicString(model.alpha1_max)
-    }
-    
-    var setPointString: String {
-        return basicString(model.alpha1_setPoint)
-    }
-    
-    var stepSizeString: String {
-        return basicString(model.alpha1_stepSize)
-    }
-    
-    func assignValue(_ value: String) {
-        if let x = parseDouble(value) {
-            model.alpha1 = x
-        }
-    }
-    
-    func assignSetPoint(_ setPoint: String) {
-        if let x = parseDouble(setPoint) {
-            model.alpha1_setPoint = x
-        }
-    }
-    
-    func assignStepSize(_ stepSize: String) {
-        if let x = parseDouble(stepSize) {
-            model.alpha1_stepSize = x
-        }
-    }
-    
-    func reset() {
-        model.alpha1 = model.alpha1_setPoint
-    }
-    
-    func incr(_ steps: Int) {
-        model.alpha1 = model.alpha1 + Double(steps) * model.alpha1_stepSize
-    }
-    
-}
-
-// =======================================================
-// MARK: - SK2_alpha2
-
-class SK2_alpha2: DSParam {
-    
-    var name: String
-    var model: SK2Model
-    
-    init(_ model: SK2Model) {
-        self.name = SK2Model.alpha2_name
-        self.model = model
-    }
-    
-    var valueString: String {
-        return basicString(model.alpha2)
-    }
-    
-    var minString: String {
-        return basicString(model.alpha2_min)
-    }
-    
-    var maxString: String {
-        return basicString(model.alpha2_max)
-    }
-    
-    var setPointString: String {
-        return basicString(model.alpha2_setPoint)
-    }
-    
-    var stepSizeString: String {
-        return basicString(model.alpha2_stepSize)
-    }
-    
-    func assignValue(_ value: String) {
-        if let x = parseDouble(value) {
-            model.alpha2 = x
-        }
-    }
-    
-    func assignSetPoint(_ setPoint: String) {
-        if let x = parseDouble(setPoint) {
-            model.alpha2_setPoint = x
-        }
-    }
-    
-    func assignStepSize(_ stepSize: String) {
-        if let x = parseDouble(stepSize) {
-            model.alpha2_stepSize = x
-        }
-    }
-    
-    func reset() {
-        model.alpha2 = model.alpha2_setPoint
-    }
-    
-    func incr(_ steps: Int) {
-        model.alpha2 = model.alpha2 + Double(steps) * model.alpha2_stepSize
-    }
-    
-}
-
-// =======================================================
-// MARK: - SK2_beta
-
-
-class SK2_beta: DSParam {
-    
-    var name: String
-    var model: SK2Model
-    
-    init(_ model: SK2Model) {
-        self.name = SK2Model.beta_name
-        self.model = model
-    }
-    
-    var valueString: String {
-        return basicString(model.beta)
-    }
-    
-    var minString: String {
-        return basicString(model.beta_min)
-    }
-    
-    var maxString: String {
-        return basicString(model.beta_max)
-    }
-    
-    var setPointString: String {
-        return basicString(model.beta_setPoint)
-    }
-    
-    var stepSizeString: String {
-        return basicString(model.beta_stepSize)
-    }
-    
-    func assignValue(_ value: String) {
-        if let x = parseDouble(value) {
-            model.beta = x
-        }
-    }
-    
-    func assignSetPoint(_ setPoint: String) {
-        if let x = parseDouble(setPoint) {
-            model.beta_setPoint = x
-        }
-    }
-    
-    func assignStepSize(_ stepSize: String) {
-        if let x = parseDouble(stepSize) {
-            model.beta_stepSize = x
-        }
-    }
-    
-    func reset() {
-        model.beta = model.beta_setPoint
-    }
-    
-    func incr(_ steps: Int) {
-        model.beta = model.beta + Double(steps) * model.beta_stepSize
-    }
-    
-}
+//// =======================================================
+//// MARK: - SK2_N
+//
+//class SK2_N: DSParameter {
+//
+//    var name: String
+//    var model: SK2Model
+//
+//    init(_ model: SK2Model) {
+//        self.name = SK2Model.N_name
+//        self.model = model
+//    }
+//
+//    var valueAsDouble: Double {
+//        return Double(model.N)
+//    }
+//    var valueAsString: String {
+//        return basicString(model.N)
+//    }
+//
+//    var minAsDouble: Double {
+//        return Double(model.N_min)
+//    }
+//
+//    var minAsString: String {
+//        return basicString(model.N_min)
+//    }
+//
+//    var maxAsDouble: Double {
+//        return Double(model.N_max)
+//    }
+//
+//    var maxAsString: String {
+//        return basicString(model.N_max)
+//    }
+//
+//    var setPointAsDouble: Double {
+//        return Double(model.N_setPoint)
+//    }
+//
+//    var setPointAsString: String {
+//        return basicString(model.N_setPoint)
+//    }
+//
+//    var stepSizeAsDouble: Double {
+//        return Double(model.N_stepSize)
+//    }
+//
+//    var stepSizeAsString: String {
+//        return basicString(model.N_stepSize)
+//    }
+//
+//    func assignValue(_ value: Double) {
+//        model.N = Int(value)
+//    }
+//
+//    func assignValue(_ value: String) {
+//        if let x = parseInt(value) {
+//            model.N = x
+//        }
+//    }
+//
+//    func assignSetPoint(_ setPoint: Double) {
+//        model.N_setPoint = Int(setPoint)
+//    }
+//
+//    func assignSetPoint(_ setPoint: String) {
+//        if let x = parseInt(setPoint) {
+//            model.N_setPoint = x
+//        }
+//    }
+//
+//    func assignStepSize(_ stepSize: Double) {
+//        model.N_stepSize = Int(stepSize)
+//    }
+//
+//    func assignStepSize(_ stepSize: String) {
+//        if let x = parseInt(stepSize) {
+//            model.N_stepSize = x
+//        }
+//    }
+//
+//    func reset() {
+//        model.N = model.N_setPoint
+//    }
+//
+//    func incr(_ steps: Int) {
+//        model.N = model.N + steps * model.N_stepSize
+//    }
+//
+//}
+//
+//// =======================================================
+//// MARK: - SK2_k
+//
+//class SK2_k: DSParameter {
+//
+//    var name: String
+//    var model: SK2Model
+//
+//    init(_ model: SK2Model) {
+//        self.name = SK2Model.k_name
+//        self.model = model
+//    }
+//
+//    var valueAsDouble: Double {
+//        return Double(model.k)
+//    }
+//
+//    var valueAsString: String {
+//        return basicString(model.k)
+//    }
+//
+//    var minAsDouble: Double {
+//        return Double(model.k_min)
+//    }
+//
+//    var minAsString: String {
+//        return basicString(model.k_min)
+//    }
+//
+//    var maxAsDouble: Double {
+//        return Double(model.k_max)
+//    }
+//
+//    var maxAsString: String {
+//        return basicString(model.k_max)
+//    }
+//
+//    var setPointAsDouble: Double {
+//        return Double(model.k_setPoint)
+//    }
+//
+//    var setPointAsString: String {
+//        return basicString(model.k_setPoint)
+//    }
+//
+//    var stepSizeAsDouble: Double {
+//        return Double(model.k_stepSize)
+//    }
+//
+//    var stepSizeAsString: String {
+//        return basicString(model.k_stepSize)
+//    }
+//
+//    func assignValue(_ value: Double) {
+//        model.k = Int(value)
+//    }
+//
+//    func assignValue(_ value: String) {
+//        if let x = parseInt(value) {
+//            model.k = x
+//        }
+//    }
+//
+//    func assignSetPoint(_ setPoint: Double) {
+//        model.k_setPoint = Int(setPoint)
+//    }
+//
+//    func assignSetPoint(_ setPoint: String) {
+//        if let x = parseInt(setPoint) {
+//            model.k_setPoint = x
+//        }
+//    }
+//
+//    func assignStepSize(_ stepSize: Double) {
+//        model.k_stepSize = Int(stepSize)
+//    }
+//
+//    func assignStepSize(_ stepSize: String) {
+//        if let x = parseInt(stepSize) {
+//            model.k_stepSize = x
+//        }
+//    }
+//
+//    func reset() {
+//        model.k = model.k_setPoint
+//    }
+//
+//    func incr(_ steps: Int) {
+//        model.k = model.k + steps * model.k_stepSize
+//    }
+//}
+//
+//// =======================================================
+//// MARK: - SK2_alpha1
+//
+//class SK2_alpha1: DSParameter {
+//
+//    var name: String
+//    var model: SK2Model
+//
+//    init(_ model: SK2Model) {
+//        self.name = SK2Model.alpha1_name
+//        self.model = model
+//    }
+//
+//    var valueAsDouble: Double {
+//        return model.alpha1
+//    }
+//
+//    var valueAsString: String {
+//        return basicString(model.alpha1)
+//    }
+//
+//    var minAsDouble: Double {
+//        return model.alpha1_min
+//    }
+//
+//    var minAsString: String {
+//        return basicString(model.alpha1_min)
+//    }
+//
+//    var maxAsDouble: Double {
+//        return model.alpha1_max
+//    }
+//
+//    var maxAsString: String {
+//        return basicString(model.alpha1_max)
+//    }
+//
+//    var setPointAsDouble: Double {
+//        return model.alpha1_setPoint
+//    }
+//
+//    var setPointAsString: String {
+//        return basicString(model.alpha1_setPoint)
+//    }
+//
+//    var stepSizeAsDouble: Double {
+//        return model.alpha1_stepSize
+//    }
+//
+//    var stepSizeAsString: String {
+//        return basicString(model.alpha1_stepSize)
+//    }
+//
+//    func assignValue(_ value: Double) {
+//        model.alpha1 = value
+//    }
+//
+//    func assignValue(_ value: String) {
+//        if let x = parseDouble(value) {
+//            model.alpha1 = x
+//        }
+//    }
+//
+//    func assignSetPoint(_ setPoint: Double) {
+//        model.alpha1_setPoint = setPoint
+//    }
+//
+//    func assignSetPoint(_ setPoint: String) {
+//        if let x = parseDouble(setPoint) {
+//            model.alpha1_setPoint = x
+//        }
+//    }
+//
+//    func assignStepSize(_ stepSize: Double) {
+//        model.alpha1_stepSize = stepSize
+//    }
+//
+//    func assignStepSize(_ stepSize: String) {
+//        if let x = parseDouble(stepSize) {
+//            model.alpha1_stepSize = x
+//        }
+//    }
+//
+//    func reset() {
+//        model.alpha1 = model.alpha1_setPoint
+//    }
+//
+//    func incr(_ steps: Int) {
+//        model.alpha1 = model.alpha1 + Double(steps) * model.alpha1_stepSize
+//    }
+//
+//}
+//
+//// =======================================================
+//// MARK: - SK2_alpha2
+//
+//class SK2_alpha2: DSParameter {
+//
+//    var name: String
+//    var model: SK2Model
+//
+//    init(_ model: SK2Model) {
+//        self.name = SK2Model.alpha2_name
+//        self.model = model
+//    }
+//
+//    var valueAsDouble: Double {
+//        return model.alpha2
+//    }
+//
+//    var valueAsString: String {
+//        return basicString(model.alpha2)
+//    }
+//
+//    var minAsDouble: Double {
+//        return model.alpha2_min
+//    }
+//
+//    var minAsString: String {
+//        return basicString(model.alpha2_min)
+//    }
+//
+//    var maxAsDouble: Double {
+//        return model.alpha2_max
+//    }
+//
+//    var maxAsString: String {
+//        return basicString(model.alpha2_max)
+//    }
+//
+//    var setPointAsDouble: Double {
+//        return model.alpha2_setPoint
+//    }
+//
+//    var setPointAsString: String {
+//        return basicString(model.alpha2_setPoint)
+//    }
+//
+//    var stepSizeAsDouble: Double {
+//        return model.alpha2_stepSize
+//    }
+//
+//    var stepSizeAsString: String {
+//        return basicString(model.alpha2_stepSize)
+//    }
+//
+//    func assignValue(_ value: Double) {
+//        model.alpha2 = value
+//    }
+//
+//    func assignValue(_ value: String) {
+//        if let x = parseDouble(value) {
+//            model.alpha2 = x
+//        }
+//    }
+//
+//    func assignSetPoint(_ setPoint: Double) {
+//        model.alpha2_setPoint = setPoint
+//    }
+//
+//    func assignSetPoint(_ setPoint: String) {
+//        if let x = parseDouble(setPoint) {
+//            model.alpha2_setPoint = x
+//        }
+//    }
+//
+//    func assignStepSize(_ stepSize: Double) {
+//        model.alpha2_stepSize = stepSize
+//    }
+//
+//    func assignStepSize(_ stepSize: String) {
+//        if let x = parseDouble(stepSize) {
+//            model.alpha2_stepSize = x
+//        }
+//    }
+//
+//    func reset() {
+//        model.alpha2 = model.alpha2_setPoint
+//    }
+//
+//    func incr(_ steps: Int) {
+//        model.alpha2 = model.alpha2 + Double(steps) * model.alpha2_stepSize
+//    }
+//
+//}
+//
+//// =======================================================
+//// MARK: - SK2_beta
+//
+//
+//class SK2_beta: DSParameter {
+//
+//    var name: String
+//    var model: SK2Model
+//
+//    init(_ model: SK2Model) {
+//        self.name = SK2Model.beta_name
+//        self.model = model
+//    }
+//
+//    var valueAsDouble: Double {
+//        return model.beta
+//    }
+//
+//    var valueAsString: String {
+//        return basicString(model.beta)
+//    }
+//
+//    var minAsDouble: Double {
+//        return model.beta_min
+//    }
+//
+//    var minAsString: String {
+//        return basicString(model.beta_min)
+//    }
+//
+//    var maxAsDouble: Double {
+//        return model.beta_max
+//    }
+//
+//    var maxAsString: String {
+//        return basicString(model.beta_max)
+//    }
+//
+//    var setPointAsDouble: Double {
+//        return model.beta_setPoint
+//    }
+//
+//    var setPointAsString: String {
+//        return basicString(model.beta_setPoint)
+//    }
+//
+//    var stepSizeAsDouble: Double {
+//        return model.beta_stepSize
+//    }
+//
+//    var stepSizeAsString: String {
+//        return basicString(model.beta_stepSize)
+//    }
+//
+//    func assignValue(_ value: Double) {
+//        model.beta = value
+//    }
+//
+//    func assignValue(_ value: String) {
+//        if let x = parseDouble(value) {
+//            model.beta = x
+//        }
+//    }
+//
+//    func assignSetPoint(_ setPoint: Double) {
+//        model.beta = setPoint
+//    }
+//
+//    func assignSetPoint(_ setPoint: String) {
+//        if let x = parseDouble(setPoint) {
+//            model.beta_setPoint = x
+//        }
+//    }
+//
+//    func assignStepSize(_ stepSize: Double) {
+//        model.beta_stepSize = stepSize
+//    }
+//
+//    func assignStepSize(_ stepSize: String) {
+//        if let x = parseDouble(stepSize) {
+//            model.beta_stepSize = x
+//        }
+//    }
+//
+//    func reset() {
+//        model.beta = model.beta_setPoint
+//    }
+//
+//    func incr(_ steps: Int) {
+//        model.beta = model.beta + Double(steps) * model.beta_stepSize
+//    }
+//
+//}
 
 
 // =======================================================
@@ -319,13 +478,15 @@ class SK2_beta: DSParam {
 
 class SK2Model : DSModel, PropertyChangeMonitor {
     
+    // =========================================
+    // MARK: - N
+    
     static let N_name: String = "N"
     let N_min: Int = 2
     let N_max: Int = 10000
-    
     private var _N_setPoint: Int = 100
     private var _N_stepSize: Int = 1
-    private var _N: Int = 100
+    private var _N_value: Int = 100
     
     var N_setPoint: Int {
         get { return _N_setPoint }
@@ -346,15 +507,15 @@ class SK2Model : DSModel, PropertyChangeMonitor {
         }
     }
     
-    var N: Int {
-        get { return _N }
+    var N_value: Int {
+        get { return _N_value }
         set(newValue) {
             let N_new = clip(newValue, N_min, N_max)
-            if (N_new != _N) {
-                _N = N_new
-                let k_new = clip(_k, k_min, _N/2)
-                if (k_new != _k) {
-                    _k = k_new
+            if (N_new != _N_value) {
+                _N_value = N_new
+                let k_new = clip(_k_value, k_min, _N_value/2)
+                if (k_new != _k_value) {
+                    _k_value = k_new
                     _paramChanged(SK2Model.N_name, SK2Model.k_name)
                 }
                 else {
@@ -363,11 +524,18 @@ class SK2Model : DSModel, PropertyChangeMonitor {
             }
         }
     }
-    
+
+    // =========================================
+    // MARK: - k
+
     static let k_name: String = "k"
     let k_min: Int = 1
     let k_max: Int = 5000000
+    private var _k_setPoint: Int = 50
+    private var _k_stepSize: Int = 1
+    private var _k_value: Int = 100
     
+
     var k_setPoint: Int {
         get { return _k_setPoint }
         set(newValue) {
@@ -387,15 +555,15 @@ class SK2Model : DSModel, PropertyChangeMonitor {
         }
     }
     
-    var k: Int {
-        get { return _k }
+    var k_value: Int {
+        get { return _k_value }
         set(newValue) {
             let k_new = clip(newValue, k_min, k_max)
-            if (k_new != _k) {
-                _k = k_new
-                let N_new = clip(_N, 2*_k, N_max)
-                if (N_new != _N) {
-                    _N = N_new
+            if (k_new != _k_value) {
+                _k_value = k_new
+                let N_new = clip(_N_value, 2*_k_value, N_max)
+                if (N_new != _N_value) {
+                    _N_value = N_new
                     _paramChanged(SK2Model.N_name, SK2Model.k_name)
                 }
                 else {
@@ -405,14 +573,16 @@ class SK2Model : DSModel, PropertyChangeMonitor {
         }
     }
     
-    private var _k_setPoint: Int = 50
-    private var _k_stepSize: Int = 1
-    private var _k: Int = 100
+    // =====================================================
+    // MARK: - alpha1
     
     static let alpha1_name: String = "\u{03B2}\u{2081}"
     let alpha1_min: Double = 0
     let alpha1_max: Double = 1
-    
+    var _alpha1_setPoint: Double = 1
+    var _alpha1_stepSize: Double = 0.01
+    var _alpha1_value: Double = 1
+
     var alpha1_setPoint: Double {
         get { return _alpha1_setPoint }
         set(newValue) {
@@ -432,24 +602,26 @@ class SK2Model : DSModel, PropertyChangeMonitor {
         }
     }
     
-    var alpha1: Double {
-        get { return _alpha1 }
+    var alpha1_value: Double {
+        get { return _alpha1_value }
         set(newValue) {
             let x = clip(newValue, alpha1_min, alpha1_max)
-            if (x != _alpha1) {
-                _alpha1 = x
+            if (x != _alpha1_value) {
+                _alpha1_value = x
                 _paramChanged(SK2Model.alpha1_name)
             }
         }
     }
     
-    var _alpha1_setPoint: Double = 1
-    var _alpha1_stepSize: Double = 0.01
-    var _alpha1: Double = 1
+    // =====================================================
+    // MARK: alpha2
     
     static let alpha2_name: String = "\u{03B2}\u{2082}"
     let alpha2_min: Double = 0
     let alpha2_max: Double = 1
+    private var _alpha2_setPoint: Double = 1
+    private var _alpha2_stepSize: Double = 0.01
+    private var _alpha2_value: Double = 1
     
     var alpha2_setPoint: Double {
         get { return _alpha2_setPoint }
@@ -470,24 +642,26 @@ class SK2Model : DSModel, PropertyChangeMonitor {
         }
     }
     
-    var alpha2: Double {
-        get { return _alpha2 }
+    var alpha2_value: Double {
+        get { return _alpha2_value }
         set(newValue) {
             let x = clip(newValue, alpha2_min, alpha2_max)
-            if (x != _alpha2) {
-                _alpha2 = x
+            if (x != _alpha2_value) {
+                _alpha2_value = x
                 _paramChanged(SK2Model.alpha2_name)
             }
         }
     }
     
-    private var _alpha2_setPoint: Double = 1
-    private var _alpha2_stepSize: Double = 0.01
-    private var _alpha2: Double = 1
+    // =====================================================
+    // MARK: beta
     
     static let beta_name: String = "\u{03B2}"
     let beta_min: Double = 1e-6
     let beta_max: Double = 1e6
+    private var _beta_setPoint: Double = 100
+    private var _beta_stepSize: Double = 1
+    private var _beta_value: Double = 100
     
     var beta_setPoint: Double {
         get { return _beta_setPoint }
@@ -508,37 +682,34 @@ class SK2Model : DSModel, PropertyChangeMonitor {
         }
     }
     
-    var beta: Double {
-        get { return _beta }
+    var beta_value: Double {
+        get { return _beta_value }
         set(newValue) {
             let x = clip(newValue, beta_min, beta_max)
-            if (x != _beta) {
-                _beta = x
+            if (x != _beta_value) {
+                _beta_value = x
                 _paramChanged(SK2Model.beta_name)
             }
         }
     }
     
-    private var _beta_setPoint: Double = 100
-    private var _beta_stepSize: Double = 1
-    private var _beta: Double = 100
-    
     var nodeCount: Int {
-        return (_k + 1) * (_N - _k + 1)
+        return (_k_value + 1) * (_N_value - _k_value + 1)
     }
     
     var m_max: Int {
-        return _k
+        return _k_value
     }
     
     var n_max: Int {
-        return _N - _k
+        return _N_value - _k_value
     }
     
     private var _nodeIndexModulus: Int = 0
+    
     private var _propertyChangeSupport = PropertyChangeSupport()
     
-    lazy var params: Registry<DSParam> = _initParams()
+    lazy var parameters: Registry<DSParameter> = _initParams()
     
     init() {
         self._updateDerivedProperties()
@@ -553,27 +724,27 @@ class SK2Model : DSModel, PropertyChangeMonitor {
         return m * _nodeIndexModulus + n
     }
     
-    func resetParams() {
+    func resetParameters() {
         var properties = [String]()
         
-        if (_N != _N_setPoint) {
-            _N  = _N_setPoint
+        if (_N_value != _N_setPoint) {
+            _N_value  = _N_setPoint
             properties.append(SK2Model.N_name)
         }
-        if (_k != _k_setPoint) {
-            _k = _k_setPoint
+        if (_k_value != _k_setPoint) {
+            _k_value = _k_setPoint
             properties.append(SK2Model.k_name)
         }
-        if (_alpha1 != _alpha1_setPoint) {
-            _alpha1 = _alpha1_setPoint
+        if (_alpha1_value != _alpha1_setPoint) {
+            _alpha1_value = _alpha1_setPoint
             properties.append(SK2Model.alpha1_name)
         }
-        if (_alpha2 != _alpha2_setPoint) {
-            _alpha2 = _alpha2_setPoint
+        if (_alpha2_value != _alpha2_setPoint) {
+            _alpha2_value = _alpha2_setPoint
             properties.append(SK2Model.alpha2_name)
         }
-        if (_beta != _beta_setPoint) {
-            _beta = _beta_setPoint
+        if (_beta_value != _beta_setPoint) {
+            _beta_value = _beta_setPoint
             properties.append(SK2Model.beta_name)
         }
         
@@ -585,13 +756,13 @@ class SK2Model : DSModel, PropertyChangeMonitor {
         return _propertyChangeSupport.monitorProperties(callback)
     }
     
-    private func _initParams() -> Registry<DSParam> {
-        let registry = Registry<DSParam>()
-        _ = registry.register(SK2_N(self))
-        _ = registry.register(SK2_k(self))
-        _ = registry.register(SK2_alpha1(self))
-        _ = registry.register(SK2_alpha2(self))
-        _ = registry.register(SK2_beta(self))
+    private func _initParams() -> Registry<DSParameter> {
+        let registry = Registry<DSParameter>()
+//        _ = registry.register(SK2_N(self))
+//        _ = registry.register(SK2_k(self))
+//        _ = registry.register(SK2_alpha1(self))
+//        _ = registry.register(SK2_alpha2(self))
+//        _ = registry.register(SK2_beta(self))
         return registry
     }
     
@@ -602,7 +773,7 @@ class SK2Model : DSModel, PropertyChangeMonitor {
     }
     
     private func _updateDerivedProperties() {
-        _nodeIndexModulus = _N - _k + 1
+        _nodeIndexModulus = _N_value - _k_value + 1
     }
 
 }
@@ -622,9 +793,9 @@ extension SK2Model {
         // d1 is linear function of manhattan distance from p0, which is (m+n)
         // d2 is linear function of manhattan distande from p1, which is ( (k-m) + n )
         // OLD eps is there so that energy is never 0 (which screws up the logOccupation bounds)
-        let d1 = Double(m + n)      - 0.5 * Double(_N)
-        let d2 = Double(_k - m + n) - 0.5 * Double(_N)
-        return -(_alpha1 * d1 * d1  + _alpha2 * d2 * d2)
+        let d1 = Double(m + n)      - 0.5 * Double(_N_value)
+        let d2 = Double(_k_value - m + n) - 0.5 * Double(_N_value)
+        return -(_alpha1_value * d1 * d1  + _alpha2_value * d2 * d2)
     }
     
     func entropy(_ nodeIndex: Int) -> Double {
@@ -634,7 +805,7 @@ extension SK2Model {
     }
     
     func entropy(_ m: Int, _ n: Int) -> Double {
-        return logBinomial(_k, m) + logBinomial(_N - _k, n)
+        return logBinomial(_k_value, m) + logBinomial(_N_value - _k_value, n)
     }
     
     func logEquilibriumOccupation(_ nodeIndex: Int) -> Double {
@@ -644,7 +815,7 @@ extension SK2Model {
     }
     
     func logEquilibriumOccupation(_ m: Int, _ n: Int) -> Double {
-        return entropy(m, n) - _beta * energy(m, n)
+        return entropy(m, n) - _beta_value * energy(m, n)
     }
     
     func logEquilibriumOccupation(_ m: Int, _ n: Int, forBeta b: Double) -> Double {

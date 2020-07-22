@@ -84,7 +84,7 @@ class FigureSelectorViewController: UITableViewController {
     
     @objc func buttonAction(sender: UIButton!) {
         if let selector = figureSelector {
-            AppModel.figureViewController.installFigure(selector.select(index: sender.tag)?.value)
+            AppModel.figureController.installFigure(selector.select(index: sender.tag)?.value)
         }
         self.dismiss(animated: true, completion: nil)
     }

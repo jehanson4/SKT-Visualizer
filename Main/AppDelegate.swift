@@ -19,28 +19,27 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, AppModel20 {
+class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
-    var appModel: AppModel19?
-    var figureViewController: FigureViewController!
-    
-    lazy var visualizations: Selector20<Visualization20> = _loadVisualizations()
-    private var visualizationChangeMonitor: ChangeMonitor? = nil
-    private var figureChangeMonitor: ChangeMonitor? = nil
+//    var figureViewController: FigureViewController!
+//
+//    private var visualizationChangeMonitor: ChangeMonitor? = nil
+//    private var figureChangeMonitor: ChangeMonitor? = nil
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch
-        os_log("entered application didFinishLaunchingWithOptions")
-        
-        appModel = AppModel1()
-        
-        os_log("created app models")
-        
-        let rvc = window?.rootViewController
-        if (rvc != nil) {
-            configureControllers(rvc!)
-        }
+//        os_log("entered application didFinishLaunchingWithOptions")
+//
+//        appModel = AppModel1()
+//
+//        os_log("created app models")
+//
+//        let rvc = window?.rootViewController
+//        if (rvc != nil) {
+//            configureControllers(rvc!)
+//        }
+        AppModel.loadPreferences()
         return true
     }
     
@@ -55,7 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppModel20 {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         debug("applicationDidEnterBackground")        
-        appModel?.savePreferences()
+        AppModel.savePreferences()
         
     }
     
@@ -74,54 +73,54 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppModel20 {
         debug("applicationWillTerminate")
     }
     
-    private func configureControllers(_ controller: UIViewController) {
-        guard let splitViewController = controller as? UISplitViewController,
-            let leftNavController = splitViewController.viewControllers.first as? UINavigationController,
-            var masterViewController = leftNavController.topViewController as? AppModelUser,
-            var masterViewController21 = leftNavController.topViewController as? AppModelUser20,
-            let detailViewController = splitViewController.viewControllers.last as? FigureViewController
-            else { fatalError() }
-        
-        masterViewController.appModel = self.appModel
-        masterViewController21.appModel20 = self
-
-        self.figureViewController = detailViewController
-    }
-    
-    private func _loadVisualizations() -> Selector20<Visualization20> {
-        let registry = Registry<Visualization20>()
-        
-        var visualizations = [Visualization20]()
-        visualizations.append(Demos21())
-        
-        visualizations += SK2_Factory_20.createVisualizations()
-
-        for var v in visualizations {
-            let entry = registry.register(hint: v.name, value: v)
-            v.name = entry.name
-        }
-        
-        let selector = Selector20<Visualization20>(registry)
-        visualizationChangeMonitor = selector.monitorChanges(visualizationChanged)
-        return selector
-    }
-    
-    func visualizationChanged(_ sender: Any) {
-        debug("visualizationChanged", "entered")
-        figureChangeMonitor?.disconnect()
-        if let newVisualization = self.visualizations.selection?.value {
-            // Q: do we need to tell newVisualization to do something here?
-            figureChangeMonitor = newVisualization.figures.monitorChanges(figureChanged)
-        }
-        else {
-            figureChangeMonitor = nil
-        }
-        figureChanged(self)
-    }
-    
-    func figureChanged(_ sender: Any) {
-        debug("figureChanged", "entered")
-        figureViewController?.installFigure(visualizations.selection?.value.figures.selection?.value)
-    }
+//    private func configureControllers(_ controller: UIViewController) {
+//        guard let splitViewController = controller as? UISplitViewController,
+//            let leftNavController = splitViewController.viewControllers.first as? UINavigationController,
+//            var masterViewController = leftNavController.topViewController as? AppModelUser,
+//            var masterViewController21 = leftNavController.topViewController as? AppModelUser20,
+//            let detailViewController = splitViewController.viewControllers.last as? FigureViewController
+//            else { fatalError() }
+//
+//        masterViewController.appModel = self.appModel
+//        masterViewController21.appModel20 = self
+//
+//        self.figureViewController = detailViewController
+//    }
+//
+//    private func _loadVisualizations() -> Selector20<Visualization20> {
+//        let registry = Registry<Visualization20>()
+//
+//        var visualizations = [Visualization20]()
+//        visualizations.append(Demos21())
+//
+//        visualizations += SK2_Factory_20.createVisualizations()
+//
+//        for var v in visualizations {
+//            let entry = registry.register(hint: v.name, value: v)
+//            v.name = entry.name
+//        }
+//
+//        let selector = Selector20<Visualization20>(registry)
+//        visualizationChangeMonitor = selector.monitorChanges(visualizationChanged)
+//        return selector
+//    }
+//
+//    func visualizationChanged(_ sender: Any) {
+//        debug("visualizationChanged", "entered")
+//        figureChangeMonitor?.disconnect()
+//        if let newVisualization = self.visualizations.selection?.value {
+//            // Q: do we need to tell newVisualization to do something here?
+//            figureChangeMonitor = newVisualization.figures.monitorChanges(figureChanged)
+//        }
+//        else {
+//            figureChangeMonitor = nil
+//        }
+//        figureChanged(self)
+//    }
+//
+//    func figureChanged(_ sender: Any) {
+//        debug("figureChanged", "entered")
+//        figureViewController?.installFigure(visualizations.selection?.value.figures.selection?.value)
+//    }
 }
 

@@ -23,4 +23,5 @@ struct RenderContext {
         self.commandQueue = device.makeCommandQueue()!
     }
 
+    
 }

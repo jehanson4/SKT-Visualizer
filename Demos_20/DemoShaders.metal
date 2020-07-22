@@ -57,7 +57,7 @@ struct VertexOut {
     float3 normal;
 };
 
-vertex VertexOut basic_vertex(
+vertex VertexOut demo_vertex(
                               const device VertexIn* vertex_array [[ buffer(0) ]],
                               const device Uniforms&  uniforms    [[ buffer(1) ]],
                               unsigned int vid [[ vertex_id ]]) {
@@ -78,7 +78,7 @@ vertex VertexOut basic_vertex(
     return VertexOut;
 }
 
-fragment float4 basic_fragment(VertexOut interpolated [[stage_in]],
+fragment float4 demo_fragment(VertexOut interpolated [[stage_in]],
                                const device Uniforms&  uniforms    [[ buffer(1) ]],
                                texture2d<float>  tex2D     [[ texture(0) ]],
                                sampler           sampler2D [[ sampler(0) ]]) {
