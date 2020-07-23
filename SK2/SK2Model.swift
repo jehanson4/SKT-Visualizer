@@ -710,7 +710,7 @@ class SK2Model : DSModel, PropertyChangeMonitor {
     
     private var _propertyChangeSupport = PropertyChangeSupport()
     
-    lazy var parameters: Registry<DSParameter> = _initParams()
+    // lazy var parameters: Registry<DSParameter> = _initParams()
     
     init() {
         self._updateDerivedProperties()
@@ -757,15 +757,15 @@ class SK2Model : DSModel, PropertyChangeMonitor {
         return _propertyChangeSupport.monitorProperties(callback)
     }
     
-    private func _initParams() -> Registry<DSParameter> {
-        let registry = Registry<DSParameter>()
+//    private func _initParams() -> Registry<DSParameter> {
+//        let registry = Registry<DSParameter>()
 //        _ = registry.register(SK2_N(self))
 //        _ = registry.register(SK2_k(self))
 //        _ = registry.register(SK2_alpha1(self))
 //        _ = registry.register(SK2_alpha2(self))
 //        _ = registry.register(SK2_beta(self))
-        return registry
-    }
+//        return registry
+//    }
     
     private func _paramChanged(_ properties: String...) {
         _updateDerivedProperties()

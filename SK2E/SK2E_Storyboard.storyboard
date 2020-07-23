@@ -26,7 +26,7 @@
                                             <constraint firstAttribute="height" constant="1" id="qvf-kv-LtZ"/>
                                         </constraints>
                                     </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="VISUALIZATION" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="36O-fp-glW" userLabel="Visualization Section Title">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="FIGURE" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="36O-fp-glW" userLabel="Figure Section Title">
                                         <rect key="frame" x="0.0" y="1" width="343" height="17"/>
                                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -39,7 +39,7 @@
                                             <constraint firstAttribute="height" constant="8" id="S8c-NE-hfr"/>
                                         </constraints>
                                     </view>
-                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jzW-HU-q21" userLabel="Visualization Section Inner">
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jzW-HU-q21" userLabel="Figure Section Inner">
                                         <rect key="frame" x="0.0" y="26" width="343" height="174"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="24e-5w-GNn" userLabel="Left spacer">

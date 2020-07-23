@@ -50,7 +50,7 @@ fileprivate func makeBandedColors() -> [SIMD4<Float>] {
 }
 
 // ======================================================================
-// MARK: ColorMap
+// MARK: - ColorMap
 
 protocol ColorMap {
     
@@ -62,7 +62,7 @@ protocol ColorMap {
 }
 
 // ======================================================================
-// MARK: BandedLinearColorMap
+// MARK: - BandedLinearColorMap
 
 class BandedLinearColorMap: ColorMap {
     
@@ -108,7 +108,7 @@ class BandedLinearColorMap: ColorMap {
 }
 
 // ======================================================================
-// MARK: BandedLogColorMap
+// MARK: - BandedLogColorMap
 
 class BandedLogColorMap: ColorMap {
     

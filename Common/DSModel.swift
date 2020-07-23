@@ -8,48 +8,48 @@
 
 import Foundation
 
-// =========================================================
-// MARK: - DSParameter
-
-/// A named control parameter, e.g., of a DSModel. Properties are accessible as Double or as String. Its underlying raw type (e.g., Int or Double or anything else) is unspecified.
-///
-/// It has a current value, min and max allowed values, a default value ("setPoint") and a default increment ("stepSize").
-/// The current value, setPoint, and stepSize may be changed at runtime but min and max allowed values are immutable.
-///
-/// Helper functions are provided for transforming the parameter's associated values to and from Strings
-/// .
-protocol DSParameter: NamedObject {
-    
-    var valueAsDouble: Double { get }
-    var valueAsString: String { get }
-    
-    var minAsDouble: Double { get }
-    var minAsString: String { get }
-    
-    var maxAsDouble: Double { get }
-    var maxAsString: String { get }
-    
-    var setPointAsDouble: Double { get }
-    var setPointAsString: String { get }
-    
-    var stepSizeAsDouble: Double { get }
-    var stepSizeAsString: String { get }
-    
-    func assignValue(_ value: Double)
-    func assignValue(_ value: String)
-
-    func assignSetPoint(_ setPoint: Double)
-    func assignSetPoint(_ setPoint: String)
-    
-    func assignStepSize(_ stepSize: Double)
-    func assignStepSize(_ stepSize: String)
-
-    /// Sets current value equal to setPoint
-    func reset()
-    
-    /// Changes the current value by the given multiple of stepSize. Clips to min and max. If steps is negative, value is decremented
-    func incr(_ steps: Int)
-}
+//// =========================================================
+//// MARK: - DSParameter
+//
+///// A named control parameter, e.g., of a DSModel. Properties are accessible as Double or as String. Its underlying raw type (e.g., Int or Double or anything else) is unspecified.
+/////
+///// It has a current value, min and max allowed values, a default value ("setPoint") and a default increment ("stepSize").
+///// The current value, setPoint, and stepSize may be changed at runtime but min and max allowed values are immutable.
+/////
+///// Helper functions are provided for transforming the parameter's associated values to and from Strings
+///// .
+//protocol DSParameter: NamedObject {
+//
+//    var valueAsDouble: Double { get }
+//    var valueAsString: String { get }
+//
+//    var minAsDouble: Double { get }
+//    var minAsString: String { get }
+//
+//    var maxAsDouble: Double { get }
+//    var maxAsString: String { get }
+//
+//    var setPointAsDouble: Double { get }
+//    var setPointAsString: String { get }
+//
+//    var stepSizeAsDouble: Double { get }
+//    var stepSizeAsString: String { get }
+//
+//    func assignValue(_ value: Double)
+//    func assignValue(_ value: String)
+//
+//    func assignSetPoint(_ setPoint: Double)
+//    func assignSetPoint(_ setPoint: String)
+//
+//    func assignStepSize(_ stepSize: Double)
+//    func assignStepSize(_ stepSize: String)
+//
+//    /// Sets current value equal to setPoint
+//    func reset()
+//
+//    /// Changes the current value by the given multiple of stepSize. Clips to min and max. If steps is negative, value is decremented
+//    func incr(_ steps: Int)
+//}
 
 // =================================================
 // MARK: - DSObservable
@@ -75,9 +75,8 @@ protocol DSObservable: NamedObject {
 /// Something that is visualized. "DS" stands for "Dynamical System".
 protocol DSModel {
     
-    var parameters: Registry<DSParameter> { get }
-    
+    // var parameters: Registry<DSParameter> { get }
     /// Sets each parameter's value equal to its setPoint.
-    func resetParameters()
+    // func resetParameters()
 }
 

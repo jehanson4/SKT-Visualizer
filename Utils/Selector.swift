@@ -11,11 +11,12 @@ import Foundation
 // ============================================================
 // MARK: - Selector
 
-class Selector<T> {
-    
+class Selector<T>: PropertyChangeMonitor {
+        
     let registry: Registry<T>
     var selection: RegistryEntry<T>? = nil
-    
+    private lazy var _propertyChangeSupport = PropertyChangeSupport()
+
     init(_ registry: Registry<T>) {
         self.registry = registry;
     }
@@ -26,7 +27,11 @@ class Selector<T> {
 
     func select(name: String) -> RegistryEntry<T>? {
         if let newSelection = registry.entries[name] {
-            selection = newSelection
+            let oldName = selection?.name
+            if (name != oldName) {
+                selection = newSelection
+                _propertyChangeSupport.firePropertyChange(PropertyChangeEvent(property: "selection"))
+            }
             return selection
         }
         else {
@@ -34,4 +39,8 @@ class Selector<T> {
         }
     }
 
+    func monitorProperties(_ callback: @escaping (PropertyChangeEvent) -> ()) -> PropertyChangeHandle? {
+        return _propertyChangeSupport.monitorProperties(callback)
+    }
+    
 }

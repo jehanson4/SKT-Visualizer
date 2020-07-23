@@ -20,7 +20,7 @@ class SK2ReducedSpaceViewController1: UIViewController, UITextFieldDelegate {
     
     weak var visualization: SK2Visualization!
     weak var model: SK2Model!
-    var modelPropertyChangeHandle: PropertyChangeHandle? = nil
+    var modelChangeHandle: PropertyChangeHandle? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,7 +68,7 @@ class SK2ReducedSpaceViewController1: UIViewController, UITextFieldDelegate {
         figureControls_setup()
         modelControls_setup()
         
-        setupFigureSection()
+        // OLD
         setupAnimationSection()
         
     }
@@ -77,11 +77,11 @@ class SK2ReducedSpaceViewController1: UIViewController, UITextFieldDelegate {
         figureControls_teardown()
         modelControls_teardown()
         
-        teardownFigureSection()
+        // OLD
         teardownAnimationSection()
         
-        modelPropertyChangeHandle?.disconnect()
-        modelPropertyChangeHandle = nil
+        modelChangeHandle?.disconnect()
+        modelChangeHandle = nil
     }
     
     func shiftView(dy: CGFloat) {
@@ -100,46 +100,35 @@ class SK2ReducedSpaceViewController1: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var figureSelectorButton: UIButton!
     @IBOutlet weak var autocalibrateButton: UIButton!
     
-    var figureSelectionMonitor: ChangeMonitor? = nil
+    var figureChangeHandle: PropertyChangeHandle? = nil
     
     func figureControls_setup() {
-        
+        UIUtils.addBorder(figureSelectorButton)
+        figureControls_update()
+        figureChangeHandle = visualization.figures.monitorProperties(figureSelectionChanged)
     }
     
     func figureControls_update() {
-        
+        if let figure = visualization.figures.selection?.value as? SK2ReducedSpaceFigure {
+            let acTitle = figure.observable.autocalibrate ? "\u{2713} Autocalibrate" : "Autocalibrate"
+            autocalibrateButton?.setTitle(acTitle, for: .normal)
+        }
+        else {
+            // TODO gray-out the figure controls
+        }
     }
     
     func figureControls_teardown() {
-        
-    }
-    
-    func setupFigureSection() {
-        UIUtils.addBorder(figureSelectorButton)
-        if let figureSelector = visualization?.figures {
-            figureSelector_update(figureSelector)
-            
-            // TODO: decide if we want this!
-            // figureSelectionMonitor = figureSelector.monitorChanges(figureSelector_update)
-            
-        }
-        
-        
-    }
-    
-    func teardownFigureSection() {
-        
-        // TODO decide if we want this
-        // figureSelectionMonitor?.disconnect()
-        
+        figureChangeHandle?.disconnect()
+        figureChangeHandle = nil
     }
     
     /// called when selected figure changes
-    func figureSelector_update(_ sender: Any?) {
+    func figureSelectionChanged(_ sender: Any?) {
         if let button = figureSelectorButton {
             button.setTitle(visualization.figures.selection?.name ?? "(choose)", for: .normal)
         }
-        updateFigureControls()
+        figureControls_update()
     }
     
     @IBAction func recalibrate(_ sender: Any) {
@@ -159,17 +148,18 @@ class SK2ReducedSpaceViewController1: UIViewController, UITextFieldDelegate {
             let prev = figure.observable.autocalibrate
             figure.observable.autocalibrate = !prev
         }
-        updateFigureControls()
+        figureControls_update()
     }
     
     @IBAction func takeSnapshot(_ sender: Any) {
         
+        // TODO
         // from https://www.hackingwithswift.com/example-code/media/how-to-render-a-uiview-to-a-uiimage:
         // let renderer = UIGraphicsImageRenderer(size: view.bounds.size)
         // let image = renderer.image { ctx in
         //     view.drawHierarchy(in: view.bounds, afterScreenUpdates: true)
         // }
-        // TODO
+        
         //        if let context = AppModel.figureController.renderContext {
         
         //            let texture = context.view.currentDrawable!.texture
@@ -179,16 +169,6 @@ class SK2ReducedSpaceViewController1: UIViewController, UITextFieldDelegate {
         //        if (image != nil) {
         //            UIImageWriteToSavedPhotosAlbum(image!, nil, nil, nil)
         //        }
-    }
-    
-    func updateFigureControls() {
-        if let figure = visualization.figures.selection?.value as? SK2ReducedSpaceFigure {
-            let acTitle = figure.observable.autocalibrate ? "\u{2713} Autocalibrate" : "Autocalibrate"
-            autocalibrateButton?.setTitle(acTitle, for: .normal)
-        }
-        else {
-            // MAYBE disable the figures controls
-        }
     }
     
     // ===========================================
@@ -224,7 +204,7 @@ class SK2ReducedSpaceViewController1: UIViewController, UITextFieldDelegate {
         beta_stepper.maximumValue = Double(SK2Model.beta_max)
         
         modelControls_update()
-        modelPropertyChangeHandle = model?.monitorProperties(modelPropertyChange) ?? nil
+        modelChangeHandle = model?.monitorProperties(modelChanged) ?? nil
     }
     
     func modelControls_update() {
@@ -253,15 +233,15 @@ class SK2ReducedSpaceViewController1: UIViewController, UITextFieldDelegate {
     }
     
     func modelControls_teardown() {
-        modelPropertyChangeHandle?.disconnect()
-        modelPropertyChangeHandle = nil
+        modelChangeHandle?.disconnect()
+        modelChangeHandle = nil
     }
     
     @IBAction func resetModelParams(_ sender: Any) {
         model?.resetParameters()
     }
     
-    func modelPropertyChange(_ event: PropertyChangeEvent) {
+    func modelChanged(_ event: Any?) {
         modelControls_update()
     }
     

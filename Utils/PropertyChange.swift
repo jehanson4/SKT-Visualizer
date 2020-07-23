@@ -42,6 +42,10 @@ class PropertyChangeEvent {
     
     let properties: Set<String>
     
+    init(property: String) {
+        self.properties = Set<String>(arrayLiteral: property)
+    }
+    
     init(properties: [String]) {
         self.properties = Set<String>(properties)
     }
