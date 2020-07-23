@@ -38,9 +38,8 @@ protocol Figure: NamedObject {
     
     func figureWasUninstalled()
 
-    func updateDrawableArea(_ drawableArea: CGRect)
-
-    /// ALL content updates here
+    func updateDrawableArea(_ bounds: CGRect)
+    
     func updateContent(_ date: Date)
 
     /// ONLY rendering commands here

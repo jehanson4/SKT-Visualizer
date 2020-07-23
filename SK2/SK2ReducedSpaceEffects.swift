@@ -11,6 +11,7 @@ import MetalKit
 
 // ======================================================
 // MARK: SK2NodesEffect
+// ======================================================
 
 class SK2NodesEffect : Effect {
 
@@ -35,10 +36,8 @@ class SK2NodesEffect : Effect {
     }
     
     func update(_ date: Date) {
-        // TODO
-        // figure.refreshNodeColors()
-        // figure.refreshNodeCoords()
-        // figure.refreshNodeUniforms()
+        figure.nodeCoordinates_update()
+        figure.nodeColors_update()
     }
     
     func encodeCommands(_ encoder: MTLRenderCommandEncoder) {
@@ -52,6 +51,7 @@ class SK2NodesEffect : Effect {
 
 // ======================================================
 // MARK: - SK2NetEffect
+// ======================================================
 
 class SK2NetEffect: Effect {
     
@@ -63,6 +63,9 @@ class SK2NetEffect: Effect {
     
     weak var figure: SK2ReducedSpaceFigure!
     
+    private var _netIndicesStale = true
+    var netIndexBuffer: MTLBuffer? = nil
+
     init(_ figure: SK2ReducedSpaceFigure) {
         self.figure = figure
     }
@@ -76,9 +79,13 @@ class SK2NetEffect: Effect {
     }
     
     func update(_ date: Date) {
-        // TODO
-        // figure.refreshNodeCoords()
-        // figure.refreshNodeUniforms()
+        figure.nodeCoordinates_update()
+        if (_netIndicesStale) {
+            
+            // TODO
+            
+            _netIndicesStale = false
+        }
     }
     
     func encodeCommands(_ encoder: MTLRenderCommandEncoder) {
@@ -97,6 +104,7 @@ class SK2NetEffect: Effect {
 
 // ======================================================
 // MARK: SK2ReliefSwitch
+// ======================================================
 
 class SK2ReliefSwitch : Effect {
     
@@ -134,9 +142,6 @@ class SK2ReliefSwitch : Effect {
     func encodeCommands(_ encoder: MTLRenderCommandEncoder) {
        // NOP
     }
-    
-    
-    
 }
 
 // ======================================================

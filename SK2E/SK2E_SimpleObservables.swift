@@ -11,7 +11,7 @@ import Foundation
 // ========================================================
 // MARK: - SK2E_SimpleObservable
 
-class SK2E_SimpleObservable: SK2ReducedSpaceObservable {
+class SK2E_SimpleObservable: SK2ReducedSpaceDataSource {
 
     /// property name
     static let calibrationName = "calibration"

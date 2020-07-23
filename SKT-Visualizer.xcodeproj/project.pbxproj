@@ -36,6 +36,7 @@
 		8A25078124C87E4000D2CFBF /* BasicShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 8A25078024C87E4000D2CFBF /* BasicShaders.metal */; };
 		8A25078424C8C20700D2CFBF /* SK2T_Visualization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A25078324C8C20700D2CFBF /* SK2T_Visualization.swift */; };
 		8A25078824C8C32700D2CFBF /* SK2T_Population.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A25078724C8C32700D2CFBF /* SK2T_Population.swift */; };
+		8A25078C24C9BAF000D2CFBF /* SK2UniformData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A25078B24C9BAF000D2CFBF /* SK2UniformData.swift */; };
 		8A2A32D720AB881600D4D619 /* WorkQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2A32D620AB881600D4D619 /* WorkQueue.swift */; };
 		8A3BBBBF208BF29A00669227 /* splash.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8A3BBBBE208BF29A00669227 /* splash.jpg */; };
 		8A3C45C62086278900A1E9CD /* UniformColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3C45C52086278900A1E9CD /* UniformColor.swift */; };
@@ -240,6 +241,7 @@
 		8A25078024C87E4000D2CFBF /* BasicShaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = BasicShaders.metal; sourceTree = "<group>"; };
 		8A25078324C8C20700D2CFBF /* SK2T_Visualization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2T_Visualization.swift; sourceTree = "<group>"; };
 		8A25078724C8C32700D2CFBF /* SK2T_Population.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2T_Population.swift; sourceTree = "<group>"; };
+		8A25078B24C9BAF000D2CFBF /* SK2UniformData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2UniformData.swift; sourceTree = "<group>"; };
 		8A2A32D620AB881600D4D619 /* WorkQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkQueue.swift; sourceTree = "<group>"; };
 		8A3BBBBE208BF29A00669227 /* splash.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = splash.jpg; sourceTree = "<group>"; };
 		8A3C45C52086278900A1E9CD /* UniformColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniformColor.swift; sourceTree = "<group>"; };
@@ -889,6 +891,7 @@
 				8ADDF1E124C354DE00098217 /* SK2ReducedSpaceFigure.swift */,
 				8A591B3121E441FB00B802F8 /* SK2ReducedSpaceViewController1.swift */,
 				8ADDF21424C5B7C900098217 /* SK2Visualizations.swift */,
+				8A25078B24C9BAF000D2CFBF /* SK2UniformData.swift */,
 			);
 			path = SK2;
 			sourceTree = "<group>";
@@ -1058,6 +1061,7 @@
 				8A2034E721ED2A6000A4C418 /* SK2_System19.swift in Sources */,
 				8A19E9AB2303220300880C97 /* SK2E_LogOccupation.swift in Sources */,
 				8A9B14CA220F529400A2CDAB /* SK2E_Occupation.swift in Sources */,
+				8A25078C24C9BAF000D2CFBF /* SK2UniformData.swift in Sources */,
 				8AC82CEC21F9E36700A75595 /* Sequencer19.swift in Sources */,
 				8A575FEE20804759002B9951 /* ColorMaps19.swift in Sources */,
 				8A022097248D1A3000F3A91D /* Registry.swift in Sources */,

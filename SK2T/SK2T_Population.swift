@@ -8,7 +8,7 @@
 
 import Foundation
 
-class SK2T_Population: SK2ReducedSpaceObservable {
+class SK2T_Population: SK2ReducedSpaceDataSource {
 
     var name: String = "Population"
     var autocalibrate: Bool = true

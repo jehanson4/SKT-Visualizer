@@ -3,7 +3,6 @@
 Major components:
 
   * **DSModel**: the thing being visualized. E.g., an S-K spin glass. "DS" stands for "Dynamical System"
-  * **DSParameter**: an adjustable parameter of a DSModel. E.g., temperature or number of spins.
   * **DSObservable**: provides visualization data to a Figure. E.g., node colors or evlevations
   * **Figure**: the thing that gets displayed on the screen.
   * **Sequencer**: generates a sequence of changes to an animated Figure. E.g., changes the temperature in a stepwise fashion
@@ -14,10 +13,14 @@ Major components:
 ## Event flow
 
 We use PropertyChangeEvents throughout.
+* selector fires property changes when selection changes
+* SK2Model fires property changes when its parameters change
+* DSObservable fires property changes when its values change and when its calibration changes
 
-On receiving a PropertyChangeEvent, the recipient will set internal flag(s) signifying this or that of its properties needs updating.
+On receiving a PropertyChangeEvent, the recipient will set internal flag(s) signifying this or that needs updating.
 
 Before each render pass, all updates are performed.
+
 
 ### UI interactions
 
@@ -37,3 +40,6 @@ Change in any model param (or more than one)
 #### MISC
 
   * setup(context: RenderContext) -- the arg is so that we can implement BusySpinner once for all figures
+
+
+ * AppModel is bad name
