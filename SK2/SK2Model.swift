@@ -514,7 +514,7 @@ class SK2Model : DSModel, PropertyChangeMonitor {
             let N_new = clip(newValue, SK2Model.N_min, SK2Model.N_max)
             if (N_new != _N_value) {
                 _N_value = N_new
-                let k_new = clip(_k_value, SK2Model.k_min, _N_value/2)
+                let k_new = clip(_k_value, SK2Model.k_min, N_new/2)
                 if (k_new != _k_value) {
                     _k_value = k_new
                     _paramChanged(SK2Model.N_name, SK2Model.k_name)
@@ -531,10 +531,10 @@ class SK2Model : DSModel, PropertyChangeMonitor {
 
     static let k_name: String = "k"
     static let k_min: Int = 1
-    static let k_max: Int = 5000000
+    static let k_max: Int = N_max/2
     private var _k_setPoint: Int = 50
     private var _k_stepSize: Int = 1
-    private var _k_value: Int = 100
+    private var _k_value: Int = 50
     
 
     var k_setPoint: Int {
@@ -713,7 +713,7 @@ class SK2Model : DSModel, PropertyChangeMonitor {
     // lazy var parameters: Registry<DSParameter> = _initParams()
     
     init() {
-        self._updateDerivedProperties()
+        self.resetParameters()
     }
     
     func nodeIndexToCoordinates(_ nodeIndex: Int) -> (m: Int, n: Int) {

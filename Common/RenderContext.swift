@@ -15,7 +15,7 @@ struct RenderContext {
     let device: MTLDevice
     let library: MTLLibrary
     let commandQueue: MTLCommandQueue
-    
+
     init(view: MTKView) {
         self.view = view
         self.device = MTLCreateSystemDefaultDevice()!

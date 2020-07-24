@@ -110,7 +110,7 @@ class SK2ReducedSpaceViewController1: UIViewController, UITextFieldDelegate {
     
     func figureControls_update() {
         if let figure = visualization.figures.selection?.value as? SK2ReducedSpaceFigure {
-            let acTitle = figure.observable.autocalibrate ? "\u{2713} Autocalibrate" : "Autocalibrate"
+            let acTitle = figure.dataSource.autocalibrate ? "\u{2713} Autocalibrate" : "Autocalibrate"
             autocalibrateButton?.setTitle(acTitle, for: .normal)
         }
         else {
@@ -133,7 +133,7 @@ class SK2ReducedSpaceViewController1: UIViewController, UITextFieldDelegate {
     
     @IBAction func recalibrate(_ sender: Any) {
         if let figure = visualization.figures.selection?.value as? SK2ReducedSpaceFigure {
-            figure.observable.recalibrate()
+            figure.dataSource.recalibrate()
         }
     }
     
@@ -145,8 +145,8 @@ class SK2ReducedSpaceViewController1: UIViewController, UITextFieldDelegate {
     
     @IBAction func toggleAutocalibration(_ sender: Any?) {
         if let figure = visualization.figures.selection?.value as? SK2ReducedSpaceFigure {
-            let prev = figure.observable.autocalibrate
-            figure.observable.autocalibrate = !prev
+            let prev = figure.dataSource.autocalibrate
+            figure.dataSource.autocalibrate = !prev
         }
         figureControls_update()
     }

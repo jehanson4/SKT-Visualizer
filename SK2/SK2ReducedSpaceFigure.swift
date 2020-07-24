@@ -35,11 +35,16 @@ class SK2ReducedSpaceFigure : Figure {
     
     weak var model: SK2Model!
     weak var geometry: SK2Geometry!
-    weak var observable: SK2ReducedSpaceDataSource!
+    weak var dataSource: SK2ReducedSpaceDataSource!
     var uniformData = SK2UniformData()
     var renderContext: RenderContext!
     
+    let inflightBuffersCount: Int
+    let availableResourcesSemaphore: DispatchSemaphore
+    
     lazy var effects: Registry<Effect>? = _initEffects()
+    
+    var dataSourceChangeHandle: PropertyChangeHandle? = nil
     
     var reliefEnabled: Bool {
         get { return _reliefEnabled }
@@ -65,15 +70,23 @@ class SK2ReducedSpaceFigure : Figure {
     
     private var _colorsEnabled: Bool = true
     
-    init(_ name: String, _ model: SK2Model, _ geometry: SK2Geometry, _ observable: SK2ReducedSpaceDataSource) {
+    var nodeCount: Int {
+        return model.nodeCount
+    }
+    
+    init(_ name: String, _ model: SK2Model, _ geometry: SK2Geometry, _ dataSource: SK2ReducedSpaceDataSource) {
         self.name = name
         self.model = model
         self.geometry = geometry
-        self.observable = observable
+        self.dataSource = dataSource
+        self.inflightBuffersCount = 1
+        self.availableResourcesSemaphore = DispatchSemaphore(value: inflightBuffersCount)
+        
     }
     
     func figureWillBeInstalled(_ context: RenderContext) {
         renderContext = context
+        dataSourceChangeHandle = dataSource.monitorProperties(dataSourceChange)
         geometry.connectGestures(renderContext.view)
         
         nodeCoordinates_setup()
@@ -99,7 +112,15 @@ class SK2ReducedSpaceFigure : Figure {
         nodeUniforms_teardown()
         
         geometry.disconnectGestures(renderContext.view)
-        
+        dataSourceChangeHandle?.disconnect()
+        dataSourceChangeHandle = nil
+    }
+    
+    func dataSourceChange(_ sender: Any?) {
+        if (_reliefEnabled) {
+            _nodeCoordinatesStale = true
+        }
+        _nodeColorsStale = true
     }
     
     func updateDrawableArea(_ bounds: CGRect) {
@@ -121,6 +142,8 @@ class SK2ReducedSpaceFigure : Figure {
             let effects = effects
             else { return }
         
+        _ = availableResourcesSemaphore.wait(timeout: DispatchTime.distantFuture)
+        
         let renderPassDescriptor = MTLRenderPassDescriptor()
         renderPassDescriptor.colorAttachments[0].texture = drawable.texture
         renderPassDescriptor.colorAttachments[0].loadAction = .clear
@@ -128,6 +151,9 @@ class SK2ReducedSpaceFigure : Figure {
         renderPassDescriptor.colorAttachments[0].storeAction = .store
         
         let commandBuffer = context.commandQueue.makeCommandBuffer()!
+        commandBuffer.addCompletedHandler { _ in
+            self.availableResourcesSemaphore.signal()
+        }
         
         let renderEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor)!
         for entry in effects.entries {
@@ -171,23 +197,29 @@ class SK2ReducedSpaceFigure : Figure {
     }
     
     func nodeCoordinates_update() {
-        if (_nodeCoordinatesStale) {
-            let relief: SK2ReducedSpaceDataSource = reliefEnabled ? observable : uniformData
-            nodeCoordinates = geometry.makeNodeCoordinates(model: model, relief: relief.elevationAt, array: nodeCoordinates)
-            
-            let oldBufLen = nodeCoordinateBuffer?.length ?? 0
-            let newBufLen = nodeCoordinates!.count * MemoryLayout<SIMD3<Float>>.size
-            if (newBufLen == oldBufLen) {
-                os_log("%s: updating node coordinate buffer contents", self.name)
-                memcpy(self.nodeCoordinateBuffer?.contents(), &nodeCoordinates, newBufLen)
-            }
-            else {
-                os_log("%s: creating node coordinate buffer", self.name)
-                nodeCoordinateBuffer = renderContext!.device.makeBuffer(bytes: nodeCoordinates!, length: newBufLen, options: [])!
-            }
-            
-            _nodeCoordinatesStale = false
+        if (!_nodeCoordinatesStale) {
+            return
         }
+        
+        let dataSource = reliefEnabled ? self.dataSource! : self.uniformData
+        dataSource.refresh()
+        
+        os_log("[%s] updating node coordinate arrays", self.name)
+        nodeCoordinates = geometry.makeNodeCoordinates(model: model, relief: dataSource.elevationAt, array: nodeCoordinates)
+        
+        let oldBufLen = nodeCoordinateBuffer?.length ?? 0
+        let newBufLen = nodeCoordinates!.count * MemoryLayout<SIMD3<Float>>.size
+        if (newBufLen != oldBufLen) {
+            os_log("[%s] creating node coordinate buffer", self.name)
+            self.nodeCoordinateBuffer = renderContext!.device.makeBuffer(bytes: nodeCoordinates!, length: newBufLen, options: [])!
+        }
+        else {
+            os_log("[%s] updating node coordinate buffer contents", self.name)
+            memcpy(self.nodeCoordinateBuffer?.contents(), &nodeCoordinates!, newBufLen)
+        }
+        
+        _nodeCoordinatesStale = false
+        
     }
     
     func nodeCoordinates_teardown() {
@@ -196,7 +228,7 @@ class SK2ReducedSpaceFigure : Figure {
     }
     
     // ===================================================
-    // MARK: - Node Coolors
+    // MARK: - Node Colors
     
     var nodeColors: [SIMD4<Float>]? = nil
     var nodeColorBuffer: MTLBuffer? = nil
@@ -207,13 +239,46 @@ class SK2ReducedSpaceFigure : Figure {
     }
     
     func nodeColors_update() {
-        if (_nodeColorsStale) {
-            let colorSource = colorsEnabled ? observable : uniformData
-            
-            // TODO
-            
-            _nodeColorsStale = false
+        if (!_nodeColorsStale) {
+            return
         }
+        
+        let dataSource = colorsEnabled ? self.dataSource! : self.uniformData
+        
+        let newNodeCount = model.nodeCount
+        if (nodeColors?.count != newNodeCount) {
+            os_log("[%s] creating node color array. nodeCount=%d", self.name, newNodeCount)
+            dataSource.refresh()
+            var array = [SIMD4<Float>]()
+            array.reserveCapacity(newNodeCount)
+            for i in 0..<newNodeCount {
+                array.append(dataSource.colorAt(nodeIndex: i))
+            }
+            nodeColors = array
+        }
+        else {
+            os_log("[%s] updating node color array. nodeCount=%d", self.name, newNodeCount)
+            dataSource.refresh()
+            var array = nodeColors!
+            for i in 0..<newNodeCount {
+                array[i] = dataSource.colorAt(nodeIndex: i)
+            }
+        }
+        
+        
+        let oldBufLen = nodeColorBuffer?.length ?? 0
+        let newBufLen = newNodeCount * MemoryLayout<SIMD4<Float>>.size
+        if (oldBufLen == newBufLen) {
+            os_log("[%s] updating node color buffer contents", self.name)
+            memcpy(nodeColorBuffer!.contents(), &nodeColors!, newBufLen)
+        }
+        else {
+            os_log("[%s] creating node color buffer", self.name)
+            nodeColorBuffer = renderContext!.device.makeBuffer(bytes: nodeColors!, length: newBufLen, options: [])!
+        }
+        
+        _nodeColorsStale = false
+        
     }
     
     func nodeColors_teardown() {
