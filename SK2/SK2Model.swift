@@ -716,12 +716,12 @@ class SK2Model : DSModel, PropertyChangeMonitor {
         self.resetParameters()
     }
     
-    func nodeIndexToCoordinates(_ nodeIndex: Int) -> (m: Int, n: Int) {
+    func nodeIndexToSK(_ nodeIndex: Int) -> (m: Int, n: Int) {
         let m = nodeIndex / _nodeIndexModulus
         return (m, nodeIndex - (m * _nodeIndexModulus))
     }
     
-    func nodeCoordinatesToIndex(m: Int, n: Int) -> Int {
+    func skToNodeIndex(m: Int, n: Int) -> Int {
         return m * _nodeIndexModulus + n
     }
     

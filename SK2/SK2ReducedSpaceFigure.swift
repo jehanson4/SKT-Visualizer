@@ -91,7 +91,7 @@ class SK2ReducedSpaceFigure : Figure {
         
         nodeCoordinates_setup()
         nodeColors_setup()
-        nodeUniforms_setup()
+        uniforms_setup()
         
         if let context = renderContext, let effects = effects {
             for entry in effects.entries {
@@ -109,7 +109,7 @@ class SK2ReducedSpaceFigure : Figure {
         
         nodeCoordinates_teardown()
         nodeColors_teardown()
-        nodeUniforms_teardown()
+        uniforms_teardown()
         
         geometry.disconnectGestures(renderContext.view)
         dataSourceChangeHandle?.disconnect()
@@ -128,7 +128,7 @@ class SK2ReducedSpaceFigure : Figure {
     }
     
     func updateContent(_ date: Date) {
-        nodeUniforms_update()
+        uniforms_update()
         if let effects = effects {
             for entry in effects.entries {
                 entry.value.value.update(date)
@@ -287,37 +287,46 @@ class SK2ReducedSpaceFigure : Figure {
     }
     
     // ===================================================
-    // MARK: - Node Uniforms
+    // MARK: - Uniforms
     
-    var nodeUniformsBuffer: MTLBuffer? = nil
+    var uniformsBuffer: MTLBuffer? = nil
+    let uniformsNetColor = SIMD4<Float>(1,1,1,1)
     
-    func nodeUniforms_setup() {
+    func uniforms_setup() {
         let float4x4Size = MemoryLayout<Float>.size*float4x4.numberOfElements()
-        let colorSize = MemoryLayout<Float>.size
-        let padding = float4x4Size-colorSize
-        let bufLen = 2*float4x4Size + colorSize + padding
-        nodeUniformsBuffer = renderContext.device.makeBuffer(length: bufLen, options: [])!
+        let netColorSize = MemoryLayout<SIMD4<Float>>.size
+        let nodeSizeSize = MemoryLayout<Float>.size
+        let padding = float4x4Size-netColorSize-nodeSizeSize
+        let bufLen = 2*float4x4Size + netColorSize + padding
+        uniformsBuffer = renderContext.device.makeBuffer(length: bufLen, options: [])!
     }
     
-    func nodeUniforms_update() {
-        let bufferPointer = nodeUniformsBuffer!.contents()
+    func uniforms_update() {
+        let bufferPointer = uniformsBuffer!.contents()
         var bufferOffset = 0
         var projectionMatrix = geometry.projectionMatrix
         var modelViewMatrix = geometry.modelViewMatrix
-        var pointSize = geometry.estimatePointSize(model: model)
-        
+        var netColor = uniformsNetColor
+        var nodeSize = geometry.estimatePointSize(model: model)
         let float4x4Size = MemoryLayout<Float>.size*float4x4.numberOfElements()
+        let netColorSize = MemoryLayout<SIMD4<Float>>.size
+        let nodeSizeSize = MemoryLayout<Float>.size
+
         memcpy(bufferPointer + bufferOffset, &modelViewMatrix, float4x4Size)
         bufferOffset += float4x4Size
         
         memcpy(bufferPointer + bufferOffset, &projectionMatrix, float4x4Size)
         bufferOffset += float4x4Size
+
+        memcpy(bufferPointer + bufferOffset, &netColor, netColorSize)
+        bufferOffset += netColorSize
         
-        memcpy(bufferPointer + bufferOffset, &pointSize, MemoryLayout<Float>.size)
+        memcpy(bufferPointer + bufferOffset, &nodeSize, nodeSizeSize)
+        bufferOffset += nodeSizeSize
     }
     
-    func nodeUniforms_teardown() {
-        nodeUniformsBuffer = nil
+    func uniforms_teardown() {
+        uniformsBuffer = nil
     }
     
 }

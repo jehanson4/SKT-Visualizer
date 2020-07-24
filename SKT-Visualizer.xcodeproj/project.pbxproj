@@ -46,7 +46,7 @@
 		8A53B2A1208D9B380039C5D7 /* help.html in Resources */ = {isa = PBXBuildFile; fileRef = 8A53B2A0208D9B380039C5D7 /* help.html */; };
 		8A575FEE20804759002B9951 /* ColorMaps19.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A575FED20804759002B9951 /* ColorMaps19.swift */; };
 		8A591B3221E441FB00B802F8 /* SK2ReducedSpaceViewController1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A591B3121E441FB00B802F8 /* SK2ReducedSpaceViewController1.swift */; };
-		8A5B93C724C9E47E00F88BED /* NodeShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 8A5B93C624C9E47E00F88BED /* NodeShaders.metal */; };
+		8A5B93CB24CB7D7000F88BED /* SK2ReducedSpaceShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 8A5B93CA24CB7D7000F88BED /* SK2ReducedSpaceShaders.metal */; };
 		8A75424A20A8CC5100A2BFAD /* about.html in Resources */ = {isa = PBXBuildFile; fileRef = 8A75424920A8CC5100A2BFAD /* about.html */; };
 		8A75B690208A317D00EACD13 /* Registry19.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B68F208A317D00EACD13 /* Registry19.swift */; };
 		8A79EF3024983B6200646EBB /* SK2_DataSources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A79EF2F24983B6200646EBB /* SK2_DataSources.swift */; };
@@ -252,7 +252,7 @@
 		8A53B2A0208D9B380039C5D7 /* help.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = help.html; sourceTree = "<group>"; };
 		8A575FED20804759002B9951 /* ColorMaps19.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorMaps19.swift; sourceTree = "<group>"; };
 		8A591B3121E441FB00B802F8 /* SK2ReducedSpaceViewController1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK2ReducedSpaceViewController1.swift; sourceTree = "<group>"; };
-		8A5B93C624C9E47E00F88BED /* NodeShaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = NodeShaders.metal; sourceTree = "<group>"; };
+		8A5B93CA24CB7D7000F88BED /* SK2ReducedSpaceShaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = SK2ReducedSpaceShaders.metal; sourceTree = "<group>"; };
 		8A75424920A8CC5100A2BFAD /* about.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = about.html; sourceTree = "<group>"; };
 		8A75B68F208A317D00EACD13 /* Registry19.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registry19.swift; sourceTree = "<group>"; };
 		8A79EF2F24983B6200646EBB /* SK2_DataSources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_DataSources.swift; sourceTree = "<group>"; };
@@ -807,7 +807,6 @@
 				8AEC297124C1FFE20050C96F /* RenderContext.swift */,
 				8ADDF20824C5ADEA00098217 /* EmptyFigure.swift */,
 				8A25078024C87E4000D2CFBF /* BasicShaders.metal */,
-				8A5B93C624C9E47E00F88BED /* NodeShaders.metal */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -892,9 +891,10 @@
 				8ADDF1FA24C4EBB300098217 /* SK2PlaneGeometry.swift */,
 				8ADDF20424C50F5800098217 /* SK2ReducedSpaceEffects.swift */,
 				8ADDF1E124C354DE00098217 /* SK2ReducedSpaceFigure.swift */,
+				8A5B93CA24CB7D7000F88BED /* SK2ReducedSpaceShaders.metal */,
 				8A591B3121E441FB00B802F8 /* SK2ReducedSpaceViewController1.swift */,
-				8ADDF21424C5B7C900098217 /* SK2Visualizations.swift */,
 				8A25078B24C9BAF000D2CFBF /* SK2UniformData.swift */,
+				8ADDF21424C5B7C900098217 /* SK2Visualizations.swift */,
 			);
 			path = SK2;
 			sourceTree = "<group>";
@@ -1175,6 +1175,7 @@
 				8A25078824C8C32700D2CFBF /* SK2T_Population.swift in Sources */,
 				8ADDF21324C5B6FB00098217 /* SK2_TertiaryViewController_19.swift in Sources */,
 				8A88175C2208628700523467 /* SK2_BasinData.swift in Sources */,
+				8A5B93CB24CB7D7000F88BED /* SK2ReducedSpaceShaders.metal in Sources */,
 				8AF59500208AC0420082C5DE /* AppModel19.swift in Sources */,
 				8A9B14A6220DB58700A2CDAB /* NetInPlane.swift in Sources */,
 				8A9B14C4220F327300A2CDAB /* SK2_SystemFigure.swift in Sources */,
@@ -1189,7 +1190,6 @@
 				8AEC295724C1CD200050C96F /* Sequencer20.swift in Sources */,
 				8AEC299024C339940050C96F /* Double+Extensions.swift in Sources */,
 				8A9B14A0220CF97F00A2CDAB /* SK2_BAFigure.swift in Sources */,
-				8A5B93C724C9E47E00F88BED /* NodeShaders.metal in Sources */,
 				8AEC295524C1C4CB0050C96F /* SK2_Visualization_20.swift in Sources */,
 				8A88175822085D7500523467 /* SK2_PFColors.swift in Sources */,
 				8AC059F722170C1E00EB6A1C /* Cube19.swift in Sources */,
