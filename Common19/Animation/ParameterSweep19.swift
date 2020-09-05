@@ -17,10 +17,10 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 }
 
 // ===============================================================
-// ParameterSweep
+// ParameterSweep19
 // ===============================================================
 
-class ParameterSweep: Sequencer19 {
+class ParameterSweep19: Sequencer19 {
     
     // ========================================
     // Basics

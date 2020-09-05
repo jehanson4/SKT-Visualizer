@@ -404,26 +404,32 @@ class SK2ReducedSpaceViewController1: UIViewController, UITextFieldDelegate {
             
             lbText?.isEnabled = true
             
-            lbStepper?.isEnabled = true
-            lbStepper?.minimumValue = 0
-            lbStepper?.stepValue = seq.lowerBoundIncrement
-            lbStepper?.maximumValue = seq.lowerBoundMax
+            // FIXME
+            lbStepper?.isEnabled = false
+//            lbStepper?.isEnabled = true
+//            lbStepper?.minimumValue = 0
+//            lbStepper?.stepValue = seq.lowerBoundIncrement
+//            lbStepper?.maximumValue = seq.lowerBoundMax
             lb_update()
             
             ubText?.isEnabled = true
             
-            ubStepper?.isEnabled = true
-            ubStepper?.minimumValue = 0
-            ubStepper?.stepValue = seq.upperBoundIncrement
-            ubStepper?.maximumValue = seq.upperBoundMax
+            // FIXME
+            ubStepper?.isEnabled = false
+//            ubStepper?.isEnabled = true
+//            ubStepper?.minimumValue = 0
+//            ubStepper?.stepValue = seq.upperBoundIncrement
+//            ubStepper?.maximumValue = seq.upperBoundMax
             ub_update()
             
             deltaText?.isEnabled = true
             
-            deltaStepper?.isEnabled = true
-            deltaStepper?.minimumValue = 0
-            deltaStepper?.stepValue = seq.stepSizeIncrement
-            deltaStepper?.maximumValue = seq.stepSizeMax
+            // FIXME
+            deltaStepper?.isEnabled = false
+//            deltaStepper?.isEnabled = true
+//            deltaStepper?.minimumValue = 0
+//            deltaStepper?.stepValue = seq.stepSizeIncrement
+//            deltaStepper?.maximumValue = seq.stepSizeMax
             delta_update()
             
             bcSelector?.isEnabled = true

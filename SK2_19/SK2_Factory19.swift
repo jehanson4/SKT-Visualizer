@@ -76,7 +76,7 @@ struct SK2E {
     static func makeSequencers(_ system: SK2_System19) -> Registry19<Sequencer19>? {
         let reg = Registry19<Sequencer19>()
         for key in system.parameters.entryKeys {
-            _ = reg.register(ParameterSweep(system.parameters.entry(key: key)!.value, system as PhysicalSystem))
+            _ = reg.register(ParameterSweep19(system.parameters.entry(key: key)!.value, system as PhysicalSystem))
         }
         return reg
     }
@@ -167,7 +167,7 @@ struct SK2B {
         let reg = Registry19<Sequencer19>()
 
         for key in system.parameters.entryKeys {
-            _ = reg.register(ParameterSweep(system.parameters.entry(key: key)!.value, system as PhysicalSystem))
+            _ = reg.register(ParameterSweep19(system.parameters.entry(key: key)!.value, system as PhysicalSystem))
         }
 
         return reg

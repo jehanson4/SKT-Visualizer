@@ -20,7 +20,7 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 // SK2_PFSequencer
 // ===============================================================================
 
-class SK2_PFSequencer: StepTimeseries {
+class SK2_PFSequencer: StepTimeseries19 {
     
     weak var flow: SK2_PopulationFlow!
     let ic: SK2_PFInitializer

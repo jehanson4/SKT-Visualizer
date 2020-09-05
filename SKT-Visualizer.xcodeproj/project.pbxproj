@@ -47,6 +47,7 @@
 		8A575FEE20804759002B9951 /* ColorMaps19.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A575FED20804759002B9951 /* ColorMaps19.swift */; };
 		8A591B3221E441FB00B802F8 /* SK2ReducedSpaceViewController1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A591B3121E441FB00B802F8 /* SK2ReducedSpaceViewController1.swift */; };
 		8A5B93CB24CB7D7000F88BED /* SK2ReducedSpaceShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 8A5B93CA24CB7D7000F88BED /* SK2ReducedSpaceShaders.metal */; };
+		8A5B93CD24CC594A00F88BED /* SK2E_Sequencers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A5B93CC24CC594A00F88BED /* SK2E_Sequencers.swift */; };
 		8A75424A20A8CC5100A2BFAD /* about.html in Resources */ = {isa = PBXBuildFile; fileRef = 8A75424920A8CC5100A2BFAD /* about.html */; };
 		8A75B690208A317D00EACD13 /* Registry19.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B68F208A317D00EACD13 /* Registry19.swift */; };
 		8A79EF3024983B6200646EBB /* SK2_DataSources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A79EF2F24983B6200646EBB /* SK2_DataSources.swift */; };
@@ -56,7 +57,7 @@
 		8A84313820726F0100F06B9B /* Axes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A84313720726F0100F06B9B /* Axes.swift */; };
 		8A8817472207484800523467 /* UIUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A8817462207484800523467 /* UIUtils.swift */; };
 		8A88174B220757C000523467 /* SK2E_Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A88174A220757C000523467 /* SK2E_Storyboard.storyboard */; };
-		8A8817502207F21600523467 /* ParameterSweep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A88174F2207F21600523467 /* ParameterSweep.swift */; };
+		8A8817502207F21600523467 /* ParameterSweep19.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A88174F2207F21600523467 /* ParameterSweep19.swift */; };
 		8A88175222084E2700523467 /* DescentLinesOnShell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A88175122084E2700523467 /* DescentLinesOnShell.swift */; };
 		8A88175422085CFA00523467 /* SK2_BAColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A88175322085CFA00523467 /* SK2_BAColors.swift */; };
 		8A88175622085D5A00523467 /* SK2_PFRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A88175522085D5A00523467 /* SK2_PFRules.swift */; };
@@ -67,7 +68,7 @@
 		8A8817642209104200523467 /* SK2_PopulationFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A8817632209104200523467 /* SK2_PopulationFlow.swift */; };
 		8A8817662209118000523467 /* SK2_PlaneGeometry19.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A8817652209118000523467 /* SK2_PlaneGeometry19.swift */; };
 		8A97BBF422243EA100E520C9 /* SK3_Notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8A97BBF322243EA100E520C9 /* SK3_Notes.txt */; };
-		8A9B149C220C83AA00A2CDAB /* Timeseries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9B149B220C83AA00A2CDAB /* Timeseries.swift */; };
+		8A9B149C220C83AA00A2CDAB /* Timeseries19.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9B149B220C83AA00A2CDAB /* Timeseries19.swift */; };
 		8A9B149E220C94AC00A2CDAB /* Dynamic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9B149D220C94AC00A2CDAB /* Dynamic.swift */; };
 		8A9B14A0220CF97F00A2CDAB /* SK2_BAFigure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9B149F220CF97F00A2CDAB /* SK2_BAFigure.swift */; };
 		8A9B14A2220D2E0C00A2CDAB /* SK2_PFFigures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9B14A1220D2E0C00A2CDAB /* SK2_PFFigures.swift */; };
@@ -202,6 +203,7 @@
 		8AEC298C24C334860050C96F /* MathUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEC298B24C334860050C96F /* MathUtils.swift */; };
 		8AEC298E24C339780050C96F /* StringUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEC298D24C339780050C96F /* StringUtils.swift */; };
 		8AEC299024C339940050C96F /* Double+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEC298F24C339930050C96F /* Double+Extensions.swift */; };
+		8AEEC76B25042BC400663329 /* ParameterSweep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEEC76A25042BC400663329 /* ParameterSweep.swift */; };
 		8AF59500208AC0420082C5DE /* AppModel19.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF594FF208AC0420082C5DE /* AppModel19.swift */; };
 		8AF98F96207FE7D60007688E /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 8AF98F95207FE7D60007688E /* LICENSE */; };
 		8AF98FA1207FE8350007688E /* GraphicsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF98F9F207FE8350007688E /* GraphicsViewController.swift */; };
@@ -253,6 +255,7 @@
 		8A575FED20804759002B9951 /* ColorMaps19.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorMaps19.swift; sourceTree = "<group>"; };
 		8A591B3121E441FB00B802F8 /* SK2ReducedSpaceViewController1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK2ReducedSpaceViewController1.swift; sourceTree = "<group>"; };
 		8A5B93CA24CB7D7000F88BED /* SK2ReducedSpaceShaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = SK2ReducedSpaceShaders.metal; sourceTree = "<group>"; };
+		8A5B93CC24CC594A00F88BED /* SK2E_Sequencers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2E_Sequencers.swift; sourceTree = "<group>"; };
 		8A75424920A8CC5100A2BFAD /* about.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = about.html; sourceTree = "<group>"; };
 		8A75B68F208A317D00EACD13 /* Registry19.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registry19.swift; sourceTree = "<group>"; };
 		8A79EF2F24983B6200646EBB /* SK2_DataSources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_DataSources.swift; sourceTree = "<group>"; };
@@ -262,7 +265,7 @@
 		8A84313720726F0100F06B9B /* Axes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Axes.swift; sourceTree = "<group>"; };
 		8A8817462207484800523467 /* UIUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIUtils.swift; sourceTree = "<group>"; };
 		8A88174A220757C000523467 /* SK2E_Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SK2E_Storyboard.storyboard; sourceTree = "<group>"; };
-		8A88174F2207F21600523467 /* ParameterSweep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParameterSweep.swift; sourceTree = "<group>"; };
+		8A88174F2207F21600523467 /* ParameterSweep19.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParameterSweep19.swift; sourceTree = "<group>"; };
 		8A88175122084E2700523467 /* DescentLinesOnShell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescentLinesOnShell.swift; sourceTree = "<group>"; };
 		8A88175322085CFA00523467 /* SK2_BAColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_BAColors.swift; sourceTree = "<group>"; };
 		8A88175522085D5A00523467 /* SK2_PFRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_PFRules.swift; sourceTree = "<group>"; };
@@ -273,7 +276,7 @@
 		8A8817632209104200523467 /* SK2_PopulationFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_PopulationFlow.swift; sourceTree = "<group>"; };
 		8A8817652209118000523467 /* SK2_PlaneGeometry19.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_PlaneGeometry19.swift; sourceTree = "<group>"; };
 		8A97BBF322243EA100E520C9 /* SK3_Notes.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = SK3_Notes.txt; sourceTree = "<group>"; };
-		8A9B149B220C83AA00A2CDAB /* Timeseries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timeseries.swift; sourceTree = "<group>"; };
+		8A9B149B220C83AA00A2CDAB /* Timeseries19.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timeseries19.swift; sourceTree = "<group>"; };
 		8A9B149D220C94AC00A2CDAB /* Dynamic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dynamic.swift; sourceTree = "<group>"; };
 		8A9B149F220CF97F00A2CDAB /* SK2_BAFigure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_BAFigure.swift; sourceTree = "<group>"; };
 		8A9B14A1220D2E0C00A2CDAB /* SK2_PFFigures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_PFFigures.swift; sourceTree = "<group>"; };
@@ -411,6 +414,7 @@
 		8AEC298B24C334860050C96F /* MathUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathUtils.swift; sourceTree = "<group>"; };
 		8AEC298D24C339780050C96F /* StringUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringUtils.swift; sourceTree = "<group>"; };
 		8AEC298F24C339930050C96F /* Double+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extensions.swift"; sourceTree = "<group>"; };
+		8AEEC76A25042BC400663329 /* ParameterSweep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParameterSweep.swift; sourceTree = "<group>"; };
 		8AF594FF208AC0420082C5DE /* AppModel19.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel19.swift; sourceTree = "<group>"; };
 		8AF98F95207FE7D60007688E /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		8AF98F9F207FE8350007688E /* GraphicsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphicsViewController.swift; sourceTree = "<group>"; };
@@ -548,6 +552,7 @@
 				8ADDF1F824C4C67B00098217 /* SK2E_SimpleObservables.swift */,
 				8A88174A220757C000523467 /* SK2E_Storyboard.storyboard */,
 				8ADDF1DD24C3535600098217 /* SK2E_Visualization.swift */,
+				8A5B93CC24CC594A00F88BED /* SK2E_Sequencers.swift */,
 			);
 			path = SK2E;
 			sourceTree = "<group>";
@@ -737,8 +742,8 @@
 			isa = PBXGroup;
 			children = (
 				8AC82CF421FC9AED00A75595 /* AnimationController.swift */,
-				8A88174F2207F21600523467 /* ParameterSweep.swift */,
-				8A9B149B220C83AA00A2CDAB /* Timeseries.swift */,
+				8A88174F2207F21600523467 /* ParameterSweep19.swift */,
+				8A9B149B220C83AA00A2CDAB /* Timeseries19.swift */,
 			);
 			path = Animation;
 			sourceTree = "<group>";
@@ -807,6 +812,7 @@
 				8AEC297124C1FFE20050C96F /* RenderContext.swift */,
 				8ADDF20824C5ADEA00098217 /* EmptyFigure.swift */,
 				8A25078024C87E4000D2CFBF /* BasicShaders.metal */,
+				8AEEC76A25042BC400663329 /* ParameterSweep.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1053,7 +1059,7 @@
 				8A2A32D720AB881600D4D619 /* WorkQueue.swift in Sources */,
 				8AC059ED2216EAA400EB6A1C /* SK2_BDBlockData.swift in Sources */,
 				8A79EF3024983B6200646EBB /* SK2_DataSources.swift in Sources */,
-				8A8817502207F21600523467 /* ParameterSweep.swift in Sources */,
+				8A8817502207F21600523467 /* ParameterSweep19.swift in Sources */,
 				8AEC295124C108420050C96F /* SK2_PrimaryViewController20.swift in Sources */,
 				8AB2A64721FEBF0800A46316 /* SK2_SimpleDataSource19.swift in Sources */,
 				8A9B14C2220F145B00A2CDAB /* ReliefSwitch.swift in Sources */,
@@ -1117,6 +1123,7 @@
 				8ABEEC3B20803A2F008E72F4 /* Surface.swift in Sources */,
 				8A88175222084E2700523467 /* DescentLinesOnShell.swift in Sources */,
 				8AC82CF521FC9AED00A75595 /* AnimationController.swift in Sources */,
+				8AEEC76B25042BC400663329 /* ParameterSweep.swift in Sources */,
 				8A88175422085CFA00523467 /* SK2_BAColors.swift in Sources */,
 				8ADDF20F24C5B6C700098217 /* SK2_PrimaryViewController_19.swift in Sources */,
 				8AEC298624C250210050C96F /* PropertyChange.swift in Sources */,
@@ -1155,7 +1162,7 @@
 				8A2034DC21EB76AC00A4C418 /* ButtonWithImage.swift in Sources */,
 				8AF98FA1207FE8350007688E /* GraphicsViewController.swift in Sources */,
 				8AEC296724C1F37E0050C96F /* Visualization.swift in Sources */,
-				8A9B149C220C83AA00A2CDAB /* Timeseries.swift in Sources */,
+				8A9B149C220C83AA00A2CDAB /* Timeseries19.swift in Sources */,
 				8A9B14B0220E0E2100A2CDAB /* NodesInPlane.swift in Sources */,
 				8A88176222090F4400523467 /* SK2_PFInitializers.swift in Sources */,
 				8A8817472207484800523467 /* UIUtils.swift in Sources */,
@@ -1174,6 +1181,7 @@
 				8A022087248BD8D200F3A91D /* Figure20.swift in Sources */,
 				8A25078824C8C32700D2CFBF /* SK2T_Population.swift in Sources */,
 				8ADDF21324C5B6FB00098217 /* SK2_TertiaryViewController_19.swift in Sources */,
+				8A5B93CD24CC594A00F88BED /* SK2E_Sequencers.swift in Sources */,
 				8A88175C2208628700523467 /* SK2_BasinData.swift in Sources */,
 				8A5B93CB24CB7D7000F88BED /* SK2ReducedSpaceShaders.metal in Sources */,
 				8AF59500208AC0420082C5DE /* AppModel19.swift in Sources */,

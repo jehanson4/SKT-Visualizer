@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="1Ul-i5-KtM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="1Ul-i5-KtM">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -635,7 +635,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hrt-wi-jPe" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="LGz-bM-eMW" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1927" y="-4773"/>
+            <point key="canvasLocation" x="1925.5999999999999" y="-4773.4632683658174"/>
         </scene>
         <!--FigureSelectorViewController-->
         <scene sceneID="iUy-u6-KrA">
@@ -897,7 +897,7 @@
                                             <constraint firstAttribute="height" constant="1" id="3h4-3U-DeP"/>
                                         </constraints>
                                     </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="PARAMETER STEP SIZE" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nYD-6a-5tL" userLabel="Deltas Section Title">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="MODEL PARAMETER STEP SIZE" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nYD-6a-5tL" userLabel="Deltas Section Title">
                                         <rect key="frame" x="0.0" y="291" width="343" height="17"/>
                                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -1081,11 +1081,7 @@
                                 <segue destination="grC-3w-1Se" kind="unwind" unwindAction="unwindToSK2_Primary:" id="xNB-WT-XQp"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="More ›" id="2kE-EN-cpB">
-                            <connections>
-                                <segue destination="I5j-bs-HXI" kind="show" id="JDO-Pc-bEG"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="More ›" id="2kE-EN-cpB"/>
                     </navigationItem>
                     <connections>
                         <outlet property="delta1_Label" destination="rht-iW-nDM" id="rzS-WU-NgW"/>
@@ -1121,29 +1117,6 @@
                 <exit id="grC-3w-1Se" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="3713" y="-4773"/>
-        </scene>
-        <!--SK2E Tertiary View Controller-->
-        <scene sceneID="jry-wl-UMG">
-            <objects>
-                <viewController title="SK/2E" id="I5j-bs-HXI" userLabel="SK2E Tertiary View Controller" customClass="SK2_TertiaryViewController" customModule="SKT_Visualizer" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="tHc-Ak-djg">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="OWy-8h-VGg"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="SK/2 Equilibrium" id="zgT-ys-iov">
-                        <barButtonItem key="leftBarButtonItem" title="‹ Back" id="IOS-uh-QWl">
-                            <connections>
-                                <segue destination="R0e-fm-6AI" kind="unwind" unwindAction="unwindToSK2_Secondary:" id="2Ly-S4-dqy"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="cpi-V8-Jn2" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="R0e-fm-6AI" userLabel="Exit" sceneMemberID="exit"/>
-            </objects>
-            <point key="canvasLocation" x="4596" y="-4773"/>
         </scene>
     </scenes>
 </document>

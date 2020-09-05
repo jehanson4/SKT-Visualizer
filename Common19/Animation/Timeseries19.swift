@@ -1,5 +1,5 @@
 //
-//  Timeseries.swift
+//  Timeseries19.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 2/7/19.
@@ -17,10 +17,10 @@ fileprivate func debug(_ mtd: String, _ msg: String = "") {
 }
 
 // ===============================================================
-// StepTimeseries
+// StepTimeseries19
 // ===============================================================
 
-class StepTimeseries: Sequencer19 {
+class StepTimeseries19: Sequencer19 {
     
     // ========================================
     // Basics
