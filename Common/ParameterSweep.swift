@@ -9,10 +9,15 @@
 import Foundation
 
 // ===============================================
-// MARK: - ParameterSweepDelegate
+// MARK: - SweepParameter
 // ===============================================
 
-protocol ParameterSweepDelegate : AnyObject {
+protocol SweepParameter : AnyObject {
+    
+    var name: String { get }
+    var min: Double { get }
+    var max: Double { get }
+    var stepSize: Double { get }
     
     /// Returns the current value of the parameter
     func getParam() -> Double
@@ -107,7 +112,7 @@ class ParameterSweep : Sequencer {
         return (getParam() - _lowerBound) / (_upperBound - _lowerBound)
     }
 
-    var delegate: ParameterSweepDelegate!
+    var delegate: SweepParameter!
     
     init(name: String,
          paramMin: Double, paramMax: Double, paramStep: Double) {
@@ -117,6 +122,16 @@ class ParameterSweep : Sequencer {
         self._lowerBound = paramMin
         self._upperBound = paramMax
         self._stepSize = paramStep
+    }
+    
+    init(_ param: SweepParameter) {
+        self.delegate = param
+        self.name = "Parameter sweep: \(param.name)"
+        self.paramMin = param.min
+        self.paramMax = param.max
+        self._lowerBound = param.min
+        self._upperBound = param.max
+        self._stepSize = param.stepSize
     }
     
     func getParam() -> Double {

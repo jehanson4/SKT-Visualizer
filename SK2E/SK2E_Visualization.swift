@@ -43,58 +43,28 @@ class SK2E_Visualization : SK2Visualization {
     private func _initSequencers() -> Selector<Sequencer> {
         let registry = Registry<Sequencer>()
 
-        let nSequencer = ParameterSweep(
-            name: SK2Model.N_name,
-            paramMin: Double(SK2Model.N_min),
-            paramMax: Double(SK2Model.N_max),
-            paramStep: Double(model.N_stepSize)
-        )
-        nSequencer.delegate = SK2E_NSweepDelegate(model)
+        let nParam = SK2E_NSweepParam(model)
+        let nSequencer = ParameterSweep(nParam)
         _ = registry.register(nSequencer)
 
-        let kSequencer = ParameterSweep(
-            name: SK2Model.k_name,
-            paramMin: Double(SK2Model.k_min),
-            paramMax: Double(SK2Model.k_max),
-            paramStep: Double(model.k_stepSize)
-        )
-        kSequencer.delegate = SK2E_kSweepDelegate(model)
+        let kParam = SK2E_kSweepParam(model)
+        let kSequencer = ParameterSweep(kParam)
         _ = registry.register(kSequencer)
 
-        let kNSequencer = ParameterSweep(
-            name: "\(SK2Model.k_name) with \(SK2Model.k_name)/\(SK2Model.N_name) constant",
-            paramMin: Double(SK2Model.k_min),
-            paramMax: Double(SK2Model.k_max),
-            paramStep: Double(model.k_stepSize)
-        )
-        kNSequencer.delegate = SK2E_kOverNSweepDelegate(model)
+        let kNParam = SK2E_kNSweepParam(model)
+        let kNSequencer = ParameterSweep(kNParam)
         _ = registry.register(kNSequencer)
         
-        let alpha1Sequencer = ParameterSweep(
-            name: SK2Model.alpha1_name,
-            paramMin: SK2Model.alpha1_min,
-            paramMax: SK2Model.alpha1_max,
-            paramStep: model.alpha1_stepSize
-        )
-        alpha1Sequencer.delegate = SK2E_alpha1SweepDelegate(model)
+        let alpha1Param = SK2E_alpha1SweepParam(model)
+        let alpha1Sequencer = ParameterSweep(alpha1Param)
         _ = registry.register(alpha1Sequencer)
 
-        let alpha2Sequencer = ParameterSweep(
-            name: SK2Model.alpha2_name,
-            paramMin: SK2Model.alpha2_min,
-            paramMax: SK2Model.alpha2_max,
-            paramStep: model.alpha2_stepSize
-        )
-        alpha2Sequencer.delegate = SK2E_alpha2SweepDelegate(model)
+        let alpha2Param = SK2E_alpha2SweepParam(model)
+        let alpha2Sequencer = ParameterSweep(alpha2Param)
         _ = registry.register(alpha2Sequencer)
 
-        let betaSequencer = ParameterSweep(
-            name: SK2Model.beta_name,
-            paramMin: SK2Model.beta_min,
-            paramMax: SK2Model.beta_max,
-            paramStep: model.beta_stepSize
-        )
-        betaSequencer.delegate = SK2E_betaSweepDelegate(model)
+        let betaParam = SK2E_betaSweepParam(model)
+        let betaSequencer = ParameterSweep(betaParam)
         _ = registry.register(betaSequencer)
 
         return Selector<Sequencer>(registry)

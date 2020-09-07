@@ -47,7 +47,7 @@
 		8A575FEE20804759002B9951 /* ColorMaps19.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A575FED20804759002B9951 /* ColorMaps19.swift */; };
 		8A591B3221E441FB00B802F8 /* SK2ReducedSpaceViewController1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A591B3121E441FB00B802F8 /* SK2ReducedSpaceViewController1.swift */; };
 		8A5B93CB24CB7D7000F88BED /* SK2ReducedSpaceShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 8A5B93CA24CB7D7000F88BED /* SK2ReducedSpaceShaders.metal */; };
-		8A5B93CD24CC594A00F88BED /* SK2E_Sequencers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A5B93CC24CC594A00F88BED /* SK2E_Sequencers.swift */; };
+		8A5B93CD24CC594A00F88BED /* SK2E_SweepParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A5B93CC24CC594A00F88BED /* SK2E_SweepParams.swift */; };
 		8A75424A20A8CC5100A2BFAD /* about.html in Resources */ = {isa = PBXBuildFile; fileRef = 8A75424920A8CC5100A2BFAD /* about.html */; };
 		8A75B690208A317D00EACD13 /* Registry19.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A75B68F208A317D00EACD13 /* Registry19.swift */; };
 		8A79EF3024983B6200646EBB /* SK2_DataSources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A79EF2F24983B6200646EBB /* SK2_DataSources.swift */; };
@@ -255,7 +255,7 @@
 		8A575FED20804759002B9951 /* ColorMaps19.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorMaps19.swift; sourceTree = "<group>"; };
 		8A591B3121E441FB00B802F8 /* SK2ReducedSpaceViewController1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK2ReducedSpaceViewController1.swift; sourceTree = "<group>"; };
 		8A5B93CA24CB7D7000F88BED /* SK2ReducedSpaceShaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = SK2ReducedSpaceShaders.metal; sourceTree = "<group>"; };
-		8A5B93CC24CC594A00F88BED /* SK2E_Sequencers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2E_Sequencers.swift; sourceTree = "<group>"; };
+		8A5B93CC24CC594A00F88BED /* SK2E_SweepParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2E_SweepParams.swift; sourceTree = "<group>"; };
 		8A75424920A8CC5100A2BFAD /* about.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = about.html; sourceTree = "<group>"; };
 		8A75B68F208A317D00EACD13 /* Registry19.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registry19.swift; sourceTree = "<group>"; };
 		8A79EF2F24983B6200646EBB /* SK2_DataSources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SK2_DataSources.swift; sourceTree = "<group>"; };
@@ -505,6 +505,8 @@
 		8A1CF009207146510099DD97 = {
 			isa = PBXGroup;
 			children = (
+				8AEEC78625067E6700663329 /* SKT-Visualizer Shared */,
+				8AEEC78525067E0A00663329 /* SKT-Visualizer iOS */,
 				8A022095248D150900F3A91D /* Design19 */,
 				8AE1BD1A22060E7200D6A062 /* Common19 */,
 				8A2034E021ED0F3400A4C418 /* SK1_19 */,
@@ -552,7 +554,7 @@
 				8ADDF1F824C4C67B00098217 /* SK2E_SimpleObservables.swift */,
 				8A88174A220757C000523467 /* SK2E_Storyboard.storyboard */,
 				8ADDF1DD24C3535600098217 /* SK2E_Visualization.swift */,
-				8A5B93CC24CC594A00F88BED /* SK2E_Sequencers.swift */,
+				8A5B93CC24CC594A00F88BED /* SK2E_SweepParams.swift */,
 			);
 			path = SK2E;
 			sourceTree = "<group>";
@@ -618,8 +620,6 @@
 				8A1CF01E207146540099DD97 /* LaunchScreen.storyboard */,
 				8A1CF019207146510099DD97 /* Main.storyboard */,
 				8AA05A18208FFFD4009417A6 /* MagicStrings.swift */,
-				8A1CF015207146510099DD97 /* AppDelegate.swift */,
-				8ADDF20624C5A63900098217 /* AppModel.swift */,
 				8A1CF021207146540099DD97 /* Info.plist */,
 				8AD817FA207BFA9200426C25 /* InfoViewController.swift */,
 			);
@@ -905,6 +905,22 @@
 			path = SK2;
 			sourceTree = "<group>";
 		};
+		8AEEC78525067E0A00663329 /* SKT-Visualizer iOS */ = {
+			isa = PBXGroup;
+			children = (
+				8A1CF015207146510099DD97 /* AppDelegate.swift */,
+			);
+			path = "SKT-Visualizer iOS";
+			sourceTree = "<group>";
+		};
+		8AEEC78625067E6700663329 /* SKT-Visualizer Shared */ = {
+			isa = PBXGroup;
+			children = (
+				8ADDF20624C5A63900098217 /* AppModel.swift */,
+			);
+			path = "SKT-Visualizer Shared";
+			sourceTree = "<group>";
+		};
 		8AF138B7207B8966001A88C6 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -1181,7 +1197,7 @@
 				8A022087248BD8D200F3A91D /* Figure20.swift in Sources */,
 				8A25078824C8C32700D2CFBF /* SK2T_Population.swift in Sources */,
 				8ADDF21324C5B6FB00098217 /* SK2_TertiaryViewController_19.swift in Sources */,
-				8A5B93CD24CC594A00F88BED /* SK2E_Sequencers.swift in Sources */,
+				8A5B93CD24CC594A00F88BED /* SK2E_SweepParams.swift in Sources */,
 				8A88175C2208628700523467 /* SK2_BasinData.swift in Sources */,
 				8A5B93CB24CB7D7000F88BED /* SK2ReducedSpaceShaders.metal in Sources */,
 				8AF59500208AC0420082C5DE /* AppModel19.swift in Sources */,
