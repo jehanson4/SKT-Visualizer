@@ -201,7 +201,6 @@ class SK2NetEffect: Effect {
         encoder.setRenderPipelineState(pipelineState)
         encoder.setVertexBuffer(figure.nodeCoordinateBuffer, offset: 0, index: 0)
         
-        // FIXME
         encoder.setVertexBuffer(figure.uniformsBuffer, offset: 0, index: 2)
         encoder.setFragmentBuffer(figure.uniformsBuffer, offset: 0, index: 2)
 

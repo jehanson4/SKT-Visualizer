@@ -38,11 +38,11 @@ struct SK2E {
         entropyInPlane.group = SK2_Factory.planeFigureGroup
         _ = reg.register(entropyInPlane)
         
-        let occupationInPlane = SK2E_Occupation("Plane: occupation", nil, system, planeBase)
+        let occupationInPlane = SK2E_Occupation19("Plane: occupation", nil, system, planeBase)
         occupationInPlane.group = SK2_Factory.planeFigureGroup
         _ = reg.register(occupationInPlane)
         
-        let logOccupationInPlane = SK2E_LogOccupation("Plane: log(occupation)", nil, system, planeBase)
+        let logOccupationInPlane = SK2E_LogOccupation19("Plane: log(occupation)", nil, system, planeBase)
         logOccupationInPlane.group = SK2_Factory.planeFigureGroup
         _ = reg.register(logOccupationInPlane)
         
@@ -58,11 +58,11 @@ struct SK2E {
         entropyOnShell.group = SK2_Factory.shellFigureGroup
         _ = reg.register(entropyOnShell)
         
-        let occupationOnShell = SK2E_Occupation("Shell: occupation", nil, system, shellBase)
+        let occupationOnShell = SK2E_Occupation19("Shell: occupation", nil, system, shellBase)
         occupationOnShell.group = SK2_Factory.shellFigureGroup
         _ = reg.register(occupationOnShell)
         
-        let logOccupationOnShell = SK2E_LogOccupation("Shell: log(occupation)", nil, system, shellBase)
+        let logOccupationOnShell = SK2E_LogOccupation19("Shell: log(occupation)", nil, system, shellBase)
         logOccupationOnShell.group = SK2_Factory.shellFigureGroup
         _ = reg.register(logOccupationOnShell)
         

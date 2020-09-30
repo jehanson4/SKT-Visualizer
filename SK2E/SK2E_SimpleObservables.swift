@@ -195,4 +195,18 @@ class SK2E_Entropy: SK2E_SimpleObservable {
 // ======================================================
 // TODO: Occupation
 
+class SK2E_Occupation: SK2E_SimpleObservable {
+
+    static let observableName = "Occupation"
+
+    init(_ model: SK2Model) {
+        super.init(SK2E_Occupation.observableName, model, model.logEquilibriumOccupation, BandedLogColorMap())
+    }
+
+    override func significantModelProperties() -> [String] {
+        return [SK2Model.N_name,SK2Model.k_name]
+    }
+
+}
+
 

@@ -578,7 +578,7 @@ class SK2Model : DSModel, PropertyChangeMonitor {
     // MARK: - alpha1
     
     static let alpha1_name: String = "\u{03B1}\u{2081}"
-    static let alpha1_min: Double = 0
+    static let alpha1_min: Double = -1
     static let alpha1_max: Double = 1
     var _alpha1_setPoint: Double = 1
     var _alpha1_stepSize: Double = 0.01
@@ -618,7 +618,7 @@ class SK2Model : DSModel, PropertyChangeMonitor {
     // MARK: alpha2
     
     static let alpha2_name: String = "\u{03B1}\u{2082}"
-    static let alpha2_min: Double = 0
+    static let alpha2_min: Double = -1
     static let alpha2_max: Double = 1
     private var _alpha2_setPoint: Double = 1
     private var _alpha2_stepSize: Double = 0.01

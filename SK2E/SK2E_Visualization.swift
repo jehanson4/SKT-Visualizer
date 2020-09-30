@@ -37,6 +37,9 @@ class SK2E_Visualization : SK2Visualization {
         let entropy = SK2E_Entropy(model)
         _ = registry.register(SK2ReducedSpaceFigure("Plane: Entropy", model, planeGeometry, entropy))
         
+        let occupation = SK2E_Occupation(model)
+        _ = registry.register(SK2ReducedSpaceFigure("Plane: Occupation", model, planeGeometry, occupation))
+        
         return Selector<Figure>(registry)
     }
     

@@ -1,5 +1,5 @@
 //
-//  SK2E_Occupation.swift
+//  SK2E_Occupation19.swift
 //  SKT Visualizer
 //
 //  Created by James Hanson on 2/9/19.
@@ -10,10 +10,10 @@ import Foundation
 import UIKit
 
 // ========================================================================
-// SK2E_Occupation
+// SK2E_Occupation19
 // ========================================================================
 
-class SK2E_Occupation: SK2_SystemFigure {
+class SK2E_Occupation19: SK2_SystemFigure {
     
     var system: SK2_System19
     var N_monitor: ChangeMonitor?
